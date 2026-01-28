@@ -123,8 +123,14 @@ public class GenerateTests : IIncrementalGenerator
                 {
                     var attributeContent = razorAttribute.Groups["attributeContent"].Value;
 
+                    if (nameofRegex.Match(line) is { Success: true } nameofMatch)
+                    {
+                        var name = nameofMatch.Groups["typeOrMemberName"].Value;
+                        attributeContent = attributeContent.Replace(nameofMatch.Value, $"\"{name}\"");
+                    }
+
                     // razor attributes are on the whole class
-                    classAttributes.Add($"[{attributeContent}]");
+                    classAttributes.Add(attributeContent);
                 }
                 else if (classDeclarationRegex.Match(line) is { Success: true })
                 {

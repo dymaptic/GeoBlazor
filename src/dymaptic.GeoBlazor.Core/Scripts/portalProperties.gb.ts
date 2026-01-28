@@ -217,7 +217,7 @@ export function buildJsPortalPropertiesGenerated(dotNetObject: any): any {
 }
 
 
-export async function buildDotNetPortalPropertiesGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetPortalPropertiesGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

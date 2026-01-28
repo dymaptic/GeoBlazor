@@ -47,7 +47,7 @@ export async function buildDotNetSimpleRendererGenerated(jsObject: any, viewId: 
     
     if (hasValue(jsObject.symbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
-        dotNetSimpleRenderer.symbol = buildDotNetSymbol(jsObject.symbol, viewId);
+        dotNetSimpleRenderer.symbol = buildDotNetSymbol(jsObject.symbol);
     }
     
     if (hasValue(jsObject.visualVariables)) {

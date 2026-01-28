@@ -5,17 +5,13 @@
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-projection.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [CodeGenerationIgnore]
-public class ProjectionEngine : LogicComponent
+public class ProjectionEngine(
+    IAppValidator appValidator,
+    IJSRuntime jsRuntime,
+    JsModuleManager jsModuleManager,
+    AuthenticationManager authenticationManager)
+    : LogicComponent(appValidator, jsRuntime, jsModuleManager, authenticationManager)
 {
-    /// <summary>
-    ///     Default Constructor
-    /// </summary>
-    public ProjectionEngine(IAppValidator appValidator, IJSRuntime jsRuntime, JsModuleManager jsModuleManager,
-        AuthenticationManager authenticationManager)
-        : base(appValidator, jsRuntime, jsModuleManager, authenticationManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override string ComponentName => nameof(ProjectionEngine);
 
@@ -64,7 +60,7 @@ public class ProjectionEngine : LogicComponent
         GeographicTransformation? geographicTransformation, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Geometry[]?>(nameof(ProjectionEngine), nameof(Project),
-            cancellationToken, geometries, spatialReference, geographicTransformation);
+            QueryResultsMaxSizeLimit, cancellationToken, geometries, spatialReference, geographicTransformation);
     }
 
     /// <summary>
@@ -113,7 +109,7 @@ public class ProjectionEngine : LogicComponent
         GeographicTransformation? geographicTransformation, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Geometry?>(nameof(ProjectionEngine), nameof(Project),
-            cancellationToken, geometry, spatialReference, geographicTransformation);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry, spatialReference, geographicTransformation);
     }
 
     /// <summary>
@@ -137,7 +133,7 @@ public class ProjectionEngine : LogicComponent
         SpatialReference outSpatialReference, Extent extent, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<GeographicTransformation?>(nameof(ProjectionEngine), nameof(GetTransformation),
-            cancellationToken, inSpatialReference,
+            QueryResultsMaxSizeLimit, cancellationToken, inSpatialReference,
             outSpatialReference, extent);
     }
 
@@ -162,6 +158,7 @@ public class ProjectionEngine : LogicComponent
         SpatialReference outSpatialReference, Extent extent, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<GeographicTransformation[]?>(nameof(ProjectionEngine),
-            nameof(GetTransformations), cancellationToken, inSpatialReference, outSpatialReference, extent);
+            nameof(GetTransformations), QueryResultsMaxSizeLimit, cancellationToken, inSpatialReference,
+            outSpatialReference, extent);
     }
 }

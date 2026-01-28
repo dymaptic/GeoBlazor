@@ -130,7 +130,7 @@ export default class UniqueValueRendererGenerated extends BaseComponent {
         }
         
         let { buildDotNetSymbol } = await import('./symbol');
-        return buildDotNetSymbol(this.component.defaultSymbol, this.viewId);
+        return buildDotNetSymbol(this.component.defaultSymbol);
     }
     
     async setDefaultSymbol(value: any): Promise<void> {
@@ -372,7 +372,7 @@ export async function buildDotNetUniqueValueRendererGenerated(jsObject: any, lay
     
     if (hasValue(jsObject.defaultSymbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
-        dotNetUniqueValueRenderer.defaultSymbol = buildDotNetSymbol(jsObject.defaultSymbol, viewId);
+        dotNetUniqueValueRenderer.defaultSymbol = buildDotNetSymbol(jsObject.defaultSymbol);
     }
     
     if (hasValue(jsObject.legendOptions)) {

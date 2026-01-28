@@ -37,17 +37,17 @@ export async function buildDotNetSearchViewModelDefaultSymbolsGenerated(jsObject
     
     if (hasValue(jsObject.point)) {
         let { buildDotNetSymbol } = await import('./symbol');
-        dotNetSearchViewModelDefaultSymbols.point = buildDotNetSymbol(jsObject.point, viewId);
+        dotNetSearchViewModelDefaultSymbols.point = buildDotNetSymbol(jsObject.point);
     }
     
     if (hasValue(jsObject.polygon)) {
         let { buildDotNetSymbol } = await import('./symbol');
-        dotNetSearchViewModelDefaultSymbols.polygon = buildDotNetSymbol(jsObject.polygon, viewId);
+        dotNetSearchViewModelDefaultSymbols.polygon = buildDotNetSymbol(jsObject.polygon);
     }
     
     if (hasValue(jsObject.polyline)) {
         let { buildDotNetSymbol } = await import('./symbol');
-        dotNetSearchViewModelDefaultSymbols.polyline = buildDotNetSymbol(jsObject.polyline, viewId);
+        dotNetSearchViewModelDefaultSymbols.polyline = buildDotNetSymbol(jsObject.polyline);
     }
     
 

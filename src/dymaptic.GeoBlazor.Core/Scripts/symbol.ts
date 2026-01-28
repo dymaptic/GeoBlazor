@@ -32,7 +32,7 @@ export function buildJsSymbol(symbol: any, layerId: string | null, viewId: strin
     }
 }
 
-export function buildDotNetSymbol(symbol: any, viewId: string | null): any {
+export function buildDotNetSymbol(symbol: any): any {
     if (!hasValue(symbol)) {
         return null;
     }
@@ -50,7 +50,7 @@ export function buildDotNetSymbol(symbol: any, viewId: string | null): any {
         case 'text':
             return buildDotNetTextSymbol(symbol);
         case 'web-style':
-            return buildDotNetWebStyleSymbol(symbol, viewId);
+            return buildDotNetWebStyleSymbol(symbol);
         default:
             return removeCircularReferences(symbol);
     }

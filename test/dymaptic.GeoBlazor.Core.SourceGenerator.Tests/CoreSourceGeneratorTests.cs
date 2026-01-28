@@ -56,7 +56,7 @@ public class CoreSourceGeneratorTests
             "Expected a GBSourceGen diagnostic from the generator.");
 
         Assert.IsTrue(diagnostics.Any(d => d.GetMessage()
-                .Contains("Core ESBuild process completed successfully.")),
+                .Contains("Command 'dotnet ESBuild.dll -c Debug' completed successfully.")),
             "Expected a Core ESBuild process completed successfully.");
     }
 
@@ -100,7 +100,7 @@ public class CoreSourceGeneratorTests
             "Expected a GBSourceGen diagnostic from the generator.");
 
         Assert.IsTrue(diagnostics.Any(d => d.GetMessage()
-                .Contains("Core ESBuild process completed successfully.")),
+                .Contains("Command 'dotnet ESBuild.dll -c Release' completed successfully.")),
             "Expected a Core ESBuild process completed successfully.");
     }
 

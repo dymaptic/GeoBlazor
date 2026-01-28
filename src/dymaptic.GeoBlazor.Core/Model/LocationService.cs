@@ -1,18 +1,20 @@
 // ReSharper disable MethodOverloadWithOptionalParameter
-namespace dymaptic.GeoBlazor.Core.Components;
+namespace dymaptic.GeoBlazor.Core.Model;
 
+/// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocationService.html">GeoBlazor Docs</a>
+///     A convenience module for importing <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-locator.html">locator</a> functions when developing with
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/get-started/#typescript">TypeScript</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-locator.html">ArcGIS Maps SDK for JavaScript</a>
+/// </summary>
 [CodeGenerationIgnore]
-public partial class LocationService : LogicComponent
+public class LocationService(
+    IAppValidator appValidator,
+    IJSRuntime jsRuntime,
+    JsModuleManager jsModuleManager,
+    AuthenticationManager authenticationManager)
+    : LogicComponent(appValidator, jsRuntime, jsModuleManager, authenticationManager)
 {
-    /// <summary>
-    ///     Default Constructor
-    /// </summary>
-    public LocationService(IAppValidator appValidator, IJSRuntime jsRuntime, JsModuleManager jsModuleManager,
-        AuthenticationManager authenticationManager)
-        : base(appValidator, jsRuntime, jsModuleManager, authenticationManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override string ComponentName => nameof(LocationService);
 
@@ -23,7 +25,8 @@ public partial class LocationService : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<AddressCandidate>(nameof(LocationService), nameof(LocationToAddress),
-            cancellationToken, url, location, locationType, outSpatialReference, requestOptions);
+            QueryResultsMaxSizeLimit, cancellationToken, url, location, locationType, outSpatialReference,
+            requestOptions);
     }
 
     // Final implementation of all the permutations of AddressesToLocations
@@ -34,7 +37,7 @@ public partial class LocationService : LogicComponent
         string? addressSearchStringParameterName, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<List<AddressCandidate>>(nameof(LocationService),
-            nameof(AddressesToLocations), cancellationToken, url,
+            nameof(AddressesToLocations), QueryResultsMaxSizeLimit, cancellationToken, url,
             addresses, countryCode, categories, locationType,
             outSpatialReference, requestOptions, addressSearchStringParameterName);
     }
@@ -49,7 +52,7 @@ public partial class LocationService : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<List<AddressCandidate>>(nameof(LocationService),
-            nameof(AddressToLocations), cancellationToken, url, address,
+            nameof(AddressToLocations), QueryResultsMaxSizeLimit, cancellationToken, url, address,
             categories, countryCode, forStorage, location, locationType, magicKey,
             maxLocations, outFields, outSpatialReference, searchExtent, requestOptions,
             addressSearchStringParameterName);
@@ -62,7 +65,7 @@ public partial class LocationService : LogicComponent
         CancellationToken cancellationToken)
     {
         return await InvokeAsync<List<SuggestionResult>>(nameof(LocationService),
-            nameof(SuggestLocations), cancellationToken, url, location, text,
+            nameof(SuggestLocations), QueryResultsMaxSizeLimit, cancellationToken, url, location, text,
             categories, requestOptions);
     }
 

@@ -50,7 +50,7 @@ public partial class OpacityVariable
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression as defined in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#valueExpression">valueExpression</a> property.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#valueExpressionTitle">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public OpacityVariable(string field,
+    public OpacityVariable(string? field,
         string? normalizationField = null,
         IReadOnlyList<OpacityStop>? stops = null,
         VisualVariableLegendOptions? legendOptions = null,

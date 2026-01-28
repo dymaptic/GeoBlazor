@@ -1230,7 +1230,7 @@ export function setGraphicSymbol(id: string, symbol: any, layerId: string | null
 export function getGraphicSymbol(id: string, layerId: string | null, viewId: string | null): any {
     const graphic = lookupJsGraphicById(id, layerId, viewId);
     if (hasValue(graphic?.symbol)) {
-        return buildDotNetSymbol(graphic!.symbol!, viewId);
+        return buildDotNetSymbol(graphic!.symbol!);
     }
 
     return null;

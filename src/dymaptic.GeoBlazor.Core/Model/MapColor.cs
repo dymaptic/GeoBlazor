@@ -9,7 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 [JsonConverter(typeof(MapColorConverter))]
 [CodeGenerationIgnore]
 [ProtobufSerializable]
-public class MapColor : IEquatable<MapColor>, IProtobufSerializable<MapColorSerializationRecord>
+public class MapColor : IEquatable<MapColor>, IEnumerable, IProtobufSerializable<MapColorSerializationRecord>
 {
     /// <summary>
     ///     Parameterless constructor for Protobuf deserialization.
@@ -25,9 +25,9 @@ public class MapColor : IEquatable<MapColor>, IProtobufSerializable<MapColorSeri
     /// <param name="values">
     ///     Requires 3 or 4 values, in the order R(0-255), G(0-255), B(0-255), A(0-1). A is optional.
     /// </param>
-    public MapColor(params double[] values)
+    public MapColor(params IReadOnlyList<double> values)
     {
-        RgbaValues = values;
+        RgbaValues = values.ToArray();
     }
 
     /// <summary>
@@ -58,19 +58,52 @@ public class MapColor : IEquatable<MapColor>, IProtobufSerializable<MapColorSeri
     }
 
     /// <summary>
+    ///     Implicitly converts a color hex or name value to a GeoBlazor <see cref="MapColor" /> instance.
+    /// </summary>
+    public static implicit operator MapColor(string hexOrNameValue) => new(hexOrNameValue);
+
+    /// <summary>
+    ///     Implicitly converts a GeoBlazor <see cref="MapColor" /> instance to a hex or name value.
+    /// </summary>
+    public static implicit operator string?(MapColor color) => color.HexOrNameValue ?? color.ToHex();
+
+    /// <summary>
+    ///     Implicitly converts a numeric array to a GeoBlazor <see cref="MapColor" /> instance.
+    /// </summary>
+    public static implicit operator MapColor(double[] rgbaValues) => new(rgbaValues);
+
+    /// <summary>
+    ///     Implicitly converts a numeric array to a GeoBlazor <see cref="MapColor" /> instance.
+    /// </summary>
+    public static implicit operator MapColor(List<double> rgbaValues) => new(rgbaValues);
+
+    /// <summary>
     ///     The numeric values for calculating a color (rgb/rgba).
     /// </summary>
     public double[]? RgbaValues
     {
-        get => _rgbaValues;
-        set
+        get
+        {
+            if (_rgbaValues is null)
+            {
+                Color? color = ToSystemColor();
+
+                if (color is not null)
+                {
+                    _rgbaValues = [color.Value.R, color.Value.G, color.Value.B, color.Value.A / 255.0];
+                }
+            }
+
+            return _rgbaValues;
+        }
+        private init
         {
             _rgbaValues = value;
             Color? color = ToSystemColor();
 
             if (color is not null && (HexOrNameValue is null || HexOrNameValue.Length == 0))
             {
-                HexOrNameValue = ToHex();
+                _hexOrNameValue = ToHex();
             }
         }
     }
@@ -80,8 +113,13 @@ public class MapColor : IEquatable<MapColor>, IProtobufSerializable<MapColorSeri
     /// </summary>
     public string? HexOrNameValue
     {
-        get => _hexOrNameValue;
-        set
+        get
+        {
+            _hexOrNameValue ??= ToHex();
+
+            return _hexOrNameValue;
+        }
+        private init
         {
             _hexOrNameValue = value;
             Color? color = ToSystemColor();
@@ -91,6 +129,14 @@ public class MapColor : IEquatable<MapColor>, IProtobufSerializable<MapColorSeri
                 RgbaValues = [color.Value.R, color.Value.G, color.Value.B, color.Value.A / 255.0];
             }
         }
+    }
+
+    /// <summary>
+    ///     Provides support for Collection Expressions.
+    /// </summary>
+    public IEnumerator GetEnumerator()
+    {
+        return _rgbaValues?.GetEnumerator() ?? Enumerable.Empty<double>().GetEnumerator();
     }
 
     /// <inheritdoc />
@@ -137,17 +183,6 @@ public class MapColor : IEquatable<MapColor>, IProtobufSerializable<MapColorSeri
     /// </returns>
     public static MapColor? BlendColors(MapColor start, MapColor end, double weight)
     {
-        if (start.RgbaValues?.Any() != true)
-        {
-            // reset triggers calculation of rgba values from hex or name
-            start.HexOrNameValue = start.HexOrNameValue;
-        }
-
-        if (end.RgbaValues?.Any() != true)
-        {
-            end.HexOrNameValue = end.HexOrNameValue;
-        }
-
         if (start.RgbaValues?.Any() == true && end.RgbaValues?.Any() == true)
         {
             double[] startValues = start.RgbaValues.ToArray();
@@ -185,6 +220,14 @@ public class MapColor : IEquatable<MapColor>, IProtobufSerializable<MapColorSeri
     public override int GetHashCode()
     {
         return HashCode.Combine(RgbaValues, HexOrNameValue);
+    }
+
+    /// <summary>
+    ///     For internal use only, used to support Collection Expressions and implicit conversions from arrays/lists.
+    /// </summary>
+    public void Add(double val)
+    {
+        _rgbaValues = _rgbaValues is null ? [val] : [.._rgbaValues, val];
     }
 
     /// <summary>

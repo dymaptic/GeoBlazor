@@ -13,6 +13,13 @@ public abstract class LogicComponent(
     AuthenticationManager authenticationManager)
 {
     /// <summary>
+    ///     The maximum size of query results that will be returned in a stream. Note that setting this to a smaller value
+    ///     might create errors in query returns.
+    /// </summary>
+    [Parameter]
+    public long QueryResultsMaxSizeLimit { get; set; } = 1_000_000_000L;
+
+    /// <summary>
     ///     The name of the logic component.
     /// </summary>
     protected abstract string ComponentName { get; }
@@ -37,6 +44,11 @@ public abstract class LogicComponent(
     ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
     /// </summary>
     protected bool IsServer => jsRuntime.GetType().Name.Contains("Remote");
+
+    /// <summary>
+    ///     The AuthenticationManager instance.
+    /// </summary>
+    protected AuthenticationManager AuthenticationManager => authenticationManager;
 
     /// <summary>
     ///     A JavaScript invokable method that returns a JS Error and converts it to an Exception.
@@ -103,6 +115,9 @@ public abstract class LogicComponent(
     /// <param name="className">
     ///     The name of the calling class.
     /// </param>
+    /// <param name="maxAllowedSize">
+    ///     The maximum size of query results that will be returned in a stream.
+    /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
@@ -110,11 +125,12 @@ public abstract class LogicComponent(
     ///     The collection of parameters to pass to the JS call.
     /// </param>
     protected internal virtual async Task<T> InvokeAsync<T>(string className, [CallerMemberName] string method = "",
-        CancellationToken cancellationToken = default, params object?[] parameters)
+        long? maxAllowedSize = null, CancellationToken cancellationToken = default, params object?[] parameters)
     {
         await Initialize(cancellationToken);
 
-        return await Component!.InvokeJsMethod<T>(IsServer, method, className, cancellationToken, parameters);
+        return await Component!.InvokeJsMethod<T>(IsServer, method, className, maxAllowedSize, cancellationToken,
+            parameters);
     }
 
     private bool _validated;

@@ -110,7 +110,7 @@ export function buildDotNetGraphic(graphic: Graphic, layerId: string | null, vie
     dotNetGraphic.viewId = viewId;
 
     if (hasValue(graphic.symbol)) {
-        dotNetGraphic.symbol = buildDotNetSymbol(graphic.symbol, viewId);
+        dotNetGraphic.symbol = buildDotNetSymbol(graphic.symbol);
     }
 
     if (hasValue(graphic.geometry)) {

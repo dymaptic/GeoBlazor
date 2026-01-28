@@ -802,7 +802,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
         try
         {
-            if (await jsonStreamReference.ReadJsStreamReferenceAsJSON(MapComponentType) is MapComponent deserialized)
+            if (await jsonStreamReference.ReadJsStreamReferenceAsJSON(MapComponentType, View?.QueryResultsMaxSizeLimit)
+                is MapComponent deserialized)
             {
                 if (IsDisposed)
                 {

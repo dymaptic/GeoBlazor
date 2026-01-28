@@ -44,7 +44,7 @@ export async function buildDotNetSizeRampStopGenerated(jsObject: any, viewId: st
     
     if (hasValue(jsObject.symbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
-        dotNetSizeRampStop.symbol = buildDotNetSymbol(jsObject.symbol, viewId);
+        dotNetSizeRampStop.symbol = buildDotNetSymbol(jsObject.symbol);
     }
     
     if (hasValue(jsObject.label)) {

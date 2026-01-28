@@ -14,12 +14,6 @@ namespace dymaptic.GeoBlazor.Core.SourceGenerator;
 [Generator]
 public class ProtobufSourceGenerator : IIncrementalGenerator
 {
-#if SHOW_SOURCEGEN_DIALOGS
-    private static bool _showDialog = true;
-#else
-    private static bool _showDialog = false;
-#endif
-
     /// <inheritdoc />
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -28,40 +22,66 @@ public class ProtobufSourceGenerator : IIncrementalGenerator
             context.SyntaxProvider.CreateSyntaxProvider(static (syntaxNode, _) =>
                         syntaxNode is ClassDeclarationSyntax or StructDeclarationSyntax or RecordDeclarationSyntax
                         && (((BaseTypeDeclarationSyntax)syntaxNode).AttributeLists.SelectMany(a => a.Attributes)
-                            .Any(a => a.Name.ToString() is ProtoContractAttribute or ProtoSerializableAttribute)
+                            .Any(a => a.Name.ToString() is PROTO_CONTRACT_ATTRIBUTE or PROTO_SERIALIZABLE_ATTRIBUTE)
                             || syntaxNode.ChildNodes()
                                 .OfType<MethodDeclarationSyntax>()
                                 .Any(m => m.AttributeLists
                                     .SelectMany(a => a.Attributes)
-                                    .Any(attr => attr.Name.ToString() == SerializedMethodAttributeName))),
+                                    .Any(attr => attr.Name.ToString() == SERIALIZED_METHOD_ATTRIBUTE_NAME))),
                     static (context, _) => (BaseTypeDeclarationSyntax)context.Node)
                 .Collect();
 
         // Reads the MSBuild properties to get the project directory.
-        IncrementalValueProvider<(string?, string?)> optionsProvider =
+        IncrementalValueProvider<Dictionary<string, string>> optionsProvider =
             context.AnalyzerConfigOptionsProvider.Select((configProvider, _) =>
             {
-                configProvider.GlobalOptions.TryGetValue("build_property.CoreProjectPath",
-                    out var projectDirectory);
+                Dictionary<string, string> options = [];
 
-                configProvider.GlobalOptions.TryGetValue("build_property.PipelineBuild",
-                    out var pipelineBuild);
+                if (configProvider.GlobalOptions.TryGetValue("build_property.CoreProjectPath",
+                    out var projectDirectory))
+                {
+                    options["CoreProjectPath"] = projectDirectory;
+                }
 
-                return (projectDirectory, pipelineBuild);
+                if (configProvider.GlobalOptions.TryGetValue("build_property.PipelineBuild",
+                    out var pipelineBuild))
+                {
+                    options["PipelineBuild"] = pipelineBuild;
+                }
+
+                if (configProvider.GlobalOptions.TryGetValue("build_property.ShowSourceGenDialogs",
+                    out var showDialog))
+                {
+                    options["ShowSourceGenDialogs"] = showDialog;
+                }
+
+                return options;
             });
 
-        IncrementalValueProvider<(ImmutableArray<BaseTypeDeclarationSyntax> Left, (string?, string?) Right)> combined =
+        IncrementalValueProvider<(ImmutableArray<BaseTypeDeclarationSyntax> Left,
+            Dictionary<string, string> Right)> combined =
             typeProvider.Combine(optionsProvider);
 
         context.RegisterSourceOutput(combined, FilesChanged);
     }
 
     private void FilesChanged(SourceProductionContext context,
-        (ImmutableArray<BaseTypeDeclarationSyntax> Types, (string? ProjectDirectory, string? PipelineBuild) Options)
+        (ImmutableArray<BaseTypeDeclarationSyntax> Types, Dictionary<string, string> Options)
             pipeline)
     {
-        _corePath = pipeline.Options.ProjectDirectory;
-        bool showDialog = pipeline.Options.PipelineBuild != "true" && _showDialog;
+        pipeline.Options.TryGetValue("CoreProjectPath", out _corePath);
+        pipeline.Options.TryGetValue("PipelineBuild", out string? pipelineBuildString);
+
+        bool pipelineBuild = pipelineBuildString is not null
+            && bool.TryParse(pipelineBuildString, out bool pipelineBuildBool)
+            && pipelineBuildBool;
+
+        pipeline.Options.TryGetValue("ShowSourceGenDialogs", out string? showDialogString);
+
+        bool showDialog = !pipelineBuild
+            && showDialogString is not null
+            && bool.TryParse(showDialogString, out bool showDialogBool)
+            && showDialogBool;
 
         // Generate a unique session ID for this build session
         string sessionId = $"{nameof(ProtobufSourceGenerator)}_{Guid.NewGuid():N}";
@@ -106,7 +126,7 @@ public class ProtobufSourceGenerator : IIncrementalGenerator
     }
 
     private static string? _corePath;
-    private const string ProtoContractAttribute = "ProtoContract";
-    private const string ProtoSerializableAttribute = "ProtobufSerializable";
-    private const string SerializedMethodAttributeName = "SerializedMethod";
+    private const string PROTO_CONTRACT_ATTRIBUTE = "ProtoContract";
+    private const string PROTO_SERIALIZABLE_ATTRIBUTE = "ProtobufSerializable";
+    private const string SERIALIZED_METHOD_ATTRIBUTE_NAME = "SerializedMethod";
 }

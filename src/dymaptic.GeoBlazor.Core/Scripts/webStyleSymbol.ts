@@ -47,7 +47,7 @@ export function buildJsWebStyleSymbol(dotNetObject: any, layerId: string | null,
     return jsWebStyleSymbol;
 }
 
-export function buildDotNetWebStyleSymbol(jsObject: any, viewId: string | null): any {
+export function buildDotNetWebStyleSymbol(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -59,7 +59,7 @@ export function buildDotNetWebStyleSymbol(jsObject: any, viewId: string | null):
     }
 
     if (hasValue(jsObject.portal)) {
-        dotNetWebStyleSymbol.portal = buildDotNetPortal(jsObject.portal, viewId);
+        dotNetWebStyleSymbol.portal = buildDotNetPortal(jsObject.portal, null, null);
     }
 
     if (hasValue(jsObject.name)) {

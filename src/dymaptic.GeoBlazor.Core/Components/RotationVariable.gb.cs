@@ -55,7 +55,7 @@ public partial class RotationVariable
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression as defined in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#valueExpression">valueExpression</a> property.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#valueExpressionTitle">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public RotationVariable(string field,
+    public RotationVariable(string? field,
         Axis? axis = null,
         RotationType? rotationType = null,
         VisualVariableLegendOptions? legendOptions = null,

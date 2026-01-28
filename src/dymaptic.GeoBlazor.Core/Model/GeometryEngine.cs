@@ -12,17 +12,13 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     </a>
 /// </summary>
 [CodeGenerationIgnore]
-public class GeometryEngine : LogicComponent
+public class GeometryEngine(
+    IAppValidator appValidator,
+    IJSRuntime jsRuntime,
+    JsModuleManager jsModuleManager,
+    AuthenticationManager authenticationManager)
+    : LogicComponent(appValidator, jsRuntime, jsModuleManager, authenticationManager)
 {
-    /// <summary>
-    ///     Default Constructor
-    /// </summary>
-    public GeometryEngine(IAppValidator appValidator, IJSRuntime jsRuntime, JsModuleManager jsModuleManager,
-        AuthenticationManager authenticationManager)
-        : base(appValidator, jsRuntime, jsModuleManager, authenticationManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override string ComponentName => nameof(GeometryEngine).ToLowerFirstChar();
 
@@ -127,7 +123,7 @@ public class GeometryEngine : LogicComponent
         GeometryEngineLinearUnit? unit, bool? unionResults, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Polygon[]>(nameof(ProjectionEngine), nameof(Buffer),
-            cancellationToken, geometries, distances, unit, unionResults);
+            QueryResultsMaxSizeLimit, cancellationToken, geometries, distances, unit, unionResults);
     }
 
     /// <summary>
@@ -183,7 +179,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Polygon>(nameof(ProjectionEngine), nameof(Buffer),
-            cancellationToken, geometry, distance, unit);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry, distance, unit);
     }
 
     /// <summary>
@@ -203,7 +199,7 @@ public class GeometryEngine : LogicComponent
     public async Task<Geometry?> Clip(Geometry geometry, Extent extent, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Geometry?>(nameof(ProjectionEngine), nameof(Clip),
-            cancellationToken, geometry, extent);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry, extent);
     }
 
     /// <summary>
@@ -225,7 +221,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<bool>(nameof(ProjectionEngine), nameof(Contains),
-            cancellationToken, containerGeometry, insideGeometry);
+            QueryResultsMaxSizeLimit, cancellationToken, containerGeometry, insideGeometry);
     }
 
     /// <summary>
@@ -249,7 +245,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Geometry?[]>(nameof(ProjectionEngine), nameof(ConvexHull),
-            cancellationToken, geometries, merge);
+            QueryResultsMaxSizeLimit, cancellationToken, geometries, merge);
     }
 
     /// <summary>
@@ -269,7 +265,7 @@ public class GeometryEngine : LogicComponent
     public async Task<Geometry?> ConvexHull(Geometry geometry, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Geometry?>(nameof(ProjectionEngine), nameof(ConvexHull),
-            cancellationToken, geometry);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry);
     }
 
     /// <summary>
@@ -290,7 +286,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<bool>(nameof(ProjectionEngine), nameof(Crosses),
-            cancellationToken, geometry1, geometry2);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry1, geometry2);
     }
 
     /// <summary>
@@ -316,7 +312,7 @@ public class GeometryEngine : LogicComponent
     public async Task<Geometry[]> Cut(Geometry geometry, Polyline cutter, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Geometry[]>(nameof(ProjectionEngine), nameof(Cut),
-            cancellationToken, geometry, cutter);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry, cutter);
     }
 
     /// <summary>
@@ -340,7 +336,7 @@ public class GeometryEngine : LogicComponent
         GeometryEngineLinearUnit? maxSegmentLengthUnit = null, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(Densify),
-            cancellationToken, geometry, maxSegmentLength, maxSegmentLengthUnit);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry, maxSegmentLength, maxSegmentLengthUnit);
     }
 
     /// <summary>
@@ -362,7 +358,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Geometry?[]>(nameof(ProjectionEngine), nameof(Difference),
-            cancellationToken, geometries, subtractor);
+            QueryResultsMaxSizeLimit, cancellationToken, geometries, subtractor);
     }
 
     /// <summary>
@@ -384,7 +380,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Geometry?>(nameof(ProjectionEngine), nameof(Difference),
-            cancellationToken, geometry, subtractor);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry, subtractor);
     }
 
     /// <summary>
@@ -405,7 +401,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<bool>(nameof(ProjectionEngine), nameof(Disjoint),
-            cancellationToken, geometry1, geometry2);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry1, geometry2);
     }
 
     /// <summary>
@@ -430,7 +426,7 @@ public class GeometryEngine : LogicComponent
         GeometryEngineLinearUnit? distanceUnit = null, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<double>(nameof(ProjectionEngine), nameof(Distance),
-            cancellationToken, geometry1, geometry2, distanceUnit);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry1, geometry2, distanceUnit);
     }
 
     /// <summary>
@@ -455,7 +451,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<bool>(nameof(ProjectionEngine), nameof(AreEqual),
-            cancellationToken, geometry1, geometry2);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry1, geometry2);
     }
 
     /// <summary>
@@ -474,7 +470,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<SpatialReferenceInfo>(nameof(ProjectionEngine),
-            nameof(ExtendedSpatialReferenceInfo), cancellationToken, spatialReference);
+            nameof(ExtendedSpatialReferenceInfo), QueryResultsMaxSizeLimit, cancellationToken, spatialReference);
     }
 
     /// <summary>
@@ -495,7 +491,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(FlipHorizontal),
-            cancellationToken, geometry, flipOrigin);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry, flipOrigin);
     }
 
     /// <summary>
@@ -516,7 +512,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(FlipVertical),
-            cancellationToken, geometry, flipOrigin);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry, flipOrigin);
     }
 
     /// <summary>
@@ -544,7 +540,8 @@ public class GeometryEngine : LogicComponent
         GeometryEngineLinearUnit? maxDeviationUnit = null, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Geometry?>(nameof(ProjectionEngine), nameof(Generalize),
-            cancellationToken, geometry, maxDeviation, removeDegenerateParts, maxDeviationUnit);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry, maxDeviation, removeDegenerateParts,
+            maxDeviationUnit);
     }
 
     /// <summary>
@@ -572,7 +569,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<double>(nameof(ProjectionEngine), nameof(GeodesicArea),
-            cancellationToken, geometry, unit);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry, unit);
     }
 
     /// <summary>
@@ -685,7 +682,7 @@ public class GeometryEngine : LogicComponent
         GeometryEngineLinearUnit? unit, bool? unionResults, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Polygon[]>(nameof(ProjectionEngine), nameof(GeodesicBuffer),
-            cancellationToken, geometries, distances, unit, unionResults);
+            QueryResultsMaxSizeLimit, cancellationToken, geometries, distances, unit, unionResults);
     }
 
     /// <summary>
@@ -702,7 +699,7 @@ public class GeometryEngine : LogicComponent
     ///     than WGS84 (wkid: 4326), use geometryService.buffer().
     /// </remarks>
     /// <param name="geometry">
-    ///     The buffer input geometru
+    ///     The buffer input geometry
     /// </param>
     /// <param name="distance">
     ///     The specified distance for buffering.
@@ -731,7 +728,7 @@ public class GeometryEngine : LogicComponent
     ///     than WGS84 (wkid: 4326), use geometryService.buffer().
     /// </remarks>
     /// <param name="geometry">
-    ///     The buffer input geometru
+    ///     The buffer input geometry
     /// </param>
     /// <param name="distance">
     ///     The specified distance for buffering.
@@ -748,7 +745,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Polygon?>(nameof(ProjectionEngine), nameof(GeodesicBuffer),
-            cancellationToken, geometry, distance, unit);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry, distance, unit);
     }
 
     /// <summary>
@@ -795,7 +792,7 @@ public class GeometryEngine : LogicComponent
         GeometryEngineLinearUnit? maxSegmentLengthUnit, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(GeodesicDensify),
-            cancellationToken, geometry, maxSegmentLength, maxSegmentLengthUnit);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry, maxSegmentLength, maxSegmentLengthUnit);
     }
 
     /// <summary>
@@ -823,7 +820,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<double>(nameof(ProjectionEngine), nameof(GeodesicLength),
-            cancellationToken, geometry, unit);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry, unit);
     }
 
     /// <summary>
@@ -846,7 +843,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Geometry[]>(nameof(ProjectionEngine), nameof(Intersect),
-            cancellationToken, geometries1, geometry2);
+            QueryResultsMaxSizeLimit, cancellationToken, geometries1, geometry2);
     }
 
     /// <summary>
@@ -869,7 +866,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Geometry?>(nameof(ProjectionEngine), nameof(Intersect),
-            cancellationToken, geometry1, geometry2);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry1, geometry2);
     }
 
     /// <summary>
@@ -890,7 +887,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<bool>(nameof(ProjectionEngine), nameof(Intersects),
-            cancellationToken, geometry1, geometry2);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry1, geometry2);
     }
 
     /// <summary>
@@ -908,7 +905,7 @@ public class GeometryEngine : LogicComponent
     public async Task<bool> IsSimple(Geometry geometry, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<bool>(nameof(ProjectionEngine), nameof(IsSimple),
-            cancellationToken, geometry);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry);
     }
 
     /// <summary>
@@ -929,7 +926,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<ProximityResult>(nameof(ProjectionEngine), nameof(NearestCoordinate),
-            cancellationToken, geometry, inputPoint);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry, inputPoint);
     }
 
     /// <summary>
@@ -950,7 +947,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<ProximityResult>(nameof(ProjectionEngine), nameof(NearestVertex),
-            cancellationToken, geometry, inputPoint);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry, inputPoint);
     }
 
     /// <summary>
@@ -978,7 +975,7 @@ public class GeometryEngine : LogicComponent
         int maxVertexCountToReturn, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<ProximityResult[]>(nameof(ProjectionEngine), nameof(NearestVertices),
-            cancellationToken, geometry, inputPoint, searchRadius, maxVertexCountToReturn);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry, inputPoint, searchRadius, maxVertexCountToReturn);
     }
 
     /// <summary>
@@ -989,7 +986,8 @@ public class GeometryEngine : LogicComponent
     ///     The geometries to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial reference unit.
+    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial
+    ///     reference unit.
     /// </param>
     /// <returns>
     ///     The offset geometries.
@@ -1010,10 +1008,12 @@ public class GeometryEngine : LogicComponent
     ///     The geometries to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial reference unit.
+    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial
+    ///     reference unit.
     /// </param>
     /// <param name="offsetUnit">
-    ///     The length unit of the offset distance. The default is the input geometries spatial reference unit. An error will be thrown if this is set for Geographic Coordinate Systems.
+    ///     The length unit of the offset distance. The default is the input geometries spatial reference unit. An error will
+    ///     be thrown if this is set for Geographic Coordinate Systems.
     /// </param>
     /// <returns>
     ///     The offset geometries.
@@ -1034,18 +1034,20 @@ public class GeometryEngine : LogicComponent
     ///     The geometries to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial reference unit.
+    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial
+    ///     reference unit.
     /// </param>
     /// <param name="offsetUnit">
-    ///     The length unit of the offset distance. The default is the input geometries spatial reference unit. An error will be thrown if this is set for Geographic Coordinate Systems.
+    ///     The length unit of the offset distance. The default is the input geometries spatial reference unit. An error will
+    ///     be thrown if this is set for Geographic Coordinate Systems.
     /// </param>
     /// <param name="joinType">
     ///     The <see cref="JoinType" />. Defines the join type of the offset geometry. Inner corners are always mitered.
-    ///     Default value: "round"
-    ///     - Round - a circular arc that is tangent to the ends of both offset line segments.
-    ///     - Miter - the offset line segments are extended to their intersection point forming a sharp angle, unless that extension exceeds the miterLimit, in which case the result is a bevel.
-    ///     - Bevel - the offset line segments are not extended; their endpoints are joined by a straight line.
-    ///     - Square - same as miter for minor arcs greater than 90 degrees. For all other minor arcs, the offset line segments are extended by an extra distance before their endpoints are joined.
+    ///     Default value: "round" - Round - a circular arc that is tangent to the ends of both offset line segments. - Miter -
+    ///     the offset line segments are extended to their intersection point forming a sharp angle, unless that extension
+    ///     exceeds the miterLimit, in which case the result is a bevel. - Bevel - the offset line segments are not extended;
+    ///     their endpoints are joined by a straight line. - Square - same as miter for minor arcs greater than 90 degrees. For
+    ///     all other minor arcs, the offset line segments are extended by an extra distance before their endpoints are joined.
     /// </param>
     /// <returns>
     ///     The offset geometries.
@@ -1066,21 +1068,25 @@ public class GeometryEngine : LogicComponent
     ///     The geometries to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial reference unit.
+    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial
+    ///     reference unit.
     /// </param>
     /// <param name="offsetUnit">
-    ///     The length unit of the offset distance. The default is the input geometries spatial reference unit. An error will be thrown if this is set for Geographic Coordinate Systems.
+    ///     The length unit of the offset distance. The default is the input geometries spatial reference unit. An error will
+    ///     be thrown if this is set for Geographic Coordinate Systems.
     /// </param>
     /// <param name="joinType">
     ///     The <see cref="JoinType" />. Defines the join type of the offset geometry. Inner corners are always mitered.
-    ///     Default value: "round"
-    ///     - Round - a circular arc that is tangent to the ends of both offset line segments.
-    ///     - Miter - the offset line segments are extended to their intersection point forming a sharp angle, unless that extension exceeds the miterLimit, in which case the result is a bevel.
-    ///     - Bevel - the offset line segments are not extended; their endpoints are joined by a straight line.
-    ///     - Square - same as miter for minor arcs greater than 90 degrees. For all other minor arcs, the offset line segments are extended by an extra distance before their endpoints are joined.
+    ///     Default value: "round" - Round - a circular arc that is tangent to the ends of both offset line segments. - Miter -
+    ///     the offset line segments are extended to their intersection point forming a sharp angle, unless that extension
+    ///     exceeds the miterLimit, in which case the result is a bevel. - Bevel - the offset line segments are not extended;
+    ///     their endpoints are joined by a straight line. - Square - same as miter for minor arcs greater than 90 degrees. For
+    ///     all other minor arcs, the offset line segments are extended by an extra distance before their endpoints are joined.
     /// </param>
     /// <param name="miterLimit">
-    ///     Applicable only to mitered joins. Controls the appearance of angled lines to avoid excessively long and pointy corners. The miterLimit is multiplied by the offset distance and the result is the maximum mitered offset: joins which would result in a larger mitered offset will be beveled instead.
+    ///     Applicable only to mitered joins. Controls the appearance of angled lines to avoid excessively long and pointy
+    ///     corners. The miterLimit is multiplied by the offset distance and the result is the maximum mitered offset: joins
+    ///     which would result in a larger mitered offset will be beveled instead.
     /// </param>
     /// <returns>
     ///     The offset geometries.
@@ -1102,24 +1108,29 @@ public class GeometryEngine : LogicComponent
     ///     The geometries to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial reference unit.
+    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial
+    ///     reference unit.
     /// </param>
     /// <param name="offsetUnit">
-    ///     The length unit of the offset distance. The default is the input geometries spatial reference unit. An error will be thrown if this is set for Geographic Coordinate Systems.
+    ///     The length unit of the offset distance. The default is the input geometries spatial reference unit. An error will
+    ///     be thrown if this is set for Geographic Coordinate Systems.
     /// </param>
     /// <param name="joinType">
     ///     The <see cref="JoinType" />. Defines the join type of the offset geometry. Inner corners are always mitered.
-    ///     Default value: "round"
-    ///     - Round - a circular arc that is tangent to the ends of both offset line segments.
-    ///     - Miter - the offset line segments are extended to their intersection point forming a sharp angle, unless that extension exceeds the miterLimit, in which case the result is a bevel.
-    ///     - Bevel - the offset line segments are not extended; their endpoints are joined by a straight line.
-    ///     - Square - same as miter for minor arcs greater than 90 degrees. For all other minor arcs, the offset line segments are extended by an extra distance before their endpoints are joined.
+    ///     Default value: "round" - Round - a circular arc that is tangent to the ends of both offset line segments. - Miter -
+    ///     the offset line segments are extended to their intersection point forming a sharp angle, unless that extension
+    ///     exceeds the miterLimit, in which case the result is a bevel. - Bevel - the offset line segments are not extended;
+    ///     their endpoints are joined by a straight line. - Square - same as miter for minor arcs greater than 90 degrees. For
+    ///     all other minor arcs, the offset line segments are extended by an extra distance before their endpoints are joined.
     /// </param>
     /// <param name="miterLimit">
-    ///     Applicable only to mitered joins. Controls the appearance of angled lines to avoid excessively long and pointy corners. The miterLimit is multiplied by the offset distance and the result is the maximum mitered offset: joins which would result in a larger mitered offset will be beveled instead.
+    ///     Applicable only to mitered joins. Controls the appearance of angled lines to avoid excessively long and pointy
+    ///     corners. The miterLimit is multiplied by the offset distance and the result is the maximum mitered offset: joins
+    ///     which would result in a larger mitered offset will be beveled instead.
     /// </param>
     /// <param name="flattenError">
-    ///     The maximum distance of the resulting segments compared to the true circular arc (used only when joins is round). The algorithm never produces more than around 180 vertices for each round join.
+    ///     The maximum distance of the resulting segments compared to the true circular arc (used only when joins is round).
+    ///     The algorithm never produces more than around 180 vertices for each round join.
     /// </param>
     /// <returns>
     ///     The offset geometries.
@@ -1131,7 +1142,8 @@ public class GeometryEngine : LogicComponent
         double? flattenError, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Geometry?[]>(nameof(ProjectionEngine), nameof(Offset),
-            cancellationToken, geometries, offsetDistance, offsetUnit, joinType, miterLimit, flattenError);
+            QueryResultsMaxSizeLimit, cancellationToken, geometries, offsetDistance, offsetUnit, joinType, miterLimit,
+            flattenError);
     }
 
     /// <summary>
@@ -1142,7 +1154,8 @@ public class GeometryEngine : LogicComponent
     ///     The geometry to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial reference unit.
+    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial
+    ///     reference unit.
     /// </param>
     /// <returns>
     ///     The offset geometry.
@@ -1163,10 +1176,12 @@ public class GeometryEngine : LogicComponent
     ///     The geometry to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial reference unit.
+    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial
+    ///     reference unit.
     /// </param>
     /// <param name="offsetUnit">
-    ///     The length unit of the offset distance. The default is the input geometries spatial reference unit. An error will be thrown if this is set for Geographic Coordinate Systems.
+    ///     The length unit of the offset distance. The default is the input geometries spatial reference unit. An error will
+    ///     be thrown if this is set for Geographic Coordinate Systems.
     /// </param>
     /// <returns>
     ///     The offset geometry.
@@ -1187,18 +1202,20 @@ public class GeometryEngine : LogicComponent
     ///     The geometry to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial reference unit.
+    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial
+    ///     reference unit.
     /// </param>
     /// <param name="offsetUnit">
-    ///     The length unit of the offset distance. The default is the input geometries spatial reference unit. An error will be thrown if this is set for Geographic Coordinate Systems.
+    ///     The length unit of the offset distance. The default is the input geometries spatial reference unit. An error will
+    ///     be thrown if this is set for Geographic Coordinate Systems.
     /// </param>
     /// <param name="joinType">
     ///     The <see cref="JoinType" />. Defines the join type of the offset geometry. Inner corners are always mitered.
-    ///     Default value: "round"
-    ///     - Round - a circular arc that is tangent to the ends of both offset line segments.
-    ///     - Miter - the offset line segments are extended to their intersection point forming a sharp angle, unless that extension exceeds the miterLimit, in which case the result is a bevel.
-    ///     - Bevel - the offset line segments are not extended; their endpoints are joined by a straight line.
-    ///     - Square - same as miter for minor arcs greater than 90 degrees. For all other minor arcs, the offset line segments are extended by an extra distance before their endpoints are joined.
+    ///     Default value: "round" - Round - a circular arc that is tangent to the ends of both offset line segments. - Miter -
+    ///     the offset line segments are extended to their intersection point forming a sharp angle, unless that extension
+    ///     exceeds the miterLimit, in which case the result is a bevel. - Bevel - the offset line segments are not extended;
+    ///     their endpoints are joined by a straight line. - Square - same as miter for minor arcs greater than 90 degrees. For
+    ///     all other minor arcs, the offset line segments are extended by an extra distance before their endpoints are joined.
     /// </param>
     /// <returns>
     ///     The offset geometry.
@@ -1219,21 +1236,25 @@ public class GeometryEngine : LogicComponent
     ///     The geometry to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial reference unit.
+    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial
+    ///     reference unit.
     /// </param>
     /// <param name="offsetUnit">
-    ///     The length unit of the offset distance. The default is the input geometries spatial reference unit. An error will be thrown if this is set for Geographic Coordinate Systems.
+    ///     The length unit of the offset distance. The default is the input geometries spatial reference unit. An error will
+    ///     be thrown if this is set for Geographic Coordinate Systems.
     /// </param>
     /// <param name="joinType">
     ///     The <see cref="JoinType" />. Defines the join type of the offset geometry. Inner corners are always mitered.
-    ///     Default value: "round"
-    ///     - Round - a circular arc that is tangent to the ends of both offset line segments.
-    ///     - Miter - the offset line segments are extended to their intersection point forming a sharp angle, unless that extension exceeds the miterLimit, in which case the result is a bevel.
-    ///     - Bevel - the offset line segments are not extended; their endpoints are joined by a straight line.
-    ///     - Square - same as miter for minor arcs greater than 90 degrees. For all other minor arcs, the offset line segments are extended by an extra distance before their endpoints are joined.
+    ///     Default value: "round" - Round - a circular arc that is tangent to the ends of both offset line segments. - Miter -
+    ///     the offset line segments are extended to their intersection point forming a sharp angle, unless that extension
+    ///     exceeds the miterLimit, in which case the result is a bevel. - Bevel - the offset line segments are not extended;
+    ///     their endpoints are joined by a straight line. - Square - same as miter for minor arcs greater than 90 degrees. For
+    ///     all other minor arcs, the offset line segments are extended by an extra distance before their endpoints are joined.
     /// </param>
     /// <param name="miterLimit">
-    ///     Applicable only to mitered joins. Controls the appearance of angled lines to avoid excessively long and pointy corners. The miterLimit is multiplied by the offset distance and the result is the maximum mitered offset: joins which would result in a larger mitered offset will be beveled instead.
+    ///     Applicable only to mitered joins. Controls the appearance of angled lines to avoid excessively long and pointy
+    ///     corners. The miterLimit is multiplied by the offset distance and the result is the maximum mitered offset: joins
+    ///     which would result in a larger mitered offset will be beveled instead.
     /// </param>
     /// <returns>
     ///     The offset geometry.
@@ -1255,24 +1276,29 @@ public class GeometryEngine : LogicComponent
     ///     The geometry to offset.
     /// </param>
     /// <param name="offsetDistance">
-    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial reference unit.
+    ///     The distance to offset the input geometry. Unless the unit option is set, the default is the geometry's spatial
+    ///     reference unit.
     /// </param>
     /// <param name="offsetUnit">
-    ///     The length unit of the offset distance. The default is the input geometries spatial reference unit. An error will be thrown if this is set for Geographic Coordinate Systems.
+    ///     The length unit of the offset distance. The default is the input geometries spatial reference unit. An error will
+    ///     be thrown if this is set for Geographic Coordinate Systems.
     /// </param>
     /// <param name="joinType">
     ///     The <see cref="JoinType" />. Defines the join type of the offset geometry. Inner corners are always mitered.
-    ///     Default value: "round"
-    ///     - Round - a circular arc that is tangent to the ends of both offset line segments.
-    ///     - Miter - the offset line segments are extended to their intersection point forming a sharp angle, unless that extension exceeds the miterLimit, in which case the result is a bevel.
-    ///     - Bevel - the offset line segments are not extended; their endpoints are joined by a straight line.
-    ///     - Square - same as miter for minor arcs greater than 90 degrees. For all other minor arcs, the offset line segments are extended by an extra distance before their endpoints are joined.
+    ///     Default value: "round" - Round - a circular arc that is tangent to the ends of both offset line segments. - Miter -
+    ///     the offset line segments are extended to their intersection point forming a sharp angle, unless that extension
+    ///     exceeds the miterLimit, in which case the result is a bevel. - Bevel - the offset line segments are not extended;
+    ///     their endpoints are joined by a straight line. - Square - same as miter for minor arcs greater than 90 degrees. For
+    ///     all other minor arcs, the offset line segments are extended by an extra distance before their endpoints are joined.
     /// </param>
     /// <param name="miterLimit">
-    ///     Applicable only to mitered joins. Controls the appearance of angled lines to avoid excessively long and pointy corners. The miterLimit is multiplied by the offset distance and the result is the maximum mitered offset: joins which would result in a larger mitered offset will be beveled instead.
+    ///     Applicable only to mitered joins. Controls the appearance of angled lines to avoid excessively long and pointy
+    ///     corners. The miterLimit is multiplied by the offset distance and the result is the maximum mitered offset: joins
+    ///     which would result in a larger mitered offset will be beveled instead.
     /// </param>
     /// <param name="flattenError">
-    ///     The maximum distance of the resulting segments compared to the true circular arc (used only when joins is round). The algorithm never produces more than around 180 vertices for each round join.
+    ///     The maximum distance of the resulting segments compared to the true circular arc (used only when joins is round).
+    ///     The algorithm never produces more than around 180 vertices for each round join.
     /// </param>
     /// <returns>
     ///     The offset geometry.
@@ -1284,7 +1310,8 @@ public class GeometryEngine : LogicComponent
         double? flattenError, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Geometry?>(nameof(ProjectionEngine), nameof(Offset),
-            cancellationToken, geometry, offsetDistance, offsetUnit, joinType, miterLimit, flattenError);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry, offsetDistance, offsetUnit, joinType, miterLimit,
+            flattenError);
     }
 
     /// <summary>
@@ -1305,7 +1332,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<bool>(nameof(ProjectionEngine), nameof(Overlaps),
-            cancellationToken, geometry1, geometry2);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry1, geometry2);
     }
 
     /// <summary>
@@ -1346,7 +1373,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<double>(nameof(ProjectionEngine), nameof(PlanarArea),
-            cancellationToken, geometry, unit);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry, unit);
     }
 
     /// <summary>
@@ -1367,7 +1394,7 @@ public class GeometryEngine : LogicComponent
     public async Task<double> PlanarLength(Geometry geometry, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<double>(nameof(ProjectionEngine), nameof(PlanarLength),
-            cancellationToken, geometry);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry);
     }
 
     /// <summary>
@@ -1392,7 +1419,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<double>(nameof(ProjectionEngine), nameof(PlanarLength),
-            cancellationToken, geometry, unit);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry, unit);
     }
 
     /// <summary>
@@ -1429,11 +1456,12 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<bool>(nameof(ProjectionEngine), nameof(Relate),
-            cancellationToken, geometry1, geometry2, relation);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry1, geometry2, relation);
     }
 
     /// <summary>
-    ///     Rotates a geometry counterclockwise by the specified number of degrees. Rotation is around the given rotation point, or the centroid if not specified.
+    ///     Rotates a geometry counterclockwise by the specified number of degrees. Rotation is around the given rotation
+    ///     point, or the centroid if not specified.
     /// </summary>
     /// <param name="geometry">
     ///     The geometry to rotate.
@@ -1453,7 +1481,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(Rotate),
-            cancellationToken, geometry, angle, rotationOrigin);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry, angle, rotationOrigin);
     }
 
     /// <summary>
@@ -1472,7 +1500,7 @@ public class GeometryEngine : LogicComponent
     public async Task<Geometry?> Simplify(Geometry geometry, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Geometry?>(nameof(ProjectionEngine), nameof(Simplify),
-            cancellationToken, geometry);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry);
     }
 
     /// <summary>
@@ -1494,7 +1522,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Geometry[]>(nameof(ProjectionEngine), nameof(SymmetricDifference),
-            cancellationToken, leftGeometries, rightGeometry);
+            QueryResultsMaxSizeLimit, cancellationToken, leftGeometries, rightGeometry);
     }
 
     /// <summary>
@@ -1516,7 +1544,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Geometry>(nameof(ProjectionEngine), nameof(SymmetricDifference),
-            cancellationToken, leftGeometry, rightGeometry);
+            QueryResultsMaxSizeLimit, cancellationToken, leftGeometry, rightGeometry);
     }
 
     /// <summary>
@@ -1537,7 +1565,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<bool>(nameof(ProjectionEngine), nameof(Touches),
-            cancellationToken, geometry1, geometry2);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry1, geometry2);
     }
 
     /// <summary>
@@ -1568,7 +1596,7 @@ public class GeometryEngine : LogicComponent
     public async Task<Geometry?> Union(IEnumerable<Geometry> geometries, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Geometry?>(nameof(ProjectionEngine), nameof(Union),
-            cancellationToken, geometries.Cast<object>());
+            QueryResultsMaxSizeLimit, cancellationToken, geometries.Cast<object>());
     }
 
     /// <summary>
@@ -1589,7 +1617,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<bool>(nameof(ProjectionEngine), nameof(Within),
-            cancellationToken, innerGeometry, outerGeometry);
+            QueryResultsMaxSizeLimit, cancellationToken, innerGeometry, outerGeometry);
     }
 
     /// <summary>
@@ -1620,7 +1648,7 @@ public class GeometryEngine : LogicComponent
         where T : Geometry
     {
         return await InvokeAsync<T>(nameof(ProjectionEngine), nameof(FromArcGisJson),
-            cancellationToken, json, typeof(T).Name);
+            QueryResultsMaxSizeLimit, cancellationToken, json, typeof(T).Name);
     }
 
     /// <summary>
@@ -1648,7 +1676,7 @@ public class GeometryEngine : LogicComponent
         where T : Geometry
     {
         return await InvokeAsync<string>(nameof(ProjectionEngine), nameof(ToArcGisJson),
-            cancellationToken, geometry);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry);
     }
 
     /// <summary>
@@ -1665,7 +1693,7 @@ public class GeometryEngine : LogicComponent
         where T : Geometry
     {
         return await InvokeAsync<T>(nameof(ProjectionEngine), nameof(Clone),
-            cancellationToken, geometry);
+            QueryResultsMaxSizeLimit, cancellationToken, geometry);
     }
 
     /// <summary>
@@ -1685,7 +1713,7 @@ public class GeometryEngine : LogicComponent
     public async Task<Extent> CenterExtentAt(Extent extent, Point point, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Extent>(nameof(ProjectionEngine), nameof(CenterExtentAt),
-            cancellationToken, extent, point);
+            QueryResultsMaxSizeLimit, cancellationToken, extent, point);
     }
 
     /// <summary>
@@ -1706,7 +1734,7 @@ public class GeometryEngine : LogicComponent
     public async Task<Extent> Expand(Extent extent, double factor, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Extent>(nameof(ProjectionEngine), nameof(Expand),
-            cancellationToken, extent, factor);
+            QueryResultsMaxSizeLimit, cancellationToken, extent, factor);
     }
 
     /// <summary>
@@ -1725,7 +1753,7 @@ public class GeometryEngine : LogicComponent
     public async Task<Extent[]> NormalizeExtent(Extent extent, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Extent[]>(nameof(ProjectionEngine), nameof(NormalizeExtent),
-            cancellationToken, extent);
+            QueryResultsMaxSizeLimit, cancellationToken, extent);
     }
 
     /// <summary>
@@ -1750,7 +1778,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Extent>(nameof(ProjectionEngine), nameof(OffsetExtent),
-            cancellationToken, extent, dx, dy, dz);
+            QueryResultsMaxSizeLimit, cancellationToken, extent, dx, dy, dz);
     }
 
     /// <summary>
@@ -1767,7 +1795,7 @@ public class GeometryEngine : LogicComponent
     public async Task<Point> NormalizePoint(Point point, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Point>(nameof(ProjectionEngine), nameof(NormalizePoint),
-            cancellationToken, point);
+            QueryResultsMaxSizeLimit, cancellationToken, point);
     }
 
     /// <summary>
@@ -1788,7 +1816,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Polyline>(nameof(ProjectionEngine), nameof(AddPath),
-            cancellationToken, polyline, points);
+            QueryResultsMaxSizeLimit, cancellationToken, polyline, points);
     }
 
     /// <summary>
@@ -1839,7 +1867,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Point>(nameof(GeometryEngine), nameof(GetPoint),
-            cancellationToken, polyline, pathIndex, pointIndex);
+            QueryResultsMaxSizeLimit, cancellationToken, polyline, pathIndex, pointIndex);
     }
 
     /// <summary>
@@ -1866,7 +1894,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Polyline>(nameof(ProjectionEngine), nameof(InsertPoint),
-            cancellationToken, polyline, pathIndex, pointIndex, point);
+            QueryResultsMaxSizeLimit, cancellationToken, polyline, pathIndex, pointIndex, point);
     }
 
     /// <summary>
@@ -1888,7 +1916,7 @@ public class GeometryEngine : LogicComponent
     {
         var result =
             await InvokeAsync<Geometry[]>(nameof(ProjectionEngine), nameof(RemovePath),
-                cancellationToken, polyline, index);
+                QueryResultsMaxSizeLimit, cancellationToken, polyline, index);
 
         if (result.Length < 3) // need at least two points for the path
         {
@@ -1920,7 +1948,7 @@ public class GeometryEngine : LogicComponent
     {
         var result =
             await InvokeAsync<Geometry[]>(nameof(ProjectionEngine), nameof(RemovePoint),
-                cancellationToken, polyline, pathIndex, pointIndex);
+                QueryResultsMaxSizeLimit, cancellationToken, polyline, pathIndex, pointIndex);
 
         if (result.Length < 2)
         {
@@ -1955,7 +1983,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Polyline>(nameof(GeometryEngine), nameof(SetPoint),
-            cancellationToken, polyline, pathIndex, pointIndex, point);
+            QueryResultsMaxSizeLimit, cancellationToken, polyline, pathIndex, pointIndex, point);
     }
 
     /// <summary>
@@ -1976,7 +2004,7 @@ public class GeometryEngine : LogicComponent
     public async Task<Polygon> AddRing(Polygon polygon, MapPath points, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Polygon>(nameof(GeometryEngine), nameof(AddRing),
-            cancellationToken, polygon, points);
+            QueryResultsMaxSizeLimit, cancellationToken, polygon, points);
     }
 
     /// <summary>
@@ -2022,7 +2050,7 @@ public class GeometryEngine : LogicComponent
     public async Task<Polygon> PolygonFromExtent(Extent extent, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Polygon>(nameof(GeometryEngine), nameof(PolygonFromExtent),
-            cancellationToken, extent);
+            QueryResultsMaxSizeLimit, cancellationToken, extent);
     }
 
     /// <summary>
@@ -2046,7 +2074,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Point>(nameof(GeometryEngine), nameof(GetPoint),
-            cancellationToken, polygon, ringIndex, pointIndex);
+            QueryResultsMaxSizeLimit, cancellationToken, polygon, ringIndex, pointIndex);
     }
 
     /// <summary>
@@ -2073,7 +2101,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Polygon>(nameof(GeometryEngine), nameof(InsertPoint),
-            cancellationToken, polygon, ringIndex, pointIndex, point);
+            QueryResultsMaxSizeLimit, cancellationToken, polygon, ringIndex, pointIndex, point);
     }
 
     /// <summary>
@@ -2094,7 +2122,7 @@ public class GeometryEngine : LogicComponent
     public async Task<bool> IsClockwise(Polygon polygon, MapPath ring, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<bool>(nameof(GeometryEngine), nameof(IsClockwise),
-            cancellationToken, polygon, ring);
+            QueryResultsMaxSizeLimit, cancellationToken, polygon, ring);
     }
 
     /// <summary>
@@ -2118,7 +2146,7 @@ public class GeometryEngine : LogicComponent
 
         foreach (var p in ring)
         {
-            if (p.X is null && p.Longitude is null || p.Y is null && p.Latitude is null)
+            if ((p.X is null && p.Longitude is null) || (p.Y is null && p.Latitude is null))
             {
                 throw new ArgumentException("Points must have X and Y coordinates");
             }
@@ -2151,7 +2179,7 @@ public class GeometryEngine : LogicComponent
     {
         var result =
             await InvokeAsync<Geometry[]>(nameof(GeometryEngine), nameof(RemovePoint),
-                cancellationToken, polygon, ringIndex, pointIndex);
+                QueryResultsMaxSizeLimit, cancellationToken, polygon, ringIndex, pointIndex);
 
         if (result.Length < 2)
         {
@@ -2181,7 +2209,7 @@ public class GeometryEngine : LogicComponent
     {
         var result =
             await InvokeAsync<Geometry[]>(nameof(GeometryEngine), nameof(RemoveRing),
-                cancellationToken, polygon, index);
+                QueryResultsMaxSizeLimit, cancellationToken, polygon, index);
 
         if (result.Length < 3) // need at least two points for the ring
         {
@@ -2215,7 +2243,7 @@ public class GeometryEngine : LogicComponent
         CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Polygon>(nameof(GeometryEngine), nameof(SetPoint),
-            cancellationToken, polygon, ringIndex, pointIndex, point);
+            QueryResultsMaxSizeLimit, cancellationToken, polygon, ringIndex, pointIndex, point);
     }
 
     /// <summary>
@@ -2227,7 +2255,7 @@ public class GeometryEngine : LogicComponent
     public async Task<Point?> GetExtentCenter(Extent extent, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<Point?>(nameof(GeometryEngine), nameof(GetExtentCenter),
-            cancellationToken, extent);
+            QueryResultsMaxSizeLimit, cancellationToken, extent);
     }
 
     /// <summary>
@@ -2239,7 +2267,7 @@ public class GeometryEngine : LogicComponent
     public async Task<double?> GetExtentHeight(Extent extent, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<double?>(nameof(ProjectionEngine), nameof(GetExtentHeight),
-            cancellationToken, extent);
+            QueryResultsMaxSizeLimit, cancellationToken, extent);
     }
 
     /// <summary>
@@ -2251,6 +2279,6 @@ public class GeometryEngine : LogicComponent
     public async Task<double?> GetExtentWidth(Extent extent, CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<double?>(nameof(ProjectionEngine), nameof(GetExtentWidth),
-            cancellationToken, extent);
+            QueryResultsMaxSizeLimit, cancellationToken, extent);
     }
 }
