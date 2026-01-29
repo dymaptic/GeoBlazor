@@ -60,7 +60,6 @@ RUN --mount=type=cache,target=/root/.nuget/packages \
     dotnet publish ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj \
     -c Release \
     /p:UsePackageReference=false \
-    /p:PipelineBuild=true \
     /p:DebugSymbols=true \
     /p:DebugType=portable \
     /p:GeneratePack=false \

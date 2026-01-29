@@ -36,7 +36,7 @@ public class CoreSourceGeneratorTests
         {
             { "build_property.CoreProjectPath", corePath },
             { "build_property.Configuration", "Debug" },
-            { "build_property.PipelineBuild", "false" }
+            { "build_property.DesignTimeBuild", "true" }
         });
 
         // Source generators should be tested using 'GeneratorDriver'.
@@ -81,7 +81,7 @@ public class CoreSourceGeneratorTests
         {
             { "build_property.CoreProjectPath", corePath },
             { "build_property.Configuration", "Release" },
-            { "build_property.PipelineBuild", "false" }
+            { "build_property.DesignTimeBuild", "true" }
         });
 
         // Source generators should be tested using 'GeneratorDriver'.
@@ -105,7 +105,7 @@ public class CoreSourceGeneratorTests
     }
 
     [TestMethod]
-    public void TestCanSkipBuildInPipelineMode()
+    public void TestCanSkipBuildInWhenNotInDesignTimeBuild()
     {
         string corePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
             "..", "..", "..", "..", "..", "src", "dymaptic.GeoBlazor.Core");
@@ -125,7 +125,7 @@ public class CoreSourceGeneratorTests
         {
             { "build_property.CoreProjectPath", corePath },
             { "build_property.Configuration", "Release" },
-            { "build_property.PipelineBuild", "true" }
+            { "build_property.DesignTimeBuild", "false" }
         });
 
         // Source generators should be tested using 'GeneratorDriver'.
@@ -147,7 +147,7 @@ public class CoreSourceGeneratorTests
         // When running in pipeline mode the generator should not run the esbuild processes
         Assert.IsFalse(diagnostics.Any(d => d.GetMessage()
                 .Contains("Core ESBuild process completed successfully.")),
-            "ESBuild ran when it should not have in PipelineBuild");
+            "ESBuild ran when it should not have in a full compilation build");
     }
 
     // Helper: create a compilation that includes the dymaptic.GeoBlazor.Core source files

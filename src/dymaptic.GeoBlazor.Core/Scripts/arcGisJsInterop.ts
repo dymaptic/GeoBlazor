@@ -44,8 +44,6 @@ import Polyline from "@arcgis/core/geometry/Polyline";
 import Popup from "@arcgis/core/widgets/Popup";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
 import Portal from "@arcgis/core/portal/Portal";
-import * as promiseUtils from "@arcgis/core/core/promiseUtils";
-import * as projectionEngine from "@arcgis/core/geometry/projection";
 import Query from "@arcgis/core/rest/support/Query";
 import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer";
 import RouteParameters from "@arcgis/core/rest/support/RouteParameters";
@@ -112,8 +110,7 @@ export {
     buildJsGraphic,
     buildJsSymbol,
     reactiveUtils,
-    geometryEngine,
-    projectionEngine
+    geometryEngine
 };
 
 export const popupTemplateRefs: Record<string, Accessor> = {};
@@ -229,8 +226,6 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
     if (GraphicCollectionSerializationRecord === undefined) {
         loadProtobuf();
     }
-
-    await projectionEngine.load();
 
     checkConnectivity(id);
 

@@ -1,4 +1,4 @@
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="155" height="20">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="155" height="20">
     <style type="text/css">
         <![CDATA[
             @keyframes fade1 {
@@ -132,8 +132,8 @@
         <text x="53" y="14" fill="#fff">Coverage</text>
 
 
-        <text class="" x="132.5" y="15" fill="#010101" fill-opacity=".3">26.3%</text>
-        <text class="" x="132.5" y="14">26.3%</text>
+        <text class="" x="132.5" y="15" fill="#010101" fill-opacity=".3">2.1%</text>
+        <text class="" x="132.5" y="14">2.1%</text>
 
     </g>
 

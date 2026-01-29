@@ -1,5 +1,4 @@
-﻿@using dymaptic.GeoBlazor.Core.Interfaces
-@inherits TestRunnerBase
+﻿@inherits TestRunnerBase
 
 @{
     base.BuildRenderTree(__builder);
@@ -20,7 +19,7 @@
                                  OnListItemCreatedHandler="listItemCreatedHandler" />
             </SceneView>);
 
-        await WaitForMapToRender();
+        await WaitForMapToRender(timeoutInSeconds: 90);
 
         // 9 layers in the web scene
         for (int i = 0; i < 9; i++)
@@ -30,7 +29,8 @@
             await item.SetVisibility(true);
             await item.SetPanel(new ListItemPanelWidget(showLegendContent: true, open: true));
         }
-        await Task.Delay(1000); // wait for the panels to render properly
+
+        await Task.Delay(2000); // wait for the panels to render properly
         await AssertJavaScript("layerListWidgetAsserts.assertHasLegends");
     }
     
@@ -57,7 +57,8 @@
             await item.SetVisibility(true);
             await item.SetPanel(new ListItemPanelWidget(content: ["Test String Content"], open: true));
         }
-        await Task.Delay(1000); // wait for the panels to render properly
+
+        await Task.Delay(2000); // wait for the panels to render properly
         await AssertJavaScript("layerListWidgetAsserts.assertHasStringContent");
     }
     

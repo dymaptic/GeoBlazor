@@ -6,7 +6,7 @@ export let SimpleRenderer;
 
 let esriConfig;
 
-export function initialize(core, wfsServers) {
+export function initialize(core) {
     Core = core;
     arcGisObjectRefs = Core.arcGisObjectRefs;
     Color = Core.Color;
@@ -15,30 +15,27 @@ export function initialize(core, wfsServers) {
     esriConfig = Core.esriConfig;
     setWaitCursor()
 
-    if (!wfsServers) {
-        return;
-    }
-
     core.esriConfig.request.interceptors.push({
         before: (params) => {
-            if (wfsServers) {
-                for (let server of wfsServers) {
-                    let serverUrl = server.url;
-                    if (params.url.includes(serverUrl)) {
-                        let serverOutputFormat = server.outputFormat;
-                        let requestType = getCaseInsensitive(params.requestOptions.query, 'request');
-                        let outputFormat = getCaseInsensitive(params.requestOptions.query, 'outputFormat');
-
-                        if (requestType.toLowerCase() === 'getfeature' && !outputFormat) {
-                            params.requestOptions.query.outputFormat = serverOutputFormat;
-                        }
-                        let path = params.url.replace('https://', '');
-                        params.url = params.url.replace(serverUrl, `https://${location.host}/sample/wfs/url?url=${path}`);
-                    }
-                }
+            let service = getCaseInsensitive(params.requestOptions.query, 'service');
+            if (service === 'wfs' || service === 'wms') {
+                let path = params.url.replace('https://', '');
+                params.url = `https://${location.host}/proxy?url=${path}`;
             }
         }
     })
+}
+
+function getCaseInsensitive(obj, key) {
+    if (obj && typeof obj === "object") {
+        const lowerKey = key.toLowerCase();
+        for (const k in obj) {
+            if (k.toLowerCase() === lowerKey) {
+                return obj[k].toLowerCase();
+            }
+        }
+    }
+    return undefined;
 }
 
 export function setWaitCursor(wait) {

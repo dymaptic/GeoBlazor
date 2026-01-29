@@ -28,14 +28,14 @@ using System.Text.Json;
 
 bool excludeMode = false;
 HashSet<string> scriptsToProcess = new();
-string scriptDir = GetScriptDirectory();
-string coreDir = Path.GetFullPath(Path.Combine(scriptDir, ".."));
+string scriptsDir = GetScriptsDirectory();
+string coreDir = Path.GetFullPath(Path.Combine(scriptsDir, ".."));
 string outDir = Path.GetFullPath(Path.Combine(coreDir, "build-tools"));
 
 Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
 Trace.WriteLine("Starting ScriptBuilder...");
 
-string[] scripts = Directory.GetFiles(scriptDir, "*.cs");
+string[] scripts = Directory.GetFiles(scriptsDir, "*.cs");
 bool force = false;
 
 for (int i = 0; i < args.Length; i++)
@@ -61,7 +61,7 @@ string recordFile = Path.Combine(outDir, ".csbuild-record.json");
 string currentBranch = GetCurrentGitBranch(coreDir);
 if (!force)
 {
-    if (!CheckIfNeedsBuild(recordFile, currentBranch, scriptDir, outDir, scripts))
+    if (!CheckIfNeedsBuild(recordFile, currentBranch, scriptsDir, outDir, scripts))
     {
         return 0;
     }
@@ -88,7 +88,7 @@ foreach (string script in scripts)
         }
     }
 
-    int returnCode = BuildScript(Path.GetFileName(script), scriptDir, outDir);
+    int returnCode = BuildScript(Path.GetFileName(script), scriptsDir, outDir);
     if (returnCode != 0)
     {
         return returnCode;
@@ -105,10 +105,10 @@ return 0;
 /// Compiles a single C# script to a DLL using 'dotnet build'.
 /// </summary>
 /// <param name="scriptName">The name of the script file (e.g., "ESBuild.cs").</param>
-/// <param name="scriptDir">The directory containing the script.</param>
+/// <param name="scriptsDir">The directory containing the script.</param>
 /// <param name="outDir">The output directory for the compiled DLL.</param>
 /// <returns>0 on success, non-zero on failure.</returns>
-static int BuildScript(string scriptName, string scriptDir, string outDir)
+static int BuildScript(string scriptName, string scriptsDir, string outDir)
 {
     string[] args =
     [
@@ -124,7 +124,7 @@ static int BuildScript(string scriptName, string scriptDir, string outDir)
     {
         FileName = "dotnet",
         Arguments = string.Join(" ", args),
-        WorkingDirectory = scriptDir,
+        WorkingDirectory = scriptsDir,
         RedirectStandardInput = true,
         RedirectStandardOutput = true,
         RedirectStandardError = true,
@@ -163,14 +163,26 @@ static int BuildScript(string scriptName, string scriptDir, string outDir)
 
 
 /// <summary>
-/// Gets the directory containing this script file.
-/// Uses [CallerFilePath] to resolve the path at compile time.
+/// Gets the directory containing the build scripts.
+/// When running as a .cs file, uses [CallerFilePath]. When running as a compiled DLL,
+/// calculates the path relative to the DLL location.
 /// </summary>
-/// <param name="callerFilePath">Automatically populated with the source file path.</param>
-/// <returns>The directory path containing this script.</returns>
-static string GetScriptDirectory([CallerFilePath] string? callerFilePath = null)
+/// <param name="callerFilePath">Automatically populated with the source file path at compile time.</param>
+/// <returns>The absolute path to the build-scripts directory.</returns>
+static string GetScriptsDirectory([CallerFilePath] string? callerFilePath = null)
 {
-    return Path.GetDirectoryName(callerFilePath) ?? Environment.CurrentDirectory;
+    // When running as a pre-compiled DLL, [CallerFilePath] contains the compile-time path
+    // which is invalid at runtime (especially in Docker containers).
+    // Detect this by checking if the file exists at the caller path.
+    if (!string.IsNullOrEmpty(callerFilePath) && File.Exists(callerFilePath))
+    {
+        return Path.GetDirectoryName(callerFilePath)!;
+    }
+
+    // Running as a DLL - use AppContext.BaseDirectory which points to the DLL location
+    // The DLL is in build-tools/, and scripts are in build-scripts/ (sibling directory)
+    string dllDirectory = AppContext.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+    return Path.Combine(Path.GetDirectoryName(dllDirectory)!, "build-scripts");
 }
 
 /// <summary>

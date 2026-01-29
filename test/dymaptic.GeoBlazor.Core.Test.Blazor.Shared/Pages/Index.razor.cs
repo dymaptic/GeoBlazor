@@ -70,8 +70,8 @@ public partial class Index
                 "./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/testRunner.js");
             IJSObjectReference? proJs = await JsModuleManager.GetProJsModule(JsRuntime, CancellationToken.None);
             IJSObjectReference coreJs = await JsModuleManager.GetCoreJsModule(JsRuntime, proJs, CancellationToken.None);
-            WFSServer[] wfsServers = Configuration.GetSection("WFSServers").Get<WFSServer[]>()!;
-            await _jsTestRunner.InvokeVoidAsync("initialize", coreJs, wfsServers);
+
+            await _jsTestRunner.InvokeVoidAsync("initialize", coreJs);
 
             NavigationManager.RegisterLocationChangingHandler(OnLocationChanging);
 

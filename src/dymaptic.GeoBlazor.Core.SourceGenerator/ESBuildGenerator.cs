@@ -46,12 +46,6 @@ public class ESBuildGenerator : IIncrementalGenerator
                     options["Configuration"] = configuration;
                 }
 
-                if (configProvider.GlobalOptions.TryGetValue("build_property.PipelineBuild",
-                    out string? pipelineBuild))
-                {
-                    options["PipelineBuild"] = pipelineBuild;
-                }
-
                 if (configProvider.GlobalOptions.TryGetValue("build_property.DesignTimeBuild",
                     out string? designTimeBuild))
                 {
@@ -82,14 +76,12 @@ public class ESBuildGenerator : IIncrementalGenerator
             return;
         }
 
-        if (pipeline.Options.TryGetValue("PipelineBuild", out string? pipelineBuild)
-            && bool.TryParse(pipelineBuild, out bool pipelineBuildBool)
-            && pipelineBuildBool)
+        if (!_isDesignTimeBuild)
         {
-            // If the pipeline build is enabled, we skip the ESBuild process.
-            // This is to avoid race conditions where the files are not ready on time, and we do the build separately.
+            // If this is a full compilation, we call ESBuild directly from Core.csproj earlier in the process,
+            // so we want to exit out here.
             ProcessHelper.Log(nameof(ESBuildGenerator),
-                "Skipping ESBuild process as PipelineBuild is set to true.",
+                "ESBuild Source Generation skipped during full compilation.",
                 DiagnosticSeverity.Info,
                 context);
 
@@ -109,6 +101,7 @@ public class ESBuildGenerator : IIncrementalGenerator
         if (_showDialog)
         {
             ProcessHelper.CloseDialog(_sessionId);
+            ProcessHelper.CloseDialog(_proSessionId);
         }
     }
 
@@ -118,11 +111,6 @@ public class ESBuildGenerator : IIncrementalGenerator
         if (options.TryGetValue("CoreProjectPath", out string? projectDirectory))
         {
             _corePath = Path.GetFullPath(projectDirectory);
-
-            ProcessHelper.Log(nameof(ESBuildGenerator),
-                $"Project directory set to {_corePath}",
-                DiagnosticSeverity.Info,
-                context, _showDialog, _sessionId);
 
             if (_corePath.Contains("GeoBlazor.Pro"))
             {
@@ -213,7 +201,7 @@ public class ESBuildGenerator : IIncrementalGenerator
                 ProcessHelper.Log(nameof(ESBuildGenerator),
                     "Starting Pro ESBuild process...",
                     DiagnosticSeverity.Info,
-                    context, _showDialog, _sessionId);
+                    context, _showDialog, _proSessionId);
 
                 string[] proArgs = [..esBuildArgs, "--pro"];
 
@@ -221,7 +209,7 @@ public class ESBuildGenerator : IIncrementalGenerator
                 {
                     await ProcessHelper.Execute("Pro",
                         BuildToolsPath!, "dotnet",
-                        proArgs, context, _showDialog, _sessionId);
+                        proArgs, context, _showDialog, _proSessionId);
                     proBuildSuccess = true;
                 }));
             }
@@ -245,7 +233,7 @@ public class ESBuildGenerator : IIncrementalGenerator
                     ProcessHelper.Log(nameof(ESBuildGenerator),
                         "Pro ESBuild process failed",
                         DiagnosticSeverity.Error,
-                        context, _showDialog, _sessionId);
+                        context, _showDialog, _proSessionId);
                 }
             }
         }
@@ -283,4 +271,5 @@ public class ESBuildGenerator : IIncrementalGenerator
 
     // Generate a unique session ID for this build session
     private readonly string _sessionId = $"{nameof(ESBuildGenerator)}_{Guid.NewGuid():N}";
+    private readonly string _proSessionId = $"{nameof(ESBuildGenerator)}_{Guid.NewGuid():N}";
 }

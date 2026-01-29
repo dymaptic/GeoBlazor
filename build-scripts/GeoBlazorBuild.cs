@@ -226,9 +226,6 @@ string currentProLockFilePath = Path.Combine(proProjectPath, $"esProBuild.{confi
 
 try
 {
-    // Set environment variable
-    Environment.SetEnvironmentVariable("PipelineBuild", "true");
-
     string version = customVersion ?? "";
     bool customVersionSet = !string.IsNullOrEmpty(customVersion);
 
@@ -237,7 +234,7 @@ try
     WriteStepHeader(step, "Cleaning old build artifacts");
 
     await RunDotnetCommand(coreProjectPath, "clean", 
-        $"\"{Path.Combine(coreProjectPath, "dymaptic.GeoBlazor.Core.csproj")}\"", "/p:PipelineBuild=true");
+        $"\"{Path.Combine(coreProjectPath, "dymaptic.GeoBlazor.Core.csproj")}\"");
     DeleteDirectoryIfExists(Path.Combine(coreProjectPath, "bin"));
     DeleteDirectoryIfExists(Path.Combine(coreProjectPath, "obj"));
     DeleteDirectoryContentsIfExists(Path.Combine(coreProjectPath, "wwwroot", "js"));
@@ -246,7 +243,7 @@ try
     if (pro)
     {
         await RunDotnetCommand(proProjectPath, "clean", 
-            $"\"{Path.Combine(proProjectPath, "dymaptic.GeoBlazor.Pro.csproj")}\"", "/p:PipelineBuild=true");
+            $"\"{Path.Combine(proProjectPath, "dymaptic.GeoBlazor.Pro.csproj")}\"");
         DeleteDirectoryIfExists(Path.Combine(proProjectPath, "bin"));
         DeleteDirectoryIfExists(Path.Combine(proProjectPath, "obj"));
         DeleteDirectoryContentsIfExists(Path.Combine(proProjectPath, "obf"));
@@ -376,7 +373,7 @@ try
     stepStartTime = DateTime.Now;
     WriteStepHeader(step, "Restoring .NET Packages");
 
-    await RunDotnetCommand(coreProjectPath, "restore", "/p:PipelineBuild=true");
+    await RunDotnetCommand(coreProjectPath, "restore");
 
     WriteStepCompleted(step, stepStartTime);
     step++;
@@ -391,7 +388,6 @@ try
         $"--no-restore",
         "-c",
         configuration,
-        $"/p:PipelineBuild=true",
         $"/p:GenerateDocs={generateDocs.ToString().ToLower()}",
         $"/p:GenerateXmlComments={generateXmlComments.ToString().ToLower()}",
         $"/p:CoreVersion={version}",
@@ -471,7 +467,7 @@ try
         stepStartTime = DateTime.Now;
         WriteStepHeader(step, "Restoring .NET Packages");
 
-        await RunDotnetCommand(proProjectPath, "restore", "/p:PipelineBuild=true");
+        await RunDotnetCommand(proProjectPath, "restore");
 
         WriteStepCompleted(step, stepStartTime);
         step++;
@@ -619,7 +615,6 @@ try
             "--no-restore",
             $"-c",
             configuration,
-            $"/p:PipelineBuild=true",
             $"/p:GenerateDocs={generateDocs.ToString().ToLower()}",
             $"/p:GenerateXmlComments={generateXmlComments.ToString().ToLower()}",
             $"/p:CoreVersion={version}",

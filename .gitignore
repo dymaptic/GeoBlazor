@@ -12,6 +12,7 @@
 .DS_Store
 esBuild.*.lock
 esBuild.log
+esBuild.hash
 .esbuild-record.json
 CustomerTests.razor
 .claude/

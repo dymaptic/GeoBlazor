@@ -4,11 +4,14 @@ using dymaptic.GeoBlazor.Core.Events;
 using dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Logging;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using Polly;
+using Polly.Retry;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using DelayBackoffType = Polly.DelayBackoffType;
 
 
 namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Components;
@@ -16,6 +19,30 @@ namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Components;
 [TestClass]
 public partial class TestRunnerBase
 {
+    public TestRunnerBase()
+    {
+        var retryStrategyOptions = new RetryStrategyOptions
+        {
+            BackoffType = DelayBackoffType.Exponential,
+            MaxRetryAttempts = 3,
+            Delay = TimeSpan.FromSeconds(5),
+            ShouldHandle = new PredicateBuilder().Handle<Exception>(ex =>
+                !ex.Message.Contains("Invalid GeoBlazor registration key")
+                && !ex.Message.Contains("Invalid GeoBlazor Pro license key")
+                && !ex.Message.Contains("No GeoBlazor Registration key provided")
+                && !ex.Message.Contains("No GeoBlazor Pro license key provided")
+                && !ex.Message.Contains("Map component view is in an invalid state")),
+            OnRetry = async args =>
+            {
+                await CleanupTest(args.Context.OperationKey!);
+            }
+        };
+
+        _retryPipeline = new ResiliencePipelineBuilder()
+            .AddRetry(retryStrategyOptions)
+            .Build();
+    }
+
     [Inject]
     public required IJSRuntime JsRuntime { get; set; }
     [Inject]
@@ -58,7 +85,7 @@ public partial class TestRunnerBase
             List<MethodInfo> methodsToRun = [];
             _filteredTestCount = 0;
 
-            foreach (MethodInfo method in _methodInfos!.Skip(skip))
+            foreach (var method in _methodInfos!.Skip(skip))
             {
                 if (onlyFailedTests
                     && (_passed.ContainsKey(method.Name) || _inconclusive.ContainsKey(method.Name)))
@@ -79,37 +106,19 @@ public partial class TestRunnerBase
 
             _failed.Clear();
 
-            foreach (MethodInfo method in methodsToRun)
+            foreach (var method in methodsToRun)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
                     break;
                 }
 
-                await RunTest(method);
-            }
-
-            for (int i = 1; i < 2; i++)
-            {
-                if (_retryTests.Any() && !cancellationToken.IsCancellationRequested)
-                {
-                    List<MethodInfo> retryTests = _retryTests.ToList();
-                    _retryTests.Clear();
-                    _retry = i;
-                    await Task.Delay(1000, cancellationToken);
-
-                    foreach (MethodInfo retryMethod in retryTests)
-                    {
-                        await RunTest(retryMethod);
-                    }
-                }
+                await RunTest(method, cancellationToken);
             }
         }
         finally
         {
-            _retryTests.Clear();
             _running = false;
-            _retry = 0;
 
             await OnTestResults.InvokeAsync(new TestResult(ClassName, _filteredTestCount, _passed, _failed,
                 _inconclusive, _running));
@@ -129,7 +138,7 @@ public partial class TestRunnerBase
 
         _methodInfos = _type
             .GetMethods()
-            .Where(m => m.GetCustomAttribute(typeof(TestMethodAttribute), false) != null
+            .Where(m => (m.GetCustomAttribute(typeof(TestMethodAttribute), false) != null)
                 && FilterMatch(m.Name))
             .ToArray();
 
@@ -148,17 +157,17 @@ public partial class TestRunnerBase
             _failed = Results.Failed;
             _inconclusive = Results.Inconclusive;
 
-            foreach (string passedTest in _passed.Keys)
+            foreach (var passedTest in _passed.Keys)
             {
                 _testResults[passedTest] = "<p class=\"passed bold\">Passed</p>";
             }
 
-            foreach (string failedTest in _failed.Keys)
+            foreach (var failedTest in _failed.Keys)
             {
                 _testResults[failedTest] = "<p class=\"failed bold\">Failed</p>";
             }
 
-            foreach (string inconclusiveTest in _inconclusive.Keys)
+            foreach (var inconclusiveTest in _inconclusive.Keys)
             {
                 _testResults[inconclusiveTest] = "<p class=\"inconclusive bold\">Inconclusive</p>";
             }
@@ -182,31 +191,8 @@ public partial class TestRunnerBase
 
         while (!methodsWithRenderedMaps.Contains(methodName) && (tries > 0))
         {
-            if (_mapRenderingExceptions.Remove(methodName, out Exception? ex))
+            if (_mapRenderingExceptions.Remove(methodName, out var ex))
             {
-                if (_running && _retry < 2 && _retryTests.All(mi => mi.Name != methodName)
-                    && !ex.Message.Contains("Invalid GeoBlazor registration key")
-                    && !ex.Message.Contains("Invalid GeoBlazor Pro license key")
-                    && !ex.Message.Contains("No GeoBlazor Registration key provided")
-                    && !ex.Message.Contains("No GeoBlazor Pro license key provided")
-                    && !ex.Message.Contains("Map component view is in an invalid state"))
-                {
-                    switch (_retry)
-                    {
-                        case 0:
-                            _resultBuilder.AppendLine("First failure: will retry 2 more times");
-
-                            break;
-                        case 1:
-                            _resultBuilder.AppendLine("Second failure: will retry 1 more times");
-
-                            break;
-                    }
-
-                    // Sometimes running multiple tests causes timeouts, give this another chance.
-                    _retryTests.Add(_methodInfos!.First(mi => mi.Name == methodName));
-                }
-
                 await TestLogger.LogError("Test Failed", ex);
 
                 ExceptionDispatchInfo.Capture(ex).Throw();
@@ -218,14 +204,6 @@ public partial class TestRunnerBase
 
         if (!methodsWithRenderedMaps.Contains(methodName))
         {
-            if (_running && _retryTests.All(mi => mi.Name != methodName))
-            {
-                // Sometimes running multiple tests causes timeouts, give this another chance.
-                _retryTests.Add(_methodInfos!.First(mi => mi.Name == methodName));
-
-                throw new TimeoutException("Map did not render in allotted time. Will re-attempt shortly...");
-            }
-
             throw new TimeoutException("Map did not render in allotted time.");
         }
 
@@ -242,10 +220,10 @@ public partial class TestRunnerBase
     ///     Optional timeout in seconds to wait for the layer to render. Defaults to 10 seconds.
     /// </param>
     /// <typeparam name="TLayer">
-    ///     The type of layer to wait for rendering. Must inherit from <see cref="Layer"/>.
+    ///     The type of layer to wait for rendering. Must inherit from <see cref="Layer" />.
     /// </typeparam>
     /// <returns>
-    ///     Returns the <see cref="LayerViewCreateEvent"/> for the specified layer type once it has rendered.
+    ///     Returns the <see cref="LayerViewCreateEvent" /> for the specified layer type once it has rendered.
     /// </returns>
     /// <exception cref="TimeoutException">
     ///     Throws if the specified layer type does not render within the allotted time.
@@ -253,13 +231,13 @@ public partial class TestRunnerBase
     protected async Task<LayerViewCreateEvent> WaitForLayerToRender<TLayer>([CallerMemberName] string methodName = "",
         int timeoutInSeconds = 10) where TLayer : Layer
     {
-        int tries = timeoutInSeconds * 10;
+        var tries = timeoutInSeconds * 10;
 
         while ((!layerViewCreatedEvents.ContainsKey(methodName)
 
                 // check if the layer view was created for the specified layer type
                 || layerViewCreatedEvents[methodName].All(lvce => lvce.Layer is not TLayer))
-            && tries > 0)
+            && (tries > 0))
         {
             await Task.Delay(100);
             tries--;
@@ -272,7 +250,7 @@ public partial class TestRunnerBase
             } did not render in allotted time, or LayerViewCreated was not set in MapView.OnLayerViewCreate");
         }
 
-        LayerViewCreateEvent createEvent = layerViewCreatedEvents[methodName].First(lvce => lvce.Layer is TLayer);
+        var createEvent = layerViewCreatedEvents[methodName].First(lvce => lvce.Layer is TLayer);
         layerViewCreatedEvents[methodName].Remove(createEvent);
 
         return createEvent;
@@ -293,7 +271,7 @@ public partial class TestRunnerBase
     ///     Optional timeout in seconds to wait for the layer to render. Defaults to 10 seconds.
     /// </param>
     /// <returns>
-    ///     Returns the <see cref="ListItem"/>.
+    ///     Returns the <see cref="ListItem" />.
     /// </returns>
     /// <exception cref="TimeoutException">
     ///     Throws if the specified layer type does not render within the allotted time.
@@ -301,60 +279,48 @@ public partial class TestRunnerBase
     protected async Task<ListItem> WaitForListItemToBeCreated([CallerMemberName] string methodName = "",
         int timeoutInSeconds = 10)
     {
-        int tries = timeoutInSeconds * 10;
+        var tries = timeoutInSeconds * 10;
 
         while (!listItems.ContainsKey(methodName)
-            && tries > 0)
+            && (tries > 0))
         {
             await Task.Delay(100);
             tries--;
         }
 
-        if (!listItems.TryGetValue(methodName, out List<ListItem>? items))
+        if (!listItems.TryGetValue(methodName, out var items))
         {
             throw new TimeoutException(
                 "List Item did not render in allotted time, or ListItemCreated was not set in LayerListWidget.OnListItemCreatedHandler");
         }
 
-        ListItem firstItem = items.First();
+        var firstItem = items.First();
         listItems[methodName].Remove(firstItem);
 
         return firstItem;
     }
 
     protected async Task AssertJavaScript(string jsAssertFunction, [CallerMemberName] string methodName = "",
-        int retryCount = 0, params object[] args)
+        params object[] args)
     {
-        try
+        await _retryPipeline.ExecuteAsync(async token =>
         {
             List<object> jsArgs = [methodName];
             jsArgs.AddRange(args);
 
             if (jsAssertFunction.Contains("."))
             {
-                string[] parts = jsAssertFunction.Split('.');
+                var parts = jsAssertFunction.Split('.');
 
-                IJSObjectReference module = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
-                    $"./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/{parts[0]}.js");
-                await module.InvokeVoidAsync(parts[1], jsArgs.ToArray());
+                var module = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
+                    token, $"./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/{parts[0]}.js");
+                await module.InvokeVoidAsync(parts[1], token, jsArgs.ToArray());
             }
             else
             {
-                await JsTestRunner!.InvokeVoidAsync(jsAssertFunction, jsArgs.ToArray());
+                await JsTestRunner!.InvokeVoidAsync(jsAssertFunction, token, jsArgs.ToArray());
             }
-        }
-        catch (Exception)
-        {
-            if (retryCount < 4)
-            {
-                await Task.Delay(500);
-                await AssertJavaScript(jsAssertFunction, methodName, retryCount + 1, args);
-            }
-            else
-            {
-                throw;
-            }
-        }
+        });
     }
 
     protected async Task WaitForJsTimeout(long time, [CallerMemberName] string methodName = "")
@@ -417,7 +383,7 @@ public partial class TestRunnerBase
         return Task.FromResult(item);
     }
 
-    private async Task RunTest(MethodInfo methodInfo)
+    private async Task RunTest(MethodInfo methodInfo, CancellationToken cancellationToken)
     {
         if (JsTestRunner is null)
         {
@@ -459,21 +425,34 @@ public partial class TestRunnerBase
                 })
                 .ToArray();
 
-            try
+            ResilienceContext context = ResilienceContextPool.Shared.Get(
+                new ResilienceContextCreationArguments(methodInfo.Name, null, cancellationToken));
+
+            await _retryPipeline.ExecuteAsync(async ctx =>
             {
-                if (methodInfo.ReturnType == typeof(Task))
+                if (ctx.CancellationToken.IsCancellationRequested)
                 {
-                    await (Task)methodInfo.Invoke(this, actions)!;
+                    return;
                 }
-                else
+
+                try
                 {
-                    methodInfo.Invoke(this, actions);
+                    if (methodInfo.ReturnType == typeof(Task))
+                    {
+                        await (Task)methodInfo.Invoke(this, actions)!;
+                    }
+                    else
+                    {
+                        methodInfo.Invoke(this, actions);
+                    }
                 }
-            }
-            catch (TargetInvocationException tie) when (tie.InnerException is not null)
-            {
-                throw tie.InnerException;
-            }
+                catch (TargetInvocationException tie) when (tie.InnerException is not null)
+                {
+                    throw tie.InnerException;
+                }
+            }, context);
+
+            ResilienceContextPool.Shared.Return(context);
 
             _passed[methodInfo.Name] = _resultBuilder.ToString();
             _resultBuilder.AppendLine("<p style=\"color: green; font-weight: bold\">Passed</p>");
@@ -504,10 +483,12 @@ public partial class TestRunnerBase
                 ex.Message.Replace(Environment.NewLine, "<br/>")}<br/>{
                     ex.StackTrace?.Replace(Environment.NewLine, "<br/>")}</p>");
         }
-
-        if (!_interactionToggles[methodInfo.Name])
+        finally
         {
-            await CleanupTest(methodInfo.Name);
+            if (!_interactionToggles[methodInfo.Name])
+            {
+                await CleanupTest(methodInfo.Name);
+            }
         }
     }
 
@@ -520,8 +501,8 @@ public partial class TestRunnerBase
     {
         JsTestRunner = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
             "./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/testRunner.js");
-        IJSObjectReference? proJs = await JsModuleManager.GetProJsModule(JsRuntime, CancellationToken.None);
-        IJSObjectReference coreJs = await JsModuleManager.GetCoreJsModule(JsRuntime, proJs, CancellationToken.None);
+        var proJs = await JsModuleManager.GetProJsModule(JsRuntime, CancellationToken.None);
+        var coreJs = await JsModuleManager.GetCoreJsModule(JsRuntime, proJs, CancellationToken.None);
         await JsTestRunner.InvokeVoidAsync("initialize", coreJs);
     }
 
@@ -536,7 +517,8 @@ public partial class TestRunnerBase
     private static readonly Dictionary<string, List<ListItem>> listItems = new();
     private readonly Dictionary<string, RenderFragment> _testRenderFragments = new();
     private readonly Dictionary<string, Exception> _mapRenderingExceptions = new();
-    private readonly List<MethodInfo> _retryTests = [];
+
+    private readonly ResiliencePipeline _retryPipeline;
     private StringBuilder _resultBuilder = new();
     private Type? _type;
     private MethodInfo[]? _methodInfos;
@@ -549,5 +531,4 @@ public partial class TestRunnerBase
     private int _filteredTestCount;
     private Dictionary<string, bool> _interactionToggles = [];
     private string? _currentTest;
-    private int _retry;
 }

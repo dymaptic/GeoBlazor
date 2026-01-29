@@ -1,5 +1,8 @@
 using Microsoft.Playwright;
+using Polly;
+using Polly.Retry;
 using System.Web;
+using DelayBackoffType = Polly.DelayBackoffType;
 
 
 namespace dymaptic.GeoBlazor.Core.Test.Automation;
@@ -13,9 +16,10 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
     private LocatorAssertionsToBeVisibleOptions VisibleOptions => new() { Timeout = 90_000 };
 
     [TestInitialize]
-    public Task TestSetup()
+    public async Task TestSetup()
     {
-        return Setup(0);
+        // transient error on setup found, seems to be very rare, so we will just retry
+        await _retryPipeline.ExecuteAsync(async _ => await Setup());
     }
 
     [TestCleanup]
@@ -51,7 +55,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         }
     }
 
-    protected async Task RunTestImplementation(string testName, int retries = 0)
+    protected async Task RunTestImplementation(string testName)
     {
         var page = await Context
             .NewPageAsync()
@@ -63,65 +67,86 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         {
             string testUrl = BuildTestUrl(testName);
 
-            Trace.WriteLine($"Navigating to {testUrl}", "TEST");
-
-            await page.GotoAsync(testUrl, PageGotoOptions);
-            Trace.WriteLine($"Page loaded for {testName}", "TEST");
-
-            // Skip section toggle click if already expanded (optimization)
-            ILocator sectionToggle = page.GetByTestId("section-toggle");
-            var isExpanded = await sectionToggle.GetAttributeAsync("aria-expanded");
-
-            if (isExpanded != "true")
+            await _retryPipeline.ExecuteAsync(async token =>
             {
-                await sectionToggle.ClickAsync();
-            }
+                Trace.WriteLine($"Navigating to {testUrl}", "TEST");
 
-            ILocator testBtn = page.GetByText("Run Test");
-            await testBtn.ClickAsync();
+                await page.GotoAsync(testUrl, PageGotoOptions);
+                Trace.WriteLine($"Page loaded for {testName}", "TEST");
 
-            ILocator passedSpan = page.GetByTestId("passed");
-            ILocator inconclusiveSpan = page.GetByTestId("inconclusive");
-
-            if (await inconclusiveSpan.IsVisibleAsync())
-            {
-                var (messages, errors) = CheckMessages(testName);
-                Trace.WriteLine(messages, "TEST_RESPONSE");
-
-                if (!string.IsNullOrWhiteSpace(errors))
+                if (token.IsCancellationRequested)
                 {
-                    // report errors but don't fail the test
-                    Trace.WriteLine(errors, "TEST_ERROR");
+                    return;
                 }
 
-                // Inconclusive we treat as passing for our automation purposes
-                Trace.WriteLine($"{testName} Inconclusive", "TEST_INCONCLUSIVE");
-                TestConfig.InconclusiveTests.Add(testName);
-            }
-            else
-            {
-                await Expect(passedSpan).ToBeVisibleAsync(VisibleOptions);
-                await Expect(passedSpan).ToHaveTextAsync("Passed: 1");
-                var (messages, errors) = CheckMessages(testName);
-                Trace.WriteLine(messages, "TEST_RESPONSE");
+                // Skip section toggle click if already expanded (optimization)
+                ILocator sectionToggle = page.GetByTestId("section-toggle");
+                var isExpanded = await sectionToggle.GetAttributeAsync("aria-expanded");
 
-                if (!string.IsNullOrWhiteSpace(errors))
+                if (isExpanded != "true")
                 {
-                    // these are typically browser console errors, the assertions in the
-                    // test runner web app decides whether to fail the test or not
-                    // so we just log here
-                    Trace.WriteLine(errors, "TEST_ERROR");
+                    await sectionToggle.ClickAsync();
                 }
 
-                Trace.WriteLine($"{testName} Passed", "TEST");
-            }
+                if (token.IsCancellationRequested)
+                {
+                    return;
+                }
+
+                ILocator testBtn = page.GetByText("Run Test");
+                await testBtn.ClickAsync();
+
+                if (token.IsCancellationRequested)
+                {
+                    return;
+                }
+
+                ILocator passedSpan = page.GetByTestId("passed");
+                ILocator inconclusiveSpan = page.GetByTestId("inconclusive");
+
+                if (await inconclusiveSpan.IsVisibleAsync())
+                {
+                    var (messages, errors) = CheckMessages(testName);
+                    Trace.WriteLine(messages, "TEST_RESPONSE");
+
+                    if (!string.IsNullOrWhiteSpace(errors))
+                    {
+                        // report errors but don't fail the test
+                        Trace.WriteLine(errors, "TEST_ERROR");
+                    }
+
+                    // Inconclusive we treat as passing for our automation purposes
+                    Trace.WriteLine($"{testName} Inconclusive", "TEST_INCONCLUSIVE");
+                    TestConfig.InconclusiveTests.Add(testName);
+                }
+                else
+                {
+                    await Expect(passedSpan).ToBeVisibleAsync(VisibleOptions);
+                    await Expect(passedSpan).ToHaveTextAsync("Passed: 1");
+                    var (messages, errors) = CheckMessages(testName);
+                    Trace.WriteLine(messages, "TEST_RESPONSE");
+
+                    if (!string.IsNullOrWhiteSpace(errors))
+                    {
+                        // these are typically browser console errors, the assertions in the
+                        // test runner web app decides whether to fail the test or not
+                        // so we just log here
+                        Trace.WriteLine(errors, "TEST_ERROR");
+                    }
+
+                    Trace.WriteLine($"{testName} Passed", "TEST");
+                    TestConfig.PassedTestCount++;
+                }
+            });
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             var (messages, errors) = CheckMessages(testName);
             Trace.WriteLine(messages, "TEST_RESPONSE");
             Trace.WriteLine(errors, "TEST_ERROR");
-            await RetryOrMarkAsFailure(page, testName, ex, retries, messages, errors);
+
+            TestConfig.FailedTests[testName] = $"{messages}{Environment.NewLine}{errors}";
+            Assert.Fail($"{testName} Failed: {errors}");
         }
         finally
         {
@@ -136,10 +161,8 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
             TestConfig.RenderMode}{(TestConfig.ProOnly ? "&proOnly" : "")}{(TestConfig.CoreOnly ? "&coreOnly" : "")}";
     }
 
-    private async Task Setup(int retries)
+    private async Task Setup()
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(retries, 2);
-
         try
         {
             // Get pool instance and checkout a browser
@@ -155,7 +178,6 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         }
         catch (Exception e)
         {
-            // transient error on setup found, seems to be very rare, so we will just retry
             Trace.WriteLine($"{e.Message}{Environment.NewLine}{e.StackTrace}", "ERROR");
 
             // If browser failed during setup, report it to the pool
@@ -167,7 +189,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
                 _pooledBrowser = null;
             }
 
-            await Setup(retries + 1);
+            throw;
         }
     }
 
@@ -255,27 +277,20 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         _errorMessages[testName].Add(message);
     }
 
-    private async Task RetryOrMarkAsFailure(IPage page, string testName, Exception ex, int retries,
-        string messages, string errors)
+    private static readonly RetryStrategyOptions retryStrategyOptions = new()
     {
-        if (retries > 2)
+        BackoffType = DelayBackoffType.Exponential,
+        MaxRetryAttempts = 3,
+        Delay = TimeSpan.FromSeconds(5),
+        OnRetry = args =>
         {
-            TestConfig.FailedTests[testName] = $"{messages}{Environment.NewLine}{errors}";
-            Assert.Fail($"{testName} Exceeded the maximum number of retries.");
+            Trace.WriteLine(
+                $"Retrying {args.Context.OperationKey} in {args.RetryDelay.Milliseconds}ms (attempt {
+                    args.AttemptNumber + 1})", "TEST");
+
+            return ValueTask.CompletedTask;
         }
-
-        // Exponential backoff: 1s, 2s between retries
-        var backoffMs = 1000 * (retries + 1);
-        Trace.WriteLine($"Retrying {testName} in {backoffMs}ms (attempt {retries + 2}/3)", "TEST");
-        await Task.Delay(backoffMs);
-
-        page.Console -= HandleConsoleMessage;
-        page.PageError -= HandlePageError;
-        _consoleMessages.Remove(testName);
-        _errorMessages.Remove(testName);
-
-        await RunTestImplementation(testName, retries + 1);
-    }
+    };
 
     private readonly List<IBrowserContext> _contexts = new();
     private readonly BrowserTypeLaunchOptions? _launchOptions = new()
@@ -294,6 +309,9 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
             "--enable-unsafe-webgpu"
         ]
     };
+    private readonly ResiliencePipeline _retryPipeline = new ResiliencePipelineBuilder()
+        .AddRetry(retryStrategyOptions)
+        .Build();
 
     private readonly Dictionary<string, List<string>> _consoleMessages = [];
     private readonly Dictionary<string, List<string>> _errorMessages = [];

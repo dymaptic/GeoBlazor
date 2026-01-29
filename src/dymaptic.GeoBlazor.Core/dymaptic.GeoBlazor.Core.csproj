@@ -128,4 +128,12 @@
         <Message Importance="high" Text="Clearing locks on esBuild files"/>
         <Exec Command="dotnet $(ProjectDir)../../build-tools/ESBuildClearLocks.dll" ContinueOnError="false"/>
     </Target>
+    <Target AfterTargets="ClearLocks" Name="ESBuild" Condition="$(ShowSourceGenDialogs) == 'true'">
+        <Message Importance="high" Text="Run ESBuild"/>
+        <Exec Command="dotnet $(ProjectDir)../../build-tools/ESBuild.dll -c $(Configuration) --dialog" ContinueOnError="false"/>
+    </Target>
+    <Target AfterTargets="ClearLocks" Name="ESBuild" Condition="$(ShowSourceGenDialogs) != 'true'">
+        <Message Importance="high" Text="Run ESBuild"/>
+        <Exec Command="dotnet $(ProjectDir)../../build-tools/ESBuild.dll -c $(Configuration)" ContinueOnError="false"/>
+    </Target>
 </Project>

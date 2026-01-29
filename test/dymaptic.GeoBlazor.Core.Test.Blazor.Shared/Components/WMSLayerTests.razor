@@ -27,7 +27,7 @@
                     </WMSLayer>
                 </Map>
         </SceneView>);
-        await WaitForMapToRender(timeoutInSeconds: 30);
+        await WaitForMapToRender(timeoutInSeconds: 90);
         
         LayerViewCreateEvent createEvent = await WaitForLayerToRender<WMSLayer>();
         Assert.IsInstanceOfType<WMSLayer>(createEvent.Layer);
@@ -55,7 +55,7 @@
                     </WMSLayer>
                 </Map>
             </SceneView>);
-        await WaitForMapToRender(timeoutInSeconds: 30);
+        await WaitForMapToRender(timeoutInSeconds: 90);
         LayerViewCreateEvent createEvent = await WaitForLayerToRender<WMSLayer>();
         Assert.IsInstanceOfType<WMSLayer>(createEvent.Layer);
         WMSLayer createdLayer = (WMSLayer)createEvent.Layer;
@@ -71,7 +71,9 @@
 
         AddMapRenderFragment(@<MapView @ref="view" class="map-view"
                                        Latitude="51.4" Longitude="0.0"
-                                       Zoom="11">
+                                       Zoom="11"
+                                       OnViewRendered="renderHandler"
+                                       OnLayerViewCreate="layerViewCreated">
                                  <Map>
                                      <Basemap>
                                          <WMSLayer Url="https://ows.terrestris.de/osm/service">
@@ -80,7 +82,7 @@
                                      </Basemap>
                                  </Map>
                              </MapView>);
-        await WaitForMapToRender(timeoutInSeconds: 30);
+        await WaitForMapToRender(timeoutInSeconds: 90);
         await WaitForLayerToRender<WMSLayer>();
         Point? center = await view!.GetCenter();
         Assert.IsNotNull(center);
