@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 bool cover = false;
+bool container = false;
 string config = "Release";
 string? filter = null;
 
@@ -14,6 +15,9 @@ for (int i = 0; i < args.Length; i++)
         case "--cover":
             cover = true;
             break;
+		case "--container":
+			container = true;
+			break;
         case "-c":
         case "--configuration":
             if (i + 1 < args.Length)
@@ -49,14 +53,16 @@ if (filter != null)
     buildArgs = [..buildArgs, "--filter", filter];
 }
 
-Dictionary<string, string>? environmentVariables = null;
+Dictionary<string, string>? environmentVariables = [];
 
 if (cover)
 {
-    environmentVariables = new Dictionary<string, string>
-    {
-        ["COVER"] = "true"
-    };
+    environmentVariables["COVER"] = "true";
+}
+
+if (container)
+{
+	environmentVariables["USE_CONTAINER"] = "true";
 }
 
 await RunDotnetCommandWithOutputAsync(testProjectDir, "run", buildArgs, environmentVariables);

@@ -17,7 +17,7 @@ using DelayBackoffType = Polly.DelayBackoffType;
 namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Components;
 
 [TestClass]
-public partial class TestRunnerBase
+public partial class TestRunnerBase : IAsyncDisposable
 {
     public TestRunnerBase()
     {
@@ -25,7 +25,7 @@ public partial class TestRunnerBase
         {
             BackoffType = DelayBackoffType.Exponential,
             MaxRetryAttempts = 3,
-            Delay = TimeSpan.FromSeconds(5),
+            Delay = TimeSpan.FromSeconds(1),
             ShouldHandle = new PredicateBuilder().Handle<Exception>(ex =>
                 !ex.Message.Contains("Invalid GeoBlazor registration key")
                 && !ex.Message.Contains("Invalid GeoBlazor Pro license key")
@@ -34,7 +34,7 @@ public partial class TestRunnerBase
                 && !ex.Message.Contains("Map component view is in an invalid state")),
             OnRetry = async args =>
             {
-                await CleanupTest(args.Context.OperationKey!);
+                await CleanupTest(args.Context.OperationKey!, true);
             }
         };
 
@@ -66,6 +66,27 @@ public partial class TestRunnerBase
     private int Remaining => _methodInfos is null
         ? 0
         : _methodInfos.Length - (_passed.Count + _failed.Count + _inconclusive.Count);
+
+    public async ValueTask DisposeAsync()
+    {
+        if (JsTestRunner != null)
+        {
+            await JsTestRunner.DisposeAsync();
+        }
+
+        foreach (var cts in _cancellationTokenSources.Values)
+        {
+            try
+            {
+                await cts.CancelAsync();
+                cts.Dispose();
+            }
+            catch
+            {
+                // ignore
+            }
+        }
+    }
 
     public async Task RunTests(bool onlyFailedTests = false, int skip = 0,
         CancellationToken cancellationToken = default)
@@ -338,7 +359,7 @@ public partial class TestRunnerBase
         _resultBuilder.AppendLine($"<p>{message}</p>");
     }
 
-    protected async Task CleanupTest(string testName)
+    protected async Task CleanupTest(string testName, bool retry = false)
     {
         methodsWithRenderedMaps.Remove(testName);
         layerViewCreatedEvents.Remove(testName);
@@ -354,6 +375,16 @@ public partial class TestRunnerBase
         });
         _interactionToggles[testName] = false;
         _currentTest = null;
+
+        if (!retry)
+        {
+            if (_cancellationTokenSources.TryGetValue(testName, out var cts))
+            {
+                await cts.CancelAsync();
+                cts.Dispose();
+                _cancellationTokenSources.Remove(testName);
+            }
+        }
     }
 
     private static void RenderHandler(string methodName)
@@ -390,17 +421,16 @@ public partial class TestRunnerBase
             await GetJsTestRunner();
         }
 
-        _currentTest = methodInfo.Name;
+        if (_cancellationTokenSources.TryGetValue(methodInfo.Name, out var cts))
+        {
+            await cts.CancelAsync();
+            cts.Dispose();
+        }
+
+        cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        _cancellationTokenSources[methodInfo.Name] = cts;
+
         _testResults[methodInfo.Name] = "<p style=\"color: orange; font-weight: bold\">Running...</p>";
-        _resultBuilder = new StringBuilder();
-        _passed.Remove(methodInfo.Name);
-        _failed.Remove(methodInfo.Name);
-        _inconclusive.Remove(methodInfo.Name);
-        _testRenderFragments.Remove(methodInfo.Name);
-        _mapRenderingExceptions.Remove(methodInfo.Name);
-        methodsWithRenderedMaps.Remove(methodInfo.Name);
-        layerViewCreatedEvents.Remove(methodInfo.Name);
-        listItems.Remove(methodInfo.Name);
         await TestLogger.Log($"Running test {methodInfo.Name}");
 
         try
@@ -425,8 +455,8 @@ public partial class TestRunnerBase
                 })
                 .ToArray();
 
-            ResilienceContext context = ResilienceContextPool.Shared.Get(
-                new ResilienceContextCreationArguments(methodInfo.Name, null, cancellationToken));
+            var context = ResilienceContextPool.Shared.Get(
+                new ResilienceContextCreationArguments(methodInfo.Name, null, cts.Token));
 
             await _retryPipeline.ExecuteAsync(async ctx =>
             {
@@ -434,6 +464,17 @@ public partial class TestRunnerBase
                 {
                     return;
                 }
+
+                _currentTest = methodInfo.Name;
+                _resultBuilder = new StringBuilder();
+                _passed.Remove(methodInfo.Name);
+                _failed.Remove(methodInfo.Name);
+                _inconclusive.Remove(methodInfo.Name);
+                _testRenderFragments.Remove(methodInfo.Name);
+                _mapRenderingExceptions.Remove(methodInfo.Name);
+                methodsWithRenderedMaps.Remove(methodInfo.Name);
+                layerViewCreatedEvents.Remove(methodInfo.Name);
+                listItems.Remove(methodInfo.Name);
 
                 try
                 {
@@ -519,6 +560,7 @@ public partial class TestRunnerBase
     private readonly Dictionary<string, Exception> _mapRenderingExceptions = new();
 
     private readonly ResiliencePipeline _retryPipeline;
+    private readonly Dictionary<string, CancellationTokenSource> _cancellationTokenSources = new();
     private StringBuilder _resultBuilder = new();
     private Type? _type;
     private MethodInfo[]? _methodInfos;

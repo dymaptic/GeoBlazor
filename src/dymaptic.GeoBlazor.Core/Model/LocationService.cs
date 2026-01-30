@@ -29,40 +29,11 @@ public class LocationService(
             requestOptions);
     }
 
-    // Final implementation of all the permutations of AddressesToLocations
-    [SerializedMethod]
-    private async Task<List<AddressCandidate>> AddressesToLocationsImplementation(string url, object addresses,
-        string? countryCode, List<string>? categories, LocationType? locationType,
-        SpatialReference? outSpatialReference, RequestOptions? requestOptions,
-        string? addressSearchStringParameterName, CancellationToken cancellationToken = default)
-    {
-        return await InvokeAsync<List<AddressCandidate>>(nameof(LocationService),
-            nameof(AddressesToLocations), QueryResultsMaxSizeLimit, cancellationToken, url,
-            addresses, countryCode, categories, locationType,
-            outSpatialReference, requestOptions, addressSearchStringParameterName);
-    }
-
-    // final implementation of all the AddressToLocations permutations
-    [SerializedMethod]
-    private async Task<List<AddressCandidate>> AddressToLocationsImplementation(string url, object address,
-        List<string>? categories = null, string? countryCode = null, bool? forStorage = null, Point? location = null,
-        LocationType? locationType = null, string? magicKey = null, int? maxLocations = null,
-        List<string>? outFields = null, SpatialReference? outSpatialReference = null, Extent? searchExtent = null,
-        RequestOptions? requestOptions = null, string? addressSearchStringParameterName = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await InvokeAsync<List<AddressCandidate>>(nameof(LocationService),
-            nameof(AddressToLocations), QueryResultsMaxSizeLimit, cancellationToken, url, address,
-            categories, countryCode, forStorage, location, locationType, magicKey,
-            maxLocations, outFields, outSpatialReference, searchExtent, requestOptions,
-            addressSearchStringParameterName);
-    }
-
     // final implementation of all the SuggestLocations permutations
     [SerializedMethod]
     private async Task<List<SuggestionResult>> SuggestLocationsImplementation(string url, Point location, string text,
         List<string>? categories, RequestOptions? requestOptions,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         return await InvokeAsync<List<SuggestionResult>>(nameof(LocationService),
             nameof(SuggestLocations), QueryResultsMaxSizeLimit, cancellationToken, url, location, text,
@@ -80,9 +51,13 @@ public class LocationService(
     ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
     /// </summary>
     /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
-    public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses)
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses,
+        CancellationToken cancellationToken = default)
     {
-        return await AddressesToLocations(ESRIGeoLocationUrl, addresses);
+        return await AddressesToLocations(ESRIGeoLocationUrl, addresses, cancellationToken);
     }
 
     /// <summary>
@@ -95,9 +70,14 @@ public class LocationService(
     ///     Limits the results to only search in the country provided. For example US for United States or SE for Sweden. Only
     ///     applies to the World Geocode Service. See the World Geocoding Service documentation for more information.
     /// </param>
-    public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses, string? countryCode)
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses, string? countryCode,
+        CancellationToken cancellationToken = default)
     {
-        return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode);
+        return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode,
+            cancellationToken);
     }
 
     /// <summary>
@@ -114,10 +94,14 @@ public class LocationService(
     ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
     ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses, string? countryCode,
-        List<string>? categories)
+        List<string>? categories, CancellationToken cancellationToken = default)
     {
-        return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode, categories);
+        return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode,
+            categories, cancellationToken);
     }
 
     /// <summary>
@@ -137,10 +121,14 @@ public class LocationService(
     /// <param name="locationType">
     ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses, string? countryCode,
-        List<string>? categories, LocationType? locationType)
+        List<string>? categories, LocationType? locationType, CancellationToken cancellationToken = default)
     {
-        return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode, categories, locationType);
+        return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode, categories,
+            locationType, cancellationToken);
     }
 
     /// <summary>
@@ -165,12 +153,15 @@ public class LocationService(
     ///     reference of the input geometries when performing a reverse geocode and in the default spatial reference returned
     ///     by the service if finding locations by address.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses, string? countryCode,
         List<string>? categories, LocationType? locationType,
-        SpatialReference? outSpatialReference)
+        SpatialReference? outSpatialReference, CancellationToken cancellationToken = default)
     {
         return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode, categories, locationType,
-            outSpatialReference);
+            outSpatialReference, cancellationToken);
     }
 
     /// <summary>
@@ -198,144 +189,177 @@ public class LocationService(
     /// <param name="requestOptions">
     ///     Additional options to be used for the data request
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses, string? countryCode,
         List<string>? categories, LocationType? locationType,
-        SpatialReference? outSpatialReference, RequestOptions? requestOptions)
+        SpatialReference? outSpatialReference, RequestOptions? requestOptions,
+        CancellationToken cancellationToken = default)
     {
         return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode, categories, locationType,
+            outSpatialReference, requestOptions, cancellationToken);
+    }
+
+    /// <summary>
+    ///     Find address candidates for multiple input addresses.
+    ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
+    public Task<List<AddressCandidate>> AddressesToLocations(string url, List<Address> addresses,
+        CancellationToken cancellationToken = default)
+    {
+        return AddressesToLocations(url, addresses, null, null,
+            null, null, null, cancellationToken);
+    }
+
+    /// <summary>
+    ///     Find address candidates for multiple input addresses.
+    ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
+    /// <param name="countryCode">
+    ///     Limits the results to only search in the country provided. For example US for United States or SE for Sweden. Only
+    ///     applies to the World Geocode Service. See the World Geocoding Service documentation for more information.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
+    public Task<List<AddressCandidate>> AddressesToLocations(string url, List<Address> addresses,
+        string? countryCode, CancellationToken cancellationToken = default)
+    {
+        return AddressesToLocations(url, addresses, countryCode, null,
+            null, null, null, cancellationToken);
+    }
+
+    /// <summary>
+    ///     Find address candidates for multiple input addresses.
+    ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
+    /// <param name="countryCode">
+    ///     Limits the results to only search in the country provided. For example US for United States or SE for Sweden. Only
+    ///     applies to the World Geocode Service. See the World Geocoding Service documentation for more information.
+    /// </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
+    public Task<List<AddressCandidate>> AddressesToLocations(string url, List<Address> addresses,
+        string? countryCode, List<string>? categories, CancellationToken cancellationToken = default)
+    {
+        return AddressesToLocations(url, addresses, countryCode, categories,
+            null, null, null, cancellationToken);
+    }
+
+    /// <summary>
+    ///     Find address candidates for multiple input addresses.
+    ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
+    /// <param name="countryCode">
+    ///     Limits the results to only search in the country provided. For example US for United States or SE for Sweden. Only
+    ///     applies to the World Geocode Service. See the World Geocoding Service documentation for more information.
+    /// </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
+    public Task<List<AddressCandidate>> AddressesToLocations(string url, List<Address> addresses,
+        string? countryCode, List<string>? categories, LocationType? locationType,
+        CancellationToken cancellationToken = default)
+    {
+        return AddressesToLocations(url, addresses, countryCode, categories, locationType,
+            null, null, cancellationToken);
+    }
+
+    /// <summary>
+    ///     Find address candidates for multiple input addresses.
+    ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
+    /// <param name="countryCode">
+    ///     Limits the results to only search in the country provided. For example US for United States or SE for Sweden. Only
+    ///     applies to the World Geocode Service. See the World Geocoding Service documentation for more information.
+    /// </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
+    /// </param>
+    /// <param name="outSpatialReference">
+    ///     The spatial reference of the output geometries. If not specified, the output geometries are in the spatial
+    ///     reference of the input geometries when performing a reverse geocode and in the default spatial reference returned
+    ///     by the service if finding locations by address.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
+    public Task<List<AddressCandidate>> AddressesToLocations(string url, List<Address> addresses,
+        string? countryCode, List<string>? categories, LocationType? locationType,
+        SpatialReference? outSpatialReference, CancellationToken cancellationToken = default)
+    {
+        return AddressesToLocations(url, addresses, countryCode, categories, locationType,
+            outSpatialReference, null, cancellationToken);
+    }
+
+    /// <summary>
+    ///     Find address candidates for multiple input addresses.
+    ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
+    /// <param name="countryCode">
+    ///     Limits the results to only search in the country provided. For example US for United States or SE for Sweden. Only
+    ///     applies to the World Geocode Service. See the World Geocoding Service documentation for more information.
+    /// </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
+    /// </param>
+    /// <param name="outSpatialReference">
+    ///     The spatial reference of the output geometries. If not specified, the output geometries are in the spatial
+    ///     reference of the input geometries when performing a reverse geocode and in the default spatial reference returned
+    ///     by the service if finding locations by address.
+    /// </param>
+    /// <param name="requestOptions">
+    ///     Additional options to be used for the data request
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
+    [SerializedMethod]
+    public async Task<List<AddressCandidate>> AddressesToLocations(string url, List<Address> addresses,
+        string? countryCode, List<string>? categories, LocationType? locationType,
+        SpatialReference? outSpatialReference, RequestOptions? requestOptions,
+        CancellationToken cancellationToken = default)
+    {
+        return await InvokeAsync<List<AddressCandidate>>(nameof(LocationService),
+            nameof(AddressesToLocations), QueryResultsMaxSizeLimit, cancellationToken, url,
+            addresses, countryCode, categories, locationType,
             outSpatialReference, requestOptions);
-    }
-
-    /// <summary>
-    ///     Find address candidates for multiple input addresses.
-    ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
-    /// </summary>
-    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
-    /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
-    public Task<List<AddressCandidate>> AddressesToLocations(string url, List<Address> addresses)
-    {
-        return AddressesToLocations(url, addresses, null, null, null, null, null);
-    }
-
-    /// <summary>
-    ///     Find address candidates for multiple input addresses.
-    ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
-    /// </summary>
-    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
-    /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
-    /// <param name="countryCode">
-    ///     Limits the results to only search in the country provided. For example US for United States or SE for Sweden. Only
-    ///     applies to the World Geocode Service. See the World Geocoding Service documentation for more information.
-    /// </param>
-    public Task<List<AddressCandidate>> AddressesToLocations(string url, List<Address> addresses,
-        string? countryCode)
-    {
-        return AddressesToLocations(url, addresses, countryCode, null, null, null, null);
-    }
-
-    /// <summary>
-    ///     Find address candidates for multiple input addresses.
-    ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
-    /// </summary>
-    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
-    /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
-    /// <param name="countryCode">
-    ///     Limits the results to only search in the country provided. For example US for United States or SE for Sweden. Only
-    ///     applies to the World Geocode Service. See the World Geocoding Service documentation for more information.
-    /// </param>
-    /// <param name="categories">
-    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
-    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
-    /// </param>
-    public Task<List<AddressCandidate>> AddressesToLocations(string url, List<Address> addresses,
-        string? countryCode, List<string>? categories)
-    {
-        return AddressesToLocations(url, addresses, countryCode, categories, null, null, null);
-    }
-
-    /// <summary>
-    ///     Find address candidates for multiple input addresses.
-    ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
-    /// </summary>
-    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
-    /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
-    /// <param name="countryCode">
-    ///     Limits the results to only search in the country provided. For example US for United States or SE for Sweden. Only
-    ///     applies to the World Geocode Service. See the World Geocoding Service documentation for more information.
-    /// </param>
-    /// <param name="categories">
-    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
-    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
-    /// </param>
-    /// <param name="locationType">
-    ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
-    /// </param>
-    public Task<List<AddressCandidate>> AddressesToLocations(string url, List<Address> addresses,
-        string? countryCode, List<string>? categories, LocationType? locationType)
-    {
-        return AddressesToLocations(url, addresses, countryCode, categories, locationType, null, null);
-    }
-
-    /// <summary>
-    ///     Find address candidates for multiple input addresses.
-    ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
-    /// </summary>
-    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
-    /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
-    /// <param name="countryCode">
-    ///     Limits the results to only search in the country provided. For example US for United States or SE for Sweden. Only
-    ///     applies to the World Geocode Service. See the World Geocoding Service documentation for more information.
-    /// </param>
-    /// <param name="categories">
-    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
-    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
-    /// </param>
-    /// <param name="locationType">
-    ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
-    /// </param>
-    /// <param name="outSpatialReference">
-    ///     The spatial reference of the output geometries. If not specified, the output geometries are in the spatial
-    ///     reference of the input geometries when performing a reverse geocode and in the default spatial reference returned
-    ///     by the service if finding locations by address.
-    /// </param>
-    public Task<List<AddressCandidate>> AddressesToLocations(string url, List<Address> addresses,
-        string? countryCode, List<string>? categories, LocationType? locationType,
-        SpatialReference? outSpatialReference)
-    {
-        return AddressesToLocations(url, addresses, countryCode, categories, locationType, outSpatialReference, null);
-    }
-
-    /// <summary>
-    ///     Find address candidates for multiple input addresses.
-    ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
-    /// </summary>
-    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
-    /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
-    /// <param name="countryCode">
-    ///     Limits the results to only search in the country provided. For example US for United States or SE for Sweden. Only
-    ///     applies to the World Geocode Service. See the World Geocoding Service documentation for more information.
-    /// </param>
-    /// <param name="categories">
-    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
-    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
-    /// </param>
-    /// <param name="locationType">
-    ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
-    /// </param>
-    /// <param name="outSpatialReference">
-    ///     The spatial reference of the output geometries. If not specified, the output geometries are in the spatial
-    ///     reference of the input geometries when performing a reverse geocode and in the default spatial reference returned
-    ///     by the service if finding locations by address.
-    /// </param>
-    /// <param name="requestOptions">
-    ///     Additional options to be used for the data request
-    /// </param>
-    public Task<List<AddressCandidate>> AddressesToLocations(string url, List<Address> addresses,
-        string? countryCode, List<string>? categories, LocationType? locationType,
-        SpatialReference? outSpatialReference, RequestOptions? requestOptions)
-    {
-        return AddressesToLocationsImplementation(url, addresses, countryCode, categories, locationType,
-            outSpatialReference, requestOptions, null);
     }
 
 #endregion
@@ -349,9 +373,13 @@ public class LocationService(
     ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
     /// </summary>
     /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
-    public async Task<List<AddressCandidate>> AddressesToLocations(List<string> addresses)
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressesToLocations(List<string> addresses,
+        CancellationToken cancellationToken = default)
     {
-        return await AddressesToLocations(ESRIGeoLocationUrl, addresses);
+        return await AddressesToLocations(ESRIGeoLocationUrl, addresses, cancellationToken);
     }
 
     /// <summary>
@@ -364,9 +392,13 @@ public class LocationService(
     ///     Limits the results to only search in the country provided. For example US for United States or SE for Sweden. Only
     ///     applies to the World Geocode Service. See the World Geocoding Service documentation for more information.
     /// </param>
-    public async Task<List<AddressCandidate>> AddressesToLocations(List<string> addresses, string? countryCode)
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressesToLocations(List<string> addresses, string? countryCode,
+        CancellationToken cancellationToken = default)
     {
-        return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode);
+        return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode, cancellationToken);
     }
 
     /// <summary>
@@ -383,10 +415,13 @@ public class LocationService(
     ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
     ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressesToLocations(List<string> addresses, string? countryCode,
-        List<string>? categories)
+        List<string>? categories, CancellationToken cancellationToken = default)
     {
-        return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode, categories);
+        return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode, categories, cancellationToken);
     }
 
     /// <summary>
@@ -406,10 +441,14 @@ public class LocationService(
     /// <param name="locationType">
     ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressesToLocations(List<string> addresses, string? countryCode,
-        List<string>? categories, LocationType? locationType)
+        List<string>? categories, LocationType? locationType, CancellationToken cancellationToken = default)
     {
-        return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode, categories, locationType);
+        return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode, categories, locationType,
+            cancellationToken);
     }
 
     /// <summary>
@@ -434,12 +473,15 @@ public class LocationService(
     ///     reference of the input geometries when performing a reverse geocode and in the default spatial reference returned
     ///     by the service if finding locations by address.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressesToLocations(List<string> addresses, string? countryCode,
         List<string>? categories, LocationType? locationType,
-        SpatialReference? outSpatialReference)
+        SpatialReference? outSpatialReference, CancellationToken cancellationToken = default)
     {
         return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode, categories, locationType,
-            outSpatialReference);
+            outSpatialReference, cancellationToken);
     }
 
     /// <summary>
@@ -467,12 +509,16 @@ public class LocationService(
     /// <param name="requestOptions">
     ///     Additional options to be used for the data request
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressesToLocations(List<string> addresses, string? countryCode,
         List<string>? categories, LocationType? locationType,
-        SpatialReference? outSpatialReference, RequestOptions? requestOptions)
+        SpatialReference? outSpatialReference, RequestOptions? requestOptions,
+        CancellationToken cancellationToken = default)
     {
         return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode, categories, locationType,
-            outSpatialReference, requestOptions);
+            outSpatialReference, requestOptions, cancellationToken);
     }
 
     /// <summary>
@@ -503,12 +549,16 @@ public class LocationService(
     /// <param name="addressSearchStringParameterName">
     ///     The name of the single line address field for the ArcGIS Locator Service (for ArcGIS 10+), defaults to 'address'.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressesToLocations(List<string> addresses, string? countryCode,
         List<string>? categories, LocationType? locationType,
-        SpatialReference? outSpatialReference, RequestOptions? requestOptions, string? addressSearchStringParameterName)
+        SpatialReference? outSpatialReference, RequestOptions? requestOptions,
+        string? addressSearchStringParameterName, CancellationToken cancellationToken = default)
     {
         return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode, categories, locationType,
-            outSpatialReference, requestOptions, addressSearchStringParameterName);
+            outSpatialReference, requestOptions, addressSearchStringParameterName, cancellationToken);
     }
 
     /// <summary>
@@ -517,9 +567,15 @@ public class LocationService(
     /// </summary>
     /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
     /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
-    public Task<List<AddressCandidate>> AddressesToLocations(string url, List<string> addresses)
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
+    public Task<List<AddressCandidate>> AddressesToLocations(string url, List<string> addresses,
+        CancellationToken cancellationToken = default)
     {
-        return AddressesToLocations(url, addresses, null, null, null, null, null, null);
+        return AddressesToLocations(url, addresses, null, null,
+            null, null, null, null,
+            cancellationToken);
     }
 
     /// <summary>
@@ -532,10 +588,15 @@ public class LocationService(
     ///     Limits the results to only search in the country provided. For example US for United States or SE for Sweden. Only
     ///     applies to the World Geocode Service. See the World Geocoding Service documentation for more information.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public Task<List<AddressCandidate>> AddressesToLocations(string url, List<string> addresses,
-        string? countryCode)
+        string? countryCode, CancellationToken cancellationToken = default)
     {
-        return AddressesToLocations(url, addresses, countryCode, null, null, null, null, null);
+        return AddressesToLocations(url, addresses, countryCode, null,
+            null, null, null, null,
+            cancellationToken);
     }
 
     /// <summary>
@@ -552,10 +613,15 @@ public class LocationService(
     ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
     ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public Task<List<AddressCandidate>> AddressesToLocations(string url, List<string> addresses,
-        string? countryCode, List<string>? categories)
+        string? countryCode, List<string>? categories, CancellationToken cancellationToken = default)
     {
-        return AddressesToLocations(url, addresses, countryCode, categories, null, null, null, null);
+        return AddressesToLocations(url, addresses, countryCode, categories,
+            null, null, null, null,
+            cancellationToken);
     }
 
     /// <summary>
@@ -575,10 +641,15 @@ public class LocationService(
     /// <param name="locationType">
     ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public Task<List<AddressCandidate>> AddressesToLocations(string url, List<string> addresses,
-        string? countryCode, List<string>? categories, LocationType? locationType)
+        string? countryCode, List<string>? categories, LocationType? locationType,
+        CancellationToken cancellationToken = default)
     {
-        return AddressesToLocations(url, addresses, countryCode, categories, locationType, null, null, null);
+        return AddressesToLocations(url, addresses, countryCode, categories, locationType,
+            null, null, null, cancellationToken);
     }
 
     /// <summary>
@@ -603,45 +674,15 @@ public class LocationService(
     ///     reference of the input geometries when performing a reverse geocode and in the default spatial reference returned
     ///     by the service if finding locations by address.
     /// </param>
-    public Task<List<AddressCandidate>> AddressesToLocations(string url, List<string> addresses,
-        string? countryCode, List<string>? categories, LocationType? locationType,
-        SpatialReference? outSpatialReference)
-    {
-        return AddressesToLocations(url, addresses, countryCode, categories, locationType, outSpatialReference, null,
-            null);
-    }
-
-    /// <summary>
-    ///     Find address candidates for multiple input addresses.
-    ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
-    /// </summary>
-    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
-    /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
-    /// <param name="countryCode">
-    ///     Limits the results to only search in the country provided. For example US for United States or SE for Sweden. Only
-    ///     applies to the World Geocode Service. See the World Geocoding Service documentation for more information.
-    /// </param>
-    /// <param name="categories">
-    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
-    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
-    /// </param>
-    /// <param name="locationType">
-    ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
-    /// </param>
-    /// <param name="outSpatialReference">
-    ///     The spatial reference of the output geometries. If not specified, the output geometries are in the spatial
-    ///     reference of the input geometries when performing a reverse geocode and in the default spatial reference returned
-    ///     by the service if finding locations by address.
-    /// </param>
-    /// <param name="requestOptions">
-    ///     Additional options to be used for the data request
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
     /// </param>
     public Task<List<AddressCandidate>> AddressesToLocations(string url, List<string> addresses,
         string? countryCode, List<string>? categories, LocationType? locationType,
-        SpatialReference? outSpatialReference, RequestOptions? requestOptions)
+        SpatialReference? outSpatialReference, CancellationToken cancellationToken = default)
     {
         return AddressesToLocations(url, addresses, countryCode, categories, locationType, outSpatialReference,
-            requestOptions, null);
+            null, null, cancellationToken);
     }
 
     /// <summary>
@@ -669,15 +710,58 @@ public class LocationService(
     /// <param name="requestOptions">
     ///     Additional options to be used for the data request
     /// </param>
-    /// <param name="addressSearchStringParameterName">
-    ///     The name of the single line address field for the ArcGIS Locator Service (for ArcGIS 10+), defaults to 'address'.
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
     /// </param>
     public Task<List<AddressCandidate>> AddressesToLocations(string url, List<string> addresses,
         string? countryCode, List<string>? categories, LocationType? locationType,
         SpatialReference? outSpatialReference, RequestOptions? requestOptions,
-        string? addressSearchStringParameterName)
+        CancellationToken cancellationToken = default)
     {
-        return AddressesToLocationsImplementation(url, addresses, countryCode, categories, locationType,
+        return AddressesToLocations(url, addresses, countryCode, categories, locationType, outSpatialReference,
+            requestOptions, null, cancellationToken);
+    }
+
+    /// <summary>
+    ///     Find address candidates for multiple input addresses.
+    ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
+    /// <param name="countryCode">
+    ///     Limits the results to only search in the country provided. For example US for United States or SE for Sweden. Only
+    ///     applies to the World Geocode Service. See the World Geocoding Service documentation for more information.
+    /// </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
+    /// </param>
+    /// <param name="outSpatialReference">
+    ///     The spatial reference of the output geometries. If not specified, the output geometries are in the spatial
+    ///     reference of the input geometries when performing a reverse geocode and in the default spatial reference returned
+    ///     by the service if finding locations by address.
+    /// </param>
+    /// <param name="requestOptions">
+    ///     Additional options to be used for the data request
+    /// </param>
+    /// <param name="addressSearchStringParameterName">
+    ///     The name of the single line address field for the ArcGIS Locator Service (for ArcGIS 10+), defaults to 'address'.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
+    [SerializedMethod]
+    public async Task<List<AddressCandidate>> AddressesToLocations(string url, List<string> addresses,
+        string? countryCode, List<string>? categories, LocationType? locationType,
+        SpatialReference? outSpatialReference, RequestOptions? requestOptions,
+        string? addressSearchStringParameterName, CancellationToken cancellationToken = default)
+    {
+        return await InvokeAsync<List<AddressCandidate>>(nameof(LocationService),
+            nameof(AddressesToLocations), QueryResultsMaxSizeLimit, cancellationToken, url,
+            addresses, countryCode, categories, locationType,
             outSpatialReference, requestOptions, addressSearchStringParameterName);
     }
 
@@ -692,9 +776,13 @@ public class LocationService(
     ///     Uses the default ESRI geolocation service.
     /// </summary>
     /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
-    public Task<List<AddressCandidate>> AddressToLocations(Address address)
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
+    public Task<List<AddressCandidate>> AddressToLocations(Address address,
+        CancellationToken cancellationToken = default)
     {
-        return AddressToLocations(ESRIGeoLocationUrl, address);
+        return AddressToLocations(ESRIGeoLocationUrl, address, cancellationToken);
     }
 
     /// <summary>
@@ -707,9 +795,13 @@ public class LocationService(
     ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
     ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
     /// </param>
-    public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories)
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
+        CancellationToken cancellationToken = default)
     {
-        return await AddressToLocations(ESRIGeoLocationUrl, address, categories);
+        return await AddressToLocations(ESRIGeoLocationUrl, address, categories, cancellationToken);
     }
 
     /// <summary>
@@ -726,10 +818,14 @@ public class LocationService(
     ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
     ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
-        string? countryCode)
+        string? countryCode, CancellationToken cancellationToken = default)
     {
-        return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode);
+        return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode,
+            cancellationToken);
     }
 
     /// <summary>
@@ -747,10 +843,14 @@ public class LocationService(
     ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
     /// </param>
     /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
-        string? countryCode, bool? forStorage)
+        string? countryCode, bool? forStorage, CancellationToken cancellationToken = default)
     {
-        return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage);
+        return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode,
+            forStorage, cancellationToken);
     }
 
     /// <summary>
@@ -769,10 +869,14 @@ public class LocationService(
     /// </param>
     /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
     /// <param name="location">Used to weight returned results for a specified area.</param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
-        string? countryCode, bool? forStorage, Point? location)
+        string? countryCode, bool? forStorage, Point? location, CancellationToken cancellationToken = default)
     {
-        return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location);
+        return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage,
+            location, cancellationToken);
     }
 
     /// <summary>
@@ -794,11 +898,15 @@ public class LocationService(
     /// <param name="locationType">
     ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
-        string? countryCode, bool? forStorage, Point? location, LocationType? locationType)
+        string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
+        CancellationToken cancellationToken = default)
     {
         return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location,
-            locationType);
+            locationType, cancellationToken);
     }
 
     /// <summary>
@@ -821,12 +929,15 @@ public class LocationService(
     ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
     /// </param>
     /// <param name="magicKey">A suggestLocations result ID (magicKey). Used to query for a specific results information.</param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
-        string? magicKey)
+        string? magicKey, CancellationToken cancellationToken = default)
     {
         return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location,
-            locationType, magicKey);
+            locationType, magicKey, cancellationToken);
     }
 
     /// <summary>
@@ -850,12 +961,15 @@ public class LocationService(
     /// </param>
     /// <param name="magicKey">A suggestLocations result ID (magicKey). Used to query for a specific results information.</param>
     /// <param name="maxLocations">Maximum results to return from the query.</param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
-        string? magicKey, int? maxLocations)
+        string? magicKey, int? maxLocations, CancellationToken cancellationToken = default)
     {
         return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location,
-            locationType, magicKey, maxLocations);
+            locationType, magicKey, maxLocations, cancellationToken);
     }
 
     /// <summary>
@@ -885,12 +999,15 @@ public class LocationService(
     ///     the candidate fields as defined in the geocode service. For intersection addresses you can specify the intersection
     ///     candidate fields.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
-        string? magicKey, int? maxLocations, List<string>? outFields)
+        string? magicKey, int? maxLocations, List<string>? outFields, CancellationToken cancellationToken = default)
     {
         return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location,
-            locationType, magicKey, maxLocations, outFields);
+            locationType, magicKey, maxLocations, outFields, cancellationToken);
     }
 
     /// <summary>
@@ -925,13 +1042,16 @@ public class LocationService(
     ///     reference of the input geometries when performing a reverse geocode and in the default spatial reference returned
     ///     by the service if finding locations by address.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
         string? magicKey, int? maxLocations, List<string>? outFields,
-        SpatialReference? outSpatialReference)
+        SpatialReference? outSpatialReference, CancellationToken cancellationToken = default)
     {
         return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location,
-            locationType, magicKey, maxLocations, outFields, outSpatialReference);
+            locationType, magicKey, maxLocations, outFields, outSpatialReference, cancellationToken);
     }
 
     /// <summary>
@@ -969,13 +1089,17 @@ public class LocationService(
     /// <param name="searchExtent">
     ///     Defines the extent within which the geocode server will search. Requires ArcGIS Server version 10.1 or greater.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
         string? magicKey, int? maxLocations, List<string>? outFields,
-        SpatialReference? outSpatialReference, Extent? searchExtent)
+        SpatialReference? outSpatialReference, Extent? searchExtent, CancellationToken cancellationToken = default)
     {
         return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location,
-            locationType, magicKey, maxLocations, outFields, outSpatialReference, searchExtent);
+            locationType, magicKey, maxLocations, outFields, outSpatialReference, searchExtent,
+            cancellationToken);
     }
 
     /// <summary>
@@ -1016,14 +1140,18 @@ public class LocationService(
     /// <param name="requestOptions">
     ///     Additional options to be used for the data request
     /// </param>
-    public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories = null,
-        string? countryCode = null, bool? forStorage = null, Point? location = null, LocationType? locationType = null,
-        string? magicKey = null, int? maxLocations = null, List<string>? outFields = null,
-        SpatialReference? outSpatialReference = null, Extent? searchExtent = null,
-        RequestOptions? requestOptions = null)
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
+        string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
+        string? magicKey, int? maxLocations, List<string>? outFields,
+        SpatialReference? outSpatialReference, Extent? searchExtent,
+        RequestOptions? requestOptions, CancellationToken cancellationToken = default)
     {
         return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location,
-            locationType, magicKey, maxLocations, outFields, outSpatialReference, searchExtent, requestOptions);
+            locationType, magicKey, maxLocations, outFields, outSpatialReference, searchExtent, requestOptions,
+            cancellationToken);
     }
 
     /// <summary>
@@ -1032,10 +1160,15 @@ public class LocationService(
     /// </summary>
     /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
     /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
-    public Task<List<AddressCandidate>> AddressToLocations(string url, Address address)
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
+    public Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
+        CancellationToken cancellationToken = default)
     {
         return AddressToLocations(url, address, null, null, null,
-            null, null, null, null, null, null, null, null);
+            null, null, null, null, null,
+            null, null, null, cancellationToken);
     }
 
     /// <summary>
@@ -1048,11 +1181,16 @@ public class LocationService(
     ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
     ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
-        List<string>? categories)
+        List<string>? categories, CancellationToken cancellationToken = default)
     {
         return AddressToLocations(url, address, categories, null, null,
-            null, null, null, null, null, null, null, null);
+            null, null, null, null,
+            null, null, null, null,
+            cancellationToken);
     }
 
     /// <summary>
@@ -1069,11 +1207,16 @@ public class LocationService(
     ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
     ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
-        List<string>? categories, string? countryCode)
+        List<string>? categories, string? countryCode, CancellationToken cancellationToken = default)
     {
         return AddressToLocations(url, address, categories, countryCode, null,
-            null, null, null, null, null, null, null, null);
+            null, null, null, null,
+            null, null, null, null,
+            cancellationToken);
     }
 
     /// <summary>
@@ -1091,11 +1234,16 @@ public class LocationService(
     ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
     /// </param>
     /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
-        List<string>? categories, string? countryCode, bool? forStorage)
+        List<string>? categories, string? countryCode, bool? forStorage, CancellationToken cancellationToken = default)
     {
         return AddressToLocations(url, address, categories, countryCode, forStorage,
-            null, null, null, null, null, null, null, null);
+            null, null, null, null,
+            null, null, null, null,
+            cancellationToken);
     }
 
     /// <summary>
@@ -1114,11 +1262,17 @@ public class LocationService(
     /// </param>
     /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
     /// <param name="location">Used to weight returned results for a specified area.</param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
-        List<string>? categories, string? countryCode, bool? forStorage, Point? location)
+        List<string>? categories, string? countryCode, bool? forStorage, Point? location,
+        CancellationToken cancellationToken = default)
     {
         return AddressToLocations(url, address, categories, countryCode, forStorage,
-            location, null, null, null, null, null, null, null);
+            location, null, null, null,
+            null, null, null, null,
+            cancellationToken);
     }
 
     /// <summary>
@@ -1140,40 +1294,16 @@ public class LocationService(
     /// <param name="locationType">
     ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
         List<string>? categories, string? countryCode, bool? forStorage, Point? location,
-        LocationType? locationType)
+        LocationType? locationType, CancellationToken cancellationToken = default)
     {
         return AddressToLocations(url, address, categories, countryCode, forStorage,
-            location, locationType, null, null, null, null, null, null);
-    }
-
-    /// <summary>
-    ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the
-    ///     address parameter.
-    /// </summary>
-    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
-    /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
-    /// <param name="categories">
-    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
-    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
-    /// </param>
-    /// <param name="countryCode">
-    ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
-    ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
-    /// </param>
-    /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
-    /// <param name="location">Used to weight returned results for a specified area.</param>
-    /// <param name="locationType">
-    ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
-    /// </param>
-    /// <param name="magicKey">A suggestLocations result ID (magicKey). Used to query for a specific results information.</param>
-    public Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
-        List<string>? categories, string? countryCode, bool? forStorage, Point? location,
-        LocationType? locationType, string? magicKey)
-    {
-        return AddressToLocations(url, address, categories, countryCode, forStorage,
-            location, locationType, magicKey, null, null, null, null, null);
+            location, locationType, null, null, null,
+            null, null, null, cancellationToken);
     }
 
     /// <summary>
@@ -1196,13 +1326,16 @@ public class LocationService(
     ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
     /// </param>
     /// <param name="magicKey">A suggestLocations result ID (magicKey). Used to query for a specific results information.</param>
-    /// <param name="maxLocations">Maximum results to return from the query.</param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
         List<string>? categories, string? countryCode, bool? forStorage, Point? location,
-        LocationType? locationType, string? magicKey, int? maxLocations)
+        LocationType? locationType, string? magicKey, CancellationToken cancellationToken = default)
     {
         return AddressToLocations(url, address, categories, countryCode, forStorage,
-            location, locationType, magicKey, maxLocations, null, null, null, null);
+            location, locationType, magicKey, null, null,
+            null, null, null, cancellationToken);
     }
 
     /// <summary>
@@ -1226,19 +1359,16 @@ public class LocationService(
     /// </param>
     /// <param name="magicKey">A suggestLocations result ID (magicKey). Used to query for a specific results information.</param>
     /// <param name="maxLocations">Maximum results to return from the query.</param>
-    /// <param name="outFields">
-    ///     The list of fields included in the returned result set. This list is a comma delimited list of field names. If you
-    ///     specify the shape field in the list of return fields, it is ignored. For non-intersection addresses you can specify
-    ///     the candidate fields as defined in the geocode service. For intersection addresses you can specify the intersection
-    ///     candidate fields.
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
     /// </param>
     public Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
         List<string>? categories, string? countryCode, bool? forStorage, Point? location,
-        LocationType? locationType, string? magicKey, int? maxLocations,
-        List<string>? outFields)
+        LocationType? locationType, string? magicKey, int? maxLocations, CancellationToken cancellationToken = default)
     {
         return AddressToLocations(url, address, categories, countryCode, forStorage,
-            location, locationType, magicKey, maxLocations, outFields, null, null, null);
+            location, locationType, magicKey, maxLocations, null,
+            null, null, null, cancellationToken);
     }
 
     /// <summary>
@@ -1268,18 +1398,17 @@ public class LocationService(
     ///     the candidate fields as defined in the geocode service. For intersection addresses you can specify the intersection
     ///     candidate fields.
     /// </param>
-    /// <param name="outSpatialReference">
-    ///     The spatial reference of the output geometries. If not specified, the output geometries are in the spatial
-    ///     reference of the input geometries when performing a reverse geocode and in the default spatial reference returned
-    ///     by the service if finding locations by address.
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
     /// </param>
     public Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
         List<string>? categories, string? countryCode, bool? forStorage, Point? location,
         LocationType? locationType, string? magicKey, int? maxLocations,
-        List<string>? outFields, SpatialReference? outSpatialReference)
+        List<string>? outFields, CancellationToken cancellationToken = default)
     {
         return AddressToLocations(url, address, categories, countryCode, forStorage,
-            location, locationType, magicKey, maxLocations, outFields, outSpatialReference, null, null);
+            location, locationType, magicKey, maxLocations, outFields,
+            null, null, null, cancellationToken);
     }
 
     /// <summary>
@@ -1314,17 +1443,66 @@ public class LocationService(
     ///     reference of the input geometries when performing a reverse geocode and in the default spatial reference returned
     ///     by the service if finding locations by address.
     /// </param>
-    /// <param name="searchExtent">
-    ///     Defines the extent within which the geocode server will search. Requires ArcGIS Server version 10.1 or greater.
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
     /// </param>
     public Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
         List<string>? categories, string? countryCode, bool? forStorage, Point? location,
         LocationType? locationType, string? magicKey, int? maxLocations,
-        List<string>? outFields, SpatialReference? outSpatialReference, Extent? searchExtent)
+        List<string>? outFields, SpatialReference? outSpatialReference, CancellationToken cancellationToken = default)
     {
         return AddressToLocations(url, address, categories, countryCode, forStorage,
             location, locationType, magicKey, maxLocations, outFields, outSpatialReference,
-            searchExtent, null);
+            null, null, cancellationToken);
+    }
+
+    /// <summary>
+    ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the
+    ///     address parameter.
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="countryCode">
+    ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
+    ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
+    /// <param name="location">Used to weight returned results for a specified area.</param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
+    /// </param>
+    /// <param name="magicKey">A suggestLocations result ID (magicKey). Used to query for a specific results information.</param>
+    /// <param name="maxLocations">Maximum results to return from the query.</param>
+    /// <param name="outFields">
+    ///     The list of fields included in the returned result set. This list is a comma delimited list of field names. If you
+    ///     specify the shape field in the list of return fields, it is ignored. For non-intersection addresses you can specify
+    ///     the candidate fields as defined in the geocode service. For intersection addresses you can specify the intersection
+    ///     candidate fields.
+    /// </param>
+    /// <param name="outSpatialReference">
+    ///     The spatial reference of the output geometries. If not specified, the output geometries are in the spatial
+    ///     reference of the input geometries when performing a reverse geocode and in the default spatial reference returned
+    ///     by the service if finding locations by address.
+    /// </param>
+    /// <param name="searchExtent">
+    ///     Defines the extent within which the geocode server will search. Requires ArcGIS Server version 10.1 or greater.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
+    public Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
+        List<string>? categories, string? countryCode, bool? forStorage, Point? location,
+        LocationType? locationType, string? magicKey, int? maxLocations,
+        List<string>? outFields, SpatialReference? outSpatialReference, Extent? searchExtent,
+        CancellationToken cancellationToken = default)
+    {
+        return AddressToLocations(url, address, categories, countryCode, forStorage,
+            location, locationType, magicKey, maxLocations, outFields, outSpatialReference,
+            searchExtent, null, cancellationToken);
     }
 
     /// <summary>
@@ -1365,17 +1543,20 @@ public class LocationService(
     /// <param name="requestOptions">
     ///     Additional options to be used for the data request
     /// </param>
-#pragma warning disable RS0026 // Do not add multiple public overloads with optional parameters
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
+    [SerializedMethod]
     public async Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
-#pragma warning restore RS0026 // Do not add multiple public overloads with optional parameters
         List<string>? categories, string? countryCode, bool? forStorage, Point? location,
         LocationType? locationType, string? magicKey, int? maxLocations,
         List<string>? outFields, SpatialReference? outSpatialReference, Extent? searchExtent,
-        RequestOptions? requestOptions)
+        RequestOptions? requestOptions, CancellationToken cancellationToken = default)
     {
-        return await AddressToLocationsImplementation(url, address, categories, countryCode, forStorage, location,
-            locationType, magicKey, maxLocations,
-            outFields, outSpatialReference, searchExtent, requestOptions);
+        return await InvokeAsync<List<AddressCandidate>>(nameof(LocationService),
+            nameof(AddressToLocations), QueryResultsMaxSizeLimit, cancellationToken, url, address,
+            categories, countryCode, forStorage, location, locationType, magicKey,
+            maxLocations, outFields, outSpatialReference, searchExtent, requestOptions);
     }
 
 #endregion
@@ -1389,9 +1570,13 @@ public class LocationService(
     ///     Uses the default ESRI geolocation service.
     /// </summary>
     /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
-    public Task<List<AddressCandidate>> AddressToLocations(string address)
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
+    public Task<List<AddressCandidate>> AddressToLocations(string address,
+        CancellationToken cancellationToken = default)
     {
-        return AddressToLocations(ESRIGeoLocationUrl, address);
+        return AddressToLocations(ESRIGeoLocationUrl, address, cancellationToken);
     }
 
     /// <summary>
@@ -1404,9 +1589,13 @@ public class LocationService(
     ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
     ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
     /// </param>
-    public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories)
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories,
+        CancellationToken cancellationToken = default)
     {
-        return await AddressToLocations(ESRIGeoLocationUrl, address, categories);
+        return await AddressToLocations(ESRIGeoLocationUrl, address, categories, cancellationToken);
     }
 
     /// <summary>
@@ -1423,10 +1612,13 @@ public class LocationService(
     ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
     ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories,
-        string? countryCode)
+        string? countryCode, CancellationToken cancellationToken = default)
     {
-        return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode);
+        return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, cancellationToken);
     }
 
     /// <summary>
@@ -1444,10 +1636,14 @@ public class LocationService(
     ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
     /// </param>
     /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories,
-        string? countryCode, bool? forStorage)
+        string? countryCode, bool? forStorage, CancellationToken cancellationToken = default)
     {
-        return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage);
+        return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage,
+            cancellationToken);
     }
 
     /// <summary>
@@ -1466,10 +1662,14 @@ public class LocationService(
     /// </param>
     /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
     /// <param name="location">Used to weight returned results for a specified area.</param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories,
-        string? countryCode, bool? forStorage, Point? location)
+        string? countryCode, bool? forStorage, Point? location, CancellationToken cancellationToken = default)
     {
-        return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location);
+        return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage,
+            location, cancellationToken);
     }
 
     /// <summary>
@@ -1491,11 +1691,15 @@ public class LocationService(
     /// <param name="locationType">
     ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories,
-        string? countryCode, bool? forStorage, Point? location, LocationType? locationType)
+        string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
+        CancellationToken cancellationToken = default)
     {
         return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location,
-            locationType);
+            locationType, cancellationToken);
     }
 
     /// <summary>
@@ -1518,12 +1722,15 @@ public class LocationService(
     ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
     /// </param>
     /// <param name="magicKey">A suggestLocations result ID (magicKey). Used to query for a specific results information.</param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
-        string? magicKey)
+        string? magicKey, CancellationToken cancellationToken = default)
     {
         return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location,
-            locationType, magicKey);
+            locationType, magicKey, cancellationToken);
     }
 
     /// <summary>
@@ -1547,12 +1754,15 @@ public class LocationService(
     /// </param>
     /// <param name="magicKey">A suggestLocations result ID (magicKey). Used to query for a specific results information.</param>
     /// <param name="maxLocations">Maximum results to return from the query.</param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
-        string? magicKey, int? maxLocations)
+        string? magicKey, int? maxLocations, CancellationToken cancellationToken = default)
     {
         return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location,
-            locationType, magicKey, maxLocations);
+            locationType, magicKey, maxLocations, cancellationToken);
     }
 
     /// <summary>
@@ -1582,12 +1792,15 @@ public class LocationService(
     ///     the candidate fields as defined in the geocode service. For intersection addresses you can specify the intersection
     ///     candidate fields.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
-        string? magicKey, int? maxLocations, List<string>? outFields)
+        string? magicKey, int? maxLocations, List<string>? outFields, CancellationToken cancellationToken = default)
     {
         return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location,
-            locationType, magicKey, maxLocations, outFields);
+            locationType, magicKey, maxLocations, outFields, cancellationToken);
     }
 
     /// <summary>
@@ -1622,13 +1835,16 @@ public class LocationService(
     ///     reference of the input geometries when performing a reverse geocode and in the default spatial reference returned
     ///     by the service if finding locations by address.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
         string? magicKey, int? maxLocations, List<string>? outFields,
-        SpatialReference? outSpatialReference)
+        SpatialReference? outSpatialReference, CancellationToken cancellationToken = default)
     {
         return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location,
-            locationType, magicKey, maxLocations, outFields, outSpatialReference);
+            locationType, magicKey, maxLocations, outFields, outSpatialReference, cancellationToken);
     }
 
     /// <summary>
@@ -1666,13 +1882,16 @@ public class LocationService(
     /// <param name="searchExtent">
     ///     Defines the extent within which the geocode server will search. Requires ArcGIS Server version 10.1 or greater.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
         string? magicKey, int? maxLocations, List<string>? outFields,
-        SpatialReference? outSpatialReference, Extent? searchExtent)
+        SpatialReference? outSpatialReference, Extent? searchExtent, CancellationToken cancellationToken = default)
     {
         return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location,
-            locationType, magicKey, maxLocations, outFields, outSpatialReference, searchExtent);
+            locationType, magicKey, maxLocations, outFields, outSpatialReference, searchExtent, cancellationToken);
     }
 
     /// <summary>
@@ -1715,16 +1934,20 @@ public class LocationService(
     /// </param>
     /// <param name="addressSearchStringParameterName">
     ///     The name of the single line address field for the ArcGIS Locator Service (for ArcGIS 10+), defaults to 'address'.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
     /// </param>
     public async Task<List<AddressCandidate>> AddressToLocations(string address, List<string>? categories,
         string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
         string? magicKey, int? maxLocations, List<string>? outFields,
         SpatialReference? outSpatialReference, Extent? searchExtent,
-        RequestOptions? requestOptions, string? addressSearchStringParameterName)
+        RequestOptions? requestOptions, string? addressSearchStringParameterName,
+        CancellationToken cancellationToken = default)
     {
         return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location,
             locationType, magicKey, maxLocations, outFields, outSpatialReference, searchExtent, requestOptions,
-            addressSearchStringParameterName);
+            addressSearchStringParameterName, cancellationToken);
     }
 
     /// <summary>
@@ -1733,10 +1956,16 @@ public class LocationService(
     /// </summary>
     /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
     /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
-    public Task<List<AddressCandidate>> AddressToLocations(string url, string address)
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
+    public Task<List<AddressCandidate>> AddressToLocations(string url, string address,
+        CancellationToken cancellationToken = default)
     {
         return AddressToLocations(url, address, null, null, null,
-            null, null, null, null, null, null, null, null, null);
+            null, null, null, null, null,
+            null, null, null, null,
+            cancellationToken);
     }
 
     /// <summary>
@@ -1749,11 +1978,16 @@ public class LocationService(
     ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
     ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public Task<List<AddressCandidate>> AddressToLocations(string url, string address,
-        List<string>? categories)
+        List<string>? categories, CancellationToken cancellationToken = default)
     {
         return AddressToLocations(url, address, categories, null, null,
-            null, null, null, null, null, null, null, null, null);
+            null, null, null, null, null,
+            null, null, null, null,
+            cancellationToken);
     }
 
     /// <summary>
@@ -1770,11 +2004,16 @@ public class LocationService(
     ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
     ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public Task<List<AddressCandidate>> AddressToLocations(string url, string address,
-        List<string>? categories, string? countryCode)
+        List<string>? categories, string? countryCode, CancellationToken cancellationToken = default)
     {
         return AddressToLocations(url, address, categories, countryCode, null,
-            null, null, null, null, null, null, null, null, null);
+            null, null, null, null, null,
+            null, null, null, null,
+            cancellationToken);
     }
 
     /// <summary>
@@ -1792,11 +2031,16 @@ public class LocationService(
     ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
     /// </param>
     /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public Task<List<AddressCandidate>> AddressToLocations(string url, string address,
-        List<string>? categories, string? countryCode, bool? forStorage)
+        List<string>? categories, string? countryCode, bool? forStorage, CancellationToken cancellationToken = default)
     {
         return AddressToLocations(url, address, categories, countryCode, forStorage,
-            null, null, null, null, null, null, null, null, null);
+            null, null, null, null,
+            null, null, null, null,
+            null, cancellationToken);
     }
 
     /// <summary>
@@ -1815,11 +2059,17 @@ public class LocationService(
     /// </param>
     /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
     /// <param name="location">Used to weight returned results for a specified area.</param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public Task<List<AddressCandidate>> AddressToLocations(string url, string address,
-        List<string>? categories, string? countryCode, bool? forStorage, Point? location)
+        List<string>? categories, string? countryCode, bool? forStorage, Point? location,
+        CancellationToken cancellationToken = default)
     {
         return AddressToLocations(url, address, categories, countryCode, forStorage,
-            location, null, null, null, null, null, null, null, null);
+            location, null, null, null, null,
+            null, null, null, null,
+            cancellationToken);
     }
 
     /// <summary>
@@ -1841,12 +2091,17 @@ public class LocationService(
     /// <param name="locationType">
     ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public Task<List<AddressCandidate>> AddressToLocations(string url, string address,
         List<string>? categories, string? countryCode, bool? forStorage, Point? location,
-        LocationType? locationType)
+        LocationType? locationType, CancellationToken cancellationToken = default)
     {
         return AddressToLocations(url, address, categories, countryCode, forStorage,
-            location, locationType, null, null, null, null, null, null, null);
+            location, locationType, null, null, null,
+            null, null, null, null,
+            cancellationToken);
     }
 
     /// <summary>
@@ -1869,12 +2124,17 @@ public class LocationService(
     ///     Define the type of location, either "street" or "rooftop", of the point returned from the World Geocoding Service.
     /// </param>
     /// <param name="magicKey">A suggestLocations result ID (magicKey). Used to query for a specific results information.</param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public Task<List<AddressCandidate>> AddressToLocations(string url, string address,
         List<string>? categories, string? countryCode, bool? forStorage, Point? location,
-        LocationType? locationType, string? magicKey)
+        LocationType? locationType, string? magicKey, CancellationToken cancellationToken = default)
     {
         return AddressToLocations(url, address, categories, countryCode, forStorage,
-            location, locationType, magicKey, null, null, null, null, null, null);
+            location, locationType, magicKey, null, null,
+            null, null, null, null,
+            cancellationToken);
     }
 
     /// <summary>
@@ -1898,12 +2158,16 @@ public class LocationService(
     /// </param>
     /// <param name="magicKey">A suggestLocations result ID (magicKey). Used to query for a specific results information.</param>
     /// <param name="maxLocations">Maximum results to return from the query.</param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public Task<List<AddressCandidate>> AddressToLocations(string url, string address,
         List<string>? categories, string? countryCode, bool? forStorage, Point? location,
-        LocationType? locationType, string? magicKey, int? maxLocations)
+        LocationType? locationType, string? magicKey, int? maxLocations, CancellationToken cancellationToken = default)
     {
         return AddressToLocations(url, address, categories, countryCode, forStorage,
-            location, locationType, magicKey, maxLocations, null, null, null, null, null);
+            location, locationType, magicKey, maxLocations, null, null,
+            null, null, null, cancellationToken);
     }
 
     /// <summary>
@@ -1933,13 +2197,17 @@ public class LocationService(
     ///     the candidate fields as defined in the geocode service. For intersection addresses you can specify the intersection
     ///     candidate fields.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public Task<List<AddressCandidate>> AddressToLocations(string url, string address,
         List<string>? categories, string? countryCode, bool? forStorage, Point? location,
         LocationType? locationType, string? magicKey, int? maxLocations,
-        List<string>? outFields)
+        List<string>? outFields, CancellationToken cancellationToken = default)
     {
         return AddressToLocations(url, address, categories, countryCode, forStorage,
-            location, locationType, magicKey, maxLocations, outFields, null, null, null, null);
+            location, locationType, magicKey, maxLocations, outFields, null,
+            null, null, null, cancellationToken);
     }
 
     /// <summary>
@@ -1974,13 +2242,17 @@ public class LocationService(
     ///     reference of the input geometries when performing a reverse geocode and in the default spatial reference returned
     ///     by the service if finding locations by address.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public Task<List<AddressCandidate>> AddressToLocations(string url, string address,
         List<string>? categories, string? countryCode, bool? forStorage, Point? location,
         LocationType? locationType, string? magicKey, int? maxLocations,
-        List<string>? outFields, SpatialReference? outSpatialReference)
+        List<string>? outFields, SpatialReference? outSpatialReference, CancellationToken cancellationToken = default)
     {
         return AddressToLocations(url, address, categories, countryCode, forStorage,
-            location, locationType, magicKey, maxLocations, outFields, outSpatialReference, null, null, null);
+            location, locationType, magicKey, maxLocations, outFields, outSpatialReference, null,
+            null, null, cancellationToken);
     }
 
     /// <summary>
@@ -2018,14 +2290,18 @@ public class LocationService(
     /// <param name="searchExtent">
     ///     Defines the extent within which the geocode server will search. Requires ArcGIS Server version 10.1 or greater.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public Task<List<AddressCandidate>> AddressToLocations(string url, string address,
         List<string>? categories, string? countryCode, bool? forStorage, Point? location,
         LocationType? locationType, string? magicKey, int? maxLocations,
-        List<string>? outFields, SpatialReference? outSpatialReference, Extent? searchExtent)
+        List<string>? outFields, SpatialReference? outSpatialReference, Extent? searchExtent,
+        CancellationToken cancellationToken = default)
     {
         return AddressToLocations(url, address, categories, countryCode, forStorage,
             location, locationType, magicKey, maxLocations, outFields, outSpatialReference,
-            searchExtent, null, null);
+            searchExtent, null, null, cancellationToken);
     }
 
     /// <summary>
@@ -2066,15 +2342,19 @@ public class LocationService(
     /// <param name="requestOptions">
     ///     Additional options to be used for the data request
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
     public Task<List<AddressCandidate>> AddressToLocations(string url, string address,
         List<string>? categories, string? countryCode, bool? forStorage, Point? location,
         LocationType? locationType, string? magicKey, int? maxLocations,
         List<string>? outFields, SpatialReference? outSpatialReference, Extent? searchExtent,
-        RequestOptions? requestOptions)
+        RequestOptions? requestOptions, CancellationToken cancellationToken = default)
     {
         return AddressToLocations(url, address, categories, countryCode, forStorage, location,
             locationType, magicKey, maxLocations,
-            outFields, outSpatialReference, searchExtent, requestOptions, null);
+            outFields, outSpatialReference, searchExtent, requestOptions, null,
+            cancellationToken);
     }
 
     /// <summary>
@@ -2118,15 +2398,22 @@ public class LocationService(
     /// <param name="addressSearchStringParameterName">
     ///     The name of the single line address field for the ArcGIS Locator Service (for ArcGIS 10+), defaults to 'address'.
     /// </param>
-    public Task<List<AddressCandidate>> AddressToLocations(string url, string address,
+    /// <param name="cancellationToken">
+    ///     The cancellation token to use for the asynchronous operation.
+    /// </param>
+    [SerializedMethod]
+    public async Task<List<AddressCandidate>> AddressToLocations(string url, string address,
         List<string>? categories, string? countryCode, bool? forStorage, Point? location,
         LocationType? locationType, string? magicKey, int? maxLocations,
         List<string>? outFields, SpatialReference? outSpatialReference, Extent? searchExtent,
-        RequestOptions? requestOptions, string? addressSearchStringParameterName)
+        RequestOptions? requestOptions, string? addressSearchStringParameterName,
+        CancellationToken cancellationToken = default)
     {
-        return AddressToLocationsImplementation(url, address, categories, countryCode, forStorage, location,
-            locationType, magicKey, maxLocations,
-            outFields, outSpatialReference, searchExtent, requestOptions, addressSearchStringParameterName);
+        return await InvokeAsync<List<AddressCandidate>>(nameof(LocationService),
+            nameof(AddressToLocations), QueryResultsMaxSizeLimit, cancellationToken, url, address,
+            categories, countryCode, forStorage, location, locationType, magicKey,
+            maxLocations, outFields, outSpatialReference, searchExtent, requestOptions,
+            addressSearchStringParameterName);
     }
 
 #endregion

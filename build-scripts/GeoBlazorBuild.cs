@@ -18,6 +18,7 @@
 
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
@@ -33,7 +34,7 @@ string os = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
 string arch = RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant();
 string toolsDir = Path.GetFullPath(Path.Combine(scriptsDir, "..", "build-tools", $"{os}-{arch}"));
 // Build folder is at GeoBlazor/build/, Core root is GeoBlazor/
-string coreRepoRoot = Path.GetFullPath(Path.Combine(toolsDir, ".."));
+string coreRepoRoot = Path.GetFullPath(Path.Combine(toolsDir, "..", ".."));
 string proRepoRoot = Path.GetFullPath(Path.Combine(coreRepoRoot, ".."));
 
 string corePropsPath = Path.Combine(coreRepoRoot, "Directory.Build.props");
@@ -963,7 +964,7 @@ static async Task<int> RunDotnetScriptAsync(string workingDirectory, string scri
     var psi = new ProcessStartInfo
     {
         FileName = "dotnet",
-        Arguments = $"{scriptName} {args}",
+        Arguments = $"./{scriptName} {args}",
         WorkingDirectory = workingDirectory,
         RedirectStandardOutput = true,
         RedirectStandardError = true,

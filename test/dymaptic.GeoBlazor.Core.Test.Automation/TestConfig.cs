@@ -79,6 +79,11 @@ public class TestConfig
         "dymaptic.GeoBlazor.Core.SourceGenerator.Tests",
         "dymaptic.GeoBlazor.Core.SourceGenerator.Tests.csproj");
     private static string LogFilePath => Path.Combine(_projectFolder, "test-run.log");
+    private static string CoreTestSolutionFilePath => Path.Combine(CoreRepoRoot, "test",
+        "dymaptic.GeoBlazor.Core.test.slnx");
+    private static string ProTestSolutionFilePath => Path.Combine(ProRepoRoot, "test",
+        "dymaptic.GeoBlazor.Pro.test.slnx");
+    private static string SolutionFilePath => _proAvailable ? ProTestSolutionFilePath : CoreTestSolutionFilePath;
 
     [AssemblyInitialize]
     public static async Task AssemblyInitialize(TestContext testContext)
@@ -160,7 +165,7 @@ public class TestConfig
         [
             StopContainer(CoreComposeFilePath),
             StopContainer(ProComposeFilePath),
-            StopTestApp()
+            KillProcessesByTestPorts()
         ];
 
         await Task.WhenAll(cleanupTasks);
@@ -173,8 +178,7 @@ public class TestConfig
 
         await Task.WhenAll(setupTasks);
 
-        // Pre-build all projects to avoid parallel build contention on shared dependencies
-        await PreBuildAllProjects();
+        await LaunchPipelineTask("PRE_BUILD", PreBuildAllProjects);
 
         List<Task> runTasks =
         [
@@ -255,6 +259,8 @@ public class TestConfig
             {
                 await StopTestApp();
             }
+
+            await KillProcessesByTestPorts();
 
             if (_cover)
             {
@@ -631,60 +637,36 @@ public class TestConfig
         }
     }
 
-    private static async Task PreBuildAllProjects()
+    private static async ValueTask PreBuildAllProjects(ResilienceContext context)
     {
-        Trace.WriteLine("Pre-building all projects to avoid parallel build contention...", "PRE_BUILD");
+        Trace.WriteLine($"Building {SolutionFilePath}...", "PRE_BUILD");
 
-        // Build projects sequentially to avoid file locking on shared dependencies
-        // Order matters: Core first, then projects that depend on it
-        List<(string Path, string Name)> projectsToBuild =
-        [
-            (TestAppPath, "Test WebApp")
-        ];
+        CommandResult result = await Cli.Wrap("dotnet")
+            .WithArguments([
+                "build",
+                SolutionFilePath,
+                "-c", _runConfig!,
+                "/p:GenerateXmlComments=false",
+                "/p:GeneratePackage=false",
+                "/p:GenerateDocs=false",
+                "/p:ShowSourceGenDialogs=false"
+            ])
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
+                Trace.WriteLine(line, "PRE_BUILD")))
+            .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
+                Trace.WriteLine(line, "PRE_BUILD_ERROR")))
+            .WithValidation(CommandResultValidation.None)
+            .ExecuteAsync(context.CancellationToken, gracefulCts.Token);
 
-        // Always build the test app first (it pulls in Core and Pro dependencies)
-
-        if (!ProOnly)
+        if (result.ExitCode != 0)
         {
-            projectsToBuild.Add((CoreUnitTestPath, "Core Unit Tests"));
-            projectsToBuild.Add((CoreSourceGenTestPath, "Core SourceGen Tests"));
+            _causeOfFailure = $"PRE_BUILD FAILED: {SolutionFilePath}";
+
+            throw new ProcessExitedException($"Pre-build of {SolutionFilePath} failed with exit code {result.ExitCode
+            }");
         }
 
-        if (!CoreOnly)
-        {
-            projectsToBuild.Add((ProUnitTestPath, "Pro Unit Tests"));
-        }
-
-        foreach ((string projectPath, string projectName) in projectsToBuild)
-        {
-            Trace.WriteLine($"Building {projectName}...", "PRE_BUILD");
-
-            CommandResult result = await Cli.Wrap("dotnet")
-                .WithArguments([
-                    "build",
-                    projectPath,
-                    "-c", _runConfig!,
-                    "/p:GenerateXmlComments=false",
-                    "/p:GeneratePackage=false",
-                    "/p:GenerateDocs=false",
-                    "/p:ShowSourceGenDialogs=false"
-                ])
-                .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
-                    Trace.WriteLine(line, "PRE_BUILD")))
-                .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
-                    Trace.WriteLine(line, "PRE_BUILD_ERROR")))
-                .WithValidation(CommandResultValidation.None)
-                .ExecuteAsync(cts.Token);
-
-            if (result.ExitCode != 0)
-            {
-                _causeOfFailure = $"PRE_BUILD FAILED: {projectName}";
-
-                throw new ProcessExitedException($"Pre-build of {projectName} failed with exit code {result.ExitCode}");
-            }
-
-            Trace.WriteLine($"Successfully built {projectName}", "PRE_BUILD");
-        }
+        Trace.WriteLine($"Successfully built {SolutionFilePath}", "PRE_BUILD");
 
         Trace.WriteLine("Pre-build complete", "PRE_BUILD");
     }
@@ -697,9 +679,9 @@ public class TestConfig
         string[] args =
         [
             "test",
-            "--no-build",
             "--project",
             testPath,
+            "--no-build",
             "-c",
             _runConfig!,
             "--output",
@@ -952,14 +934,11 @@ public class TestConfig
         {
             // ignore, these just clutter the output
         }
-
-        await KillProcessesByTestPorts();
     }
 
     private static async Task StopTestApp()
     {
         await KillProcessById(_testProcessId);
-        await KillProcessesByTestPorts();
     }
 
     private static async Task ShutdownCoverageCollection()
@@ -1111,10 +1090,23 @@ public class TestConfig
 
             if (OperatingSystem.IsWindows())
             {
+                string[] arguments =
+                [
+                    "-NoProfile", "-ExecutionPolicy", "ByPass", "-Command",
+                    "{",
+                    "Get-NetTCPConnection", "-LocalPort", _httpsPort.ToString(), "-State", "Listen",
+                    "|", "Select-Object", "-ExpandProperty", "OwningProcess",
+                    "|", "ForEach-Object",
+                    "{",
+                    "Stop-Process", "-Id", "$_", "-Force",
+                    "}",
+                    "}"
+                ];
+
                 // Use PowerShell for more reliable Windows port killing
                 await Cli.Wrap("pwsh")
-                    .WithArguments($"Get-NetTCPConnection -LocalPort {_httpsPort
-                    } -State Listen | Select-Object -ExpandProperty OwningProcess | ForEach-Object {{ Stop-Process -Id $_ -Force }}")
+                    .WithArguments(arguments)
+                    .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, "TEST_CLEANUP")))
                     .WithValidation(CommandResultValidation.None)
                     .ExecuteAsync();
             }
@@ -1122,6 +1114,7 @@ public class TestConfig
             {
                 await Cli.Wrap("/bin/bash")
                     .WithArguments($"lsof -i:{_httpsPort} | awk '{{if(NR>1)print $2}}' | xargs -t -r kill -9")
+                    .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, "TEST_CLEANUP")))
                     .WithValidation(CommandResultValidation.None)
                     .ExecuteAsync();
             }
