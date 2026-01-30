@@ -142,5 +142,10 @@ static string GetScriptsDirectory([CallerFilePath] string? callerFilePath = null
     // Running as a DLL - use AppContext.BaseDirectory which points to the DLL location
     // The DLL is in build-tools/, and scripts are in build-scripts/ (sibling directory)
     string dllDirectory = AppContext.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-    return Path.Combine(Path.GetDirectoryName(dllDirectory)!, "build-scripts");
+    string parent = Path.GetDirectoryName(dllDirectory)!;
+    while (Path.GetFileName(parent) != "GeoBlazor")
+    {
+        parent = Path.GetDirectoryName(parent)!;
+    }
+    return Path.Combine(parent!, "build-scripts");
 }

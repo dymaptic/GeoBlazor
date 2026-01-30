@@ -351,12 +351,20 @@ public static class ProcessHelper
                     }
                 }
 
+                var os = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                    ? "win"
+                    : RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
+                        ? "osx"
+                        : "linux";
+                var arch = RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant();
+
                 var buildScriptPath = Path.GetFullPath(Path.Combine(
                     Path.GetDirectoryName(
                         callerFilePath)!, // GeoBlazor/src/dymaptic.GeoBlazor.Core.SourceGenerator.Shared
                     "..", // GeoBlazor/src
                     "..", // GeoBlazor Core repo root
-                    "build-tools"));
+                    "build-tools",
+                    $"{os}-{arch}"));
 
                 string[] args =
                 [

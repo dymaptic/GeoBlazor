@@ -99,7 +99,7 @@ jobs:
     - name: Build GeoBlazor
       shell: pwsh
       run: |
-        dotnet ./build-tools/GeoBlazorBuild.dll -xml -pkg -docs -c "Release"
+        dotnet ./build-tools/linux-x64/GeoBlazorBuild.dll -xml -pkg -docs -c "Release"
         
       # Copies the nuget package to the artifacts directory
     - name: Upload nuget artifact

@@ -25,7 +25,13 @@ using System.Xml.Linq;
 // Paths
 // Get the script cs file path, that way we can run this script from either the CS file or the Executable
 string scriptsDir = GetScriptsDirectory();
-string toolsDir = Path.GetFullPath(Path.Combine(scriptsDir, "..", "build-tools"));
+string os = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+    ? "win"
+    : RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
+        ? "osx"
+        : "linux";
+string arch = RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant();
+string toolsDir = Path.GetFullPath(Path.Combine(scriptsDir, "..", "build-tools", $"{os}-{arch}"));
 // Build folder is at GeoBlazor/build/, Core root is GeoBlazor/
 string coreRepoRoot = Path.GetFullPath(Path.Combine(toolsDir, ".."));
 string proRepoRoot = Path.GetFullPath(Path.Combine(coreRepoRoot, ".."));
@@ -742,7 +748,12 @@ static string GetScriptsDirectory([CallerFilePath] string? callerFilePath = null
     // Running as a DLL - use AppContext.BaseDirectory which points to the DLL location
     // The DLL is in build-tools/, and scripts are in build-scripts/ (sibling directory)
     string dllDirectory = AppContext.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-    return Path.Combine(Path.GetDirectoryName(dllDirectory)!, "build-scripts");
+    string parent = Path.GetDirectoryName(dllDirectory)!;
+    while (Path.GetFileName(parent) != "GeoBlazor")
+    {
+        parent = Path.GetDirectoryName(parent)!;
+    }
+    return Path.Combine(parent!, "build-scripts");
 }
 
 /// <summary>

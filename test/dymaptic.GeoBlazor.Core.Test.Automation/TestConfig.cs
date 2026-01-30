@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Polly;
 using Polly.Retry;
 using System.Net;
+using System.Runtime.InteropServices;
 using DelayBackoffType = Polly.DelayBackoffType;
 
 
@@ -134,7 +135,14 @@ public class TestConfig
 
         if (!IsCI && _showDialog)
         {
-            Utilities.StartConsoleDialog(Path.Combine(CoreRepoRoot, "build-tools"),
+            var os = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                ? "win"
+                : RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
+                    ? "osx"
+                    : "linux";
+            var arch = RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant();
+
+            Utilities.StartConsoleDialog(Path.Combine(CoreRepoRoot, "build-tools", $"{os}-{arch}"),
                 "GeoBlazor Unit Tests");
         }
 

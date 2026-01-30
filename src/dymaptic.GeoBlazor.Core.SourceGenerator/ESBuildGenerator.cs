@@ -2,6 +2,7 @@ using dymaptic.GeoBlazor.Core.SourceGenerator.Shared;
 using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
 
 
 namespace dymaptic.GeoBlazor.Core.SourceGenerator;
@@ -15,45 +16,45 @@ public class ESBuildGenerator : IIncrementalGenerator
 {
     private static string? BuildToolsPath => _corePath is null
         ? null
-        : Path.GetFullPath(Path.Combine(_corePath, "..", "..", "build-tools"));
+        : Path.GetFullPath(Path.Combine(_corePath, "..", "..", "build-tools", $"{os}-{arch}"));
 
     /// <inheritdoc />
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         // Tracks all TypeScript source files in the Scripts directories of Core and Pro.
         // This will trigger the build any time a TypeScript file is added, removed, or changed.
-        IncrementalValueProvider<ImmutableArray<AdditionalText>> tsFilesProvider = context
+        var tsFilesProvider = context
             .AdditionalTextsProvider
             .Where(static text => text.Path.Contains("Scripts")
                 && text.Path.EndsWith(".ts"))
             .Collect();
 
         // Reads the MSBuild properties to get the project directory and configuration.
-        IncrementalValueProvider<Dictionary<string, string>> optionsProvider =
+        var optionsProvider =
             context.AnalyzerConfigOptionsProvider.Select((configProvider, _) =>
             {
                 Dictionary<string, string> options = [];
 
                 if (configProvider.GlobalOptions.TryGetValue("build_property.CoreProjectPath",
-                    out string? projectDirectory))
+                    out var projectDirectory))
                 {
                     options["CoreProjectPath"] = projectDirectory;
                 }
 
                 if (configProvider.GlobalOptions.TryGetValue("build_property.Configuration",
-                    out string? configuration))
+                    out var configuration))
                 {
                     options["Configuration"] = configuration;
                 }
 
                 if (configProvider.GlobalOptions.TryGetValue("build_property.DesignTimeBuild",
-                    out string? designTimeBuild))
+                    out var designTimeBuild))
                 {
                     options["DesignTimeBuild"] = designTimeBuild;
                 }
 
                 if (configProvider.GlobalOptions.TryGetValue("build_property.ShowSourceGenDialogs",
-                    out string? showDialog))
+                    out var showDialog))
                 {
                     options["ShowSourceGenDialogs"] = showDialog;
                 }
@@ -108,14 +109,14 @@ public class ESBuildGenerator : IIncrementalGenerator
     private bool SetProjectDirectoryAndConfiguration(Dictionary<string, string> options,
         SourceProductionContext context)
     {
-        if (options.TryGetValue("CoreProjectPath", out string? projectDirectory))
+        if (options.TryGetValue("CoreProjectPath", out var projectDirectory))
         {
             _corePath = Path.GetFullPath(projectDirectory);
 
             if (_corePath.Contains("GeoBlazor.Pro"))
             {
                 // we are inside the Pro submodule, we should also set the Pro path to build the Pro JavaScript files
-                string path = _corePath;
+                var path = _corePath;
 
                 while (!path.EndsWith("GeoBlazor.Pro"))
                 {
@@ -137,18 +138,18 @@ public class ESBuildGenerator : IIncrementalGenerator
             return false;
         }
 
-        if (options.TryGetValue("Configuration", out string? configuration))
+        if (options.TryGetValue("Configuration", out var configuration))
         {
             _configuration = configuration;
 
-            if (options.TryGetValue("DesignTimeBuild", out string? designTimeBuild)
-                && bool.TryParse(designTimeBuild, out bool designTimeBuildBool))
+            if (options.TryGetValue("DesignTimeBuild", out var designTimeBuild)
+                && bool.TryParse(designTimeBuild, out var designTimeBuildBool))
             {
                 _isDesignTimeBuild = designTimeBuildBool;
             }
 
-            if (options.TryGetValue("ShowSourceGenDialogs", out string? showDialog)
-                && bool.TryParse(showDialog, out bool showDialogBool))
+            if (options.TryGetValue("ShowSourceGenDialogs", out var showDialog)
+                && bool.TryParse(showDialog, out var showDialogBool))
             {
                 _showDialog = showDialogBool;
             }
@@ -176,8 +177,8 @@ public class ESBuildGenerator : IIncrementalGenerator
         try
         {
             List<Task> tasks = [];
-            bool buildSuccess = false;
-            bool proBuildSuccess = false;
+            var buildSuccess = false;
+            var proBuildSuccess = false;
 
             // gets the ESBuild.cs script
             List<string> esBuildArgs =
@@ -188,7 +189,7 @@ public class ESBuildGenerator : IIncrementalGenerator
 
             tasks.Add(Task.Run(async () =>
             {
-                string[] coreArgs = esBuildArgs.ToArray();
+                var coreArgs = esBuildArgs.ToArray();
 
                 await ProcessHelper.Execute("Core",
                     BuildToolsPath!, "dotnet",
@@ -250,7 +251,7 @@ public class ESBuildGenerator : IIncrementalGenerator
 
     private void ClearESBuildLocks(SourceProductionContext context)
     {
-        Task clearTask = Task.Run(async () => await ProcessHelper.Execute("Clear Locks",
+        var clearTask = Task.Run(async () => await ProcessHelper.Execute("Clear Locks",
             BuildToolsPath!, "dotnet",
             ["ESBuildClearLocks.dll"],
             context, _showDialog, _sessionId));
@@ -262,6 +263,13 @@ public class ESBuildGenerator : IIncrementalGenerator
             DiagnosticSeverity.Info,
             context, _showDialog, _sessionId);
     }
+
+    private static readonly string os = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+        ? "win"
+        : RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
+            ? "osx"
+            : "linux";
+    private static readonly string arch = RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant();
 
     private static string? _corePath;
     private static string? _proPath;

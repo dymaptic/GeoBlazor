@@ -11,14 +11,20 @@
 //   -h, --help                           Display help message
 
 using System.Diagnostics;
-using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
 // Get the actual script location using CallerFilePath (resolved at compile time)
 string scriptDir = GetScriptsDirectory();
-string toolsDir = Path.GetFullPath(Path.Combine(scriptDir, "..", "build-tools"));
+string os = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+    ? "win"
+    : RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
+        ? "osx"
+        : "linux";
+string arch = RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant();
+string toolsDir = Path.GetFullPath(Path.Combine(scriptDir, "..", "build-tools", $"{os}-{arch}"));
 
 // Parse command line arguments
 string configuration = "Debug";
@@ -682,7 +688,12 @@ static string GetScriptsDirectory([CallerFilePath] string? callerFilePath = null
     // Running as a DLL - use AppContext.BaseDirectory which points to the DLL location
     // The DLL is in build-tools/, and scripts are in build-scripts/ (sibling directory)
     string dllDirectory = AppContext.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-    return Path.Combine(Path.GetDirectoryName(dllDirectory)!, "build-scripts");
+    string parent = Path.GetDirectoryName(dllDirectory)!;
+    while (Path.GetFileName(parent) != "GeoBlazor")
+    {
+        parent = Path.GetDirectoryName(parent)!;
+    }
+    return Path.Combine(parent!, "build-scripts");
 }
 
 /// <summary>

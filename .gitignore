@@ -24,7 +24,6 @@ test/dymaptic.GeoBlazor.Core.Test.Automation/history*
 test/dymaptic.GeoBlazor.Core.Test.Automation/unit-coverage*
 test/dymaptic.GeoBlazor.Core.Test.Automation/sgen-coverage*
 test/dymaptic.GeoBlazor.Core.Test.Automation/Summary.txt
-build-tools/*.json
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

@@ -38,7 +38,7 @@ GeoBlazor is a Blazor component library that brings ArcGIS Maps SDK for JavaScri
 ### Build
 ```bash
 # Clean build of the Core project
-dotnet ./build-tools/GeoBlazorBuild.dll
+dotnet ./build-tools/win-x64/GeoBlazorBuild.dll
 
 -- _`GeoBlazorBuild` includes lots of options, use -h to see options_
 
@@ -77,7 +77,7 @@ pwsh bumpVersion.ps1 -test 1.2.3  # Test version bump
 ### Development
 ```bash
 # Clear ESBuild locks if build is stuck
-dotnet ./build-tools/ESBuildClearLocks.dll
+dotnet ./build-tools/win-x64/ESBuildClearLocks.dll
 
 # Watch TypeScript changes (from src/dymaptic.GeoBlazor.Core/)
 npm run watchBuild

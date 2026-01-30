@@ -28,10 +28,10 @@ COPY ./*.ps1 ./
 COPY ./Directory.Build.* ./
 COPY ./.gitignore ./.gitignore
 COPY ./nuget.config ./nuget.config
-COPY ./build-tools ./build-tools
+COPY ./build-tools/linux-x64 ./build-tools/linux-x64
 COPY ./build-scripts/ScriptBuilder.cs ./build-scripts/ScriptBuilder.cs
 
-RUN dotnet ./build-tools/GeoBlazorBuild.dll -v current
+RUN dotnet ./build-tools/linux-x64/GeoBlazorBuild.dll -v current
 
 COPY ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/dymaptic.GeoBlazor.Core.Test.Blazor.Shared.csproj ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared.csproj
 COPY ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj
@@ -44,7 +44,7 @@ RUN --mount=type=cache,target=/root/.nuget/packages \
 COPY ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared
 COPY ./test/dymaptic.GeoBlazor.Core.Test.WebApp ./test/dymaptic.GeoBlazor.Core.Test.WebApp
 
-RUN dotnet ./build-tools/BuildAppSettings.dll \
+RUN dotnet ./build-tools/linux-x64/BuildAppSettings.dll \
     -k "$ARCGIS_API_KEY" \
     -l "$GEOBLAZOR_LICENSE_KEY" \
     -o "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.json" \
