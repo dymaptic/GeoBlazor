@@ -46,7 +46,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"Error returning browser to pool: {ex.Message}", "TEST");
+                Trace.WriteLine($"Error returning browser to pool: {ex.Message}", ProcessName.WEB_TEST);
             }
             finally
             {
@@ -69,10 +69,10 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
             await _retryPipeline.ExecuteAsync(async token =>
             {
-                Trace.WriteLine($"Navigating to {testUrl}", "TEST");
+                Trace.WriteLine($"Navigating to {testUrl}", ProcessName.WEB_TEST);
 
                 await page.GotoAsync(testUrl, PageGotoOptions);
-                Trace.WriteLine($"Page loaded for {testName}", "TEST");
+                Trace.WriteLine($"Page loaded for {testName}", ProcessName.WEB_TEST);
 
                 if (token.IsCancellationRequested)
                 {
@@ -107,16 +107,16 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
                 if (await inconclusiveSpan.IsVisibleAsync())
                 {
                     var (messages, errors) = CheckMessages(testName);
-                    Trace.WriteLine(messages, "TEST_RESPONSE");
+                    Trace.WriteLine(messages, ProcessName.WEB_TEST);
 
                     if (!string.IsNullOrWhiteSpace(errors))
                     {
                         // report errors but don't fail the test
-                        Trace.WriteLine(errors, "TEST_ERROR");
+                        Trace.WriteLine(errors, ProcessName.WEB_TEST_ERROR);
                     }
 
                     // Inconclusive we treat as passing for our automation purposes
-                    Trace.WriteLine($"{testName} Inconclusive", "TEST_INCONCLUSIVE");
+                    Trace.WriteLine($"{testName} Inconclusive", ProcessName.WEB_TEST);
                     TestConfig.InconclusiveTests.Add(testName);
                 }
                 else
@@ -124,17 +124,17 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
                     await Expect(passedSpan).ToBeVisibleAsync(VisibleOptions);
                     await Expect(passedSpan).ToHaveTextAsync("Passed: 1");
                     var (messages, errors) = CheckMessages(testName);
-                    Trace.WriteLine(messages, "TEST_RESPONSE");
+                    Trace.WriteLine(messages, ProcessName.WEB_TEST);
 
                     if (!string.IsNullOrWhiteSpace(errors))
                     {
                         // these are typically browser console errors, the assertions in the
                         // test runner web app decides whether to fail the test or not
                         // so we just log here
-                        Trace.WriteLine(errors, "TEST_ERROR");
+                        Trace.WriteLine(errors, ProcessName.WEB_TEST_ERROR);
                     }
 
-                    Trace.WriteLine($"{testName} Passed", "TEST");
+                    Trace.WriteLine($"{testName} Passed", ProcessName.WEB_TEST);
                     TestConfig.PassedTestCount++;
                 }
             });
@@ -142,8 +142,8 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         catch (Exception)
         {
             var (messages, errors) = CheckMessages(testName);
-            Trace.WriteLine(messages, "TEST_RESPONSE");
-            Trace.WriteLine(errors, "TEST_ERROR");
+            Trace.WriteLine(messages, ProcessName.WEB_TEST);
+            Trace.WriteLine(errors, ProcessName.WEB_TEST_ERROR);
 
             TestConfig.FailedTests[testName] = $"{messages}{Environment.NewLine}{errors}";
             Assert.Fail($"{testName} Failed: {errors}");
@@ -178,7 +178,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         }
         catch (Exception e)
         {
-            Trace.WriteLine($"{e.Message}{Environment.NewLine}{e.StackTrace}", "ERROR");
+            Trace.WriteLine($"{e.Message}{Environment.NewLine}{e.StackTrace}", ProcessName.WEB_TEST_ERROR);
 
             // If browser failed during setup, report it to the pool
             if (_pooledBrowser is not null)
@@ -284,9 +284,8 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         Delay = TimeSpan.FromSeconds(5),
         OnRetry = args =>
         {
-            Trace.WriteLine(
-                $"Retrying {args.Context.OperationKey} in {args.RetryDelay.Milliseconds}ms (attempt {
-                    args.AttemptNumber + 1})", "TEST");
+            Trace.WriteLine($"Retrying {args.Context.OperationKey} in {args.RetryDelay.Milliseconds}ms (attempt {
+                args.AttemptNumber + 1})", ProcessName.WEB_TEST);
 
             return ValueTask.CompletedTask;
         }

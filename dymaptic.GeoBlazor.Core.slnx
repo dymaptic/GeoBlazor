@@ -1,0 +1,29 @@
+<Solution>
+    <Configurations>
+        <BuildType Name="Debug" />
+        <BuildType Name="Release" />
+        <BuildType Name="SourceGen Highlighting" />
+    </Configurations>
+    <Project Path="samples/dymaptic.GeoBlazor.Core.Sample.Maui/dymaptic.GeoBlazor.Core.Sample.Maui.csproj">
+        <Deploy Solution="Debug|*" />
+    </Project>
+    <Project Path="samples/dymaptic.GeoBlazor.Core.Sample.OAuth/dymaptic.GeoBlazor.Core.Sample.OAuth.Client/dymaptic.GeoBlazor.Core.Sample.OAuth.Client.csproj" />
+    <Project Path="samples/dymaptic.GeoBlazor.Core.Sample.OAuth/dymaptic.GeoBlazor.Core.Sample.OAuth/dymaptic.GeoBlazor.Core.Sample.OAuth.csproj" />
+    <Project Path="samples/dymaptic.GeoBlazor.Core.Sample.Shared/dymaptic.GeoBlazor.Core.Sample.Shared.csproj" />
+    <Project Path="samples/dymaptic.GeoBlazor.Core.Sample.TokenRefresh/dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client/dymaptic.GeoBlazor.Core.Sample.TokenRefresh.Client.csproj" />
+    <Project Path="samples/dymaptic.GeoBlazor.Core.Sample.TokenRefresh/dymaptic.GeoBlazor.Core.Sample.TokenRefresh/dymaptic.GeoBlazor.Core.Sample.TokenRefresh.csproj" />
+    <Project Path="samples/dymaptic.GeoBlazor.Core.Sample.Wasm/dymaptic.GeoBlazor.Core.Sample.Wasm.csproj" />
+    <Project Path="samples/dymaptic.GeoBlazor.Core.Sample.WebApp/dymaptic.GeoBlazor.Core.Sample.WebApp.Client/dymaptic.GeoBlazor.Core.Sample.WebApp.Client.csproj" />
+    <Project Path="samples/dymaptic.GeoBlazor.Core.Sample.WebApp/dymaptic.GeoBlazor.Core.Sample.WebApp/dymaptic.GeoBlazor.Core.Sample.WebApp.csproj" />
+    <Project Path="src/dymaptic.GeoBlazor.Core.Analyzers/dymaptic.GeoBlazor.Core.Analyzers.csproj" />
+    <Project Path="src/dymaptic.GeoBlazor.Core.SourceGenerator.Shared/dymaptic.GeoBlazor.Core.SourceGenerator.Shared.csproj" />
+    <Project Path="src/dymaptic.GeoBlazor.Core.SourceGenerator/dymaptic.GeoBlazor.Core.SourceGenerator.csproj" />
+    <Project Path="src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj" />
+    <Project Path="test/dymaptic.GeoBlazor.Core.Test.Automation.SourceGeneration/dymaptic.GeoBlazor.Core.Test.Automation.SourceGeneration.csproj" />
+    <Project Path="test/dymaptic.GeoBlazor.Core.SourceGenerator.Tests/dymaptic.GeoBlazor.Core.SourceGenerator.Tests.csproj" />
+    <Project Path="test/dymaptic.GeoBlazor.Core.Test.Automation/dymaptic.GeoBlazor.Core.Test.Automation.csproj" />
+    <Project Path="test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/dymaptic.GeoBlazor.Core.Test.Blazor.Shared.csproj" />
+    <Project Path="test/dymaptic.GeoBlazor.Core.Test.Unit/dymaptic.GeoBlazor.Core.Test.Unit.csproj" />
+    <Project Path="test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/dymaptic.GeoBlazor.Core.Test.WebApp.Client.csproj" />
+    <Project Path="test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj" />
+</Solution>

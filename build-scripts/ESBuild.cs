@@ -97,7 +97,8 @@ if (verbose)
 {
     if (dialog) // only start the dialog early if we are in Verbose + Dialog mode
     {
-        dialogProcess = StartConsoleDialog(toolsDir, $"GeoBlazor {(pro ? "Pro" : "Core")} ESBuild");
+        dialogProcess = StartConsoleDialog(toolsDir, 
+            $"GeoBlazor {(pro ? "Pro" : "Core")} ESBuild", pro);
     }
     Trace.WriteLine("Launching ESBuild...");
 }
@@ -161,7 +162,8 @@ if (!verbose)
 {
     if (dialog) // start the dialog now if we are not in Verbose mode
     {
-        dialogProcess = StartConsoleDialog(toolsDir, $"GeoBlazor {(pro ? "Pro" : "Core")} ESBuild");
+        dialogProcess = StartConsoleDialog(toolsDir, 
+            $"GeoBlazor {(pro ? "Pro" : "Core")} ESBuild", pro);
     }
     Trace.WriteLine("Launching ESBuild...");
 }
@@ -398,7 +400,8 @@ static void CopyScriptsToPro(string coreScriptsDir, string proScriptsDir, bool v
 
     foreach (string line in File.ReadAllLines(proEsBuildJsFilePath))
     {
-        if (proPrefixedFileRegex.Match(line) is Match match)
+        Match match = proPrefixedFileRegex.Match(line);
+        if (match.Success)
         {
             string fileName = match.Groups["fileName"].Value;
             proPrefixedFiles.Add($"{fileName}.ts");
@@ -511,7 +514,7 @@ static bool GetScriptsModifiedSince(string scriptsDir, long lastTimestamp)
 /// <param name="buildDir">The build-tools directory containing ConsoleDialog.dll.</param>
 /// <param name="title">The title for the console window.</param>
 /// <returns>The started Process, or null if it failed to start.</returns>
-static Process? StartConsoleDialog(string buildDir, string title)
+static Process? StartConsoleDialog(string buildDir, string title, bool pro)
 {
     try
     {
@@ -550,7 +553,7 @@ static Process? StartConsoleDialog(string buildDir, string title)
         else
         {
             dialog.StandardInput.AutoFlush = true;
-            Trace.Listeners.Add(new DialogTraceListener(dialog));
+            Trace.Listeners.Add(new DialogTraceListener(dialog, pro));
         }
 
         return dialog;
@@ -712,7 +715,7 @@ static void HoldDialog(Process? dialog)
 /// A TraceListener that forwards trace output to a ConsoleDialog process via stdin.
 /// This allows build output to be displayed in the popup console window.
 /// </summary>
-public class DialogTraceListener(Process dialog) : TraceListener
+public class DialogTraceListener(Process dialog, bool isPro) : TraceListener
 {
     public override void Write(string? message)
     {
@@ -723,7 +726,7 @@ public class DialogTraceListener(Process dialog) : TraceListener
 
         try
         {
-            dialog.StandardInput.Write(message);
+            dialog.StandardInput.Write(isPro ? $"PRO: {message}" : message);
         }
         catch
         {
@@ -740,7 +743,7 @@ public class DialogTraceListener(Process dialog) : TraceListener
 
         try
         {
-            dialog.StandardInput.WriteLine(message);
+            dialog.StandardInput.WriteLine(isPro ? $"PRO: {message}" : message);
         }
         catch
         {

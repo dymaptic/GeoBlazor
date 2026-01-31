@@ -60,7 +60,15 @@ jobs:
           HTTPS_PORT: 9445
         run: |
           dotnet test --project ./test/dymaptic.GeoBlazor.Core.Test.Automation/dymaptic.GeoBlazor.Core.Test.Automation.csproj -c Release --filter CORE_
-  
+
+      - name: Upload test log
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-run-log
+          retention-days: 4
+          path: ./test/dymaptic.GeoBlazor.Core.Test.Automation/test-run.log
+
   build:
     runs-on: ubuntu-latest
     needs: [ actor-check ]

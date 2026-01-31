@@ -129,11 +129,11 @@
         <Exec Command="dotnet $(GBBuildToolsPath)/ESBuildClearLocks.dll" ContinueOnError="false"/>
     </Target>
     <Target AfterTargets="ClearLocks" Name="ESBuild" Condition="$(ShowSourceGenDialogs) == 'true'">
-        <Message Importance="high" Text="Run ESBuild"/>
+        <Message Importance="high" Text="Launching ESBuild from MSBuild"/>
         <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration) --dialog" ContinueOnError="false"/>
     </Target>
     <Target AfterTargets="ClearLocks" Name="ESBuild" Condition="$(ShowSourceGenDialogs) != 'true'">
-        <Message Importance="high" Text="Run ESBuild"/>
+        <Message Importance="high" Text="Launching ESBuild from MSBuild"/>
         <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration)" ContinueOnError="false"/>
     </Target>
 </Project>
