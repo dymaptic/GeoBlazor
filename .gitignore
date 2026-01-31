@@ -14,6 +14,7 @@ esBuild.*.lock
 esBuild.log
 esBuild.hash
 .esbuild-record.json
+.csbuild-record.json
 CustomerTests.razor
 .claude/
 .env
