@@ -23,15 +23,6 @@ COPY ./src/dymaptic.GeoBlazor.Core/package.json ./package.json
 RUN --mount=type=cache,target=/root/.npm npm install
 
 WORKDIR /work
-COPY ./src/ ./src/
-COPY ./*.ps1 ./
-COPY ./Directory.Build.* ./
-COPY ./.gitignore ./.gitignore
-COPY ./nuget.config ./nuget.config
-COPY ./build-tools/linux-x64 ./build-tools/linux-x64
-COPY ./build-scripts/ScriptBuilder.cs ./build-scripts/ScriptBuilder.cs
-
-RUN dotnet ./build-tools/linux-x64/GeoBlazorBuild.dll -v current
 
 COPY ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/dymaptic.GeoBlazor.Core.Test.Blazor.Shared.csproj ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared.csproj
 COPY ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj
@@ -41,6 +32,12 @@ COPY ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.Web
 RUN --mount=type=cache,target=/root/.nuget/packages \
     dotnet restore ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj /p:UsePackageReference=false
 
+COPY ./src/ ./src/
+COPY ./*.ps1 ./
+COPY ./Directory.Build.* ./
+COPY ./.gitignore ./.gitignore
+COPY ./nuget.config ./nuget.config
+COPY ./build-tools/linux-x64 ./build-tools/linux-x64
 COPY ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared
 COPY ./test/dymaptic.GeoBlazor.Core.Test.WebApp ./test/dymaptic.GeoBlazor.Core.Test.WebApp
 
@@ -62,7 +59,7 @@ RUN --mount=type=cache,target=/root/.nuget/packages \
     /p:UsePackageReference=false \
     /p:DebugSymbols=true \
     /p:DebugType=portable \
-    /p:GeneratePack=false \
+    /p:GeneratePackage=false \
     -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0

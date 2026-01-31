@@ -297,8 +297,8 @@ public class LocationServiceTests : TestRunnerBase
     [TestMethod]
     public async Task TestAddressToLocationsWithMaxLocations(Action renderHandler)
     {
-        List<AddressCandidate> locations = await LocationService.AddressToLocations(_testAddressRedlands, null, null,
-            null, null, null, null, maxLocations: 5);
+        List<AddressCandidate> locations = await LocationService.AddressToLocations(_testAddressRedlands,
+            maxLocations: 5);
 
         Assert.IsNotNull(locations);
         Assert.IsGreaterThan(0, locations.Count);
@@ -389,8 +389,8 @@ public class LocationServiceTests : TestRunnerBase
         if (suggestions.Count > 0 && !string.IsNullOrEmpty(suggestions[0].MagicKey))
         {
             // Use the magicKey to get detailed results
-            List<AddressCandidate> locations = await LocationService.AddressToLocations(suggestions[0].Text!, null,
-                null, null, null, null, suggestions[0].MagicKey);
+            List<AddressCandidate> locations = await LocationService.AddressToLocations(suggestions[0].Text,
+                magicKey: suggestions[0].MagicKey);
 
             Assert.IsNotNull(locations);
             Assert.IsGreaterThan(0, locations.Count);
@@ -402,8 +402,7 @@ public class LocationServiceTests : TestRunnerBase
     {
         string addressString = "132 New York Street, Redlands, CA 92373";
 
-        List<AddressCandidate> locations = await LocationService.AddressToLocations(
-            addressString, null, null, null, null, null, null, maxLocations: 3);
+        List<AddressCandidate> locations = await LocationService.AddressToLocations(addressString, maxLocations: 3);
 
         Assert.IsNotNull(locations);
         Assert.IsGreaterThan(0, locations.Count);

@@ -2,7 +2,6 @@ using dymaptic.GeoBlazor.Core.SourceGenerator.Shared;
 using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
 
 
 namespace dymaptic.GeoBlazor.Core.SourceGenerator;
@@ -14,10 +13,6 @@ namespace dymaptic.GeoBlazor.Core.SourceGenerator;
 [SuppressMessage("MicrosoftCodeAnalysisCorrectness", "RS1035:Do not use APIs banned for analyzers")]
 public class ESBuildGenerator : IIncrementalGenerator
 {
-    private static string? BuildToolsPath => _corePath is null
-        ? null
-        : Path.GetFullPath(Path.Combine(_corePath, "..", "..", "build-tools", $"{os}-{arch}"));
-
     /// <inheritdoc />
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -35,10 +30,10 @@ public class ESBuildGenerator : IIncrementalGenerator
             {
                 Dictionary<string, string> options = [];
 
-                if (configProvider.GlobalOptions.TryGetValue("build_property.CoreProjectPath",
+                if (configProvider.GlobalOptions.TryGetValue("build_property.GBBuildToolsPath",
                     out var projectDirectory))
                 {
-                    options["CoreProjectPath"] = projectDirectory;
+                    options["GBBuildToolsPath"] = projectDirectory;
                 }
 
                 if (configProvider.GlobalOptions.TryGetValue("build_property.Configuration",
@@ -59,6 +54,12 @@ public class ESBuildGenerator : IIncrementalGenerator
                     options["ShowSourceGenDialogs"] = showDialog;
                 }
 
+                if (configProvider.GlobalOptions.TryGetValue("build_property.ProProjectPath",
+                    out var proProjectPath))
+                {
+                    options["ProProjectPath"] = proProjectPath;
+                }
+
                 return options;
             });
 
@@ -72,11 +73,6 @@ public class ESBuildGenerator : IIncrementalGenerator
     private void FilesChanged(SourceProductionContext context,
         (ImmutableArray<AdditionalText> Files, Dictionary<string, string> Options) pipeline)
     {
-        if (!SetProjectDirectoryAndConfiguration(pipeline.Options, context))
-        {
-            return;
-        }
-
         if (!_isDesignTimeBuild)
         {
             // If this is a full compilation, we call ESBuild directly from Core.csproj earlier in the process,
@@ -86,6 +82,11 @@ public class ESBuildGenerator : IIncrementalGenerator
                 DiagnosticSeverity.Info,
                 context);
 
+            return;
+        }
+
+        if (!SetProjectDirectoryAndConfiguration(pipeline.Options, context))
+        {
             return;
         }
 
@@ -109,24 +110,9 @@ public class ESBuildGenerator : IIncrementalGenerator
     private bool SetProjectDirectoryAndConfiguration(Dictionary<string, string> options,
         SourceProductionContext context)
     {
-        if (options.TryGetValue("CoreProjectPath", out var projectDirectory))
+        if (options.TryGetValue("GBBuildToolsPath", out var projectDirectory))
         {
-            _corePath = Path.GetFullPath(projectDirectory);
-
-            if (_corePath.Contains("GeoBlazor.Pro"))
-            {
-                // we are inside the Pro submodule, we should also set the Pro path to build the Pro JavaScript files
-                var path = _corePath;
-
-                while (!path.EndsWith("GeoBlazor.Pro"))
-                {
-                    // move up the directory tree until we find the GeoBlazor.Pro directory
-                    path = Path.GetDirectoryName(path)!;
-                }
-
-                // set the pro path to the src/dymaptic.GeoBlazor.Pro directory
-                _proPath = Path.GetFullPath(Path.Combine(path, "src", "dymaptic.GeoBlazor.Pro"));
-            }
+            _gbToolsPath = Path.GetFullPath(projectDirectory);
         }
         else
         {
@@ -136,6 +122,11 @@ public class ESBuildGenerator : IIncrementalGenerator
                 context, _showDialog, _sessionId);
 
             return false;
+        }
+
+        if (options.TryGetValue("ProProjectPath", out var proProjectPath))
+        {
+            _proPath = Path.GetFullPath(proProjectPath);
         }
 
         if (options.TryGetValue("Configuration", out var configuration))
@@ -192,7 +183,7 @@ public class ESBuildGenerator : IIncrementalGenerator
                 var coreArgs = esBuildArgs.ToArray();
 
                 await ProcessHelper.Execute("Core",
-                    BuildToolsPath!, "dotnet",
+                    _gbToolsPath!, "dotnet",
                     coreArgs, context, _showDialog, _sessionId);
                 buildSuccess = true;
             }));
@@ -209,7 +200,7 @@ public class ESBuildGenerator : IIncrementalGenerator
                 tasks.Add(Task.Run(async () =>
                 {
                     await ProcessHelper.Execute("Pro",
-                        BuildToolsPath!, "dotnet",
+                        _gbToolsPath!, "dotnet",
                         proArgs, context, _showDialog, _proSessionId);
                     proBuildSuccess = true;
                 }));
@@ -252,7 +243,7 @@ public class ESBuildGenerator : IIncrementalGenerator
     private void ClearESBuildLocks(SourceProductionContext context)
     {
         var clearTask = Task.Run(async () => await ProcessHelper.Execute("Clear Locks",
-            BuildToolsPath!, "dotnet",
+            _gbToolsPath!, "dotnet",
             ["ESBuildClearLocks.dll"],
             context, _showDialog, _sessionId));
 
@@ -264,14 +255,7 @@ public class ESBuildGenerator : IIncrementalGenerator
             context, _showDialog, _sessionId);
     }
 
-    private static readonly string os = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-        ? "win"
-        : RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
-            ? "osx"
-            : "linux";
-    private static readonly string arch = RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant();
-
-    private static string? _corePath;
+    private static string? _gbToolsPath;
     private static string? _proPath;
     private static string? _configuration;
     private static bool _isDesignTimeBuild;
