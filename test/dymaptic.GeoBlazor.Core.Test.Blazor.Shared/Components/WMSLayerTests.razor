@@ -90,7 +90,40 @@
         Assert.IsTrue(Math.Abs(51.4 - center.Latitude!.Value) < 0.001);
         double? zoom = await view!.GetZoom();
         Assert.IsNotNull(zoom);
-        Assert.AreEqual(11.0, zoom);
+
+        // Zoom is not supported in WMS layers, so this will return -1 even though we set 11
+        Assert.AreEqual(-1, zoom);
     }
 
+    [TestMethod]
+    public async Task TestWMSLayerWithLatLongAndScale(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreated)
+    {
+        MapView? view = null;
+
+        AddMapRenderFragment(@<MapView @ref="view" class="map-view"
+                                       Latitude="51.4" Longitude="0.0"
+                                       Scale="288895.277144"
+                                       OnViewRendered="renderHandler"
+                                       OnLayerViewCreate="layerViewCreated">
+                                 <Map>
+                                     <Basemap>
+                                         <WMSLayer Url="https://ows.terrestris.de/osm/service">
+                                             <WMSSublayer Name="OSM-WMS"/>
+                                         </WMSLayer>
+                                     </Basemap>
+                                 </Map>
+                             </MapView>);
+        await WaitForMapToRender(timeoutInSeconds: 90);
+        await WaitForLayerToRender<WMSLayer>();
+        Point? center = await view!.GetCenter();
+        Assert.IsNotNull(center);
+        Assert.IsTrue(Math.Abs(0.0 - center.Longitude!.Value) < 0.001);
+        Assert.IsTrue(Math.Abs(51.4 - center.Latitude!.Value) < 0.001);
+        double? scale = await view!.GetScale();
+        Assert.IsNotNull(scale);
+
+        // Scale works, even though Zoom is not supported in WMS layers
+        Assert.IsTrue(Math.Abs(288895.277144 - scale.Value) < 0.001);
+    }
 }
