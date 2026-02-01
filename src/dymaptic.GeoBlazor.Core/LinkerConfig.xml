@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<linker>
-    <assembly fullname="dymaptic.GeoBlazor.Core">
-        <!-- Preserve the serialization class and its compiler-generated nested types -->
-        <!-- This fixes IL Linker bug with generic async methods in source-generated code -->
-        <type fullname="dymaptic.GeoBlazor.Core.Serialization.CoreSerializationData" preserve="all"/>
-    </assembly>
-</linker>

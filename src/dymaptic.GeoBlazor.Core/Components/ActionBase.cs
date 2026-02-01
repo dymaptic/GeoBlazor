@@ -102,6 +102,6 @@ internal class ActionBaseConverter : JsonConverter<ActionBase>
 
     public override void Write(Utf8JsonWriter writer, ActionBase value, JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer, value, value.GetType(), options);
+        JsonSerializer.Serialize(writer, value, typeof(object), options);
     }
 }

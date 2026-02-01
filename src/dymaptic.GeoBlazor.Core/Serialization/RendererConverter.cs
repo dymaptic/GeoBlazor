@@ -54,6 +54,6 @@ internal class RendererConverter : JsonConverter<Renderer>
 
     public override void Write(Utf8JsonWriter writer, Renderer value, JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer, value, value.GetType(), options);
+        JsonSerializer.Serialize(writer, value, typeof(object), options);
     }
 }

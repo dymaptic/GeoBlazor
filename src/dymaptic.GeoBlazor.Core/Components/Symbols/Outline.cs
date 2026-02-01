@@ -81,6 +81,6 @@ internal class OutlineConverter : JsonConverter<Outline>
 
     public override void Write(Utf8JsonWriter writer, Outline value, JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer, value, value.GetType(), options);
+        JsonSerializer.Serialize(writer, value, typeof(object), options);
     }
 }

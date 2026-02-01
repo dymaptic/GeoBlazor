@@ -40,6 +40,6 @@ internal class MediaInfoConverter : JsonConverter<MediaInfo>
 
     public override void Write(Utf8JsonWriter writer, MediaInfo value, JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer, value, value.GetType(), options);
+        JsonSerializer.Serialize(writer, value, typeof(object), options);
     }
 }

@@ -55,6 +55,6 @@ internal class ImageryRendererConverter : JsonConverter<IImageryRenderer>
 
     public override void Write(Utf8JsonWriter writer, IImageryRenderer value, JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer, value, value.GetType(), options);
+        JsonSerializer.Serialize(writer, value, typeof(object), options);
     }
 }

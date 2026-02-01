@@ -88,6 +88,6 @@ internal class WidgetConverter : JsonConverter<Widget>
 
     public override void Write(Utf8JsonWriter writer, Widget value, JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer, value, value.GetType(), options);
+        JsonSerializer.Serialize(writer, value, typeof(object), options);
     }
 }

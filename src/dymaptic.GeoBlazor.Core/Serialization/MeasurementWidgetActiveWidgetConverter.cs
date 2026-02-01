@@ -57,6 +57,6 @@ internal class MeasurementWidgetActiveWidgetConverter : JsonConverter<IMeasureme
     public override void Write(Utf8JsonWriter writer, IMeasurementWidgetActiveWidget value,
         JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer, value, value.GetType(), options);
+        JsonSerializer.Serialize(writer, value, typeof(object), options);
     }
 }

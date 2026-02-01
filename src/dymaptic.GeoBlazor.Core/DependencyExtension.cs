@@ -8,7 +8,6 @@ public static class DependencyExtension
     /// <summary>
     ///     Registers all GeoBlazor components and services for dependency injection.
     /// </summary>
-    [RequiresUnreferencedCode("Binding GeoBlazorSettings")]
     public static IServiceCollection AddGeoBlazor(this IServiceCollection serviceCollection,
         IConfiguration? configuration)
     {

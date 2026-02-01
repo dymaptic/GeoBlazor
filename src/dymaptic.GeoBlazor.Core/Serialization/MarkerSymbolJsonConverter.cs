@@ -34,6 +34,6 @@ internal class MarkerSymbolJsonConverter : JsonConverter<MarkerSymbol>
 
     public override void Write(Utf8JsonWriter writer, MarkerSymbol value, JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer, value, value.GetType(), options);
+        JsonSerializer.Serialize(writer, value, typeof(object), options);
     }
 }

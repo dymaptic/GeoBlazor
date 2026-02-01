@@ -122,7 +122,7 @@ public static class SerializationGenerator
                                                            /// <summary>
                                                            ///     Convenience method to deserialize an <see cref="IJSStreamReference" /> to a specific type via protobuf.
                                                            /// </summary>
-                                                           public static partial async Task<T?> ReadJsStreamReferenceAsProtobuf<T>(this IJSStreamReference jsStreamReference, 
+                                                           public static partial async Task<IProtobufSerializable?> ReadJsStreamReferenceAsProtobuf(this IJSStreamReference jsStreamReference, 
                                                                Type returnType, long? maxAllowedSize, CancellationToken cancellationToken)
                                                            {
                                                                maxAllowedSize ??= 1_000_000_000L;
@@ -130,10 +130,10 @@ public static class SerializationGenerator
                                                                using MemoryStream memoryStream = new();
                                                                await stream.CopyToAsync(memoryStream);
                                                                memoryStream.Seek(0, SeekOrigin.Begin);
-                                                               
+
                                                                string typeName = returnType.Name.Replace("SerializationRecord", "");
 
-                                                               switch (typeName) 
+                                                               switch (typeName)
                                                                {
 
                                                        """);
@@ -142,7 +142,7 @@ public static class SerializationGenerator
                                                                      /// <summary>
                                                                      ///     Convenience method to deserialize an <see cref="IJSStreamReference" /> to a specific collection type via protobuf.
                                                                      /// </summary>
-                                                                     public static partial async Task<T?> ReadJsStreamReferenceAsProtobufCollection<T>(this IJSStreamReference jsStreamReference, 
+                                                                     public static partial async Task<IProtobufSerializable[]?> ReadJsStreamReferenceAsProtobufCollection(this IJSStreamReference jsStreamReference, 
                                                                          Type returnType, long? maxAllowedSize, CancellationToken cancellationToken)
                                                                      {
                                                                          maxAllowedSize ??= 1_000_000_000L;
@@ -150,10 +150,10 @@ public static class SerializationGenerator
                                                                          using MemoryStream memoryStream = new();
                                                                          await stream.CopyToAsync(memoryStream);
                                                                          memoryStream.Seek(0, SeekOrigin.Begin);
-                                                                         
+
                                                                          string typeName = returnType.Name.Replace("SerializationRecord", "");
 
-                                                                         switch (typeName) 
+                                                                         switch (typeName)
                                                                          {
 
                                                                  """);
@@ -232,32 +232,31 @@ public static class SerializationGenerator
 
             readJsProtoStreamRefMethod.AppendLine($$"""
                                                                 case "{{protoSerializableType}}":
-                                                                    {{serializationRecordType}} {{variableName}} = 
+                                                                    {{serializationRecordType}} {{variableName}} =
                                                                         Serializer.Deserialize<{{serializationRecordType
                                                                         }}>(memoryStream);
                                                                     if ({{variableName}}.IsNull)
                                                                     {
-                                                                        return default!;
+                                                                        return null;
                                                                     }
-                                                                    return (T?)(object?){{variableName
-                                                                    }}?.FromSerializationRecord();
+                                                                    return {{variableName}}.FromSerializationRecord();
                                                     """);
 
             readJsProtoCollectionStreamRefMethod.AppendLine($$"""
                                                                           case "{{protoSerializableType}}":
                                                                               {{serializationCollectionRecordType}} {{
-                                                                                  variableName}} = 
+                                                                                  variableName}} =
                                                                                   Serializer.Deserialize<{{
                                                                                       serializationCollectionRecordType
                                                                                   }}>(memoryStream);
                                                                               if ({{variableName}}.IsNull)
                                                                               {
-                                                                                  return default!;
+                                                                                  return null;
                                                                               }
-                                                                              return (T?)(object?){{variableName
+                                                                              return {{variableName
                                                                               }}
-                                                              ?.Items?.Select(i => i.FromSerializationRecord()).Cast<{{
-                                                                  protoSerializableType}}>().ToArray();
+                                                              .Items?.Select(i => i.FromSerializationRecord()).Cast<IProtobufSerializable>().ToArray();
+                                                              
                                                               """);
 
             if (definition.Name == "Attribute")
@@ -298,15 +297,15 @@ public static class SerializationGenerator
 
         readJsProtoStreamRefMethod.AppendLine("""
                                                       }
-                                                      
-                                                      return default!;
+
+                                                      return null;
                                                   }
                                               """);
 
         readJsProtoCollectionStreamRefMethod.AppendLine("""
                                                                 }
-                                                                
-                                                                return default!;
+
+                                                                return null;
                                                             }
                                                         """);
 

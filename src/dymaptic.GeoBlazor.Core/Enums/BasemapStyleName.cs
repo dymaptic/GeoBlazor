@@ -131,7 +131,6 @@ public enum BasemapStyleName
 #pragma warning restore 1591
 }
 
-[RequiresDynamicCode("EnumMember")]
 internal class EnumMemberConverter<T> : JsonConverter<T> where T : struct, IConvertible
 {
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

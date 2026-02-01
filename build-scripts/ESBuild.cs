@@ -497,7 +497,7 @@ static bool GetScriptsModifiedSince(string scriptsDir, long lastTimestamp)
 
     var lastBuildTime = DateTimeOffset.FromUnixTimeMilliseconds(lastTimestamp).DateTime;
 
-    foreach (string file in Directory.GetFiles(scriptsDir, "*", SearchOption.AllDirectories))
+    foreach (string file in Directory.GetFiles(scriptsDir, "*.ts", SearchOption.AllDirectories))
     {
         if (File.GetLastWriteTimeUtc(file) > lastBuildTime)
         {

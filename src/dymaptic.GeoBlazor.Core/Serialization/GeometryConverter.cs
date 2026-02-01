@@ -68,6 +68,6 @@ internal class GeometryConverter : JsonConverter<Geometry>
 
     public override void Write(Utf8JsonWriter writer, Geometry value, JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer, value, value.GetType(), options);
+        JsonSerializer.Serialize(writer, value, typeof(object), options);
     }
 }

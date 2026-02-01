@@ -122,7 +122,7 @@ internal class LayerConverter : JsonConverter<Layer>
 
     public override void Write(Utf8JsonWriter writer, Layer value, JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer, value, value.GetType(), options);
+        JsonSerializer.Serialize(writer, value, typeof(object), options);
     }
 }
 
@@ -157,7 +157,7 @@ internal class FullExtentConverter : JsonConverter<Extent>
 
     public override void Write(Utf8JsonWriter writer, Extent value, JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer, value, value.GetType(), options);
+        JsonSerializer.Serialize(writer, value, typeof(object), options);
     }
 
     private static readonly string[] requiredProperties =

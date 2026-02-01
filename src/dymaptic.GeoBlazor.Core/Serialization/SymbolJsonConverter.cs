@@ -64,6 +64,6 @@ internal class SymbolJsonConverter : JsonConverter<Symbol>
 
     public override void Write(Utf8JsonWriter writer, Symbol value, JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer, value, value.GetType(), options);
+        JsonSerializer.Serialize(writer, value, typeof(object), options);
     }
 }

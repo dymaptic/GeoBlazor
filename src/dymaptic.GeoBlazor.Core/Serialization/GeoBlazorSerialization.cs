@@ -19,6 +19,6 @@ internal static class GeoBlazorSerialization
             }
         };
     }
-    
+
     public static JsonSerializerOptions JsonSerializerOptions { get; private set; }
 }

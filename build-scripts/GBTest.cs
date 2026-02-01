@@ -65,10 +65,12 @@ if (container)
 	environmentVariables["USE_CONTAINER"] = "true";
 }
 
-await RunDotnetCommandWithOutputAsync(testProjectDir, "run", buildArgs, environmentVariables);
+return await RunDotnetCommandWithOutputAsync(testProjectDir, "run", buildArgs, environmentVariables);
+
 /// <summary>
 /// Runs a dotnet command and captures both stdout and stderr output.
 /// Output is written to the console in real-time.
+/// Handles Ctrl+C by forwarding the kill signal to the child process.
 /// </summary>
 /// <param name="workingDirectory">The working directory for the command.</param>
 /// <param name="command">The dotnet command (e.g., "build", "restore").</param>
@@ -78,8 +80,6 @@ await RunDotnetCommandWithOutputAsync(testProjectDir, "run", buildArgs, environm
 static async Task<int> RunDotnetCommandWithOutputAsync(string workingDirectory,
     string command, IEnumerable<string> args, Dictionary<string, string>? environmentVariables)
 {
-    var output = new List<string>();
-
     var psi = new ProcessStartInfo
     {
         FileName = "dotnet",
@@ -104,6 +104,23 @@ static async Task<int> RunDotnetCommandWithOutputAsync(string workingDirectory,
     {
         return 1;
     }
+
+    // Handle Ctrl+C by killing the child process
+    Console.CancelKeyPress += (_, e) =>
+    {
+        e.Cancel = true; // Prevent immediate termination of this script
+        if (!process.HasExited)
+        {
+            try
+            {
+                process.Kill(entireProcessTree: true);
+            }
+            catch
+            {
+                // Process may have already exited
+            }
+        }
+    };
 
     process.OutputDataReceived += (_, e) =>
     {

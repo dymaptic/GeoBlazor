@@ -56,7 +56,7 @@ internal class DynamicLayerConverter : JsonConverter<DynamicLayer>
 
     public override void Write(Utf8JsonWriter writer, DynamicLayer value, JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer, value, value.GetType(), options);
+        JsonSerializer.Serialize(writer, value, typeof(object), options);
     }
 }
 
@@ -97,6 +97,6 @@ internal class DynamicDataSourceConverter : JsonConverter<DynamicDataSource>
 
     public override void Write(Utf8JsonWriter writer, DynamicDataSource value, JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer, value, value.GetType(), options);
+        JsonSerializer.Serialize(writer, value, typeof(object), options);
     }
 }

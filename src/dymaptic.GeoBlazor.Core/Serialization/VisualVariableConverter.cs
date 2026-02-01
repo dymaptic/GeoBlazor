@@ -35,6 +35,6 @@ internal class VisualVariableConverter : JsonConverter<VisualVariable>
 
     public override void Write(Utf8JsonWriter writer, VisualVariable value, JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer, value, value.GetType(), GeoBlazorSerialization.JsonSerializerOptions);
+        JsonSerializer.Serialize(writer, value, typeof(object), GeoBlazorSerialization.JsonSerializerOptions);
     }
 }
