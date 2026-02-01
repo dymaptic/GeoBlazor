@@ -26,6 +26,8 @@
         <NoWarn>GeoBlazor_Untested</NoWarn>
         <LangVersion>latest</LangVersion>
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+        <!--        <IsTrimmable>true</IsTrimmable>-->
+        <!--        <VerifyReferenceTrimCompatibility>true</VerifyReferenceTrimCompatibility>-->
     </PropertyGroup>
 
     <!--    Uncomment this section to turn on Roslyn Public API Analyzers.
@@ -97,6 +99,13 @@
       <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
       <AdditionalFiles Include="package.json" />
         <AdditionalFiles Include="Scripts/*.ts"/>
+    </ItemGroup>
+
+    <!-- IL Linker configuration to preserve compiler-generated types for generic async methods -->
+    <ItemGroup>
+        <EmbeddedResource Include="LinkerConfig.xml">
+            <LogicalName>$(MSBuildProjectName).xml</LogicalName>
+        </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>

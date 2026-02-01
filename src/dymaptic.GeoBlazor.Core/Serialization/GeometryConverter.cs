@@ -33,6 +33,7 @@ internal class GeometryConverter : JsonConverter<Geometry>
                     // multipoint is in GeoBlazor Pro and must be loaded via Reflection
                     Type? multipointType = Type.GetType("dymaptic.GeoBlazor.Pro.Components.Geometries.Multipoint, " +
                         "dymaptic.GeoBlazor.Pro");
+
                     if (multipointType is not null)
                     {
                         return (Geometry?)JsonSerializer.Deserialize(ref cloneReader, multipointType, newOptions);
@@ -67,10 +68,6 @@ internal class GeometryConverter : JsonConverter<Geometry>
 
     public override void Write(Utf8JsonWriter writer, Geometry value, JsonSerializerOptions options)
     {
-        var newOptions = new JsonSerializerOptions(options)
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-        };
-        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
+        JsonSerializer.Serialize(writer, value, value.GetType(), options);
     }
 }

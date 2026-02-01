@@ -28,7 +28,7 @@ internal class RendererConverter : JsonConverter<Renderer>
                     return null;
                 default:
                     // look for the type in GeoBlazor Pro
-                    string typeName = 
+                    string typeName =
                         $"dymaptic.GeoBlazor.Pro.Components.Layers.{typeValue.ToString()!.KebabToPascalCase()}Renderer";
 
                     try
@@ -54,10 +54,6 @@ internal class RendererConverter : JsonConverter<Renderer>
 
     public override void Write(Utf8JsonWriter writer, Renderer value, JsonSerializerOptions options)
     {
-        var newOptions = new JsonSerializerOptions(options)
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-        };
-        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
+        JsonSerializer.Serialize(writer, value, value.GetType(), options);
     }
 }

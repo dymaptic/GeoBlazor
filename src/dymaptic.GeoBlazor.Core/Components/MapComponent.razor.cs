@@ -2040,7 +2040,6 @@ internal class MapComponentConverter : JsonConverter<MapComponent>
 
     public override void Write(Utf8JsonWriter writer, MapComponent value, JsonSerializerOptions options)
     {
-        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object),
-            GeoBlazorSerialization.JsonSerializerOptions));
+        JsonSerializer.Serialize(writer, value, value.GetType(), options);
     }
 }

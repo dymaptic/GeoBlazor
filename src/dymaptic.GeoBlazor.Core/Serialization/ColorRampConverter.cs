@@ -32,10 +32,6 @@ internal class ColorRampConverter : JsonConverter<ColorRamp>
 
     public override void Write(Utf8JsonWriter writer, ColorRamp value, JsonSerializerOptions options)
     {
-        var newOptions = new JsonSerializerOptions(options)
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-        };
-        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
+        JsonSerializer.Serialize(writer, value, value.GetType(), options);
     }
 }

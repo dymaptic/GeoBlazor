@@ -56,12 +56,14 @@ internal class PopupContentConverter : JsonConverter<PopupContent>
                 break;
             case "custom":
                 // CustomPopupContent is in GeoBlazor Pro assembly, so we need to use reflection to get the type
-                Type? customType = Type.GetType("dymaptic.GeoBlazor.Pro.Components.Popups.CustomPopupContent, dymaptic.GeoBlazor.Pro");
+                Type? customType =
+                    Type.GetType("dymaptic.GeoBlazor.Pro.Components.Popups.CustomPopupContent, dymaptic.GeoBlazor.Pro");
 
                 if (customType is not null && customType.IsSubclassOf(typeof(PopupContent)))
                 {
                     content =
-                        JsonSerializer.Deserialize(jsonDoc.RootElement.GetRawText(), customType, options) as PopupContent;
+                        JsonSerializer.Deserialize(jsonDoc.RootElement.GetRawText(), customType, options) as
+                            PopupContent;
                 }
 
                 break;
@@ -72,10 +74,6 @@ internal class PopupContentConverter : JsonConverter<PopupContent>
 
     public override void Write(Utf8JsonWriter writer, PopupContent value, JsonSerializerOptions options)
     {
-        var newOptions = new JsonSerializerOptions(options)
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-        };
-        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
+        JsonSerializer.Serialize(writer, value, value.GetType(), options);
     }
 }

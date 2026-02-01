@@ -12,7 +12,6 @@ public abstract class DynamicLayer : MapComponent
     public abstract string Type { get; }
 }
 
-
 /// <summary>
 ///     Abstract base class for data sources in a dynamic data layer.
 /// </summary>
@@ -24,7 +23,6 @@ public abstract class DynamicDataSource : MapComponent
     /// </summary>
     public abstract DynamicDataSourceType Type { get; }
 }
-
 
 internal class DynamicLayerConverter : JsonConverter<DynamicLayer>
 {
@@ -58,13 +56,14 @@ internal class DynamicLayerConverter : JsonConverter<DynamicLayer>
 
     public override void Write(Utf8JsonWriter writer, DynamicLayer value, JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer, value, typeof(object), options);
+        JsonSerializer.Serialize(writer, value, value.GetType(), options);
     }
 }
 
 internal class DynamicDataSourceConverter : JsonConverter<DynamicDataSource>
 {
-    public override DynamicDataSource? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override DynamicDataSource? Read(ref Utf8JsonReader reader, Type typeToConvert,
+        JsonSerializerOptions options)
     {
         var newOptions = new JsonSerializerOptions(options)
         {
@@ -98,6 +97,6 @@ internal class DynamicDataSourceConverter : JsonConverter<DynamicDataSource>
 
     public override void Write(Utf8JsonWriter writer, DynamicDataSource value, JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer, value, typeof(object), options);
+        JsonSerializer.Serialize(writer, value, value.GetType(), options);
     }
 }

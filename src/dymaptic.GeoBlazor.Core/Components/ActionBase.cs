@@ -18,7 +18,7 @@ public abstract partial class ActionBase : MapComponent, IProtobufSerializable<A
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? Active { get; set; }
-    
+
     /// <summary>
     ///     This adds a CSS class to the ActionButton's node.
     /// </summary>
@@ -39,12 +39,20 @@ public abstract partial class ActionBase : MapComponent, IProtobufSerializable<A
     [Parameter]
     [JsonIgnore]
     public Func<Task>? CallbackFunction { get; set; }
-    
+
     /// <summary>
     ///     Identifies whether the action has a callback function.
     /// </summary>
     public bool HasCallbackFunction => CallbackFunction != null;
-    
+
+    /// <summary>
+    ///     Specifies the type of action. Choose between "button" or "toggle".
+    /// </summary>
+    public abstract string Type { get; }
+
+    /// <inheritdoc />
+    public abstract ActionBaseSerializationRecord ToProtobuf();
+
     /// <summary>
     ///     JS-invokable method for triggering actions.
     /// </summary>
@@ -60,14 +68,6 @@ public abstract partial class ActionBase : MapComponent, IProtobufSerializable<A
             await CallbackFunction!.Invoke();
         }
     }
-
-    /// <summary>
-    ///     Specifies the type of action. Choose between "button" or "toggle".
-    /// </summary>
-    public abstract string Type { get; }
-    
-    /// <inheritdoc />
-    public abstract ActionBaseSerializationRecord ToProtobuf();
 }
 
 internal class ActionBaseConverter : JsonConverter<ActionBase>
@@ -102,6 +102,6 @@ internal class ActionBaseConverter : JsonConverter<ActionBase>
 
     public override void Write(Utf8JsonWriter writer, ActionBase value, JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer, value, typeof(object), options);
+        JsonSerializer.Serialize(writer, value, value.GetType(), options);
     }
 }

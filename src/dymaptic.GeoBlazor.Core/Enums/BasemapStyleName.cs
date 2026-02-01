@@ -131,19 +131,23 @@ public enum BasemapStyleName
 #pragma warning restore 1591
 }
 
-internal class EnumMemberConverter<T> : JsonConverter<T> where T: struct, IConvertible
+[RequiresDynamicCode("EnumMember")]
+internal class EnumMemberConverter<T> : JsonConverter<T> where T : struct, IConvertible
 {
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         string? enumMemberValue = reader.GetString();
+
         foreach (MemberInfo member in typeof(T).GetMembers())
         {
             EnumMemberAttribute? attribute = member.GetCustomAttribute<EnumMemberAttribute>();
+
             if (attribute?.Value == enumMemberValue)
             {
                 return (T)Enum.Parse(typeof(T), member.Name);
             }
         }
+
         throw new JsonException($"Unable to convert \"{enumMemberValue}\" to Enum \"{typeof(T)}\"");
     }
 

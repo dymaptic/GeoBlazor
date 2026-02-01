@@ -69,7 +69,7 @@ internal class LayerConverter : JsonConverter<Layer>
                     return null;
                 default:
                     // look for the type in GeoBlazor Pro
-                    string typeName = 
+                    string typeName =
                         $"dymaptic.GeoBlazor.Pro.Components.Layers.{typeValue.ToString()!.KebabToPascalCase()}Layer";
 
                     try
@@ -95,6 +95,7 @@ internal class LayerConverter : JsonConverter<Layer>
         temp.TryGetValue("arcGisLayerId", out object? arcGisLayerIdValue);
         string? arcGisLayerId = arcGisLayerIdValue?.ToString();
         temp.TryGetValue("fullExtent", out object? fullExtentValue);
+
         Extent? fullExtent = fullExtentValue is not null
             ? JsonSerializer.Deserialize<Extent>(fullExtentValue.ToString()!, newOptions)
             : null;
@@ -108,6 +109,7 @@ internal class LayerConverter : JsonConverter<Layer>
         temp.TryGetValue("title", out object? titleValue);
         string? title = titleValue?.ToString();
         temp.TryGetValue("visibilityTimeExtent", out object? visibilityTimeExtentValue);
+
         TimeExtent? visibilityTimeExtent = visibilityTimeExtentValue is not null
             ? JsonSerializer.Deserialize<TimeExtent>(visibilityTimeExtentValue.ToString()!, newOptions)
             : null;
@@ -120,11 +122,7 @@ internal class LayerConverter : JsonConverter<Layer>
 
     public override void Write(Utf8JsonWriter writer, Layer value, JsonSerializerOptions options)
     {
-        var newOptions = new JsonSerializerOptions(options)
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-        };
-        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
+        JsonSerializer.Serialize(writer, value, value.GetType(), options);
     }
 }
 
@@ -147,21 +145,21 @@ internal class FullExtentConverter : JsonConverter<Extent>
 
         foreach (string propertyName in requiredProperties)
         {
-            if (!temp.ContainsKey(propertyName) 
+            if (!temp.ContainsKey(propertyName)
                 || temp[propertyName] is null or JsonElement { ValueKind: JsonValueKind.Null })
             {
                 return null;
             }
         }
-        
+
         return JsonSerializer.Deserialize<Extent>(ref cloneReader, newOptions);
     }
 
     public override void Write(Utf8JsonWriter writer, Extent value, JsonSerializerOptions options)
     {
-        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), options));
+        JsonSerializer.Serialize(writer, value, value.GetType(), options);
     }
-    
+
     private static readonly string[] requiredProperties =
     [
         nameof(Extent.Xmax).ToLowerInvariant(),

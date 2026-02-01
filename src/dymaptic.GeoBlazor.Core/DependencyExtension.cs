@@ -8,13 +8,15 @@ public static class DependencyExtension
     /// <summary>
     ///     Registers all GeoBlazor components and services for dependency injection.
     /// </summary>
+    [RequiresUnreferencedCode("Binding GeoBlazorSettings")]
     public static IServiceCollection AddGeoBlazor(this IServiceCollection serviceCollection,
         IConfiguration? configuration)
     {
-        GeoBlazorSettings settings = configuration?.GetSection("GeoBlazor").Get<GeoBlazorSettings>() 
+        GeoBlazorSettings settings = configuration?.GetSection("GeoBlazor").Get<GeoBlazorSettings>()
             ?? new GeoBlazorSettings();
 
         RegisterSerializationData();
+
         return serviceCollection
             .AddSingleton<GeoBlazorSettings>(_ => settings)
             .AddScoped<JsModuleManager>()
