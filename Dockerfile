@@ -5,10 +5,8 @@ ARG GEOBLAZOR_LICENSE_KEY
 ARG WFS_SERVERS
 ARG HTTP_PORT
 ARG HTTPS_PORT
-ENV ARCGIS_API_KEY=${ARCGIS_API_KEY}
-ENV GEOBLAZOR_LICENSE_KEY=${GEOBLAZOR_LICENSE_KEY}
-ENV WFS_SERVERS=${WFS_SERVERS}
 
+# Install NodeJS and NPM
 RUN apt-get update \
     && apt-get install -y ca-certificates curl gnupg \
     && mkdir -p /etc/apt/keyrings \
@@ -17,6 +15,7 @@ RUN apt-get update \
     && apt-get update \
     && apt-get install -y nodejs
 
+# Install NPM Packages
 WORKDIR /work
 WORKDIR /work/src/dymaptic.GeoBlazor.Core
 COPY ./src/dymaptic.GeoBlazor.Core/package.json ./package.json
@@ -24,18 +23,23 @@ RUN --mount=type=cache,target=/root/.npm npm install
 
 WORKDIR /work
 
+# Update GeoBlazor Build Scripts
 COPY ./build-scripts ./build-scripts
 RUN --mount=type=cache,target=/root/.nuget/packages \
     dotnet run ./build-scripts/ScriptBuilder.cs
 
-COPY ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/dymaptic.GeoBlazor.Core.Test.Blazor.Shared.csproj ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared.csproj
+# Restore NuGet Packages
+COPY ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj
+COPY ./src/dymaptic.GeoBlazor.Core.Analyzers/dymaptic.GeoBlazor.Core.Analyzers.csproj ./src/dymaptic.GeoBlazor.Core.Analyzers/dymaptic.GeoBlazor.Core.Analyzers.csproj
+COPY ./src/dymaptic.GeoBlazor.Core.SourceGenerator/dymaptic.GeoBlazor.Core.SourceGenerator.csproj ./src/dymaptic.GeoBlazor.Core.SourceGenerator/dymaptic.GeoBlazor.Core.SourceGenerator.csproj
+COPY ./src/dymaptic.GeoBlazor.Core.SourceGenerator.Shared/dymaptic.GeoBlazor.Core.SourceGenerator.Shared.csproj ./src/dymaptic.GeoBlazor.Core.SourceGenerator.Shared/dymaptic.GeoBlazor.Core.SourceGenerator.Shared.csproj
+COPY ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/dymaptic.GeoBlazor.Core.Test.Blazor.Shared.csproj ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/dymaptic.GeoBlazor.Core.Test.Blazor.Shared.csproj
 COPY ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj
 COPY ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/dymaptic.GeoBlazor.Core.Test.WebApp.Client.csproj ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/dymaptic.GeoBlazor.Core.Test.WebApp.Client.csproj
-
-# Use UsePackageReference=false to build from source (enables code coverage with PDB symbols)
 RUN --mount=type=cache,target=/root/.nuget/packages \
     dotnet restore ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj /p:UsePackageReference=false
 
+# Copy Source Files
 COPY ./src/ ./src/
 COPY ./*.ps1 ./
 COPY ./Directory.Build.* ./
@@ -44,14 +48,18 @@ COPY ./nuget.config ./nuget.config
 COPY ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared
 COPY ./test/dymaptic.GeoBlazor.Core.Test.WebApp ./test/dymaptic.GeoBlazor.Core.Test.WebApp
 
+# Create appsettings files
 RUN dotnet ./build-tools/linux-x64/BuildAppSettings.dll \
-    -k "$ARCGIS_API_KEY" \
-    -l "$GEOBLAZOR_LICENSE_KEY" \
+    -k "${ARCGIS_API_KEY}" \
+    -l "${GEOBLAZOR_LICENSE_KEY}" \
     -o "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.json" \
     -o "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.Production.json" \
     -o "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.json" \
     -o "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.Production.json" \
-    -w "$WFS_SERVERS"
+    -w "${WFS_SERVERS}" 
+
+# Pre-run ESBuild
+RUN dotnet ./build-tools/linux-x64/ESBuild.dll -f
 
 # Build from source with debug symbols for code coverage
 # UsePackageReference=false builds GeoBlazor from source instead of NuGet
@@ -63,6 +71,7 @@ RUN --mount=type=cache,target=/root/.nuget/packages \
     /p:DebugSymbols=true \
     /p:DebugType=portable \
     /p:GeneratePackage=false \
+    /p:ShowSourceGenDialogs=false \
     -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0
@@ -111,6 +120,7 @@ ENV ASPNETCORE_Kestrel__Certificates__Default__Password=password
 # Coverage configuration (can be overridden via environment)
 ENV COVERAGE_ENABLED=false
 ENV COVERAGE_FORMAT=xml
+ENV SESSION_ID=WEB_APP
 
 # Copy entrypoint script
 COPY ./test/dymaptic.GeoBlazor.Core.Test.Automation/docker-entrypoint.sh /docker-entrypoint.sh

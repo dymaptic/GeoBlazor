@@ -9,6 +9,7 @@
     <CoreVersion>5.0.0.46</CoreVersion>
     <Configurations>Debug;Release;SourceGen Highlighting</Configurations>
     <Platforms>AnyCPU</Platforms>
+      <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
     <CoreProjectPath>$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core</CoreProjectPath>
     <!-- https://github.com/dotnet/aspnetcore/issues/64381 -->
     <StaticWebAssetEndpointExclusionPattern>

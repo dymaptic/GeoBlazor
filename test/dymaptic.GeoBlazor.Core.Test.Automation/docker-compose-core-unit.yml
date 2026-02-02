@@ -1,0 +1,20 @@
+name: gb-core-unit
+
+services:
+  core-unit:
+    build:
+      context: ../..
+      dockerfile: Dockerfile.unit
+      args:
+        TEST_GROUP: CORE_UNIT
+        TEST_FOLDER: "./test/dymaptic.GeoBlazor.Core.Test.Unit"
+        TEST_PROJECT: "./test/dymaptic.GeoBlazor.Core.Test.Unit/dymaptic.GeoBlazor.Core.Test.Unit.csproj"
+        FILTER: ${FILTER}
+    stop_grace_period: 30s
+    environment:
+      - COVER=${COVER:-false}
+      - COVERAGE_FORMAT="${COVERAGE_FORMAT:-xml}"
+      - SESSION_ID="CORE_UNIT"
+      - CONTAINER_CHECK=${CONTAINER_CHECK:-false}
+    volumes:
+      - ./unit-coverage:/unit-coverage
