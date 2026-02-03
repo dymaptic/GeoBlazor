@@ -3,7 +3,7 @@ set -e
 
 COVERAGE_FILE_VERSION="$(date +%Y-%m-%d-%H-%M-%S)"
 # The main Web app
-if SESSION_ID="WEB_APP"; then
+if [ "$SESSION_ID" = "WEB_APP" ]; then
     COVERAGE_OUTPUT="/coverage/coverage.$COVERAGE_FILE_VERSION.$COVERAGE_FORMAT"
 # The unit/sgen tests
 else
@@ -15,8 +15,9 @@ echo "SESSION_ID: " "$SESSION_ID"
 echo "CONTAINER_CHECK: " "$CONTAINER_CHECK"
 
 if [ "$CONTAINER_CHECK" = "True" ]; then
-  exec bash
-  return
+  echo "Container check mode - keeping container alive for inspection..."
+  echo "Connect with: docker exec -it <container_id> bash"
+  tail -f /dev/null
 fi
 
 # Trap SIGTERM to gracefully shutdown coverage collection
@@ -36,7 +37,7 @@ _term() {
 trap _term SIGTERM SIGINT
 
 if [ -n "$TEST_PROJECT" ]; then
-  RUN_COMMAND=("exec" "dotnet" "run" "--project" "$TEST_PROJECT" "-c" "Release" "--no-build")
+  RUN_COMMAND=("exec" "dotnet" "run" "--project" "$TEST_PROJECT" "-c" "Release" "--no-build" "--output" "Detailed")
 else
   RUN_COMMAND=("$@")
 fi
@@ -59,7 +60,6 @@ if [ "$COVER" = "True" ]; then
     # GeoBlazor code that executes through test assemblies and the web app.
     # The GeoBlazor Core and Pro DLLs are still in the report but may show low
     # coverage because most component logic runs in JavaScript (ArcGIS SDK).
-    echo "Starting dotnet-coverage with verbose logging..."
     /tools/dotnet-coverage collect \
         --session-id "$SESSION_ID" \
         -o "$COVERAGE_OUTPUT" \

@@ -126,16 +126,17 @@
         <Compile Remove="Interfaces\IViewHit.cs" />
     </ItemGroup>
 
-    <Target AfterTargets="PrepareForBuild" Name="ClearLocks">
+    <Target BeforeTargets="PrepareForBuild" Name="ClearLocks">
         <Message Importance="high" Text="Clearing locks on esBuild files"/>
         <Exec Command="dotnet $(GBBuildToolsPath)/ESBuildClearLocks.dll" ContinueOnError="false"/>
     </Target>
-    <Target AfterTargets="ClearLocks" Name="ESBuild" Condition="$(ShowSourceGenDialogs) == 'true'">
+    <Target AfterTargets="ClearLocks" BeforeTargets="PrepareForBuild" Name="ESBuild">
         <Message Importance="high" Text="Launching ESBuild from MSBuild"/>
-        <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration) --dialog" ContinueOnError="false"/>
+        <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration) --dialog" ContinueOnError="false" Condition="$(ShowSourceGenDialogs) == 'true'"/>
+        <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration)" ContinueOnError="false" Condition="$(ShowSourceGenDialogs) != 'true'"/>
     </Target>
-    <Target AfterTargets="ClearLocks" Name="ESBuild" Condition="$(ShowSourceGenDialogs) != 'true'">
-        <Message Importance="high" Text="Launching ESBuild from MSBuild"/>
-        <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration)" ContinueOnError="false"/>
-    </Target>
+
+    <PropertyGroup>
+        <PrepareForBuildDependsOn>ESBuild;$(PrepareForBuildDependsOn)</PrepareForBuildDependsOn>
+    </PropertyGroup>
 </Project>

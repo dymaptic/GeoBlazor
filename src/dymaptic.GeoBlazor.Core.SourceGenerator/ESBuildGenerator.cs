@@ -73,6 +73,12 @@ public class ESBuildGenerator : IIncrementalGenerator
     private void FilesChanged(SourceProductionContext context,
         (ImmutableArray<AdditionalText> Files, Dictionary<string, string> Options) pipeline)
     {
+        if (pipeline.Options.TryGetValue("DesignTimeBuild", out var designTimeBuild)
+            && bool.TryParse(designTimeBuild, out var designTimeBuildBool))
+        {
+            _isDesignTimeBuild = designTimeBuildBool;
+        }
+
         if (!_isDesignTimeBuild)
         {
             // If this is a full compilation, we call ESBuild directly from Core.csproj earlier in the process,
@@ -132,12 +138,6 @@ public class ESBuildGenerator : IIncrementalGenerator
         if (options.TryGetValue("Configuration", out var configuration))
         {
             _configuration = configuration;
-
-            if (options.TryGetValue("DesignTimeBuild", out var designTimeBuild)
-                && bool.TryParse(designTimeBuild, out var designTimeBuildBool))
-            {
-                _isDesignTimeBuild = designTimeBuildBool;
-            }
 
             if (options.TryGetValue("ShowSourceGenDialogs", out var showDialog)
                 && bool.TryParse(showDialog, out var showDialogBool))

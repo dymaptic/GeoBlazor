@@ -56,10 +56,7 @@ RUN dotnet ./build-tools/linux-x64/BuildAppSettings.dll \
     -o "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.Production.json" \
     -o "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.json" \
     -o "./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/appsettings.Production.json" \
-    -w "${WFS_SERVERS}" 
-
-# Pre-run ESBuild
-RUN dotnet ./build-tools/linux-x64/ESBuild.dll -f
+    -w "${WFS_SERVERS}"
 
 # Build from source with debug symbols for code coverage
 # UsePackageReference=false builds GeoBlazor from source instead of NuGet

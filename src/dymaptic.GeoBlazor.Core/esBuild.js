@@ -3,30 +3,11 @@ import {cleanPlugin} from 'esbuild-clean-plugin';
 import fs from 'fs';
 import path from 'path';
 import process from 'process';
-import {execSync} from 'child_process';
 
 const args = process.argv.slice(2);
 const isRelease = args.includes('--release');
-
-const RECORD_FILE = path.resolve('../../.esbuild-record.json');
 const OUTPUT_DIR = path.resolve('./wwwroot/js');
 
-function getCurrentGitBranch() {
-    try {
-        const branch = execSync('git rev-parse --abbrev-ref HEAD', {encoding: 'utf-8'}).trim();
-        return branch;
-    } catch (error) {
-        console.warn('Failed to get git branch name:', error.message);
-        return 'unknown';
-    }
-}
-
-function saveBuildRecord() {
-    fs.writeFileSync(RECORD_FILE, JSON.stringify({
-        timestamp: Date.now(),
-        branch: getCurrentGitBranch()
-    }), 'utf-8');
-}
 
 let options = {
     entryPoints: [
@@ -57,7 +38,6 @@ if (!fs.existsSync(OUTPUT_DIR)) {
 
 try {
     await esbuild.build(options);
-    saveBuildRecord();
 } catch (err) {
     console.error(`ESBuild Failed: ${err}`);
     process.exit(1);

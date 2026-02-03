@@ -57,6 +57,11 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
     protected async Task RunTestImplementation(string testName)
     {
+        if (TestConfig.UnitOnly)
+        {
+            return;
+        }
+
         var page = await Context
             .NewPageAsync()
             .ConfigureAwait(false);

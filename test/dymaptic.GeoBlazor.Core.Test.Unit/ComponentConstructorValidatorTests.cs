@@ -201,7 +201,7 @@ namespace TestNamespace
             return ImmutableArray<Diagnostic>.Empty;
         }
 
-        DiagnosticAnalyzer analyzer;
+        var analyzer = (DiagnosticAnalyzer)Activator.CreateInstance(analyzerType)!;
 
         // Create compilation
         var tree = CSharpSyntaxTree.ParseText(sourceCode);

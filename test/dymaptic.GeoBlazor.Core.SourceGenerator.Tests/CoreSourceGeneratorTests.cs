@@ -20,6 +20,7 @@ public class CoreSourceGeneratorTests
     {
         string corePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
             "..", "..", "..", "..", "..", "src", "dymaptic.GeoBlazor.Core");
+        var buildToolsPath = Path.Combine(corePath, "..", "..", "build-tools");
 
         var generator = new ESBuildGenerator();
 
@@ -36,7 +37,8 @@ public class CoreSourceGeneratorTests
         {
             { "build_property.CoreProjectPath", corePath },
             { "build_property.Configuration", "Debug" },
-            { "build_property.DesignTimeBuild", "true" }
+            { "build_property.DesignTimeBuild", "true" },
+            { "build_property.GBBuildToolsPath", buildToolsPath }
         });
 
         // Source generators should be tested using 'GeneratorDriver'.
@@ -65,6 +67,7 @@ public class CoreSourceGeneratorTests
     {
         string corePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
             "..", "..", "..", "..", "..", "src", "dymaptic.GeoBlazor.Core");
+        var buildToolsPath = Path.Combine(corePath, "..", "..", "build-tools");
 
         var generator = new ESBuildGenerator();
 
@@ -81,7 +84,8 @@ public class CoreSourceGeneratorTests
         {
             { "build_property.CoreProjectPath", corePath },
             { "build_property.Configuration", "Release" },
-            { "build_property.DesignTimeBuild", "true" }
+            { "build_property.DesignTimeBuild", "true" },
+            { "build_property.GBBuildToolsPath", buildToolsPath }
         });
 
         // Source generators should be tested using 'GeneratorDriver'.

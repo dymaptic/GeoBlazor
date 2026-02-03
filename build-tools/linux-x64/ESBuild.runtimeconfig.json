@@ -6,8 +6,8 @@
       "version": "10.0.0"
     },
     "configProperties": {
-      "EntryPointFilePath": "/home/runner/work/GeoBlazor/GeoBlazor/build-scripts/ESBuild.cs",
-      "EntryPointFileDirectoryPath": "/home/runner/work/GeoBlazor/GeoBlazor/build-scripts",
+      "EntryPointFilePath": "D:\\dymaptic.GeoBlazor.CodeGen\\GeoBlazor.Pro\\GeoBlazor\\build-scripts\\ESBuild.cs",
+      "EntryPointFileDirectoryPath": "D:\\dymaptic.GeoBlazor.CodeGen\\GeoBlazor.Pro\\GeoBlazor\\build-scripts",
       "Microsoft.Extensions.DependencyInjection.VerifyOpenGenericServiceTrimmability": true,
       "System.ComponentModel.DefaultValueAttribute.IsSupported": false,
       "System.ComponentModel.Design.IDesignerHost.IsSupported": false,
