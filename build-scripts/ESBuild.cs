@@ -288,16 +288,16 @@ static string GetCurrentGitBranch(string workingDirectory)
         };
 
         using var process = Process.Start(psi);
-        if (process is null) return "unknown";
+        if (process is null) return "no-git";
 
         string output = process.StandardOutput.ReadToEnd().Trim();
         process.WaitForExit();
 
-        return process.ExitCode == 0 ? output : "unknown";
+        return process.ExitCode == 0 ? output : "no-git";
     }
     catch
     {
-        return "unknown";
+        return "no-git";
     }
 }
 
@@ -345,7 +345,8 @@ static bool CheckIfNeedsBuild(string recordFilePath, string currentBranch, strin
 {
     // Check if build is needed
     var lastBuild = GetLastBuildRecord(recordFilePath);
-    bool branchChanged = currentBranch != lastBuild.Branch;
+    bool branchChanged = currentBranch != "no-git" 
+        && currentBranch != lastBuild.Branch;
 
     if (branchChanged)
     {
@@ -470,7 +471,8 @@ static void CopyScriptsToPro(string coreScriptsDir, string proScriptsDir, bool v
 /// <param name="branch">The current Git branch name.</param>
 static void SaveBuildRecord(string recordFilePath, string branch)
 {
-    long timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+    // buffer 5 seconds into the future to avoid edge cases
+    long timestamp = DateTimeOffset.UtcNow.AddSeconds(5).ToUnixTimeMilliseconds();
     // Write JSON manually to avoid reflection-based serialization (not compatible with Native AOT)
     string json = $$"""
         {
@@ -501,6 +503,7 @@ static bool GetScriptsModifiedSince(string scriptsDir, long lastTimestamp)
     {
         if (File.GetLastWriteTimeUtc(file) > lastBuildTime)
         {
+            Trace.WriteLine($"File {file} modified at {File.GetLastWriteTimeUtc(file).ToLongTimeString()} (last build: {lastBuildTime.ToLongTimeString()})");
             return true;
         }
     }

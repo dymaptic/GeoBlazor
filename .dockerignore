@@ -25,6 +25,7 @@ obj
 **/wwwroot/js/*.js.map
 **/secrets.dev.yaml
 **/values.dev.yaml
+**/.esbuild-record.json
 test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/wwwroot/appsettings.json
 LICENSE
 README.md
