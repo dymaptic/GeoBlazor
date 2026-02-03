@@ -67,13 +67,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     public bool MapRendered { get; set; }
 
     /// <summary>
-    ///     The reference to geoBlazorCore.ts from .NET
-    /// </summary>
-    [Obsolete("Use the CoreJsModule property instead.")]
-    [JsonIgnore]
-    public IJSObjectReference? JsModule => CoreJsModule;
-
-    /// <summary>
     ///     The reference to the entry point geoBlazorCore.js from .NET
     /// </summary>
     [JsonIgnore]
