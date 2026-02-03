@@ -54,6 +54,12 @@ public class ESBuildGenerator : IIncrementalGenerator
                     options["ShowSourceGenDialogs"] = showDialog;
                 }
 
+                if (configProvider.GlobalOptions.TryGetValue("build_property.CoreProjectPath",
+                    out var coreProjectPath))
+                {
+                    options["CoreProjectPath"] = coreProjectPath;
+                }
+
                 if (configProvider.GlobalOptions.TryGetValue("build_property.ProProjectPath",
                     out var proProjectPath))
                 {
@@ -125,9 +131,25 @@ public class ESBuildGenerator : IIncrementalGenerator
             ProcessHelper.Log(nameof(ESBuildGenerator),
                 "Invalid project directory.",
                 DiagnosticSeverity.Error,
-                context, _showDialog, _sessionId);
+                context);
 
             return false;
+        }
+
+        if (options.TryGetValue("CoreProjectPath", out var coreProjectPath))
+        {
+            string geoBlazorBuildLockFilePath = Path.GetFullPath(
+                Path.Combine(coreProjectPath, "..", "..", "GeoBlazorBuild.lock"));
+
+            if (File.Exists(geoBlazorBuildLockFilePath))
+            {
+                ProcessHelper.Log(nameof(ESBuildGenerator),
+                    "Skipping ESBuild background generation during GeoBlazorBuild script.",
+                    DiagnosticSeverity.Info,
+                    context);
+
+                return false;
+            }
         }
 
         if (options.TryGetValue("ProProjectPath", out var proProjectPath))
@@ -151,7 +173,7 @@ public class ESBuildGenerator : IIncrementalGenerator
         ProcessHelper.Log(nameof(ESBuildGenerator),
             "Could not parse configuration setting, invalid configuration.",
             DiagnosticSeverity.Error,
-            context, _showDialog, _sessionId);
+            context);
 
         return false;
     }

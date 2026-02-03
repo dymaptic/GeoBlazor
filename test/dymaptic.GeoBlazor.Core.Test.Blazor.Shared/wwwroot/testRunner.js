@@ -13,29 +13,7 @@ export function initialize(core) {
     Portal = Core.Portal;
     SimpleRenderer = Core.SimpleRenderer;
     esriConfig = Core.esriConfig;
-    setWaitCursor()
-
-    core.esriConfig.request.interceptors.push({
-        before: (params) => {
-            let service = getCaseInsensitive(params.requestOptions.query, 'service');
-            if (service === 'wfs' || service === 'wms') {
-                let path = params.url.replace('https://', '');
-                params.url = `https://${location.host}/proxy?url=${path}`;
-            }
-        }
-    })
-}
-
-function getCaseInsensitive(obj, key) {
-    if (obj && typeof obj === "object") {
-        const lowerKey = key.toLowerCase();
-        for (const k in obj) {
-            if (k.toLowerCase() === lowerKey) {
-                return obj[k].toLowerCase();
-            }
-        }
-    }
-    return undefined;
+    setWaitCursor();
 }
 
 export function setWaitCursor(wait) {

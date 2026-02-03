@@ -70,6 +70,8 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
         try
         {
+            _consoleMessages[testName] = [];
+            _errorMessages[testName] = [];
             string testUrl = BuildTestUrl(testName);
 
             await _retryPipeline.ExecuteAsync(async token =>

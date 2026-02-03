@@ -73,6 +73,13 @@ public partial class Index
 
             await _jsTestRunner.InvokeVoidAsync("initialize", coreJs);
 
+            if (proJs is not null)
+            {
+                IJSObjectReference proJsRunner = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
+                    "./_content/dymaptic.GeoBlazor.Pro.Test.Blazor.Shared/proTestRunner.js");
+                await proJsRunner.InvokeVoidAsync("initialize", proJs);
+            }
+
             NavigationManager.RegisterLocationChangingHandler(OnLocationChanging);
 
             await LoadSettings();

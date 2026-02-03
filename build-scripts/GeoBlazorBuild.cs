@@ -1,5 +1,7 @@
 #!/usr/bin/env dotnet
 
+#:package Polly.Core@8.6.5
+
 // GeoBlazorBuild - Primary build script for GeoBlazor and GeoBlazor Pro
 // Usage: dotnet GeoBlazorBuild.dll [options] or ./GeoBlazorBuild.exe [options]
 //   -pro                               Build GeoBlazor Pro as well as Core (default is false)
@@ -22,6 +24,8 @@ using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using Polly;
+
 
 // Paths
 // Get the script cs file path, that way we can run this script from either the CS file or the Executable
@@ -166,6 +170,21 @@ if (help)
     return 0;
 }
 
+string gbLockFilePath = Path.Combine(coreRepoRoot, $"GeoBlazorBuild.lock");
+File.WriteAllText(gbLockFilePath, scriptStartTime.ToString());
+
+CancellationTokenSource cts = new CancellationTokenSource();
+
+// Handle Ctrl+C by killing the child process
+Console.CancelKeyPress += async (_, e) =>
+{
+    e.Cancel = true; // Prevent immediate termination of this script
+    Console.WriteLine("Cancellation requested, waiting for current operations to complete...");
+    await cts.CancelAsync();
+    File.Delete(gbLockFilePath);
+    Environment.Exit(1);
+};
+
 // If generating docs, also generate XML comments
 if (generateDocs)
 {
@@ -192,7 +211,7 @@ DateTime stepStartTime = DateTime.Now;
 // Step 1: ensure other build scripts are up to date:
 WriteStepHeader(step, "Updating build scripts to latest versions...");
 Console.WriteLine($"Running {scriptsDir}/ScriptBuilder.cs to update build scripts in {toolsDir}");
-await RunDotnetCommandWithOutputAsync(scriptsDir, "run", "ScriptBuilder.cs", "--exclude", "GeoBlazorBuild.cs");
+await RunDotnetCommand(scriptsDir, "run", null, cts.Token, "ScriptBuilder.cs", "--exclude", "GeoBlazorBuild.cs");
 WriteStepCompleted(step, stepStartTime);
 step++;
 
@@ -240,7 +259,7 @@ try
     stepStartTime = DateTime.Now;
     WriteStepHeader(step, "Cleaning old build artifacts");
 
-    await RunDotnetCommand(coreProjectPath, "clean", 
+    await RunDotnetCommand(coreProjectPath, "clean", null, cts.Token, 
         $"\"{Path.Combine(coreProjectPath, "dymaptic.GeoBlazor.Core.csproj")}\"");
     DeleteDirectoryIfExists(Path.Combine(coreProjectPath, "bin"));
     DeleteDirectoryIfExists(Path.Combine(coreProjectPath, "obj"));
@@ -249,7 +268,7 @@ try
 
     if (pro)
     {
-        await RunDotnetCommand(proProjectPath, "clean", 
+        await RunDotnetCommand(proProjectPath, "clean", null, cts.Token,
             $"\"{Path.Combine(proProjectPath, "dymaptic.GeoBlazor.Pro.csproj")}\"");
         DeleteDirectoryIfExists(Path.Combine(proProjectPath, "bin"));
         DeleteDirectoryIfExists(Path.Combine(proProjectPath, "obj"));
@@ -260,7 +279,7 @@ try
 
         if (Directory.Exists(validatorProjectPath))
         {
-            await RunDotnetCommand(validatorProjectPath, "clean", 
+            await RunDotnetCommand(validatorProjectPath, "clean", null, cts.Token,
                 $"\"{Path.Combine(validatorProjectPath, "dymaptic.GeoBlazor.Pro.V.csproj")}\"");
             DeleteDirectoryIfExists(Path.Combine(validatorProjectPath, "bin"));
             DeleteDirectoryIfExists(Path.Combine(validatorProjectPath, "obj"));
@@ -343,44 +362,11 @@ try
         Console.WriteLine("Lock released, continuing...");
     }
 
-    // Step 4: Build Core JavaScript
-    stepStartTime = DateTime.Now;
-    WriteStepHeader(step, "Building Core JavaScript");
-
-    int esBuildResult = await RunDotnetScriptAsync(toolsDir, "ESBuild.dll", $"-c {configuration}");
-    if (esBuildResult != 0)
-    {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine($"ERROR: ESBuild.dll failed with exit code {esBuildResult}. Exiting.");
-        Console.ResetColor();
-        return 1;
-    }
-
-    // Verify JavaScript files were created
-    string coreJsPath = Path.Combine(coreProjectPath, "wwwroot", "js");
-    if (!Directory.Exists(coreJsPath) || Directory.GetFiles(coreJsPath, "*.js").Length == 0)
-    {
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine($"WARNING: Core JavaScript files not found at {coreJsPath}, waiting...");
-        Console.ResetColor();
-        Thread.Sleep(2000);
-        if (!Directory.Exists(coreJsPath) || Directory.GetFiles(coreJsPath, "*.js").Length == 0)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("ERROR: Core JavaScript files still not found after waiting. Exiting.");
-            Console.ResetColor();
-            return 1;
-        }
-    }
-
-    WriteStepCompleted(step, stepStartTime);
-    step++;
-
     // Step 5: Restore .NET packages for Core
     stepStartTime = DateTime.Now;
     WriteStepHeader(step, "Restoring .NET Packages");
 
-    await RunDotnetCommand(coreProjectPath, "restore");
+    await RunDotnetCommand(coreProjectPath, "restore", null, cts.Token);
 
     WriteStepCompleted(step, stepStartTime);
     step++;
@@ -389,9 +375,9 @@ try
     stepStartTime = DateTime.Now;
     WriteStepHeader(step, "Building Core Project and NuGet Package");
 
-    string[] coreBuildArgs = 
+    string[] coreBuildArgs =
     [
-        $"dymaptic.GeoBlazor.Core.csproj", 
+        $"dymaptic.GeoBlazor.Core.csproj",
         $"--no-restore",
         "-c",
         configuration,
@@ -404,45 +390,15 @@ try
 
     Console.WriteLine($"Executing 'dotnet build {string.Join(" ", coreBuildArgs)}'");
 
-    bool coreHasError = false;
-    for (int i = 1; i <= buildRetries; i++)
+    await RunDotnetCommand(coreProjectPath, "build", null, cts.Token, coreBuildArgs);
+
+    // Verify JavaScript files were created
+    string coreJsPath = Path.Combine(coreProjectPath, "wwwroot", "js");
+    if (!Directory.Exists(coreJsPath) || Directory.GetFiles(coreJsPath, "*.js").Length == 0)
     {
-        try
-        {
-            (int exitCode, List<string> output) = await RunDotnetCommandWithOutputAsync(coreProjectPath, "build", coreBuildArgs);
-
-            if (exitCode != 0)
-            {
-                Console.WriteLine($"ERROR: Core Build command failed with exit code {exitCode}. Exiting.");
-                coreHasError = true;
-            }
-            else
-            {
-                coreHasError = output.Any(line =>
-                    Regex.IsMatch(line, @"[1-9][0-9]* [Ee]rror(s)?") ||
-                    line.Contains("Build FAILED"));
-                if (!coreHasError)
-                {
-                    break;
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            coreHasError = true;
-            Console.WriteLine($"Build attempt {i} of {buildRetries} failed with exception: {ex.Message}");
-        }
-
-        Console.WriteLine($"Build attempt {i} of {buildRetries} failed.");
-        if (i < buildRetries)
-        {
-            Console.WriteLine("Waiting 2 seconds before retrying...");
-            Thread.Sleep(2000);
-        }
-    }
-
-    if (coreHasError)
-    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("ERROR: Core JavaScript files still not found after waiting. Exiting.");
+        Console.ResetColor();
         return 1;
     }
 
@@ -474,7 +430,7 @@ try
         stepStartTime = DateTime.Now;
         WriteStepHeader(step, "Restoring .NET Packages");
 
-        await RunDotnetCommand(proProjectPath, "restore");
+        await RunDotnetCommand(proProjectPath, "restore", null, cts.Token);
 
         WriteStepCompleted(step, stepStartTime);
         step++;
@@ -537,29 +493,26 @@ try
                 binlogFlag
             ];
 
-            (int validatorExitCode, List<string> validatorOutput) = await RunDotnetCommandWithOutputAsync(validatorProjectPath, "build", validatorBuildArgs);
-
-            // Restore the ServerUrls in the Validator project
-            devValidatorContent = File.ReadAllText(devBuildValidatorPath);
-            devValidatorContent = Regex.Replace(
-                devValidatorContent,
-                @"public string SU \{ get; set; \} = "".*"";",
-                "public string SU { get; set; } = null!;");
-            File.WriteAllText(devBuildValidatorPath, devValidatorContent);
-
-            publishValidatorContent = File.ReadAllText(publishTaskValidatorPath);
-            publishValidatorContent = Regex.Replace(
-                publishValidatorContent,
-                @"public string SU \{ get; set; \} = "".*"";",
-                "public string SU { get; set; } = null!;");
-            File.WriteAllText(publishTaskValidatorPath, publishValidatorContent);
-
-            bool validatorHasError = validatorOutput.Any(line =>
-                Regex.IsMatch(line, @"[1-9][0-9]* [Ee]rror(s)?") ||
-                line.Contains("Build FAILED"));
-            if (validatorHasError)
+            try
             {
-                return 1;
+                await RunDotnetCommand(validatorProjectPath, "build", null, cts.Token, validatorBuildArgs);
+            }
+            finally
+            {
+                // Restore the ServerUrls in the Validator project even if the build fails
+                devValidatorContent = File.ReadAllText(devBuildValidatorPath);
+                devValidatorContent = Regex.Replace(
+                    devValidatorContent,
+                    @"public string SU \{ get; set; \} = "".*"";",
+                    "public string SU { get; set; } = null!;");
+                File.WriteAllText(devBuildValidatorPath, devValidatorContent);
+
+                publishValidatorContent = File.ReadAllText(publishTaskValidatorPath);
+                publishValidatorContent = Regex.Replace(
+                    publishValidatorContent,
+                    @"public string SU \{ get; set; \} = "".*"";",
+                    "public string SU { get; set; } = null!;");
+                File.WriteAllText(publishTaskValidatorPath, publishValidatorContent);
             }
 
             WriteStepCompleted(step, stepStartTime);
@@ -578,39 +531,6 @@ try
             }
             Console.WriteLine("Lock released, continuing...");
         }
-
-        // Step 9: Build Pro JavaScript
-        stepStartTime = DateTime.Now;
-        WriteStepHeader(step, "Building Pro JavaScript");
-
-        int esProBuildResult = await RunDotnetScriptAsync(toolsDir, "ESBuild.dll", $"-c {configuration} --pro");
-        if (esProBuildResult != 0)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"ERROR: esProBuild failed with exit code {esProBuildResult}. Exiting.");
-            Console.ResetColor();
-            return 1;
-        }
-
-        // Verify Pro JavaScript files were created
-        string proJsPath = Path.Combine(proProjectPath, "wwwroot", "js");
-        if (!Directory.Exists(proJsPath) || Directory.GetFiles(proJsPath, "*.js").Length == 0)
-        {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"WARNING: Pro JavaScript files not found at {proJsPath}, waiting...");
-            Console.ResetColor();
-            Thread.Sleep(2000);
-            if (!Directory.Exists(proJsPath) || Directory.GetFiles(proJsPath, "*.js").Length == 0)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("ERROR: Pro JavaScript files still not found after waiting. Exiting.");
-                Console.ResetColor();
-                return 1;
-            }
-        }
-
-        WriteStepCompleted(step, stepStartTime);
-        step++;
 
         // Step 10: Build Pro project and package
         stepStartTime = DateTime.Now;
@@ -633,46 +553,23 @@ try
 
         Console.WriteLine($"Executing 'dotnet {string.Join(" ", proBuildArgs)}'");
 
-        bool proHasError = false;
-        for (int i = 1; i <= buildRetries; i++)
+        await RunDotnetCommand(proProjectPath, "build", null, cts.Token, proBuildArgs);
+
+        // Verify Pro JavaScript files were created
+        string proJsPath = Path.Combine(proProjectPath, "wwwroot", "js");
+        if (!Directory.Exists(proJsPath) || Directory.GetFiles(proJsPath, "*.js").Length == 0)
         {
-            try
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"WARNING: Pro JavaScript files not found at {proJsPath}, waiting...");
+            Console.ResetColor();
+            Thread.Sleep(2000);
+            if (!Directory.Exists(proJsPath) || Directory.GetFiles(proJsPath, "*.js").Length == 0)
             {
-                (int exitCode, List<string> output) = await RunDotnetCommandWithOutputAsync(proProjectPath, "build", proBuildArgs);
-
-                if (exitCode != 0)
-                {
-                    Console.WriteLine($"ERROR: Pro Build command failed with exit code {exitCode}. Exiting.");
-                    proHasError = true;
-                }
-                else
-                {
-                    proHasError = output.Any(line =>
-                        Regex.IsMatch(line, @"[1-9][0-9]* [Ee]rror(s)?") ||
-                        line.Contains("Build FAILED"));
-                    if (!proHasError)
-                    {
-                        break;
-                    }
-                }
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("ERROR: Pro JavaScript files still not found after waiting. Exiting.");
+                Console.ResetColor();
+                return 1;
             }
-            catch (Exception ex)
-            {
-                proHasError = true;
-                Console.WriteLine($"Build attempt {i} of {buildRetries} failed with exception: {ex.Message}");
-            }
-
-            Console.WriteLine($"Build attempt {i} of {buildRetries} failed.");
-            if (i < buildRetries)
-            {
-                Console.WriteLine("Waiting 2 seconds before retrying...");
-                Thread.Sleep(2000);
-            }
-        }
-
-        if (proHasError)
-        {
-            return 1;
         }
 
         if (package)
@@ -716,6 +613,8 @@ finally
     {
         File.Delete(currentProLockFilePath);
     }
+
+    File.Delete(gbLockFilePath);
 
     Console.WriteLine();
     Console.BackgroundColor = ConsoleColor.DarkBlue;
@@ -873,132 +772,85 @@ static void DeleteDirectoryContentsIfExists(string path)
     }
 }
 
+static async Task LaunchResilientTask(string taskName, Func<ResilienceContext, ValueTask> task,
+    CancellationToken cancellationToken)
+{
+    var context = ResilienceContextPool.Shared.Get(
+        new ResilienceContextCreationArguments(taskName, null, cancellationToken));
+    await ResilienceSetup.AppRetryPipeline.ExecuteAsync(task, context);
+
+    ResilienceContextPool.Shared.Return(context);
+}
+
 /// <summary>
 /// Runs a dotnet command without capturing output.
 /// </summary>
 /// <param name="workingDirectory">The working directory for the command.</param>
 /// <param name="command">The dotnet command (e.g., "build", "restore", "clean").</param>
 /// <param name="args">Additional arguments to pass to the command.</param>
-static async Task RunDotnetCommand(string workingDirectory, string command, params string[] args)
+static async Task RunDotnetCommand(string workingDirectory, string command, Dictionary<string, string>? environmentVariables,
+    CancellationToken cancellationToken, params string[] args)
 {
+    string arguments = $"{command} {string.Join(" ", args.Where(a => !string.IsNullOrWhiteSpace(a)))}";
     var psi = new ProcessStartInfo
     {
         FileName = "dotnet",
-        Arguments = $"{command} {string.Join(" ", args.Where(a => !string.IsNullOrWhiteSpace(a)))}",
+        Arguments = arguments,
         WorkingDirectory = workingDirectory,
         UseShellExecute = false,
-        CreateNoWindow = true
-    };
-
-    using var process = Process.Start(psi);
-    if (process != null)
-    {
-        await process.WaitForExitAsync();
-    }
-}
-
-/// <summary>
-/// Runs a dotnet command and captures both stdout and stderr output.
-/// Output is also written to the console in real-time.
-/// </summary>
-/// <param name="workingDirectory">The working directory for the command.</param>
-/// <param name="command">The dotnet command (e.g., "build", "restore").</param>
-/// <param name="args">Additional arguments to pass to the command.</param>
-/// <returns>A tuple containing the exit code and a list of all output lines.</returns>
-static async Task<(int ExitCode, List<string> Output)> RunDotnetCommandWithOutputAsync(string workingDirectory,
-    string command, params string[] args)
-{
-    var output = new List<string>();
-
-    var psi = new ProcessStartInfo
-    {
-        FileName = "dotnet",
-        Arguments = $"{command} {string.Join(" ", args.Where(a => !string.IsNullOrWhiteSpace(a)))}",
-        WorkingDirectory = workingDirectory,
-        RedirectStandardOutput = true,
+        CreateNoWindow = true,
         RedirectStandardError = true,
-        UseShellExecute = false,
-        CreateNoWindow = true
+        RedirectStandardOutput = true
     };
 
-    using var process = Process.Start(psi);
-    if (process == null)
+    if (environmentVariables != null)
     {
-        return (1, ["Failed to start dotnet"]);
+        foreach (var kvp in environmentVariables)
+        {
+            psi.Environment[kvp.Key] = kvp.Value;
+        }
     }
 
-    process.OutputDataReceived += (_, e) =>
+    await LaunchResilientTask($"dotnet {arguments}", async (context) =>
     {
-        if (e.Data != null)
+
+        using var process = Process.Start(psi);
+        if (process != null)
         {
-            Console.WriteLine(e.Data);
-            output.Add(e.Data);
+            process.OutputDataReceived += (_, e) =>
+                {
+                    if (e.Data != null)
+                    {
+                        Console.WriteLine(e.Data);
+                        if (e.Data.Contains("Build FAILED", StringComparison.OrdinalIgnoreCase))
+                        {
+                            throw new Exception($"Build failed for process {psi.FileName} {psi.Arguments}.");
+                        }
+                    }
+                };
+
+            process.ErrorDataReceived += (_, e) =>
+            {
+                if (e.Data != null)
+                {
+                    Console.WriteLine(e.Data);
+                    if (e.Data.Contains("Build FAILED", StringComparison.OrdinalIgnoreCase))
+                    {
+                        throw new Exception($"Build failed for process {psi.FileName} {psi.Arguments}.");
+                    }
+                }
+            };
+
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+
+            await process.WaitForExitAsync(cancellationToken);
+            if (!process.HasExited)
+            {
+                process.Kill(true);
+            }
         }
-    };
-
-    process.ErrorDataReceived += (_, e) =>
-    {
-        if (e.Data != null)
-        {
-            Console.WriteLine(e.Data);
-            output.Add(e.Data);
-        }
-    };
-
-    process.BeginOutputReadLine();
-    process.BeginErrorReadLine();
-    await process.WaitForExitAsync();
-
-    return (process.ExitCode, output);
-}
-
-/// <summary>
-/// Runs a compiled dotnet script (DLL) with the specified arguments.
-/// </summary>
-/// <param name="workingDirectory">The working directory for the script.</param>
-/// <param name="scriptName">The name of the DLL to run (e.g., "ESBuild.dll").</param>
-/// <param name="args">Arguments to pass to the script.</param>
-/// <returns>The exit code from the script.</returns>
-static async Task<int> RunDotnetScriptAsync(string workingDirectory, string scriptName, string args)
-{
-    var psi = new ProcessStartInfo
-    {
-        FileName = "dotnet",
-        Arguments = $"./{scriptName} {args}",
-        WorkingDirectory = workingDirectory,
-        RedirectStandardOutput = true,
-        RedirectStandardError = true,
-        UseShellExecute = false,
-        CreateNoWindow = true
-    };
-
-    using var process = Process.Start(psi);
-    if (process == null)
-    {
-        return 1;
-    }
-
-    process.OutputDataReceived += (_, e) =>
-    {
-        if (e.Data != null)
-        {
-            Console.WriteLine(e.Data);
-        }
-    };
-
-    process.ErrorDataReceived += (_, e) =>
-    {
-        if (e.Data != null)
-        {
-            Console.WriteLine(e.Data);
-        }
-    };
-
-    process.BeginOutputReadLine();
-    process.BeginErrorReadLine();
-    await process.WaitForExitAsync();
-
-    return process.ExitCode;
+    }, cancellationToken);
 }
 
 /// <summary>
@@ -1149,4 +1001,26 @@ static int CompareVersions(string version1, string version2)
     if (minor1 != minor2) return minor1.CompareTo(minor2);
     if (patch1 != patch2) return patch1.CompareTo(patch2);
     return build1.CompareTo(build2);
+}
+
+static class ResilienceSetup
+{
+    public static ResiliencePipeline AppRetryPipeline = new ResiliencePipelineBuilder()
+        .AddRetry(new()
+        {
+            BackoffType = DelayBackoffType.Exponential,
+            MaxRetryAttempts = 3,
+            Delay = TimeSpan.FromSeconds(1),
+            OnRetry = context =>
+            {
+                Console.WriteLine($"Attempt #{context.AttemptNumber + 1} for task failed. Retrying...",
+                    context.Context.OperationKey);
+                context.Context.Properties.Set(retryAttemptKey, context.AttemptNumber);
+
+                return ValueTask.CompletedTask;
+            }
+        })
+        .Build();
+
+    private static ResiliencePropertyKey<int> retryAttemptKey = new("RetryAttempt");
 }
