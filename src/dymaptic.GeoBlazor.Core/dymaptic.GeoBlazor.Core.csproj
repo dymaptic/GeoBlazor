@@ -26,6 +26,8 @@
         <NoWarn>GeoBlazor_Untested</NoWarn>
         <LangVersion>latest</LangVersion>
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+        <IsTrimmable>false</IsTrimmable>
+        <BlazorWebAssemblyEnableLinking>false</BlazorWebAssemblyEnableLinking>
     </PropertyGroup>
 
     <!--    Uncomment this section to turn on Roslyn Public API Analyzers.

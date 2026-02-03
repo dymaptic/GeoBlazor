@@ -116,12 +116,11 @@ public static class JsSyncManager
 
         if (isServer || returnTypeIsProtobuf || (returnType?.IsAssignableTo(typeof(Stream)) == true))
         {
+            Type? protoReturnType = null;
             string? protoReturnTypeName = null;
 
             if (returnTypeIsProtobuf)
             {
-                Type? protoReturnType;
-
                 if (methodRecord.ReturnValue!.SingleType is not null)
                 {
                     ProtoCollectionTypes.TryGetValue(methodRecord.ReturnValue.SingleType,
@@ -148,12 +147,26 @@ public static class JsSyncManager
             {
                 if (methodRecord.ReturnValue?.SingleType is not null)
                 {
-                    return await streamRef.ReadJsStreamReferenceAsProtobufCollection<T>(methodRecord.ReturnValue
-                        .SingleType, maxAllowedSize, cancellationToken) ?? default(T)!;
+                    IProtobufSerializable[]? collectionResult = await streamRef
+                        .ReadJsStreamReferenceAsProtobufCollection(methodRecord.ReturnValue.SingleType,
+                            maxAllowedSize, cancellationToken);
+
+                    if (collectionResult is null)
+                    {
+                        return default(T)!;
+                    }
+
+                    var typedArray = Array.CreateInstance(methodRecord.ReturnValue.SingleType, collectionResult.Length);
+
+                    Array.Copy(collectionResult, typedArray, collectionResult.Length);
+
+                    return (T)(object)typedArray;
                 }
 
-                return await streamRef.ReadJsStreamReferenceAsProtobuf<T>(returnType!, maxAllowedSize,
-                    cancellationToken) ?? default(T)!;
+                var result = await streamRef.ReadJsStreamReferenceAsProtobuf(returnType!,
+                    maxAllowedSize, cancellationToken);
+
+                return result is null ? default(T)! : (T)result;
             }
 
             if (returnType?.IsAssignableTo(typeof(Stream)) == true)

@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <CoreVersion>5.0.0.44</CoreVersion>
+    <CoreVersion>5.0.0.47</CoreVersion>
     <Configurations>Debug;Release;SourceGen Highlighting</Configurations>
     <Platforms>AnyCPU</Platforms>
     <CoreProjectPath>$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core</CoreProjectPath>

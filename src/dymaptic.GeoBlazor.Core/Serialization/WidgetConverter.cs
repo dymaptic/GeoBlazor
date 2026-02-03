@@ -62,7 +62,7 @@ internal class WidgetConverter : JsonConverter<Widget>
                     return null;
                 default:
                     // look for the type in GeoBlazor Pro
-                    string typeName = 
+                    string typeName =
                         $"dymaptic.GeoBlazor.Pro.Components.Widgets.{typeValue.ToString()!.KebabToPascalCase()}Widget";
 
                     try
@@ -88,6 +88,6 @@ internal class WidgetConverter : JsonConverter<Widget>
 
     public override void Write(Utf8JsonWriter writer, Widget value, JsonSerializerOptions options)
     {
-        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), options));
+        JsonSerializer.Serialize(writer, value, typeof(object), options);
     }
 }

@@ -65,7 +65,7 @@ public class Outline : SimpleLineSymbol
     /// <summary>
     ///     Convenience constructor for creating an outline from a <see cref="SimpleLineSymbol" />.
     /// </summary>
-    public Outline(SimpleLineSymbol symbol): base(symbol.Color, symbol.Width, symbol.Style, symbol.Cap, symbol.Join, 
+    public Outline(SimpleLineSymbol symbol) : base(symbol.Color, symbol.Width, symbol.Style, symbol.Cap, symbol.Join,
         symbol.Marker, symbol.MiterLimit)
     {
         AllowRender = false;
@@ -81,10 +81,6 @@ internal class OutlineConverter : JsonConverter<Outline>
 
     public override void Write(Utf8JsonWriter writer, Outline value, JsonSerializerOptions options)
     {
-        var newOptions = new JsonSerializerOptions(options)
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-        };
-        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
+        JsonSerializer.Serialize(writer, value, typeof(object), options);
     }
 }

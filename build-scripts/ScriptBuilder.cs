@@ -152,10 +152,7 @@ static int BuildScripts(string[] scripts, HashSet<string> scriptsToProcess, stri
 
     string recordFile = Path.Combine(outDir, ".csbuild-record.json");
     (long timeStamp, string oldBranch) = GetLastBuildRecord(recordFile);
-    if (!force && oldBranch != currentBranch)
-    {
-        return 0;
-    }
+    bool branchChanged = oldBranch != currentBranch;
 
     foreach (string script in scripts)
     {
@@ -178,7 +175,7 @@ static int BuildScripts(string[] scripts, HashSet<string> scriptsToProcess, stri
             }
         }
 
-        if (!CheckIfNeedsBuild(timeStamp, script, outDir))
+        if (!branchChanged && !CheckIfNeedsBuild(timeStamp, script, outDir))
         {
             Trace.WriteLine($"Skipping unchanged script: {Path.GetFileName(script)}");
             continue;

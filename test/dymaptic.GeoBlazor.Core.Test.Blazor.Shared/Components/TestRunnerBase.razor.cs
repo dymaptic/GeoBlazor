@@ -231,6 +231,36 @@ public partial class TestRunnerBase : IAsyncDisposable
         methodsWithRenderedMaps.Remove(methodName);
     }
 
+    protected async Task<string> WaitForDisplayedError([CallerMemberName] string methodName = "",
+        int timeoutInSeconds = 10)
+    {
+        //we are delaying by 100 milliseconds each try.
+        //multiplying the timeout by 10 will get the correct number of tries
+        var tries = timeoutInSeconds * 10;
+
+        await InvokeAsync(StateHasChanged);
+
+        while (!methodsWithDisplayedErrors.ContainsKey(methodName) && (tries > 0))
+        {
+            if (_mapRenderingExceptions.Remove(methodName, out var ex))
+            {
+                await TestLogger.LogError("Test Failed", ex);
+
+                ExceptionDispatchInfo.Capture(ex).Throw();
+            }
+
+            await Task.Delay(100);
+            tries--;
+        }
+
+        if (!methodsWithDisplayedErrors.TryGetValue(methodName, out var error))
+        {
+            throw new TimeoutException("Map did not throw exception in allotted time.");
+        }
+
+        return error;
+    }
+
     /// <summary>
     ///     Handles the LayerViewCreated event and waits for a specific layer type to render.
     /// </summary>
@@ -363,6 +393,7 @@ public partial class TestRunnerBase : IAsyncDisposable
     {
         methodsWithRenderedMaps.Remove(testName);
         layerViewCreatedEvents.Remove(testName);
+
         _testResults[testName] = _resultBuilder.ToString();
         _testRenderFragments.Remove(testName);
 
@@ -374,10 +405,11 @@ public partial class TestRunnerBase : IAsyncDisposable
                 _inconclusive, _running));
         });
         _interactionToggles[testName] = false;
-        _currentTest = null;
 
         if (!retry)
         {
+            _currentTest = null;
+
             if (_cancellationTokenSources.TryGetValue(testName, out var cts))
             {
                 await cts.CancelAsync();
@@ -390,6 +422,13 @@ public partial class TestRunnerBase : IAsyncDisposable
     private static void RenderHandler(string methodName)
     {
         methodsWithRenderedMaps.Add(methodName);
+    }
+
+    private static Task<bool> ErrorHandler(Exception exception, string methodName)
+    {
+        methodsWithDisplayedErrors[methodName] = exception.Message;
+
+        return Task.FromResult(true);
     }
 
     private static void LayerViewCreatedHandler(LayerViewCreateEvent createEvent, string methodName)
@@ -449,6 +488,11 @@ public partial class TestRunnerBase : IAsyncDisposable
                     if (paramType == typeof(Func<ListItem, Task<ListItem>>))
                     {
                         return (Func<ListItem, Task<ListItem>>)(item => ListItemCreatedHandler(item, methodInfo.Name));
+                    }
+
+                    if (paramType == typeof(Func<Exception, Task<bool>>))
+                    {
+                        return (Func<Exception, Task<bool>>)(ex => ErrorHandler(ex, methodInfo.Name));
                     }
 
                     return (Action)(() => RenderHandler(methodInfo.Name));
@@ -554,6 +598,7 @@ public partial class TestRunnerBase : IAsyncDisposable
     }
 
     private static readonly List<string> methodsWithRenderedMaps = new();
+    private static readonly Dictionary<string, string> methodsWithDisplayedErrors = new();
     private static readonly Dictionary<string, List<LayerViewCreateEvent>> layerViewCreatedEvents = new();
     private static readonly Dictionary<string, List<ListItem>> listItems = new();
     private readonly Dictionary<string, RenderFragment> _testRenderFragments = new();

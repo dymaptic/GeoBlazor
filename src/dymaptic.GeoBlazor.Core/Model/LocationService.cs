@@ -444,14 +444,12 @@ public class LocationService(
     ///     Additional options to be used for the data request
     /// </param>
     /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
-    [SerializedMethod]
-    public async Task<AddressCandidate> LocationToAddress(Point location, LocationType? locationType = null,
+    public Task<AddressCandidate> LocationToAddress(Point location, LocationType? locationType = null,
         SpatialReference? outSpatialReference = null, RequestOptions? requestOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<AddressCandidate>(nameof(LocationService), nameof(LocationToAddress),
-            QueryResultsMaxSizeLimit, cancellationToken, ESRIGeoLocationUrl, location, locationType,
-            outSpatialReference, requestOptions);
+        return LocationToAddress(ESRIGeoLocationUrl, location, locationType,
+            outSpatialReference, requestOptions, cancellationToken);
     }
 
     /// <summary>
@@ -508,14 +506,11 @@ public class LocationService(
     ///     Additional options to be used for the data request
     /// </param>
     /// <param name="cancellationToken">The cancellation token.</param>
-    [SerializedMethod]
-    public async Task<List<SuggestionResult>> SuggestLocations(Point location, string text,
+    public Task<List<SuggestionResult>> SuggestLocations(Point location, string text,
         List<string>? categories = null, RequestOptions? requestOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<List<SuggestionResult>>(nameof(LocationService),
-            nameof(SuggestLocations), QueryResultsMaxSizeLimit, cancellationToken, ESRIGeoLocationUrl,
-            location, text, categories, requestOptions);
+        return SuggestLocations(ESRIGeoLocationUrl, location, text, categories, requestOptions, cancellationToken);
     }
 
     /// <summary>

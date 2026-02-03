@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.4
+# syntax=docker/dockerfile:1.7.0
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG ARCGIS_API_KEY
 ARG GEOBLAZOR_LICENSE_KEY

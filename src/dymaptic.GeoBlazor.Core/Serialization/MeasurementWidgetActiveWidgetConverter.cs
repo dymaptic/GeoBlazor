@@ -2,7 +2,8 @@ namespace dymaptic.GeoBlazor.Core.Serialization;
 
 internal class MeasurementWidgetActiveWidgetConverter : JsonConverter<IMeasurementWidgetActiveWidget>
 {
-    public override IMeasurementWidgetActiveWidget? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override IMeasurementWidgetActiveWidget? Read(ref Utf8JsonReader reader, Type typeToConvert,
+        JsonSerializerOptions options)
     {
         var newOptions = new JsonSerializerOptions(options)
         {
@@ -28,7 +29,7 @@ internal class MeasurementWidgetActiveWidgetConverter : JsonConverter<IMeasureme
                     return null;
                 default:
                     // look for the type in GeoBlazor Pro
-                    string typeName = 
+                    string typeName =
                         $"dymaptic.GeoBlazor.Pro.Components.Widgets.{typeValue.ToString()!.KebabToPascalCase()}Widget";
 
                     try
@@ -53,8 +54,9 @@ internal class MeasurementWidgetActiveWidgetConverter : JsonConverter<IMeasureme
         return null;
     }
 
-    public override void Write(Utf8JsonWriter writer, IMeasurementWidgetActiveWidget value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, IMeasurementWidgetActiveWidget value,
+        JsonSerializerOptions options)
     {
-        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), options));
+        JsonSerializer.Serialize(writer, value, typeof(object), options);
     }
 }

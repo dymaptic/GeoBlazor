@@ -18,10 +18,11 @@ internal static partial class CoreSerializationData
 
     public static partial object ToProtobufCollectionParameter(this IList items, Type serializableType, bool isServer);
 
-    public static partial Task<T?> ReadJsStreamReferenceAsProtobuf<T>(this IJSStreamReference jsStreamReference,
+    public static partial Task<IProtobufSerializable?> ReadJsStreamReferenceAsProtobuf(
+        this IJSStreamReference jsStreamReference,
         Type returnType, long? maxAllowedSize = null, CancellationToken cancellationToken = default);
 
-    public static partial Task<T?> ReadJsStreamReferenceAsProtobufCollection<T>(
+    public static partial Task<IProtobufSerializable[]?> ReadJsStreamReferenceAsProtobufCollection(
         this IJSStreamReference jsStreamReference,
         Type returnType, long? maxAllowedSize = null, CancellationToken cancellationToken = default);
 }

@@ -1043,10 +1043,17 @@ public class TestConfig
 
             if (testProcess is not null && testProcess.HasExited)
             {
-                int exitCode = testProcess.ExitCode;
-                _causeOfFailure = $"TEST RUNNER PROCESS EXITED WITH CODE {exitCode}";
+                try
+                {
+                    int exitCode = testProcess.ExitCode;
+                    _causeOfFailure = $"TEST RUNNER PROCESS EXITED WITH CODE {exitCode}";
 
-                throw new ProcessExitedException($"Test process exited with code {exitCode}");
+                    throw new ProcessExitedException($"Test process exited with code {exitCode}");
+                }
+                catch
+                {
+                    throw new ProcessExitedException("Test process exited unexpectedly");
+                }
             }
 
             await Task.Delay(1000, cts.Token);
