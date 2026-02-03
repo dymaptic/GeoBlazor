@@ -150,7 +150,7 @@ string currentBranch = GetCurrentGitBranch(sourceDir);
 bool needsBuild = CheckIfNeedsBuild(
     recordFilePath,
     currentBranch,
-    scriptsDir, outputDir);
+    scriptsDir, outputDir, pro);
 
 if (!needsBuild)
 {
@@ -341,7 +341,8 @@ static (long Timestamp, string Branch) GetLastBuildRecord(string recordFilePath)
 /// <param name="scriptsDir">Path to the TypeScript source files.</param>
 /// <param name="outputDir">Path to the JavaScript output directory.</param>
 /// <returns>True if a build should be performed.</returns>
-static bool CheckIfNeedsBuild(string recordFilePath, string currentBranch, string scriptsDir, string outputDir)
+static bool CheckIfNeedsBuild(string recordFilePath, string currentBranch, string scriptsDir, string outputDir,
+    bool pro)
 {
     // Check if build is needed
     var lastBuild = GetLastBuildRecord(recordFilePath);
@@ -350,28 +351,28 @@ static bool CheckIfNeedsBuild(string recordFilePath, string currentBranch, strin
 
     if (branchChanged)
     {
-        Trace.WriteLine($"Git branch changed from \"{lastBuild.Branch}\" to \"{currentBranch}\". Rebuilding...");
+        Trace.WriteLine($"{(pro ? "Pro" : "Core")}: Git branch changed from \"{lastBuild.Branch}\" to \"{currentBranch}\". Rebuilding...");
         return true;
     }
 
-    if (!GetScriptsModifiedSince(scriptsDir, lastBuild.Timestamp))
+    if (!GetScriptsModifiedSince(scriptsDir, lastBuild.Timestamp, pro))
     {
-        Trace.WriteLine("No changes in Scripts folder since last build.");
+        Trace.WriteLine($"{(pro ? "Pro" : "Core")}: No changes in Scripts folder since last build.");
 
         // Check output directory for existing files
         if (Directory.Exists(outputDir) && Directory.GetFiles(outputDir).Length > 0)
         {
-            Trace.WriteLine("Output directory is not empty. Skipping build.");
+            Trace.WriteLine($"{(pro ? "Pro" : "Core")}: Output directory is not empty. Skipping build.");
             return false;
         }
         else
         {
-            Trace.WriteLine("Output directory is empty. Proceeding with build.");
+            Trace.WriteLine($"{(pro ? "Pro" : "Core")}: Output directory is empty. Proceeding with build.");
             return true;
         }
     }
 
-    Trace.WriteLine("Changes detected in Scripts folder. Proceeding with build.");
+    Trace.WriteLine($"{(pro ? "Pro" : "Core")}: Changes detected in Scripts folder. Proceeding with build.");
     return true;
 }
 
@@ -471,8 +472,8 @@ static void CopyScriptsToPro(string coreScriptsDir, string proScriptsDir, bool v
 /// <param name="branch">The current Git branch name.</param>
 static void SaveBuildRecord(string recordFilePath, string branch)
 {
-    // buffer 5 seconds into the future to avoid edge cases
-    long timestamp = DateTimeOffset.UtcNow.AddSeconds(5).ToUnixTimeMilliseconds();
+    // buffer 30 seconds into the future to avoid edge cases
+    long timestamp = DateTimeOffset.UtcNow.AddSeconds(30).ToUnixTimeMilliseconds();
     // Write JSON manually to avoid reflection-based serialization (not compatible with Native AOT)
     string json = $$"""
         {
@@ -490,7 +491,7 @@ static void SaveBuildRecord(string recordFilePath, string branch)
 /// <param name="scriptsDir">Path to the Scripts directory to scan.</param>
 /// <param name="lastTimestamp">Unix timestamp (milliseconds) of the last build.</param>
 /// <returns>True if any files have been modified since the timestamp.</returns>
-static bool GetScriptsModifiedSince(string scriptsDir, long lastTimestamp)
+static bool GetScriptsModifiedSince(string scriptsDir, long lastTimestamp, bool pro)
 {
     if (!Directory.Exists(scriptsDir))
     {
@@ -503,7 +504,7 @@ static bool GetScriptsModifiedSince(string scriptsDir, long lastTimestamp)
     {
         if (File.GetLastWriteTimeUtc(file) > lastBuildTime)
         {
-            Trace.WriteLine($"File {file} modified at {File.GetLastWriteTimeUtc(file).ToLongTimeString()} (last build: {lastBuildTime.ToLongTimeString()})");
+            Trace.WriteLine($"{(pro ? "Pro" : "Core")}: File {file} modified at {File.GetLastWriteTimeUtc(file).ToLongTimeString()} (last build: {lastBuildTime.ToLongTimeString()})");
             return true;
         }
     }
