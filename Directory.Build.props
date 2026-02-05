@@ -13,8 +13,8 @@
     <CoreProjectPath>$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core</CoreProjectPath>
     <!-- https://github.com/dotnet/aspnetcore/issues/64381 -->
     <StaticWebAssetEndpointExclusionPattern>
-            $(StaticWebAssetEndpointExclusionPattern);js/**
-        </StaticWebAssetEndpointExclusionPattern>
+        $(StaticWebAssetEndpointExclusionPattern);js/**
+    </StaticWebAssetEndpointExclusionPattern>
     </PropertyGroup>
     <PropertyGroup Condition="'$([System.OperatingSystem]::IsWindows())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'X64'">
         <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/win-x64</GBBuildToolsPath>
@@ -38,17 +38,11 @@
         <Watch Remove="$(CoreProjectPath)\wwwroot\**\*;$(CoreProjectPath)\Scripts\**\*;**\esbuild*;$(CoreProjectPath)\node_modules\**\*"/>
     </ItemGroup>
     <ItemGroup>
+        <CompilerVisibleProperty Include="Configuration" Value="$(GBBuildToolsPath)"/>
         <CompilerVisibleProperty Include="Configuration" Value="$(Configuration)"/>
-        <CompilerVisibleProperty Include="CoreProjectPath" Value="$(CoreProjectPath)"/>
         <CompilerVisibleProperty Include="DesignTimeBuild" Value="$(DesignTimeBuild)"/>
+        <CompilerVisibleProperty Include="ShowSourceGenDialogs" Value="$(ShowSourceGenDialogs)"/>
+        <CompilerVisibleProperty Include="CoreProjectPath" Value="$(CoreProjectPath)"/>
+        <CompilerVisibleProperty Include="CoreProjectPath" Value="$(ProProjectPath)"/>
     </ItemGroup>
-    <!-- ESBuild -->
-    <PropertyGroup>
-        <ESBuildRequired>true</ESBuildRequired>
-    </PropertyGroup>
-    <Target Name="TriggerESBuild" BeforeTargets="PrepareForBuild" Condition="'$(ESBuildRequired)' == true and '$(MSBuildProjectName)' != 'dymaptic.GeoBlazor.Core.ESBuild'">
-        <MSBuild Projects="$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj"
-                 Properties="GBBuildToolsPath=$(GBBuildToolsPath);ShowSourceGenDialogs=$(ShowSourceGenDialogs)"
-                 RemoveProperties="ESBuildRequired;GBBuildToolsPath;ShowSourceGenDialogs;Configuration;Platform;TargetFramework;BuildProjectReferences"/>
-    </Target>
 </Project>

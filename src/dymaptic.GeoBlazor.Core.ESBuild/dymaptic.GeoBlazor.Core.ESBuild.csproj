@@ -3,13 +3,13 @@
         <TargetFramework>net8.0</TargetFramework>
     </PropertyGroup>
     <!-- ESBuild-Triggering "Project" to enforce that this only fires once per build, no matter what project we build from -->
-    <Target BeforeTargets="PrepareForRun" Name="ESBuild">
+    <Target BeforeTargets="PrepareForRun" Name="ClearLocks">
+        <Message Importance="high" Text="CORE: Clearing ESBuild locks"/>
+        <Exec Command="dotnet $(GBBuildToolsPath)/ESBuildClearLocks.dll" ContinueOnError="false"/>
+    </Target>
+    <Target BeforeTargets="PrepareForRun" AfterTargets="ClearLocks" Name="ESBuild">
         <Message Importance="high" Text="CORE: Launching ESBuild"/>
         <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration) --dialog" ContinueOnError="false" Condition="$(ShowSourceGenDialogs) == 'true'"/>
         <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration)" ContinueOnError="false" Condition="$(ShowSourceGenDialogs) != 'true'"/>
-    </Target>
-    <Target AfterTargets="AfterBuild" Name="ClearLocks">
-        <Message Importance="high" Text="CORE: Clearing ESBuild locks"/>
-        <Exec Command="dotnet $(GBBuildToolsPath)/ESBuildClearLocks.dll" ContinueOnError="false"/>
     </Target>
 </Project>

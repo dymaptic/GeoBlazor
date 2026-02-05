@@ -1,5 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
-
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor" InitialTargets="TriggerESBuild">
     <PropertyGroup>
         <PackageId >dymaptic.GeoBlazor.Core</PackageId>
         <RootNamespace>dymaptic.GeoBlazor.Core</RootNamespace>
@@ -125,4 +124,12 @@
                  Include="$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\generated\**\*.g.cs" />
         <Compile Remove="Interfaces\IViewHit.cs" />
     </ItemGroup>
+
+    <!-- ESBuild -->
+    <Target Name="TriggerESBuild">
+        <Exec Command="dotnet restore $(MSBuildThisFileDirectory)../dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj"/>
+        <MSBuild Projects="$(MSBuildThisFileDirectory)../dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj"
+                 Properties="GBBuildToolsPath=$(GBBuildToolsPath);ShowSourceGenDialogs=$(ShowSourceGenDialogs)"
+                 RemoveProperties="GBBuildToolsPath;ShowSourceGenDialogs;Configuration;Platform;TargetFramework;TargetFrameworks;BuildProjectReferences"/>
+    </Target>
 </Project>

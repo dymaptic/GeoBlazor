@@ -22,7 +22,7 @@ public class CoreSourceGeneratorTests
             "..", "..", "..", "..", "..", "src", "dymaptic.GeoBlazor.Core");
         var buildToolsPath = Path.Combine(corePath, "..", "..", "build-tools");
 
-        var generator = new ESBuildGenerator();
+        var generator = new CoreESBuildGenerator();
 
         // get actual Scripts files
         var scriptsPath = Path.Combine(corePath, "Scripts");
@@ -69,7 +69,7 @@ public class CoreSourceGeneratorTests
             "..", "..", "..", "..", "..", "src", "dymaptic.GeoBlazor.Core");
         var buildToolsPath = Path.Combine(corePath, "..", "..", "build-tools");
 
-        var generator = new ESBuildGenerator();
+        var generator = new CoreESBuildGenerator();
 
         // get actual Scripts files
         var scriptsPath = Path.Combine(corePath, "Scripts");
@@ -114,7 +114,7 @@ public class CoreSourceGeneratorTests
         string corePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
             "..", "..", "..", "..", "..", "src", "dymaptic.GeoBlazor.Core");
 
-        var generator = new ESBuildGenerator();
+        var generator = new CoreESBuildGenerator();
 
         // get actual Scripts files
         var scriptsPath = Path.Combine(corePath, "Scripts");
