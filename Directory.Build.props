@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <CoreVersion>5.0.0.56</CoreVersion>
+    <CoreVersion>5.0.0.57</CoreVersion>
     <Configurations>Debug;Release;SourceGen Highlighting</Configurations>
     <Platforms>AnyCPU</Platforms>
     <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
@@ -15,34 +15,34 @@
     <StaticWebAssetEndpointExclusionPattern>
         $(StaticWebAssetEndpointExclusionPattern);js/**
     </StaticWebAssetEndpointExclusionPattern>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$([System.OperatingSystem]::IsWindows())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'X64'">
-        <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/win-x64</GBBuildToolsPath>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$([System.OperatingSystem]::IsWindows())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'Arm64'">
-        <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/win-arm64</GBBuildToolsPath>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$([System.OperatingSystem]::IsMacOS())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'X64'">
-        <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/osx-x64</GBBuildToolsPath>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$([System.OperatingSystem]::IsMacOS())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'Arm64'">
-        <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/osx-arm64</GBBuildToolsPath>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$([System.OperatingSystem]::IsLinux())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'X64'">
-        <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/linux-x64</GBBuildToolsPath>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$([System.OperatingSystem]::IsLinux())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'Arm64'">
-        <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/linux-arm64</GBBuildToolsPath>
-    </PropertyGroup>
-    <ItemGroup>
-        <Watch Remove="$(CoreProjectPath)\wwwroot\**\*;$(CoreProjectPath)\Scripts\**\*;**\esbuild*;$(CoreProjectPath)\node_modules\**\*"/>
-    </ItemGroup>
-    <ItemGroup>
-        <CompilerVisibleProperty Include="Configuration" Value="$(GBBuildToolsPath)"/>
-        <CompilerVisibleProperty Include="Configuration" Value="$(Configuration)"/>
-        <CompilerVisibleProperty Include="DesignTimeBuild" Value="$(DesignTimeBuild)"/>
-        <CompilerVisibleProperty Include="ShowSourceGenDialogs" Value="$(ShowSourceGenDialogs)"/>
-        <CompilerVisibleProperty Include="CoreProjectPath" Value="$(CoreProjectPath)"/>
-        <CompilerVisibleProperty Include="CoreProjectPath" Value="$(ProProjectPath)"/>
-    </ItemGroup>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$([System.OperatingSystem]::IsWindows())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'X64'">
+    <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/win-x64</GBBuildToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$([System.OperatingSystem]::IsWindows())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'Arm64'">
+    <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/win-arm64</GBBuildToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$([System.OperatingSystem]::IsMacOS())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'X64'">
+    <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/osx-x64</GBBuildToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$([System.OperatingSystem]::IsMacOS())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'Arm64'">
+    <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/osx-arm64</GBBuildToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$([System.OperatingSystem]::IsLinux())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'X64'">
+    <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/linux-x64</GBBuildToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$([System.OperatingSystem]::IsLinux())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'Arm64'">
+    <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/linux-arm64</GBBuildToolsPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Watch Remove="$(CoreProjectPath)\wwwroot\**\*;$(CoreProjectPath)\Scripts\**\*;**\esbuild*;$(CoreProjectPath)\node_modules\**\*" />
+  </ItemGroup>
+  <ItemGroup>
+    <CompilerVisibleProperty Include="Configuration" Value="$(GBBuildToolsPath)" />
+    <CompilerVisibleProperty Include="Configuration" Value="$(Configuration)" />
+    <CompilerVisibleProperty Include="DesignTimeBuild" Value="$(DesignTimeBuild)" />
+    <CompilerVisibleProperty Include="ShowSourceGenDialogs" Value="$(ShowSourceGenDialogs)" />
+    <CompilerVisibleProperty Include="CoreProjectPath" Value="$(CoreProjectPath)" />
+    <CompilerVisibleProperty Include="CoreProjectPath" Value="$(ProProjectPath)" />
+  </ItemGroup>
 </Project>
