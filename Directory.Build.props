@@ -43,8 +43,12 @@
         <CompilerVisibleProperty Include="DesignTimeBuild" Value="$(DesignTimeBuild)"/>
     </ItemGroup>
     <!-- ESBuild -->
-    <Target Name="TriggerESBuild" BeforeTargets="PrepareForBuild" Condition="'$(MSBuildProjectName)' != 'dymaptic.GeoBlazor.Core.ESBuild'">
+    <PropertyGroup>
+        <ESBuildRequired>true</ESBuildRequired>
+    </PropertyGroup>
+    <Target Name="TriggerESBuild" BeforeTargets="PrepareForBuild" Condition="'$(ESBuildRequired)' == true and '$(MSBuildProjectName)' != 'dymaptic.GeoBlazor.Core.ESBuild'">
         <MSBuild Projects="$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj"
-                 Properties="GBBuildToolsPath=$(GBBuildToolsPath);ShowSourceGenDialogs=$(ShowSourceGenDialogs)"/>
+                 Properties="GBBuildToolsPath=$(GBBuildToolsPath);ShowSourceGenDialogs=$(ShowSourceGenDialogs)"
+                 RemoveProperties="ESBuildRequired;GBBuildToolsPath;ShowSourceGenDialogs;Configuration;Platform;TargetFramework;BuildProjectReferences"/>
     </Target>
 </Project>

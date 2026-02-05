@@ -112,7 +112,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\dymaptic.GeoBlazor.Core.ESBuild\dymaptic.GeoBlazor.Core.ESBuild.csproj"/>
         <ProjectReference Include="..\dymaptic.GeoBlazor.Core.SourceGenerator\dymaptic.GeoBlazor.Core.SourceGenerator.csproj"
                           OutputItemType="Analyzer"
                           ReferenceOutputAssembly="false"/>
