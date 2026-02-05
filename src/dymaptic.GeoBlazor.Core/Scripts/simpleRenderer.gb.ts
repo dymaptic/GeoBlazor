@@ -52,7 +52,7 @@ export async function buildDotNetSimpleRendererGenerated(jsObject: any, viewId: 
     
     if (hasValue(jsObject.visualVariables)) {
         let { buildDotNetVisualVariable } = await import('./visualVariable');
-        dotNetSimpleRenderer.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetVisualVariable(i, viewId)));
+        dotNetSimpleRenderer.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetVisualVariable(i)));
     }
     
     if (hasValue(jsObject.label)) {

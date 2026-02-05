@@ -438,8 +438,7 @@ if (restoreResult != 0)
 
 int buildResult = RunDotnet(
     $"build \"{templateProjectPath}\" -c Release --no-restore " +
-    $"/p:ProVersion={proVersion} /p:OptOutFromCoreEsBuild=true " +
-    "/p:OptOutFromProEsBuild=true /p:GenerateDocs=false /p:GeneratePackage=false");
+    $"/p:ProVersion={proVersion} /p:GenerateDocs=false /p:GeneratePackage=false");
 
 if (buildResult != 0)
 {

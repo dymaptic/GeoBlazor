@@ -134,19 +134,15 @@ internal class SizeVariableConverter : JsonConverter<SizeVariable>
 
     public override void Write(Utf8JsonWriter writer, SizeVariable value, JsonSerializerOptions options)
     {
-        // Dimensions are handled normally, but SizeVariables need to be serialized differently
-        if (value.MinSizeVariable is null && value.MaxSizeVariable is null)
-        {
-            writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object),
-                GeoBlazorSerialization.JsonSerializerOptions));
-
-            return;
-        }
-
-        PropertyInfo[] props = value.GetType()
-            .GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+        PropertyInfo[] props = value.GetPropertyInfos()
+            .Where(p => p.SetMethod is not null)
+            .ToArray();
 
         writer.WriteStartObject();
+
+        // type does not have a Getter, so it is not included in GetPropertyInfos
+        writer.WritePropertyName("type");
+        writer.WriteStringValue("size");
 
         foreach (PropertyInfo prop in props)
         {

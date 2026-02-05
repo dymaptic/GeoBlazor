@@ -55,27 +55,42 @@
 
     private void OnViewRendered() => _mapRendered = true;
 
-    public async Task AddRemoveWCSLayer(bool colorized)
+    private async Task AddRemoveWCSLayer(bool colorized)
     {
-        if (!_view!.Map!.Layers.Any())
+        await SetCursor("wait");
+        await Task.Delay(100);
+
+        try
         {
-            if (colorized)
+            if (!_view!.Map!.Layers.Any())
             {
-                await _view.AddLayer(_colorizedLayer!);
+                if (colorized)
+                {
+                    await _view.AddLayer(_colorizedLayer!);
+                }
+                else
+                {
+                    await _view.AddLayer(_blackAndWhiteLayer!);
+                }
+            }
+            else if (colorized)
+            {
+                await _view.RemoveLayer(_colorizedLayer!);
             }
             else
             {
-                await _view.AddLayer(_blackAndWhiteLayer!);
+                await _view.RemoveLayer(_blackAndWhiteLayer!);
             }
         }
-        else if (colorized)
+        finally
         {
-            await _view.RemoveLayer(_colorizedLayer!);
+            await SetCursor("default");
         }
-        else
-        {
-            await _view.RemoveLayer(_blackAndWhiteLayer!);
-        }
+    }
+
+    private async Task SetCursor(string cursor)
+    {
+        await _view!.CoreJsModule!.InvokeVoidAsync("setCursor", cursor, _view.Id);
     }
 
 

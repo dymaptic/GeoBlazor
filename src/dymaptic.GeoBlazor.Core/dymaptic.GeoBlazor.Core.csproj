@@ -112,6 +112,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\dymaptic.GeoBlazor.Core.ESBuild\dymaptic.GeoBlazor.Core.ESBuild.csproj"/>
         <ProjectReference Include="..\dymaptic.GeoBlazor.Core.SourceGenerator\dymaptic.GeoBlazor.Core.SourceGenerator.csproj"
                           OutputItemType="Analyzer"
                           ReferenceOutputAssembly="false"/>
@@ -125,18 +126,4 @@
                  Include="$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\generated\**\*.g.cs" />
         <Compile Remove="Interfaces\IViewHit.cs" />
     </ItemGroup>
-
-    <Target BeforeTargets="PrepareForBuild" Name="ClearLocks">
-        <Message Importance="high" Text="Clearing locks on esBuild files"/>
-        <Exec Command="dotnet $(GBBuildToolsPath)/ESBuildClearLocks.dll" ContinueOnError="false"/>
-    </Target>
-    <Target AfterTargets="ClearLocks" BeforeTargets="PrepareForBuild" Name="ESBuild">
-        <Message Importance="high" Text="Launching ESBuild from MSBuild"/>
-        <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration) --dialog" ContinueOnError="false" Condition="$(ShowSourceGenDialogs) == 'true'"/>
-        <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration)" ContinueOnError="false" Condition="$(ShowSourceGenDialogs) != 'true'"/>
-    </Target>
-
-    <PropertyGroup>
-        <PrepareForBuildDependsOn>ESBuild;$(PrepareForBuildDependsOn)</PrepareForBuildDependsOn>
-    </PropertyGroup>
 </Project>

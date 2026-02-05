@@ -916,11 +916,15 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <summary>
     ///     Retrieves the reflected public and private instance properties of the current type
     /// </summary>
-    protected PropertyInfo[] GetPropertyInfos()
+    protected internal PropertyInfo[] GetPropertyInfos()
     {
         return MapComponentType
-            .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-            .Where(p => p.DeclaringType?.Namespace?.StartsWith("dymaptic.GeoBlazor") == true)
+            .GetProperties(BindingFlags.Public | BindingFlags.NonPublic
+                | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+            .Where(p => p.SetMethod is not null
+                && p.DeclaringType?.Namespace?.StartsWith("dymaptic.GeoBlazor") == true
+                && !excludedProps.Contains(p.Name)
+                && p.GetCustomAttribute<InjectAttribute>() is null)
             .ToArray();
     }
 
@@ -1196,6 +1200,13 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             }
         }
     }
+
+    private static readonly string[] excludedProps =
+    [
+        nameof(ChildContent),
+        nameof(DotNetComponentReference),
+        nameof(IsDisposed)
+    ];
 
     private static Type? _proExtensions;
 

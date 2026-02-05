@@ -711,6 +711,23 @@ public class GeometryEngine(
     public Task<Polygon?> GeodesicBuffer(Geometry geometry, double distance,
         CancellationToken cancellationToken = default)
     {
+        if (geometry.Type == GeometryType.Multipoint)
+        {
+            // in Pro there is an extension method called GeodesicBufferMultipoint
+            // we need to call it via reflection
+            MethodInfo? multiPointMethodInfo = Assembly.Load("dymaptic.GeoBlazor.Pro")
+                ?
+                .GetType("dymaptic.GeoBlazor.Pro.Model.GeometryEngineProExtensions")
+                ?
+                .GetMethod("GeodesicBufferMultipoint");
+
+            if (multiPointMethodInfo is not null)
+            {
+                return (Task<Polygon?>)multiPointMethodInfo.Invoke(this,
+                    [this, geometry, distance, cancellationToken])!;
+            }
+        }
+
         return GeodesicBuffer(geometry, distance, null, cancellationToken);
     }
 

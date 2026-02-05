@@ -6,6 +6,7 @@
 //   -c, --configuration <Debug|Release>  Build configuration (default: Debug)
 //   -f, --force                          Force rebuild, ignoring lock files and record
 //   -p, --pro                            Run the GeoBlazor Pro ESBuild process
+//   -pc, --prooncorechange               Run the GeoBlazor Pro ESBuild process if pro OR core files have changed
 //   -d, --dialog                         Show a console dialog during build
 //   -v, --verbose                        Enable verbose logging
 //   -h, --help                           Display help message
@@ -31,6 +32,7 @@ string configuration = "Debug";
 bool force = false;
 bool help = false;
 bool pro = false;
+bool proOnCoreChange = false;
 bool dialog = false;
 bool verbose = false;
 
@@ -55,8 +57,14 @@ for (int i = 0; i < args.Length; i++)
             force = true;
             break;
         case "-p":
+        case "-pro":
         case "--pro":
             pro = true;
+            break;
+        case "-pc":
+        case "-pocore":
+        case "--prooncorechange":
+            proOnCoreChange = true;
             break;
         case "-h":
         case "--help":
@@ -76,6 +84,9 @@ for (int i = 0; i < args.Length; i++)
     }
 }
 
+Trace.Listeners.Add(new ConsoleTraceListener());
+Trace.AutoFlush = true;
+
 if (help)
 {
     Trace.WriteLine("ESBuild TypeScript -> JavaScript Compilation Script");
@@ -85,11 +96,10 @@ if (help)
     Trace.WriteLine("  -c, --configuration <string>         Build configuration (default is 'Debug')");
     Trace.WriteLine("                                       Valid values are 'Debug' and 'Release'");
     Trace.WriteLine("  -p, --pro                            Run the GeoBlazor Pro ESBuild process");
+    Trace.WriteLine("  -pc, --prooncorechange               Run the GeoBlazor Pro ESBuild process if pro OR core files have changed");
     Trace.WriteLine("  -h, --help                           Display this help message");
     return 0;
 }
-
-Trace.Listeners.Add(new ConsoleTraceListener());
 
 Process? dialogProcess = null;
 
@@ -134,16 +144,38 @@ string coreLockFilePath = configuration == "Release" ? coreReleaseLockFile : cor
 string proLockFilePath = configuration == "Release" ? proReleaseLockFile : proDebugLockFile;
 string lockFilePath = pro ? proLockFilePath : coreLockFilePath;
 
-// Handle --force flag: delete record file
-if (force && File.Exists(coreRecordFilePath))
+// Handle --force flag: delete record and lock files
+if (force)
 {
-    Trace.WriteLine("Force rebuild: Deleting existing record file.");
+    Trace.WriteLine("Force rebuild: Deleting existing record files.");
     File.Delete(coreRecordFilePath);
-}
-if (force && File.Exists(proRecordFilePath))
-{
-    Trace.WriteLine("Force rebuild: Deleting existing record file.");
     File.Delete(proRecordFilePath);
+    File.Delete(debugLockFile);
+    File.Delete(releaseLockFile);
+}
+
+// Check if the process is locked for the current configuration
+bool locked = configuration == "Debug" && File.Exists(debugLockFile)
+    || configuration == "Release" && File.Exists(releaseLockFile);
+
+// Prevent multiple instances of the script from running at the same time
+if (locked)
+{
+    Trace.WriteLine("Another instance of the script is already running. Exiting.");
+    KillDialog(dialogProcess);
+    return 1;
+}
+
+try
+{
+    // Lock
+    File.WriteAllText(lockFilePath, DateTime.UtcNow.ToString("o"));
+}
+catch
+{
+    Trace.WriteLine("Conflict with Lock file. Exiting.");
+    KillDialog(dialogProcess);
+    return 1;
 }
 
 string currentBranch = GetCurrentGitBranch(sourceDir);
@@ -151,6 +183,12 @@ bool needsBuild = CheckIfNeedsBuild(
     recordFilePath,
     currentBranch,
     scriptsDir, outputDir, pro);
+
+if (!needsBuild && pro && proOnCoreChange)
+{
+    needsBuild = CheckIfNeedsBuild(coreRecordFilePath,
+        currentBranch, coreScriptsDir, coreOutputDir, false);
+}
 
 if (!needsBuild)
 {
@@ -168,32 +206,8 @@ if (!verbose)
     Trace.WriteLine("Launching ESBuild...");
 }
 
-// Check if the process is locked for the current configuration
-bool locked = configuration == "Debug" && File.Exists(debugLockFile)
-           || configuration == "Release" && File.Exists(releaseLockFile);
-
-// Prevent multiple instances of the script from running at the same time
-if (locked)
-{
-    if (force)
-    {
-        if (File.Exists(debugLockFile)) File.Delete(debugLockFile);
-        if (File.Exists(releaseLockFile)) File.Delete(releaseLockFile);
-        Trace.WriteLine("Cleared esBuild lock files");
-    }
-    else
-    {
-        Trace.WriteLine("Another instance of the script is already running. Exiting.");
-        KillDialog(dialogProcess);
-        return 1;
-    }
-}
-
 try
 {
-    // Lock
-    File.WriteAllText(lockFilePath, DateTime.UtcNow.ToString("o"));
-
     // Ensure output directory exists
     if (!Directory.Exists(outputDir))
     {
@@ -253,14 +267,6 @@ catch (Exception ex)
     Trace.WriteLine($"{ex.Message}{Environment.NewLine}{ex.StackTrace}");
     HoldDialog(dialogProcess);
     return 1;
-}
-finally
-{
-    // Unlock
-    if (File.Exists(lockFilePath))
-    {
-        File.Delete(lockFilePath);
-    }
 }
 
 // ============================================================================
@@ -711,7 +717,7 @@ static void HoldDialog(Process? dialog)
 {
     if (dialog?.StandardInput is not null && !dialog.HasExited)
     {
-        dialog.StandardInput.WriteLine("NPM Install failed");
+        dialog.StandardInput.WriteLine("hold");
     }
 }
 

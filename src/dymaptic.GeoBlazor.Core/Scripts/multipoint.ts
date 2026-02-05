@@ -1,5 +1,5 @@
 import MultipointGenerated from './multipoint.gb';
-import {hasValue} from './geoBlazorCore';
+import {hasValue, sanitize} from './geoBlazorCore';
 import Multipoint from "@arcgis/core/geometry/Multipoint";
 import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 import {buildDotNetExtent} from "./extent";
@@ -15,7 +15,9 @@ export function buildJsMultipoint(dotNetObject: any): any {
         properties.hasZ = dotNetObject.hasZ;
     }
     if (hasValue(dotNetObject.points) && dotNetObject.points.length > 0) {
-        properties.points = dotNetObject.points;
+        properties.points = dotNetObject.points.map(p => {
+            return [p.x, p.y]
+        });
     }
     if (hasValue(dotNetObject.spatialReference)) {
         properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference);
