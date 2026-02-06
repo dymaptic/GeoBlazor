@@ -8,8 +8,19 @@
     ".NETCoreApp,Version=v10.0": {},
     ".NETCoreApp,Version=v10.0/linux-x64": {
       "GBTest/1.0.0": {
+        "dependencies": {
+          "CliWrap": "3.10.0"
+        },
         "runtime": {
           "GBTest.dll": {}
+        }
+      },
+      "CliWrap/3.10.0": {
+        "runtime": {
+          "lib/net10.0/CliWrap.dll": {
+            "assemblyVersion": "3.10.0.0",
+            "fileVersion": "3.10.0.0"
+          }
         }
       }
     }
@@ -19,6 +30,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "CliWrap/3.10.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Igph39WNImUFqQrpTeBDPafcCnM1u/8IooZHqMRF/5JdV5H78p+AbZkeYY1Nkz1WlbI/Gt2Hq/3rYh55jxRF9Q==",
+      "path": "cliwrap/3.10.0",
+      "hashPath": "cliwrap.3.10.0.nupkg.sha512"
     }
   }
 }
