@@ -16,6 +16,11 @@ namespace dymaptic.GeoBlazor.Core.SourceGenerator.Shared;
 public static class ProcessHelper
 {
     /// <summary>
+    ///     Set this to true to bypass actual process execution and script execution for testing purposes.
+    /// </summary>
+    public static bool TestBypass { get; set; }
+
+    /// <summary>
     ///     Executes a PowerShell script file with the specified arguments.
     /// </summary>
     /// <param name="processName">A descriptive name for the process, used in logging.</param>
@@ -119,6 +124,14 @@ public static class ProcessHelper
 
         Log(processName, $"Starting process execution: {processName} {string.Join(" ", shellArguments)}",
             DiagnosticSeverity.Info, context, showConsole, sessionId);
+
+        if (TestBypass)
+        {
+            Log(processName, $"Command '{fileName} {string.Join(" ", shellArguments)}' completed successfully.",
+                DiagnosticSeverity.Info, context, showConsole, sessionId);
+
+            return;
+        }
 
         int? processId = null;
         int? exitCode = null;

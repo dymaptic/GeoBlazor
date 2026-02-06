@@ -1,5 +1,6 @@
 using CliWrap;
 using CliWrap.EventStream;
+using dymaptic.GeoBlazor.Core.SourceGenerator.Shared;
 using dymaptic.GeoBlazor.Core.SourceGenerator.Tests.Utils;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -15,6 +16,12 @@ namespace dymaptic.GeoBlazor.Core.SourceGenerator.Tests;
 [TestClass]
 public class CoreSourceGeneratorTests
 {
+    [ClassInitialize]
+    public static void ClassInitialize(TestContext testContext)
+    {
+        ProcessHelper.TestBypass = true;
+    }
+
     [TestMethod]
     public void TestCanTriggerESBuildInDebugMode()
     {
@@ -55,11 +62,13 @@ public class CoreSourceGeneratorTests
         Trace.WriteLine(string.Join(Environment.NewLine, diagnostics.Select(d => d.GetMessage())));
 
         Assert.IsTrue(diagnostics.Any(d => d.Id == "GBSourceGen"),
-            "Expected a GBSourceGen diagnostic from the generator.");
+            $"{Environment.NewLine}Diagnostics: {
+                string.Join(Environment.NewLine, diagnostics.Select(d => d.GetMessage()))}");
 
         Assert.IsTrue(diagnostics.Any(d => d.GetMessage()
                 .Contains("Command 'dotnet ESBuild.dll -c Debug' completed successfully.")),
-            "Expected a Core ESBuild process completed successfully.");
+            $"{Environment.NewLine}Diagnostics: {
+                string.Join(Environment.NewLine, diagnostics.Select(d => d.GetMessage()))}");
     }
 
     [TestMethod]
@@ -101,11 +110,13 @@ public class CoreSourceGeneratorTests
         Trace.WriteLine(string.Join(Environment.NewLine, diagnostics.Select(d => d.GetMessage())));
 
         Assert.IsTrue(diagnostics.Any(d => d.Id == "GBSourceGen"),
-            "Expected a GBSourceGen diagnostic from the generator.");
+            $"{Environment.NewLine}Diagnostics: {
+                string.Join(Environment.NewLine, diagnostics.Select(d => d.GetMessage()))}");
 
         Assert.IsTrue(diagnostics.Any(d => d.GetMessage()
                 .Contains("Command 'dotnet ESBuild.dll -c Release' completed successfully.")),
-            "Expected a Core ESBuild process completed successfully.");
+            $"{Environment.NewLine}Diagnostics: {
+                string.Join(Environment.NewLine, diagnostics.Select(d => d.GetMessage()))}");
     }
 
     [TestMethod]

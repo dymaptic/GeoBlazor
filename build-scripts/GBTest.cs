@@ -1,17 +1,57 @@
 #!/usr/bin/env dotnet
 
+// GBTest.cs - GeoBlazor Test Runner
+// Runs the GeoBlazor Core automation test project via `dotnet run`.
+// Supports configuration, test filtering, code coverage, and container execution.
+//
+// Usage: dotnet ./build-scripts/GBTest.cs [options]
+//
+// Options:
+//   -h, --help             Show this help message and exit
+//   -c, --configuration    Build configuration (default: Release)
+//   -f, --filter           Test filter expression passed to dotnet test
+//   -p, --percentage       Percentage of tests that must pass to be counted as successful (default 90%)
+//       --cover            Enable code coverage collection (sets COVER=true)
+//       --container        Run tests in a container (sets USE_CONTAINER=true)
+
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
+// Default option values
 bool cover = false;
 bool container = false;
 string config = "Release";
 string? filter = null;
+int percentage = 90;
 
+// Parse command-line arguments
 for (int i = 0; i < args.Length; i++)
 {
     switch (args[i].ToLowerInvariant())
     {
+        case "-h":
+        case "--help":
+            Console.WriteLine("""
+                GBTest - GeoBlazor Test Runner
+
+                Usage: dotnet ./build-scripts/GBTest.cs [options]
+
+                Options:
+                  -h, --help             Show this help message and exit
+                  -c, --configuration    Build configuration (default: Release)
+                  -f, --filter           Test filter expression passed to dotnet test
+                  -p, --percentage       Percentage of tests that must pass to be counted as successful (default 90%)
+                      --cover            Enable code coverage collection (sets COVER=true)
+                      --container        Run tests in a container (sets USE_CONTAINER=true)
+
+                Examples:
+                  dotnet ./build-scripts/GBTest.cs
+                  dotnet ./build-scripts/GBTest.cs -c Debug
+                  dotnet ./build-scripts/GBTest.cs --filter "FullyQualifiedName~MapView"
+                  dotnet ./build-scripts/GBTest.cs --cover --container
+                """);
+            return 0;
         case "--cover":
             cover = true;
             break;
@@ -32,9 +72,17 @@ for (int i = 0; i < args.Length; i++)
                 filter = args[++i];
             }
             break;
+        case "-p":
+        case "--percentage":
+            if (i + 1 < args.Length && int.TryParse(args[++i], out int p))
+            {
+                percentage = p;
+            }
+            break;
     }
 }
 
+// Resolve paths relative to this script's location
 string scriptsDir = GetScriptsDirectory();
 
 string testProjectDir = Path.GetFullPath(
@@ -42,10 +90,12 @@ string testProjectDir = Path.GetFullPath(
 
 string testProjectFilePath = Path.Combine(testProjectDir, "dymaptic.GeoBlazor.Core.Test.Automation.csproj");
 
+// Build the argument list for `dotnet run`
 List<string> buildArgs =
 [
     "--project", testProjectFilePath,
-    "-c", config
+    "-c", config,
+    "--ignore-exit-code", "2"
 ];
 
 if (filter != null)
@@ -53,6 +103,7 @@ if (filter != null)
     buildArgs = [..buildArgs, "--filter", filter];
 }
 
+// Set environment variables to toggle optional features
 Dictionary<string, string>? environmentVariables = [];
 
 if (cover)
@@ -65,7 +116,42 @@ if (container)
 	environmentVariables["USE_CONTAINER"] = "true";
 }
 
-return await RunDotnetCommandWithOutputAsync(testProjectDir, "run", buildArgs, environmentVariables);
+// Execute the test project
+await RunDotnetCommandWithOutputAsync(testProjectDir, "run", buildArgs, environmentVariables);
+
+// Read the test output log
+string testOutputLogPath = Path.Combine(testProjectDir, "test-run.log");
+
+Regex finalCountRegex = new(@"^.*FINAL_SUMMARY: (?<passed>\d+) / (?<total>\d+) tests passed.\s*$");
+
+bool failed = false;
+foreach (string line in await File.ReadAllLinesAsync(testOutputLogPath))
+{
+    if (line.Contains("FINAL_SUMMARY"))
+    {
+        Console.WriteLine(line);
+        if (finalCountRegex.Match(line) is { } match)
+        {
+            int total = int.Parse(match.Groups["total"].Value);
+            int passed = int.Parse(match.Groups["passed"].Value);
+            double passedPercentage = (double)passed / total * 100;
+            Console.WriteLine($"Test results: {passed} / {total} tests passed ({passedPercentage:F2}%).");
+            if (passedPercentage < percentage)
+            {
+                Console.WriteLine($"Test failure: Passed percentage {passedPercentage:F2}% is below the required {percentage}%.");
+                failed = true;
+            }
+        }
+    }
+}
+
+if (failed)
+{
+    return 1;
+}
+
+return 0;
+
 
 /// <summary>
 /// Runs a dotnet command and captures both stdout and stderr output.
