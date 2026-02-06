@@ -1,5 +1,7 @@
 #!/usr/bin/env dotnet
 
+#:package CliWrap@3.10.0
+
 // GBTest.cs - GeoBlazor Test Runner
 // Runs the GeoBlazor Core automation test project via `dotnet run`.
 // Supports configuration, test filtering, code coverage, and container execution.
@@ -10,10 +12,11 @@
 //   -h, --help             Show this help message and exit
 //   -c, --configuration    Build configuration (default: Release)
 //   -f, --filter           Test filter expression passed to dotnet test
-//   -p, --percentage       Percentage of tests that must pass to be counted as successful (default 90%)
+//   -p, --percentage       Percentage of tests that must pass to be counted as successful (default 100%)
 //       --cover            Enable code coverage collection (sets COVER=true)
 //       --container        Run tests in a container (sets USE_CONTAINER=true)
 
+using CliWrap;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
@@ -23,7 +26,7 @@ bool cover = false;
 bool container = false;
 string config = "Release";
 string? filter = null;
-int percentage = 90;
+int percentage = 100;
 
 // Parse command-line arguments
 for (int i = 0; i < args.Length; i++)
@@ -41,7 +44,7 @@ for (int i = 0; i < args.Length; i++)
                   -h, --help             Show this help message and exit
                   -c, --configuration    Build configuration (default: Release)
                   -f, --filter           Test filter expression passed to dotnet test
-                  -p, --percentage       Percentage of tests that must pass to be counted as successful (default 90%)
+                  -p, --percentage       Percentage of tests that must pass to be counted as successful (default 100%)
                       --cover            Enable code coverage collection (sets COVER=true)
                       --container        Run tests in a container (sets USE_CONTAINER=true)
 
@@ -55,9 +58,9 @@ for (int i = 0; i < args.Length; i++)
         case "--cover":
             cover = true;
             break;
-		case "--container":
-			container = true;
-			break;
+        case "--container":
+            container = true;
+            break;
         case "-c":
         case "--configuration":
             if (i + 1 < args.Length)
@@ -82,6 +85,16 @@ for (int i = 0; i < args.Length; i++)
     }
 }
 
+CancellationTokenSource cts = new();
+CancellationTokenSource forceCts = new();
+
+Console.CancelKeyPress += (_, e) =>
+{
+    e.Cancel = true; // Prevent immediate termination of this script
+    cts.Cancel();
+    forceCts.CancelAfter(20_000);
+};
+
 // Resolve paths relative to this script's location
 string scriptsDir = GetScriptsDirectory();
 
@@ -104,7 +117,7 @@ if (filter != null)
 }
 
 // Set environment variables to toggle optional features
-Dictionary<string, string>? environmentVariables = [];
+Dictionary<string, string?>? environmentVariables = [];
 
 if (cover)
 {
@@ -117,28 +130,32 @@ if (container)
 }
 
 // Execute the test project
-await RunDotnetCommandWithOutputAsync(testProjectDir, "run", buildArgs, environmentVariables);
+await RunDotnetCommandWithOutputAsync(testProjectDir, "run", buildArgs, environmentVariables, cts.Token, forceCts.Token);
+
+Console.WriteLine("FINAL SUMMARY");
+Console.WriteLine("-------------------------------------------------------");
 
 // Read the test output log
 string testOutputLogPath = Path.Combine(testProjectDir, "test-run.log");
 
-Regex finalCountRegex = new(@"^.*FINAL_SUMMARY: (?<passed>\d+) / (?<total>\d+) tests passed.\s*$");
+Regex finalCountRegex = new(@"^.*FINAL_SUMMARY: (?<passed>\d+) / (?<total>\d+) TESTS PASSED.\s*$");
 
 bool failed = false;
 foreach (string line in await File.ReadAllLinesAsync(testOutputLogPath))
 {
     if (line.Contains("FINAL_SUMMARY"))
     {
-        Console.WriteLine(line);
-        if (finalCountRegex.Match(line) is { } match)
+        string content = line.Substring(38); // 38 is the timestamp plus FINAL_SUMMARY:
+        Console.WriteLine(content);
+        if (finalCountRegex.Match(line) is { Success: true } match)
         {
             int total = int.Parse(match.Groups["total"].Value);
             int passed = int.Parse(match.Groups["passed"].Value);
             double passedPercentage = (double)passed / total * 100;
-            Console.WriteLine($"Test results: {passed} / {total} tests passed ({passedPercentage:F2}%).");
+            Console.WriteLine($"TEST RESULTS: {passed} / {total} TESTS PASSED ({passedPercentage:F2}%).");
             if (passedPercentage < percentage)
             {
-                Console.WriteLine($"Test failure: Passed percentage {passedPercentage:F2}% is below the required {percentage}%.");
+                Console.WriteLine($"TEST RUN FAILED: Passed percentage {passedPercentage:F2}% is below the required {percentage}%.");
                 failed = true;
             }
         }
@@ -163,72 +180,76 @@ return 0;
 /// <param name="args">The arguments to pass to the command.</param>
 /// <param name="environmentVariables">Optional environment variables to set for the process.</param>
 /// <returns>The exit code of the process.</returns>
-static async Task<int> RunDotnetCommandWithOutputAsync(string workingDirectory,
-    string command, IEnumerable<string> args, Dictionary<string, string>? environmentVariables)
+static async Task RunDotnetCommandWithOutputAsync(string workingDirectory,
+    string command, IEnumerable<string> args, Dictionary<string, string?>? environmentVariables,
+    CancellationToken cancellationToken, CancellationToken forceCancellationToken)
 {
-    var psi = new ProcessStartInfo
-    {
-        FileName = "dotnet",
-        Arguments = $"{command} {string.Join(" ", args.Where(a => !string.IsNullOrWhiteSpace(a)))}",
-        WorkingDirectory = workingDirectory,
-        RedirectStandardOutput = true,
-        RedirectStandardError = true,
-        UseShellExecute = false,
-        CreateNoWindow = true
-    };
+    bool summaryStarted = false;
+    bool testLineMatched = false;
+    ConsoleColor defaultColor = Console.ForegroundColor;
+    Regex testLineRegex = new(@"^\[\+(?<passed>\d+)\/x(?<failed>\d+)\/\?(?<skipped>\d+)\] (?<content>.*)$");
 
-    if (environmentVariables != null)
-    {
-        foreach (var kvp in environmentVariables)
+    await Cli.Wrap("dotnet")
+        .WithArguments($"{command} {string.Join(" ", args.Where(a => !string.IsNullOrWhiteSpace(a)))}")
+        .WithWorkingDirectory(workingDirectory)
+        .WithEnvironmentVariables(environmentVariables ?? [])
+        .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
         {
-            psi.Environment[kvp.Key] = kvp.Value;
-        }
-    }
-
-    using var process = Process.Start(psi);
-    if (process == null)
-    {
-        return 1;
-    }
-
-    // Handle Ctrl+C by killing the child process
-    Console.CancelKeyPress += (_, e) =>
-    {
-        e.Cancel = true; // Prevent immediate termination of this script
-        if (!process.HasExited)
-        {
-            try
+            if (!string.IsNullOrWhiteSpace(line) && !summaryStarted)
             {
-                process.Kill(entireProcessTree: true);
+                if (line.Contains("Test run summary"))
+                {
+                    summaryStarted = true;
+
+                    return;
+                }
+                if (testLineRegex.Match(line) is { Success: true } match && !summaryStarted)
+                {
+                    if (testLineMatched)
+                    {
+                        // Move cursor up and clear the previous line
+                        int cursorTop = Console.GetCursorPosition().Top;
+                        Console.SetCursorPosition(0, cursorTop - 1);
+                        Console.Write(new string(' ', Console.WindowWidth));
+                        Console.SetCursorPosition(0, cursorTop - 1);
+                    }
+
+                    int passed = int.Parse(match.Groups["passed"].Value);
+                    int failed = int.Parse(match.Groups["failed"].Value);
+                    int skipped = int.Parse(match.Groups["skipped"].Value);
+                    string content = match.Groups["content"].Value;
+                    Console.ForegroundColor = defaultColor;
+                    Console.Write("[");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write($"+{passed}");
+                    Console.ForegroundColor = defaultColor;
+                    Console.Write("/");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write($"x{failed}");
+                    Console.ForegroundColor = defaultColor;
+                    Console.Write("/");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write($"?{skipped}");
+                    Console.ForegroundColor = defaultColor;
+                    Console.WriteLine($"] {content}");
+                    testLineMatched = true;
+                    return;
+                }
+
+                testLineMatched = false;
+                Console.WriteLine(line);
             }
-            catch
+        }))
+        .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
+        {
+            if (!string.IsNullOrWhiteSpace(line))
             {
-                // Process may have already exited
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(line);
+                Console.ForegroundColor = defaultColor;
             }
-        }
-    };
-
-    process.OutputDataReceived += (_, e) =>
-    {
-        if (e.Data != null)
-        {
-            Console.WriteLine(e.Data);
-        }
-    };
-
-    process.ErrorDataReceived += (_, e) =>
-    {
-        if (e.Data != null)
-        {
-            Console.WriteLine(e.Data);
-        }
-    };
-
-    process.BeginOutputReadLine();
-    process.BeginErrorReadLine();
-    await process.WaitForExitAsync();
-
-    return process.ExitCode;
+        }))
+        .ExecuteAsync(forceCancellationToken, cancellationToken);
 }
 
 /// <summary>

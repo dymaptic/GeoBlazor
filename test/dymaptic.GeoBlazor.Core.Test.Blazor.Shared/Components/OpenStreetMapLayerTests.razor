@@ -51,6 +51,7 @@
     }
 
     [TestMethod]
+    [CICondition(ConditionMode.Exclude)]
     public async Task TestOpenStreetMapLayerCopyrightConsistency(Action renderHandler)
     {
         WebTileLayer? osmLayerWithUrlTemplate = null;

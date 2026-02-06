@@ -41,6 +41,8 @@ public class TestConfig
     public static List<string> InconclusiveTests { get; } = [];
 
     public static int PassedTestCount { get; set; }
+    public static int WebFailedTestCount { get; set; }
+    public static int WebInconclusiveTestCount { get; set; }
 
     private static string ComposeFilePath => _proAvailable && !CoreOnly ? ProComposeFilePath : CoreComposeFilePath;
     private static string CoreComposeFilePath => Path.Combine(_projectFolder, "docker-compose-core.yml");
@@ -221,11 +223,14 @@ public class TestConfig
         }
 
         await Task.WhenAll(runTasks);
+        _webTestStartTime = DateTime.UtcNow;
     }
 
     [AssemblyCleanup]
     public static async Task AssemblyCleanup()
     {
+        var webTestEndTime = DateTime.UtcNow;
+
         try
         {
             var isCancelled = cts.IsCancellationRequested;
@@ -320,41 +325,62 @@ public class TestConfig
                 await GenerateCoverageReport();
             }
 
-            Trace.WriteLine("-------------------------------------------------------");
+            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
 
-            Trace.WriteLine("Test run complete", ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine("TEST RUN COMPLETE", ProcessName.FINAL_SUMMARY);
+
+            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+
+            Trace.WriteLine($"{ProcessName.WEB_APP} SUMMARY: {(WebFailedTestCount > 0 ? "FAILED!" : "PASSED")}",
+                ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine($"  total: {_webTestTotalTestCount}", ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine($"  failed: {WebFailedTestCount}", ProcessName.FINAL_SUMMARY);
+            var succeeded = _webTestTotalTestCount - WebFailedTestCount - WebInconclusiveTestCount;
+            Trace.WriteLine($"  succeeded: {succeeded}", ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine($"  skipped: {WebInconclusiveTestCount}", ProcessName.FINAL_SUMMARY);
+            var webTestDuration = webTestEndTime - _webTestStartTime;
+
+            Trace.WriteLine(
+                $"  duration: {webTestDuration.Minutes}m {webTestDuration.Seconds}s {webTestDuration.Milliseconds}ms",
+                ProcessName.FINAL_SUMMARY);
+
+            AddTestProcessSummary(ProcessName.CORE_UNIT);
+            AddTestProcessSummary(ProcessName.CORE_SOURCEGEN);
+            AddTestProcessSummary(ProcessName.PRO_UNIT);
 
             if (_causeOfFailure is not null)
             {
                 Trace.WriteLine($"*****FAILURE: {_causeOfFailure}*****", ProcessName.FINAL_SUMMARY);
             }
 
-            Trace.WriteLine($"{PassedTestCount} / {_filteredTests!.Count} tests passed.", ProcessName.FINAL_SUMMARY);
-            Trace.WriteLine("Inconclusive Tests:", ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine($"{PassedTestCount} / {_filteredTests!.Count} TESTS PASSED.", ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine($"INCONCLUSIVE TESTS: {InconclusiveTests.Count}", ProcessName.FINAL_SUMMARY);
 
             if (InconclusiveTests.Count > 0)
             {
-                Trace.WriteLine("-------------------------------------------------------");
-
                 foreach (var inconclusive in InconclusiveTests)
                 {
-                    Trace.WriteLine($"- {inconclusive}", ProcessName.FINAL_SUMMARY);
+                    Trace.WriteLine($"  {inconclusive}", ProcessName.FINAL_SUMMARY);
                 }
             }
+
+            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine($"FAILED TESTS: {FailedTests.Count}", ProcessName.FINAL_SUMMARY);
 
             if (FailedTests.Count > 0)
             {
-                Trace.WriteLine("-------------------------------------------------------");
-                Trace.WriteLine("Failed Tests:", ProcessName.FINAL_SUMMARY);
-
                 foreach (var failedTest in FailedTests)
                 {
-                    Trace.WriteLine($"- {failedTest.Key}: {Environment.NewLine}{failedTest.Value}",
+                    Trace.WriteLine($"  {failedTest.Key}: {Environment.NewLine}{failedTest.Value}",
                         ProcessName.FINAL_SUMMARY);
+                    Trace.WriteLine("----", ProcessName.FINAL_SUMMARY);
                 }
             }
 
-            Trace.WriteLine("-------------------------------------------------------");
+            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
 
             await BuildLogFile();
         }
@@ -509,6 +535,9 @@ public class TestConfig
             && _filters is null
             && !CoreOnly && !ProOnly
             && !WebOnly && !UnitOnly;
+
+        // count this here because we add the unit tests later
+        _webTestTotalTestCount = _filteredTests.Count;
     }
 
     private static void ParseFilter(string filter, ref List<string> filteredTests,
@@ -1593,6 +1622,31 @@ public class TestConfig
         }
     }
 
+    private static void AddTestProcessSummary(string processName)
+    {
+        var coreUnitLog = logBuilders[processName];
+
+        var summaryStarted = false;
+
+        foreach (var log in coreUnitLog.OrderBy(kv => kv.Key))
+        {
+            if (log.Value.Contains("Test run summary"))
+            {
+                summaryStarted = true;
+                Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+                var line = log.Value.Replace("Test run summary", $"{processName} SUMMARY");
+                Trace.WriteLine(line, ProcessName.FINAL_SUMMARY);
+
+                continue;
+            }
+
+            if (summaryStarted)
+            {
+                Trace.WriteLine(log.Value, ProcessName.FINAL_SUMMARY);
+            }
+        }
+    }
+
     private static async Task BuildLogFile()
     {
         StringBuilder sb = new();
@@ -1647,6 +1701,8 @@ public class TestConfig
     private static int _httpPort;
     private static string _projectFolder = string.Empty;
     private static int? _webTestProcessId;
+    private static int _webTestTotalTestCount;
+    private static DateTime _webTestStartTime;
     private static bool _useContainer;
     private static bool _cover;
     private static bool _showDialog;

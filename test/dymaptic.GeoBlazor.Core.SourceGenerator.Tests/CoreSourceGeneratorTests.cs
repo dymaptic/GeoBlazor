@@ -20,15 +20,24 @@ public class CoreSourceGeneratorTests
     public static void ClassInitialize(TestContext testContext)
     {
         ProcessHelper.TestBypass = true;
+        var lockFilePath = Path.Combine(corePath, "esBuild.Debug.lock");
+
+        if (File.Exists(lockFilePath))
+        {
+            File.Delete(lockFilePath);
+        }
+
+        lockFilePath = Path.Combine(corePath, "esBuild.Release.lock");
+
+        if (File.Exists(lockFilePath))
+        {
+            File.Delete(lockFilePath);
+        }
     }
 
     [TestMethod]
     public void TestCanTriggerESBuildInDebugMode()
     {
-        string corePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
-            "..", "..", "..", "..", "..", "src", "dymaptic.GeoBlazor.Core");
-        var buildToolsPath = Path.Combine(corePath, "..", "..", "build-tools");
-
         var generator = new CoreESBuildGenerator();
 
         // get actual Scripts files
@@ -74,10 +83,6 @@ public class CoreSourceGeneratorTests
     [TestMethod]
     public void TestCanTriggerESBuildInReleaseMode()
     {
-        string corePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
-            "..", "..", "..", "..", "..", "src", "dymaptic.GeoBlazor.Core");
-        var buildToolsPath = Path.Combine(corePath, "..", "..", "build-tools");
-
         var generator = new CoreESBuildGenerator();
 
         // get actual Scripts files
@@ -122,9 +127,6 @@ public class CoreSourceGeneratorTests
     [TestMethod]
     public void TestCanSkipBuildInWhenNotInDesignTimeBuild()
     {
-        string corePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
-            "..", "..", "..", "..", "..", "src", "dymaptic.GeoBlazor.Core");
-
         var generator = new CoreESBuildGenerator();
 
         // get actual Scripts files
@@ -192,6 +194,11 @@ public class CoreSourceGeneratorTests
         return CSharpCompilation.Create(nameof(CoreSourceGeneratorTests), trees, references,
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
     }
+
+    private static readonly string corePath = Path.Combine(
+        Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
+        "..", "..", "..", "..", "..", "src", "dymaptic.GeoBlazor.Core");
+    private static readonly string buildToolsPath = Path.Combine(corePath, "..", "..", "build-tools");
 }
 
 public class TestAnalyzerConfigOptionsProvider(Dictionary<string, string> options)

@@ -44,7 +44,7 @@ jobs:
         HTTP_PORT: 8082
         HTTPS_PORT: 9445
       run: |
-        dotnet test --project ./test/dymaptic.GeoBlazor.Core.Test.Automation/dymaptic.GeoBlazor.Core.Test.Automation.csproj -c Release --filter CORE_
+        dotnet ./build-tools/win-x64/GBTest.dll -c Release --container --filter Core
 
     - name: Upload test log
       uses: actions/upload-artifact@v4

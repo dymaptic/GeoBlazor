@@ -70,12 +70,13 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
         try
         {
-            _consoleMessages[testName] = [];
-            _errorMessages[testName] = [];
             string testUrl = BuildTestUrl(testName);
 
             await _retryPipeline.ExecuteAsync(async token =>
             {
+                _consoleMessages[testName] = [];
+                _errorMessages[testName] = [];
+
                 Trace.WriteLine($"Navigating to {testUrl}", ProcessName.WEB_TEST);
 
                 await page.GotoAsync(testUrl, PageGotoOptions);
@@ -125,6 +126,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
                     // Inconclusive we treat as passing for our automation purposes
                     Trace.WriteLine($"{testName} Inconclusive", ProcessName.WEB_TEST);
                     TestConfig.InconclusiveTests.Add(testName);
+                    TestConfig.WebInconclusiveTestCount++;
                 }
                 else
                 {
@@ -153,6 +155,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
             Trace.WriteLine(errors, ProcessName.WEB_TEST_ERROR);
 
             TestConfig.FailedTests[testName] = $"{messages}{Environment.NewLine}{errors}";
+            TestConfig.WebFailedTestCount++;
             Assert.Fail($"{testName} Failed: {errors}");
         }
         finally

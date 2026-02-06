@@ -35,35 +35,6 @@ COPY ./build-scripts ./build-scripts
 RUN --mount=type=cache,target=/root/.nuget/packages \
     dotnet run ./build-scripts/ScriptBuilder.cs 
 
-# copy source project files for nuget package references
-COPY ./nuget.config ./nuget.config
-COPY ./Directory.Build.* ./
-COPY ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj
-COPY ./src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj ./src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj
-COPY ./src/dymaptic.GeoBlazor.Core.Analyzers/dymaptic.GeoBlazor.Core.Analyzers.csproj ./src/dymaptic.GeoBlazor.Core.Analyzers/dymaptic.GeoBlazor.Core.Analyzers.csproj
-COPY ./src/dymaptic.GeoBlazor.Core.SourceGenerator/dymaptic.GeoBlazor.Core.SourceGenerator.csproj ./src/dymaptic.GeoBlazor.Core.SourceGenerator/dymaptic.GeoBlazor.Core.SourceGenerator.csproj
-COPY ./src/dymaptic.GeoBlazor.Core.SourceGenerator.Shared/dymaptic.GeoBlazor.Core.SourceGenerator.Shared.csproj ./src/dymaptic.GeoBlazor.Core.SourceGenerator.Shared/dymaptic.GeoBlazor.Core.SourceGenerator.Shared.csproj
-
-# Restore Core library
-RUN --mount=type=cache,target=/root/.nuget/packages \
-    dotnet restore ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj /p:UsePackageReference=false
-
-# copy source files for build and libraries
-COPY ./src/ ./src/
-COPY ./*.ps1 ./
-COPY ./.gitignore ./.gitignore
-
-# Build the Core library first
-# This is necessary so the JS files are in place before building the test apps
-RUN --mount=type=cache,target=/root/.nuget/packages \
-    dotnet build ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj \
-    -c Release \
-    /p:UsePackageReference=false \
-    /p:DebugSymbols=true \
-    /p:DebugType=portable \
-    /p:GeneratePackage=false \
-    /p:ShowSourceGenDialogs=false 
-
 # Input variables
 ARG TEST_GROUP=UNIT
 ARG TEST_FOLDER
@@ -71,12 +42,22 @@ ARG TEST_PROJECT
 ENV TEST_GROUP=${TEST_GROUP}
 ENV TEST_PROJECT=${TEST_PROJECT}
 
-# Import test project and restore dependencies
+# Restore Nuget Packages
+COPY ./nuget.config ./nuget.config
+COPY ./Directory.Build.* ./
+COPY ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj
+COPY ./src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj ./src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj
+COPY ./src/dymaptic.GeoBlazor.Core.Analyzers/dymaptic.GeoBlazor.Core.Analyzers.csproj ./src/dymaptic.GeoBlazor.Core.Analyzers/dymaptic.GeoBlazor.Core.Analyzers.csproj
+COPY ./src/dymaptic.GeoBlazor.Core.SourceGenerator/dymaptic.GeoBlazor.Core.SourceGenerator.csproj ./src/dymaptic.GeoBlazor.Core.SourceGenerator/dymaptic.GeoBlazor.Core.SourceGenerator.csproj
+COPY ./src/dymaptic.GeoBlazor.Core.SourceGenerator.Shared/dymaptic.GeoBlazor.Core.SourceGenerator.Shared.csproj ./src/dymaptic.GeoBlazor.Core.SourceGenerator.Shared/dymaptic.GeoBlazor.Core.SourceGenerator.Shared.csproj
 COPY $TEST_PROJECT $TEST_PROJECT
 RUN --mount=type=cache,target=/root/.nuget/packages \
     dotnet restore $TEST_PROJECT /p:UsePackageReference=false
 
-# Copy Source Files
+# copy source files
+COPY ./src/ ./src/
+COPY ./*.ps1 ./
+COPY ./.gitignore ./.gitignore
 COPY $TEST_FOLDER $TEST_FOLDER
 
 # Build test app
