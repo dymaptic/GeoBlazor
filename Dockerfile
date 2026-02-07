@@ -24,9 +24,9 @@ RUN --mount=type=cache,target=/root/.npm npm install
 WORKDIR /work
 
 # Update GeoBlazor Build Scripts
-COPY ./build-scripts ./build-scripts
+COPY ./build-tools/build-scripts ./build-tools/build-scripts
 RUN --mount=type=cache,target=/root/.nuget/packages \
-    dotnet run ./build-scripts/ScriptBuilder.cs 
+    dotnet run ./build-tools/build-scripts/ScriptBuilder.cs 
 
 # Restore NuGet Packages
 COPY ./*.ps1 ./
