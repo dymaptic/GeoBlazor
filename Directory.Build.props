@@ -41,7 +41,7 @@
     <CompilerVisibleProperty Include="Configuration" Value="$(GBBuildToolsPath)" />
     <CompilerVisibleProperty Include="Configuration" Value="$(Configuration)" />
     <CompilerVisibleProperty Include="DesignTimeBuild" Value="$(DesignTimeBuild)" />
-    <CompilerVisibleProperty Include="ShowSourceGenDialogs" Value="$(ShowSourceGenDialogs)" />
+      <CompilerVisibleProperty Include="ShowScriptDialogs" Value="$(ShowScriptDialogs)"/>
     <CompilerVisibleProperty Include="CoreProjectPath" Value="$(CoreProjectPath)" />
     <CompilerVisibleProperty Include="CoreProjectPath" Value="$(ProProjectPath)" />
   </ItemGroup>

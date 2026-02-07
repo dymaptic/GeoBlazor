@@ -49,10 +49,10 @@ public class ProtobufSourceGenerator : IIncrementalGenerator
                     options["DesignTimeBuild"] = designTimeBuild;
                 }
 
-                if (configProvider.GlobalOptions.TryGetValue("build_property.ShowSourceGenDialogs",
+                if (configProvider.GlobalOptions.TryGetValue("build_property.ShowScriptDialogs",
                     out var showDialog))
                 {
-                    options["ShowSourceGenDialogs"] = showDialog;
+                    options["ShowScriptDialogs"] = showDialog;
                 }
 
                 return options;
@@ -76,7 +76,7 @@ public class ProtobufSourceGenerator : IIncrementalGenerator
             && bool.TryParse(designTimeBuildString, out bool designTimeBuildBool)
             && designTimeBuildBool;
 
-        pipeline.Options.TryGetValue("ShowSourceGenDialogs", out string? showDialogString);
+        pipeline.Options.TryGetValue("ShowScriptDialogs", out var showDialogString);
 
         bool showDialog = designTimeBuild
             && showDialogString is not null

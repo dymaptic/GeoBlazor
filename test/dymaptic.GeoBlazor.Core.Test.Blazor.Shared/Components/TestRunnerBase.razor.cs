@@ -71,7 +71,14 @@ public partial class TestRunnerBase : IAsyncDisposable
     {
         if (JsTestRunner != null)
         {
-            await JsTestRunner.DisposeAsync();
+            try
+            {
+                await JsTestRunner.DisposeAsync();
+            }
+            catch (JSDisconnectedException)
+            {
+                // ignore
+            }
         }
 
         foreach (var cts in _cancellationTokenSources.Values)

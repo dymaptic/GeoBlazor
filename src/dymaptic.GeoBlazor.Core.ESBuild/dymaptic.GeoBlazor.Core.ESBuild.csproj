@@ -9,7 +9,7 @@
     </Target>
     <Target BeforeTargets="PrepareForRun" AfterTargets="ClearLocks" Name="ESBuild">
         <Message Importance="high" Text="CORE: Launching ESBuild"/>
-        <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration) --dialog" ContinueOnError="false" Condition="$(ShowSourceGenDialogs) == 'true'"/>
-        <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration)" ContinueOnError="false" Condition="$(ShowSourceGenDialogs) != 'true'"/>
+        <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration) --dialog" ContinueOnError="false" Condition="$(ShowScriptDialogs) == 'true'"/>
+        <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration)" ContinueOnError="false" Condition="$(ShowScriptDialogs) != 'true'"/>
     </Target>
 </Project>

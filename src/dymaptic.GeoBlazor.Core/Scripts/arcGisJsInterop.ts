@@ -55,8 +55,8 @@ import TileLayer from "@arcgis/core/layers/TileLayer";
 import View from "@arcgis/core/views/View";
 import WebMap from "@arcgis/core/WebMap";
 import Widget from "@arcgis/core/widgets/Widget";
-import {load, parse } from "protobufjs";
-import { protoTypeDefinitions } from "./geoblazorProto";
+import {load, parse} from "protobufjs";
+import {protoTypeDefinitions} from "./geoblazorProto";
 import {buildDotNetExtent, buildJsExtent} from './extent';
 import {buildJsGraphic} from './graphic';
 import {buildDotNetLayer, buildJsLayer, buildJsLayerWrapper} from './layer';
@@ -73,23 +73,23 @@ import ColorBackground from "@arcgis/core/webmap/background/ColorBackground";
 import {buildJsColor} from './mapColor';
 import {buildJsBasemap} from "./basemap";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
-import ScreenPoint = __esri.ScreenPoint;
 import {
+    addHeadLink,
     arcGisObjectRefs,
-    dotNetRefs,
-    jsObjectRefs,
+    base64ToArrayBuffer,
     buildJsStreamReference,
+    checkHeadLink,
+    dotNetRefs,
     generateSerializableJson,
+    jsObjectRefs,
+    logUncaughtError,
+    lookupGeoBlazorId,
+    removeHeadLink,
     sanitize,
     setCursor,
-    base64ToArrayBuffer,
-    setProperty,
-    addHeadLink,
-    checkHeadLink,
-    removeHeadLink,
-    lookupGeoBlazorId,
-    logUncaughtError
+    setProperty
 } from "./geoBlazorCore";
+import ScreenPoint = __esri.ScreenPoint;
 // endregion
 
 // region exports
@@ -1857,7 +1857,6 @@ export function loadProtobuf(): void {
     GraphicCollectionSerializationRecord = ProtoTypes["GraphicCollection"];
     // TODO: UNCOMMENT:
     //  ProtoViewHitCollection = ProtoTypes["ViewHitCollection"];
-    console.debug('Protobuf graphic types initialized');
     
     // TODO: REMOVE WHEN NOT NEEDED:
     load("_content/dymaptic.GeoBlazor.Core/graphic.json", function (err, root) {
@@ -1866,7 +1865,6 @@ export function loadProtobuf(): void {
         }
         ProtoGraphicCollection = root?.lookupType("ProtoGraphicCollection");
         ProtoViewHitCollection = root?.lookupType("ProtoViewHitCollection");
-        console.debug('Protobuf graphics json loaded');
     });
 }
 

@@ -48,8 +48,6 @@ public class TestConfig
     private static string CoreComposeFilePath => Path.Combine(_projectFolder, "docker-compose-core.yml");
     private static string ProComposeFilePath => Path.Combine(_projectFolder, "docker-compose-pro.yml");
     private static string CoreUnitTestComposeFilePath => Path.Combine(_projectFolder, "docker-compose-core-unit.yml");
-    private static string CoreSourceGenComposeFilePath =>
-        Path.Combine(_projectFolder, "docker-compose-core-sourcegen.yml");
     private static string ProUnitTestComposeFilePath => Path.Combine(_projectFolder, "docker-compose-pro-unit.yml");
     private static string TestAppPath => _proAvailable
         ? Path.GetFullPath(Path.Combine(_projectFolder, "..", "..", "..", "test",
@@ -67,8 +65,6 @@ public class TestConfig
     private static string UnitCoverageFolderPath => Path.Combine(_projectFolder, "unit-coverage");
     private static string CoreUnitCoverageFilePath => Path.Combine(UnitCoverageFolderPath,
         $"coverage.core.unit.{_coverageFileVersion}.{_coverageFormat}");
-    private static string CoreSourceGenCoverageFilePath => Path.Combine(UnitCoverageFolderPath,
-        $"coverage.core.sourcegen.{_coverageFileVersion}.{_coverageFormat}");
     private static string ProUnitCoverageFilePath => Path.Combine(UnitCoverageFolderPath,
         $"coverage.pro.unit.{_coverageFileVersion}.{_coverageFormat}");
     private static string CoreRepoRoot => Path.GetFullPath(Path.Combine(_projectFolder, "..", ".."));
@@ -83,9 +79,6 @@ public class TestConfig
     private static string ProUnitTestPath => Path.Combine(ProRepoRoot, "test",
         "dymaptic.GeoBlazor.Pro.Test.Unit",
         "dymaptic.GeoBlazor.Pro.Test.Unit.csproj");
-    private static string CoreSourceGenTestPath => Path.Combine(CoreRepoRoot, "test",
-        "dymaptic.GeoBlazor.Core.SourceGenerator.Tests",
-        "dymaptic.GeoBlazor.Core.SourceGenerator.Tests.csproj");
     private static string LogFilePath => Path.Combine(_projectFolder, "test-run.log");
     private static string CoreTestSolutionFilePath => Path.Combine(CoreRepoRoot, "test",
         "dymaptic.GeoBlazor.Core.test.slnx");
@@ -176,7 +169,6 @@ public class TestConfig
             StopContainer(ProComposeFilePath),
             StopContainer(CoreUnitTestComposeFilePath),
             StopContainer(ProUnitTestComposeFilePath),
-            StopContainer(CoreSourceGenComposeFilePath),
             KillProcessesByTestPorts()
         ];
 
@@ -213,7 +205,6 @@ public class TestConfig
             if (!ProOnly)
             {
                 runTasks.Add(LaunchPipelineTask(ProcessName.CORE_UNIT, LaunchUnitTests));
-                runTasks.Add(LaunchPipelineTask(ProcessName.CORE_SOURCEGEN, LaunchUnitTests));
             }
 
             if (!CoreOnly)
@@ -284,9 +275,6 @@ public class TestConfig
                     {
                         coverageShutdownTasks.Add(ShutdownContainerCoverage(ProcessName.CORE_UNIT,
                             CoreUnitTestComposeFilePath));
-
-                        coverageShutdownTasks.Add(ShutdownContainerCoverage(ProcessName.CORE_SOURCEGEN,
-                            CoreSourceGenComposeFilePath));
                     }
 
                     if (!CoreOnly)
@@ -306,7 +294,6 @@ public class TestConfig
                 if (!ProOnly)
                 {
                     appShutdownTasks.Add(StopContainer(CoreUnitTestComposeFilePath));
-                    appShutdownTasks.Add(StopContainer(CoreSourceGenComposeFilePath));
                 }
 
                 if (!CoreOnly)
@@ -347,7 +334,6 @@ public class TestConfig
                 ProcessName.FINAL_SUMMARY);
 
             AddTestProcessSummary(ProcessName.CORE_UNIT);
-            AddTestProcessSummary(ProcessName.CORE_SOURCEGEN);
             AddTestProcessSummary(ProcessName.PRO_UNIT);
 
             if (_causeOfFailure is not null)
@@ -369,14 +355,24 @@ public class TestConfig
 
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine($"FAILED TESTS: {FailedTests.Count}", ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
 
             if (FailedTests.Count > 0)
             {
                 foreach (var failedTest in FailedTests)
                 {
-                    Trace.WriteLine($"  {failedTest.Key}: {Environment.NewLine}{failedTest.Value}",
+                    Trace.WriteLine("------------", ProcessName.FINAL_SUMMARY);
+
+                    // trim off extra timestamp from web browser and split lines
+                    string[] errorLines = failedTest.Value.Substring(26).Split(Environment.NewLine);
+
+                    Trace.WriteLine($"  {failedTest.Key}:",
                         ProcessName.FINAL_SUMMARY);
-                    Trace.WriteLine("----", ProcessName.FINAL_SUMMARY);
+
+                    foreach (var errorLine in errorLines)
+                    {
+                        Trace.WriteLine($"    {errorLine}", ProcessName.FINAL_SUMMARY);
+                    }
                 }
             }
 
@@ -819,7 +815,7 @@ public class TestConfig
                 "/p:GenerateXmlComments=false",
                 "/p:GeneratePackage=false",
                 "/p:GenerateDocs=false",
-                "/p:ShowSourceGenDialogs=false"
+                "/p:ShowScriptDialogs=false"
             ])
             .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
                 Trace.WriteLine(line, ProcessName.PRE_BUILD)))
@@ -849,7 +845,6 @@ public class TestConfig
         {
             ProcessName.CORE_UNIT => CoreUnitTestPath,
             ProcessName.PRO_UNIT => ProUnitTestPath,
-            ProcessName.CORE_SOURCEGEN => CoreSourceGenTestPath,
             _ => throw new ArgumentOutOfRangeException(nameof(processName), processName, null)
         };
 
@@ -857,7 +852,6 @@ public class TestConfig
         {
             ProcessName.CORE_UNIT => CoreUnitCoverageFilePath,
             ProcessName.PRO_UNIT => ProUnitCoverageFilePath,
-            ProcessName.CORE_SOURCEGEN => CoreSourceGenCoverageFilePath,
             _ => throw new ArgumentOutOfRangeException(nameof(processName), processName, null)
         };
 
@@ -873,7 +867,7 @@ public class TestConfig
             _runConfig!,
             "--output",
             "Detailed",
-            "/p:ShowSourceGenDialogs=false"
+            "/p:ShowScriptDialogs=false"
         ];
 
         if (_filters is not null && (_filters.Count > 0))
@@ -958,7 +952,6 @@ public class TestConfig
         {
             ProcessName.CORE_UNIT => CoreUnitTestComposeFilePath,
             ProcessName.PRO_UNIT => ProUnitTestComposeFilePath,
-            ProcessName.CORE_SOURCEGEN => CoreSourceGenComposeFilePath,
             _ => throw new ArgumentOutOfRangeException(nameof(processName), processName, null)
         };
 
@@ -1023,7 +1016,6 @@ public class TestConfig
         {
             ProcessName.CORE_UNIT => "gb-core-unit-core-unit-1",
             ProcessName.PRO_UNIT => "gb-pro-unit-pro-unit-1",
-            ProcessName.CORE_SOURCEGEN => "gb-core-sgen-core-sourcegen-1",
             _ => throw new ArgumentException("Invalid process name", nameof(processName))
         };
 
@@ -1123,7 +1115,7 @@ public class TestConfig
             "/p:DebugSymbols=true",
             "/p:DebugType=portable",
             "/p:UsePackageReference=false",
-            "/p:ShowSourceGenDialogs=false",
+            "/p:ShowScriptDialogs=false",
             "-v:d"
         ];
 
@@ -1253,7 +1245,6 @@ public class TestConfig
             ProcessName.WEB_APP when composeFilePath.EndsWith("pro.yml") => "geoblazor-core-tests-test-app-1",
             ProcessName.CORE_UNIT => "gb-core-unit-core-unit-1",
             ProcessName.PRO_UNIT => "gb-pro-unit-pro-unit-1",
-            ProcessName.CORE_SOURCEGEN => "gb-core-sgen-core-sourcegen-1",
             _ => throw new ArgumentException("Invalid process name", nameof(processName))
         };
 
@@ -1556,8 +1547,7 @@ public class TestConfig
 
             List<string> args =
             [
-                $"-reports:{CoverageFilePath};{CoreUnitCoverageFilePath};{ProUnitCoverageFilePath};{
-                    CoreSourceGenCoverageFilePath}",
+                $"-reports:{CoverageFilePath};{CoreUnitCoverageFilePath};{ProUnitCoverageFilePath}",
                 $"-targetdir:{reportDir}",
                 "-reporttypes:Html;TextSummary;Badges",
                 $"-historydir:{historyDir}",
@@ -1634,7 +1624,7 @@ public class TestConfig
             {
                 summaryStarted = true;
                 Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
-                var line = log.Value.Replace("Test run summary", $"{processName} SUMMARY");
+                var line = log.Value.Replace("Test run summary", $"{processName} SUMMARY").ToUpperInvariant();
                 Trace.WriteLine(line, ProcessName.FINAL_SUMMARY);
 
                 continue;
@@ -1735,7 +1725,7 @@ internal static class ProcessName
 {
     public static readonly string[] OrderedList =
     {
-        TEST_SETUP, PRE_BUILD, CODE_COVERAGE_TOOL_INSTALLATION, WEB_APP, WEB_TEST, CORE_UNIT, CORE_SOURCEGEN, PRO_UNIT,
+        TEST_SETUP, PRE_BUILD, CODE_COVERAGE_TOOL_INSTALLATION, WEB_APP, WEB_TEST, CORE_UNIT, PRO_UNIT,
         CODE_COVERAGE, CODE_COVERAGE_REPORT, TEST_CLEANUP, TEST_SHUTDOWN, FINAL_SUMMARY
     };
     public const string TEST_SETUP = "TEST_SETUP";
@@ -1744,7 +1734,6 @@ internal static class ProcessName
     public const string WEB_APP = "WEB_APP";
     public const string WEB_TEST = "WEB_TEST";
     public const string CORE_UNIT = "CORE_UNIT";
-    public const string CORE_SOURCEGEN = "CORE_SOURCEGEN";
     public const string PRO_UNIT = "PRO_UNIT";
     public const string CODE_COVERAGE = "CODE_COVERAGE";
     public const string CODE_COVERAGE_REPORT = "CODE_COVERAGE_REPORT";
