@@ -5,9 +5,15 @@
       "name": "Microsoft.NETCore.App",
       "version": "10.0.0"
     },
+    "runtimeOptions": {
+      "configProperties": {
+        "EntryPointFilePath": ".\\GBTest.cs",
+        "EntryPointFileDirectoryPath": "."
+      }
+    },
     "configProperties": {
-      "EntryPointFilePath": "D:\\dymaptic.GeoBlazor.CodeGen\\GeoBlazor.Pro\\GeoBlazor\\build-scripts\\ScriptBuilder.cs",
-      "EntryPointFileDirectoryPath": "D:\\dymaptic.GeoBlazor.CodeGen\\GeoBlazor.Pro\\GeoBlazor\\build-scripts",
+      "EntryPointFilePath": "D:\\dymaptic.GeoBlazor.CodeGen\\GeoBlazor.Pro\\GeoBlazor\\build-tools\\build-scripts\\ScriptBuilder.cs",
+      "EntryPointFileDirectoryPath": "D:\\dymaptic.GeoBlazor.CodeGen\\GeoBlazor.Pro\\GeoBlazor\\build-tools\\build-scripts",
       "Microsoft.Extensions.DependencyInjection.VerifyOpenGenericServiceTrimmability": true,
       "System.ComponentModel.DefaultValueAttribute.IsSupported": false,
       "System.ComponentModel.Design.IDesignerHost.IsSupported": false,

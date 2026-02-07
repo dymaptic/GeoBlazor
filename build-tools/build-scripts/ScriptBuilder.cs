@@ -35,7 +35,7 @@ using System.Text.Json;
 bool excludeMode = false;
 HashSet<string> scriptsToProcess = new();
 string scriptsDir = GetScriptsDirectory();
-string coreDir = Path.GetFullPath(Path.Combine(scriptsDir, ".."));
+string coreDir = Path.GetFullPath(Path.Combine(scriptsDir, "..", ".."));
 
 Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
 Trace.WriteLine("Starting ScriptBuilder...");
@@ -53,9 +53,9 @@ string runtime = $"{os}-{arch}";
 
 for (int i = 0; i < args.Length; i++)
 {
-    string arg = args[i].ToLowerInvariant();
+    string arg = args[i];
 
-    switch (arg)
+    switch (arg.ToLowerInvariant())
     {
         case "--exclude":
             excludeMode = true;
@@ -153,6 +153,13 @@ static int BuildScripts(string[] scripts, HashSet<string> scriptsToProcess, stri
     string recordFile = Path.Combine(outDir, ".csbuild-record.json");
     (long timeStamp, string oldBranch) = GetLastBuildRecord(recordFile);
     bool branchChanged = oldBranch != currentBranch;
+
+    if (scriptsToProcess.Count > 0)
+    {
+        Trace.WriteLine(excludeMode
+            ? $"Excluding specified scripts: {string.Join(", ", scriptsToProcess)}"
+            : $"Including only specified scripts: {string.Join(", ", scriptsToProcess)}");
+    }
 
     foreach (string script in scripts)
     {
@@ -254,35 +261,6 @@ static int BuildScript(string scriptName, string scriptsDir, string outDir, stri
     process.BeginErrorReadLine();
     process.WaitForExit();
     return process.ExitCode;
-}
-
-
-/// <summary>
-/// Gets the directory containing the build scripts.
-/// When running as a .cs file, uses [CallerFilePath]. When running as a compiled DLL,
-/// calculates the path relative to the DLL location.
-/// </summary>
-/// <param name="callerFilePath">Automatically populated with the source file path at compile time.</param>
-/// <returns>The absolute path to the build-scripts directory.</returns>
-static string GetScriptsDirectory([CallerFilePath] string? callerFilePath = null)
-{
-    // When running as a pre-compiled DLL, [CallerFilePath] contains the compile-time path
-    // which is invalid at runtime (especially in Docker containers).
-    // Detect this by checking if the file exists at the caller path.
-    if (!string.IsNullOrEmpty(callerFilePath) && File.Exists(callerFilePath))
-    {
-        return Path.GetDirectoryName(callerFilePath)!;
-    }
-
-    // Running as a DLL - use AppContext.BaseDirectory which points to the DLL location
-    // The DLL is in build-tools/, and scripts are in build-scripts/ (sibling directory)
-    string dllDirectory = AppContext.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-    string parent = Path.GetDirectoryName(dllDirectory)!;
-    while (Path.GetFileName(parent) != "GeoBlazor")
-    {
-        parent = Path.GetDirectoryName(parent)!;
-    }
-    return Path.Combine(parent!, "build-scripts");
 }
 
 /// <summary>
@@ -428,4 +406,21 @@ static void SaveBuildRecord(string recordFilePath, string branch)
         }
         """;
     File.WriteAllText(recordFilePath, json);
+}
+
+/// <summary>
+/// Gets the relative directory containing the build scripts.
+/// </summary>
+static string GetScriptsDirectory([CallerFilePath] string? callerFilePath = null)
+{
+    string dllDirectory = AppContext.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+
+    if (dllDirectory.Contains("dotnet"))
+    {
+        // we are running from the C# script in build-scripts, so we can use the caller file path to find the script directory
+        return Path.GetDirectoryName(callerFilePath!)!;
+    }
+
+    // otherwise the dll is stored in ./build-tools/{os}-{arch}
+    return Path.GetFullPath(Path.Combine(dllDirectory, "..", "build-scripts"));
 }

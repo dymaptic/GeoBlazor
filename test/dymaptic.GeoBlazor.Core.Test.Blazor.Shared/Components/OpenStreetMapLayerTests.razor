@@ -50,8 +50,8 @@
         await AssertJavaScript("assertLayerExists", args: "open-street-map");
     }
 
-    [TestMethod]
     [CICondition(ConditionMode.Exclude)]
+    [TestMethod]
     public async Task TestOpenStreetMapLayerCopyrightConsistency(Action renderHandler)
     {
         WebTileLayer? osmLayerWithUrlTemplate = null;

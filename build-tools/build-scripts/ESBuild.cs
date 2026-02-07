@@ -1,4 +1,5 @@
 #!/usr/bin/env dotnet
+#:project ../utilities/Utilities.csproj
 
 // ESBuild TypeScript -> JavaScript Compilation Script
 // C# file-based app version of esBuild.ps1
@@ -16,16 +17,17 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using Utilities;
 
 // Get the actual script location using CallerFilePath (resolved at compile time)
-string scriptDir = GetScriptsDirectory();
+string scriptDir = PathFinder.GetScriptsDirectory();
 string os = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
     ? "win"
     : RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
         ? "osx"
         : "linux";
 string arch = RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant();
-string toolsDir = Path.GetFullPath(Path.Combine(scriptDir, "..", "build-tools", $"{os}-{arch}"));
+string toolsDir = Path.GetFullPath(Path.Combine(scriptDir, "..", $"{os}-{arch}"));
 
 // Parse command line arguments
 string configuration = "Debug";
@@ -116,10 +118,11 @@ if (verbose)
 // Normalize configuration
 configuration = configuration.Equals("release", StringComparison.OrdinalIgnoreCase) ? "Release" : "Debug";
 
-// The build folder is where this script is located (scriptDir set at top using CallerFilePath)
-// Core source is at ../src/dymaptic.GeoBlazor.Core relative to build folder
-string coreSourceDir = Path.GetFullPath(Path.Combine(scriptDir, "..", "src", "dymaptic.GeoBlazor.Core"));
-string proSourceDir = Path.GetFullPath(Path.Combine(scriptDir, "..", "..", "src", "dymaptic.GeoBlazor.Pro"));
+// Scripts are in GeoBlazor.Pro/GeoBlazor/build-tools/build-scripts
+// Core source is at GeoBlazor.Pro/GeoBlazor/src/dymaptic.GeoBlazor.Core relative to build folder
+// Pro source is at GeoBlazor.Pro/src/dymaptic.GeoBlazor.Pro relative to build folder
+string coreSourceDir = Path.GetFullPath(Path.Combine(scriptDir, "..", "..", "src", "dymaptic.GeoBlazor.Core"));
+string proSourceDir = Path.GetFullPath(Path.Combine(scriptDir, "..", "..", "..", "src", "dymaptic.GeoBlazor.Pro"));
 string sourceDir = pro ? proSourceDir : coreSourceDir;
 
 string coreScriptsDir = Path.Combine(coreSourceDir, "Scripts");
@@ -679,34 +682,6 @@ static bool HasErrorOrWarning(List<string> output)
     return output.Any(line =>
         line.Contains("Error", StringComparison.OrdinalIgnoreCase) ||
         line.Contains("Warning", StringComparison.OrdinalIgnoreCase));
-}
-
-/// <summary>
-/// Gets the directory containing the build scripts.
-/// When running as a .cs file, uses [CallerFilePath]. When running as a compiled DLL,
-/// calculates the path relative to the DLL location.
-/// </summary>
-/// <param name="callerFilePath">Automatically populated with the source file path at compile time.</param>
-/// <returns>The absolute path to the build-scripts directory.</returns>
-static string GetScriptsDirectory([CallerFilePath] string? callerFilePath = null)
-{
-    // When running as a pre-compiled DLL, [CallerFilePath] contains the compile-time path
-    // which is invalid at runtime (especially in Docker containers).
-    // Detect this by checking if the file exists at the caller path.
-    if (!string.IsNullOrEmpty(callerFilePath) && File.Exists(callerFilePath))
-    {
-        return Path.GetDirectoryName(callerFilePath)!;
-    }
-
-    // Running as a DLL - use AppContext.BaseDirectory which points to the DLL location
-    // The DLL is in build-tools/, and scripts are in build-scripts/ (sibling directory)
-    string dllDirectory = AppContext.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-    string parent = Path.GetDirectoryName(dllDirectory)!;
-    while (Path.GetFileName(parent) != "GeoBlazor")
-    {
-        parent = Path.GetDirectoryName(parent)!;
-    }
-    return Path.Combine(parent!, "build-scripts");
 }
 
 /// <summary>
