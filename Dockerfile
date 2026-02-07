@@ -25,6 +25,7 @@ WORKDIR /work
 
 # Update GeoBlazor Build Scripts
 COPY ./build-tools/build-scripts ./build-tools/build-scripts
+COPY ./build-tools/utilities ./build-tools/utilities
 RUN --mount=type=cache,target=/root/.nuget/packages \
     dotnet run ./build-tools/build-scripts/ScriptBuilder.cs 
 
