@@ -29,23 +29,11 @@ COPY ./build-tools/utilities ./build-tools/utilities
 RUN --mount=type=cache,target=/root/.nuget/packages \
     dotnet run ./build-tools/build-scripts/ScriptBuilder.cs 
 
-# Restore NuGet Packages
+# Copy Source Files
 COPY ./*.ps1 ./
 COPY ./Directory.Build.* ./
 COPY ./.gitignore ./.gitignore
 COPY ./nuget.config ./nuget.config
-COPY ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj
-COPY ./src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj ./src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj
-COPY ./src/dymaptic.GeoBlazor.Core.Analyzers/dymaptic.GeoBlazor.Core.Analyzers.csproj ./src/dymaptic.GeoBlazor.Core.Analyzers/dymaptic.GeoBlazor.Core.Analyzers.csproj
-COPY ./src/dymaptic.GeoBlazor.Core.SourceGenerator/dymaptic.GeoBlazor.Core.SourceGenerator.csproj ./src/dymaptic.GeoBlazor.Core.SourceGenerator/dymaptic.GeoBlazor.Core.SourceGenerator.csproj
-COPY ./src/dymaptic.GeoBlazor.Core.SourceGenerator.Shared/dymaptic.GeoBlazor.Core.SourceGenerator.Shared.csproj ./src/dymaptic.GeoBlazor.Core.SourceGenerator.Shared/dymaptic.GeoBlazor.Core.SourceGenerator.Shared.csproj
-COPY ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/dymaptic.GeoBlazor.Core.Test.Blazor.Shared.csproj ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/dymaptic.GeoBlazor.Core.Test.Blazor.Shared.csproj
-COPY ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj
-COPY ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/dymaptic.GeoBlazor.Core.Test.WebApp.Client.csproj ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/dymaptic.GeoBlazor.Core.Test.WebApp.Client.csproj
-RUN --mount=type=cache,target=/root/.nuget/packages \
-    dotnet restore ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj /p:UsePackageReference=false 
-
-# Copy Source Files
 COPY ./src/ ./src/
 COPY ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared
 COPY ./test/dymaptic.GeoBlazor.Core.Test.WebApp ./test/dymaptic.GeoBlazor.Core.Test.WebApp
