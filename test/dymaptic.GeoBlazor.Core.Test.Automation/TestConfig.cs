@@ -1494,7 +1494,11 @@ public class TestConfig
             else
             {
                 await Cli.Wrap("/bin/bash")
-                    .WithArguments($"lsof -i:{_httpsPort} | awk '{{if(NR>1)print $2}}' | xargs -t -r kill -9")
+                    .WithArguments(
+                    [
+                        "-c",
+                        $"lsof -i:{_httpsPort} | awk '{{if(NR>1)print $2}}' | xargs -t -r kill -9"
+                    ])
                     .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
                         Trace.WriteLine(line, ProcessName.TEST_CLEANUP)))
                     .WithValidation(CommandResultValidation.None)
