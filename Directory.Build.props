@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <CoreVersion>5.0.0.64</CoreVersion>
+    <CoreVersion>5.0.0.65</CoreVersion>
     <Configurations>Debug;Release;SourceGen Highlighting</Configurations>
     <Platforms>AnyCPU</Platforms>
     <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
@@ -41,7 +41,7 @@
     <CompilerVisibleProperty Include="Configuration" Value="$(GBBuildToolsPath)" />
     <CompilerVisibleProperty Include="Configuration" Value="$(Configuration)" />
     <CompilerVisibleProperty Include="DesignTimeBuild" Value="$(DesignTimeBuild)" />
-      <CompilerVisibleProperty Include="ShowScriptDialogs" Value="$(ShowScriptDialogs)"/>
+    <CompilerVisibleProperty Include="ShowScriptDialogs" Value="$(ShowScriptDialogs)" />
     <CompilerVisibleProperty Include="CoreProjectPath" Value="$(CoreProjectPath)" />
     <CompilerVisibleProperty Include="CoreProjectPath" Value="$(ProProjectPath)" />
   </ItemGroup>
