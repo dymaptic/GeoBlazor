@@ -124,15 +124,4 @@
                  Include="$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\generated\**\*.g.cs" />
         <Compile Remove="Interfaces\IViewHit.cs" />
     </ItemGroup>
-
-    <!-- ESBuild Project Trigger: Must happen before RESTORE -->
-    <PropertyGroup>
-        <BuildDependsOn>TriggerESBuild;$(BuildDependsOn)</BuildDependsOn>
-    </PropertyGroup>
-    <Target Name="TriggerESBuild" BeforeTargets="Restore">
-        <Exec Command="dotnet restore $(MSBuildThisFileDirectory)../dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj"/>
-        <MSBuild Projects="$(MSBuildThisFileDirectory)../dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj"
-                 Properties="GBBuildToolsPath=$(GBBuildToolsPath);ShowScriptDialogs=$(ShowScriptDialogs)"
-                 RemoveProperties="GBBuildToolsPath;ShowScriptDialogs;Configuration;Platform;TargetFramework;TargetFrameworks;BuildProjectReferences;NuGetInteractive;MSBuildRestoreSessionId;MSBuildIsRestoring;ExcludeRestorePackageImports;"/>
-    </Target>
 </Project>

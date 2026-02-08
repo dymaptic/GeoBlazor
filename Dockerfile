@@ -58,7 +58,7 @@ RUN --mount=type=cache,target=/root/.nuget/packages \
     /p:DebugSymbols=true \
     /p:DebugType=portable \
     /p:GeneratePackage=false \
-    /p:ShowSourceGenDialogs=false \
+    /p:ShowScriptDialogs=false \
     -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0

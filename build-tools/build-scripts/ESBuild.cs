@@ -166,7 +166,7 @@ if (locked)
 {
     Trace.WriteLine("Another instance of the script is already running. Exiting.");
     KillDialog(dialogProcess);
-    return 1;
+    return 0;
 }
 
 try
