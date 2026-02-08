@@ -86,6 +86,8 @@ public class TestConfig
         "dymaptic.GeoBlazor.Pro.test.slnx");
     private static string SolutionFilePath => _proAvailable ? ProTestSolutionFilePath : CoreTestSolutionFilePath;
 
+    public static readonly CancellationTokenSource Cts = new();
+
     [AssemblyInitialize]
     public static async Task AssemblyInitialize(TestContext testContext)
     {
@@ -118,9 +120,9 @@ public class TestConfig
             }
 
             // Trigger cancellation
-            if (!cts.IsCancellationRequested)
+            if (!Cts.IsCancellationRequested)
             {
-                cts.Cancel();
+                Cts.Cancel();
             }
 
             if (!gracefulCts.IsCancellationRequested)
@@ -224,7 +226,7 @@ public class TestConfig
 
         try
         {
-            var isCancelled = cts.IsCancellationRequested;
+            var isCancelled = Cts.IsCancellationRequested;
 
             // Dispose browser pool first
             if (BrowserPool.TryGetInstance(out var pool) && pool is not null)
@@ -246,7 +248,7 @@ public class TestConfig
 
             if (!isCancelled)
             {
-                cts.CancelAfter(5000);
+                Cts.CancelAfter(5000);
             }
 
             if (!gracefulCts.IsCancellationRequested)
@@ -256,11 +258,6 @@ public class TestConfig
 
             // Shorter delay if already cancelled
             await Task.Delay(isCancelled ? 1000 : 5000);
-
-            if (FailedTests.Count > 0)
-            {
-                _causeOfFailure = "GEOBLAZOR WEB TESTS FAILED";
-            }
 
             if (_useContainer)
             {
@@ -320,6 +317,11 @@ public class TestConfig
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
 
+            AddTestProcessSummary(ProcessName.CORE_UNIT);
+            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+            AddTestProcessSummary(ProcessName.PRO_UNIT);
+            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+
             Trace.WriteLine($"{ProcessName.WEB_APP} SUMMARY: {(WebFailedTestCount > 0 ? "FAILED!" : "PASSED")}",
                 ProcessName.FINAL_SUMMARY);
             Trace.WriteLine($"  total: {_webTestTotalTestCount}", ProcessName.FINAL_SUMMARY);
@@ -332,16 +334,9 @@ public class TestConfig
             Trace.WriteLine(
                 $"  duration: {webTestDuration.Minutes}m {webTestDuration.Seconds}s {webTestDuration.Milliseconds}ms",
                 ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
 
-            AddTestProcessSummary(ProcessName.CORE_UNIT);
-            AddTestProcessSummary(ProcessName.PRO_UNIT);
-
-            if (_causeOfFailure is not null)
-            {
-                Trace.WriteLine($"*****FAILURE: {_causeOfFailure}*****", ProcessName.FINAL_SUMMARY);
-            }
-
-            Trace.WriteLine($"{PassedTestCount} / {_filteredTests!.Count} TESTS PASSED.", ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine($"PASSED TESTS: {PassedTestCount} / {_filteredTests!.Count}", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine($"INCONCLUSIVE TESTS: {InconclusiveTests.Count}", ProcessName.FINAL_SUMMARY);
 
@@ -356,12 +351,25 @@ public class TestConfig
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine($"FAILED TESTS: {FailedTests.Count}", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
 
             if (FailedTests.Count > 0)
             {
-                foreach (var failedTest in FailedTests)
+                Trace.WriteLine("FAILED TEST DETAILS:", ProcessName.FINAL_SUMMARY);
+                Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+
+                var sortedFailedTests = FailedTests
+                    .OrderBy(kvp => kvp.Key)
+                    .ToList();
+
+                for (var i = 0; i < sortedFailedTests.Count; i++)
                 {
-                    Trace.WriteLine("------------", ProcessName.FINAL_SUMMARY);
+                    var failedTest = sortedFailedTests[i];
+
+                    if (i > 0)
+                    {
+                        Trace.WriteLine("------------", ProcessName.FINAL_SUMMARY);
+                    }
 
                     // trim off extra timestamp from web browser and split lines
                     string[] errorLines = failedTest.Value.Substring(26).Split(Environment.NewLine);
@@ -389,7 +397,7 @@ public class TestConfig
     private static async Task LaunchPipelineTask(string taskName, Func<ResilienceContext, ValueTask> task)
     {
         var context = ResilienceContextPool.Shared.Get(
-            new ResilienceContextCreationArguments(taskName, null, cts.Token));
+            new ResilienceContextCreationArguments(taskName, null, Cts.Token));
         await appRetryPipeline.ExecuteAsync(task, context);
 
         ResilienceContextPool.Shared.Return(context);
@@ -512,6 +520,11 @@ public class TestConfig
                 filtersIncludeCoreTests = filtersIncludeCoreTests.Value || filterIncludesCoreTests;
                 _filteredTests = _filteredTests.Intersect(filteredTests).ToList();
             }
+        }
+
+        if (!UnitOnly && (_filteredTests.Count == 0))
+        {
+            throw new InvalidOperationException("No tests found to run. Please check your filters.");
         }
 
         if (_proAvailable)
@@ -826,8 +839,6 @@ public class TestConfig
 
         if (result.ExitCode != 0)
         {
-            _causeOfFailure = $"PRE_BUILD FAILED: {SolutionFilePath}";
-
             throw new ProcessExitedException($"Pre-build of {SolutionFilePath} failed with exit code {result.ExitCode
             }");
         }
@@ -917,19 +928,19 @@ public class TestConfig
             .WithValidation(CommandResultValidation.None)
             .ExecuteAsync(context.CancellationToken, gracefulCts.Token);
 
-        if ((result.ExitCode != 0) && (result.ExitCode != 8)) // 8 = 0 tests ran
+        // 0 = Passed
+        // 2 = Tests failed, we will catch this in our final summary
+        // 8 = No tests ran
+        int[] allowedExitCodes = [0, 2, 8];
+
+        if (!allowedExitCodes.Contains(result.ExitCode))
         {
-            _causeOfFailure = $"{processName} FAILED";
-
-            if (result.ExitCode != 2) // 2 = test failed, we let the other test runners continue without throwing
+            if (ioExceptionThrown)
             {
-                if (ioExceptionThrown)
-                {
-                    throw new IOException(ioExceptionMessage);
-                }
-
-                throw new ProcessExitedException($"{processName} process exited with code {result.ExitCode}");
+                throw new IOException(ioExceptionMessage);
             }
+
+            throw new ProcessExitedException($"{processName} process exited with code {result.ExitCode}");
         }
 
         foreach (var failedTest in failedTests)
@@ -938,6 +949,7 @@ public class TestConfig
         }
 
         InconclusiveTests.AddRange(inconclusiveTests);
+        Trace.WriteLine($"Adding {passedTestCount} passed tests to total test count", processName);
         PassedTestCount += passedTestCount;
         _filteredTests!.AddRange(filteredTests);
     }
@@ -960,7 +972,7 @@ public class TestConfig
             "compose", "-f", filePath, "up", "-d", "--build"
         ];
 
-        if (context.Properties.TryGetValue(_retryAttemptKey, out var retryAttempt) && (retryAttempt > 0))
+        if (context.Properties.TryGetValue(retryAttemptKey, out var retryAttempt) && (retryAttempt > 0))
         {
             // if the first build fails, try with no cache
             args = [..args, "--no-cache"];
@@ -991,7 +1003,12 @@ public class TestConfig
 
         string? ioExceptionMessage = null;
         var ioExceptionThrown = false;
+        string? containerExceptionMessage = null;
+        var containerExceptionThrown = false;
         CancellationTokenSource waitTokenSource = new();
+
+        var linkedTokenSource =
+            CancellationTokenSource.CreateLinkedTokenSource(context.CancellationToken, waitTokenSource.Token);
 
         _ = Cli.Wrap(cmdLineApp)
             .WithArguments(args)
@@ -1008,9 +1025,17 @@ public class TestConfig
                 TrackUnitTestOutput(output, processName, ref failedTests, ref inconclusiveTests,
                     ref filteredTests, ref passedTestCount, ref ioExceptionMessage, ref ioExceptionThrown,
                     waitTokenSource)))
-            .WithStandardErrorPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, processName)))
+            .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
+            {
+                if (line.Contains("ERROR:"))
+                {
+                    containerExceptionMessage = line;
+                    containerExceptionThrown = true;
+                    waitTokenSource.Cancel();
+                }
+            }))
             .WithWorkingDirectory(_projectFolder)
-            .ExecuteAsync(context.CancellationToken, gracefulCts.Token);
+            .ExecuteAsync(linkedTokenSource.Token, gracefulCts.Token);
 
         var containerName = processName switch
         {
@@ -1024,6 +1049,11 @@ public class TestConfig
             if (ioExceptionThrown)
             {
                 throw new IOException(ioExceptionMessage);
+            }
+
+            if (containerExceptionThrown)
+            {
+                throw new ContainerException(containerExceptionMessage!);
             }
 
             await WaitForDockerContainer(processName, containerName, waitTokenSource.Token);
@@ -1049,6 +1079,11 @@ public class TestConfig
                 throw new IOException(ioExceptionMessage);
             }
 
+            if (containerExceptionThrown)
+            {
+                throw new ContainerException(containerExceptionMessage!);
+            }
+
             throw;
         }
 
@@ -1058,6 +1093,7 @@ public class TestConfig
         }
 
         InconclusiveTests.AddRange(inconclusiveTests);
+        Trace.WriteLine($"Adding {passedTestCount} passed tests to total test count", processName);
         PassedTestCount += passedTestCount;
         _filteredTests!.AddRange(filteredTests);
     }
@@ -1162,7 +1198,7 @@ public class TestConfig
             .WithWorkingDirectory(_projectFolder)
             .ExecuteAsync(token, gracefulCts.Token);
 
-        _processIds.Add(commandTask.ProcessId);
+        processIds.Add(commandTask.ProcessId);
 
         try
         {
@@ -1188,7 +1224,7 @@ public class TestConfig
             "compose", "-f", ComposeFilePath, "up", "-d", "--build"
         ];
 
-        if (context.Properties.TryGetValue(_retryAttemptKey, out var retryAttempt) && (retryAttempt > 0))
+        if (context.Properties.TryGetValue(retryAttemptKey, out var retryAttempt) && (retryAttempt > 0))
         {
             // if the first build fails, try with no cache
             args = [..args, "--no-cache"];
@@ -1212,6 +1248,14 @@ public class TestConfig
             ];
         }
 
+        CancellationTokenSource waitTokenSource = new();
+
+        var linkedTokenSource =
+            CancellationTokenSource.CreateLinkedTokenSource(context.CancellationToken, waitTokenSource.Token);
+
+        _webAppContainerExceptionThrown = false;
+        _webAppContainerExceptionMessage = null;
+
         var commandTask = Cli.Wrap(cmdLineApp)
             .WithArguments(args)
             .WithEnvironmentVariables(new Dictionary<string, string?>
@@ -1226,12 +1270,25 @@ public class TestConfig
                 ["GEOBLAZOR_PRO_LICENSE_KEY"] = _configuration["GEOBLAZOR_PRO_LICENSE_KEY"]
             })
             .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, ProcessName.WEB_APP)))
-            .WithStandardErrorPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, ProcessName.WEB_APP)))
+            .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
+            {
+                if (line.Contains("ERROR:"))
+                {
+                    _webAppContainerExceptionMessage = line;
+                    _webAppContainerExceptionThrown = true;
+                    waitTokenSource.Cancel();
+                }
+            }))
             .WithWorkingDirectory(_projectFolder)
-            .ExecuteAsync(context.CancellationToken, gracefulCts.Token);
+            .ExecuteAsync(linkedTokenSource.Token, gracefulCts.Token);
 
-        _processIds.Add(commandTask.ProcessId);
+        processIds.Add(commandTask.ProcessId);
         _webTestProcessId = commandTask.ProcessId;
+
+        if (_webAppContainerExceptionThrown)
+        {
+            throw new ContainerException(_webAppContainerExceptionMessage!);
+        }
 
         await WaitForHttpResponse();
     }
@@ -1282,7 +1339,7 @@ public class TestConfig
                 .WithArguments($"compose -f \"{composeFilePath}\" down")
                 .WithValidation(CommandResultValidation.None)
                 .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, ProcessName.TEST_CLEANUP)))
-                .ExecuteAsync(cts.Token);
+                .ExecuteAsync(Cts.Token);
         }
         catch
         {
@@ -1318,7 +1375,7 @@ public class TestConfig
                 }
 
                 var response =
-                    await httpClient.GetAsync(TestAppHttpUrl, cts.Token);
+                    await httpClient.GetAsync(TestAppHttpUrl, Cts.Token);
 
                 if (response.IsSuccessStatusCode ||
                     response.StatusCode is >= (HttpStatusCode)300 and < (HttpStatusCode)400)
@@ -1334,9 +1391,21 @@ public class TestConfig
                 lastException = ex;
             }
 
+            if (_webAppContainerExceptionThrown)
+            {
+                throw new ContainerException(_webAppContainerExceptionMessage!);
+            }
+
             if (testProcess is null && _webTestProcessId is not null)
             {
-                testProcess = Process.GetProcessById(_webTestProcessId.Value);
+                try
+                {
+                    testProcess = Process.GetProcessById(_webTestProcessId.Value);
+                }
+                catch (ArgumentException)
+                {
+                    // process is not running yet/anymore, keep waiting
+                }
             }
 
             if (testProcess is not null && testProcess.HasExited)
@@ -1344,7 +1413,6 @@ public class TestConfig
                 try
                 {
                     var exitCode = testProcess.ExitCode;
-                    _causeOfFailure = $"TEST RUNNER PROCESS EXITED WITH CODE {exitCode}";
 
                     throw new ProcessExitedException($"Test process exited with code {exitCode}");
                 }
@@ -1354,10 +1422,8 @@ public class TestConfig
                 }
             }
 
-            await Task.Delay(1000, cts.Token);
+            await Task.Delay(1000, Cts.Token);
         }
-
-        _causeOfFailure = "TEST SITE NOT READY";
 
         throw new ProcessExitedException("Test page was not reachable within the allotted time frame", lastException);
     }
@@ -1400,7 +1466,7 @@ public class TestConfig
                             isRunning = true;
                         }
                     }))
-                    .ExecuteAsync(cts.Token);
+                    .ExecuteAsync(Cts.Token);
 
                 if (isRunning)
                 {
@@ -1415,10 +1481,8 @@ public class TestConfig
                 lastException = ex;
             }
 
-            await Task.Delay(1000, cts.Token);
+            await Task.Delay(1000, Cts.Token);
         }
-
-        _causeOfFailure = $"{processName} Docker Container was not reachable within the allotted time frame";
 
         throw new ProcessExitedException(
             $"{processName} Docker Container was not reachable within the allotted time frame", lastException);
@@ -1426,7 +1490,7 @@ public class TestConfig
 
     private static async Task KillProcessesByIds()
     {
-        foreach (var processId in _processIds)
+        foreach (var processId in processIds)
         {
             Process? process = null;
 
@@ -1614,16 +1678,18 @@ public class TestConfig
 
     private static void AddTestProcessSummary(string processName)
     {
-        var coreUnitLog = logBuilders[processName];
+        if (!logBuilders.TryGetValue(processName, out var coreUnitLog))
+        {
+            return;
+        }
 
         var summaryStarted = false;
 
-        foreach (var log in coreUnitLog.OrderBy(kv => kv.Key))
+        foreach (KeyValuePair<DateTime, string> log in coreUnitLog.OrderBy(kv => kv.Key))
         {
             if (log.Value.Contains("Test run summary"))
             {
                 summaryStarted = true;
-                Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
                 var line = log.Value.Replace("Test run summary", $"{processName} SUMMARY").ToUpperInvariant();
                 Trace.WriteLine(line, ProcessName.FINAL_SUMMARY);
 
@@ -1658,12 +1724,15 @@ public class TestConfig
         BackoffType = DelayBackoffType.Exponential,
         MaxRetryAttempts = 3,
         Delay = TimeSpan.FromSeconds(5),
-        ShouldHandle = new PredicateBuilder().Handle<IOException>().Handle<ProcessExitedException>(),
+        ShouldHandle = new PredicateBuilder()
+            .Handle<IOException>()
+            .Handle<ProcessExitedException>()
+            .Handle<ContainerException>(),
         OnRetry = context =>
         {
             Trace.WriteLine($"Attempt #{context.AttemptNumber + 1} for task failed. Retrying...",
                 context.Context.OperationKey);
-            context.Context.Properties.Set(_retryAttemptKey, context.AttemptNumber);
+            context.Context.Properties.Set(retryAttemptKey, context.AttemptNumber);
 
             return ValueTask.CompletedTask;
         }
@@ -1671,17 +1740,14 @@ public class TestConfig
     private static readonly ResiliencePipeline appRetryPipeline = new ResiliencePipelineBuilder()
         .AddRetry(appRetryStrategyOptions)
         .Build();
-
-    private static readonly CancellationTokenSource cts = new();
     private static readonly CancellationTokenSource gracefulCts = new();
     private static readonly Dictionary<string, Dictionary<DateTime, string>> logBuilders = [];
     private static readonly Type[] testClasses = typeof(GeoBlazorTestClass).Assembly.GetTypes()
         .Where(t => t.IsSubclassOf(typeof(GeoBlazorTestClass)))
         .ToArray();
-    private static readonly List<int> _processIds = [];
+    private static readonly List<int> processIds = [];
 
-    private static readonly ResiliencePropertyKey<int> _retryAttemptKey = new("RetryAttempt");
-    private static string? _causeOfFailure;
+    private static readonly ResiliencePropertyKey<int> retryAttemptKey = new("RetryAttempt");
 
     private static IConfiguration? _configuration;
     private static string? _runConfig;
@@ -1697,6 +1763,8 @@ public class TestConfig
     private static bool _cover;
     private static bool _showDialog;
     private static bool _cleanupComplete;
+    private static bool _webAppContainerExceptionThrown;
+    private static string? _webAppContainerExceptionMessage;
     private static string _coverageFormat = string.Empty;
     private static string _coverageFileVersion = string.Empty;
     private static string? _reportGenLicenseKey;
@@ -1720,6 +1788,8 @@ public class TestConfig
         TestCategory
     }
 }
+
+internal class ContainerException(string message) : Exception(message);
 
 internal static class ProcessName
 {

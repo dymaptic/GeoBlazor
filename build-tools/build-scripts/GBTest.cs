@@ -140,7 +140,7 @@ Console.WriteLine("-------------------------------------------------------");
 // Read the test output log
 string testOutputLogPath = Path.Combine(testProjectDir, "test-run.log");
 
-Regex finalCountRegex = new(@"^.*FINAL_SUMMARY: (?<passed>\d+) / (?<total>\d+) TESTS PASSED.\s*$");
+Regex finalCountRegex = new(@"^.*FINAL_SUMMARY: PASSED TESTS: (?<passed>\d+) / (?<total>\d+)\s*$");
 
 bool failed = false;
 foreach (string line in await File.ReadAllLinesAsync(testOutputLogPath))
@@ -191,7 +191,9 @@ static async Task RunDotnetCommandWithOutputAsync(string workingDirectory,
     ConsoleColor defaultColor = Console.ForegroundColor;
     Regex testLineRegex = new(@"^\[\+(?<passed>\d+)\/x(?<failed>\d+)\/\?(?<skipped>\d+)\] (?<content>.*)$");
 
-    await Cli.Wrap("dotnet")
+    try
+    {
+        await Cli.Wrap("dotnet")
         .WithArguments($"{command} {string.Join(" ", args.Where(a => !string.IsNullOrWhiteSpace(a)))}")
         .WithWorkingDirectory(workingDirectory)
         .WithEnvironmentVariables(environmentVariables ?? [])
@@ -252,4 +254,9 @@ static async Task RunDotnetCommandWithOutputAsync(string workingDirectory,
             }
         }))
         .ExecuteAsync(forceCancellationToken, cancellationToken);
+    }
+    catch (OperationCanceledException)
+    {
+        Console.WriteLine("Test run was canceled.");
+    }
 }

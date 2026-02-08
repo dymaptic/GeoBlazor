@@ -72,7 +72,10 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         {
             string testUrl = BuildTestUrl(testName);
 
-            await _retryPipeline.ExecuteAsync(async token =>
+            var context = ResilienceContextPool.Shared.Get(
+                new ResilienceContextCreationArguments(testName, null, TestConfig.Cts.Token));
+
+            await _retryPipeline.ExecuteAsync(async ctx =>
             {
                 _consoleMessages[testName] = [];
                 _errorMessages[testName] = [];
@@ -82,7 +85,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
                 await page.GotoAsync(testUrl, PageGotoOptions);
                 Trace.WriteLine($"Page loaded for {testName}", ProcessName.WEB_TEST);
 
-                if (token.IsCancellationRequested)
+                if (ctx.CancellationToken.IsCancellationRequested)
                 {
                     return;
                 }
@@ -96,7 +99,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
                     await sectionToggle.ClickAsync();
                 }
 
-                if (token.IsCancellationRequested)
+                if (ctx.CancellationToken.IsCancellationRequested)
                 {
                     return;
                 }
@@ -104,7 +107,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
                 ILocator testBtn = page.GetByText("Run Test");
                 await testBtn.ClickAsync();
 
-                if (token.IsCancellationRequested)
+                if (ctx.CancellationToken.IsCancellationRequested)
                 {
                     return;
                 }
@@ -144,9 +147,10 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
                     }
 
                     Trace.WriteLine($"{testName} Passed", ProcessName.WEB_TEST);
+                    Trace.WriteLine($"{testName}: Adding 1 passed tests to total test count", ProcessName.WEB_TEST);
                     TestConfig.PassedTestCount++;
                 }
-            });
+            }, context);
         }
         catch (Exception)
         {
@@ -294,7 +298,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         Delay = TimeSpan.FromSeconds(5),
         OnRetry = args =>
         {
-            Trace.WriteLine($"Retrying {args.Context.OperationKey} in {args.RetryDelay.Milliseconds}ms (attempt {
+            Trace.WriteLine($"Retrying {args.Context.OperationKey} in {args.RetryDelay.TotalMilliseconds}ms (attempt {
                 args.AttemptNumber + 1})", ProcessName.WEB_TEST);
 
             return ValueTask.CompletedTask;

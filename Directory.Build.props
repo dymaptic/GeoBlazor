@@ -76,7 +76,6 @@
             BeforeTargets="Restore;BeforeBuild"
             Condition="'$(MSBuildProjectName)' != 'dymaptic.GeoBlazor.Core.ESBuild' AND ('$(ESBuildLockFileExists)' != 'true' OR $(ESBuildLockFileTimeStamp) &lt; $(StaleFileThresholdTimeStamp))">
         <Exec Command="dotnet restore $(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj"/>
-        <Message Importance="high" Text="Triggering ESBuild from $(MSBUildProjectName)"/>
         <MSBuild Projects="$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj"
                  Properties="GBBuildToolsPath=$(GBBuildToolsPath);ShowScriptDialogs=$(ShowScriptDialogs)"
                  RemoveProperties="$(ESBuildRemoveProps)"/>

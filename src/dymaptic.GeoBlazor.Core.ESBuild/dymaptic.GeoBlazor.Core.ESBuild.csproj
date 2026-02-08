@@ -4,7 +4,6 @@
     </PropertyGroup>
     <!-- ESBuild-Triggering "Project" to enforce that this only fires once per build, no matter what project we build from -->
     <Target BeforeTargets="PrepareForRun" Name="ESBuild">
-        <Message Importance="high" Text="CORE: Launching ESBuild"/>
         <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration) --dialog" ContinueOnError="false" Condition="$(ShowScriptDialogs) == 'true'"/>
         <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration)" ContinueOnError="false" Condition="$(ShowScriptDialogs) != 'true'"/>
     </Target>
