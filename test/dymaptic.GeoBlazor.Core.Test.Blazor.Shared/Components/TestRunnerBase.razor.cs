@@ -61,6 +61,9 @@ public partial class TestRunnerBase : IAsyncDisposable
     [CascadingParameter(Name = nameof(TestFilter))]
     public string? TestFilter { get; set; }
 
+    protected bool IsCI => Environment.GetEnvironmentVariable("CI") is not null
+        && bool.TryParse(Environment.GetEnvironmentVariable("CI"), out var isCI) && isCI;
+
     private string? FilterValue => TestFilter?.Contains('.') == true ? TestFilter.Split('.')[1] : null;
     private string ClassName => GetType().Name;
     private int Remaining => _methodInfos is null
