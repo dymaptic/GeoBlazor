@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
-    <!-- Import parent Directory.Build.props if it exists (e.g., when running as submodule of Pro) -->
-    <Import Project="../Directory.Build.props" Condition="Exists('$(MSBuildThisFileDirectory)../Directory.Build.props')"/>
-    <PropertyGroup>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <CoreVersion>5.0.0.65</CoreVersion>
-        <Configurations>Debug;Release;SourceGen Highlighting</Configurations>
-        <Platforms>AnyCPU</Platforms>
-        <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
-        <CoreProjectPath>$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core</CoreProjectPath>
-        <!-- https://github.com/dotnet/aspnetcore/issues/64381 -->
-        <StaticWebAssetEndpointExclusionPattern>
+  <!-- Import parent Directory.Build.props if it exists (e.g., when running as submodule of Pro) -->
+  <Import Project="../Directory.Build.props" Condition="Exists('$(MSBuildThisFileDirectory)../Directory.Build.props')" />
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <CoreVersion>5.0.0.66</CoreVersion>
+    <Configurations>Debug;Release;SourceGen Highlighting</Configurations>
+    <Platforms>AnyCPU</Platforms>
+    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+    <CoreProjectPath>$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core</CoreProjectPath>
+    <!-- https://github.com/dotnet/aspnetcore/issues/64381 -->
+    <StaticWebAssetEndpointExclusionPattern>
             $(StaticWebAssetEndpointExclusionPattern);js/**
         </StaticWebAssetEndpointExclusionPattern>
     </PropertyGroup>
