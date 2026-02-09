@@ -13,6 +13,7 @@
 **/esBuild.lock
 esBuild.log
 esBuild.hash
+*.binlog
 .esbuild-record.json
 .csbuild-record.json
 CustomerTests.razor

@@ -432,7 +432,7 @@ Console.WriteLine();
 Console.WriteLine("Building GeoBlazor Templates project");
 string templateProjectPath = Path.Combine(templatesDir, "dymaptic.GeoBlazor.Templates.csproj");
 
-int restoreResult = RunDotnet($"restore \"{templateProjectPath}\"");
+int restoreResult = RunDotnet($"restore \"{templateProjectPath}\" -bl:\"{Path.Combine(templatesDir, "restore.binlog")}\"");
 if (restoreResult != 0)
 {
     Console.Error.WriteLine("Error: dotnet restore failed");
@@ -441,7 +441,7 @@ if (restoreResult != 0)
 
 int buildResult = RunDotnet(
     $"build \"{templateProjectPath}\" -c Release --no-restore " +
-    $"/p:ProVersion={proVersion} /p:GenerateDocs=false /p:GeneratePackage=false");
+    $"/p:ProVersion={proVersion} /p:GenerateDocs=false /p:GenerateXmlComments=false /p:GeneratePackage=false -bl:\"{Path.Combine(templatesDir, "build.binlog")}\"");
 
 if (buildResult != 0)
 {

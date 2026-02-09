@@ -20,8 +20,6 @@
 //   -h, --help                         Display this help message
 
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
@@ -32,15 +30,8 @@ using Utilities;
 // Paths
 // Get the script cs file path, that way we can run this script from either the CS file or the Executable
 string scriptsDir = PathFinder.GetScriptsDirectory();
-string os = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-    ? "win"
-    : RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
-        ? "osx"
-        : "linux";
-string arch = RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant();
-string toolsDir = Path.GetFullPath(Path.Combine(scriptsDir, "..", $"{os}-{arch}"));
-// Build folder is at GeoBlazor/build/, Core root is GeoBlazor/
-string coreRepoRoot = Path.GetFullPath(Path.Combine(toolsDir, "..", ".."));
+// Scripts folder is at GeoBlazor/build-tools/build-scripts/, Core root is GeoBlazor/
+string coreRepoRoot = Path.GetFullPath(Path.Combine(scriptsDir, "..", ".."));
 string proRepoRoot = Path.GetFullPath(Path.Combine(coreRepoRoot, ".."));
 
 string corePropsPath = Path.Combine(coreRepoRoot, "Directory.Build.props");
@@ -172,9 +163,6 @@ if (help)
     return 0;
 }
 
-string gbLockFilePath = Path.Combine(coreRepoRoot, $"GeoBlazorBuild.lock");
-File.WriteAllText(gbLockFilePath, scriptStartTime.ToString());
-
 CancellationTokenSource cts = new CancellationTokenSource();
 
 // Handle Ctrl+C by killing the child process
@@ -183,7 +171,6 @@ Console.CancelKeyPress += async (_, e) =>
     e.Cancel = true; // Prevent immediate termination of this script
     Console.WriteLine("Cancellation requested, waiting for current operations to complete...");
     await cts.CancelAsync();
-    File.Delete(gbLockFilePath);
     Environment.Exit(1);
 };
 
@@ -205,52 +192,15 @@ Console.WriteLine($"Configuration: {configuration}");
 Console.WriteLine($"Validator Configuration: {validatorConfig}");
 Console.WriteLine($"License Server URL: {serverUrl}");
 
-string binlogFlag = binlog ? "-bl" : "";
-
 int step = 1;
 DateTime stepStartTime = DateTime.Now;
 
 // Step 1: ensure other build scripts are up to date:
 WriteStepHeader(step, "Updating build scripts to latest versions...");
-Console.WriteLine($"Running {scriptsDir}/ScriptBuilder.cs to update build scripts in {toolsDir}");
+Console.WriteLine($"Running {scriptsDir}/ScriptBuilder.cs to update build scripts");
 await RunDotnetCommand(scriptsDir, "run", null, cts.Token, "ScriptBuilder.cs", "--exclude", "GeoBlazorBuild.cs");
 WriteStepCompleted(step, stepStartTime);
 step++;
-
-string otherConfiguration = configuration.Equals("Release", StringComparison.OrdinalIgnoreCase) ? "Debug" : "Release";
-
-// Lock file paths
-string coreLockFilePath = Path.Combine(coreProjectPath, $"esBuild.{otherConfiguration}.lock");
-string proLockFilePath = Path.Combine(proProjectPath, $"esProBuild.{otherConfiguration}.lock");
-
-// Check for existing locks from other configuration
-if (File.Exists(coreLockFilePath) || File.Exists(proLockFilePath))
-{
-    Console.WriteLine("Another instance of the esBuild scripts are already running, please wait.");
-    while (File.Exists(coreLockFilePath) || File.Exists(proLockFilePath))
-    {
-        Thread.Sleep(1000);
-        Console.Write(".");
-        if (scriptStartTime.AddMinutes(1) < DateTime.Now)
-        {
-            if (File.Exists(coreLockFilePath))
-            {
-                Console.WriteLine($"\nLock file {coreLockFilePath} still exists after 1 minute, removing stale lock.");
-                File.Delete(coreLockFilePath);
-            }
-            if (File.Exists(proLockFilePath))
-            {
-                Console.WriteLine($"\nLock file {proLockFilePath} still exists after 1 minute, removing stale lock.");
-                File.Delete(proLockFilePath);
-            }
-        }
-    }
-    Console.WriteLine("Lock released, continuing...");
-}
-
-// Create lock files for current configuration
-string currentCoreLockFilePath = Path.Combine(coreProjectPath, $"esBuild.{configuration}.lock");
-string currentProLockFilePath = Path.Combine(proProjectPath, $"esProBuild.{configuration}.lock");
 
 try
 {
@@ -351,19 +301,6 @@ try
         step++;
     }
 
-    // Check for another lock for the current configuration
-    if (File.Exists(currentCoreLockFilePath) &&
-        File.GetLastWriteTimeUtc(currentCoreLockFilePath) < DateTime.UtcNow.AddSeconds(-5))
-    {
-        Console.WriteLine("Another instance of the esBuild script is already running, please wait.");
-        while (File.Exists(currentCoreLockFilePath))
-        {
-            Thread.Sleep(1000);
-            Console.Write(".");
-        }
-        Console.WriteLine("Lock released, continuing...");
-    }
-
     // Step 5: Restore .NET packages for Core
     stepStartTime = DateTime.Now;
     WriteStepHeader(step, "Restoring .NET Packages");
@@ -377,7 +314,7 @@ try
     stepStartTime = DateTime.Now;
     WriteStepHeader(step, "Building Core Project and NuGet Package");
 
-    string[] coreBuildArgs =
+    List<string> coreBuildArgs =
     [
         $"dymaptic.GeoBlazor.Core.csproj",
         $"--no-restore",
@@ -387,8 +324,13 @@ try
         $"/p:GenerateXmlComments={generateXmlComments.ToString().ToLower()}",
         $"/p:CoreVersion={version}",
         $"/p:GeneratePackage={package.ToString().ToLower()}",
-        binlogFlag
+        "/p:ShowScriptDialogs=false"
     ];
+
+    if (binlog)
+    {
+        coreBuildArgs.Add($"-bl:\"{Path.Combine(coreRepoRoot, $"core_build_{configuration.ToLower()}.binlog")}\"");
+    }
 
     Console.WriteLine($"Executing 'dotnet build {string.Join(" ", coreBuildArgs)}'");
 
@@ -485,15 +427,20 @@ try
             }
 
             // Build validator
-            string[] validatorBuildArgs =
+            List<string> validatorBuildArgs =
             [
                 "dymaptic.GeoBlazor.Pro.V.csproj",
                 $"/p:OptOutFromObfuscation={optOutFromObfuscation.ToString().ToLower()}",
                 $"/p:ProVersion={version}",
                 "-c",
                 validatorConfig,
-                binlogFlag
+				"/p:ShowScriptDialogs=false"
             ];
+            
+            if (binlog)
+            {
+                validatorBuildArgs.Add($"-bl:\"{Path.Combine(coreRepoRoot, $"validator_build_{validatorConfig.ToLower()}.binlog")}\"");
+            }
 
             try
             {
@@ -521,24 +468,11 @@ try
             step++;
         }
 
-        // Check for Pro lock
-        if (File.Exists(currentProLockFilePath) &&
-            File.GetLastWriteTimeUtc(currentProLockFilePath) < DateTime.UtcNow.AddSeconds(-5))
-        {
-            Console.WriteLine("Another instance of the esBuild scripts are already running, please wait.");
-            while (File.Exists(currentProLockFilePath))
-            {
-                Thread.Sleep(1000);
-                Console.Write(".");
-            }
-            Console.WriteLine("Lock released, continuing...");
-        }
-
         // Step 10: Build Pro project and package
         stepStartTime = DateTime.Now;
         WriteStepHeader(step, "Building Pro project and package");
 
-        string[] proBuildArgs =
+        List<string> proBuildArgs =
         [
             $"dymaptic.GeoBlazor.Pro.csproj",
             "--no-restore",
@@ -550,8 +484,13 @@ try
             $"/p:ProVersion={version}",
             $"/p:OptOutFromObfuscation={optOutFromObfuscation.ToString().ToLower()}",
             $"/p:GeneratePackage={package.ToString().ToLower()}",
-            binlogFlag
+			"/p:ShowScriptDialogs=false"
         ];
+
+        if (binlog)
+        {
+            proBuildArgs.Add($"-bl:\"{Path.Combine(coreRepoRoot, $"pro_build_{configuration.ToLower()}.binlog")}\"");
+        }
 
         Console.WriteLine($"Executing 'dotnet {string.Join(" ", proBuildArgs)}'");
 
@@ -605,18 +544,6 @@ catch (Exception ex)
 finally
 {
     TimeSpan totalTime = DateTime.Now - scriptStartTime;
-
-    // Remove lock files
-    if (File.Exists(currentCoreLockFilePath))
-    {
-        File.Delete(currentCoreLockFilePath);
-    }
-    if (File.Exists(currentProLockFilePath))
-    {
-        File.Delete(currentProLockFilePath);
-    }
-
-    File.Delete(gbLockFilePath);
 
     Console.WriteLine();
     Console.BackgroundColor = ConsoleColor.DarkBlue;
@@ -763,7 +690,7 @@ static async Task LaunchResilientTask(string taskName, Func<ResilienceContext, V
 /// <param name="command">The dotnet command (e.g., "build", "restore", "clean").</param>
 /// <param name="args">Additional arguments to pass to the command.</param>
 static async Task RunDotnetCommand(string workingDirectory, string command, Dictionary<string, string>? environmentVariables,
-    CancellationToken cancellationToken, params string[] args)
+    CancellationToken cancellationToken, params IEnumerable<string> args)
 {
     string arguments = $"{command} {string.Join(" ", args.Where(a => !string.IsNullOrWhiteSpace(a)))}";
     var psi = new ProcessStartInfo
