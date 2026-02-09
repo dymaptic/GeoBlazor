@@ -326,8 +326,9 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         Delay = TimeSpan.FromSeconds(5),
         OnRetry = args =>
         {
-            Trace.WriteLine($"Retrying {args.Context.OperationKey} in {args.RetryDelay.TotalMilliseconds}ms (attempt {
-                args.AttemptNumber + 1})", ProcessName.WEB_TEST);
+            Trace.WriteLine($"Attempt {args.AttemptNumber + 1} failed. Retrying {args.Context.OperationKey} in {
+                args.RetryDelay.TotalSeconds} seconds.",
+                ProcessName.WEB_TEST);
 
             return ValueTask.CompletedTask;
         }

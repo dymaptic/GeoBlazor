@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <CoreVersion>5.0.0.66</CoreVersion>
+    <CoreVersion>5.0.0.67</CoreVersion>
     <Configurations>Debug;Release;SourceGen Highlighting</Configurations>
     <Platforms>AnyCPU</Platforms>
     <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
@@ -15,46 +15,45 @@
     <StaticWebAssetEndpointExclusionPattern>
             $(StaticWebAssetEndpointExclusionPattern);js/**
         </StaticWebAssetEndpointExclusionPattern>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$([System.OperatingSystem]::IsWindows())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'X64'">
-        <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/win-x64</GBBuildToolsPath>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$([System.OperatingSystem]::IsWindows())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'Arm64'">
-        <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/win-arm64</GBBuildToolsPath>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$([System.OperatingSystem]::IsMacOS())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'X64'">
-        <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/osx-x64</GBBuildToolsPath>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$([System.OperatingSystem]::IsMacOS())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'Arm64'">
-        <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/osx-arm64</GBBuildToolsPath>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$([System.OperatingSystem]::IsLinux())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'X64'">
-        <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/linux-x64</GBBuildToolsPath>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$([System.OperatingSystem]::IsLinux())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'Arm64'">
-        <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/linux-arm64</GBBuildToolsPath>
-    </PropertyGroup>
-    <ItemGroup>
-        <Watch Remove="$(CoreProjectPath)\wwwroot\**\*;$(CoreProjectPath)\Scripts\**\*;**\esbuild*;$(CoreProjectPath)\node_modules\**\*"/>
-    </ItemGroup>
-    <ItemGroup>
-        <CompilerVisibleProperty Include="Configuration" Value="$(GBBuildToolsPath)"/>
-        <CompilerVisibleProperty Include="Configuration" Value="$(Configuration)"/>
-        <CompilerVisibleProperty Include="DesignTimeBuild" Value="$(DesignTimeBuild)"/>
-        <CompilerVisibleProperty Include="ShowScriptDialogs" Value="$(ShowScriptDialogs)"/>
-        <CompilerVisibleProperty Include="CoreProjectPath" Value="$(CoreProjectPath)"/>
-        <CompilerVisibleProperty Include="CoreProjectPath" Value="$(ProProjectPath)"/>
-    </ItemGroup>
-
-    <!-- ESBuild Project Trigger: Must happen before RESTORE -->
-    <PropertyGroup>
-        <BuildDependsOn>TriggerESBuild;$(BuildDependsOn)</BuildDependsOn>
-        <ESBuildLockFilePath Condition="'$(Configuration)' != 'Release'">$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core/esBuild.Debug.lock</ESBuildLockFilePath>
-        <ESBuildLockFilePath Condition="'$(Configuration)' == 'Release'">$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core/esBuild.Release.lock</ESBuildLockFilePath>
-        <ESBuildLockFileTimeStamp Condition="EXISTS($(ESBuildLockFilePath))">$([System.IO.File]::GetLastWriteTime(`$(ESBuildLockFilePath)`).Ticks)</ESBuildLockFileTimeStamp>
-        <ESBuildLockFileTimeStamp Condition="'$(ESBuildLockFileTimeStamp)' == ''">0</ESBuildLockFileTimeStamp>
-        <StaleFileThresholdTimeStamp>$([System.DateTime]::Now.AddMinutes(-5).Ticks)</StaleFileThresholdTimeStamp>
-        <ESBuildRemoveProps>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$([System.OperatingSystem]::IsWindows())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'X64'">
+    <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/win-x64</GBBuildToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$([System.OperatingSystem]::IsWindows())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'Arm64'">
+    <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/win-arm64</GBBuildToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$([System.OperatingSystem]::IsMacOS())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'X64'">
+    <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/osx-x64</GBBuildToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$([System.OperatingSystem]::IsMacOS())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'Arm64'">
+    <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/osx-arm64</GBBuildToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$([System.OperatingSystem]::IsLinux())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'X64'">
+    <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/linux-x64</GBBuildToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$([System.OperatingSystem]::IsLinux())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'Arm64'">
+    <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/linux-arm64</GBBuildToolsPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Watch Remove="$(CoreProjectPath)\wwwroot\**\*;$(CoreProjectPath)\Scripts\**\*;**\esbuild*;$(CoreProjectPath)\node_modules\**\*" />
+  </ItemGroup>
+  <ItemGroup>
+    <CompilerVisibleProperty Include="Configuration" Value="$(GBBuildToolsPath)" />
+    <CompilerVisibleProperty Include="Configuration" Value="$(Configuration)" />
+    <CompilerVisibleProperty Include="DesignTimeBuild" Value="$(DesignTimeBuild)" />
+    <CompilerVisibleProperty Include="ShowScriptDialogs" Value="$(ShowScriptDialogs)" />
+    <CompilerVisibleProperty Include="CoreProjectPath" Value="$(CoreProjectPath)" />
+    <CompilerVisibleProperty Include="CoreProjectPath" Value="$(ProProjectPath)" />
+  </ItemGroup>
+  <!-- ESBuild Project Trigger: Must happen before RESTORE -->
+  <PropertyGroup>
+    <BuildDependsOn>TriggerESBuild;$(BuildDependsOn)</BuildDependsOn>
+    <ESBuildLockFilePath Condition="'$(Configuration)' != 'Release'">$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core/esBuild.Debug.lock</ESBuildLockFilePath>
+    <ESBuildLockFilePath Condition="'$(Configuration)' == 'Release'">$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core/esBuild.Release.lock</ESBuildLockFilePath>
+    <ESBuildLockFileTimeStamp Condition="EXISTS($(ESBuildLockFilePath))">$([System.IO.File]::GetLastWriteTime(`$(ESBuildLockFilePath)`).Ticks)</ESBuildLockFileTimeStamp>
+    <ESBuildLockFileTimeStamp Condition="'$(ESBuildLockFileTimeStamp)' == ''">0</ESBuildLockFileTimeStamp>
+    <StaleFileThresholdTimeStamp>$([System.DateTime]::Now.AddMinutes(-5).Ticks)</StaleFileThresholdTimeStamp>
+    <ESBuildRemoveProps>
             BuildProjectReferences;
             Configuration;
             EnableDefaultCompileItems;
@@ -73,14 +72,10 @@
             TriggerESBuild;
             TriggerProESBuild
         </ESBuildRemoveProps>
-    </PropertyGroup>
-    <Target Name="TriggerESBuild"
-            BeforeTargets="Restore;BeforeBuild"
-            Condition="'$(MSBuildProjectName)' != 'dymaptic.GeoBlazor.Core.ESBuild' AND (!EXISTS($(ESBuildLockFilePath)) OR $(ESBuildLockFileTimeStamp) &lt; $(StaleFileThresholdTimeStamp))">
-        <WriteLinesToFile File="$(ESBuildLockFilePath)" Lines="$([System.DateTime]::Now.ToString(`o`))" Overwrite="true" />
-        <Exec Command="dotnet restore $(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj"/>
-        <MSBuild Projects="$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj"
-                 Properties="GBBuildToolsPath=$(GBBuildToolsPath);ShowScriptDialogs=$(ShowScriptDialogs)"
-                 RemoveProperties="$(ESBuildRemoveProps)"/>
-    </Target>
+  </PropertyGroup>
+  <Target Name="TriggerESBuild" BeforeTargets="Restore;BeforeBuild" Condition="'$(MSBuildProjectName)' != 'dymaptic.GeoBlazor.Core.ESBuild' AND (!EXISTS($(ESBuildLockFilePath)) OR $(ESBuildLockFileTimeStamp) &lt; $(StaleFileThresholdTimeStamp))">
+    <WriteLinesToFile File="$(ESBuildLockFilePath)" Lines="$([System.DateTime]::Now.ToString(`o`))" Overwrite="true" />
+    <Exec Command="dotnet restore $(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj" />
+    <MSBuild Projects="$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj" Properties="GBBuildToolsPath=$(GBBuildToolsPath);ShowScriptDialogs=$(ShowScriptDialogs)" RemoveProperties="$(ESBuildRemoveProps)" />
+  </Target>
 </Project>
