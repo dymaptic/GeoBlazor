@@ -244,7 +244,9 @@ static async Task RunDotnetCommandWithOutputAsync(string workingDirectory,
         }))
         .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
         {
-            if (!string.IsNullOrWhiteSpace(line))
+            // Suppress macOS malloc stack logging warning that appears on startup
+            if (!string.IsNullOrWhiteSpace(line) &&
+                !line.Contains("MallocStackLogging: can't turn off malloc stack logging"))
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(line);
