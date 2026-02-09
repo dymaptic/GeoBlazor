@@ -38,11 +38,12 @@ public class TestConfig
 
     public static Dictionary<string, string> FailedTests { get; } = [];
 
-    public static List<string> InconclusiveTests { get; } = [];
-
-    public static int PassedTestCount { get; set; }
+    public static HashSet<string> InconclusiveTests { get; } = [];
+    public static HashSet<string> PassedTests { get; set; } = [];
+    public static HashSet<string> SkippedTests { get; set; } = [];
     public static int WebFailedTestCount { get; set; }
     public static int WebInconclusiveTestCount { get; set; }
+    public static List<string>? FilteredTests { get; set; }
 
     private static string ComposeFilePath => _proAvailable && !CoreOnly ? ProComposeFilePath : CoreComposeFilePath;
     private static string CoreComposeFilePath => Path.Combine(_projectFolder, "docker-compose-core.yml");
@@ -163,6 +164,19 @@ public class TestConfig
         Trace.WriteLine($"Using Render Mode: {RenderMode}", ProcessName.TEST_SETUP);
         Trace.WriteLine($"Using Container: {_useContainer}", ProcessName.TEST_SETUP);
         Trace.WriteLine($"Using HTTPS Port: {_httpsPort}", ProcessName.TEST_SETUP);
+
+        if (CoreOnly)
+        {
+            Trace.WriteLine("Running Core Tests Only", ProcessName.TEST_SETUP);
+        }
+        else if (ProOnly)
+        {
+            Trace.WriteLine("Running Pro Tests Only", ProcessName.TEST_SETUP);
+        }
+        else
+        {
+            Trace.WriteLine("Running Core and Pro Tests on Pro test runner", ProcessName.TEST_SETUP);
+        }
 
         // kill old running test apps and containers
         Task[] cleanupTasks =
@@ -317,10 +331,17 @@ public class TestConfig
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
 
-            AddTestProcessSummary(ProcessName.CORE_UNIT);
-            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
-            AddTestProcessSummary(ProcessName.PRO_UNIT);
-            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+            if (!ProOnly)
+            {
+                AddTestProcessSummary(ProcessName.CORE_UNIT);
+                Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+            }
+
+            if (!CoreOnly)
+            {
+                AddTestProcessSummary(ProcessName.PRO_UNIT);
+                Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+            }
 
             Trace.WriteLine($"{ProcessName.WEB_APP} SUMMARY: {(WebFailedTestCount > 0 ? "FAILED!" : "PASSED")}",
                 ProcessName.FINAL_SUMMARY);
@@ -336,7 +357,7 @@ public class TestConfig
                 ProcessName.FINAL_SUMMARY);
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
 
-            Trace.WriteLine($"PASSED TESTS: {PassedTestCount} / {_filteredTests!.Count}", ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine($"PASSED TESTS: {PassedTests.Count} / {FilteredTests!.Count}", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine($"INCONCLUSIVE TESTS: {InconclusiveTests.Count}", ProcessName.FINAL_SUMMARY);
 
@@ -372,7 +393,7 @@ public class TestConfig
                     }
 
                     // trim off extra timestamp from web browser and split lines
-                    string[] errorLines = failedTest.Value.Substring(26).Split(Environment.NewLine);
+                    var errorLines = failedTest.Value.Substring(26).Split(Environment.NewLine);
 
                     Trace.WriteLine($"  {failedTest.Key}:",
                         ProcessName.FINAL_SUMMARY);
@@ -434,7 +455,7 @@ public class TestConfig
 #endif
             .AddUserSecrets<TestConfig>()
             .AddEnvironmentVariables()
-            .AddDotEnvFile(true, true)
+            .AddDotEnvFile(true, false)
             .AddCommandLine(Environment.GetCommandLineArgs())
             .Build();
 
@@ -494,9 +515,9 @@ public class TestConfig
         bool? filtersIncludeCoreTests = null;
         bool? filtersIncludeProTests = null;
 
-        _filteredTests = testClasses
+        FilteredTests = testClasses
             .SelectMany(t => t.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
-                .Select(m => m.Name))
+                .Select(m => m.TestName()))
             .ToList();
 
         for (var i = 0; i < envArgs.Length; i++)
@@ -518,11 +539,11 @@ public class TestConfig
                     ref filterIncludesProTests, ref filterIncludesCoreTests);
                 filtersIncludeProTests = filtersIncludeProTests.Value || filterIncludesProTests;
                 filtersIncludeCoreTests = filtersIncludeCoreTests.Value || filterIncludesCoreTests;
-                _filteredTests = _filteredTests.Intersect(filteredTests).ToList();
+                FilteredTests = FilteredTests.Intersect(filteredTests).ToList();
             }
         }
 
-        if (!UnitOnly && (_filteredTests.Count == 0))
+        if (!UnitOnly && (FilteredTests.Count == 0))
         {
             throw new InvalidOperationException("No tests found to run. Please check your filters.");
         }
@@ -546,7 +567,7 @@ public class TestConfig
             && !WebOnly && !UnitOnly;
 
         // count this here because we add the unit tests later
-        _webTestTotalTestCount = _filteredTests.Count;
+        _webTestTotalTestCount = FilteredTests.Count;
     }
 
     private static void ParseFilter(string filter, ref List<string> filteredTests,
@@ -565,7 +586,7 @@ public class TestConfig
                 filteredTests = testClasses
                     .SelectMany(t =>
                         t.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
-                            .Select(m => m.Name))
+                            .Select(m => m.TestName()))
                     .ToList();
 
                 return;
@@ -578,10 +599,10 @@ public class TestConfig
             case "core":
             case "core_":
                 filteredTests = testClasses
-                    .Where(c => c.Namespace?.Contains("dymaptic.GeoBlazor.Core") == true)
+                    .Where(c => c.Name.StartsWith("CORE_"))
                     .SelectMany(t =>
                         t.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
-                            .Select(m => m.Name))
+                            .Select(m => m.TestName()))
                     .ToList();
                 filterIncludesCoreTests = true;
 
@@ -589,10 +610,10 @@ public class TestConfig
             case "pro":
             case "pro_":
                 filteredTests = testClasses
-                    .Where(c => c.Namespace?.Contains("dymaptic.GeoBlazor.Pro") == true)
+                    .Where(c => c.Name.StartsWith("PRO_"))
                     .SelectMany(t =>
                         t.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
-                            .Select(m => m.Name))
+                            .Select(m => m.TestName()))
                     .ToList();
                 filterIncludesProTests = true;
 
@@ -636,8 +657,7 @@ public class TestConfig
         ref bool filterIncludesCoreTests)
     {
         var className = testType.Name;
-        var classFullName = testType.FullName!;
-        var isPro = testType.Namespace!.StartsWith("dymaptic.GeoBlazor.Pro");
+        var isPro = className.StartsWith("PRO_");
         List<string> classTests = [];
 
         var classTestCategories = testType
@@ -647,12 +667,8 @@ public class TestConfig
 
         var methods = testType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
 
-        var methodFullNames = methods.Select(m => $"{classFullName}.{m.Name}").ToArray();
-
-        var methodNames = methods.Select(m => m.Name).ToArray();
-
         var methodTestCategories = methods
-            .ToDictionary(m => m.Name,
+            .ToDictionary(m => m.TestName(),
                 m => m.GetCustomAttributes<TestCategoryAttribute>()
                     .SelectMany(ca => ca.TestCategories)
                     .Concat(classTestCategories)
@@ -663,26 +679,33 @@ public class TestConfig
             case FilterType.ClassName:
                 if (IsMatch(className, filterValue, filterOp))
                 {
-                    classTests.AddRange(methodNames);
+                    classTests.AddRange(methods.Select(m => m.TestName()));
                 }
 
                 break;
             case FilterType.Name:
-                foreach (var methodName in methodNames)
+                foreach (var method in methods)
                 {
-                    if (IsMatch(methodName, filterValue, filterOp))
+                    if (IsMatch(method.Name, filterValue, filterOp))
                     {
-                        classTests.Add(methodName);
+                        classTests.Add(method.TestName());
                     }
                 }
 
                 break;
             case FilterType.FullyQualifiedName:
-                foreach (var methodFullName in methodFullNames)
+                foreach (var method in methods)
                 {
-                    if (IsMatch(methodFullName, filterValue, filterOp))
+                    var fullyQualifiedName = $"{method.DeclaringType!.FullName}.{method.Name}";
+
+                    var fullyQualifiedWithoutCoreOrPro = fullyQualifiedName
+                        .Replace("CORE_", "")
+                        .Replace("PRO_", "");
+
+                    if (IsMatch(fullyQualifiedWithoutCoreOrPro, filterValue, filterOp)
+                        || IsMatch(fullyQualifiedName, filterValue, filterOp))
                     {
-                        classTests.Add(methodFullName);
+                        classTests.Add(method.TestName());
                     }
                 }
 
@@ -914,7 +937,7 @@ public class TestConfig
         Dictionary<string, string> failedTests = [];
         List<string> inconclusiveTests = [];
         List<string> filteredTests = [];
-        var passedTestCount = 0;
+        List<string> passedTests = [];
 
         var ioExceptionThrown = false;
         string? ioExceptionMessage = null;
@@ -923,7 +946,7 @@ public class TestConfig
             .WithArguments(args)
             .WithStandardOutputPipe(PipeTarget.ToDelegate(output =>
                 TrackUnitTestOutput(output, processName, ref failedTests, ref inconclusiveTests,
-                    ref filteredTests, ref passedTestCount, ref ioExceptionMessage, ref ioExceptionThrown)))
+                    ref filteredTests, ref passedTests, ref ioExceptionMessage, ref ioExceptionThrown)))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(output => Trace.WriteLine(output, $"{processName}_ERROR")))
             .WithValidation(CommandResultValidation.None)
             .ExecuteAsync(context.CancellationToken, gracefulCts.Token);
@@ -948,10 +971,10 @@ public class TestConfig
             FailedTests.TryAdd(failedTest.Key, failedTest.Value);
         }
 
-        InconclusiveTests.AddRange(inconclusiveTests);
-        Trace.WriteLine($"Adding {passedTestCount} passed tests to total test count", processName);
-        PassedTestCount += passedTestCount;
-        _filteredTests!.AddRange(filteredTests);
+        InconclusiveTests.UnionWith(inconclusiveTests);
+        Trace.WriteLine($"Adding {passedTests.Count} passed tests to total test count", processName);
+        PassedTests.UnionWith(passedTests);
+        FilteredTests!.AddRange(filteredTests);
     }
 
     private static async ValueTask StartUnitTestContainer(ResilienceContext context)
@@ -999,7 +1022,7 @@ public class TestConfig
         Dictionary<string, string> failedTests = [];
         List<string> inconclusiveTests = [];
         List<string> filteredTests = [];
-        var passedTestCount = 0;
+        List<string> passedTests = [];
 
         string? ioExceptionMessage = null;
         var ioExceptionThrown = false;
@@ -1023,7 +1046,7 @@ public class TestConfig
             })
             .WithStandardOutputPipe(PipeTarget.ToDelegate(output =>
                 TrackUnitTestOutput(output, processName, ref failedTests, ref inconclusiveTests,
-                    ref filteredTests, ref passedTestCount, ref ioExceptionMessage, ref ioExceptionThrown,
+                    ref filteredTests, ref passedTests, ref ioExceptionMessage, ref ioExceptionThrown,
                     waitTokenSource)))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
             {
@@ -1067,7 +1090,7 @@ public class TestConfig
                 .WithArguments(["container", "logs", "--follow", "--details", containerName])
                 .WithStandardOutputPipe(PipeTarget.ToDelegate(output =>
                     TrackUnitTestOutput(output, processName, ref failedTests, ref inconclusiveTests,
-                        ref filteredTests, ref passedTestCount, ref ioExceptionMessage, ref ioExceptionThrown,
+                        ref filteredTests, ref passedTests, ref ioExceptionMessage, ref ioExceptionThrown,
                         waitTokenSource)))
                 .WithStandardErrorPipe(PipeTarget.ToDelegate(output => Trace.WriteLine(output, processName)))
                 .ExecuteAsync(context.CancellationToken, gracefulCts.Token);
@@ -1092,15 +1115,15 @@ public class TestConfig
             FailedTests.TryAdd(failedTest.Key, failedTest.Value);
         }
 
-        InconclusiveTests.AddRange(inconclusiveTests);
-        Trace.WriteLine($"Adding {passedTestCount} passed tests to total test count", processName);
-        PassedTestCount += passedTestCount;
-        _filteredTests!.AddRange(filteredTests);
+        InconclusiveTests.UnionWith(inconclusiveTests);
+        Trace.WriteLine($"Adding {passedTests.Count} passed tests to total test count", processName);
+        PassedTests.UnionWith(passedTests);
+        FilteredTests!.AddRange(filteredTests);
     }
 
     private static void TrackUnitTestOutput(string output, string processName,
         ref Dictionary<string, string> failedTests, ref List<string> inconclusiveTests,
-        ref List<string> filteredTests, ref int passedTestCount,
+        ref List<string> filteredTests, ref List<string> passedTests,
         ref string? ioExceptionMessage, ref bool ioExceptionThrown, CancellationTokenSource? waitTokenSource = null)
     {
         var trimmedLine = output.Trim();
@@ -1129,7 +1152,7 @@ public class TestConfig
         else if (trimmedLine.StartsWith("passed ", StringComparison.OrdinalIgnoreCase))
         {
             var testName = output.Split(" ")[1];
-            passedTestCount++;
+            passedTests.Add(testName);
             filteredTests.Add(testName);
         }
 
@@ -1685,12 +1708,13 @@ public class TestConfig
 
         var summaryStarted = false;
 
-        foreach (KeyValuePair<DateTime, string> log in coreUnitLog.OrderBy(kv => kv.Key))
+        foreach (var log in coreUnitLog.OrderBy(kv => kv.Key))
         {
             if (log.Value.Contains("Test run summary"))
             {
                 summaryStarted = true;
-                var line = log.Value.Replace("Test run summary", $"{processName} SUMMARY").ToUpperInvariant();
+                var passed = log.Value.Contains("Passed", StringComparison.OrdinalIgnoreCase);
+                var line = passed ? $"{processName} SUMMARY: PASSED" : $"{processName} SUMMARY: FAILED";
                 Trace.WriteLine(line, ProcessName.FINAL_SUMMARY);
 
                 continue;
@@ -1769,7 +1793,6 @@ public class TestConfig
     private static string _coverageFileVersion = string.Empty;
     private static string? _reportGenLicenseKey;
     private static List<string>? _filters;
-    private static List<string>? _filteredTests;
 
     private enum FilterOperator
     {

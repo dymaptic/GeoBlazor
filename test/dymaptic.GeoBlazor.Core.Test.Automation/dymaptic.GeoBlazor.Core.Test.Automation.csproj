@@ -37,6 +37,7 @@
         <Folder Include="coverage-report\"/>
         <Folder Include="coverage\"/>
         <Folder Include="history\"/>
+        <Folder Include="logs\"/>
     </ItemGroup>
 
 </Project>

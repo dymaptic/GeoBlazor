@@ -188,6 +188,7 @@ static async Task RunDotnetCommandWithOutputAsync(string workingDirectory,
 {
     bool summaryStarted = false;
     bool testLineMatched = false;
+    bool supportsCursorManipulation = true;
     ConsoleColor defaultColor = Console.ForegroundColor;
     Regex testLineRegex = new(@"^\[\+(?<passed>\d+)\/x(?<failed>\d+)\/\?(?<skipped>\d+)\] (?<content>.*)$");
 
@@ -209,13 +210,22 @@ static async Task RunDotnetCommandWithOutputAsync(string workingDirectory,
                 }
                 if (testLineRegex.Match(line) is { Success: true } match && !summaryStarted)
                 {
-                    if (testLineMatched)
+                    if (testLineMatched && supportsCursorManipulation)
                     {
-                        // Move cursor up and clear the previous line
-                        int cursorTop = Console.GetCursorPosition().Top;
-                        Console.SetCursorPosition(0, cursorTop - 1);
-                        Console.Write(new string(' ', Console.WindowWidth));
-                        Console.SetCursorPosition(0, cursorTop - 1);
+                        try
+                        {
+                            // Move cursor up and clear the previous line
+                            int cursorTop = Console.GetCursorPosition().Top;
+                            Console.SetCursorPosition(0, cursorTop - 1);
+                            Console.Write(new string(' ', Console.WindowWidth));
+                            Console.SetCursorPosition(0, cursorTop - 1);
+                        }
+                        catch (IOException)
+                        {
+                            supportsCursorManipulation = false;
+                            // In some environments (like certain CI systems), the console may not support cursor manipulation.
+                            // If that happens, we just won't clear the previous line and will print updates on new lines instead.
+                        }
                     }
 
                     int passed = int.Parse(match.Groups["passed"].Value);
@@ -225,7 +235,7 @@ static async Task RunDotnetCommandWithOutputAsync(string workingDirectory,
                     Console.ForegroundColor = defaultColor;
                     Console.Write("[");
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write($"+{passed}");
+                    Console.Write($"√{passed}");
                     Console.ForegroundColor = defaultColor;
                     Console.Write("/");
                     Console.ForegroundColor = ConsoleColor.Red;

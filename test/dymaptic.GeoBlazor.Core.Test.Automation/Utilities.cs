@@ -2,6 +2,11 @@ namespace dymaptic.GeoBlazor.Core.Test.Automation;
 
 public static class Utilities
 {
+    public static string TestName(this MethodInfo methodInfo)
+    {
+        return $"{methodInfo.DeclaringType!.Name.Split('_').Last()}.{methodInfo.Name}";
+    }
+
     public static Process? StartConsoleDialog(string buildDir, string title)
     {
         try

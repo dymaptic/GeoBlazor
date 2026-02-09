@@ -69,7 +69,8 @@
             ShowScriptDialogs;
             TargetFramework;
             TargetFrameworks;
-            TriggerESBuild
+            TriggerESBuild;
+            TriggerProESBuild
         </ESBuildRemoveProps>
     </PropertyGroup>
     <Target Name="TriggerESBuild"
@@ -79,8 +80,5 @@
         <MSBuild Projects="$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj"
                  Properties="GBBuildToolsPath=$(GBBuildToolsPath);ShowScriptDialogs=$(ShowScriptDialogs)"
                  RemoveProperties="$(ESBuildRemoveProps)"/>
-        <PropertyGroup>
-            <ProESBuildTriggered>true</ProESBuildTriggered>
-        </PropertyGroup>
     </Target>
 </Project>
