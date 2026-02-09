@@ -48,8 +48,7 @@
   <!-- ESBuild Project Trigger: Must happen before RESTORE -->
   <PropertyGroup>
     <BuildDependsOn>TriggerESBuild;$(BuildDependsOn)</BuildDependsOn>
-    <ESBuildLockFilePath Condition="'$(Configuration)' != 'Release'">$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core/esBuild.Debug.lock</ESBuildLockFilePath>
-    <ESBuildLockFilePath Condition="'$(Configuration)' == 'Release'">$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core/esBuild.Release.lock</ESBuildLockFilePath>
+      <ESBuildLockFilePath>$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core/esBuild.lock</ESBuildLockFilePath>
     <ESBuildLockFileTimeStamp Condition="EXISTS($(ESBuildLockFilePath))">$([System.IO.File]::GetLastWriteTime(`$(ESBuildLockFilePath)`).Ticks)</ESBuildLockFileTimeStamp>
     <ESBuildLockFileTimeStamp Condition="'$(ESBuildLockFileTimeStamp)' == ''">0</ESBuildLockFileTimeStamp>
     <StaleFileThresholdTimeStamp>$([System.DateTime]::Now.AddMinutes(-5).Ticks)</StaleFileThresholdTimeStamp>

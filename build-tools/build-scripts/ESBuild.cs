@@ -5,7 +5,6 @@
 // C# file-based app version of esBuild.ps1
 // Usage: dotnet esBuild.cs [options]
 //   -c, --configuration <Debug|Release>  Build configuration (default: Debug)
-//   -f, --force                          Force rebuild, ignoring lock files and record
 //   -p, --pro                            Run the GeoBlazor Pro ESBuild process
 //   -pc, --prooncorechange               Run the GeoBlazor Pro ESBuild process if pro OR core files have changed
 //   -d, --dialog                         Show a console dialog during build

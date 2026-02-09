@@ -52,10 +52,8 @@ string scriptDir = PathFinder.GetScriptsDirectory();
 // Define lock file paths relative to script location (build-scripts folder)
 string[] lockFiles =
 [
-    Path.GetFullPath(Path.Combine(scriptDir, "..", "..", "src", "dymaptic.GeoBlazor.Core", "esBuild.Debug.lock")),
-    Path.GetFullPath(Path.Combine(scriptDir, "..", "..", "src", "dymaptic.GeoBlazor.Core", "esBuild.Release.lock")),
-    Path.GetFullPath(Path.Combine(scriptDir, "..", "..", "..", "src", "dymaptic.GeoBlazor.Pro", "esBuild.Debug.lock")),
-    Path.GetFullPath(Path.Combine(scriptDir, "..", "..", "..", "src", "dymaptic.GeoBlazor.Pro", "esBuild.Release.lock"))
+    Path.GetFullPath(Path.Combine(scriptDir, "..", "..", "src", "dymaptic.GeoBlazor.Core", "esBuild.lock")),
+    Path.GetFullPath(Path.Combine(scriptDir, "..", "..", "..", "src", "dymaptic.GeoBlazor.Pro", "esBuild.lock"))
 ];
 
 int deletedCount = 0;

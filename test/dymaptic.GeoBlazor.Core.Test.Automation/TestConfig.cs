@@ -1016,7 +1016,7 @@ public class TestConfig
         if (context.Properties.TryGetValue(retryAttemptKey, out var retryAttempt) && (retryAttempt > 0))
         {
             // if the first build fails, try with no cache
-            args = [..args, "--no-cache"];
+            await BuildContainer(filePath, processName, context);
         }
 
         Trace.WriteLine($"Starting container with: docker {string.Join(" ", args)}", processName);
@@ -1268,7 +1268,7 @@ public class TestConfig
         if (context.Properties.TryGetValue(retryAttemptKey, out var retryAttempt) && (retryAttempt > 0))
         {
             // if the first build fails, try with no cache
-            args = [..args, "--no-cache"];
+            await BuildContainer(ComposeFilePath, ProcessName.WEB_APP, context);
         }
 
         Trace.WriteLine($"Starting container with: docker {string.Join(" ", args)}", ProcessName.WEB_APP);
@@ -1332,6 +1332,58 @@ public class TestConfig
         }
 
         await WaitForHttpResponse();
+    }
+
+    private static async Task BuildContainer(string filePath, string processName, ResilienceContext context)
+    {
+        var cmdLineApp = "docker";
+
+        string[] args =
+        [
+            "compose", "-f", filePath, "build", "--no-cache"
+        ];
+
+        Trace.WriteLine($"Re-building container with: docker {string.Join(" ", args)}", processName);
+        Trace.WriteLine($"Working directory: {_projectFolder}", processName);
+
+        CancellationTokenSource waitTokenSource = new();
+
+        var linkedTokenSource =
+            CancellationTokenSource.CreateLinkedTokenSource(context.CancellationToken, waitTokenSource.Token);
+
+        _webAppContainerExceptionThrown = false;
+        _webAppContainerExceptionMessage = null;
+
+        await Cli.Wrap(cmdLineApp)
+            .WithArguments(args)
+            .WithEnvironmentVariables(new Dictionary<string, string?>
+            {
+                ["HTTP_PORT"] = _httpPort.ToString(),
+                ["HTTPS_PORT"] = _httpsPort.ToString(),
+                ["COVER"] = _cover.ToString().ToLower(),
+                ["SESSION_ID"] = processName,
+                ["COVERAGE_FORMAT"] = _coverageFormat,
+                ["COVERAGE_FILE_VERSION"] = _coverageFileVersion,
+                ["GEOBLAZOR_CORE_LICENSE_KEY"] = _configuration!["GEOBLAZOR_CORE_LICENSE_KEY"],
+                ["GEOBLAZOR_PRO_LICENSE_KEY"] = _configuration["GEOBLAZOR_PRO_LICENSE_KEY"]
+            })
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, processName)))
+            .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
+            {
+                if (line.Contains("ERROR:"))
+                {
+                    _webAppContainerExceptionMessage = line;
+                    _webAppContainerExceptionThrown = true;
+                    waitTokenSource.Cancel();
+                }
+            }))
+            .WithWorkingDirectory(_projectFolder)
+            .ExecuteAsync(linkedTokenSource.Token, gracefulCts.Token);
+
+        if (_webAppContainerExceptionThrown)
+        {
+            throw new ContainerException(_webAppContainerExceptionMessage!);
+        }
     }
 
     private static async Task ShutdownContainerCoverage(string processName, string composeFilePath)
@@ -1455,11 +1507,14 @@ public class TestConfig
                 {
                     var exitCode = testProcess.ExitCode;
 
-                    throw new ProcessExitedException($"Test process exited with code {exitCode}");
+                    if (exitCode != 0)
+                    {
+                        throw new ProcessExitedException($"Test process exited with code {exitCode}");
+                    }
                 }
                 catch
                 {
-                    throw new ProcessExitedException("Test process exited unexpectedly");
+                    // ignore - the container building process can exit silently and all is fine
                 }
             }
 

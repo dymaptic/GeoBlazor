@@ -10,7 +10,7 @@
 *.userosscache
 *.sln.docstates
 .DS_Store
-esBuild.*.lock
+**/esBuild.lock
 esBuild.log
 esBuild.hash
 .esbuild-record.json
