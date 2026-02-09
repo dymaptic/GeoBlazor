@@ -140,7 +140,7 @@ Console.WriteLine("-------------------------------------------------------");
 // Read the test output log
 string testOutputLogPath = Path.Combine(testProjectDir, "test-run.log");
 
-Regex finalCountRegex = new(@"^.*FINAL_SUMMARY: (?<passed>\d+) / (?<total>\d+) TESTS PASSED.\s*$");
+Regex finalCountRegex = new(@"^.*FINAL_SUMMARY: PASSED TESTS: (?<passed>\d+) / (?<total>\d+)\s*$");
 
 bool failed = false;
 foreach (string line in await File.ReadAllLinesAsync(testOutputLogPath))
@@ -188,10 +188,13 @@ static async Task RunDotnetCommandWithOutputAsync(string workingDirectory,
 {
     bool summaryStarted = false;
     bool testLineMatched = false;
+    bool supportsCursorManipulation = true;
     ConsoleColor defaultColor = Console.ForegroundColor;
     Regex testLineRegex = new(@"^\[\+(?<passed>\d+)\/x(?<failed>\d+)\/\?(?<skipped>\d+)\] (?<content>.*)$");
 
-    await Cli.Wrap("dotnet")
+    try
+    {
+        await Cli.Wrap("dotnet")
         .WithArguments($"{command} {string.Join(" ", args.Where(a => !string.IsNullOrWhiteSpace(a)))}")
         .WithWorkingDirectory(workingDirectory)
         .WithEnvironmentVariables(environmentVariables ?? [])
@@ -207,13 +210,22 @@ static async Task RunDotnetCommandWithOutputAsync(string workingDirectory,
                 }
                 if (testLineRegex.Match(line) is { Success: true } match && !summaryStarted)
                 {
-                    if (testLineMatched)
+                    if (testLineMatched && supportsCursorManipulation)
                     {
-                        // Move cursor up and clear the previous line
-                        int cursorTop = Console.GetCursorPosition().Top;
-                        Console.SetCursorPosition(0, cursorTop - 1);
-                        Console.Write(new string(' ', Console.WindowWidth));
-                        Console.SetCursorPosition(0, cursorTop - 1);
+                        try
+                        {
+                            // Move cursor up and clear the previous line
+                            int cursorTop = Console.GetCursorPosition().Top;
+                            Console.SetCursorPosition(0, cursorTop - 1);
+                            Console.Write(new string(' ', Console.WindowWidth));
+                            Console.SetCursorPosition(0, cursorTop - 1);
+                        }
+                        catch (IOException)
+                        {
+                            supportsCursorManipulation = false;
+                            // In some environments (like certain CI systems), the console may not support cursor manipulation.
+                            // If that happens, we just won't clear the previous line and will print updates on new lines instead.
+                        }
                     }
 
                     int passed = int.Parse(match.Groups["passed"].Value);
@@ -223,7 +235,7 @@ static async Task RunDotnetCommandWithOutputAsync(string workingDirectory,
                     Console.ForegroundColor = defaultColor;
                     Console.Write("[");
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write($"+{passed}");
+                    Console.Write($"√{passed}");
                     Console.ForegroundColor = defaultColor;
                     Console.Write("/");
                     Console.ForegroundColor = ConsoleColor.Red;
@@ -254,4 +266,9 @@ static async Task RunDotnetCommandWithOutputAsync(string workingDirectory,
             }
         }))
         .ExecuteAsync(forceCancellationToken, cancellationToken);
+    }
+    catch (OperationCanceledException)
+    {
+        Console.WriteLine("Test run was canceled.");
+    }
 }

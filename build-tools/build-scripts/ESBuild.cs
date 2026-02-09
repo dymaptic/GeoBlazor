@@ -5,7 +5,6 @@
 // C# file-based app version of esBuild.ps1
 // Usage: dotnet esBuild.cs [options]
 //   -c, --configuration <Debug|Release>  Build configuration (default: Debug)
-//   -f, --force                          Force rebuild, ignoring lock files and record
 //   -p, --pro                            Run the GeoBlazor Pro ESBuild process
 //   -pc, --prooncorechange               Run the GeoBlazor Pro ESBuild process if pro OR core files have changed
 //   -d, --dialog                         Show a console dialog during build
@@ -31,7 +30,6 @@ string toolsDir = Path.GetFullPath(Path.Combine(scriptDir, "..", $"{os}-{arch}")
 
 // Parse command line arguments
 string configuration = "Debug";
-bool force = false;
 bool help = false;
 bool pro = false;
 bool proOnCoreChange = false;
@@ -53,10 +51,6 @@ for (int i = 0; i < args.Length; i++)
         case "-d":
         case "--dialog":
             dialog = true;
-            break;
-        case "-f":
-        case "--force":
-            force = true;
             break;
         case "-p":
         case "-pro":
@@ -94,7 +88,6 @@ if (help)
     Trace.WriteLine("ESBuild TypeScript -> JavaScript Compilation Script");
     Trace.WriteLine("");
     Trace.WriteLine("Parameters:");
-    Trace.WriteLine("  -f, --force                          Removes any lock files and forces the script to run");
     Trace.WriteLine("  -c, --configuration <string>         Build configuration (default is 'Debug')");
     Trace.WriteLine("                                       Valid values are 'Debug' and 'Release'");
     Trace.WriteLine("  -p, --pro                            Run the GeoBlazor Pro ESBuild process");
@@ -136,50 +129,6 @@ string outputDir = pro ? proOutputDir : coreOutputDir;
 string coreRecordFilePath = Path.GetFullPath(Path.Combine(coreSourceDir, "..", ".esbuild-record.json"));
 string proRecordFilePath = Path.GetFullPath(Path.Combine(proSourceDir, "..", ".esbuild-record.json"));
 string recordFilePath = pro ? proRecordFilePath : coreRecordFilePath;
-
-string coreDebugLockFile = Path.Combine(coreSourceDir, "esBuild.Debug.lock");
-string coreReleaseLockFile = Path.Combine(coreSourceDir, "esBuild.Release.lock");
-string proDebugLockFile = Path.Combine(proSourceDir, "esBuild.Debug.lock");
-string proReleaseLockFile = Path.Combine(proSourceDir, "esBuild.Release.lock");
-string debugLockFile = configuration == "Debug" ? (pro ? proDebugLockFile : coreDebugLockFile) : string.Empty;
-string releaseLockFile = configuration == "Release" ? (pro ? proReleaseLockFile : coreReleaseLockFile) : string.Empty;
-string coreLockFilePath = configuration == "Release" ? coreReleaseLockFile : coreDebugLockFile;
-string proLockFilePath = configuration == "Release" ? proReleaseLockFile : proDebugLockFile;
-string lockFilePath = pro ? proLockFilePath : coreLockFilePath;
-
-// Handle --force flag: delete record and lock files
-if (force)
-{
-    Trace.WriteLine("Force rebuild: Deleting existing record files.");
-    File.Delete(coreRecordFilePath);
-    File.Delete(proRecordFilePath);
-    File.Delete(debugLockFile);
-    File.Delete(releaseLockFile);
-}
-
-// Check if the process is locked for the current configuration
-bool locked = configuration == "Debug" && File.Exists(debugLockFile)
-    || configuration == "Release" && File.Exists(releaseLockFile);
-
-// Prevent multiple instances of the script from running at the same time
-if (locked)
-{
-    Trace.WriteLine("Another instance of the script is already running. Exiting.");
-    KillDialog(dialogProcess);
-    return 1;
-}
-
-try
-{
-    // Lock
-    File.WriteAllText(lockFilePath, DateTime.UtcNow.ToString("o"));
-}
-catch
-{
-    Trace.WriteLine("Conflict with Lock file. Exiting.");
-    KillDialog(dialogProcess);
-    return 1;
-}
 
 string currentBranch = GetCurrentGitBranch(sourceDir);
 bool needsBuild = CheckIfNeedsBuild(

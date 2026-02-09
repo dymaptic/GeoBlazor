@@ -19,6 +19,7 @@
 **/node_modules
 **/npm-debug.log
 **/obj
+**/esBuild.lock
 bin
 obj
 **/wwwroot/js/*.js

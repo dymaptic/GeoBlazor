@@ -5,11 +5,15 @@
 }
 
 @code {
-
     [TestMethod]
     public async Task TestPublicAgoWebMaps(Action renderHandler)
     {
-        foreach (string portalItemId in _publicPortalItemIds)
+        // shorten list for CI
+        string[] publicPortalItemIds = IsCI
+            ? ["4cf31bd86c6e44778bee1c990458dd8b"]
+            : _publicPortalItemIds;
+
+        foreach (string portalItemId in publicPortalItemIds)
         {
             AddMapRenderFragment(
                 @<MapView class="map-view" OnViewRendered="renderHandler">
@@ -25,7 +29,12 @@
     [TestMethod]
     public async Task TestDymapticAgoWebMaps(Action renderHandler)
     {
-        foreach (string portalItemId in _dymapticAgoPortalItemIds)
+        // shorten list for CI
+        string[] dymapticAgoPortalItemIds = IsCI
+            ? ["4cf31bd86c6e44778bee1c990458dd8b"]
+            : _dymapticAgoPortalItemIds;
+
+        foreach (string portalItemId in dymapticAgoPortalItemIds)
         {
             AddMapRenderFragment(
                 @<MapView class="map-view" OnViewRendered="renderHandler">
@@ -41,7 +50,12 @@
     [TestMethod]
     public async Task TestDymapticEnterpriseWebMaps(Action renderHandler)
     {
-        foreach (string portalItemId in _dymapticEnterprisePortalItemIds)
+        // shorten list for CI
+        string[] dymapticEnterprisePortalItemIds = IsCI
+            ? ["4cf31bd86c6e44778bee1c990458dd8b"]
+            : _dymapticEnterprisePortalItemIds;
+
+        foreach (string portalItemId in dymapticEnterprisePortalItemIds)
         {
             AddMapRenderFragment(
                 @<MapView class="map-view" OnViewRendered="renderHandler">
@@ -85,7 +99,8 @@
     [TestMethod]
     public async Task TestCanSetDefinitionExpressionOnSublayerOfWebmap(Action renderHandler,
         Action<LayerViewCreateEvent> layerViewCreatedHandler)
-    {AddMapRenderFragment(
+    {
+        AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="layerViewCreatedHandler">
                 <WebMap>
                     <PortalItem PortalItemId="b904055866774ff8a8d698e754962536" />

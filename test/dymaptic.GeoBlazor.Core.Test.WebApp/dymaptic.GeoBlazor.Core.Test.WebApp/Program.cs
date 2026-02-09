@@ -12,8 +12,8 @@ try
     WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
     // Add services to the container.
-    builder.Services.AddRazorComponents()
-        .AddInteractiveServerComponents()
+    builder.Services.AddRazorComponents(options => options.DetailedErrors = true)
+        .AddInteractiveServerComponents(options => options.DetailedErrors = true)
         .AddInteractiveWebAssemblyComponents();
 
     builder.Services.AddGeoBlazor(builder.Configuration);

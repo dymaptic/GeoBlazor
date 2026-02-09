@@ -23,8 +23,31 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
     }
 
     [TestCleanup]
-    public async Task BrowserTearDown()
+    public async Task TestCleanup()
     {
+        switch (TestContext.CurrentTestOutcome)
+        {
+            case UnitTestOutcome.Passed:
+                if (!TestConfig.SkippedTests.Contains(TestContext.TestName))
+                {
+                    TestConfig.PassedTests.Add(TestContext.TestName);
+                }
+
+                break;
+            case UnitTestOutcome.Failed:
+                if (!TestConfig.FailedTests.ContainsKey(TestContext.TestName))
+                {
+                    throw new Exception($"Test {TestContext.TestName
+                    } failed but was not added to FailedTests during the Exception handler");
+                }
+
+                break;
+            case UnitTestOutcome.Inconclusive:
+                TestConfig.InconclusiveTests.Add(TestContext.TestName);
+
+                break;
+        }
+
         if (TestOK())
         {
             foreach (var context in _contexts)
@@ -57,8 +80,11 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
     protected async Task RunTestImplementation(string testName)
     {
-        if (TestConfig.UnitOnly)
+        if (TestConfig.UnitOnly || !TestConfig.FilteredTests!.Contains(testName))
         {
+            TestConfig.SkippedTests.Add(testName);
+            Trace.WriteLine($"{testName} Skipped", ProcessName.WEB_TEST);
+
             return;
         }
 
@@ -72,7 +98,13 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         {
             string testUrl = BuildTestUrl(testName);
 
-            await _retryPipeline.ExecuteAsync(async token =>
+            using var testCts = CancellationTokenSource.CreateLinkedTokenSource(TestConfig.Cts.Token);
+            testCts.CancelAfter(TimeSpan.FromMinutes(3));
+
+            var context = ResilienceContextPool.Shared.Get(
+                new ResilienceContextCreationArguments(testName, null, testCts.Token));
+
+            await _retryPipeline.ExecuteAsync(async ctx =>
             {
                 _consoleMessages[testName] = [];
                 _errorMessages[testName] = [];
@@ -82,7 +114,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
                 await page.GotoAsync(testUrl, PageGotoOptions);
                 Trace.WriteLine($"Page loaded for {testName}", ProcessName.WEB_TEST);
 
-                if (token.IsCancellationRequested)
+                if (ctx.CancellationToken.IsCancellationRequested)
                 {
                     return;
                 }
@@ -96,7 +128,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
                     await sectionToggle.ClickAsync();
                 }
 
-                if (token.IsCancellationRequested)
+                if (ctx.CancellationToken.IsCancellationRequested)
                 {
                     return;
                 }
@@ -104,7 +136,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
                 ILocator testBtn = page.GetByText("Run Test");
                 await testBtn.ClickAsync();
 
-                if (token.IsCancellationRequested)
+                if (ctx.CancellationToken.IsCancellationRequested)
                 {
                     return;
                 }
@@ -144,9 +176,9 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
                     }
 
                     Trace.WriteLine($"{testName} Passed", ProcessName.WEB_TEST);
-                    TestConfig.PassedTestCount++;
+                    Trace.WriteLine($"{testName}: Adding 1 passed tests to total test count", ProcessName.WEB_TEST);
                 }
-            });
+            }, context);
         }
         catch (Exception)
         {
@@ -290,12 +322,13 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
     private static readonly RetryStrategyOptions retryStrategyOptions = new()
     {
         BackoffType = DelayBackoffType.Exponential,
-        MaxRetryAttempts = 3,
+        MaxRetryAttempts = 2,
         Delay = TimeSpan.FromSeconds(5),
         OnRetry = args =>
         {
-            Trace.WriteLine($"Retrying {args.Context.OperationKey} in {args.RetryDelay.Milliseconds}ms (attempt {
-                args.AttemptNumber + 1})", ProcessName.WEB_TEST);
+            Trace.WriteLine($"Attempt {args.AttemptNumber + 1} failed. Retrying {args.Context.OperationKey} in {
+                args.RetryDelay.TotalSeconds} seconds.",
+                ProcessName.WEB_TEST);
 
             return ValueTask.CompletedTask;
         }

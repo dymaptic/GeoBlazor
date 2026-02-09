@@ -59,7 +59,9 @@ RUN --mount=type=cache,target=/root/.nuget/packages \
     /p:DebugSymbols=true \
     /p:DebugType=portable \
     /p:GeneratePackage=false \
-    /p:ShowSourceGenDialogs=false
+    /p:GenerateDocs=false \
+    /p:GenerateXmlComments=false \
+    /p:ShowScriptDialogs=false
 
 # Create user and set working directory
 RUN groupadd -r info && useradd -r -g info info \
