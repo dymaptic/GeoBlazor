@@ -50,8 +50,7 @@
     <PropertyGroup>
         <BuildDependsOn>TriggerESBuild;$(BuildDependsOn)</BuildDependsOn>
         <ESBuildLockFilePath>$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core/esBuild.$(Configuration).lock</ESBuildLockFilePath>
-        <ESBuildLockFileExists>$([System.IO.File]::EXISTS(`$(ESBuildLockFilePath)`))</ESBuildLockFileExists>
-        <ESBuildLockFileTimeStamp>$([System.IO.File]::GetLastWriteTime(`$(ESBuildLockFilePath)`).Ticks)</ESBuildLockFileTimeStamp>
+        <ESBuildLockFileTimeStamp Condition="EXISTS($(ESBuildLockFilePath))">$([System.IO.File]::GetLastWriteTime(`$(ESBuildLockFilePath)`).Ticks)</ESBuildLockFileTimeStamp>
         <StaleFileThresholdTimeStamp>$([System.DateTime]::Now.AddMinutes(-5).Ticks)</StaleFileThresholdTimeStamp>
         <ESBuildRemoveProps>
             BuildProjectReferences;
@@ -75,7 +74,8 @@
     </PropertyGroup>
     <Target Name="TriggerESBuild"
             BeforeTargets="Restore;BeforeBuild"
-            Condition="'$(MSBuildProjectName)' != 'dymaptic.GeoBlazor.Core.ESBuild' AND ('$(ESBuildLockFileExists)' != 'true' OR $(ESBuildLockFileTimeStamp) &lt; $(StaleFileThresholdTimeStamp))">
+            Condition="'$(MSBuildProjectName)' != 'dymaptic.GeoBlazor.Core.ESBuild' AND (!EXISTS($(ESBuildLockFilePath)) OR $(ESBuildLockFileTimeStamp) &lt; $(StaleFileThresholdTimeStamp))">
+        <WriteLinesToFile File="$(ESBuildLockFilePath)" Lines="$([System.DateTime]::Now.ToString(`o`))" Overwrite="true" />
         <Exec Command="dotnet restore $(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj"/>
         <MSBuild Projects="$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj"
                  Properties="GBBuildToolsPath=$(GBBuildToolsPath);ShowScriptDialogs=$(ShowScriptDialogs)"

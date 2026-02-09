@@ -12,8 +12,8 @@
       }
     },
     "configProperties": {
-      "EntryPointFilePath": "/home/runner/work/GeoBlazor/GeoBlazor/build-tools/build-scripts/GBTest.cs",
-      "EntryPointFileDirectoryPath": "/home/runner/work/GeoBlazor/GeoBlazor/build-tools/build-scripts",
+      "EntryPointFilePath": "/home/timpurdum/repo/GeoBlazor.Pro/GeoBlazor/build-tools/build-scripts/GBTest.cs",
+      "EntryPointFileDirectoryPath": "/home/timpurdum/repo/GeoBlazor.Pro/GeoBlazor/build-tools/build-scripts",
       "Microsoft.Extensions.DependencyInjection.VerifyOpenGenericServiceTrimmability": true,
       "System.ComponentModel.DefaultValueAttribute.IsSupported": false,
       "System.ComponentModel.Design.IDesignerHost.IsSupported": false,
