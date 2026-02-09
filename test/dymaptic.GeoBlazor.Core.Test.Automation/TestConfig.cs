@@ -756,25 +756,43 @@ public class TestConfig
 
     private static async ValueTask LaunchWebTests(ResilienceContext context)
     {
-        if (_useContainer)
+        try
         {
-            await StartWebAppContainer(context);
+            if (_useContainer)
+            {
+                await StartWebAppContainer(context);
+            }
+            else
+            {
+                await StartWebApp(context.CancellationToken);
+            }
         }
-        else
+        catch (Exception ex)
         {
-            await StartWebApp(context.CancellationToken);
+            context.Properties.Set(exceptionKey, $"{ex.Message}{Environment.NewLine}{ex.StackTrace}");
+
+            throw;
         }
     }
 
     private static async ValueTask LaunchUnitTests(ResilienceContext context)
     {
-        if (_useContainer)
+        try
         {
-            await StartUnitTestContainer(context);
+            if (_useContainer)
+            {
+                await StartUnitTestContainer(context);
+            }
+            else
+            {
+                await RunUnitTests(context);
+            }
         }
-        else
+        catch (Exception ex)
         {
-            await RunUnitTests(context);
+            context.Properties.Set(exceptionKey, $"{ex.Message}{Environment.NewLine}{ex.StackTrace}");
+
+            throw;
         }
     }
 
@@ -1754,7 +1772,8 @@ public class TestConfig
             .Handle<ContainerException>(),
         OnRetry = context =>
         {
-            Trace.WriteLine($"Attempt #{context.AttemptNumber + 1} for task failed. Retrying...",
+            Trace.WriteLine($"Attempt #{context.AttemptNumber + 1} for task failed with exception {
+                context.Context.Properties.GetValue(exceptionKey, "")}. Retrying...",
                 context.Context.OperationKey);
             context.Context.Properties.Set(retryAttemptKey, context.AttemptNumber);
 
@@ -1772,6 +1791,7 @@ public class TestConfig
     private static readonly List<int> processIds = [];
 
     private static readonly ResiliencePropertyKey<int> retryAttemptKey = new("RetryAttempt");
+    private static readonly ResiliencePropertyKey<string?> exceptionKey = new("Exception");
 
     private static IConfiguration? _configuration;
     private static string? _runConfig;
