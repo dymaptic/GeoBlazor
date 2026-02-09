@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <CoreVersion>5.0.0.74</CoreVersion>
+    <CoreVersion>5.0.0.75</CoreVersion>
     <Configurations>Debug;Release;SourceGen Highlighting</Configurations>
     <Platforms>AnyCPU</Platforms>
     <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
@@ -72,15 +72,9 @@
             TriggerProESBuild
         </ESBuildRemoveProps>
   </PropertyGroup>
-    <Target Name="TriggerESBuild"
-            BeforeTargets="Restore;BeforeBuild"
-            Condition="'$(MSBuildProjectName)' != 'dymaptic.GeoBlazor.Core.ESBuild' AND (!EXISTS($(ESBuildLockFilePath)) OR $(ESBuildLockFileTimeStamp) &lt; $(StaleFileThresholdTimeStamp))">
-        <WriteLinesToFile File="$(ESBuildLockFilePath)"
-                          Lines="$([System.DateTime]::Now.ToString(`o`))"
-                          Overwrite="false"
-                          ContinueOnError="true"/>
+  <Target Name="TriggerESBuild" BeforeTargets="Restore;BeforeBuild" Condition="'$(MSBuildProjectName)' != 'dymaptic.GeoBlazor.Core.ESBuild' AND (!EXISTS($(ESBuildLockFilePath)) OR $(ESBuildLockFileTimeStamp) &lt; $(StaleFileThresholdTimeStamp))">
+    <WriteLinesToFile File="$(ESBuildLockFilePath)" Lines="$([System.DateTime]::Now.ToString(`o`))" Overwrite="false" ContinueOnError="true" />
     <Exec Command="dotnet restore $(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj" />
-        <MSBuild Projects="$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj" Properties="GBBuildToolsPath=$(GBBuildToolsPath);ShowScriptDialogs=$(ShowScriptDialogs)"
-                 RemoveProperties="$(ESBuildRemoveProps)"/>
+    <MSBuild Projects="$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj" Properties="GBBuildToolsPath=$(GBBuildToolsPath);ShowScriptDialogs=$(ShowScriptDialogs)" RemoveProperties="$(ESBuildRemoveProps)" />
   </Target>
 </Project>
