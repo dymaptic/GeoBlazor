@@ -25,7 +25,8 @@
             await CleanupTest(nameof(TestPublicAgoWebMaps));
         }
     }
-    
+
+    [CICondition(ConditionMode.Exclude)]
     [TestMethod]
     public async Task TestDymapticAgoWebMaps(Action renderHandler)
     {

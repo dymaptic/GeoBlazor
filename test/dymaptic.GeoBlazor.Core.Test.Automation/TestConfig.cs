@@ -1157,19 +1157,19 @@ public class TestConfig
 
         if (trimmedLine.StartsWith("failed ", StringComparison.OrdinalIgnoreCase))
         {
-            var testName = output.Split(" ")[1];
+            var testName = trimmedLine.Split(" ")[1];
             failedTests.TryAdd(testName, output);
             filteredTests.Add(testName);
         }
         else if (trimmedLine.StartsWith("inconclusive ", StringComparison.OrdinalIgnoreCase))
         {
-            var testName = output.Split(" ")[1];
+            var testName = trimmedLine.Split(" ")[1];
             inconclusiveTests.Add(testName);
             filteredTests.Add(testName);
         }
         else if (trimmedLine.StartsWith("passed ", StringComparison.OrdinalIgnoreCase))
         {
-            var testName = output.Split(" ")[1];
+            var testName = trimmedLine.Split(" ")[1];
             passedTests.Add(testName);
             filteredTests.Add(testName);
         }
