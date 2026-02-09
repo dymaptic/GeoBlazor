@@ -160,25 +160,50 @@ void StartWindowsConsole(string title)
 
 /// <summary>
 /// Starts a Terminal.app window on macOS using osascript/AppleScript.
+/// Uses tail -f for log following (no pwsh dependency required).
 /// </summary>
 void StartMacConsole(string title)
 {
-    string escapedPath = _consoleTempFile!.Replace("'", "'\\''");
+    // Escape for single-quoted shell strings
+    string shellTitle = title.Replace("'", "'\\''");
+    string shellPath = _consoleTempFile!.Replace("'", "'\\''");
 
-    // Use osascript to open Terminal.app with a pwsh command
-    string pwshCommand = "pwsh -NoProfile -NoLogo -Command \\\"" +
-                       $"Write-Host '{title}' -ForegroundColor Cyan; " +
-                       "Write-Host ('=' * 50); " +
-                       $"Get-Content -Path '{escapedPath}' -Wait -Tail 100\\\"";
+    // Build the shell command for the visible Terminal window
+    // clear removes the login banner and echoed command that Terminal.app shows
+    string shellCommand = $"clear; echo '{shellTitle}'; echo '=================================================='; tail -f '{shellPath}'";
 
-    string appleScript = $"tell application \\\"Terminal\\\" to do script \\\"{pwshCommand}\\\"";
+    // Escape the shell command for embedding in an AppleScript double-quoted string
+    string asCommand = shellCommand.Replace("\\", "\\\\").Replace("\"", "\\\"");
 
-    _consoleProcess = new Process
+    // Pass AppleScript via stdin to avoid nested shell escaping issues
+    string appleScript = "tell application \"Terminal\"\n" +
+                         "    activate\n" +
+                         $"    do script \"{asCommand}\"\n" +
+                         "end tell";
+
+    var osascript = new Process
     {
         StartInfo = new ProcessStartInfo
         {
             FileName = "osascript",
-            Arguments = $"-e \"{appleScript}\"",
+            UseShellExecute = false,
+            CreateNoWindow = true,
+            RedirectStandardInput = true
+        }
+    };
+    osascript.Start();
+    osascript.StandardInput.Write(appleScript);
+    osascript.StandardInput.Close();
+    osascript.WaitForExit(5000);
+
+    // osascript exits immediately after telling Terminal to open, so start a
+    // long-lived sentinel process for lifecycle tracking by the main loop
+    _consoleProcess = new Process
+    {
+        StartInfo = new ProcessStartInfo
+        {
+            FileName = "sleep",
+            Arguments = "86400",
             UseShellExecute = false,
             CreateNoWindow = true
         }
@@ -189,42 +214,64 @@ void StartMacConsole(string title)
 /// <summary>
 /// Starts a terminal window on Linux by trying common terminal emulators
 /// (gnome-terminal, konsole, xfce4-terminal, xterm) until one succeeds.
+/// Uses tail -f for log following (no pwsh dependency required).
 /// </summary>
 void StartLinuxConsole(string title)
 {
-    string escapedPath = _consoleTempFile!.Replace("'", "'\\''");
-    string pwshCommand = "pwsh -NoProfile -NoLogo -Command \\\"" +
-                       $"Write-Host '{title}' -ForegroundColor Cyan; " +
-                       "Write-Host ('=' * 50); " +
-                       $"Get-Content -Path '{escapedPath}' -Wait -Tail 100\\\"";
+    string shellTitle = title.Replace("'", "'\\''");
+    string shellPath = _consoleTempFile!.Replace("'", "'\\''");
+
+    // Shell command to display title banner and follow the log file
+    string shellCommand = $"echo '{shellTitle}'; echo '=================================================='; tail -f '{shellPath}'";
 
     // Try common Linux terminal emulators in order of popularity
+    // Use ArgumentList to pass args directly as argv, avoiding shell escaping issues
     string[] terminals = ["gnome-terminal", "konsole", "xfce4-terminal", "xterm"];
 
     foreach (string terminal in terminals)
     {
         try
         {
-            string args = terminal switch
+            var startInfo = new ProcessStartInfo
             {
-                "gnome-terminal" => $"-- bash -c \"{pwshCommand}\"",
-                "konsole" => $"-e bash -c \"{pwshCommand}\"",
-                "xfce4-terminal" => $"-e \"bash -c \\\"{pwshCommand}\\\"\"",
-                "xterm" => $"-e bash -c \"{pwshCommand}\"",
-                _ => $"-e bash -c \"{pwshCommand}\""
+                FileName = terminal,
+                UseShellExecute = false,
+                CreateNoWindow = true
             };
 
+            // Each terminal uses a different flag to specify the command to run
+            if (terminal == "gnome-terminal")
+            {
+                // gnome-terminal uses -- to separate its args from the child command
+                startInfo.ArgumentList.Add("--");
+            }
+            else
+            {
+                // konsole, xfce4-terminal, xterm all use -e
+                startInfo.ArgumentList.Add("-e");
+            }
+
+            startInfo.ArgumentList.Add("bash");
+            startInfo.ArgumentList.Add("-c");
+            startInfo.ArgumentList.Add(shellCommand);
+
+            var terminalProcess = new Process { StartInfo = startInfo };
+            terminalProcess.Start();
+
+            // gnome-terminal exits immediately (delegates to the GNOME Terminal server),
+            // so use a sentinel process for lifecycle tracking, consistent with macOS
             _consoleProcess = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = terminal,
-                    Arguments = args,
+                    FileName = "sleep",
+                    Arguments = "86400",
                     UseShellExecute = false,
                     CreateNoWindow = true
                 }
             };
             _consoleProcess.Start();
+
             return; // Success, exit the loop
         }
         catch
@@ -234,6 +281,80 @@ void StartLinuxConsole(string title)
     }
 
     // No terminal emulator found - messages still go to temp file and diagnostics
+}
+
+/// <summary>
+/// Closes the Terminal.app window on macOS by finding and closing the tab
+/// that is running tail -f on our temp file.
+/// </summary>
+void CloseMacTerminalWindow(string tempFilePath)
+{
+    try
+    {
+        string escapedPath = tempFilePath.Replace("\\", "\\\\").Replace("\"", "\\\"");
+
+        // AppleScript to find and close the Terminal tab running our tail command
+        string appleScript =
+            "tell application \"Terminal\"\n" +
+            "    repeat with w in windows\n" +
+            "        repeat with t in tabs of w\n" +
+            $"            if processes of t contains \"tail\" and history of t contains \"{escapedPath}\" then\n" +
+            "                close w\n" +
+            "                return\n" +
+            "            end if\n" +
+            "        end repeat\n" +
+            "    end repeat\n" +
+            "end tell";
+
+        var process = new Process
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = "osascript",
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardInput = true
+            }
+        };
+        process.Start();
+        process.StandardInput.Write(appleScript);
+        process.StandardInput.Close();
+        process.WaitForExit(5000);
+    }
+    catch
+    {
+        // Terminal may have already been closed
+    }
+}
+
+/// <summary>
+/// Closes a Linux terminal window by killing the tail process that is
+/// following our specific temp file. When tail exits, bash -c completes,
+/// and the terminal emulator closes the window.
+/// </summary>
+void CloseLinuxTerminalWindow(string tempFilePath)
+{
+    try
+    {
+        var process = new Process
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = "pkill",
+                UseShellExecute = false,
+                CreateNoWindow = true
+            }
+        };
+        // Use ArgumentList so the pattern is passed as a single argv element
+        process.StartInfo.ArgumentList.Add("-f");
+        process.StartInfo.ArgumentList.Add($"tail -f {tempFilePath}");
+        process.Start();
+        process.WaitForExit(5000);
+    }
+    catch
+    {
+        // Process may have already exited
+    }
 }
 
 /// <summary>
@@ -255,6 +376,16 @@ void CloseConsole(string title, int wait)
                 Thread.Sleep(wait * 1000);
                 _consoleProcess.Kill();
                 _consoleProcess.Dispose();
+            }
+
+            // Close the platform-specific terminal window (sentinel process doesn't own it)
+            if (OperatingSystem.IsMacOS() && _consoleTempFile is not null)
+            {
+                CloseMacTerminalWindow(_consoleTempFile);
+            }
+            else if (OperatingSystem.IsLinux() && _consoleTempFile is not null)
+            {
+                CloseLinuxTerminalWindow(_consoleTempFile);
             }
         }
         catch

@@ -12,8 +12,8 @@
       }
     },
     "configProperties": {
-      "EntryPointFilePath": "D:\\dymaptic.GeoBlazor.CodeGen\\GeoBlazor.Pro\\GeoBlazor\\build-tools\\build-scripts\\BuildTemplates.cs",
-      "EntryPointFileDirectoryPath": "D:\\dymaptic.GeoBlazor.CodeGen\\GeoBlazor.Pro\\GeoBlazor\\build-tools\\build-scripts",
+      "EntryPointFilePath": "/home/runner/work/GeoBlazor/GeoBlazor/build-tools/build-scripts/BuildTemplates.cs",
+      "EntryPointFileDirectoryPath": "/home/runner/work/GeoBlazor/GeoBlazor/build-tools/build-scripts",
       "System.Reflection.Metadata.MetadataUpdater.IsSupported": false,
       "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": false
     }
