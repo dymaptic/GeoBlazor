@@ -35,6 +35,7 @@ public partial class TestRunnerBase : IAsyncDisposable
             OnRetry = async args =>
             {
                 await CleanupTest(args.Context.OperationKey!, true);
+                _testResults[args.Context.OperationKey!] = $"Attempt {args.AttemptNumber + 1} failed. Retrying...";
             }
         };
 

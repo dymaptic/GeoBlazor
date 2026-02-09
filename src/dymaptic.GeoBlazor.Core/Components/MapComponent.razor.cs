@@ -920,7 +920,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     {
         return MapComponentType
             .GetProperties(BindingFlags.Public | BindingFlags.NonPublic
-                | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+                | BindingFlags.Instance)
             .Where(p => p.SetMethod is not null
                 && p.DeclaringType?.Namespace?.StartsWith("dymaptic.GeoBlazor") == true
                 && !excludedProps.Contains(p.Name)

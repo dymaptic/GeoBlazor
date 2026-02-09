@@ -36,13 +36,11 @@ public class TestConfig
     /// </summary>
     public static bool IsCI { get; private set; }
 
-    public static Dictionary<string, string> FailedTests { get; } = [];
+    public static ConcurrentDictionary<string, string> FailedTests { get; } = new();
 
-    public static HashSet<string> InconclusiveTests { get; } = [];
-    public static HashSet<string> PassedTests { get; set; } = [];
-    public static HashSet<string> SkippedTests { get; set; } = [];
-    public static int WebFailedTestCount { get; set; }
-    public static int WebInconclusiveTestCount { get; set; }
+    public static ConcurrentDictionary<string, byte> InconclusiveTests { get; } = new();
+    public static ConcurrentDictionary<string, byte> PassedTests { get; } = new();
+    public static ConcurrentDictionary<string, byte> SkippedTests { get; } = new();
     public static List<string>? FilteredTests { get; set; }
 
     private static string ComposeFilePath => _proAvailable && !CoreOnly ? ProComposeFilePath : CoreComposeFilePath;
@@ -86,6 +84,8 @@ public class TestConfig
     private static string ProTestSolutionFilePath => Path.Combine(ProRepoRoot, "test",
         "dymaptic.GeoBlazor.Pro.test.slnx");
     private static string SolutionFilePath => _proAvailable ? ProTestSolutionFilePath : CoreTestSolutionFilePath;
+    public static int WebFailedTestCount;
+    public static int WebInconclusiveTestCount;
 
     public static readonly CancellationTokenSource Cts = new();
 
@@ -364,7 +364,7 @@ public class TestConfig
             {
                 Trace.WriteLine($"INCONCLUSIVE TESTS: {InconclusiveTests.Count}", ProcessName.FINAL_SUMMARY);
 
-                foreach (var inconclusive in InconclusiveTests)
+                foreach (var inconclusive in InconclusiveTests.Keys)
                 {
                     Trace.WriteLine($"  {inconclusive}", ProcessName.FINAL_SUMMARY);
                 }
@@ -376,7 +376,7 @@ public class TestConfig
             {
                 Trace.WriteLine($"INCONCLUSIVE TESTS: {SkippedTests.Count}", ProcessName.FINAL_SUMMARY);
 
-                foreach (var skipped in SkippedTests)
+                foreach (var skipped in SkippedTests.Keys)
                 {
                     Trace.WriteLine($"  {skipped}", ProcessName.FINAL_SUMMARY);
                 }
@@ -1003,9 +1003,18 @@ public class TestConfig
             FailedTests.TryAdd(failedTest.Key, failedTest.Value);
         }
 
-        InconclusiveTests.UnionWith(inconclusiveTests);
+        foreach (var test in inconclusiveTests)
+        {
+            InconclusiveTests.TryAdd(test, 0);
+        }
+
         Trace.WriteLine($"Adding {passedTests.Count} passed tests to total test count", processName);
-        PassedTests.UnionWith(passedTests);
+
+        foreach (var test in passedTests)
+        {
+            PassedTests.TryAdd(test, 0);
+        }
+
         FilteredTests!.AddRange(filteredTests);
     }
 
@@ -1147,9 +1156,18 @@ public class TestConfig
             FailedTests.TryAdd(failedTest.Key, failedTest.Value);
         }
 
-        InconclusiveTests.UnionWith(inconclusiveTests);
+        foreach (var test in inconclusiveTests)
+        {
+            InconclusiveTests.TryAdd(test, 0);
+        }
+
         Trace.WriteLine($"Adding {passedTests.Count} passed tests to total test count", processName);
-        PassedTests.UnionWith(passedTests);
+
+        foreach (var test in passedTests)
+        {
+            PassedTests.TryAdd(test, 0);
+        }
+
         FilteredTests!.AddRange(filteredTests);
     }
 

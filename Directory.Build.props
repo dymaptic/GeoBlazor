@@ -72,9 +72,15 @@
             TriggerProESBuild
         </ESBuildRemoveProps>
   </PropertyGroup>
-  <Target Name="TriggerESBuild" BeforeTargets="Restore;BeforeBuild" Condition="'$(MSBuildProjectName)' != 'dymaptic.GeoBlazor.Core.ESBuild' AND (!EXISTS($(ESBuildLockFilePath)) OR $(ESBuildLockFileTimeStamp) &lt; $(StaleFileThresholdTimeStamp))">
-    <WriteLinesToFile File="$(ESBuildLockFilePath)" Lines="$([System.DateTime]::Now.ToString(`o`))" Overwrite="true" />
+    <Target Name="TriggerESBuild"
+            BeforeTargets="Restore;BeforeBuild"
+            Condition="'$(MSBuildProjectName)' != 'dymaptic.GeoBlazor.Core.ESBuild' AND (!EXISTS($(ESBuildLockFilePath)) OR $(ESBuildLockFileTimeStamp) &lt; $(StaleFileThresholdTimeStamp))">
+        <WriteLinesToFile File="$(ESBuildLockFilePath)"
+                          Lines="$([System.DateTime]::Now.ToString(`o`))"
+                          Overwrite="false"
+                          ContinueOnError="true"/>
     <Exec Command="dotnet restore $(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj" />
-    <MSBuild Projects="$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj" Properties="GBBuildToolsPath=$(GBBuildToolsPath);ShowScriptDialogs=$(ShowScriptDialogs)" RemoveProperties="$(ESBuildRemoveProps)" />
+        <MSBuild Projects="$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj" Properties="GBBuildToolsPath=$(GBBuildToolsPath);ShowScriptDialogs=$(ShowScriptDialogs)"
+                 RemoveProperties="$(ESBuildRemoveProps)"/>
   </Target>
 </Project>
