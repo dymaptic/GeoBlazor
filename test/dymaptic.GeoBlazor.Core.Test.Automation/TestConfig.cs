@@ -359,17 +359,31 @@ public class TestConfig
 
             Trace.WriteLine($"PASSED TESTS: {PassedTests.Count} / {FilteredTests!.Count}", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
-            Trace.WriteLine($"INCONCLUSIVE TESTS: {InconclusiveTests.Count}", ProcessName.FINAL_SUMMARY);
 
             if (InconclusiveTests.Count > 0)
             {
+                Trace.WriteLine($"INCONCLUSIVE TESTS: {InconclusiveTests.Count}", ProcessName.FINAL_SUMMARY);
+
                 foreach (var inconclusive in InconclusiveTests)
                 {
                     Trace.WriteLine($"  {inconclusive}", ProcessName.FINAL_SUMMARY);
                 }
+
+                Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             }
 
-            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+            if (SkippedTests.Count > 0)
+            {
+                Trace.WriteLine($"INCONCLUSIVE TESTS: {SkippedTests.Count}", ProcessName.FINAL_SUMMARY);
+
+                foreach (var skipped in SkippedTests)
+                {
+                    Trace.WriteLine($"  {skipped}", ProcessName.FINAL_SUMMARY);
+                }
+
+                Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+            }
+
             Trace.WriteLine($"FAILED TESTS: {FailedTests.Count}", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
@@ -1654,8 +1668,7 @@ public class TestConfig
             else
             {
                 await Cli.Wrap("/bin/bash")
-                    .WithArguments(
-                    [
+                    .WithArguments([
                         "-c",
                         $"lsof -i:{_httpsPort} | awk '{{if(NR>1)print $2}}' | xargs -t -r kill -9"
                     ])

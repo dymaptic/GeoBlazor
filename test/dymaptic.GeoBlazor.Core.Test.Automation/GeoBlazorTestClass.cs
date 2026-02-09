@@ -43,7 +43,13 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
                 break;
             case UnitTestOutcome.Inconclusive:
+                TestConfig.FilteredTests!.Remove($"{GetType().Name.Split('_').Last()}.{TestContext.TestName}");
                 TestConfig.InconclusiveTests.Add(TestContext.TestName);
+
+                break;
+            case UnitTestOutcome.Ignored:
+                TestConfig.FilteredTests!.Remove($"{GetType().Name.Split('_').Last()}.{TestContext.TestName}");
+                TestConfig.SkippedTests.Add(TestContext.TestName);
 
                 break;
         }
@@ -80,7 +86,16 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
     protected async Task RunTestImplementation(string testName)
     {
-        if (TestConfig.UnitOnly || !TestConfig.FilteredTests!.Contains(testName))
+        if (TestConfig.UnitOnly)
+        {
+            TestConfig.SkippedTests.Add(testName.Split('.').Last());
+            TestConfig.FilteredTests!.Remove(testName);
+            Trace.WriteLine($"{testName} Skipped", ProcessName.WEB_TEST);
+
+            return;
+        }
+
+        if (!TestConfig.FilteredTests!.Contains(testName))
         {
             TestConfig.SkippedTests.Add(testName);
             Trace.WriteLine($"{testName} Skipped", ProcessName.WEB_TEST);
@@ -158,6 +173,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
                     // Inconclusive we treat as passing for our automation purposes
                     Trace.WriteLine($"{testName} Inconclusive", ProcessName.WEB_TEST);
                     TestConfig.InconclusiveTests.Add(testName);
+                    TestConfig.FilteredTests.Remove(testName);
                     TestConfig.WebInconclusiveTestCount++;
                 }
                 else
