@@ -6,8 +6,13 @@
       "version": "10.0.0"
     },
     "configProperties": {
+<<<<<<< Updated upstream:build-tools/GeoBlazorBuild.runtimeconfig.json
       "EntryPointFilePath": "/home/runner/work/GeoBlazor/GeoBlazor/build-scripts/GeoBlazorBuild.cs",
       "EntryPointFileDirectoryPath": "/home/runner/work/GeoBlazor/GeoBlazor/build-scripts",
+=======
+      "EntryPointFilePath": "/Users/timpurdum/repos/GeoBlazor/GeoBlazor.Pro/GeoBlazor/build-tools/build-scripts/GeoBlazorBuild.cs",
+      "EntryPointFileDirectoryPath": "/Users/timpurdum/repos/GeoBlazor/GeoBlazor.Pro/GeoBlazor/build-tools/build-scripts",
+>>>>>>> Stashed changes:build-tools/osx-arm64/GeoBlazorBuild.runtimeconfig.json
       "Microsoft.Extensions.DependencyInjection.VerifyOpenGenericServiceTrimmability": true,
       "System.ComponentModel.DefaultValueAttribute.IsSupported": false,
       "System.ComponentModel.Design.IDesignerHost.IsSupported": false,

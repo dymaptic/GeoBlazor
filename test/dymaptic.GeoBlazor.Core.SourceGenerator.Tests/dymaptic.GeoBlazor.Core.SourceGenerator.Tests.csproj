@@ -28,6 +28,7 @@
         <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core.SourceGenerator\dymaptic.GeoBlazor.Core.SourceGenerator.csproj"
                           OutputItemType="Analyzer"
                           ReferenceOutputAssembly="true"/>
-        <Reference Include="..\..\src\dymaptic.GeoBlazor.Core\bin\Debug\net8.0\dymaptic.GeoBlazor.Core.dll"/>
+        <Reference Condition="'$(Configuration)' == 'Debug'" Include="..\..\src\dymaptic.GeoBlazor.Core\bin\Debug\net8.0\dymaptic.GeoBlazor.Core.dll"/>
+        <Reference Condition="'$(Configuration)' == 'Release'" Include="..\..\src\dymaptic.GeoBlazor.Core\bin\Release\net8.0\dymaptic.GeoBlazor.Core.dll"/>
     </ItemGroup>
 </Project>

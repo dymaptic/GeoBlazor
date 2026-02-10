@@ -525,7 +525,7 @@ public class TestConfig
         [
             "run", "--project", TestAppPath,
             "--urls", $"{TestAppUrl};{TestAppHttpUrl}",
-            "--", "-c", "Release",
+            "--", "-c", _runConfig!,
             "/p:GenerateXmlComments=false",
             "/p:GeneratePackage=false",
             "/p:GenerateDocs=false",
