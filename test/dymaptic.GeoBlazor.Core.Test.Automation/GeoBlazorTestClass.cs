@@ -25,31 +25,33 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
     [TestCleanup]
     public async Task TestCleanup()
     {
+        var testName = $"{GetType().Name.Split('_').Last()}.{TestContext.TestName}";
+
         switch (TestContext.CurrentTestOutcome)
         {
             case UnitTestOutcome.Passed:
-                if (!TestConfig.SkippedTests.ContainsKey(TestContext.TestName))
+                if (!TestConfig.SkippedTests.ContainsKey(testName))
                 {
-                    TestConfig.PassedTests.TryAdd(TestContext.TestName, 0);
+                    TestConfig.PassedTests.TryAdd(testName, 0);
                 }
 
                 break;
             case UnitTestOutcome.Failed:
-                if (!TestConfig.FailedTests.ContainsKey(TestContext.TestName))
+                if (!TestConfig.FailedTests.ContainsKey(testName))
                 {
-                    throw new Exception($"Test {TestContext.TestName
+                    throw new Exception($"Test {testName
                     } failed but was not added to FailedTests during the Exception handler");
                 }
 
                 break;
             case UnitTestOutcome.Inconclusive:
-                TestConfig.FilteredTests!.Remove($"{GetType().Name.Split('_').Last()}.{TestContext.TestName}");
-                TestConfig.InconclusiveTests.TryAdd(TestContext.TestName, 0);
+                TestConfig.FilteredTests!.Remove(testName);
+                TestConfig.InconclusiveTests.TryAdd(testName, 0);
 
                 break;
             case UnitTestOutcome.Ignored:
-                TestConfig.FilteredTests!.Remove($"{GetType().Name.Split('_').Last()}.{TestContext.TestName}");
-                TestConfig.SkippedTests.TryAdd(TestContext.TestName, 0);
+                TestConfig.FilteredTests!.Remove(testName);
+                TestConfig.SkippedTests.TryAdd(testName, 0);
 
                 break;
         }
@@ -88,7 +90,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
     {
         if (TestConfig.UnitOnly)
         {
-            TestConfig.SkippedTests.TryAdd(testName.Split('.').Last(), 0);
+            TestConfig.SkippedTests.TryAdd(testName, 0);
             TestConfig.FilteredTests!.Remove(testName);
             Trace.WriteLine($"{testName} Skipped", ProcessName.WEB_TEST);
 

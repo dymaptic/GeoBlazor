@@ -52,8 +52,8 @@ bool package = false;
 bool binlog = false;
 bool help = false;
 string? customVersion = null;
-string configuration = "Release";
-string validatorConfig = "Release";
+string configuration = Environment.GetEnvironmentVariable("Configuration") ?? "Release";
+string validatorConfig = Environment.GetEnvironmentVariable("ValidatorConfiguration") ?? "Release";
 string serverUrl = "https://licensing.dymaptic.com";
 int buildRetries = 5;
 
@@ -174,6 +174,11 @@ Console.CancelKeyPress += async (_, e) =>
     Environment.Exit(1);
 };
 
+if (package)
+{
+    generateDocs = true;
+}
+
 // If generating docs, also generate XML comments
 if (generateDocs)
 {
@@ -195,20 +200,12 @@ Console.WriteLine($"License Server URL: {serverUrl}");
 int step = 1;
 DateTime stepStartTime = DateTime.Now;
 
-// Step 1: ensure other build scripts are up to date:
-WriteStepHeader(step, "Updating build scripts to latest versions...");
-Console.WriteLine($"Running {scriptsDir}/ScriptBuilder.cs to update build scripts");
-await RunDotnetCommand(scriptsDir, "run", null, cts.Token, "ScriptBuilder.cs", "--exclude", "GeoBlazorBuild.cs");
-WriteStepCompleted(step, stepStartTime);
-step++;
-
 try
 {
     string version = customVersion ?? "";
     bool customVersionSet = !string.IsNullOrEmpty(customVersion);
 
-    // Step 2: Clean old build artifacts
-    stepStartTime = DateTime.Now;
+    // STEP: Clean old build artifacts
     WriteStepHeader(step, "Cleaning old build artifacts");
 
     await RunDotnetCommand(coreProjectPath, "clean", null, cts.Token, 
@@ -241,7 +238,7 @@ try
     WriteStepCompleted(step, stepStartTime);
     step++;
 
-    // Step 3: Update library versions (if no custom version specified)
+    // STEP: Update library versions (if no custom version specified)
     if (!customVersionSet)
     {
         stepStartTime = DateTime.Now;
@@ -301,18 +298,18 @@ try
         step++;
     }
 
-    // Step 5: Restore .NET packages for Core
+    // STEP: Restore .NET packages for Core
     stepStartTime = DateTime.Now;
-    WriteStepHeader(step, "Restoring .NET Packages");
+    WriteStepHeader(step, "Restoring GeoBlazor Core .NET Packages");
 
     await RunDotnetCommand(coreProjectPath, "restore", null, cts.Token);
 
     WriteStepCompleted(step, stepStartTime);
     step++;
 
-    // Step 6: Build Core Project and NuGet Package
+    // STEP: Build Core Project and NuGet Package
     stepStartTime = DateTime.Now;
-    WriteStepHeader(step, "Building Core Project and NuGet Package");
+    WriteStepHeader(step, package ? "Building Core Project and NuGet Package" : "Building Core Project");
 
     List<string> coreBuildArgs =
     [
@@ -370,9 +367,9 @@ try
     // Pro-specific steps
     if (pro)
     {
-        // Step 7: Restore Pro .NET packages
+        // STEP: Restore Pro .NET packages
         stepStartTime = DateTime.Now;
-        WriteStepHeader(step, "Restoring .NET Packages");
+        WriteStepHeader(step, "Restoring GeoBlazor Pro .NET Packages");
 
         await RunDotnetCommand(proProjectPath, "restore", null, cts.Token);
 
@@ -381,96 +378,93 @@ try
 
         bool optOutFromObfuscation = !obfuscate;
 
-        // Step 8: Build Validator (if exists)
-        if (Directory.Exists(validatorProjectPath))
+        // STEP: Build Validator
+        stepStartTime = DateTime.Now;
+        WriteStepHeader(step, $"Building Validator project in configuration {validatorConfig}");
+
+        // Set the ServerUrls in the Validator project
+        serverUrl = serverUrl.TrimEnd('/');
+        Console.WriteLine($"Setting License Server Url to {serverUrl}");
+
+        string devBuildValidatorPath = Path.Combine(validatorProjectPath, "DevBuildValidator.cs");
+        string publishTaskValidatorPath = Path.Combine(validatorProjectPath, "PublishTaskValidator.cs");
+
+        // Update DevBuildValidator.cs
+        string devValidatorContent = File.ReadAllText(devBuildValidatorPath);
+        devValidatorContent = Regex.Replace(
+            devValidatorContent,
+            @"public string SU \{ get; set; \} = null!;",
+            $"public string SU {{ get; set; }} = \"{serverUrl}/api/validate/v4\";");
+        File.WriteAllText(devBuildValidatorPath, devValidatorContent);
+        Thread.Sleep(500);
+
+        // Verify the update
+        devValidatorContent = File.ReadAllText(devBuildValidatorPath);
+        if (!devValidatorContent.Contains($"public string SU {{ get; set; }} = \"{serverUrl}/api/validate/v4\";"))
         {
-            stepStartTime = DateTime.Now;
-            WriteStepHeader(step, $"Building Validator project in configuration {validatorConfig}");
-
-            // Set the ServerUrls in the Validator project
-            serverUrl = serverUrl.TrimEnd('/');
-            Console.WriteLine($"Setting License Server Url to {serverUrl}");
-
-            string devBuildValidatorPath = Path.Combine(validatorProjectPath, "DevBuildValidator.cs");
-            string publishTaskValidatorPath = Path.Combine(validatorProjectPath, "PublishTaskValidator.cs");
-
-            // Update DevBuildValidator.cs
-            string devValidatorContent = File.ReadAllText(devBuildValidatorPath);
-            devValidatorContent = Regex.Replace(
-                devValidatorContent,
-                @"public string SU \{ get; set; \} = null!;",
-                $"public string SU {{ get; set; }} = \"{serverUrl}/api/validate/v4\";");
-            File.WriteAllText(devBuildValidatorPath, devValidatorContent);
-            Thread.Sleep(500);
-
-            // Verify the update
-            devValidatorContent = File.ReadAllText(devBuildValidatorPath);
-            if (!devValidatorContent.Contains($"public string SU {{ get; set; }} = \"{serverUrl}/api/validate/v4\";"))
-            {
-                throw new Exception("Failed to set ServerUrl in DevBuildValidator.cs");
-            }
-
-            // Update PublishTaskValidator.cs
-            string publishValidatorContent = File.ReadAllText(publishTaskValidatorPath);
-            publishValidatorContent = Regex.Replace(
-                publishValidatorContent,
-                @"public string SU \{ get; set; \} = null!;",
-                $"public string SU {{ get; set; }} = \"{serverUrl}/api/validate/v4/publish\";");
-            File.WriteAllText(publishTaskValidatorPath, publishValidatorContent);
-            Thread.Sleep(500);
-
-            // Verify the update
-            publishValidatorContent = File.ReadAllText(publishTaskValidatorPath);
-            if (!publishValidatorContent.Contains($"public string SU {{ get; set; }} = \"{serverUrl}/api/validate/v4/publish\";"))
-            {
-                throw new Exception("Failed to set ServerUrl in PublishTaskValidator.cs");
-            }
-
-            // Build validator
-            List<string> validatorBuildArgs =
-            [
-                "dymaptic.GeoBlazor.Pro.V.csproj",
-                $"/p:OptOutFromObfuscation={optOutFromObfuscation.ToString().ToLower()}",
-                $"/p:ProVersion={version}",
-                "-c",
-                validatorConfig,
-				"/p:ShowScriptDialogs=false"
-            ];
-            
-            if (binlog)
-            {
-                validatorBuildArgs.Add($"-bl:\"{Path.Combine(coreRepoRoot, $"validator_build_{validatorConfig.ToLower()}.binlog")}\"");
-            }
-
-            try
-            {
-                await RunDotnetCommand(validatorProjectPath, "build", null, cts.Token, validatorBuildArgs);
-            }
-            finally
-            {
-                // Restore the ServerUrls in the Validator project even if the build fails
-                devValidatorContent = File.ReadAllText(devBuildValidatorPath);
-                devValidatorContent = Regex.Replace(
-                    devValidatorContent,
-                    @"public string SU \{ get; set; \} = "".*"";",
-                    "public string SU { get; set; } = null!;");
-                File.WriteAllText(devBuildValidatorPath, devValidatorContent);
-
-                publishValidatorContent = File.ReadAllText(publishTaskValidatorPath);
-                publishValidatorContent = Regex.Replace(
-                    publishValidatorContent,
-                    @"public string SU \{ get; set; \} = "".*"";",
-                    "public string SU { get; set; } = null!;");
-                File.WriteAllText(publishTaskValidatorPath, publishValidatorContent);
-            }
-
-            WriteStepCompleted(step, stepStartTime);
-            step++;
+            throw new Exception("Failed to set ServerUrl in DevBuildValidator.cs");
         }
 
-        // Step 10: Build Pro project and package
+        // Update PublishTaskValidator.cs
+        string publishValidatorContent = File.ReadAllText(publishTaskValidatorPath);
+        publishValidatorContent = Regex.Replace(
+            publishValidatorContent,
+            @"public string SU \{ get; set; \} = null!;",
+            $"public string SU {{ get; set; }} = \"{serverUrl}/api/validate/v4/publish\";");
+        File.WriteAllText(publishTaskValidatorPath, publishValidatorContent);
+        Thread.Sleep(500);
+
+        // Verify the update
+        publishValidatorContent = File.ReadAllText(publishTaskValidatorPath);
+        if (!publishValidatorContent.Contains($"public string SU {{ get; set; }} = \"{serverUrl}/api/validate/v4/publish\";"))
+        {
+            throw new Exception("Failed to set ServerUrl in PublishTaskValidator.cs");
+        }
+
+        // Build validator
+        List<string> validatorBuildArgs =
+        [
+            "dymaptic.GeoBlazor.Pro.V.csproj",
+            $"/p:OptOutFromObfuscation={optOutFromObfuscation.ToString().ToLower()}",
+            $"/p:ProVersion={version}",
+            "-c",
+            validatorConfig,
+			"/p:ShowScriptDialogs=false"
+        ];
+        
+        if (binlog)
+        {
+            validatorBuildArgs.Add($"-bl:\"{Path.Combine(coreRepoRoot, $"validator_build_{validatorConfig.ToLower()}.binlog")}\"");
+        }
+
+        try
+        {
+            await RunDotnetCommand(validatorProjectPath, "build", null, cts.Token, validatorBuildArgs);
+        }
+        finally
+        {
+            // Restore the ServerUrls in the Validator project even if the build fails
+            devValidatorContent = File.ReadAllText(devBuildValidatorPath);
+            devValidatorContent = Regex.Replace(
+                devValidatorContent,
+                @"public string SU \{ get; set; \} = "".*"";",
+                "public string SU { get; set; } = null!;");
+            File.WriteAllText(devBuildValidatorPath, devValidatorContent);
+
+            publishValidatorContent = File.ReadAllText(publishTaskValidatorPath);
+            publishValidatorContent = Regex.Replace(
+                publishValidatorContent,
+                @"public string SU \{ get; set; \} = "".*"";",
+                "public string SU { get; set; } = null!;");
+            File.WriteAllText(publishTaskValidatorPath, publishValidatorContent);
+        }
+
+        WriteStepCompleted(step, stepStartTime);
+        step++;
+
+        // STEP: Build Pro project and package
         stepStartTime = DateTime.Now;
-        WriteStepHeader(step, "Building Pro project and package");
+        WriteStepHeader(step, package ? "Building GeoBlazor Pro Project and NuGet Package" : "Building GeoBlazor Pro Project");
 
         List<string> proBuildArgs =
         [
@@ -500,17 +494,10 @@ try
         string proJsPath = Path.Combine(proProjectPath, "wwwroot", "js");
         if (!Directory.Exists(proJsPath) || Directory.GetFiles(proJsPath, "*.js").Length == 0)
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"WARNING: Pro JavaScript files not found at {proJsPath}, waiting...");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("ERROR: Pro JavaScript files still not found after waiting. Exiting.");
             Console.ResetColor();
-            Thread.Sleep(2000);
-            if (!Directory.Exists(proJsPath) || Directory.GetFiles(proJsPath, "*.js").Length == 0)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("ERROR: Pro JavaScript files still not found after waiting. Exiting.");
-                Console.ResetColor();
-                return 1;
-            }
+            return 1;
         }
 
         if (package)

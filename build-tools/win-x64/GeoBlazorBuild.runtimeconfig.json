@@ -36,7 +36,6 @@
       "System.Text.Encoding.EnableUnsafeUTF7Encoding": false,
       "System.Text.Json.JsonSerializer.IsReflectionEnabledByDefault": false,
       "System.Threading.Thread.EnableAutoreleasePool": false,
-      "System.Threading.ThreadPool.UseWindowsThreadPool": true,
       "System.Linq.Expressions.CanEmitObjectArrayDelegate": false
     }
   }

@@ -1,0 +1,20 @@
+name: gb-pro-validation
+
+services:
+  pro-validation:
+    build:
+      context: ../../..
+      dockerfile: Dockerfile.unit
+      args:
+        TEST_GROUP: PRO_VALIDATION
+        TEST_FOLDER: "./test/dymaptic.GeoBlazor.Pro.Test.Validation"
+        TEST_PROJECT: "./test/dymaptic.GeoBlazor.Pro.Test.Validation/dymaptic.GeoBlazor.Pro.Test.Validation.csproj"
+        FILTER: ${FILTER}
+    stop_grace_period: 30s
+    environment:
+      - COVER=${COVER:-false}
+      - COVERAGE_FORMAT="${COVERAGE_FORMAT:-xml}"
+      - SESSION_ID="PRO_VALIDATION"
+      - CONTAINER_CHECK=${CONTAINER_CHECK:-false}
+    volumes:
+      - ./unit-coverage:/unit-coverage

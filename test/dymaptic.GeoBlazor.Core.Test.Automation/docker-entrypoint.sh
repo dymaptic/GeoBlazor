@@ -66,6 +66,7 @@ if [ "$COVER" = "True" ]; then
         -f "$COVERAGE_FORMAT" \
         --include-files "**/dymaptic.GeoBlazor.Core.dll" \
         --include-files "**/dymaptic.GeoBlazor.Pro.dll" \
+        --include-files "**/dymaptic.GeoBlazor.Pro.Validator.dll" \
         --include-files "**/dymaptic.GeoBlazor.Core.SourceGenerator.dll" \
         --include-files "**/dymaptic.GeoBlazor.Pro.SourceGenerator.dll" \
         --include-files "**/dymaptic.GeoBlazor.Core.SourceGenerator.Shared.dll" \

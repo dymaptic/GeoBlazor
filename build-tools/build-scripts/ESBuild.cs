@@ -29,7 +29,7 @@ string arch = RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant();
 string toolsDir = Path.GetFullPath(Path.Combine(scriptDir, "..", $"{os}-{arch}"));
 
 // Parse command line arguments
-string configuration = "Debug";
+string configuration = Environment.GetEnvironmentVariable("Configuration") ?? "Debug";
 bool help = false;
 bool pro = false;
 bool proOnCoreChange = false;
@@ -102,8 +102,7 @@ if (verbose)
 {
     if (dialog) // only start the dialog early if we are in Verbose + Dialog mode
     {
-        dialogProcess = StartConsoleDialog(toolsDir, 
-            $"GeoBlazor {(pro ? "Pro" : "Core")} ESBuild", pro);
+        dialogProcess = StartConsoleDialog(toolsDir, $"GeoBlazor {(pro ? "Pro" : "Core")} ESBuild", pro);
     }
     Trace.WriteLine("Launching ESBuild...");
 }

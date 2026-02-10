@@ -48,6 +48,8 @@ public class TestConfig
     private static string ProComposeFilePath => Path.Combine(_projectFolder, "docker-compose-pro.yml");
     private static string CoreUnitTestComposeFilePath => Path.Combine(_projectFolder, "docker-compose-core-unit.yml");
     private static string ProUnitTestComposeFilePath => Path.Combine(_projectFolder, "docker-compose-pro-unit.yml");
+    private static string ProValidationTestComposeFilePath =>
+        Path.Combine(_projectFolder, "docker-compose-pro-validation.yml");
     private static string TestAppPath => _proAvailable
         ? Path.GetFullPath(Path.Combine(_projectFolder, "..", "..", "..", "test",
             "dymaptic.GeoBlazor.Pro.Test.WebApp",
@@ -66,6 +68,8 @@ public class TestConfig
         $"coverage.core.unit.{_coverageFileVersion}.{_coverageFormat}");
     private static string ProUnitCoverageFilePath => Path.Combine(UnitCoverageFolderPath,
         $"coverage.pro.unit.{_coverageFileVersion}.{_coverageFormat}");
+    private static string ProValidationCoverageFilePath => Path.Combine(UnitCoverageFolderPath,
+        $"coverage.pro.validation.{_coverageFileVersion}.{_coverageFormat}");
     private static string CoreRepoRoot => Path.GetFullPath(Path.Combine(_projectFolder, "..", ".."));
     private static string ProRepoRoot => Path.GetFullPath(Path.Combine(_projectFolder, "..", "..", ".."));
     private static string CoreProjectPath =>
@@ -78,6 +82,9 @@ public class TestConfig
     private static string ProUnitTestPath => Path.Combine(ProRepoRoot, "test",
         "dymaptic.GeoBlazor.Pro.Test.Unit",
         "dymaptic.GeoBlazor.Pro.Test.Unit.csproj");
+    private static string ProValidationTestPath => Path.Combine(ProRepoRoot, "test",
+        "dymaptic.GeoBlazor.Pro.Test.Validation",
+        "dymaptic.GeoBlazor.Pro.Test.Validation.csproj");
     private static string LogFilePath => Path.Combine(_projectFolder, "test-run.log");
     private static string CoreTestSolutionFilePath => Path.Combine(CoreRepoRoot, "test",
         "dymaptic.GeoBlazor.Core.test.slnx");
@@ -185,6 +192,7 @@ public class TestConfig
             StopContainer(ProComposeFilePath),
             StopContainer(CoreUnitTestComposeFilePath),
             StopContainer(ProUnitTestComposeFilePath),
+            StopContainer(ProValidationTestComposeFilePath),
             KillProcessesByTestPorts()
         ];
 
@@ -226,6 +234,7 @@ public class TestConfig
             if (!CoreOnly)
             {
                 runTasks.Add(LaunchPipelineTask(ProcessName.PRO_UNIT, LaunchUnitTests));
+                runTasks.Add(LaunchPipelineTask(ProcessName.PRO_VALIDATION, LaunchUnitTests));
             }
         }
 
@@ -292,6 +301,9 @@ public class TestConfig
                     {
                         coverageShutdownTasks.Add(ShutdownContainerCoverage(ProcessName.PRO_UNIT,
                             ProUnitTestComposeFilePath));
+
+                        coverageShutdownTasks.Add(ShutdownContainerCoverage(ProcessName.PRO_VALIDATION,
+                            ProValidationTestComposeFilePath));
                     }
 
                     await Task.WhenAll(coverageShutdownTasks);
@@ -310,6 +322,7 @@ public class TestConfig
                 if (!CoreOnly)
                 {
                     appShutdownTasks.Add(StopContainer(ProUnitTestComposeFilePath));
+                    appShutdownTasks.Add(StopContainer(ProValidationTestComposeFilePath));
                 }
 
                 await Task.WhenAll(appShutdownTasks);
@@ -340,6 +353,8 @@ public class TestConfig
             if (!CoreOnly)
             {
                 AddTestProcessSummary(ProcessName.PRO_UNIT);
+                Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+                AddTestProcessSummary(ProcessName.PRO_VALIDATION);
                 Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             }
 
@@ -911,6 +926,7 @@ public class TestConfig
         {
             ProcessName.CORE_UNIT => CoreUnitTestPath,
             ProcessName.PRO_UNIT => ProUnitTestPath,
+            ProcessName.PRO_VALIDATION => ProValidationTestPath,
             _ => throw new ArgumentOutOfRangeException(nameof(processName), processName, null)
         };
 
@@ -918,6 +934,7 @@ public class TestConfig
         {
             ProcessName.CORE_UNIT => CoreUnitCoverageFilePath,
             ProcessName.PRO_UNIT => ProUnitCoverageFilePath,
+            ProcessName.PRO_VALIDATION => ProValidationCoverageFilePath,
             _ => throw new ArgumentOutOfRangeException(nameof(processName), processName, null)
         };
 
@@ -958,6 +975,7 @@ public class TestConfig
                 "-f", _coverageFormat,
                 "--include-files", "**/dymaptic.GeoBlazor.Core.dll",
                 "--include-files", "**/dymaptic.GeoBlazor.Pro.dll",
+                "--include-files", "**/dymaptic.GeoBlazor.Pro.Validator.dll",
                 "--include-files", "**/dymaptic.GeoBlazor.Core.SourceGenerator.dll",
                 "--include-files", "**/dymaptic.GeoBlazor.Pro.SourceGenerator.dll",
                 "--include-files", "**/dymaptic.GeoBlazor.Core.SourceGenerator.Shared.dll",
@@ -1028,6 +1046,7 @@ public class TestConfig
         {
             ProcessName.CORE_UNIT => CoreUnitTestComposeFilePath,
             ProcessName.PRO_UNIT => ProUnitTestComposeFilePath,
+            ProcessName.PRO_VALIDATION => ProValidationTestComposeFilePath,
             _ => throw new ArgumentOutOfRangeException(nameof(processName), processName, null)
         };
 
@@ -1105,6 +1124,7 @@ public class TestConfig
         {
             ProcessName.CORE_UNIT => "gb-core-unit-core-unit-1",
             ProcessName.PRO_UNIT => "gb-pro-unit-pro-unit-1",
+            ProcessName.PRO_VALIDATION => "gb-pro-validation-pro-validation-1",
             _ => throw new ArgumentException("Invalid process name", nameof(processName))
         };
 
@@ -1243,6 +1263,7 @@ public class TestConfig
                 "-f", _coverageFormat,
                 "--include-files", "**/dymaptic.GeoBlazor.Core.dll",
                 "--include-files", "**/dymaptic.GeoBlazor.Pro.dll",
+                "--include-files", "**/dymaptic.GeoBlazor.Pro.Validator.dll",
                 dotnetCommand
             ];
         }
@@ -1423,10 +1444,11 @@ public class TestConfig
         // Get the container name from the compose file
         var containerName = processName switch
         {
-            ProcessName.WEB_APP when composeFilePath.EndsWith("core.yml") => "geoblazor-pro-tests-test-app-1",
-            ProcessName.WEB_APP when composeFilePath.EndsWith("pro.yml") => "geoblazor-core-tests-test-app-1",
+            ProcessName.WEB_APP when composeFilePath.EndsWith("core.yml") => "geoblazor-core-tests-test-app-1",
+            ProcessName.WEB_APP when composeFilePath.EndsWith("pro.yml") => "geoblazor-pro-tests-test-app-1",
             ProcessName.CORE_UNIT => "gb-core-unit-core-unit-1",
             ProcessName.PRO_UNIT => "gb-pro-unit-pro-unit-1",
+            ProcessName.PRO_VALIDATION => "gb-pro-validation-pro-validation-1",
             _ => throw new ArgumentException("Invalid process name", nameof(processName))
         };
 
@@ -1725,6 +1747,7 @@ public class TestConfig
                 "+dymaptic.GeoBlazor.Core.SourceGenerator.Shared.dll",
                 "+dymaptic.GeoBlazor.Core.Analyzers.dll",
                 "+dymaptic.GeoBlazor.Pro.dll",
+                "+dymaptic.GeoBlazor.Pro.Validator.dll",
                 "+dymaptic.GeoBlazor.Pro.SourceGenerator.dll"
             ];
 
@@ -1928,7 +1951,7 @@ internal static class ProcessName
 {
     public static readonly string[] OrderedList =
     {
-        TEST_SETUP, PRE_BUILD, CODE_COVERAGE_TOOL_INSTALLATION, WEB_APP, WEB_TEST, CORE_UNIT, PRO_UNIT,
+        TEST_SETUP, PRE_BUILD, CODE_COVERAGE_TOOL_INSTALLATION, WEB_APP, WEB_TEST, CORE_UNIT, PRO_UNIT, PRO_VALIDATION,
         CODE_COVERAGE, CODE_COVERAGE_REPORT, TEST_CLEANUP, TEST_SHUTDOWN, FINAL_SUMMARY
     };
     public const string TEST_SETUP = "TEST_SETUP";
@@ -1938,6 +1961,7 @@ internal static class ProcessName
     public const string WEB_TEST = "WEB_TEST";
     public const string CORE_UNIT = "CORE_UNIT";
     public const string PRO_UNIT = "PRO_UNIT";
+    public const string PRO_VALIDATION = "PRO_VALIDATION";
     public const string CODE_COVERAGE = "CODE_COVERAGE";
     public const string CODE_COVERAGE_REPORT = "CODE_COVERAGE_REPORT";
     public const string TEST_CLEANUP = "TEST_CLEANUP";
