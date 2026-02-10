@@ -21,7 +21,7 @@ export async function buildDotNetLayerSearchSourceGenerated(jsObject: any, viewI
     
     if (hasValue(jsObject.resultSymbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
-        dotNetLayerSearchSource.resultSymbol = buildDotNetSymbol(jsObject.resultSymbol, viewId);
+        dotNetLayerSearchSource.resultSymbol = buildDotNetSymbol(jsObject.resultSymbol);
     }
     
     if (hasValue(jsObject.autoNavigate)) {

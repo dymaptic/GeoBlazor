@@ -16,18 +16,28 @@ namespace dymaptic.GeoBlazor.Core.SourceGenerator.Shared;
 public static class ProcessHelper
 {
     /// <summary>
+    ///     Set this to true to bypass actual process execution and script execution for testing purposes.
+    /// </summary>
+    public static bool TestBypass { get; set; }
+
+    /// <summary>
     ///     Executes a PowerShell script file with the specified arguments.
     /// </summary>
     /// <param name="processName">A descriptive name for the process, used in logging.</param>
     /// <param name="workingDirectory">The working directory for the script execution.</param>
     /// <param name="powershellScriptName">The name of the PowerShell script file to execute.</param>
     /// <param name="arguments">Command-line arguments to pass to the script.</param>
-    /// <param name="logBuilder">A StringBuilder to accumulate log output.</param>
     /// <param name="context">The SourceProductionContext for diagnostic reporting.</param>
+    /// <param name="showConsole">
+    ///     Whether to show console output for the process. If true, verbose output is shown.
+    /// </param>
+    /// <param name="sessionId">
+    ///     The session ID to use for logging.
+    /// </param>
     /// <param name="environmentVariables">Optional environment variables to set for the process.</param>
     public static async Task RunPowerShellScript(string processName, string workingDirectory,
-        string powershellScriptName, string[] arguments, StringBuilder logBuilder, SourceProductionContext context,
-        Dictionary<string, string?>? environmentVariables = null)
+        string powershellScriptName, string[] arguments, SourceProductionContext context, bool showConsole,
+        string? sessionId, Dictionary<string, string?>? environmentVariables = null)
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
@@ -50,7 +60,7 @@ public static class ProcessHelper
             ];
         }
 
-        await Execute(processName, workingDirectory, "pwsh", arguments, logBuilder, context,
+        await Execute(processName, workingDirectory, "pwsh", arguments, context, showConsole, sessionId,
             environmentVariables);
     }
 
@@ -60,11 +70,16 @@ public static class ProcessHelper
     /// <param name="processName">A descriptive name for the process, used in logging.</param>
     /// <param name="workingDirectory">The working directory for the command execution.</param>
     /// <param name="arguments">The PowerShell command to execute.</param>
-    /// <param name="logBuilder">A StringBuilder to accumulate log output.</param>
     /// <param name="context">The SourceProductionContext for diagnostic reporting.</param>
+    /// <param name="showConsole">
+    ///     Whether to show console output for the process. If true, verbose output is shown.
+    /// </param>
+    /// <param name="sessionId">
+    ///     The session ID to use for logging.
+    /// </param>
     /// <param name="environmentVariables">Optional environment variables to set for the process.</param>
     public static async Task RunPowerShellCommand(string processName, string workingDirectory,
-        string[] arguments, StringBuilder logBuilder, SourceProductionContext context,
+        string[] arguments, SourceProductionContext context, bool showConsole, string? sessionId,
         Dictionary<string, string?>? environmentVariables = null)
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -81,7 +96,7 @@ public static class ProcessHelper
             ];
         }
 
-        await Execute(processName, workingDirectory, "pwsh", arguments, logBuilder, context,
+        await Execute(processName, workingDirectory, "pwsh", arguments, context, showConsole, sessionId,
             environmentVariables);
     }
 
@@ -92,25 +107,40 @@ public static class ProcessHelper
     /// <param name="workingDirectory">The working directory for the process execution.</param>
     /// <param name="fileName">The executable file name. If null, uses the platform-specific shell command.</param>
     /// <param name="shellArguments">Command-line arguments to pass to the process.</param>
-    /// <param name="logBuilder">A StringBuilder to accumulate log output.</param>
     /// <param name="context">The SourceProductionContext for diagnostic reporting.</param>
+    /// <param name="showConsole">
+    ///     Whether to show console output for the process. If true, verbose output is shown.
+    /// </param>
+    /// <param name="sessionId">
+    ///     The session ID to use for logging.
+    /// </param>
     /// <param name="environmentVariables">Optional environment variables to set for the process.</param>
     /// <exception cref="ProcessException">Thrown when the process exits with a non-zero exit code.</exception>
     public static async Task Execute(string processName, string workingDirectory, string? fileName,
-        string[] shellArguments, StringBuilder logBuilder, SourceProductionContext context,
+        string[] shellArguments, SourceProductionContext context, bool showConsole, string? sessionId,
         Dictionary<string, string?>? environmentVariables = null)
     {
         fileName ??= shellCommand;
 
-        StringBuilder outputBuilder = new();
+        Log(processName, $"Starting process execution: {processName} {string.Join(" ", shellArguments)}",
+            DiagnosticSeverity.Info, context, showConsole, sessionId);
+
+        if (TestBypass)
+        {
+            Log(processName, $"Command '{fileName} {string.Join(" ", shellArguments)}' completed successfully.",
+                DiagnosticSeverity.Info, context, showConsole, sessionId);
+
+            return;
+        }
+
         int? processId = null;
         int? exitCode = null;
 
         context.CancellationToken.Register(() =>
         {
-            logBuilder.AppendLine($"{processName}: Command execution cancelled.");
-            logBuilder.AppendLine(outputBuilder.ToString());
-            outputBuilder.Clear();
+            Log(processName, "Command execution cancelled.",
+                DiagnosticSeverity.Info, context,
+                showConsole, sessionId);
         });
 
         Command cmd = Cli.Wrap(fileName)
@@ -119,49 +149,70 @@ public static class ProcessHelper
             .WithValidation(CommandResultValidation.None)
             .WithEnvironmentVariables(environmentVariables ?? new Dictionary<string, string?>());
 
+        bool retry = false;
+
+        // build up the input in case we need it for writing to an error
+        StringBuilder errorBuilder = new();
+        bool errorFound = false;
+
         await foreach (var cmdEvent in cmd.ListenAsync(context.CancellationToken))
         {
             switch (cmdEvent)
             {
                 case StartedCommandEvent started:
                     processId = started.ProcessId;
-                    outputBuilder.AppendLine($" - {processName} Process started: {started.ProcessId}");
 
-                    outputBuilder.AppendLine($" - {processName} - PID {processId}: Executing command: {fileName} {
-                        string.Join(" ", shellArguments)}");
+                    Log(processName, $"Process {processId} started.",
+                        DiagnosticSeverity.Info, context,
+                        showConsole, sessionId);
 
                     break;
                 case StandardOutputCommandEvent stdOut:
                     string line = stdOut.Text.Trim();
-                    outputBuilder.AppendLine($" - {processName} - PID {processId}: [stdout] {line}");
+
+                    Log(processName, $"Process {processId} - [stdout] {line}",
+                        DiagnosticSeverity.Info, context,
+                        showConsole, sessionId);
+
+                    if (line.Contains("error", StringComparison.OrdinalIgnoreCase) || errorFound)
+                    {
+                        errorBuilder.AppendLine(line);
+                        errorFound = true;
+                    }
+
+                    if (fileName == "dotnet" && stdOut.Text.Contains("The process cannot access the file"))
+                    {
+                        retry = true;
+                    }
 
                     break;
                 case StandardErrorCommandEvent stdErr:
-                    outputBuilder.AppendLine($" - {processName} - PID {processId}: [stderr] {stdErr.Text}");
+                    Log(processName, $"Process {processId} - [stderr] {stdErr.Text}",
+                        DiagnosticSeverity.Warning, context,
+                        showConsole, sessionId);
+
+                    errorBuilder.AppendLine(stdErr.Text);
+
+                    if (fileName == "dotnet" && stdErr.Text.Contains("The process cannot access the file"))
+                    {
+                        retry = true;
+                    }
 
                     break;
                 case ExitedCommandEvent exited:
                     exitCode = exited.ExitCode;
 
-                    outputBuilder.AppendLine($" - {processName} - PID {processId}: Process exited with code: {
-                        exited.ExitCode}");
+                    Log(processName, $"Process {processId} exited with code: {exited.ExitCode}",
+                        DiagnosticSeverity.Info, context,
+                        showConsole, sessionId);
 
                     break;
             }
         }
 
-        // Append any accumulated output to the log
-        if (outputBuilder.Length > 0)
-        {
-            logBuilder.AppendLine(outputBuilder.ToString());
-        }
-
         if (exitCode != 0)
         {
-            var response = logBuilder.ToString();
-            Log(processName, response, DiagnosticSeverity.Info, context);
-
-            if (response.Contains("The process cannot access the file") && (fileName == "dotnet"))
+            if (retry)
             {
                 var programName = shellArguments[1]; // dotnet[fileName] run[arg[0]] ESBuild.cs[arg[1]]
 
@@ -183,24 +234,23 @@ public static class ProcessHelper
 
                 await Task.Delay(500);
 
-                await Execute(processName, workingDirectory, fileName, shellArguments, logBuilder, context,
+                await Execute(processName, workingDirectory, fileName, shellArguments, context, showConsole, sessionId,
                     environmentVariables);
 
                 return;
             }
 
             Log(processName,
-                $"Command '{fileName} {string.Join(" ", shellArguments)}' failed with exit code {exitCode}.",
+                $"Command '{fileName} {string.Join(" ", shellArguments)}' failed with exit code {exitCode}. {
+                    errorBuilder}",
                 DiagnosticSeverity.Error,
                 context);
 
             return;
         }
 
-        // Return the standard output if the process completed normally
-        logBuilder.AppendLine($" - {processName}: Command '{string.Join(" ", shellArguments)
-        }' completed successfully on process {processId
-        }.");
+        Log(processName, $"Command '{fileName} {string.Join(" ", shellArguments)}' completed successfully.",
+            DiagnosticSeverity.Info, context, showConsole, sessionId);
     }
 
     /// <summary>
@@ -314,12 +364,20 @@ public static class ProcessHelper
                     }
                 }
 
+                var os = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                    ? "win"
+                    : RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
+                        ? "osx"
+                        : "linux";
+                var arch = RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant();
+
                 var buildScriptPath = Path.GetFullPath(Path.Combine(
                     Path.GetDirectoryName(
                         callerFilePath)!, // GeoBlazor/src/dymaptic.GeoBlazor.Core.SourceGenerator.Shared
                     "..", // GeoBlazor/src
                     "..", // GeoBlazor Core repo root
-                    "build-tools"));
+                    "build-tools",
+                    $"{os}-{arch}"));
 
                 string[] args =
                 [

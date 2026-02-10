@@ -23,8 +23,8 @@ import {
 } from './geoBlazorCore';
 import Graphic from "@arcgis/core/Graphic";
 import {buildDotNetPopupTemplate} from './popupTemplate';
-import CreatePopupTemplateOptions = __esri.CreatePopupTemplateOptions;
 import {buildJsGraphic} from "./graphic";
+import CreatePopupTemplateOptions = __esri.CreatePopupTemplateOptions;
 
 export default class FeatureLayerWrapper extends FeatureLayerGenerated {
 
@@ -141,7 +141,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
                            queryId: string): Promise<DotNetFeatureSet | null> {
         try {
             let { buildJsTopFeaturesQuery} = await import('./topFeaturesQuery');
-            let jsQuery = await buildJsTopFeaturesQuery(query, this.layerId, this.viewId);
+            let jsQuery = await buildJsTopFeaturesQuery(query);
             let featureSet = await this.layer.queryTopFeatures(jsQuery, options);
             let {buildDotNetFeatureSet} = await import('./featureSet');
             let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, this.geoBlazorId, this.viewId);
@@ -159,20 +159,20 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
 
     async queryTopFeatureCount(query: DotNetTopFeaturesQuery, options: any): Promise<number> {
         let { buildJsTopFeaturesQuery} = await import('./topFeaturesQuery');
-        let jsQuery = await buildJsTopFeaturesQuery(query, this.layerId, this.viewId);
+        let jsQuery = await buildJsTopFeaturesQuery(query);
         return await this.layer.queryTopFeatureCount(jsQuery, options);
     }
 
     async queryTopObjectIds(query: DotNetTopFeaturesQuery, options: any): Promise<number[]> {
         let { buildJsTopFeaturesQuery} = await import('./topFeaturesQuery');
-        let jsQuery = await buildJsTopFeaturesQuery(query, this.layerId, this.viewId);
+        let jsQuery = await buildJsTopFeaturesQuery(query);
         let result = await this.layer.queryTopObjectIds(jsQuery, options);
         return result;
     }
 
     async queryTopFeaturesExtent(query: DotNetTopFeaturesQuery, options: any): Promise<any> {
         let { buildJsTopFeaturesQuery} = await import('./topFeaturesQuery');
-        let jsQuery = await buildJsTopFeaturesQuery(query, this.layerId, this.viewId);
+        let jsQuery = await buildJsTopFeaturesQuery(query);
         let result = await this.layer.queryTopFeaturesExtent(jsQuery, options);
         let {buildDotNetExtent} = await import('./extent');
         return {

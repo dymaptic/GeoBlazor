@@ -543,7 +543,7 @@ export default class PortalGenerated extends BaseComponent {
         }
         
         let { buildDotNetPortalFeaturedGroups } = await import('./portalFeaturedGroups');
-        return await Promise.all(this.component.featuredGroups!.map(async i => await buildDotNetPortalFeaturedGroups(i, this.viewId)));
+        return await Promise.all(this.component.featuredGroups!.map(async i => await buildDotNetPortalFeaturedGroups(i)));
     }
     
     async setFeaturedGroups(value: any): Promise<void> {
@@ -692,7 +692,7 @@ export default class PortalGenerated extends BaseComponent {
         }
         
         let { buildDotNetPortalProperties } = await import('./portalProperties');
-        return await buildDotNetPortalProperties(this.component.portalProperties, this.viewId);
+        return await buildDotNetPortalProperties(this.component.portalProperties);
     }
     
     async setPortalProperties(value: any): Promise<void> {
@@ -1074,12 +1074,12 @@ export async function buildDotNetPortalGenerated(jsObject: any, layerId: string 
     
     if (hasValue(jsObject.featuredGroups)) {
         let { buildDotNetPortalFeaturedGroups } = await import('./portalFeaturedGroups');
-        dotNetPortal.featuredGroups = await Promise.all(jsObject.featuredGroups.map(async i => await buildDotNetPortalFeaturedGroups(i, viewId)));
+        dotNetPortal.featuredGroups = await Promise.all(jsObject.featuredGroups.map(async i => await buildDotNetPortalFeaturedGroups(i)));
     }
     
     if (hasValue(jsObject.portalProperties)) {
         let { buildDotNetPortalProperties } = await import('./portalProperties');
-        dotNetPortal.portalProperties = await buildDotNetPortalProperties(jsObject.portalProperties, viewId);
+        dotNetPortal.portalProperties = await buildDotNetPortalProperties(jsObject.portalProperties);
     }
     
     if (hasValue(jsObject.access)) {

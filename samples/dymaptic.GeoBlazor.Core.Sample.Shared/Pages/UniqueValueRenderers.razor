@@ -3,44 +3,24 @@
 <h1>Unique Value Renderers</h1>
 <div class="links-div">
     <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html">ArcGIS API for JavaScript Reference</a>
+    <a class="btn btn-primary" target="_blank"
+       href="https://arcgis.com/home/item.html?id=7afec250e02845868db89c83949a672f">OpenStreetMap Highways for North
+        America</a>
 </div>
 <p class="instructions">
-    A US Freeway map rendered with a custom <code>Unique Value Renderer</code> that color-codes different highway types.
+    A US Highway map rendered with a custom <code>Unique Value Renderer</code> that color-codes different road types.
 </p>
-<MapView Class="map-view" Longitude="-95.4327" Latitude="29.77624" Scale="544504">
+<MapView Class="map-view" Longitude="-95.4327" Latitude="29.77624" Scale="18056">
     <Constraints SnapToZoom="false" />
     <Map>
         <Basemap>
             <PortalItem PortalItemId="9cc4e190b8764e8880bd77cb16b9a30a" />
         </Basemap>
-        <FeatureLayer Url="https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/TIGER_Roads_2021_view/FeatureServer/0"
-                      Title="USA Freeway System"
+        <FeatureLayer Title="OSM Highways of North America"
                       MinScale="0" MaxScale="0"
-                      ExcludeApiKey="true"
-                      DefinitionExpression="MTFC = 'Primary Road'">
-            <OrderByInfo Order="SortOrder.Ascending"
-                                 ValueExpression="@(@"Decode( $feature.RTTYP,
-                      ""I"", 1,
-                      ""U"", 2,
-                      ""S"", 3,
-                      ""M"", 4,
-                    100 );")" />
-            <UniqueValueRenderer Field="RTTYP" DefaultLabel="Other">
-                <UniqueValueRendererLegendOptions Title="Route type" />
-                <SimpleLineSymbol Width="@(4)" Style="SimpleLineSymbolStyle.Solid" Color="@(new MapColor("#f260a1"))" />
-                <UniqueValueInfo Value="I" Label="Interstate">
-                    <SimpleLineSymbol Width="@(4)" Style="SimpleLineSymbolStyle.Solid" Color="@(new MapColor("#d92b30"))" />
-                </UniqueValueInfo>
-                <UniqueValueInfo Value="U" Label="US Highway">
-                    <SimpleLineSymbol Width="@(4)" Style="SimpleLineSymbolStyle.Solid" Color="@(new MapColor("#3cccb4"))" />
-                </UniqueValueInfo>
-                <UniqueValueInfo Value="S" Label="State Highway">
-                    <SimpleLineSymbol Width="@(6)" Style="SimpleLineSymbolStyle.Solid" Color="@(new MapColor("#ffdf3c"))" />
-                </UniqueValueInfo>
-                <UniqueValueInfo Value="M" Label="Major road">
-                    <SimpleLineSymbol Width="@(4)" Style="SimpleLineSymbolStyle.Solid" Color="@(new MapColor("#c27c30"))" />
-                </UniqueValueInfo>
-            </UniqueValueRenderer>
+                      Renderer="_uniqueValueRenderer">
+            <OrderByInfo Order="SortOrder.Descending" Field="maxspeed"/>
+            <PortalItem PortalItemId="7afec250e02845868db89c83949a672f"/>
         </FeatureLayer>
     </Map>
     @if (_showLegend)
@@ -49,7 +29,3 @@
     }
 </MapView>
 <button @onclick="() => _showLegend = !_showLegend" class="btn btn-primary">Toggle Legend</button>
-
-@code {
-    private bool _showLegend;
-}

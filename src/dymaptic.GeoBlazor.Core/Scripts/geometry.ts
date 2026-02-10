@@ -4,7 +4,10 @@ import {buildDotNetPolyline, buildJsPolyline} from "./polyline";
 import {buildDotNetExtent, buildJsExtent} from "./extent";
 import {buildDotNetMultipoint, buildJsMultipoint} from "./multipoint";
 import {buildDotNetMesh, buildJsMesh} from "./mesh";
-import {hasValue} from './geoBlazorCore';
+import {
+    hasValue,
+    removeCircularReferences,
+} from './geoBlazorCore';
 
 export function buildDotNetGeometry(geometry: any): any {
     if (!hasValue(geometry)) {
@@ -23,6 +26,9 @@ export function buildDotNetGeometry(geometry: any): any {
             return buildDotNetMultipoint(geometry);
         case "mesh":
             return buildDotNetMesh(geometry);
+        default:
+            // unknown type
+            return removeCircularReferences(geometry);
     }
 }
 

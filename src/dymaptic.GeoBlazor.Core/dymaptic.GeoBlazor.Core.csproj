@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
-
     <PropertyGroup>
         <PackageId >dymaptic.GeoBlazor.Core</PackageId>
         <RootNamespace>dymaptic.GeoBlazor.Core</RootNamespace>
@@ -26,6 +25,8 @@
         <NoWarn>GeoBlazor_Untested</NoWarn>
         <LangVersion>latest</LangVersion>
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+        <IsTrimmable>false</IsTrimmable>
+        <BlazorWebAssemblyEnableLinking>false</BlazorWebAssemblyEnableLinking>
     </PropertyGroup>
 
     <!--    Uncomment this section to turn on Roslyn Public API Analyzers.
@@ -55,11 +56,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="DefaultDocumentation" Version="1.2.0" PrivateAssets="all" />
+        <PackageReference Include="DefaultDocumentation" Version="1.2.2" PrivateAssets="all"/>
         <PackageReference Include="protobuf-net" Version="3.2.56"/>
     </ItemGroup>
     <ItemGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.22"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.23"/>
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
@@ -96,7 +97,7 @@
       <AdditionalFiles Include="PublicAPI.Shipped.txt" />
       <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
       <AdditionalFiles Include="package.json" />
-      <AdditionalFiles Include="Scripts\*.ts" />
+        <AdditionalFiles Include="Scripts/*.ts"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -110,8 +111,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\dymaptic.GeoBlazor.Core.SourceGenerator\dymaptic.GeoBlazor.Core.SourceGenerator.csproj" 
-                          OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+        <ProjectReference Include="..\dymaptic.GeoBlazor.Core.SourceGenerator\dymaptic.GeoBlazor.Core.SourceGenerator.csproj"
+                          OutputItemType="Analyzer"
+                          ReferenceOutputAssembly="false"/>
         <ProjectReference Include="..\dymaptic.GeoBlazor.Core.Analyzers\dymaptic.GeoBlazor.Core.Analyzers.csproj"
                           OutputItemType="Analyzer"
                           ReferenceOutputAssembly="false" />
@@ -122,9 +124,4 @@
                  Include="$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\generated\**\*.g.cs" />
         <Compile Remove="Interfaces\IViewHit.cs" />
     </ItemGroup>
-    
-    <Target BeforeTargets="PrepareForBuild" Name="Clear Locks">
-        <Message Importance="high" Text="Clearing locks on esBuild files..." />
-        <Exec Command="dotnet $(ProjectDir)../../build-tools/ESBuildClearLocks.dll" ContinueOnError="false"/>
-    </Target>
 </Project>

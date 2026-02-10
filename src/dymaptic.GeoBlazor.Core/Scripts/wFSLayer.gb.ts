@@ -445,7 +445,7 @@ export default class WFSLayerGenerated extends BaseComponent {
         }
         
         let { buildDotNetLabel } = await import('./label');
-        return await Promise.all(this.layer.labelingInfo!.map(async i => await buildDotNetLabel(i, this.layerId, this.viewId)));
+        return await Promise.all(this.layer.labelingInfo!.map(async i => await buildDotNetLabel(i)));
     }
     
     async setLabelingInfo(value: any): Promise<void> {
@@ -888,7 +888,7 @@ export async function buildDotNetWFSLayerGenerated(jsObject: any, layerId: strin
     
     if (hasValue(jsObject.labelingInfo)) {
         let { buildDotNetLabel } = await import('./label');
-        dotNetWFSLayer.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i, layerId, viewId)));
+        dotNetWFSLayer.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i)));
     }
     
     if (hasValue(jsObject.orderBy)) {

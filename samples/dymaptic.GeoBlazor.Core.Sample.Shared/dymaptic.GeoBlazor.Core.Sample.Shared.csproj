@@ -12,9 +12,9 @@
     <ItemGroup>
         <PackageReference Include="Markdig" Version="0.44.0"/>
         <PackageReference Include="MarkdigExtensions.SyntaxHighlighting" Version="1.0.3"/>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="10.0.1"/>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.1"/>
-        <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="10.0.1"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="10.0.2"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.2"/>
+        <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="10.0.2"/>
     </ItemGroup>
 
     <Choose>

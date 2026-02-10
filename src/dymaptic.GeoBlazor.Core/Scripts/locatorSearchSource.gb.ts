@@ -118,7 +118,7 @@ export async function buildDotNetLocatorSearchSourceGenerated(jsObject: any, vie
     
     if (hasValue(jsObject.resultSymbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
-        dotNetLocatorSearchSource.resultSymbol = buildDotNetSymbol(jsObject.resultSymbol, viewId);
+        dotNetLocatorSearchSource.resultSymbol = buildDotNetSymbol(jsObject.resultSymbol);
     }
     
     if (hasValue(jsObject.apiKey)) {

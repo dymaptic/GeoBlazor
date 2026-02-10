@@ -427,15 +427,6 @@ public partial class Portal
     public override void ValidateRequiredGeneratedChildren()
     {
         DefaultExtent?.ValidateRequiredGeneratedChildren();
-
-        if (FeaturedGroups is not null)
-        {
-            foreach (PortalFeaturedGroups child in FeaturedGroups)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-
         User?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
@@ -450,16 +441,6 @@ public partial class Portal
                 {
                     DefaultExtent = defaultExtent;
                     ModifiedParameters[nameof(DefaultExtent)] = DefaultExtent;
-                }
-
-                return true;
-            case PortalFeaturedGroups featuredGroups:
-                FeaturedGroups ??= [];
-
-                if (!FeaturedGroups.Contains(featuredGroups))
-                {
-                    FeaturedGroups = [..FeaturedGroups, featuredGroups];
-                    ModifiedParameters[nameof(FeaturedGroups)] = FeaturedGroups;
                 }
 
                 return true;
@@ -484,11 +465,6 @@ public partial class Portal
             case Extent _:
                 DefaultExtent = null;
                 ModifiedParameters[nameof(DefaultExtent)] = DefaultExtent;
-
-                return true;
-            case PortalFeaturedGroups featuredGroups:
-                FeaturedGroups = FeaturedGroups?.Where(f => f != featuredGroups).ToList();
-                ModifiedParameters[nameof(FeaturedGroups)] = FeaturedGroups;
 
                 return true;
             case PortalUser _:
@@ -4911,51 +4887,6 @@ public partial class Portal
     }
 
     /// <summary>
-    ///    Asynchronously set the value of the FeaturedGroups property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetFeaturedGroups(IReadOnlyList<PortalFeaturedGroups>? value)
-    {
-        if (value is not null)
-        {
-            foreach (PortalFeaturedGroups item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-
-#pragma warning disable BL0005
-        FeaturedGroups = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(FeaturedGroups)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await JsComponentReference.InvokeVoidAsync("setFeaturedGroups",
-            CancellationTokenSource.Token, value);
-    }
-
-    /// <summary>
     ///    Asynchronously set the value of the FeaturedItemsGroupQuery property after render.
     /// </summary>
     /// <param name="value">
@@ -6270,20 +6201,6 @@ public partial class Portal
     }
 
     /// <summary>
-    ///     Asynchronously adds elements to the FeaturedGroups property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to add.
-    /// </param>
-    public async Task AddToFeaturedGroups(params PortalFeaturedGroups[] values)
-    {
-        PortalFeaturedGroups[] join = FeaturedGroups is null
-            ? values
-            : [..FeaturedGroups, ..values];
-        await SetFeaturedGroups(join);
-    }
-
-    /// <summary>
     ///     Asynchronously adds elements to the RotatorPanels property.
     /// </summary>
     /// <param name="values">
@@ -6316,22 +6233,6 @@ public partial class Portal
         }
 
         await SetAuthorizedCrossOriginDomains(AuthorizedCrossOriginDomains.Except(values).ToArray());
-    }
-
-    /// <summary>
-    ///     Asynchronously remove an element from the FeaturedGroups property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to remove.
-    /// </param>
-    public async Task RemoveFromFeaturedGroups(params PortalFeaturedGroups[] values)
-    {
-        if (FeaturedGroups is null)
-        {
-            return;
-        }
-
-        await SetFeaturedGroups(FeaturedGroups.Except(values).ToArray());
     }
 
     /// <summary>

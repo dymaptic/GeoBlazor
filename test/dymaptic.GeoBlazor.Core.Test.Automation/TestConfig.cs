@@ -1,11 +1,11 @@
 using CliWrap;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Playwright;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-using System.Diagnostics;
+using Polly;
+using Polly.Retry;
 using System.Net;
-using System.Reflection;
-using System.Text;
+using System.Runtime.InteropServices;
+using DelayBackoffType = Polly.DelayBackoffType;
 
 
 [assembly: Parallelize(Scope = ExecutionScope.MethodLevel)]
@@ -20,6 +20,8 @@ public class TestConfig
     public static BlazorMode RenderMode { get; private set; }
     public static bool CoreOnly { get; private set; }
     public static bool ProOnly { get; private set; }
+    public static bool UnitOnly { get; set; }
+    public static bool WebOnly { get; set; }
 
     /// <summary>
     ///     Maximum number of concurrent browser instances in the pool.
@@ -34,13 +36,18 @@ public class TestConfig
     /// </summary>
     public static bool IsCI { get; private set; }
 
-    public static Dictionary<string, string> FailedTests { get; } = [];
+    public static ConcurrentDictionary<string, string> FailedTests { get; } = new();
 
-    public static List<string> InconclusiveTests { get; } = [];
+    public static ConcurrentDictionary<string, byte> InconclusiveTests { get; } = new();
+    public static ConcurrentDictionary<string, byte> PassedTests { get; } = new();
+    public static ConcurrentDictionary<string, byte> SkippedTests { get; } = new();
+    public static List<string>? FilteredTests { get; set; }
 
     private static string ComposeFilePath => _proAvailable && !CoreOnly ? ProComposeFilePath : CoreComposeFilePath;
     private static string CoreComposeFilePath => Path.Combine(_projectFolder, "docker-compose-core.yml");
     private static string ProComposeFilePath => Path.Combine(_projectFolder, "docker-compose-pro.yml");
+    private static string CoreUnitTestComposeFilePath => Path.Combine(_projectFolder, "docker-compose-core-unit.yml");
+    private static string ProUnitTestComposeFilePath => Path.Combine(_projectFolder, "docker-compose-pro-unit.yml");
     private static string TestAppPath => _proAvailable
         ? Path.GetFullPath(Path.Combine(_projectFolder, "..", "..", "..", "test",
             "dymaptic.GeoBlazor.Pro.Test.WebApp",
@@ -55,36 +62,68 @@ public class TestConfig
     private static string CoverageFilePath =>
         Path.Combine(CoverageFolderPath, $"coverage.{_coverageFileVersion}.{_coverageFormat}");
     private static string UnitCoverageFolderPath => Path.Combine(_projectFolder, "unit-coverage");
-    private static string UnitCoverageFilePath =>
-        Path.Combine(UnitCoverageFolderPath, $"coverage.{_coverageFileVersion}.{_coverageFormat}");
-    private static string SgenCoverageFolderPath => Path.Combine(_projectFolder, "sgen-coverage");
-    private static string SgenCoverageFilePath =>
-        Path.Combine(SgenCoverageFolderPath, $"coverage.{_coverageFileVersion}.{_coverageFormat}");
+    private static string CoreUnitCoverageFilePath => Path.Combine(UnitCoverageFolderPath,
+        $"coverage.core.unit.{_coverageFileVersion}.{_coverageFormat}");
+    private static string ProUnitCoverageFilePath => Path.Combine(UnitCoverageFolderPath,
+        $"coverage.pro.unit.{_coverageFileVersion}.{_coverageFormat}");
     private static string CoreRepoRoot => Path.GetFullPath(Path.Combine(_projectFolder, "..", ".."));
     private static string ProRepoRoot => Path.GetFullPath(Path.Combine(_projectFolder, "..", "..", ".."));
     private static string CoreProjectPath =>
         Path.GetFullPath(Path.Combine(CoreRepoRoot, "src", "dymaptic.GeoBlazor.Core"));
     private static string ProProjectPath =>
         Path.GetFullPath(Path.Combine(ProRepoRoot, "src", "dymaptic.GeoBlazor.Pro"));
+    private static string CoreUnitTestPath => Path.Combine(CoreRepoRoot, "test",
+        "dymaptic.GeoBlazor.Core.Test.Unit",
+        "dymaptic.GeoBlazor.Core.Test.Unit.csproj");
+    private static string ProUnitTestPath => Path.Combine(ProRepoRoot, "test",
+        "dymaptic.GeoBlazor.Pro.Test.Unit",
+        "dymaptic.GeoBlazor.Pro.Test.Unit.csproj");
     private static string LogFilePath => Path.Combine(_projectFolder, "test-run.log");
+    private static string CoreTestSolutionFilePath => Path.Combine(CoreRepoRoot, "test",
+        "dymaptic.GeoBlazor.Core.test.slnx");
+    private static string ProTestSolutionFilePath => Path.Combine(ProRepoRoot, "test",
+        "dymaptic.GeoBlazor.Pro.test.slnx");
+    private static string SolutionFilePath => _proAvailable ? ProTestSolutionFilePath : CoreTestSolutionFilePath;
+    public static int WebFailedTestCount;
+    public static int WebInconclusiveTestCount;
+
+    public static readonly CancellationTokenSource Cts = new();
 
     [AssemblyInitialize]
     public static async Task AssemblyInitialize(TestContext testContext)
     {
         Trace.Listeners.Add(new ConsoleTraceListener());
-        Trace.Listeners.Add(new StringBuilderTraceListener(logBuilder));
+        Trace.Listeners.Add(new StringBuilderTraceListener(logBuilders));
         Trace.AutoFlush = true;
 
         // Handle Ctrl-C gracefully
         Console.CancelKeyPress += (sender, e) =>
         {
-            Trace.WriteLine("Ctrl-C detected, initiating shutdown...", "TEST_SHUTDOWN");
             e.Cancel = true; // Prevent immediate termination to allow cleanup
+            Trace.WriteLine("Ctrl-C detected, initiating shutdown...", ProcessName.TEST_SHUTDOWN);
+
+            _ = Task.Run(AssemblyCleanup);
+
+            var timeoutSeconds = 30;
+
+            while (!_cleanupComplete && (timeoutSeconds > 0))
+            {
+                Thread.Sleep(1000);
+                timeoutSeconds--;
+            }
+
+            if (_cleanupComplete)
+            {
+                Trace.WriteLine("Shutdown complete", ProcessName.TEST_SHUTDOWN);
+                Environment.Exit(1);
+
+                return;
+            }
 
             // Trigger cancellation
-            if (!cts.IsCancellationRequested)
+            if (!Cts.IsCancellationRequested)
             {
-                cts.Cancel();
+                Cts.Cancel();
             }
 
             if (!gracefulCts.IsCancellationRequested)
@@ -92,107 +131,311 @@ public class TestConfig
                 gracefulCts.Cancel();
             }
 
-            // Force exit after timeout if cleanup hangs
-            Task.Run(async () =>
+            _ = Task.Run(async () =>
             {
-                await Task.Delay(15000); // 15 second timeout for cleanup
-                Trace.WriteLine("Cleanup timeout - forcing exit", "TEST_SHUTDOWN");
+                // Force exit after timeout if cleanup hangs
+                await Task.Delay(15000); // an extra 15 second timeout for cleanup
+                Trace.WriteLine("Cleanup timeout - forcing exit", ProcessName.TEST_SHUTDOWN);
                 Environment.Exit(1);
             });
         };
 
         SetupConfiguration();
 
+        if (!IsCI && _showDialog)
+        {
+            var os = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                ? "win"
+                : RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
+                    ? "osx"
+                    : "linux";
+            var arch = RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant();
+
+            Utilities.StartConsoleDialog(Path.Combine(CoreRepoRoot, "build-tools", $"{os}-{arch}"),
+                "GeoBlazor Unit Tests");
+        }
+
+        Trace.WriteLine($"Running tests for {_runConfig} on {_targetFramework}...", ProcessName.TEST_SETUP);
+
+        Trace.WriteLine($"Test Filters: {(_filters is null ? "NONE" : string.Join(", ", _filters))}",
+            ProcessName.TEST_SETUP);
+        Trace.WriteLine($"Generating Test Coverage Report: {_cover}", ProcessName.TEST_SETUP);
+        Trace.WriteLine($"Using Browser Pool Size: {BrowserPoolSize}", ProcessName.TEST_SETUP);
+        Trace.WriteLine($"Using Render Mode: {RenderMode}", ProcessName.TEST_SETUP);
+        Trace.WriteLine($"Using Container: {_useContainer}", ProcessName.TEST_SETUP);
+        Trace.WriteLine($"Using HTTPS Port: {_httpsPort}", ProcessName.TEST_SETUP);
+
+        if (CoreOnly)
+        {
+            Trace.WriteLine("Running Core Tests Only", ProcessName.TEST_SETUP);
+        }
+        else if (ProOnly)
+        {
+            Trace.WriteLine("Running Pro Tests Only", ProcessName.TEST_SETUP);
+        }
+        else
+        {
+            Trace.WriteLine("Running Core and Pro Tests on Pro test runner", ProcessName.TEST_SETUP);
+        }
+
         // kill old running test apps and containers
         Task[] cleanupTasks =
         [
             StopContainer(CoreComposeFilePath),
             StopContainer(ProComposeFilePath),
-            StopTestApp()
+            StopContainer(CoreUnitTestComposeFilePath),
+            StopContainer(ProUnitTestComposeFilePath),
+            KillProcessesByTestPorts()
         ];
 
         await Task.WhenAll(cleanupTasks);
 
-        Task[] setupTasks =
+        List<Task> setupTasks =
         [
-            InstallCodeCoverageTools(),
             EnsurePlaywrightBrowsersAreInstalled()
         ];
 
+        if (_cover)
+        {
+            setupTasks.Add(InstallCodeCoverageTools());
+        }
+
         await Task.WhenAll(setupTasks);
 
-        Task[] runTasks =
-        [
-            RunUnitTests(),
-            RunSourceGeneratorTests(),
-            LaunchWebTests()
-        ];
+        if (!_useContainer)
+        {
+            await LaunchPipelineTask(ProcessName.PRE_BUILD, PreBuildAllProjects);
+        }
+
+        List<Task> runTasks = [];
+
+        if (!UnitOnly)
+        {
+            // WEB TESTS
+            runTasks.Add(LaunchPipelineTask(ProcessName.WEB_APP, LaunchWebTests));
+        }
+
+        // UNIT TESTS
+        if (!WebOnly)
+        {
+            if (!ProOnly)
+            {
+                runTasks.Add(LaunchPipelineTask(ProcessName.CORE_UNIT, LaunchUnitTests));
+            }
+
+            if (!CoreOnly)
+            {
+                runTasks.Add(LaunchPipelineTask(ProcessName.PRO_UNIT, LaunchUnitTests));
+            }
+        }
 
         await Task.WhenAll(runTasks);
+        _webTestStartTime = DateTime.UtcNow;
     }
 
     [AssemblyCleanup]
     public static async Task AssemblyCleanup()
     {
-        var isCancelled = cts.IsCancellationRequested;
+        var webTestEndTime = DateTime.UtcNow;
 
-        // Dispose browser pool first
-        if (BrowserPool.TryGetInstance(out var pool) && pool is not null)
+        try
         {
-            Trace.WriteLine("Disposing browser pool...", "TEST_CLEANUP");
+            var isCancelled = Cts.IsCancellationRequested;
 
-            try
+            // Dispose browser pool first
+            if (BrowserPool.TryGetInstance(out var pool) && pool is not null)
             {
-                using var timeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(isCancelled ? 3 : 10));
-                await pool.DisposeAsync().ConfigureAwait(false);
-                Trace.WriteLine("Browser pool disposed", "TEST_CLEANUP");
+                Trace.WriteLine("Disposing browser pool...", ProcessName.TEST_CLEANUP);
+
+                try
+                {
+                    using var timeoutCts =
+                        new CancellationTokenSource(TimeSpan.FromSeconds(isCancelled ? 3 : 10));
+                    await pool.DisposeAsync().ConfigureAwait(false);
+                    Trace.WriteLine("Browser pool disposed", ProcessName.TEST_CLEANUP);
+                }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine($"Browser pool disposal error: {ex.Message}", ProcessName.TEST_CLEANUP);
+                }
             }
-            catch (Exception ex)
+
+            if (!isCancelled)
             {
-                Trace.WriteLine($"Browser pool disposal error: {ex.Message}", "TEST_CLEANUP");
+                Cts.CancelAfter(5000);
             }
-        }
 
-        if (!isCancelled)
-        {
-            cts.CancelAfter(5000);
-        }
+            if (!gracefulCts.IsCancellationRequested)
+            {
+                await gracefulCts.CancelAsync();
+            }
 
-        if (!gracefulCts.IsCancellationRequested)
-        {
-            await gracefulCts.CancelAsync();
-        }
+            // Shorter delay if already cancelled
+            await Task.Delay(isCancelled ? 1000 : 5000);
 
-        // Shorter delay if already cancelled
-        await Task.Delay(isCancelled ? 1000 : 5000);
+            if (_useContainer)
+            {
+                if (_cover)
+                {
+                    List<Task> coverageShutdownTasks =
+                    [
+                        ShutdownContainerCoverage(ProcessName.WEB_APP, ComposeFilePath)
+                    ];
 
-        if (_useContainer)
-        {
-            await StopContainer(ComposeFilePath);
+                    if (!ProOnly)
+                    {
+                        coverageShutdownTasks.Add(ShutdownContainerCoverage(ProcessName.CORE_UNIT,
+                            CoreUnitTestComposeFilePath));
+                    }
+
+                    if (!CoreOnly)
+                    {
+                        coverageShutdownTasks.Add(ShutdownContainerCoverage(ProcessName.PRO_UNIT,
+                            ProUnitTestComposeFilePath));
+                    }
+
+                    await Task.WhenAll(coverageShutdownTasks);
+                }
+
+                List<Task> appShutdownTasks =
+                [
+                    StopContainer(ComposeFilePath)
+                ];
+
+                if (!ProOnly)
+                {
+                    appShutdownTasks.Add(StopContainer(CoreUnitTestComposeFilePath));
+                }
+
+                if (!CoreOnly)
+                {
+                    appShutdownTasks.Add(StopContainer(ProUnitTestComposeFilePath));
+                }
+
+                await Task.WhenAll(appShutdownTasks);
+            }
+
+            await KillProcessesByIds();
+            await KillProcessesByTestPorts();
 
             if (_cover)
             {
-                CopyCoverageFromContainer();
+                await GenerateCoverageReport();
             }
-        }
-        else
-        {
-            await StopTestApp();
-        }
 
-        if (_cover)
-        {
-            await GenerateCoverageReport();
-        }
+            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
 
-        await File.WriteAllTextAsync(LogFilePath, logBuilder.ToString());
+            Trace.WriteLine("TEST RUN COMPLETE", ProcessName.FINAL_SUMMARY);
 
-        if (!IsCI)
-        {
-            await Cli.Wrap("code")
-                .WithArguments(LogFilePath)
-                .ExecuteAsync();
+            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+
+            if (!ProOnly)
+            {
+                AddTestProcessSummary(ProcessName.CORE_UNIT);
+                Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+            }
+
+            if (!CoreOnly)
+            {
+                AddTestProcessSummary(ProcessName.PRO_UNIT);
+                Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+            }
+
+            Trace.WriteLine($"{ProcessName.WEB_APP} SUMMARY: {(WebFailedTestCount > 0 ? "FAILED!" : "PASSED")}",
+                ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine($"  total: {_webTestTotalTestCount}", ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine($"  failed: {WebFailedTestCount}", ProcessName.FINAL_SUMMARY);
+            var succeeded = _webTestTotalTestCount - WebFailedTestCount - WebInconclusiveTestCount;
+            Trace.WriteLine($"  succeeded: {succeeded}", ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine($"  skipped: {WebInconclusiveTestCount}", ProcessName.FINAL_SUMMARY);
+            var webTestDuration = webTestEndTime - _webTestStartTime;
+
+            Trace.WriteLine(
+                $"  duration: {webTestDuration.Minutes}m {webTestDuration.Seconds}s {webTestDuration.Milliseconds}ms",
+                ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+
+            Trace.WriteLine($"PASSED TESTS: {PassedTests.Count} / {FilteredTests!.Count}", ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+
+            if (InconclusiveTests.Count > 0)
+            {
+                Trace.WriteLine($"INCONCLUSIVE TESTS: {InconclusiveTests.Count}", ProcessName.FINAL_SUMMARY);
+
+                foreach (var inconclusive in InconclusiveTests.Keys)
+                {
+                    Trace.WriteLine($"  {inconclusive}", ProcessName.FINAL_SUMMARY);
+                }
+
+                Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+            }
+
+            if (SkippedTests.Count > 0)
+            {
+                Trace.WriteLine($"INCONCLUSIVE TESTS: {SkippedTests.Count}", ProcessName.FINAL_SUMMARY);
+
+                foreach (var skipped in SkippedTests.Keys)
+                {
+                    Trace.WriteLine($"  {skipped}", ProcessName.FINAL_SUMMARY);
+                }
+
+                Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+            }
+
+            Trace.WriteLine($"FAILED TESTS: {FailedTests.Count}", ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+
+            if (FailedTests.Count > 0)
+            {
+                Trace.WriteLine("FAILED TEST DETAILS:", ProcessName.FINAL_SUMMARY);
+                Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+
+                var sortedFailedTests = FailedTests
+                    .OrderBy(kvp => kvp.Key)
+                    .ToList();
+
+                for (var i = 0; i < sortedFailedTests.Count; i++)
+                {
+                    var failedTest = sortedFailedTests[i];
+
+                    if (i > 0)
+                    {
+                        Trace.WriteLine("------------", ProcessName.FINAL_SUMMARY);
+                    }
+
+                    // trim off extra timestamp from web browser and split lines
+                    var errorLines = failedTest.Value.Substring(26).Split(Environment.NewLine);
+
+                    Trace.WriteLine($"  {failedTest.Key}:",
+                        ProcessName.FINAL_SUMMARY);
+
+                    foreach (var errorLine in errorLines)
+                    {
+                        Trace.WriteLine($"    {errorLine}", ProcessName.FINAL_SUMMARY);
+                    }
+                }
+            }
+
+            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+
+            await BuildLogFile();
         }
+        finally
+        {
+            _cleanupComplete = true;
+        }
+    }
+
+    private static async Task LaunchPipelineTask(string taskName, Func<ResilienceContext, ValueTask> task)
+    {
+        var context = ResilienceContextPool.Shared.Get(
+            new ResilienceContextCreationArguments(taskName, null, Cts.Token));
+        await appRetryPipeline.ExecuteAsync(task, context);
+
+        ResilienceContextPool.Shared.Return(context);
     }
 
     private static void SetupConfiguration()
@@ -226,13 +469,13 @@ public class TestConfig
 #endif
             .AddUserSecrets<TestConfig>()
             .AddEnvironmentVariables()
-            .AddDotEnvFile(true, true)
+            .AddDotEnvFile(true, false)
             .AddCommandLine(Environment.GetCommandLineArgs())
             .Build();
 
         _httpsPort = _configuration.GetValue("HTTPS_PORT", 9443);
         _httpPort = _configuration.GetValue("HTTP_PORT", 8080);
-        TestAppUrl = _configuration.GetValue("TEST_APP_URL", $"https://localhost:{_httpsPort}");
+        TestAppUrl = _configuration.GetValue("WEB_APP_URL", $"https://localhost:{_httpsPort}");
 
         // Default to Server Mode for compatibility with Code Coverage Tools
         var renderMode = _configuration.GetValue("RENDER_MODE", nameof(BlazorMode.Server));
@@ -242,21 +485,7 @@ public class TestConfig
             RenderMode = blazorMode;
         }
 
-        var envArgs = Environment.GetCommandLineArgs();
-
-        if (_proAvailable)
-        {
-            CoreOnly = _configuration.GetValue("CORE_ONLY", false)
-                || (envArgs.Contains("--filter") && (envArgs[envArgs.IndexOf("--filter") + 1] == "CORE_"));
-
-            ProOnly = _configuration.GetValue("PRO_ONLY", false)
-                || (envArgs.Contains("--filter") && (envArgs[envArgs.IndexOf("--filter") + 1] == "PRO_"));
-        }
-        else
-        {
-            CoreOnly = true;
-            ProOnly = false;
-        }
+        ParseFilters();
 
         _useContainer = _configuration.GetValue("USE_CONTAINER", false);
 
@@ -264,13 +493,7 @@ public class TestConfig
         IsCI = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("CI"));
         var defaultPoolSize = IsCI ? 4 : 8; // Doubled from 2/4 to 4/8 for better parallelization
         BrowserPoolSize = _configuration.GetValue("BROWSER_POOL_SIZE", defaultPoolSize);
-        Trace.WriteLine($"Browser pool size set to: {BrowserPoolSize} (CI: {IsCI})", "TEST_SETUP");
-
-        _cover = _configuration.GetValue("COVER", false)
-
-            // only run coverage on a full test run or a full CORE or full PRO test
-            && (!envArgs.Contains("--filter") || (envArgs[envArgs.IndexOf("--filter") + 1] == "CORE_")
-                || (envArgs[envArgs.IndexOf("--filter") + 1] == "PRO_"));
+        Trace.WriteLine($"Browser pool size set to: {BrowserPoolSize} (CI: {IsCI})", ProcessName.TEST_SETUP);
 
         if (_cover)
         {
@@ -296,115 +519,294 @@ public class TestConfig
         }
 
         _targetFramework ??= _configuration.GetValue("TARGET_FRAMEWORK", "net10.0");
+        _showDialog = _configuration.GetValue("SHOW_DIALOG", true);
     }
 
-    private static async Task RunUnitTests()
+    private static void ParseFilters()
     {
-        var unitTestPath = Path.Combine(_projectFolder, "..",
-            "dymaptic.GeoBlazor.Core.Test.Unit",
-            "dymaptic.GeoBlazor.Core.Test.Unit.csproj");
-        var cmdLineApp = "dotnet";
+        var envArgs = Environment.GetCommandLineArgs();
 
-        string[] args =
-        [
-            "test",
-            "--project",
-            unitTestPath,
-            "-c",
-            "Release",
-            "--output",
-            "Detailed"
-        ];
+        bool? filtersIncludeCoreTests = null;
+        bool? filtersIncludeProTests = null;
 
-        if (_cover)
+        FilteredTests = testClasses
+            .SelectMany(t => t.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
+                .Select(m => m.TestName()))
+            .ToList();
+
+        for (var i = 0; i < envArgs.Length; i++)
         {
-            Directory.CreateDirectory(UnitCoverageFolderPath);
-            cmdLineApp = "dotnet-coverage";
-            var dotnetCommand = $"dotnet {string.Join(" ", args)}";
+            var arg = envArgs[i];
 
-            args =
-            [
-                "collect",
-                "-o", UnitCoverageFilePath,
-                "-f", _coverageFormat,
-                "--include-files", "**/dymaptic.GeoBlazor.Core.dll",
-                "--include-files", "**/dymaptic.GeoBlazor.Pro.dll",
-                dotnetCommand
-            ];
+            if ((arg == "--filter") && (i + 1 < envArgs.Length))
+            {
+                filtersIncludeCoreTests ??= false;
+                filtersIncludeProTests ??= false;
+                _filters ??= [];
+                var filter = envArgs[i + 1].Replace("\\", "");
+                _filters.Add(filter);
+                List<string> filteredTests = [];
+                var filterIncludesProTests = false;
+                var filterIncludesCoreTests = false;
+
+                ParseFilter(filter, ref filteredTests,
+                    ref filterIncludesProTests, ref filterIncludesCoreTests);
+                filtersIncludeProTests = filtersIncludeProTests.Value || filterIncludesProTests;
+                filtersIncludeCoreTests = filtersIncludeCoreTests.Value || filterIncludesCoreTests;
+                FilteredTests = FilteredTests.Intersect(filteredTests).ToList();
+            }
         }
 
-        var result = await Cli.Wrap(cmdLineApp)
-            .WithArguments(args)
-            .WithStandardOutputPipe(PipeTarget.ToDelegate(output => Trace.WriteLine(output, "UNIT_TEST")))
-            .WithStandardErrorPipe(PipeTarget.ToDelegate(output => Trace.WriteLine(output, "UNIT_TEST_ERROR")))
-            .ExecuteAsync();
-
-        if (result.ExitCode != 0)
+        if (!UnitOnly && (FilteredTests.Count == 0))
         {
-            throw new ProcessExitedException($"Unit test process exited with code {result.ExitCode}");
-        }
-    }
-
-    private static async Task RunSourceGeneratorTests()
-    {
-        var sgenFilePath = Path.Combine(_projectFolder, "..",
-            "dymaptic.GeoBlazor.Core.SourceGenerator.Tests",
-            "dymaptic.GeoBlazor.Core.SourceGenerator.Tests.csproj");
-        var cmdLineApp = "dotnet";
-
-        string[] args =
-        [
-            "test",
-            "--project",
-            sgenFilePath,
-            "-c",
-            "Release",
-            "--output",
-            "Detailed"
-        ];
-
-        if (_cover)
-        {
-            Directory.CreateDirectory(SgenCoverageFolderPath);
-            cmdLineApp = "dotnet-coverage";
-            var dotnetCommand = $"dotnet {string.Join(" ", args)}";
-
-            args =
-            [
-                "collect",
-                "-o", SgenCoverageFilePath,
-                "-f", _coverageFormat,
-                "--include-files", "**/dymaptic.GeoBlazor.Core.dll",
-                "--include-files", "**/dymaptic.GeoBlazor.Pro.dll",
-                "--include-files", "**/dymaptic.GeoBlazor.Core.SourceGenerator.dll",
-                "--include-files", "**/dymaptic.GeoBlazor.Pro.SourceGenerator.dll",
-                "--include-files", "**/dymaptic.GeoBlazor.Core.SourceGenerator.Shared.dll",
-                "--include-files", "**/dymaptic.GeoBlazor.Core.Analyzers.dll",
-                dotnetCommand
-            ];
+            throw new InvalidOperationException("No tests found to run. Please check your filters.");
         }
 
-        var result = await Cli.Wrap(cmdLineApp)
-            .WithArguments(args)
-            .WithStandardOutputPipe(PipeTarget.ToDelegate(output => Trace.WriteLine(output, "SGEN_TEST")))
-            .WithStandardErrorPipe(PipeTarget.ToDelegate(output => Trace.WriteLine(output, "SGEN_TEST_ERROR")))
-            .ExecuteAsync();
-
-        if (result.ExitCode != 0)
+        if (_proAvailable)
         {
-            throw new ProcessExitedException($"Source Generator test process exited with code {result.ExitCode}");
-        }
-    }
+            CoreOnly = _configuration!.GetValue("CORE_ONLY", false) || (filtersIncludeProTests == false);
 
-    private static async Task LaunchWebTests()
-    {
-        if (_useContainer)
-        {
-            await StartContainer();
+            ProOnly = _configuration!.GetValue("PRO_ONLY", false) || (filtersIncludeCoreTests == false);
         }
         else
         {
-            await StartTestApp();
+            CoreOnly = true;
+            ProOnly = false;
+        }
+
+        // only run coverage on a full test run, otherwise it overwrites the test coverage from previous runs
+        _cover = _configuration!.GetValue("COVER", false)
+            && _filters is null
+            && !CoreOnly && !ProOnly
+            && !WebOnly && !UnitOnly;
+
+        // count this here because we add the unit tests later
+        _webTestTotalTestCount = FilteredTests.Count;
+    }
+
+    private static void ParseFilter(string filter, ref List<string> filteredTests,
+        ref bool filterIncludesProTests, ref bool filterIncludesCoreTests)
+    {
+        // check for custom filters first
+        var lowered = filter.ToLowerInvariant();
+
+        switch (lowered)
+        {
+            case "web":
+                WebOnly = true;
+                filterIncludesProTests = true;
+                filterIncludesCoreTests = true;
+
+                filteredTests = testClasses
+                    .SelectMany(t =>
+                        t.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
+                            .Select(m => m.TestName()))
+                    .ToList();
+
+                return;
+            case "unit":
+                UnitOnly = true;
+                filterIncludesProTests = true;
+                filterIncludesCoreTests = true;
+
+                return;
+            case "core":
+            case "core_":
+                filteredTests = testClasses
+                    .Where(c => c.Name.StartsWith("CORE_"))
+                    .SelectMany(t =>
+                        t.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
+                            .Select(m => m.TestName()))
+                    .ToList();
+                filterIncludesCoreTests = true;
+
+                return;
+            case "pro":
+            case "pro_":
+                filteredTests = testClasses
+                    .Where(c => c.Name.StartsWith("PRO_"))
+                    .SelectMany(t =>
+                        t.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
+                            .Select(m => m.TestName()))
+                    .ToList();
+                filterIncludesProTests = true;
+
+                return;
+            default:
+            {
+                Dictionary<string, FilterOperator> operators = new()
+                {
+                    ["~"] = FilterOperator.Contains,
+                    ["!~"] = FilterOperator.NotContains,
+                    ["="] = FilterOperator.Equals,
+                    ["!="] = FilterOperator.NotEquals
+                };
+                var filterType = FilterType.FullyQualifiedName;
+                var filterValue = filter;
+                var filterOp = FilterOperator.Contains;
+
+                if (operators.Keys
+                        .OrderByDescending(k => k.Length) // order to check the negative operators first
+                        .FirstOrDefault(filter.Contains) is { } op)
+                {
+                    filterOp = operators[op];
+                    var split = filter.Split(op);
+                    filterType = Enum.Parse<FilterType>(split[0]);
+                    filterValue = split[1];
+                }
+
+                foreach (var testType in testClasses)
+                {
+                    ParseTestClass(testType, filterType, filterOp, filterValue, filteredTests,
+                        ref filterIncludesProTests, ref filterIncludesCoreTests);
+                }
+
+                break;
+            }
+        }
+    }
+
+    private static void ParseTestClass(Type testType, FilterType filterType, FilterOperator filterOp,
+        string filterValue, List<string> filteredTests, ref bool filterIncludesProTests,
+        ref bool filterIncludesCoreTests)
+    {
+        var className = testType.Name;
+        var isPro = className.StartsWith("PRO_");
+        List<string> classTests = [];
+
+        var classTestCategories = testType
+            .GetCustomAttributes<TestCategoryAttribute>()
+            .SelectMany(ca => ca.TestCategories)
+            .ToArray();
+
+        var methods = testType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+
+        var methodTestCategories = methods
+            .ToDictionary(m => m.TestName(),
+                m => m.GetCustomAttributes<TestCategoryAttribute>()
+                    .SelectMany(ca => ca.TestCategories)
+                    .Concat(classTestCategories)
+                    .ToArray());
+
+        switch (filterType)
+        {
+            case FilterType.ClassName:
+                if (IsMatch(className, filterValue, filterOp))
+                {
+                    classTests.AddRange(methods.Select(m => m.TestName()));
+                }
+
+                break;
+            case FilterType.Name:
+                foreach (var method in methods)
+                {
+                    if (IsMatch(method.Name, filterValue, filterOp))
+                    {
+                        classTests.Add(method.TestName());
+                    }
+                }
+
+                break;
+            case FilterType.FullyQualifiedName:
+                foreach (var method in methods)
+                {
+                    var fullyQualifiedName = $"{method.DeclaringType!.FullName}.{method.Name}";
+
+                    var fullyQualifiedWithoutCoreOrPro = fullyQualifiedName
+                        .Replace("CORE_", "")
+                        .Replace("PRO_", "");
+
+                    if (IsMatch(fullyQualifiedWithoutCoreOrPro, filterValue, filterOp)
+                        || IsMatch(fullyQualifiedName, filterValue, filterOp))
+                    {
+                        classTests.Add(method.TestName());
+                    }
+                }
+
+                break;
+            case FilterType.TestCategory:
+                foreach (var kvp in methodTestCategories)
+                {
+                    foreach (var testCategory in kvp.Value)
+                    {
+                        if (IsMatch(testCategory, filterValue, filterOp))
+                        {
+                            classTests.Add(kvp.Key);
+
+                            break;
+                        }
+                    }
+                }
+
+                break;
+        }
+
+        if (classTests.Count > 0)
+        {
+            if (isPro)
+            {
+                filterIncludesProTests = true;
+            }
+            else
+            {
+                filterIncludesCoreTests = true;
+            }
+
+            filteredTests.AddRange(classTests);
+        }
+    }
+
+    private static bool IsMatch(string value, string filterValue, FilterOperator filterOp)
+    {
+        return filterOp switch
+        {
+            FilterOperator.Contains => value.Contains(filterValue),
+            FilterOperator.NotContains => !value.Contains(filterValue),
+            FilterOperator.Equals => value.Equals(filterValue, StringComparison.OrdinalIgnoreCase),
+            FilterOperator.NotEquals => !value.Equals(filterValue, StringComparison.OrdinalIgnoreCase),
+            _ => throw new ArgumentOutOfRangeException(nameof(filterOp), filterOp, null)
+        };
+    }
+
+    private static async ValueTask LaunchWebTests(ResilienceContext context)
+    {
+        try
+        {
+            if (_useContainer)
+            {
+                await StartWebAppContainer(context);
+            }
+            else
+            {
+                await StartWebApp(context.CancellationToken);
+            }
+        }
+        catch (Exception ex)
+        {
+            context.Properties.Set(exceptionKey, $"{ex.Message}{Environment.NewLine}{ex.StackTrace}");
+
+            throw;
+        }
+    }
+
+    private static async ValueTask LaunchUnitTests(ResilienceContext context)
+    {
+        try
+        {
+            if (_useContainer)
+            {
+                await StartUnitTestContainer(context);
+            }
+            else
+            {
+                await RunUnitTests(context);
+            }
+        }
+        catch (Exception ex)
+        {
+            context.Properties.Set(exceptionKey, $"{ex.Message}{Environment.NewLine}{ex.StackTrace}");
+
+            throw;
         }
     }
 
@@ -423,9 +825,9 @@ public class TestConfig
                 "dotnet-coverage"
             ])
             .WithStandardOutputPipe(PipeTarget.ToDelegate(output =>
-                Trace.WriteLine(output, "CODE_COVERAGE_TOOL_INSTALLATION")))
+                Trace.WriteLine(output, ProcessName.CODE_COVERAGE_TOOL_INSTALLATION)))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(output =>
-                Trace.WriteLine(output, "CODE_COVERAGE_TOOL_INSTALLATION_ERROR")))
+                Trace.WriteLine(output, ProcessName.CODE_COVERAGE_TOOL_INSTALLATION_ERROR)))
             .WithValidation(CommandResultValidation.None)
             .ExecuteAsync();
 
@@ -437,9 +839,9 @@ public class TestConfig
                 "dotnet-reportgenerator-globaltool"
             ])
             .WithStandardOutputPipe(PipeTarget.ToDelegate(output =>
-                Trace.WriteLine(output, "CODE_COVERAGE_TOOL_INSTALLATION")))
+                Trace.WriteLine(output, ProcessName.CODE_COVERAGE_TOOL_INSTALLATION)))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(output =>
-                Trace.WriteLine(output, "CODE_COVERAGE_TOOL_INSTALLATION_ERROR")))
+                Trace.WriteLine(output, ProcessName.CODE_COVERAGE_TOOL_INSTALLATION_ERROR)))
             .WithValidation(CommandResultValidation.None)
             .ExecuteAsync();
 
@@ -457,29 +859,191 @@ public class TestConfig
 
             if (exitCode != 0)
             {
-                Trace.WriteLine($"Playwright browser installation returned exit code: {exitCode}", "TEST_SETUP");
+                Trace.WriteLine($"Playwright browser installation returned exit code: {exitCode}",
+                    ProcessName.TEST_SETUP);
             }
 
             await Task.CompletedTask; // Keep method async for consistency
         }
         catch (Exception ex)
         {
-            Trace.WriteLine($"Playwright browser installation failed: {ex.Message}", "TEST_SETUP");
+            Trace.WriteLine($"Playwright browser installation failed: {ex.Message}", ProcessName.TEST_SETUP);
         }
     }
 
-    private static async Task StartContainer()
+    private static async ValueTask PreBuildAllProjects(ResilienceContext context)
+    {
+        Trace.WriteLine($"Building {SolutionFilePath}...", ProcessName.PRE_BUILD);
+
+        var result = await Cli.Wrap("dotnet")
+            .WithArguments([
+                "build",
+                SolutionFilePath,
+                "-c", _runConfig!,
+                "/p:GenerateXmlComments=false",
+                "/p:GeneratePackage=false",
+                "/p:GenerateDocs=false",
+                "/p:ShowScriptDialogs=false"
+            ])
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
+                Trace.WriteLine(line, ProcessName.PRE_BUILD)))
+            .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
+                Trace.WriteLine(line, ProcessName.PRE_BUILD_ERROR)))
+            .WithValidation(CommandResultValidation.None)
+            .ExecuteAsync(context.CancellationToken, gracefulCts.Token);
+
+        if (result.ExitCode != 0)
+        {
+            throw new ProcessExitedException($"Pre-build of {SolutionFilePath} failed with exit code {result.ExitCode
+            }");
+        }
+
+        Trace.WriteLine($"Successfully built {SolutionFilePath}", ProcessName.PRE_BUILD);
+
+        Trace.WriteLine("Pre-build complete", ProcessName.PRE_BUILD);
+    }
+
+    private static async ValueTask RunUnitTests(ResilienceContext context)
+    {
+        var processName = context.OperationKey!;
+
+        var testPath = processName switch
+        {
+            ProcessName.CORE_UNIT => CoreUnitTestPath,
+            ProcessName.PRO_UNIT => ProUnitTestPath,
+            _ => throw new ArgumentOutOfRangeException(nameof(processName), processName, null)
+        };
+
+        var coverageFilePath = processName switch
+        {
+            ProcessName.CORE_UNIT => CoreUnitCoverageFilePath,
+            ProcessName.PRO_UNIT => ProUnitCoverageFilePath,
+            _ => throw new ArgumentOutOfRangeException(nameof(processName), processName, null)
+        };
+
+        var cmdLineApp = "dotnet";
+
+        List<string> args =
+        [
+            "test",
+            "--project",
+            testPath,
+            "--no-build",
+            "-c",
+            _runConfig!,
+            "--output",
+            "Detailed",
+            "/p:ShowScriptDialogs=false"
+        ];
+
+        if (_filters is not null && (_filters.Count > 0))
+        {
+            foreach (var filter in _filters)
+            {
+                args.Add("--filter");
+                args.Add(filter);
+            }
+        }
+
+        if (_cover)
+        {
+            Directory.CreateDirectory(UnitCoverageFolderPath);
+            cmdLineApp = "dotnet-coverage";
+            var dotnetCommand = $"dotnet {string.Join(" ", args)}";
+
+            args =
+            [
+                "collect",
+                "-o", coverageFilePath,
+                "-f", _coverageFormat,
+                "--include-files", "**/dymaptic.GeoBlazor.Core.dll",
+                "--include-files", "**/dymaptic.GeoBlazor.Pro.dll",
+                "--include-files", "**/dymaptic.GeoBlazor.Core.SourceGenerator.dll",
+                "--include-files", "**/dymaptic.GeoBlazor.Pro.SourceGenerator.dll",
+                "--include-files", "**/dymaptic.GeoBlazor.Core.SourceGenerator.Shared.dll",
+                "--include-files", "**/dymaptic.GeoBlazor.Core.Analyzers.dll",
+                dotnetCommand
+            ];
+        }
+
+        Dictionary<string, string> failedTests = [];
+        List<string> inconclusiveTests = [];
+        List<string> filteredTests = [];
+        List<string> passedTests = [];
+
+        var ioExceptionThrown = false;
+        string? ioExceptionMessage = null;
+
+        var result = await Cli.Wrap(cmdLineApp)
+            .WithArguments(args)
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(output =>
+                TrackUnitTestOutput(output, processName, ref failedTests, ref inconclusiveTests,
+                    ref filteredTests, ref passedTests, ref ioExceptionMessage, ref ioExceptionThrown)))
+            .WithStandardErrorPipe(PipeTarget.ToDelegate(output => Trace.WriteLine(output, $"{processName}_ERROR")))
+            .WithValidation(CommandResultValidation.None)
+            .ExecuteAsync(context.CancellationToken, gracefulCts.Token);
+
+        // 0 = Passed
+        // 2 = Tests failed, we will catch this in our final summary
+        // 8 = No tests ran
+        int[] allowedExitCodes = [0, 2, 8];
+
+        if (!allowedExitCodes.Contains(result.ExitCode))
+        {
+            if (ioExceptionThrown)
+            {
+                throw new IOException(ioExceptionMessage);
+            }
+
+            throw new ProcessExitedException($"{processName} process exited with code {result.ExitCode}");
+        }
+
+        foreach (var failedTest in failedTests)
+        {
+            FailedTests.TryAdd(failedTest.Key, failedTest.Value);
+        }
+
+        foreach (var test in inconclusiveTests)
+        {
+            InconclusiveTests.TryAdd(test, 0);
+        }
+
+        Trace.WriteLine($"Adding {passedTests.Count} passed tests to total test count", processName);
+
+        foreach (var test in passedTests)
+        {
+            PassedTests.TryAdd(test, 0);
+        }
+
+        FilteredTests!.AddRange(filteredTests);
+    }
+
+    private static async ValueTask StartUnitTestContainer(ResilienceContext context)
     {
         var cmdLineApp = "docker";
 
+        var processName = context.OperationKey!;
+
+        var filePath = processName switch
+        {
+            ProcessName.CORE_UNIT => CoreUnitTestComposeFilePath,
+            ProcessName.PRO_UNIT => ProUnitTestComposeFilePath,
+            _ => throw new ArgumentOutOfRangeException(nameof(processName), processName, null)
+        };
+
         string[] args =
         [
-            "compose", "-f", ComposeFilePath, "up", "-d", "--build"
+            "compose", "-f", filePath, "up", "-d", "--build"
         ];
-        Trace.WriteLine($"Starting container with: docker {string.Join(" ", args)}", "TEST_SETUP");
-        Trace.WriteLine($"Working directory: {_projectFolder}", "TEST_SETUP");
 
-        var sessionId = "geoblazor-cover";
+        if (context.Properties.TryGetValue(retryAttemptKey, out var retryAttempt) && (retryAttempt > 0))
+        {
+            // if the first build fails, try with no cache
+            await BuildContainer(filePath, processName, context);
+        }
+
+        Trace.WriteLine($"Starting container with: docker {string.Join(" ", args)}", processName);
+        Trace.WriteLine($"Working directory: {_projectFolder}", processName);
 
         if (_cover)
         {
@@ -489,41 +1053,169 @@ public class TestConfig
             args =
             [
                 "collect",
-                "--session-id", sessionId,
+                "--session-id", processName,
                 "-o", CoverageFilePath,
                 "-f", _coverageFormat,
                 dockerCommand
             ];
         }
 
-        CommandTask<CommandResult> commandTask = Cli.Wrap(cmdLineApp)
+        Dictionary<string, string> failedTests = [];
+        List<string> inconclusiveTests = [];
+        List<string> filteredTests = [];
+        List<string> passedTests = [];
+
+        string? ioExceptionMessage = null;
+        var ioExceptionThrown = false;
+        string? containerExceptionMessage = null;
+        var containerExceptionThrown = false;
+        CancellationTokenSource waitTokenSource = new();
+
+        var linkedTokenSource =
+            CancellationTokenSource.CreateLinkedTokenSource(context.CancellationToken, waitTokenSource.Token);
+
+        _ = Cli.Wrap(cmdLineApp)
             .WithArguments(args)
             .WithEnvironmentVariables(new Dictionary<string, string?>
             {
-                ["HTTP_PORT"] = _httpPort.ToString(),
-                ["HTTPS_PORT"] = _httpsPort.ToString(),
-                ["COVERAGE_ENABLED"] = _cover.ToString().ToLower(),
-                ["SESSION_ID"] = sessionId,
+                ["COVER"] = _cover.ToString().ToLower(),
+                ["SESSION_ID"] = processName,
                 ["COVERAGE_FORMAT"] = _coverageFormat,
-                ["COVERAGE_FILE_VERSION"] = _coverageFileVersion
+                ["COVERAGE_FILE_VERSION"] = _coverageFileVersion,
+                ["GEOBLAZOR_CORE_LICENSE_KEY"] = _configuration!["GEOBLAZOR_CORE_LICENSE_KEY"],
+                ["GEOBLAZOR_PRO_LICENSE_KEY"] = _configuration["GEOBLAZOR_PRO_LICENSE_KEY"]
             })
-            .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, "TEST_CONTAINER")))
-            .WithStandardErrorPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, "TEST_CONTAINER_ERROR")))
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(output =>
+                TrackUnitTestOutput(output, processName, ref failedTests, ref inconclusiveTests,
+                    ref filteredTests, ref passedTests, ref ioExceptionMessage, ref ioExceptionThrown,
+                    waitTokenSource)))
+            .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
+            {
+                if (line.Contains("ERROR:"))
+                {
+                    containerExceptionMessage = line;
+                    containerExceptionThrown = true;
+                    waitTokenSource.Cancel();
+                }
+            }))
             .WithWorkingDirectory(_projectFolder)
-            .ExecuteAsync(cts.Token, gracefulCts.Token);
+            .ExecuteAsync(linkedTokenSource.Token, gracefulCts.Token);
 
-        _testProcessId = commandTask.ProcessId;
+        var containerName = processName switch
+        {
+            ProcessName.CORE_UNIT => "gb-core-unit-core-unit-1",
+            ProcessName.PRO_UNIT => "gb-pro-unit-pro-unit-1",
+            _ => throw new ArgumentException("Invalid process name", nameof(processName))
+        };
 
-        await WaitForHttpResponse();
+        try
+        {
+            if (ioExceptionThrown)
+            {
+                throw new IOException(ioExceptionMessage);
+            }
+
+            if (containerExceptionThrown)
+            {
+                throw new ContainerException(containerExceptionMessage!);
+            }
+
+            await WaitForDockerContainer(processName, containerName, waitTokenSource.Token);
+
+            if (ioExceptionThrown)
+            {
+                throw new IOException(ioExceptionMessage);
+            }
+
+            await Cli.Wrap("docker")
+                .WithArguments(["container", "logs", "--follow", "--details", containerName])
+                .WithStandardOutputPipe(PipeTarget.ToDelegate(output =>
+                    TrackUnitTestOutput(output, processName, ref failedTests, ref inconclusiveTests,
+                        ref filteredTests, ref passedTests, ref ioExceptionMessage, ref ioExceptionThrown,
+                        waitTokenSource)))
+                .WithStandardErrorPipe(PipeTarget.ToDelegate(output => Trace.WriteLine(output, processName)))
+                .ExecuteAsync(context.CancellationToken, gracefulCts.Token);
+        }
+        catch (Exception)
+        {
+            if (ioExceptionThrown)
+            {
+                throw new IOException(ioExceptionMessage);
+            }
+
+            if (containerExceptionThrown)
+            {
+                throw new ContainerException(containerExceptionMessage!);
+            }
+
+            throw;
+        }
+
+        foreach (var failedTest in failedTests)
+        {
+            FailedTests.TryAdd(failedTest.Key, failedTest.Value);
+        }
+
+        foreach (var test in inconclusiveTests)
+        {
+            InconclusiveTests.TryAdd(test, 0);
+        }
+
+        Trace.WriteLine($"Adding {passedTests.Count} passed tests to total test count", processName);
+
+        foreach (var test in passedTests)
+        {
+            PassedTests.TryAdd(test, 0);
+        }
+
+        FilteredTests!.AddRange(filteredTests);
     }
 
-    private static async Task StartTestApp()
+    private static void TrackUnitTestOutput(string output, string processName,
+        ref Dictionary<string, string> failedTests, ref List<string> inconclusiveTests,
+        ref List<string> filteredTests, ref List<string> passedTests,
+        ref string? ioExceptionMessage, ref bool ioExceptionThrown, CancellationTokenSource? waitTokenSource = null)
+    {
+        var trimmedLine = output.Trim();
+
+        if (trimmedLine.Contains("The process cannot access the file")
+            || trimmedLine.Contains("The \"UpdateExternallyDefinedStaticWebAssets\" task failed unexpectedly.")
+            || trimmedLine.Contains("No file exists for the asset at either location"))
+        {
+            ioExceptionMessage = trimmedLine;
+            ioExceptionThrown = true;
+            waitTokenSource?.Cancel();
+        }
+
+        if (trimmedLine.StartsWith("failed ", StringComparison.OrdinalIgnoreCase))
+        {
+            var testName = trimmedLine.Split(" ")[1];
+            failedTests.TryAdd(testName, output);
+            filteredTests.Add(testName);
+        }
+        else if (trimmedLine.StartsWith("inconclusive ", StringComparison.OrdinalIgnoreCase))
+        {
+            var testName = trimmedLine.Split(" ")[1];
+            inconclusiveTests.Add(testName);
+            filteredTests.Add(testName);
+        }
+        else if (trimmedLine.StartsWith("passed ", StringComparison.OrdinalIgnoreCase))
+        {
+            var testName = trimmedLine.Split(" ")[1];
+            passedTests.Add(testName);
+            filteredTests.Add(testName);
+        }
+
+        Trace.WriteLine(output, processName);
+    }
+
+    private static async Task StartWebApp(CancellationToken token)
     {
         var cmdLineApp = "dotnet";
 
         string[] args =
         [
-            "run", "--project", TestAppPath,
+            "run", "--no-build", "--project", TestAppPath,
             "--urls", $"{TestAppUrl};{TestAppHttpUrl}",
             "--", "-c", "Release",
             "/p:GenerateXmlComments=false",
@@ -531,7 +1223,9 @@ public class TestConfig
             "/p:GenerateDocs=false",
             "/p:DebugSymbols=true",
             "/p:DebugType=portable",
-            "/p:UsePackageReference=false"
+            "/p:UsePackageReference=false",
+            "/p:ShowScriptDialogs=false",
+            "-v:d"
         ];
 
         if (_cover)
@@ -553,103 +1247,235 @@ public class TestConfig
             ];
         }
 
-        Trace.WriteLine($"Starting test app: {cmdLineApp} {string.Join(" ", args)}", "TEST_SETUP");
+        Trace.WriteLine($"Starting test app: {cmdLineApp} {string.Join(" ", args)}", ProcessName.TEST_SETUP);
 
-        CommandTask<CommandResult> commandTask = Cli.Wrap(cmdLineApp)
+        var ioExceptionThrown = false;
+        string? ioExceptionMessage = null;
+
+        var commandTask = Cli.Wrap(cmdLineApp)
             .WithArguments(args)
-            .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, "TEST_APP")))
-            .WithStandardErrorPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, "TEST_APP_ERROR")))
-            .WithWorkingDirectory(_projectFolder)
-            .ExecuteAsync(cts.Token, gracefulCts.Token);
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
+            {
+                if (line.Contains("The process cannot access the file")
+                    || line.Contains("The \"UpdateExternallyDefinedStaticWebAssets\" task failed unexpectedly.")
+                    || line.Contains("No file exists for the asset at either location"))
+                {
+                    ioExceptionMessage = line;
+                    ioExceptionThrown = true;
+                }
 
-        _testProcessId = commandTask.ProcessId;
+                Trace.WriteLine(line, ProcessName.WEB_APP);
+            }))
+            .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
+                Trace.WriteLine(line, ProcessName.WEB_APP_ERROR)))
+            .WithWorkingDirectory(_projectFolder)
+            .ExecuteAsync(token, gracefulCts.Token);
+
+        processIds.Add(commandTask.ProcessId);
+
+        try
+        {
+            await WaitForHttpResponse();
+        }
+        catch (Exception)
+        {
+            if (ioExceptionThrown)
+            {
+                throw new IOException(ioExceptionMessage);
+            }
+
+            throw;
+        }
+    }
+
+    private static async Task StartWebAppContainer(ResilienceContext context)
+    {
+        var cmdLineApp = "docker";
+
+        string[] args =
+        [
+            "compose", "-f", ComposeFilePath, "up", "-d", "--build"
+        ];
+
+        if (context.Properties.TryGetValue(retryAttemptKey, out var retryAttempt) && (retryAttempt > 0))
+        {
+            // if the first build fails, try with no cache
+            await BuildContainer(ComposeFilePath, ProcessName.WEB_APP, context);
+        }
+
+        Trace.WriteLine($"Starting container with: docker {string.Join(" ", args)}", ProcessName.WEB_APP);
+        Trace.WriteLine($"Working directory: {_projectFolder}", ProcessName.WEB_APP);
+
+        if (_cover)
+        {
+            cmdLineApp = "dotnet-coverage";
+            var dockerCommand = $"docker {string.Join(" ", args)}";
+
+            args =
+            [
+                "collect",
+                "--session-id", ProcessName.WEB_APP,
+                "-o", CoverageFilePath,
+                "-f", _coverageFormat,
+                dockerCommand
+            ];
+        }
+
+        CancellationTokenSource waitTokenSource = new();
+
+        var linkedTokenSource =
+            CancellationTokenSource.CreateLinkedTokenSource(context.CancellationToken, waitTokenSource.Token);
+
+        _webAppContainerExceptionThrown = false;
+        _webAppContainerExceptionMessage = null;
+
+        var commandTask = Cli.Wrap(cmdLineApp)
+            .WithArguments(args)
+            .WithEnvironmentVariables(new Dictionary<string, string?>
+            {
+                ["HTTP_PORT"] = _httpPort.ToString(),
+                ["HTTPS_PORT"] = _httpsPort.ToString(),
+                ["COVER"] = _cover.ToString().ToLower(),
+                ["SESSION_ID"] = ProcessName.WEB_APP,
+                ["COVERAGE_FORMAT"] = _coverageFormat,
+                ["COVERAGE_FILE_VERSION"] = _coverageFileVersion,
+                ["GEOBLAZOR_CORE_LICENSE_KEY"] = _configuration!["GEOBLAZOR_CORE_LICENSE_KEY"],
+                ["GEOBLAZOR_PRO_LICENSE_KEY"] = _configuration["GEOBLAZOR_PRO_LICENSE_KEY"]
+            })
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, ProcessName.WEB_APP)))
+            .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
+            {
+                if (line.Contains("ERROR:"))
+                {
+                    _webAppContainerExceptionMessage = line;
+                    _webAppContainerExceptionThrown = true;
+                    waitTokenSource.Cancel();
+                }
+            }))
+            .WithWorkingDirectory(_projectFolder)
+            .ExecuteAsync(linkedTokenSource.Token, gracefulCts.Token);
+
+        processIds.Add(commandTask.ProcessId);
+        _webTestProcessId = commandTask.ProcessId;
+
+        if (_webAppContainerExceptionThrown)
+        {
+            throw new ContainerException(_webAppContainerExceptionMessage!);
+        }
 
         await WaitForHttpResponse();
     }
 
-    private static async Task StopContainer(string composeFilePath)
+    private static async Task BuildContainer(string filePath, string processName, ResilienceContext context)
     {
-        // If coverage is enabled, gracefully shutdown dotnet-coverage before stopping the container
-        if (_cover)
+        var cmdLineApp = "docker";
+
+        string[] args =
+        [
+            "compose", "-f", filePath, "build", "--no-cache"
+        ];
+
+        Trace.WriteLine($"Re-building container with: docker {string.Join(" ", args)}", processName);
+        Trace.WriteLine($"Working directory: {_projectFolder}", processName);
+
+        CancellationTokenSource waitTokenSource = new();
+
+        var linkedTokenSource =
+            CancellationTokenSource.CreateLinkedTokenSource(context.CancellationToken, waitTokenSource.Token);
+
+        _webAppContainerExceptionThrown = false;
+        _webAppContainerExceptionMessage = null;
+
+        await Cli.Wrap(cmdLineApp)
+            .WithArguments(args)
+            .WithEnvironmentVariables(new Dictionary<string, string?>
+            {
+                ["HTTP_PORT"] = _httpPort.ToString(),
+                ["HTTPS_PORT"] = _httpsPort.ToString(),
+                ["COVER"] = _cover.ToString().ToLower(),
+                ["SESSION_ID"] = processName,
+                ["COVERAGE_FORMAT"] = _coverageFormat,
+                ["COVERAGE_FILE_VERSION"] = _coverageFileVersion,
+                ["GEOBLAZOR_CORE_LICENSE_KEY"] = _configuration!["GEOBLAZOR_CORE_LICENSE_KEY"],
+                ["GEOBLAZOR_PRO_LICENSE_KEY"] = _configuration["GEOBLAZOR_PRO_LICENSE_KEY"]
+            })
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, processName)))
+            .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
+            {
+                if (line.Contains("ERROR:"))
+                {
+                    _webAppContainerExceptionMessage = line;
+                    _webAppContainerExceptionThrown = true;
+                    waitTokenSource.Cancel();
+                }
+            }))
+            .WithWorkingDirectory(_projectFolder)
+            .ExecuteAsync(linkedTokenSource.Token, gracefulCts.Token);
+
+        if (_webAppContainerExceptionThrown)
         {
-            await ShutdownCoverageCollection();
+            throw new ContainerException(_webAppContainerExceptionMessage!);
         }
+    }
+
+    private static async Task ShutdownContainerCoverage(string processName, string composeFilePath)
+    {
+        // Get the container name from the compose file
+        var containerName = processName switch
+        {
+            ProcessName.WEB_APP when composeFilePath.EndsWith("core.yml") => "geoblazor-pro-tests-test-app-1",
+            ProcessName.WEB_APP when composeFilePath.EndsWith("pro.yml") => "geoblazor-core-tests-test-app-1",
+            ProcessName.CORE_UNIT => "gb-core-unit-core-unit-1",
+            ProcessName.PRO_UNIT => "gb-pro-unit-pro-unit-1",
+            _ => throw new ArgumentException("Invalid process name", nameof(processName))
+        };
 
         try
         {
-            Trace.WriteLine($"Stopping container with: docker compose -f {composeFilePath} down", "TEST_CLEANUP");
-
-            await Cli.Wrap("docker")
-                .WithArguments($"compose -f \"{composeFilePath}\" down")
-                .WithValidation(CommandResultValidation.None)
-                .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, "TEST_CONTAINER_CLEANUP")))
-                .ExecuteAsync(cts.Token);
-        }
-        catch
-        {
-            // ignore, these just clutter the output
-        }
-
-        await KillProcessesByTestPorts();
-    }
-
-    private static async Task StopTestApp()
-    {
-        await KillProcessById(_testProcessId);
-        await KillProcessesByTestPorts();
-    }
-
-    private static async Task ShutdownCoverageCollection()
-    {
-        try
-        {
-            // Get the container name from the compose file
-            string containerName = _proAvailable && !CoreOnly
-                ? "geoblazor-pro-tests-test-app-1"
-                : "geoblazor-core-tests-test-app-1";
-
-            Trace.WriteLine($"Shutting down coverage collection in container: {containerName}", "CODE_COVERAGE");
+            Trace.WriteLine($"Shutting down coverage collection in container: {containerName}",
+                ProcessName.CODE_COVERAGE);
 
             // Call dotnet-coverage shutdown inside the container to gracefully write coverage data
             await Cli.Wrap("docker")
                 .WithArguments($"exec {containerName} /tools/dotnet-coverage shutdown geoblazor-coverage")
                 .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
-                    Trace.WriteLine(line, "CODE_COVERAGE_SHUTDOWN")))
-                .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
-                    Trace.WriteLine(line, "CODE_COVERAGE_SHUTDOWN_ERROR")))
+                    Trace.WriteLine(line, ProcessName.CODE_COVERAGE)))
+                .WithValidation(CommandResultValidation.None)
                 .ExecuteAsync();
 
             // Give time for coverage file to be written
             await Task.Delay(3000);
-            Trace.WriteLine("Coverage shutdown command completed", "CODE_COVERAGE");
+            Trace.WriteLine("Coverage shutdown command completed", ProcessName.CODE_COVERAGE);
         }
-        catch (Exception ex)
+        catch
         {
-            Trace.WriteLine($"Failed to shutdown coverage collection: {ex.Message}", "CODE_COVERAGE_ERROR");
+            // ignore, these just clutter the output
         }
     }
 
-    private static void CopyCoverageFromContainer()
+    private static async Task StopContainer(string composeFilePath)
     {
-        // If coverage was enabled, copy the coverage file from the volume mount directory
-        var containerCoverageFile = Path.Combine(_projectFolder, "coverage", "coverage.xml");
-        var targetCoverageFile = Path.Combine(_projectFolder, $"coverage.{_coverageFormat}");
+        try
+        {
+            Trace.WriteLine($"Stopping container with: docker compose -f {composeFilePath} down",
+                ProcessName.TEST_CLEANUP);
 
-        if (File.Exists(containerCoverageFile))
-        {
-            File.Copy(containerCoverageFile, targetCoverageFile, true);
-            Trace.WriteLine($"Coverage file copied from container: {targetCoverageFile}", "TEST_CLEANUP");
+            await Cli.Wrap("docker")
+                .WithArguments($"compose -f \"{composeFilePath}\" down")
+                .WithValidation(CommandResultValidation.None)
+                .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, ProcessName.TEST_CLEANUP)))
+                .ExecuteAsync(Cts.Token);
         }
-        else
+        catch
         {
-            Trace.WriteLine($"Container coverage file not found: {containerCoverageFile}", "TEST_CLEANUP");
+            // ignore, these just clutter the output
         }
     }
 
     private static async Task WaitForHttpResponse()
     {
         // Configure HttpClient to ignore SSL certificate errors (for self-signed certs in Docker)
-        HttpClientHandler handler = new HttpClientHandler
+        var handler = new HttpClientHandler
         {
             ServerCertificateCustomValidationCallback =
                 HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
@@ -660,17 +1486,26 @@ public class TestConfig
         // set this to 60 seconds * 8 = 8 minutes
         var maxAttempts = 60 * 8;
 
+        Exception? lastException = null;
+        Process? testProcess = null;
+
         for (var i = 1; i <= maxAttempts; i++)
         {
             try
             {
-                HttpResponseMessage response =
-                    await httpClient.GetAsync(TestAppHttpUrl, cts.Token);
+                if (i % 10 == 0)
+                {
+                    Trace.WriteLine($"Waiting for Test Site at {TestAppHttpUrl}. Attempt {i} out of {maxAttempts}...",
+                        ProcessName.TEST_SETUP);
+                }
+
+                var response =
+                    await httpClient.GetAsync(TestAppHttpUrl, Cts.Token);
 
                 if (response.IsSuccessStatusCode ||
                     response.StatusCode is >= (HttpStatusCode)300 and < (HttpStatusCode)400)
                 {
-                    Trace.WriteLine($"Test Site is ready! Status: {response.StatusCode}", "TEST_SETUP");
+                    Trace.WriteLine($"Test Site is ready! Status: {response.StatusCode}", ProcessName.TEST_SETUP);
 
                     return;
                 }
@@ -678,33 +1513,119 @@ public class TestConfig
             catch (Exception ex)
             {
                 // Log the exception for debugging SSL/connection issues
-                if (i % 10 == 0)
+                lastException = ex;
+            }
+
+            if (_webAppContainerExceptionThrown)
+            {
+                throw new ContainerException(_webAppContainerExceptionMessage!);
+            }
+
+            if (testProcess is null && _webTestProcessId is not null)
+            {
+                try
                 {
-                    Trace.WriteLine($"Connection attempt {i} failed: {ex.Message}", "TEST_SETUP");
+                    testProcess = Process.GetProcessById(_webTestProcessId.Value);
+                }
+                catch (ArgumentException)
+                {
+                    // process is not running yet/anymore, keep waiting
                 }
             }
 
-            if (i % 10 == 0)
+            if (testProcess is not null && testProcess.HasExited)
             {
-                Trace.WriteLine($"Waiting for Test Site at {TestAppHttpUrl}. Attempt {i} out of {maxAttempts}...",
-                    "TEST_SETUP");
+                try
+                {
+                    var exitCode = testProcess.ExitCode;
+
+                    if (exitCode != 0)
+                    {
+                        throw new ProcessExitedException($"Test process exited with code {exitCode}");
+                    }
+                }
+                catch
+                {
+                    // ignore - the container building process can exit silently and all is fine
+                }
             }
 
-            await Task.Delay(1000, cts.Token);
+            await Task.Delay(1000, Cts.Token);
         }
 
-        throw new ProcessExitedException("Test page was not reachable within the allotted time frame");
+        throw new ProcessExitedException("Test page was not reachable within the allotted time frame", lastException);
     }
 
-    private static async Task KillProcessById(int? processId)
+    private static async Task WaitForDockerContainer(string processName, string containerName,
+        CancellationToken cancellationToken)
     {
-        if (processId.HasValue)
+        // worst-case scenario for docker build is ~ 6 minutes
+        // set this to 60 seconds * 8 = 8 minutes
+        var maxAttempts = 60 * 8;
+
+        Exception? lastException = null;
+
+        string[] listArgs = ["container", "ls"];
+        var isRunning = false;
+
+        for (var i = 1; i <= maxAttempts; i++)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+
+            try
+            {
+                if (i % 10 == 0)
+                {
+                    Trace.WriteLine($"Waiting for Test Container {containerName}. Attempt {i} out of {maxAttempts}...",
+                        processName);
+                }
+
+                await Cli.Wrap("docker")
+                    .WithArguments(listArgs)
+                    .WithValidation(CommandResultValidation.None)
+                    .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
+                    {
+                        if (line.Contains(containerName))
+                        {
+                            Trace.WriteLine($"Container {containerName} is running", processName);
+                            isRunning = true;
+                        }
+                    }))
+                    .ExecuteAsync(Cts.Token);
+
+                if (isRunning)
+                {
+                    Trace.WriteLine($"Test Container {containerName} is ready!", processName);
+
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception for debugging SSL/connection issues
+                lastException = ex;
+            }
+
+            await Task.Delay(1000, Cts.Token);
+        }
+
+        throw new ProcessExitedException(
+            $"{processName} Docker Container was not reachable within the allotted time frame", lastException);
+    }
+
+    private static async Task KillProcessesByIds()
+    {
+        foreach (var processId in processIds)
         {
             Process? process = null;
 
             try
             {
-                process = Process.GetProcessById(processId.Value);
+                Trace.WriteLine($"Sending 'exit' to process {processId}...", ProcessName.TEST_CLEANUP);
+                process = Process.GetProcessById(processId);
 
                 if (_useContainer)
                 {
@@ -717,9 +1638,17 @@ public class TestConfig
                 // ignore, these just clutter the output
             }
 
-            if (process is not null && !process.HasExited)
+            try
             {
-                process.Kill();
+                if (process is not null && !process.HasExited)
+                {
+                    Trace.WriteLine($"Killing process {processId}...", ProcessName.TEST_CLEANUP);
+                    process.Kill();
+                }
+            }
+            catch
+            {
+                // ignore, these just clutter the output
             }
         }
     }
@@ -728,19 +1657,41 @@ public class TestConfig
     {
         try
         {
+            Trace.WriteLine($"Killing any remaining processes holding HTTPS port {_httpsPort}",
+                ProcessName.TEST_CLEANUP);
+
             if (OperatingSystem.IsWindows())
             {
+                string[] arguments =
+                [
+                    "-NoProfile", "-ExecutionPolicy", "ByPass", "-Command",
+                    "{",
+                    "Get-NetTCPConnection", "-LocalPort", _httpsPort.ToString(), "-State", "Listen",
+                    "|", "Select-Object", "-ExpandProperty", "OwningProcess",
+                    "|", "ForEach-Object",
+                    "{",
+                    "Stop-Process", "-Id", "$_", "-Force",
+                    "}",
+                    "}"
+                ];
+
                 // Use PowerShell for more reliable Windows port killing
                 await Cli.Wrap("pwsh")
-                    .WithArguments($"Get-NetTCPConnection -LocalPort {_httpsPort
-                    } -State Listen | Select-Object -ExpandProperty OwningProcess | ForEach-Object {{ Stop-Process -Id $_ -Force }}")
+                    .WithArguments(arguments)
+                    .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
+                        Trace.WriteLine(line, ProcessName.TEST_CLEANUP)))
                     .WithValidation(CommandResultValidation.None)
                     .ExecuteAsync();
             }
             else
             {
                 await Cli.Wrap("/bin/bash")
-                    .WithArguments($"lsof -i:{_httpsPort} | awk '{{if(NR>1)print $2}}' | xargs -t -r kill -9")
+                    .WithArguments([
+                        "-c",
+                        $"lsof -i:{_httpsPort} | awk '{{if(NR>1)print $2}}' | xargs -t -r kill -9"
+                    ])
+                    .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
+                        Trace.WriteLine(line, ProcessName.TEST_CLEANUP)))
                     .WithValidation(CommandResultValidation.None)
                     .ExecuteAsync();
             }
@@ -754,17 +1705,18 @@ public class TestConfig
     private static async Task GenerateCoverageReport()
     {
         var reportDir = Path.Combine(_projectFolder, "coverage-report");
+        var historyDir = Path.Combine(_projectFolder, "history");
 
         if (!File.Exists(CoverageFilePath))
         {
-            Trace.WriteLine($"Coverage file not found: {CoverageFilePath}", "CODE_COVERAGE_ERROR");
+            Trace.WriteLine($"Coverage file not found: {CoverageFilePath}", ProcessName.CODE_COVERAGE_ERROR);
 
             return;
         }
 
         try
         {
-            Trace.WriteLine("Generating coverage report...", "CODE_COVERAGE_REPORT");
+            Trace.WriteLine("Generating coverage report...", ProcessName.CODE_COVERAGE_REPORT);
 
             List<string> assemblyFilters =
             [
@@ -790,9 +1742,10 @@ public class TestConfig
 
             List<string> args =
             [
-                $"-reports:{CoverageFilePath};{UnitCoverageFilePath};{SgenCoverageFilePath}",
+                $"-reports:{CoverageFilePath};{CoreUnitCoverageFilePath};{ProUnitCoverageFilePath}",
                 $"-targetdir:{reportDir}",
-                "-reporttypes:Html;HtmlSummary;TextSummary;Badges",
+                "-reporttypes:Html;TextSummary;Badges",
+                $"-historydir:{historyDir}",
 
                 // Include only GeoBlazor Core and Pro assemblies, exclude everything else
                 $"-assemblyfilters:{string.Join(";", assemblyFilters)}",
@@ -807,20 +1760,20 @@ public class TestConfig
             await Cli.Wrap("reportgenerator")
                 .WithArguments(args)
                 .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
-                    Trace.WriteLine(line, "CODE_COVERAGE_REPORT")))
+                    Trace.WriteLine(line, ProcessName.CODE_COVERAGE_REPORT)))
                 .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
-                    Trace.WriteLine(line, "CODE_COVERAGE_REPORT_ERROR")))
+                    Trace.WriteLine(line, ProcessName.CODE_COVERAGE_REPORT_ERROR)))
                 .WithValidation(CommandResultValidation.None)
                 .ExecuteAsync();
 
-            string textSummaryPath = Path.Combine(reportDir, "Summary.txt");
-            string webReportPath = Path.Combine(reportDir, "index.html");
+            var textSummaryPath = Path.Combine(reportDir, "Summary.txt");
+            var webReportPath = Path.Combine(reportDir, "index.html");
 
             if (File.Exists(textSummaryPath))
             {
                 Trace.WriteLine(await File.ReadAllTextAsync(textSummaryPath),
-                    "CODE_COVERAGE_SUCCESS");
-                Trace.WriteLine($"Full report at [Coverage Report]({webReportPath})", "CODE_COVERAGE_SUCCESS");
+                    ProcessName.CODE_COVERAGE_REPORT);
+                Trace.WriteLine($"Full report at [Coverage Report]({webReportPath})", ProcessName.CODE_COVERAGE_REPORT);
             }
 
             // copy the badge image to the repo root
@@ -850,13 +1803,85 @@ public class TestConfig
         }
         catch (Exception ex)
         {
-            Trace.WriteLine($"Failed to generate coverage report: {ex.Message}", "CODE_COVERAGE_ERROR");
+            Trace.WriteLine($"Failed to generate coverage report: {ex.Message}", ProcessName.CODE_COVERAGE_ERROR);
         }
     }
 
-    private static readonly CancellationTokenSource cts = new();
+    private static void AddTestProcessSummary(string processName)
+    {
+        if (!logBuilders.TryGetValue(processName, out var coreUnitLog))
+        {
+            return;
+        }
+
+        var summaryStarted = false;
+
+        foreach (var log in coreUnitLog.OrderBy(kv => kv.Key))
+        {
+            if (log.Value.Contains("Test run summary"))
+            {
+                summaryStarted = true;
+                var passed = log.Value.Contains("Passed", StringComparison.OrdinalIgnoreCase);
+                var line = passed ? $"{processName} SUMMARY: PASSED" : $"{processName} SUMMARY: FAILED";
+                Trace.WriteLine(line, ProcessName.FINAL_SUMMARY);
+
+                continue;
+            }
+
+            if (summaryStarted)
+            {
+                Trace.WriteLine(log.Value, ProcessName.FINAL_SUMMARY);
+            }
+        }
+    }
+
+    private static async Task BuildLogFile()
+    {
+        StringBuilder sb = new();
+
+        foreach (var (processName, logEntries)
+            in logBuilders.OrderBy(kv => ProcessName.OrderedList.IndexOf(kv.Key)))
+        {
+            foreach (var entry in logEntries.OrderBy(kv => kv.Key))
+            {
+                sb.AppendLine($"[{entry.Key.ToString("u")}] {processName}: {entry.Value}");
+            }
+        }
+
+        await File.WriteAllTextAsync(LogFilePath, sb.ToString());
+    }
+
+    private static readonly RetryStrategyOptions appRetryStrategyOptions = new()
+    {
+        BackoffType = DelayBackoffType.Exponential,
+        MaxRetryAttempts = 3,
+        Delay = TimeSpan.FromSeconds(5),
+        ShouldHandle = new PredicateBuilder()
+            .Handle<IOException>()
+            .Handle<ProcessExitedException>()
+            .Handle<ContainerException>(),
+        OnRetry = context =>
+        {
+            Trace.WriteLine($"Attempt #{context.AttemptNumber + 1} for task failed with exception {
+                context.Context.Properties.GetValue(exceptionKey, "")}. Retrying...",
+                context.Context.OperationKey);
+            context.Context.Properties.Set(retryAttemptKey, context.AttemptNumber);
+
+            return ValueTask.CompletedTask;
+        }
+    };
+    private static readonly ResiliencePipeline appRetryPipeline = new ResiliencePipelineBuilder()
+        .AddRetry(appRetryStrategyOptions)
+        .Build();
     private static readonly CancellationTokenSource gracefulCts = new();
-    private static readonly StringBuilder logBuilder = new();
+    private static readonly Dictionary<string, Dictionary<DateTime, string>> logBuilders = [];
+    private static readonly Type[] testClasses = typeof(GeoBlazorTestClass).Assembly.GetTypes()
+        .Where(t => t.IsSubclassOf(typeof(GeoBlazorTestClass)))
+        .ToArray();
+    private static readonly List<int> processIds = [];
+
+    private static readonly ResiliencePropertyKey<int> retryAttemptKey = new("RetryAttempt");
+    private static readonly ResiliencePropertyKey<string?> exceptionKey = new("Exception");
 
     private static IConfiguration? _configuration;
     private static string? _runConfig;
@@ -865,10 +1890,63 @@ public class TestConfig
     private static int _httpsPort;
     private static int _httpPort;
     private static string _projectFolder = string.Empty;
-    private static int? _testProcessId;
+    private static int? _webTestProcessId;
+    private static int _webTestTotalTestCount;
+    private static DateTime _webTestStartTime;
     private static bool _useContainer;
     private static bool _cover;
+    private static bool _showDialog;
+    private static bool _cleanupComplete;
+    private static bool _webAppContainerExceptionThrown;
+    private static string? _webAppContainerExceptionMessage;
     private static string _coverageFormat = string.Empty;
     private static string _coverageFileVersion = string.Empty;
     private static string? _reportGenLicenseKey;
+    private static List<string>? _filters;
+
+    private enum FilterOperator
+    {
+        Contains,
+        NotContains,
+        Equals,
+        NotEquals
+    }
+
+    private enum FilterType
+    {
+        FullyQualifiedName,
+        Name,
+        ClassName,
+        Priority,
+        TestCategory
+    }
+}
+
+internal class ContainerException(string message) : Exception(message);
+
+internal static class ProcessName
+{
+    public static readonly string[] OrderedList =
+    {
+        TEST_SETUP, PRE_BUILD, CODE_COVERAGE_TOOL_INSTALLATION, WEB_APP, WEB_TEST, CORE_UNIT, PRO_UNIT,
+        CODE_COVERAGE, CODE_COVERAGE_REPORT, TEST_CLEANUP, TEST_SHUTDOWN, FINAL_SUMMARY
+    };
+    public const string TEST_SETUP = "TEST_SETUP";
+    public const string PRE_BUILD = "PRE_BUILD";
+    public const string CODE_COVERAGE_TOOL_INSTALLATION = "CODE_COVERAGE_TOOL_INSTALLATION";
+    public const string WEB_APP = "WEB_APP";
+    public const string WEB_TEST = "WEB_TEST";
+    public const string CORE_UNIT = "CORE_UNIT";
+    public const string PRO_UNIT = "PRO_UNIT";
+    public const string CODE_COVERAGE = "CODE_COVERAGE";
+    public const string CODE_COVERAGE_REPORT = "CODE_COVERAGE_REPORT";
+    public const string TEST_CLEANUP = "TEST_CLEANUP";
+    public const string TEST_SHUTDOWN = "TEST_SHUTDOWN";
+    public const string FINAL_SUMMARY = "FINAL_SUMMARY";
+    public const string PRE_BUILD_ERROR = "PRE_BUILD_ERROR";
+    public const string CODE_COVERAGE_TOOL_INSTALLATION_ERROR = "CODE_COVERAGE_TOOL_INSTALLATION_ERROR";
+    public const string WEB_APP_ERROR = "WEB_APP_ERROR";
+    public const string WEB_TEST_ERROR = "WEB_TEST_ERROR";
+    public const string CODE_COVERAGE_ERROR = "CODE_COVERAGE_ERROR";
+    public const string CODE_COVERAGE_REPORT_ERROR = "CODE_COVERAGE_REPORT_ERROR";
 }

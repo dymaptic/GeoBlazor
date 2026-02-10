@@ -59,8 +59,16 @@ jobs:
           HTTP_PORT: 8082
           HTTPS_PORT: 9445
         run: |
-          dotnet test --project ./test/dymaptic.GeoBlazor.Core.Test.Automation/dymaptic.GeoBlazor.Core.Test.Automation.csproj -c Release --filter CORE_
-  
+          dotnet ./build-tools/win-x64/GBTest.dll -c Release --cover --container --filter Core
+
+      - name: Upload test log
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-run-log
+          retention-days: 4
+          path: ./test/dymaptic.GeoBlazor.Core.Test.Automation/test-run.log
+
   build:
     runs-on: ubuntu-latest
     needs: [ actor-check ]
@@ -99,7 +107,7 @@ jobs:
     - name: Build GeoBlazor
       shell: pwsh
       run: |
-        dotnet ./build-tools/GeoBlazorBuild.dll -xml -pkg -docs -c "Release"
+        dotnet ./build-tools/linux-x64/GeoBlazorBuild.dll -xml -pkg -docs -c "Release"
         
       # Copies the nuget package to the artifacts directory
     - name: Upload nuget artifact

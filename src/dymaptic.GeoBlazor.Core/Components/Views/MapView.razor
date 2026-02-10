@@ -6,7 +6,10 @@
             <div class="@Class map-wrapper" style="@Style">
                 @if (MapComponentType == typeof(SceneView))
                 {
-                    <arcgis-scene class="map-container" id="@($"map-container-{Id}")" @attributes="@UnMatchedAttributes">
+                    <arcgis-scene class="map-container"
+                                  id="@($"map-container-{Id}")"
+                                  style="@(Theme == ArcGISTheme.Dark ? "calcite-mode-dark" : "")"
+                                  @attributes="@UnMatchedAttributes">
                         @if (!string.IsNullOrWhiteSpace(ErrorMessage))
                         {
                             <div class="geoblazor-message-overlay">
@@ -28,7 +31,10 @@
                 }
                 else
                 {
-                    <arcgis-map class="map-container" id="@($"map-container-{Id}")" @attributes="@UnMatchedAttributes">
+                    <arcgis-map class="map-container"
+                                id="@($"map-container-{Id}")"
+                                style="@(Theme == ArcGISTheme.Dark ? "calcite-mode-dark" : "")"
+                                @attributes="@UnMatchedAttributes">
                         @if (!string.IsNullOrWhiteSpace(ErrorMessage))
                         {
                             <div class="geoblazor-message-overlay">

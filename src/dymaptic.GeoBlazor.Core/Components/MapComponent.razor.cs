@@ -67,13 +67,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     public bool MapRendered { get; set; }
 
     /// <summary>
-    ///     The reference to geoBlazorCore.ts from .NET
-    /// </summary>
-    [Obsolete("Use the CoreJsModule property instead.")]
-    [JsonIgnore]
-    public IJSObjectReference? JsModule => CoreJsModule;
-
-    /// <summary>
     ///     The reference to the entry point geoBlazorCore.js from .NET
     /// </summary>
     [JsonIgnore]
@@ -185,7 +178,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <summary>
     ///     Boolean flag to identify if GeoBlazor is running in Blazor Hybrid (MAUI) mode
     /// </summary>
-    protected internal bool IsMaui => JsRuntime!.GetType().Name.Contains("WebView");
+    protected internal bool IsMaui => JsRuntime?.GetType().Name.Contains("WebView") ?? false;
 
     /// <summary>
     ///     Implements the `IAsyncDisposable` pattern.
@@ -802,7 +795,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
         try
         {
-            if (await jsonStreamReference.ReadJsStreamReferenceAsJSON(MapComponentType) is MapComponent deserialized)
+            if (await jsonStreamReference.ReadJsStreamReferenceAsJSON(MapComponentType, View?.QueryResultsMaxSizeLimit)
+                is MapComponent deserialized)
             {
                 if (IsDisposed)
                 {
@@ -922,11 +916,15 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <summary>
     ///     Retrieves the reflected public and private instance properties of the current type
     /// </summary>
-    protected PropertyInfo[] GetPropertyInfos()
+    protected internal PropertyInfo[] GetPropertyInfos()
     {
         return MapComponentType
-            .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-            .Where(p => p.DeclaringType?.Namespace?.StartsWith("dymaptic.GeoBlazor") == true)
+            .GetProperties(BindingFlags.Public | BindingFlags.NonPublic
+                | BindingFlags.Instance)
+            .Where(p => p.SetMethod is not null
+                && p.DeclaringType?.Namespace?.StartsWith("dymaptic.GeoBlazor") == true
+                && !excludedProps.Contains(p.Name)
+                && p.GetCustomAttribute<InjectAttribute>() is null)
             .ToArray();
     }
 
@@ -1138,7 +1136,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
         foreach (PropertyInfo prop in _props)
         {
-            if (_circularMapComponents.Contains(prop.Name)
+            if (prop.SetMethod is null
+                || _circularMapComponents.Contains(prop.Name)
                 || _circularMapComponents.Contains(prop.PropertyType.Name)
                 || (prop.PropertyType.IsGenericType
                     && _circularMapComponents.Any(c => prop.PropertyType
@@ -1201,6 +1200,13 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             }
         }
     }
+
+    private static readonly string[] excludedProps =
+    [
+        nameof(ChildContent),
+        nameof(DotNetComponentReference),
+        nameof(IsDisposed)
+    ];
 
     private static Type? _proExtensions;
 
@@ -2038,7 +2044,6 @@ internal class MapComponentConverter : JsonConverter<MapComponent>
 
     public override void Write(Utf8JsonWriter writer, MapComponent value, JsonSerializerOptions options)
     {
-        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object),
-            GeoBlazorSerialization.JsonSerializerOptions));
+        JsonSerializer.Serialize(writer, value, value.GetType(), options);
     }
 }

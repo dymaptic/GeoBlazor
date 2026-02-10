@@ -38,7 +38,7 @@ internal class SymbolJsonConverter : JsonConverter<Symbol>
                     return null;
                 default:
                     // look for the type in GeoBlazor Pro
-                    string typeName = 
+                    string typeName =
                         $"dymaptic.GeoBlazor.Pro.Components.Symbols.{typeValue.ToString()!.KebabToPascalCase()}Symbol";
 
                     try
@@ -64,10 +64,6 @@ internal class SymbolJsonConverter : JsonConverter<Symbol>
 
     public override void Write(Utf8JsonWriter writer, Symbol value, JsonSerializerOptions options)
     {
-        var newOptions = new JsonSerializerOptions(options)
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-        };
-        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
+        JsonSerializer.Serialize(writer, value, typeof(object), options);
     }
 }
