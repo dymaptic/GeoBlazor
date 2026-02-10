@@ -130,7 +130,7 @@ export default class UniqueValueRendererGenerated extends BaseComponent {
         }
         
         let { buildDotNetSymbol } = await import('./symbol');
-        return buildDotNetSymbol(this.component.defaultSymbol, this.viewId);
+        return buildDotNetSymbol(this.component.defaultSymbol);
     }
     
     async setDefaultSymbol(value: any): Promise<void> {
@@ -264,7 +264,7 @@ export default class UniqueValueRendererGenerated extends BaseComponent {
         }
         
         let { buildDotNetVisualVariable } = await import('./visualVariable');
-        return await Promise.all(this.component.visualVariables!.map(async i => await buildDotNetVisualVariable(i, this.viewId)));
+        return await Promise.all(this.component.visualVariables!.map(async i => await buildDotNetVisualVariable(i)));
     }
     
     async setVisualVariables(value: any): Promise<void> {
@@ -372,7 +372,7 @@ export async function buildDotNetUniqueValueRendererGenerated(jsObject: any, lay
     
     if (hasValue(jsObject.defaultSymbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
-        dotNetUniqueValueRenderer.defaultSymbol = buildDotNetSymbol(jsObject.defaultSymbol, viewId);
+        dotNetUniqueValueRenderer.defaultSymbol = buildDotNetSymbol(jsObject.defaultSymbol);
     }
     
     if (hasValue(jsObject.legendOptions)) {
@@ -392,7 +392,7 @@ export async function buildDotNetUniqueValueRendererGenerated(jsObject: any, lay
     
     if (hasValue(jsObject.visualVariables)) {
         let { buildDotNetVisualVariable } = await import('./visualVariable');
-        dotNetUniqueValueRenderer.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetVisualVariable(i, viewId)));
+        dotNetUniqueValueRenderer.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetVisualVariable(i)));
     }
     
     if (hasValue(jsObject.defaultLabel)) {

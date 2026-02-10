@@ -84,6 +84,11 @@ export default class BaseComponent implements IPropertyWrapper {
             return paramValue;
         }
 
+        if (paramType == 'abortSignal') {
+            // abortSignal is a JSObjectReference as well
+            return paramValue;
+        }
+
         if (Array.isArray(paramValue)) {
             let arrayValues: any[] = [];
             for (let i = 0; i < paramValue.length; i++) {
@@ -291,6 +296,15 @@ export default class BaseComponent implements IPropertyWrapper {
                 return true;
             default:
                 return false;
+        }
+    }
+
+    createAbortControllerAndSignal() {
+        const controller = new AbortController();
+        const signal = controller.signal;
+        return {
+            abortControllerRef: DotNet.createJSObjectReference(controller),
+            abortSignalRef: DotNet.createJSObjectReference(signal)
         }
     }
 

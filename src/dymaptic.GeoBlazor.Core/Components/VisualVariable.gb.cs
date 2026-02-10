@@ -12,11 +12,6 @@ public abstract partial class VisualVariable
     /// <inheritdoc />
     public override void ValidateRequiredGeneratedChildren()
     {
-        if (Field is null)
-        {
-            throw new MissingRequiredChildElementException(nameof(VisualVariable), nameof(Field));
-        }
-
         LegendOptions?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
@@ -65,9 +60,8 @@ public abstract partial class VisualVariable
     /// </summary>
     [ArcGISProperty]
     [Parameter]
-    [RequiredProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string Field { get; set; } = null!;
+    public string? Field { get; set; }
 
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisualVariable.html#visualvariablelegendoptions-property">GeoBlazor Docs</a>

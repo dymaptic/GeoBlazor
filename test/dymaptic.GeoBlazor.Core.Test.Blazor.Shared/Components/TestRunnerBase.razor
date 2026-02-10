@@ -46,7 +46,7 @@
                 <div class="test-results-col">
                     <div class="button-row">
                         <button id="@($"run-{methodInfo.Name.ToKebabCase()}-btn")"
-                                @onclick="@(() => RunTest(methodInfo))">
+                                @onclick="@(() => RunTest(methodInfo, CancellationToken.None))">
                             Run Test
                         </button>
                         <label>

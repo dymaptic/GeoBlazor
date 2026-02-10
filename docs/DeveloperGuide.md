@@ -3,12 +3,14 @@ This document is intended for developers and maintainers of the GeoBlazor source
 development and refactoring of existing code, but may not be adhered to by all existing code.
 
 ## TypeScript/ESBuild
-The TypeScript files are compiled as part of the build process using a source generator and ESBuild.
-The source generator, `ESBuildLauncher.cs`, watches the `Scripts` folder for changes, and then runs the ESBuild
+
+The TypeScript files are compiled as part of the build process using a special `NoTargets` SDK project that fires off a
+script, `ESBuild.cs`.
+The script watches the `dymaptic.GeoBlazor.Core/Scripts` folder for changes, and then runs the ESBuild
 compiler on the TypeScript files. The output is placed in the `wwwroot/js` folder.
 
-If you are making changes to the TypeScript files, you can run the ESBuild compiler manually by running 
-`src/dymaptic.GeoBlazor.Core/esBuild.ps1`. You do not necessarily need to restart the .NET application
+If you are making changes to the TypeScript files, you can run the ESBuild compiler manually by running
+`dotnet build-tools/build-scripts/ESBuild.cs`. You do not necessarily need to restart the .NET application
 for every change, unless you see an issue after refreshing the browser with the cache disabled.
 
 ## **Build Errors!!!**

@@ -5,19 +5,13 @@
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-projection.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [CodeGenerationIgnore]
-public class ProjectionEngine : LogicComponent
+public class ProjectionEngine(
+    IAppValidator appValidator,
+    IJSRuntime jsRuntime,
+    JsModuleManager jsModuleManager,
+    AuthenticationManager authenticationManager)
+    : LogicComponent(appValidator, jsRuntime, jsModuleManager, authenticationManager)
 {
-    /// <summary>
-    ///     Default Constructor
-    /// </summary>
-    /// <param name="authenticationManager">
-    ///     Injected Identity Manager reference
-    /// </param>
-    public ProjectionEngine(AuthenticationManager authenticationManager) : 
-        base(authenticationManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override string ComponentName => nameof(ProjectionEngine);
 
@@ -33,9 +27,16 @@ public class ProjectionEngine : LogicComponent
     /// <returns>
     ///     A collection of projected geometries.
     /// </returns>
-    public async Task<Geometry[]?> Project(Geometry[] geometries, SpatialReference spatialReference)
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
+    public Task<Geometry[]?> Project(Geometry[] geometries, SpatialReference spatialReference,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry[]?>("project", geometries, spatialReference, null);
+        if (geometries.Length == 0)
+        {
+            return Task.FromResult<Geometry[]?>([]);
+        }
+
+        return Project(geometries, spatialReference, null, cancellationToken);
     }
 
     /// <summary>
@@ -53,11 +54,13 @@ public class ProjectionEngine : LogicComponent
     /// <returns>
     ///     A collection of projected geometries.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
+    [SerializedMethod]
     public async Task<Geometry[]?> Project(Geometry[] geometries, SpatialReference spatialReference,
-        GeographicTransformation? geographicTransformation)
+        GeographicTransformation? geographicTransformation, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry[]?>("project", geometries, spatialReference,
-            geographicTransformation);
+        return await InvokeAsync<Geometry[]?>(nameof(ProjectionEngine), nameof(Project),
+            QueryResultsMaxSizeLimit, cancellationToken, geometries, spatialReference, geographicTransformation);
     }
 
     /// <summary>
@@ -72,9 +75,17 @@ public class ProjectionEngine : LogicComponent
     /// <returns>
     ///     A projected geometry.
     /// </returns>
-    public async Task<Geometry?> Project(Geometry geometry, SpatialReference spatialReference)
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
+    public Task<Geometry?> Project(Geometry geometry, SpatialReference spatialReference,
+        CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry?>("project", geometry, spatialReference, null);
+        if (spatialReference.Equals(geometry.SpatialReference))
+        {
+            // no conversion, just return the same geometry
+            return Task.FromResult<Geometry?>(geometry);
+        }
+
+        return Project(geometry, spatialReference, null, cancellationToken);
     }
 
     /// <summary>
@@ -92,11 +103,13 @@ public class ProjectionEngine : LogicComponent
     /// <returns>
     ///     A projected geometry.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
+    [SerializedMethod]
     public async Task<Geometry?> Project(Geometry geometry, SpatialReference spatialReference,
-        GeographicTransformation? geographicTransformation)
+        GeographicTransformation? geographicTransformation, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<Geometry?>("project", geometry, spatialReference,
-            geographicTransformation);
+        return await InvokeAsync<Geometry?>(nameof(ProjectionEngine), nameof(Project),
+            QueryResultsMaxSizeLimit, cancellationToken, geometry, spatialReference, geographicTransformation);
     }
 
     /// <summary>
@@ -114,10 +127,13 @@ public class ProjectionEngine : LogicComponent
     /// <returns>
     ///     A geographic transformation.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
+    [SerializedMethod]
     public async Task<GeographicTransformation?> GetTransformation(SpatialReference inSpatialReference,
-        SpatialReference outSpatialReference, Extent extent)
+        SpatialReference outSpatialReference, Extent extent, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<GeographicTransformation?>("getTransformation", inSpatialReference,
+        return await InvokeAsync<GeographicTransformation?>(nameof(ProjectionEngine), nameof(GetTransformation),
+            QueryResultsMaxSizeLimit, cancellationToken, inSpatialReference,
             outSpatialReference, extent);
     }
 
@@ -136,10 +152,13 @@ public class ProjectionEngine : LogicComponent
     /// <returns>
     ///     A collection of geographic transformation.
     /// </returns>
+    /// <param name="cancellationToken">The cancellation token to use for the operation.</param>
+    [SerializedMethod]
     public async Task<GeographicTransformation[]?> GetTransformations(SpatialReference inSpatialReference,
-        SpatialReference outSpatialReference, Extent extent)
+        SpatialReference outSpatialReference, Extent extent, CancellationToken cancellationToken = default)
     {
-        return await InvokeAsync<GeographicTransformation[]?>("getTransformations",
-            inSpatialReference, outSpatialReference, extent);
+        return await InvokeAsync<GeographicTransformation[]?>(nameof(ProjectionEngine),
+            nameof(GetTransformations), QueryResultsMaxSizeLimit, cancellationToken, inSpatialReference,
+            outSpatialReference, extent);
     }
 }

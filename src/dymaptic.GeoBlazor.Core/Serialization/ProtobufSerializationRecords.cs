@@ -21,6 +21,7 @@ public abstract record MapComponentSerializationRecord
 /// </summary>
 /// <typeparam name="T">The type that this record can be converted to.</typeparam>
 public abstract record MapComponentSerializationRecord<T> : MapComponentSerializationRecord
+    where T : IProtobufSerializable
 {
     /// <summary>
     ///     Converts this serialization record back to the original type.

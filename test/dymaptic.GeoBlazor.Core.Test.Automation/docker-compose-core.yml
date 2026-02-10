@@ -6,10 +6,10 @@ services:
       context: ../..
       dockerfile: Dockerfile
       args:
-        ARCGIS_API_KEY: ${ARCGIS_API_KEY}
-        GEOBLAZOR_LICENSE_KEY: ${GEOBLAZOR_CORE_LICENSE_KEY}
-        HTTP_PORT: ${HTTP_PORT}
-        HTTPS_PORT: ${HTTPS_PORT}
+        ARCGIS_API_KEY: ${ARCGIS_API_KEY:?error}
+        GEOBLAZOR_LICENSE_KEY: ${GEOBLAZOR_CORE_LICENSE_KEY:?error}
+        HTTP_PORT: ${HTTP_PORT:?error}
+        HTTPS_PORT: ${HTTPS_PORT:?error}
         WFS_SERVERS: |-
           "WFSServers": [
             {
@@ -24,7 +24,7 @@ services:
     stop_grace_period: 30s
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - COVERAGE_ENABLED=${COVERAGE_ENABLED:-false}
+      - COVER=${COVER:-false}
       - COVERAGE_FORMAT=${COVERAGE_FORMAT:-xml}
     ports:
       - "${HTTP_PORT:-8080}:${HTTP_PORT:-8080}"

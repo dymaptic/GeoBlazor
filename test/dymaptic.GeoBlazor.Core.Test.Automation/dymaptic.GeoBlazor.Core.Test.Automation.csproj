@@ -14,16 +14,17 @@
 
     <ItemGroup>
         <PackageReference Include="CliWrap" Version="3.10.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.1"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.1"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.1"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="10.0.1"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.1"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.1"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.2"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.2"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.2"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="10.0.2"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.2"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.2"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1"/>
-        <PackageReference Update="MSTest.TestFramework" Version="4.0.2"/>
         <PackageReference Update="Microsoft.Testing.Extensions.TrxReport" Version="2.0.2"/>
         <PackageReference Update="Microsoft.Playwright.MSTest.v4" Version="1.57.0"/>
+        <PackageReference Update="Microsoft.Testing.Extensions.CodeCoverage" Version="18.3.2"/>
+        <PackageReference Include="Polly.Core" Version="8.6.5"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -35,6 +36,8 @@
     <ItemGroup>
         <Folder Include="coverage-report\"/>
         <Folder Include="coverage\"/>
+        <Folder Include="history\"/>
+        <Folder Include="logs\"/>
     </ItemGroup>
 
 </Project>

@@ -38,7 +38,7 @@ export async function buildDotNetUniqueValueClassGenerated(jsObject: any, viewId
     
     if (hasValue(jsObject.symbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
-        dotNetUniqueValueClass.symbol = buildDotNetSymbol(jsObject.symbol, viewId);
+        dotNetUniqueValueClass.symbol = buildDotNetSymbol(jsObject.symbol);
     }
     
     if (hasValue(jsObject.values)) {

@@ -10,12 +10,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="BlazorFrame" Version="2.3.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.1"/>
-        <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="10.0.1"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.1"/>
-        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.1"/>
+        <PackageReference Include="BlazorFrame" Version="2.4.1"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.2"/>
+        <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="10.0.2"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.2"/>
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.2"/>
         <PackageReference Include="MSTest.TestFramework" Version="4.0.2"/>
+        <PackageReference Include="Polly.Core" Version="8.6.5"/>
     </ItemGroup>
 
     <Target Name="ReferenceType" BeforeTargets="Build" Condition="$(Configuration) == 'DEBUG' OR $(UsePackageReference) != 'true'">

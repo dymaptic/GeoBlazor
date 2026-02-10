@@ -1,20 +1,137 @@
-import LabelGenerated from './label.gb';
-import LabelClass from '@arcgis/core/layers/support/LabelClass';
+import {
+    arcGisObjectRefs,
+    hasValue,
+    jsObjectRefs,
+    lookupGeoBlazorId,
+    removeCircularReferences,
+    sanitize
+} from "./geoBlazorCore";
+import LabelClass from "@arcgis/core/layers/support/LabelClass";
+
 export async function buildJsLabel(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let {buildJsLabelGenerated} = await import('./label.gb');
-    return await buildJsLabelGenerated(dotNetObject, layerId, viewId);
-}
-
-export async function buildDotNetLabel(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let {buildDotNetLabelGenerated} = await import('./label.gb');
-    return await buildDotNetLabelGenerated(jsObject, layerId, viewId);
-}
-
-export default class LabelWrapper extends LabelGenerated {
-
-    constructor(component: LabelClass) {
-        super(component);
+    if (!hasValue(dotNetObject)) {
+        return null;
     }
-    
+
+    let properties: any = {};
+    if (hasValue(dotNetObject.symbol)) {
+        let {buildJsSymbol} = await import('./symbol');
+        properties.symbol = buildJsSymbol(dotNetObject.symbol, layerId, viewId) as any;
+    }
+
+    if (hasValue(dotNetObject.allowOverrun)) {
+        properties.allowOverrun = dotNetObject.allowOverrun;
+    }
+    if (hasValue(dotNetObject.deconflictionStrategy)) {
+        properties.deconflictionStrategy = dotNetObject.deconflictionStrategy;
+    }
+    if (hasValue(dotNetObject.labelExpression)) {
+        properties.labelExpression = dotNetObject.labelExpression;
+    }
+    if (hasValue(dotNetObject.labelExpressionInfo)) {
+        properties.labelExpressionInfo = sanitize(dotNetObject.labelExpressionInfo);
+    }
+    if (hasValue(dotNetObject.labelPlacement)) {
+        properties.labelPlacement = dotNetObject.labelPlacement;
+    }
+    if (hasValue(dotNetObject.labelPosition)) {
+        properties.labelPosition = dotNetObject.labelPosition;
+    }
+    if (hasValue(dotNetObject.maxScale)) {
+        properties.maxScale = dotNetObject.maxScale;
+    }
+    if (hasValue(dotNetObject.minScale)) {
+        properties.minScale = dotNetObject.minScale;
+    }
+    if (hasValue(dotNetObject.repeatLabel)) {
+        properties.repeatLabel = dotNetObject.repeatLabel;
+    }
+    if (hasValue(dotNetObject.repeatLabelDistance)) {
+        properties.repeatLabelDistance = dotNetObject.repeatLabelDistance;
+    }
+    if (hasValue(dotNetObject.useCodedValues)) {
+        properties.useCodedValues = dotNetObject.useCodedValues;
+    }
+    if (hasValue(dotNetObject.where)) {
+        properties.where = dotNetObject.where;
+    }
+    let jsLabelClass = new LabelClass(properties);
+
+    jsObjectRefs[dotNetObject.id] = jsLabelClass;
+    arcGisObjectRefs[dotNetObject.id] = jsLabelClass;
+
+    return jsLabelClass;
 }
 
+export async function buildDotNetLabel(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+
+    let dotNetLabel: any = {};
+
+    if (hasValue(jsObject.symbol)) {
+        let {buildDotNetSymbol} = await import('./symbol');
+        dotNetLabel.symbol = buildDotNetSymbol(jsObject.symbol);
+    }
+
+    if (hasValue(jsObject.allowOverrun)) {
+        dotNetLabel.allowOverrun = jsObject.allowOverrun;
+    }
+
+    if (hasValue(jsObject.deconflictionStrategy)) {
+        dotNetLabel.deconflictionStrategy = removeCircularReferences(jsObject.deconflictionStrategy);
+    }
+
+    if (hasValue(jsObject.labelExpression)) {
+        dotNetLabel.labelExpression = jsObject.labelExpression;
+    }
+
+    if (hasValue(jsObject.labelExpressionInfo)) {
+        dotNetLabel.labelExpressionInfo = removeCircularReferences(jsObject.labelExpressionInfo);
+    }
+
+    if (hasValue(jsObject.labelPlacement)) {
+        dotNetLabel.labelPlacement = removeCircularReferences(jsObject.labelPlacement);
+    }
+
+    if (hasValue(jsObject.labelPosition)) {
+        dotNetLabel.labelPosition = removeCircularReferences(jsObject.labelPosition);
+    }
+
+    if (hasValue(jsObject.maxScale)) {
+        dotNetLabel.maxScale = jsObject.maxScale;
+    }
+
+    if (hasValue(jsObject.minScale)) {
+        dotNetLabel.minScale = jsObject.minScale;
+    }
+
+    if (hasValue(jsObject.repeatLabel)) {
+        dotNetLabel.repeatLabel = jsObject.repeatLabel;
+    }
+
+    if (hasValue(jsObject.repeatLabelDistance)) {
+        dotNetLabel.repeatLabelDistance = removeCircularReferences(jsObject.repeatLabelDistance);
+    }
+
+    if (hasValue(jsObject.useCodedValues)) {
+        dotNetLabel.useCodedValues = jsObject.useCodedValues;
+    }
+
+    if (hasValue(jsObject.where)) {
+        dotNetLabel.where = jsObject.where;
+    }
+
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetLabel.id = geoBlazorId;
+    }
+
+    if (hasValue(dotNetLabel.id)) {
+        jsObjectRefs[dotNetLabel.id] ??= jsObject;
+        arcGisObjectRefs[dotNetLabel.id] ??= jsObject;
+    }
+
+    return dotNetLabel;
+}

@@ -1,0 +1,21 @@
+{
+  "runtimeOptions": {
+    "tfm": "net10.0",
+    "framework": {
+      "name": "Microsoft.NETCore.App",
+      "version": "10.0.0"
+    },
+    "runtimeOptions": {
+      "configProperties": {
+        "EntryPointFilePath": ".\\GBTest.cs",
+        "EntryPointFileDirectoryPath": "."
+      }
+    },
+    "configProperties": {
+      "EntryPointFilePath": "/Users/timpurdum/repos/GeoBlazor/GeoBlazor.Pro/GeoBlazor/build-tools/build-scripts/BuildTemplates.cs",
+      "EntryPointFileDirectoryPath": "/Users/timpurdum/repos/GeoBlazor/GeoBlazor.Pro/GeoBlazor/build-tools/build-scripts",
+      "System.Reflection.Metadata.MetadataUpdater.IsSupported": false,
+      "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": false
+    }
+  }
+}

@@ -22,7 +22,7 @@ export function buildJsPortalFeaturedGroupsGenerated(dotNetObject: any): any {
 }
 
 
-export async function buildDotNetPortalFeaturedGroupsGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetPortalFeaturedGroupsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -35,26 +35,6 @@ export async function buildDotNetPortalFeaturedGroupsGenerated(jsObject: any, vi
     
     if (hasValue(jsObject.title)) {
         dotNetPortalFeaturedGroups.title = jsObject.title;
-    }
-    
-
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
-    if (hasValue(geoBlazorId)) {
-        dotNetPortalFeaturedGroups.id = geoBlazorId;
-    } else if (hasValue(viewId)) {
-        let dotNetRef = dotNetRefs[viewId!];
-        if (hasValue(dotNetRef)) {
-            try {
-                dotNetPortalFeaturedGroups.id = await dotNetRef.invokeMethodAsync('GetId');
-            } catch (e) {
-                console.error('Error invoking GetId for PortalFeaturedGroups', e);
-            }
-        }
-    }
-
-    if (hasValue(dotNetPortalFeaturedGroups.id)) {
-        jsObjectRefs[dotNetPortalFeaturedGroups.id] ??= jsObject;
-        arcGisObjectRefs[dotNetPortalFeaturedGroups.id] ??= jsObject;
     }
     return dotNetPortalFeaturedGroups;
 }

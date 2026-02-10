@@ -36,7 +36,6 @@ public static class ProtobufDefinitionsGenerator
             "\n" => "\\n",
             _ => match.Value
         });
-        StringBuilder logBuilder = new();
 
         var scriptPath = Path.Combine(corePath, "copyProtobuf.ps1");
 
@@ -45,14 +44,9 @@ public static class ProtobufDefinitionsGenerator
         ProcessHelper.RunPowerShellScript("Copy Protobuf Definitions",
                 corePath, scriptPath,
                 ["-Content", encoded],
-                logBuilder, context)
+                context, showDialog, sessionId)
             .GetAwaiter()
             .GetResult();
-
-        ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
-            logBuilder.ToString(),
-            DiagnosticSeverity.Info,
-            context, sessionId: sessionId);
 
         ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
             "Protobuf definitions updated successfully.",

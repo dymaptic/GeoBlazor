@@ -7,8 +7,7 @@ public abstract partial class Layer : MapComponent
     ///     Used internally to identify the sub type of Layer
     /// </summary>
     public abstract LayerType Type { get; }
-    
-        
+
     /// <summary>
     ///     For layers that are public and throw an error when given an ApiKey or Token,
     ///     this setting allows you to exclude the ApiKey or Token from this layer's request.
@@ -17,7 +16,7 @@ public abstract partial class Layer : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [CodeGenerationIgnore]
     public bool? ExcludeApiKey { get; set; }
-    
+
     /// <summary>
     ///     Indicates whether the layer's resources have loaded.
     ///     default false
@@ -28,7 +27,7 @@ public abstract partial class Layer : MapComponent
     [JsonInclude]
     [CodeGenerationIgnore]
     public bool? Loaded { get; internal set; }
-    
+
     /// <summary>
     ///     The opacity of the layer.
     ///     default 1
@@ -52,7 +51,6 @@ public abstract partial class Layer : MapComponent
     [JsonIgnore]
     public LayerView? LayerView { get; internal set; }
 
-
     /// <summary>
     ///     Indicates how the layer should display in the [LayerList](https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html) widget.
     ///     default "show"
@@ -61,7 +59,7 @@ public abstract partial class Layer : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ListMode? ListMode { get; set; }
-    
+
     /// <summary>
     ///     If the layer is added to the <see cref="Basemap"/>, this flag identifies the layer as a reference layer, which will sit on top of other layers to add labels.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#referenceLayers">ArcGIS Maps SDK for JavaScript</a>
@@ -78,7 +76,7 @@ public abstract partial class Layer : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonConverter(typeof(FullExtentConverter))]
     public Extent? FullExtent { get; set; }
-    
+
     /// <summary>
     ///     Enable persistence of the layer in a [WebMap](https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html) or [WebScene](https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html).
     ///     default true
@@ -101,124 +99,6 @@ public abstract partial class Layer : MapComponent
     ///     Marks an incoming layer loaded from a service or Javascript source.
     /// </summary>
     public bool Imported { get; set; }
-
-#region PropertySetters
-
-    /// <summary>
-    ///    Asynchronously set the value of the FullExtent property after render.
-    /// </summary>
-    public virtual async Task SetFullExtent(Extent? value)
-    {
-        FullExtent = value;
-        ModifiedParameters["FullExtent"] = value;
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-            
-        await JsComponentReference!.InvokeVoidAsync("setFullExtent", 
-            CancellationTokenSource.Token,
-            value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Opacity property after render.
-    /// </summary>
-    public async Task SetOpacity(double value)
-    {
-        Opacity = value;
-        ModifiedParameters["Opacity"] = value;
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference!.InvokeVoidAsync("setProperty", 
-            CancellationTokenSource.Token,
-            "opacity", 
-            value);
-    }
-
-#endregion
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the FullExtent property.
-    /// </summary>
-    public async Task<Extent?> GetFullExtent()
-    {
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-            
-        return await JsComponentReference!.InvokeAsync<Extent>("getFullExtent", 
-            CancellationTokenSource.Token);
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Opacity property.
-    /// </summary>
-    public async Task<double?> GetOpacity()
-    {
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<double>("getProperty", 
-            CancellationTokenSource.Token,
-            "opacity");
-    }
-
-
-#endregion
-
-    /// <inheritdoc />
-    public override async Task RegisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Extent extent:
-                if (!extent.Equals(FullExtent))
-                {
-                    FullExtent = extent;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-
-                break;
-            default:
-                await base.RegisterChildComponent(child);
-                if (MapRendered)
-                {
-                    await UpdateLayer();
-                }
-                break;
-        }
-    }
-
-    /// <inheritdoc />
-    public override async Task UnregisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Extent _:
-                FullExtent = null;
-                
-
-                break;
-            default:
-                await base.UnregisterChildComponent(child);
-
-                break;
-        }
-    }
 
     /// <inheritdoc />
     public override async ValueTask DisposeAsync()
@@ -261,6 +141,59 @@ public abstract partial class Layer : MapComponent
         }
 
         await base.DisposeAsync();
+    }
+
+    /// <inheritdoc />
+    public override void ValidateRequiredChildren()
+    {
+        FullExtent?.ValidateRequiredChildren();
+        base.ValidateRequiredChildren();
+    }
+
+    /// <inheritdoc />
+    public override async Task RegisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Extent extent:
+                if (!extent.Equals(FullExtent))
+                {
+                    FullExtent = extent;
+
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+
+                break;
+            default:
+                await base.RegisterChildComponent(child);
+
+                if (MapRendered)
+                {
+                    await UpdateLayer();
+                }
+
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    public override async Task UnregisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Extent _:
+                FullExtent = null;
+
+
+                break;
+            default:
+                await base.UnregisterChildComponent(child);
+
+                break;
+        }
     }
 
     /// <summary>
@@ -323,7 +256,7 @@ public abstract partial class Layer : MapComponent
                     "Layers not defined in a Map or in Blazor Markup must be loaded with a JsModuleManager and IJSRuntime. Use the Load overload which takes these parameters.");
             }
         }
-        
+
         AbortManager = new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
@@ -331,20 +264,25 @@ public abstract partial class Layer : MapComponent
         await CoreJsModule!.InvokeVoidAsync("loadProtobuf", cancellationToken);
 
         await CoreJsModule.InvokeAsync<IJSObjectReference>("buildJsLayer",
+
             // ReSharper disable once RedundantCast
             cancellationToken, (object)this, Id, View?.Id);
-        
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", cancellationToken, Id);
-        
-        IJSStreamReference streamRef = await JsComponentReference!.InvokeAsync<IJSStreamReference>("load", 
+
+        JsComponentReference ??=
+            await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent", cancellationToken, Id);
+
+        IJSStreamReference streamRef = await JsComponentReference!.InvokeAsync<IJSStreamReference>("load",
             cancellationToken, abortSignal);
         Type type = GetType();
-        Layer? deserializedLayer = await streamRef.ReadJsStreamReferenceAsJSON(type) as Layer;
+
+        Layer? deserializedLayer = await streamRef.ReadJsStreamReferenceAsJSON(type,
+            cancellationToken: cancellationToken) as Layer;
+
         if (deserializedLayer is null)
         {
             throw new InvalidOperationException($"Could not load layer of type {type.Name}");
         }
+
         CopyProperties(deserializedLayer);
         await UpdateFromJavaScript(deserializedLayer);
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -357,14 +295,8 @@ public abstract partial class Layer : MapComponent
         {
             await UpdateLayer();
         }
-        await base.Refresh();
-    }
 
-    /// <inheritdoc />
-    public override void ValidateRequiredChildren()
-    {
-        FullExtent?.ValidateRequiredChildren();
-        base.ValidateRequiredChildren();
+        await base.Refresh();
     }
 
     /// <inheritdoc />
@@ -382,19 +314,6 @@ public abstract partial class Layer : MapComponent
         return renderedLayer;
     }
 
-    /// <summary>
-    ///     Copies values from the rendered JavaScript layer back to the .NET implementation.
-    /// </summary>
-    /// <param name="renderedLayer">
-    ///     The layer deserialized from JavaScript
-    /// </param>
-    internal virtual Task UpdateFromJavaScript(Layer renderedLayer)
-    {
-        // This is called after MapComponent.CopyProperties, so it should only be used for properties
-        // that would fail to be copied by regular reflection-based copying.
-        return Task.CompletedTask;
-    }
-
     /// <inheritdoc />
     public override async Task SetParametersAsync(ParameterView parameters)
     {
@@ -402,6 +321,7 @@ public abstract partial class Layer : MapComponent
         await base.SetParametersAsync(parameters);
 
         bool layerChanged = false;
+
         if (PreviousParameters is not null && MapRendered)
         {
             foreach (KeyValuePair<string, object?> kvp in dictionary)
@@ -411,7 +331,7 @@ public abstract partial class Layer : MapComponent
                 {
                     continue;
                 }
-                
+
                 if (!PreviousParameters.TryGetValue(kvp.Key, out object? previousValue))
                 {
                     if (MapRendered)
@@ -428,16 +348,17 @@ public abstract partial class Layer : MapComponent
                 {
                     Array prevArray = (Array)previousValue;
                     Array currArray = (Array)kvp.Value!;
-                    
+
                     if (prevArray.Length != currArray.Length)
                     {
                         if (MapRendered)
                         {
                             await UpdateLayer();
                         }
+
                         break;
                     }
-                    
+
                     for (int i = 0; i < prevArray.Length; i++)
                     {
                         if (!Equals(prevArray.GetValue(i), currArray.GetValue(i)))
@@ -447,30 +368,33 @@ public abstract partial class Layer : MapComponent
                                 await UpdateLayer();
                                 layerChanged = true;
                             }
+
                             break;
                         }
                     }
-                    
+
                     if (layerChanged) break;
                 }
                 else if (paramType.IsGenericType)
                 {
                     ICollection prevCollection = (ICollection)previousValue;
                     ICollection currCollection = (ICollection)kvp.Value!;
-                    
+
                     if (prevCollection.Count != currCollection.Count)
                     {
                         if (MapRendered)
                         {
                             await UpdateLayer();
                         }
+
                         break;
                     }
-                    
+
                     IEnumerator prevEnumerator = prevCollection.GetEnumerator();
                     using var prevEnumerator1 = prevEnumerator as IDisposable;
                     IEnumerator currEnumerator = currCollection.GetEnumerator();
                     using var currEnumerator1 = currEnumerator as IDisposable;
+
                     while (prevEnumerator.MoveNext() && currEnumerator.MoveNext())
                     {
                         if (!Equals(prevEnumerator.Current, currEnumerator.Current))
@@ -479,6 +403,7 @@ public abstract partial class Layer : MapComponent
                             {
                                 await UpdateLayer();
                             }
+
                             break;
                         }
                     }
@@ -489,22 +414,13 @@ public abstract partial class Layer : MapComponent
                     {
                         await UpdateLayer();
                     }
+
                     break;
                 }
             }
         }
-        
-        PreviousParameters = dictionary.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-    }
 
-    /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        if (_delayedUpdate)
-        {
-            await UpdateLayer();
-        }
+        PreviousParameters = dictionary.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
     }
 
     /// <summary>
@@ -517,7 +433,7 @@ public abstract partial class Layer : MapComponent
             // don't update until the component has been returned from JavaScript
             return;
         }
-        
+
         if (MapRendered && !_delayedUpdate)
         {
             // for components added after the map has rendered, wait one render cycle to get all children before updating
@@ -526,12 +442,113 @@ public abstract partial class Layer : MapComponent
 
             return;
         }
-        
+
         _delayedUpdate = false;
 
         // ReSharper disable once RedundantCast
-        await JsComponentReference!.InvokeAsync<string?>("updateComponent", CancellationTokenSource.Token, (object)this);
+        await JsComponentReference!.InvokeAsync<string?>("updateComponent", CancellationTokenSource.Token,
+            (object)this);
     }
-    
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (_delayedUpdate)
+        {
+            await UpdateLayer();
+        }
+    }
+
+    /// <summary>
+    ///     Copies values from the rendered JavaScript layer back to the .NET implementation.
+    /// </summary>
+    /// <param name="renderedLayer">
+    ///     The layer deserialized from JavaScript
+    /// </param>
+    internal virtual Task UpdateFromJavaScript(Layer renderedLayer)
+    {
+        // This is called after MapComponent.CopyProperties, so it should only be used for properties
+        // that would fail to be copied by regular reflection-based copying.
+        return Task.CompletedTask;
+    }
+
     private bool _delayedUpdate;
+
+
+#region PropertySetters
+
+    /// <summary>
+    ///    Asynchronously set the value of the FullExtent property after render.
+    /// </summary>
+    public virtual async Task SetFullExtent(Extent? value)
+    {
+        FullExtent = value;
+        ModifiedParameters["FullExtent"] = value;
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await JsComponentReference!.InvokeVoidAsync("setFullExtent",
+            CancellationTokenSource.Token,
+            value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Opacity property after render.
+    /// </summary>
+    public async Task SetOpacity(double value)
+    {
+        Opacity = value;
+        ModifiedParameters["Opacity"] = value;
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await JsComponentReference!.InvokeVoidAsync("setProperty",
+            CancellationTokenSource.Token,
+            "opacity",
+            value);
+    }
+
+#endregion
+
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the FullExtent property.
+    /// </summary>
+    public async Task<Extent?> GetFullExtent()
+    {
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+
+        return await JsComponentReference!.InvokeAsync<Extent>("getFullExtent",
+            CancellationTokenSource.Token);
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Opacity property.
+    /// </summary>
+    public async Task<double?> GetOpacity()
+    {
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+
+        return await JsComponentReference!.InvokeAsync<double>("getProperty",
+            CancellationTokenSource.Token,
+            "opacity");
+    }
+
+#endregion
 }

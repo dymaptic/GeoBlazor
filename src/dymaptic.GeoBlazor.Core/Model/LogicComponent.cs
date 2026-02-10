@@ -1,20 +1,23 @@
-﻿namespace dymaptic.GeoBlazor.Core.Model;
+using System.Runtime.CompilerServices;
+
+
+namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     A base class for non-map components, such as GeometryEngine, Projection, etc.
 /// </summary>
-public abstract class LogicComponent : IDisposable
+public abstract class LogicComponent(
+    IAppValidator appValidator,
+    IJSRuntime jsRuntime,
+    JsModuleManager jsModuleManager,
+    AuthenticationManager authenticationManager)
 {
     /// <summary>
-    ///     Default constructor
+    ///     The maximum size of query results that will be returned in a stream. Note that setting this to a smaller value
+    ///     might create errors in query returns.
     /// </summary>
-    /// <param name="authenticationManager">
-    ///     Injected Identity Manager reference
-    /// </param>
-    protected LogicComponent(AuthenticationManager authenticationManager)
-    {
-        AuthenticationManager = authenticationManager;
-    }
+    [Parameter]
+    public long QueryResultsMaxSizeLimit { get; set; } = 1_000_000_000L;
 
     /// <summary>
     ///     The name of the logic component.
@@ -30,8 +33,7 @@ public abstract class LogicComponent : IDisposable
     ///     A .NET Object reference to this class for use in JavaScript.
     /// </summary>
     [JsonConverter(typeof(DotNetObjectReferenceJsonConverter))]
-    protected DotNetObjectReference<LogicComponent> DotNetComponentReference =>
-        DotNetObjectReference.Create(this);
+    protected DotNetObjectReference<LogicComponent> DotNetComponentReference => DotNetObjectReference.Create(this);
 
     /// <summary>
     ///     The project library which houses this particular logic component.
@@ -39,12 +41,14 @@ public abstract class LogicComponent : IDisposable
     protected virtual string Library => "Core";
 
     /// <summary>
-    ///     Disposes of the Logic Component and cancels all external calls
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
     /// </summary>
-    public void Dispose()
-    {
-        CancellationTokenSource.Dispose();
-    }
+    protected bool IsServer => jsRuntime.GetType().Name.Contains("Remote");
+
+    /// <summary>
+    ///     The AuthenticationManager instance.
+    /// </summary>
+    protected AuthenticationManager AuthenticationManager => authenticationManager;
 
     /// <summary>
     ///     A JavaScript invokable method that returns a JS Error and converts it to an Exception.
@@ -59,38 +63,47 @@ public abstract class LogicComponent : IDisposable
     public void OnJavascriptError(JavascriptError error)
     {
         var exception = new JavascriptException(error);
+
         throw exception;
     }
 
     /// <summary>
     ///     Initializes the JavaScript reference component, if not already initialized.
     /// </summary>
-    public virtual async Task Initialize()
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+    /// </param>
+    public virtual async Task Initialize(CancellationToken cancellationToken = default)
     {
-        if (Component is null)
+        if (!_validated)
         {
-            await AuthenticationManager.Initialize();
-            IJSObjectReference module = await AuthenticationManager.GetCoreJsModule();
-
-            Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
-                CancellationTokenSource.Token, DotNetComponentReference);
+            await appValidator.ValidateLicense();
+            _validated = true;
         }
+
+        await authenticationManager.Initialize();
+
+        Component ??= await jsModuleManager.GetLogicComponent(jsRuntime, ComponentName, Library, cancellationToken);
     }
 
     /// <summary>
     ///     Convenience method to invoke a JS function from the .NET logic component class.
     /// </summary>
+    /// <param name="className">
+    ///     The name of the calling class.
+    /// </param>
     /// <param name="method">
     ///     The name of the JS function to call.
     /// </param>
     /// <param name="parameters">
     ///     The collection of parameters to pass to the JS call.
     /// </param>
-    protected virtual async Task InvokeVoidAsync(string method, params object?[] parameters)
+    protected internal virtual async Task InvokeVoidAsync(string className, [CallerMemberName] string method = "",
+        params object?[] parameters)
     {
         await Initialize();
 
-        await Component!.InvokeVoidAsync(method, CancellationTokenSource.Token, parameters);
+        await Component!.InvokeVoidJsMethod(IsServer, method, className, CancellationToken.None, parameters);
     }
 
     /// <summary>
@@ -99,21 +112,11 @@ public abstract class LogicComponent : IDisposable
     /// <param name="method">
     ///     The name of the JS function to call.
     /// </param>
-    /// <param name="parameters">
-    ///     The collection of parameters to pass to the JS call.
+    /// <param name="className">
+    ///     The name of the calling class.
     /// </param>
-    protected virtual async Task<T> InvokeAsync<T>(string method, params object?[] parameters)
-    {
-        await Initialize();
-
-        return await Component!.InvokeAsync<T>(method, CancellationTokenSource.Token, parameters);
-    }
-    
-    /// <summary>
-    ///     Convenience method to invoke a JS function from the .NET logic component class.
-    /// </summary>
-    /// <param name="method">
-    ///     The name of the JS function to call.
+    /// <param name="maxAllowedSize">
+    ///     The maximum size of query results that will be returned in a stream.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -121,20 +124,14 @@ public abstract class LogicComponent : IDisposable
     /// <param name="parameters">
     ///     The collection of parameters to pass to the JS call.
     /// </param>
-    protected virtual async Task<T> InvokeAsync<T>(string method, CancellationToken cancellationToken, params object?[] parameters)
+    protected internal virtual async Task<T> InvokeAsync<T>(string className, [CallerMemberName] string method = "",
+        long? maxAllowedSize = null, CancellationToken cancellationToken = default, params object?[] parameters)
     {
-        await Initialize();
+        await Initialize(cancellationToken);
 
-        return await Component!.InvokeAsync<T>(method, cancellationToken, parameters);
+        return await Component!.InvokeJsMethod<T>(IsServer, method, className, maxAllowedSize, cancellationToken,
+            parameters);
     }
-    
-    /// <summary>
-    ///    The reference to the Authentication Manager.
-    /// </summary>
-    protected readonly AuthenticationManager AuthenticationManager;
 
-    /// <summary>
-    ///     Creates a cancellation token to control external calls
-    /// </summary>
-    protected readonly CancellationTokenSource CancellationTokenSource = new();
+    private bool _validated;
 }

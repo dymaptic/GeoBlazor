@@ -275,7 +275,7 @@ export default class SublayerGenerated extends BaseComponent {
         }
         
         let { buildDotNetLabel } = await import('./label');
-        return await Promise.all(this.component.labelingInfo!.map(async i => await buildDotNetLabel(i, this.layerId, this.viewId)));
+        return await Promise.all(this.component.labelingInfo!.map(async i => await buildDotNetLabel(i)));
     }
     
     async setLabelingInfo(value: any): Promise<void> {
@@ -615,7 +615,7 @@ export async function buildDotNetSublayerGenerated(jsObject: any, layerId: strin
     
     if (hasValue(jsObject.labelingInfo)) {
         let { buildDotNetLabel } = await import('./label');
-        dotNetSublayer.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i, layerId, viewId)));
+        dotNetSublayer.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i)));
     }
     
     if (hasValue(jsObject.orderBy)) {

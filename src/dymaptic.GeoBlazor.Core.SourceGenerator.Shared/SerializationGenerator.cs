@@ -1,4 +1,5 @@
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Immutable;
 using System.Text;
@@ -121,36 +122,38 @@ public static class SerializationGenerator
                                                            /// <summary>
                                                            ///     Convenience method to deserialize an <see cref="IJSStreamReference" /> to a specific type via protobuf.
                                                            /// </summary>
-                                                           public static async Task<T?> ReadJsStreamReferenceAsProtobuf<T>(this IJSStreamReference jsStreamReference, 
-                                                               Type returnType, long maxAllowedSize = 1_000_000_000)
+                                                           public static partial async Task<IProtobufSerializable?> ReadJsStreamReferenceAsProtobuf(this IJSStreamReference jsStreamReference, 
+                                                               Type returnType, long? maxAllowedSize, CancellationToken cancellationToken)
                                                            {
-                                                               await using Stream stream = await jsStreamReference.OpenReadStreamAsync(maxAllowedSize);
+                                                               maxAllowedSize ??= 1_000_000_000L;
+                                                               await using Stream stream = await jsStreamReference.OpenReadStreamAsync(maxAllowedSize.Value);
                                                                using MemoryStream memoryStream = new();
                                                                await stream.CopyToAsync(memoryStream);
                                                                memoryStream.Seek(0, SeekOrigin.Begin);
-                                                               
+
                                                                string typeName = returnType.Name.Replace("SerializationRecord", "");
 
-                                                               switch (typeName) 
+                                                               switch (typeName)
                                                                {
 
                                                        """);
 
         StringBuilder readJsProtoCollectionStreamRefMethod = new("""
                                                                      /// <summary>
-                                                                     ///     Convenience method to deserialize an <see cref="IJSStreamReference" /> to a specific coolection type via protobuf.
+                                                                     ///     Convenience method to deserialize an <see cref="IJSStreamReference" /> to a specific collection type via protobuf.
                                                                      /// </summary>
-                                                                     public static async Task<T?> ReadJsStreamReferenceAsProtobufCollection<T>(this IJSStreamReference jsStreamReference, 
-                                                                         Type returnType, long maxAllowedSize = 1_000_000_000)
+                                                                     public static partial async Task<IProtobufSerializable[]?> ReadJsStreamReferenceAsProtobufCollection(this IJSStreamReference jsStreamReference, 
+                                                                         Type returnType, long? maxAllowedSize, CancellationToken cancellationToken)
                                                                      {
-                                                                         await using Stream stream = await jsStreamReference.OpenReadStreamAsync(maxAllowedSize);
+                                                                         maxAllowedSize ??= 1_000_000_000L;
+                                                                         await using Stream stream = await jsStreamReference.OpenReadStreamAsync(maxAllowedSize.Value);
                                                                          using MemoryStream memoryStream = new();
                                                                          await stream.CopyToAsync(memoryStream);
                                                                          memoryStream.Seek(0, SeekOrigin.Begin);
-                                                                         
+
                                                                          string typeName = returnType.Name.Replace("SerializationRecord", "");
 
-                                                                         switch (typeName) 
+                                                                         switch (typeName)
                                                                          {
 
                                                                  """);
@@ -181,7 +184,7 @@ public static class SerializationGenerator
                                                             /// <summary>
                                                             ///     Convenience method to generate a Protobuf serialized parameter.
                                                             /// </summary>
-                                                            public static object ToProtobufParameter(this object value, Type serializableType, bool isServer)
+                                                            public static partial object ToProtobufParameter(this object value, Type serializableType, bool isServer)
                                                             {
                                                                 MemoryStream memoryStream = new();
                                                                 switch (serializableType.Name)
@@ -193,7 +196,7 @@ public static class SerializationGenerator
                                                                 /// <summary>
                                                                 ///     Convenience method to generate a Protobuf serialized collection parameter.
                                                                 /// </summary>
-                                                                public static object ToProtobufCollectionParameter(this IList items, Type serializableType, bool isServer)
+                                                                public static partial object ToProtobufCollectionParameter(this IList items, Type serializableType, bool isServer)
                                                                 {
                                                                     MemoryStream memoryStream = new();
                                                                     string typeName = $"{serializableType.Name}Collection";
@@ -229,32 +232,31 @@ public static class SerializationGenerator
 
             readJsProtoStreamRefMethod.AppendLine($$"""
                                                                 case "{{protoSerializableType}}":
-                                                                    {{serializationRecordType}} {{variableName}} = 
+                                                                    {{serializationRecordType}} {{variableName}} =
                                                                         Serializer.Deserialize<{{serializationRecordType
                                                                         }}>(memoryStream);
                                                                     if ({{variableName}}.IsNull)
                                                                     {
-                                                                        return default!;
+                                                                        return null;
                                                                     }
-                                                                    return (T?)(object?){{variableName
-                                                                    }}?.FromSerializationRecord();
+                                                                    return {{variableName}}.FromSerializationRecord();
                                                     """);
 
             readJsProtoCollectionStreamRefMethod.AppendLine($$"""
                                                                           case "{{protoSerializableType}}":
                                                                               {{serializationCollectionRecordType}} {{
-                                                                                  variableName}} = 
+                                                                                  variableName}} =
                                                                                   Serializer.Deserialize<{{
                                                                                       serializationCollectionRecordType
                                                                                   }}>(memoryStream);
                                                                               if ({{variableName}}.IsNull)
                                                                               {
-                                                                                  return default!;
+                                                                                  return null;
                                                                               }
-                                                                              return (T?)(object?){{variableName
+                                                                              return {{variableName
                                                                               }}
-                                                              ?.Items?.Select(i => i.FromSerializationRecord()).Cast<{{
-                                                                  protoSerializableType}}>().ToArray();
+                                                              .Items?.Select(i => i.FromSerializationRecord()).Cast<IProtobufSerializable>().ToArray();
+                                                              
                                                               """);
 
             if (definition.Name == "Attribute")
@@ -295,15 +297,15 @@ public static class SerializationGenerator
 
         readJsProtoStreamRefMethod.AppendLine("""
                                                       }
-                                                      
-                                                      return default!;
+
+                                                      return null;
                                                   }
                                               """);
 
         readJsProtoCollectionStreamRefMethod.AppendLine("""
                                                                 }
-                                                                
-                                                                return default!;
+
+                                                                return null;
                                                             }
                                                         """);
 
@@ -390,15 +392,25 @@ public static class SerializationGenerator
                                 """);
         }
 
-        foreach (var classGroup in serializedMethodsCollection.GroupBy(m => m.ClassName))
+        List<IGrouping<string, SerializableMethodRecord>> classGroups = serializedMethodsCollection
+            .GroupBy(m => m.ClassName)
+            .ToList();
+
+        for (int i = 0; i < classGroups.Count; i++)
         {
+            IGrouping<string, SerializableMethodRecord> classGroup = classGroups[i];
+
             outputBuilder.AppendLine($$"""
                                                ["{{classGroup.Key}}"] = 
                                                    [
                                        """);
 
-            foreach (var methodRecord in classGroup)
+            List<SerializableMethodRecord> methodRecords = classGroup.ToList();
+
+            for (int j = 0; j < methodRecords.Count; j++)
             {
+                SerializableMethodRecord methodRecord = methodRecords[j];
+
                 if (methodRecord.Parameters.Values.Contains("T")
                     || methodRecord.Parameters.Values.Contains("T?")
                     || (methodRecord.ReturnType == "T")
@@ -416,63 +428,99 @@ public static class SerializationGenerator
                                                                [
                                            """);
 
-                foreach (var param in methodRecord.Parameters)
+                List<string> parameters = methodRecord.Parameters.Values.ToList();
+
+                for (int k = 0; k < parameters.Count; k++)
                 {
-                    bool isNullable = param.Value.EndsWith("?");
-                    string value = isNullable ? param.Value.TrimEnd('?') : param.Value;
-                    string isNullableText = isNullable ? "true" : "false";
-                    string? collectionType = null;
+                    string param = parameters[k];
+                    outputBuilder.Append(GenerateSerializableParameterRecord(param, 24));
 
-                    if (value.EndsWith("[]"))
+                    if (k < parameters.Count - 1)
                     {
-                        collectionType = value.Replace("[]", "");
+                        outputBuilder.AppendLine(",");
                     }
-                    else if (value.Contains("<") && value.Contains(">"))
+                    else
                     {
-                        int genericStart = value.IndexOf("<", StringComparison.OrdinalIgnoreCase);
-                        collectionType = value.Substring(genericStart + 1, value.Length - genericStart - 2);
+                        outputBuilder.AppendLine();
                     }
-
-                    string collectionText = collectionType is null
-                        ? "null"
-                        : $"typeof({collectionType})";
-
-                    outputBuilder.AppendLine($"                        new SerializableParameterRecord(typeof({value
-                    }), {isNullableText}, {collectionText}),");
                 }
 
                 if (methodRecord.ReturnType != null)
                 {
-                    string returnValue = methodRecord.ReturnType.TrimEnd('?');
+                    outputBuilder.AppendLine("                    ],");
+                    outputBuilder.Append(GenerateSerializableParameterRecord(methodRecord.ReturnType, 20));
 
-                    bool isCollectionReturn = returnValue.EndsWith("[]") ||
-                        (returnValue.Contains("<") && returnValue.Contains(">"));
-
-                    string singleType = isCollectionReturn
-                        ? returnValue.Contains("<") && returnValue.Contains(">")
-                            ? $"typeof({returnValue.Substring(
-                                returnValue.IndexOf("<", StringComparison.OrdinalIgnoreCase) + 1,
-                                returnValue.Length - returnValue.IndexOf("<", StringComparison.OrdinalIgnoreCase) - 2)
-                            })"
-                            : $"typeof({returnValue.Replace("[]", "")})"
-                        : "null";
-                    string isNullable = methodRecord.ReturnType.EndsWith("?") ? "true" : "false";
-
-                    outputBuilder.AppendLine($"                    ], new SerializableParameterRecord(typeof({
-                        returnValue}), {isNullable}, {singleType})),");
+                    if (j < methodRecords.Count - 1)
+                    {
+                        outputBuilder.AppendLine("),");
+                    }
+                    else
+                    {
+                        outputBuilder.AppendLine(")");
+                    }
                 }
                 else
                 {
-                    outputBuilder.AppendLine("                ])),");
+                    if (j < methodRecords.Count - 1)
+                    {
+                        outputBuilder.AppendLine("                ]),");
+                    }
+                    else
+                    {
+                        outputBuilder.AppendLine("                ]");
+                    }
                 }
             }
 
-            outputBuilder.AppendLine("       ],");
+            if (i < classGroups.Count - 1)
+            {
+                outputBuilder.AppendLine("       ],");
+            }
+            else
+            {
+                outputBuilder.AppendLine("       ]");
+            }
         }
 
         outputBuilder.AppendLine("    };");
 
         return outputBuilder.ToString();
+    }
+
+    private static string GenerateSerializableParameterRecord(string value, int indent)
+    {
+        bool isNullable = value.EndsWith("?");
+        string trimmedValue = value.Replace("?", ""); // replace all ?, even in the inner single type
+        string isNullableText = isNullable ? "true" : "false";
+        string? singleType = null;
+
+        if (trimmedValue.EndsWith("[]")) // check against the trimmed version without ?
+        {
+            // use untrimmed value again to restore ? in the single types
+            int arrayStart = value.IndexOf("[", StringComparison.OrdinalIgnoreCase);
+            singleType = value.Substring(0, arrayStart);
+        }
+        else if (value.Contains("<") && trimmedValue.Contains(">"))
+        {
+            // use param.Value again to restore ? in the single types
+            int genericStart = value.IndexOf("<", StringComparison.OrdinalIgnoreCase);
+            singleType = value.Substring(genericStart + 1, trimmedValue.Length - genericStart - 2);
+        }
+
+        bool singleTypeIsNullable = singleType?.EndsWith("?") == true;
+        string singleTypeIsNullableText = singleTypeIsNullable ? "true" : "false";
+        singleType = singleType?.Replace("?", "");
+
+        string collectionText = singleType is null
+            ? "null"
+            : $"typeof({singleType})";
+
+        string padding = new string(' ', indent);
+
+        return $"""
+                {padding}new SerializableParameterRecord(typeof({trimmedValue}), {isNullableText}, 
+                {padding}    {collectionText}, {singleTypeIsNullableText})
+                """;
     }
 
     private static List<SerializableMethodRecord> ToSerializableMethodRecords(this BaseTypeDeclarationSyntax typeSyntax)
@@ -497,10 +545,21 @@ public static class SerializationGenerator
                 returnType = returnType.Substring(bracketIndex + 1, returnType.Length - bracketIndex - 2);
             }
 
+            // For static extension methods, skip the 'this' parameter
+            var parameters = method.Modifiers
+                .Any(m => m.IsKind(SyntaxKind.StaticKeyword))
+                ? method.ParameterList.Parameters
+                    .Where(p => !p.Modifiers
+                        .Any(m => m.IsKind(SyntaxKind.ThisKeyword)))
+                    .ToDictionary(p => p.Identifier.Text,
+                        p => p.Type!.ToString())
+                : method.ParameterList.Parameters
+                    .ToDictionary(p => p.Identifier.Text,
+                        p => p.Type!.ToString());
+
             SerializableMethodRecord record = new(typeSyntax.Identifier.Text,
                 method.Identifier.Text,
-                method.ParameterList.Parameters.ToDictionary(p => p.Identifier.Text,
-                    p => p.Type!.ToString()),
+                parameters,
                 returnType);
 
             methodRecords.Add(record);

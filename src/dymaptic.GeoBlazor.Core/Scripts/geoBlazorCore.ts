@@ -1,18 +1,13 @@
 import {
-    addArcGisLayer,
-    graphicsRefs,
-    buildArcGisMapView,
-    loadProtobuf,
-    GraphicCollectionSerializationRecord,
-    popupTemplateRefs,
     actionHandlers,
+    addArcGisLayer,
+    buildArcGisMapView,
     esriConfig,
+    graphicsRefs,
+    popupTemplateRefs,
     resetMapComponent
 } from './arcGisJsInterop';
 import AuthenticationManager from "./authenticationManager";
-import ProjectionWrapper from "./projection";
-import GeometryEngineWrapper from "./geometryEngine";
-import LocatorWrapper from "./locationService";
 import MapViewWrapper from "./mapView";
 
 // backwards-compatibility re-export, since everything used to be in this module
@@ -571,6 +566,22 @@ export function buildEncodedJson(object: any): Uint8Array {
     return encoder.encode(json!);
 }
 
+export function getDefaultClassInstanceFromModule(module: any) {
+    if (module === null || module === undefined) {
+        return null;
+    }
+    if (module.default !== undefined) {
+        return new module.default();
+    }
+    // find the first class in the module
+    for (const key in module) {
+        if (typeof module[key] === 'function') {
+            return new module[key]();
+        }
+    }
+    return null;
+}
+
 // Converts a base64 string to an ArrayBuffer
 export function base64ToArrayBuffer(base64): Uint8Array {
     const binaryString = atob(base64);
@@ -592,28 +603,6 @@ export function getAuthenticationManager(dotNetRef: any, apiKey: string | null, 
         _authenticationManager = new AuthenticationManager(dotNetRef, apiKey, appId, portalUrl, trustedServers, fontsUrl);
     }
     return _authenticationManager;
-}
-
-export async function getProjectionEngineWrapper(): Promise<ProjectionWrapper> {
-    if (GraphicCollectionSerializationRecord === undefined) {
-        loadProtobuf();
-    }
-    return new ProjectionWrapper();
-}
-
-export async function getGeometryEngineWrapper(): Promise<GeometryEngineWrapper> {
-    if (GraphicCollectionSerializationRecord === undefined) {
-        loadProtobuf();
-    }
-    return new GeometryEngineWrapper();
-}
-
-export async function getLocationServiceWrapper(): Promise<LocatorWrapper> {
-    if (GraphicCollectionSerializationRecord === undefined) {
-        loadProtobuf();
-    }
-
-    return new LocatorWrapper();
 }
 
 // endregion

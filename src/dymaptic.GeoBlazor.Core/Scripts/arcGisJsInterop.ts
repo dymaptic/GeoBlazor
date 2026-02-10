@@ -44,8 +44,6 @@ import Polyline from "@arcgis/core/geometry/Polyline";
 import Popup from "@arcgis/core/widgets/Popup";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
 import Portal from "@arcgis/core/portal/Portal";
-import * as promiseUtils from "@arcgis/core/core/promiseUtils";
-import * as projectionEngine from "@arcgis/core/geometry/projection";
 import Query from "@arcgis/core/rest/support/Query";
 import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer";
 import RouteParameters from "@arcgis/core/rest/support/RouteParameters";
@@ -57,8 +55,8 @@ import TileLayer from "@arcgis/core/layers/TileLayer";
 import View from "@arcgis/core/views/View";
 import WebMap from "@arcgis/core/WebMap";
 import Widget from "@arcgis/core/widgets/Widget";
-import {load, parse } from "protobufjs";
-import { protoTypeDefinitions } from "./geoblazorProto";
+import {load, parse} from "protobufjs";
+import {protoTypeDefinitions} from "./geoblazorProto";
 import {buildDotNetExtent, buildJsExtent} from './extent';
 import {buildJsGraphic} from './graphic';
 import {buildDotNetLayer, buildJsLayer, buildJsLayerWrapper} from './layer';
@@ -75,23 +73,23 @@ import ColorBackground from "@arcgis/core/webmap/background/ColorBackground";
 import {buildJsColor} from './mapColor';
 import {buildJsBasemap} from "./basemap";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
-import ScreenPoint = __esri.ScreenPoint;
 import {
+    addHeadLink,
     arcGisObjectRefs,
-    dotNetRefs,
-    jsObjectRefs,
+    base64ToArrayBuffer,
     buildJsStreamReference,
+    checkHeadLink,
+    dotNetRefs,
     generateSerializableJson,
+    jsObjectRefs,
+    logUncaughtError,
+    lookupGeoBlazorId,
+    removeHeadLink,
     sanitize,
     setCursor,
-    base64ToArrayBuffer,
-    setProperty,
-    addHeadLink,
-    checkHeadLink,
-    removeHeadLink,
-    lookupGeoBlazorId,
-    logUncaughtError
+    setProperty
 } from "./geoBlazorCore";
+import ScreenPoint = __esri.ScreenPoint;
 // endregion
 
 // region exports
@@ -112,8 +110,7 @@ export {
     buildJsGraphic,
     buildJsSymbol,
     reactiveUtils,
-    geometryEngine,
-    projectionEngine
+    geometryEngine
 };
 
 export const popupTemplateRefs: Record<string, Accessor> = {};
@@ -229,8 +226,6 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
     if (GraphicCollectionSerializationRecord === undefined) {
         loadProtobuf();
     }
-
-    await projectionEngine.load();
 
     checkConnectivity(id);
 
@@ -1230,7 +1225,7 @@ export function setGraphicSymbol(id: string, symbol: any, layerId: string | null
 export function getGraphicSymbol(id: string, layerId: string | null, viewId: string | null): any {
     const graphic = lookupJsGraphicById(id, layerId, viewId);
     if (hasValue(graphic?.symbol)) {
-        return buildDotNetSymbol(graphic!.symbol!, viewId);
+        return buildDotNetSymbol(graphic!.symbol!);
     }
 
     return null;
@@ -1862,7 +1857,6 @@ export function loadProtobuf(): void {
     GraphicCollectionSerializationRecord = ProtoTypes["GraphicCollection"];
     // TODO: UNCOMMENT:
     //  ProtoViewHitCollection = ProtoTypes["ViewHitCollection"];
-    console.debug('Protobuf graphic types initialized');
     
     // TODO: REMOVE WHEN NOT NEEDED:
     load("_content/dymaptic.GeoBlazor.Core/graphic.json", function (err, root) {
@@ -1871,7 +1865,6 @@ export function loadProtobuf(): void {
         }
         ProtoGraphicCollection = root?.lookupType("ProtoGraphicCollection");
         ProtoViewHitCollection = root?.lookupType("ProtoViewHitCollection");
-        console.debug('Protobuf graphics json loaded');
     });
 }
 

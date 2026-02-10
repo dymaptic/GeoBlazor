@@ -455,7 +455,7 @@ export default class GeoJSONLayerGenerated extends BaseComponent {
         }
         
         let { buildDotNetLabel } = await import('./label');
-        return await Promise.all(this.layer.labelingInfo!.map(async i => await buildDotNetLabel(i, this.layerId, this.viewId)));
+        return await Promise.all(this.layer.labelingInfo!.map(async i => await buildDotNetLabel(i)));
     }
     
     async setLabelingInfo(value: any): Promise<void> {
@@ -927,7 +927,7 @@ export async function buildDotNetGeoJSONLayerGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.labelingInfo)) {
         let { buildDotNetLabel } = await import('./label');
-        dotNetGeoJSONLayer.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i, layerId, viewId)));
+        dotNetGeoJSONLayer.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i)));
     }
     
     if (hasValue(jsObject.orderBy)) {

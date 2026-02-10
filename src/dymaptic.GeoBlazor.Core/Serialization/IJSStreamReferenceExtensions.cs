@@ -6,18 +6,22 @@ namespace dymaptic.GeoBlazor.Core.Serialization;
 public static class IJSStreamReferenceExtensions
 {
     internal static async Task<Stream?> ReadJsStreamReferenceAsStream(this IJSStreamReference jsStreamReference,
-        long maxAllowedSize = 1_000_000_000L)
+        long? maxAllowedSize = null, CancellationToken cancellationToken = default)
     {
-        return await jsStreamReference.OpenReadStreamAsync(maxAllowedSize);
+        maxAllowedSize ??= 1_000_000_000L;
+
+        return await jsStreamReference.OpenReadStreamAsync(maxAllowedSize.Value, cancellationToken);
     }
 
     /// <summary>
     ///     Convenience method to deserialize an <see cref="IJSStreamReference" /> to a specific .NET type.
     /// </summary>
     internal static async Task<T?> ReadJsStreamReferenceAsJSON<T>(this IJSStreamReference jsStreamReference,
-        long maxAllowedSize = 1_000_000_000L)
+        long? maxAllowedSize = null, CancellationToken cancellationToken = default)
     {
-        return (T?)await jsStreamReference.ReadJsStreamReferenceAsJSON(typeof(T), maxAllowedSize);
+        maxAllowedSize ??= 1_000_000_000L;
+
+        return (T?)await jsStreamReference.ReadJsStreamReferenceAsJSON(typeof(T), maxAllowedSize, cancellationToken);
     }
 
     /// <summary>
@@ -26,12 +30,16 @@ public static class IJSStreamReferenceExtensions
     /// </summary>
     internal static async Task<object?> ReadJsStreamReferenceAsJSON(this IJSStreamReference jsStreamReference,
         Type returnType,
-        long maxAllowedSize = 1_000_000_000)
+        long? maxAllowedSize = null,
+        CancellationToken cancellationToken = default)
     {
-        await using Stream stream = await jsStreamReference.OpenReadStreamAsync(maxAllowedSize);
+        maxAllowedSize ??= 1_000_000_000L;
+
+        await using Stream stream =
+            await jsStreamReference.OpenReadStreamAsync(maxAllowedSize.Value, cancellationToken);
         using StreamReader reader = new(stream, Encoding.UTF8);
 
-        string json = await reader.ReadToEndAsync();
+        string json = await reader.ReadToEndAsync(cancellationToken);
 
         if (returnType == typeof(string))
         {
