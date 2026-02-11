@@ -196,6 +196,8 @@ Console.WriteLine($"Version: {customVersion ?? "(auto)"}");
 Console.WriteLine($"Configuration: {configuration}");
 Console.WriteLine($"Validator Configuration: {validatorConfig}");
 Console.WriteLine($"License Server URL: {serverUrl}");
+Console.WriteLine($"Build Retries: {buildRetries}");
+Console.WriteLine($"Generating MSBuild Binary Logs: {binlog}");
 
 int step = 1;
 DateTime stepStartTime = DateTime.Now;
@@ -206,43 +208,45 @@ try
     bool customVersionSet = !string.IsNullOrEmpty(customVersion);
 
     // STEP: Clean old build artifacts
-    WriteStepHeader(step, "Cleaning old build artifacts");
+    GbCli.WriteStepHeader(step, "Cleaning old build artifacts");
 
-    await RunDotnetCommand(coreProjectPath, "clean", null, cts.Token, 
+    await ProcessRunner.RunDotnetCommand(coreProjectPath, "clean", null, cts.Token, 
         $"\"{Path.Combine(coreProjectPath, "dymaptic.GeoBlazor.Core.csproj")}\"");
     DeleteDirectoryIfExists(Path.Combine(coreProjectPath, "bin"));
     DeleteDirectoryIfExists(Path.Combine(coreProjectPath, "obj"));
     DeleteDirectoryContentsIfExists(Path.Combine(coreProjectPath, "wwwroot", "js"));
+    DeleteFileIfExists(Path.Combine(coreProjectPath, "esBuild.lock"));
     DeleteDirectoryIfExists(Path.Combine(coreProjectPath, "node_modules"), usePowerShell: true);
 
     if (pro)
     {
-        await RunDotnetCommand(proProjectPath, "clean", null, cts.Token,
+        await ProcessRunner.RunDotnetCommand(proProjectPath, "clean", null, cts.Token,
             $"\"{Path.Combine(proProjectPath, "dymaptic.GeoBlazor.Pro.csproj")}\"");
         DeleteDirectoryIfExists(Path.Combine(proProjectPath, "bin"));
         DeleteDirectoryIfExists(Path.Combine(proProjectPath, "obj"));
         DeleteDirectoryContentsIfExists(Path.Combine(proProjectPath, "obf"));
         DeleteDirectoryContentsIfExists(Path.Combine(proProjectPath, "build", "resources"));
         DeleteDirectoryContentsIfExists(Path.Combine(proProjectPath, "wwwroot", "js"));
+        DeleteFileIfExists(Path.Combine(proProjectPath, "esBuild.lock"));
         DeleteDirectoryIfExists(Path.Combine(proProjectPath, "node_modules"), usePowerShell: true);
 
         if (Directory.Exists(validatorProjectPath))
         {
-            await RunDotnetCommand(validatorProjectPath, "clean", null, cts.Token,
+            await ProcessRunner.RunDotnetCommand(validatorProjectPath, "clean", null, cts.Token,
                 $"\"{Path.Combine(validatorProjectPath, "dymaptic.GeoBlazor.Pro.V.csproj")}\"");
             DeleteDirectoryIfExists(Path.Combine(validatorProjectPath, "bin"));
             DeleteDirectoryIfExists(Path.Combine(validatorProjectPath, "obj"));
             DeleteDirectoryContentsIfExists(Path.Combine(validatorProjectPath, "obf"));
         }
     }
-    WriteStepCompleted(step, stepStartTime);
+    GbCli.WriteStepCompleted(step, stepStartTime);
     step++;
 
     // STEP: Update library versions (if no custom version specified)
     if (!customVersionSet)
     {
         stepStartTime = DateTime.Now;
-        WriteStepHeader(step, "Updating Library Versions");
+        GbCli.WriteStepHeader(step, "Updating Library Versions");
 
         XDocument coreProps = XDocument.Load(corePropsPath);
         string? currentCoreVersion = coreProps.Root?.Element("PropertyGroup")?.Element("CoreVersion")?.Value;
@@ -294,22 +298,22 @@ try
             coreProps.Save(corePropsPath);
         }
 
-        WriteStepCompleted(step, stepStartTime);
+        GbCli.WriteStepCompleted(step, stepStartTime);
         step++;
     }
 
     // STEP: Restore .NET packages for Core
     stepStartTime = DateTime.Now;
-    WriteStepHeader(step, "Restoring GeoBlazor Core .NET Packages");
+    GbCli.WriteStepHeader(step, "Restoring GeoBlazor Core .NET Packages");
 
-    await RunDotnetCommand(coreProjectPath, "restore", null, cts.Token);
+    await ProcessRunner.RunDotnetCommand(coreProjectPath, "restore", null, cts.Token);
 
-    WriteStepCompleted(step, stepStartTime);
+    GbCli.WriteStepCompleted(step, stepStartTime);
     step++;
 
     // STEP: Build Core Project and NuGet Package
     stepStartTime = DateTime.Now;
-    WriteStepHeader(step, package ? "Building Core Project and NuGet Package" : "Building Core Project");
+    GbCli.WriteStepHeader(step, package ? "Building Core Project and NuGet Package" : "Building Core Project");
 
     List<string> coreBuildArgs =
     [
@@ -331,7 +335,7 @@ try
 
     Console.WriteLine($"Executing 'dotnet build {string.Join(" ", coreBuildArgs)}'");
 
-    await RunDotnetCommand(coreProjectPath, "build", null, cts.Token, coreBuildArgs);
+    await ProcessRunner.RunDotnetCommand(coreProjectPath, "build", null, cts.Token, coreBuildArgs);
 
     // Verify JavaScript files were created
     string coreJsPath = Path.Combine(coreProjectPath, "wwwroot", "js");
@@ -361,7 +365,7 @@ try
         }
     }
 
-    WriteStepCompleted(step, stepStartTime);
+    GbCli.WriteStepCompleted(step, stepStartTime);
     step++;
 
     // Pro-specific steps
@@ -369,18 +373,18 @@ try
     {
         // STEP: Restore Pro .NET packages
         stepStartTime = DateTime.Now;
-        WriteStepHeader(step, "Restoring GeoBlazor Pro .NET Packages");
+        GbCli.WriteStepHeader(step, "Restoring GeoBlazor Pro .NET Packages");
 
-        await RunDotnetCommand(proProjectPath, "restore", null, cts.Token);
+        await ProcessRunner.RunDotnetCommand(proProjectPath, "restore", null, cts.Token);
 
-        WriteStepCompleted(step, stepStartTime);
+        GbCli.WriteStepCompleted(step, stepStartTime);
         step++;
 
         bool optOutFromObfuscation = !obfuscate;
 
         // STEP: Build Validator
         stepStartTime = DateTime.Now;
-        WriteStepHeader(step, $"Building Validator project in configuration {validatorConfig}");
+        GbCli.WriteStepHeader(step, $"Building Validator project in configuration {validatorConfig}");
 
         // Set the ServerUrls in the Validator project
         serverUrl = serverUrl.TrimEnd('/');
@@ -439,7 +443,7 @@ try
 
         try
         {
-            await RunDotnetCommand(validatorProjectPath, "build", null, cts.Token, validatorBuildArgs);
+            await ProcessRunner.RunDotnetCommand(validatorProjectPath, "build", null, cts.Token, validatorBuildArgs);
         }
         finally
         {
@@ -459,12 +463,12 @@ try
             File.WriteAllText(publishTaskValidatorPath, publishValidatorContent);
         }
 
-        WriteStepCompleted(step, stepStartTime);
+        GbCli.WriteStepCompleted(step, stepStartTime);
         step++;
 
         // STEP: Build Pro project and package
         stepStartTime = DateTime.Now;
-        WriteStepHeader(step, package ? "Building GeoBlazor Pro Project and NuGet Package" : "Building GeoBlazor Pro Project");
+        GbCli.WriteStepHeader(step, package ? "Building GeoBlazor Pro Project and NuGet Package" : "Building GeoBlazor Pro Project");
 
         List<string> proBuildArgs =
         [
@@ -488,7 +492,7 @@ try
 
         Console.WriteLine($"Executing 'dotnet {string.Join(" ", proBuildArgs)}'");
 
-        await RunDotnetCommand(proProjectPath, "build", null, cts.Token, proBuildArgs);
+        await ProcessRunner.RunDotnetCommand(proProjectPath, "build", null, cts.Token, proBuildArgs);
 
         // Verify Pro JavaScript files were created
         string proJsPath = Path.Combine(proProjectPath, "wwwroot", "js");
@@ -518,7 +522,7 @@ try
             }
         }
 
-        WriteStepCompleted(step, stepStartTime);
+        GbCli.WriteStepCompleted(step, stepStartTime);
     }
 
     return 0;
@@ -540,39 +544,22 @@ finally
     Console.WriteLine();
 }
 
-// ============================================================================
-// Helper Methods
-// ============================================================================
-
 /// <summary>
-/// Writes a formatted step header to the console with colored background.
+/// Deletes a file if it exists.
 /// </summary>
-/// <param name="step">The step number.</param>
-/// <param name="description">A description of what this step does.</param>
-static void WriteStepHeader(int step, string description)
+static void DeleteFileIfExists(string path)
 {
-    Console.WriteLine();
-    Console.BackgroundColor = ConsoleColor.DarkMagenta;
-    Console.ForegroundColor = ConsoleColor.White;
-    Console.Write($"{step}. {description}");
-    Console.ResetColor();
-    Console.WriteLine();
-    Console.WriteLine();
-}
-
-/// <summary>
-/// Writes a step completion message showing elapsed time.
-/// </summary>
-/// <param name="step">The step number that completed.</param>
-/// <param name="stepStartTime">The time when this step started.</param>
-static void WriteStepCompleted(int step, DateTime stepStartTime)
-{
-    TimeSpan elapsed = DateTime.Now - stepStartTime;
-    Console.BackgroundColor = ConsoleColor.Yellow;
-    Console.ForegroundColor = ConsoleColor.Black;
-    Console.Write($"Step {step} completed in {elapsed}.");
-    Console.ResetColor();
-    Console.WriteLine();
+    if (File.Exists(path))
+    {
+        try
+        {
+            File.Delete(path);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"WARNING: Failed to delete {path}: {ex.Message}");
+        }
+    }
 }
 
 /// <summary>
@@ -658,87 +645,6 @@ static void DeleteDirectoryContentsIfExists(string path)
             // Files may be locked - continue
         }
     }
-}
-
-static async Task LaunchResilientTask(string taskName, Func<ResilienceContext, ValueTask> task,
-    CancellationToken cancellationToken)
-{
-    var context = ResilienceContextPool.Shared.Get(
-        new ResilienceContextCreationArguments(taskName, null, cancellationToken));
-    await ResilienceSetup.AppRetryPipeline.ExecuteAsync(task, context);
-
-    ResilienceContextPool.Shared.Return(context);
-}
-
-/// <summary>
-/// Runs a dotnet command without capturing output.
-/// </summary>
-/// <param name="workingDirectory">The working directory for the command.</param>
-/// <param name="command">The dotnet command (e.g., "build", "restore", "clean").</param>
-/// <param name="args">Additional arguments to pass to the command.</param>
-static async Task RunDotnetCommand(string workingDirectory, string command, Dictionary<string, string>? environmentVariables,
-    CancellationToken cancellationToken, params IEnumerable<string> args)
-{
-    string arguments = $"{command} {string.Join(" ", args.Where(a => !string.IsNullOrWhiteSpace(a)))}";
-    var psi = new ProcessStartInfo
-    {
-        FileName = "dotnet",
-        Arguments = arguments,
-        WorkingDirectory = workingDirectory,
-        UseShellExecute = false,
-        CreateNoWindow = true,
-        RedirectStandardError = true,
-        RedirectStandardOutput = true
-    };
-
-    if (environmentVariables != null)
-    {
-        foreach (var kvp in environmentVariables)
-        {
-            psi.Environment[kvp.Key] = kvp.Value;
-        }
-    }
-
-    await LaunchResilientTask($"dotnet {arguments}", async (context) =>
-    {
-
-        using var process = Process.Start(psi);
-        if (process != null)
-        {
-            process.OutputDataReceived += (_, e) =>
-                {
-                    if (e.Data != null)
-                    {
-                        Console.WriteLine(e.Data);
-                        if (e.Data.Contains("Build FAILED", StringComparison.OrdinalIgnoreCase))
-                        {
-                            throw new Exception($"Build failed for process {psi.FileName} {psi.Arguments}.");
-                        }
-                    }
-                };
-
-            process.ErrorDataReceived += (_, e) =>
-            {
-                if (e.Data != null)
-                {
-                    Console.WriteLine(e.Data);
-                    if (e.Data.Contains("Build FAILED", StringComparison.OrdinalIgnoreCase))
-                    {
-                        throw new Exception($"Build failed for process {psi.FileName} {psi.Arguments}.");
-                    }
-                }
-            };
-
-            process.BeginOutputReadLine();
-            process.BeginErrorReadLine();
-
-            await process.WaitForExitAsync(cancellationToken);
-            if (!process.HasExited)
-            {
-                process.Kill(true);
-            }
-        }
-    }, cancellationToken);
 }
 
 /// <summary>
@@ -889,26 +795,4 @@ static int CompareVersions(string version1, string version2)
     if (minor1 != minor2) return minor1.CompareTo(minor2);
     if (patch1 != patch2) return patch1.CompareTo(patch2);
     return build1.CompareTo(build2);
-}
-
-static class ResilienceSetup
-{
-    public static ResiliencePipeline AppRetryPipeline = new ResiliencePipelineBuilder()
-        .AddRetry(new()
-        {
-            BackoffType = DelayBackoffType.Exponential,
-            MaxRetryAttempts = 3,
-            Delay = TimeSpan.FromSeconds(1),
-            OnRetry = context =>
-            {
-                Console.WriteLine($"Attempt #{context.AttemptNumber + 1} for task failed. Retrying...",
-                    context.Context.OperationKey);
-                context.Context.Properties.Set(retryAttemptKey, context.AttemptNumber);
-
-                return ValueTask.CompletedTask;
-            }
-        })
-        .Build();
-
-    private static ResiliencePropertyKey<int> retryAttemptKey = new("RetryAttempt");
 }

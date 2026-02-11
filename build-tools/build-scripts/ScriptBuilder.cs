@@ -34,13 +34,17 @@ using System.Text.Json;
 
 bool excludeMode = false;
 HashSet<string> scriptsToProcess = new();
-string scriptsDir = GetScriptsDirectory();
-string coreDir = Path.GetFullPath(Path.Combine(scriptsDir, "..", ".."));
+string coreScriptsDir = GetCoreScriptsDirectory();
+string coreDir = Path.GetFullPath(Path.Combine(coreScriptsDir, "..", ".."));
+string proDir = Path.GetFullPath(Path.Combine(coreDir, ".."));
+string proScriptsDir = Path.GetFullPath(Path.Combine(proDir, "build-tools", "build-scripts"));
 
 Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
 Trace.WriteLine("Starting ScriptBuilder...");
 
-string[] scripts = Directory.GetFiles(scriptsDir, "*.cs");
+string[] coreScripts = Directory.GetFiles(coreScriptsDir, "*.cs");
+string[] proScripts = Directory.Exists(proScriptsDir) ? Directory.GetFiles(proScriptsDir, "*.cs") : [];
+
 bool force = false;
 bool allPlatforms = false;
 string os = OperatingSystem.IsWindows()
@@ -103,35 +107,29 @@ int result = -1;
 
 if (allPlatforms)
 {
-    string[] platforms = new[] { "linux-x64", "osx-arm64", "win-x64" };
+    string[] platforms = ["linux-x64", "osx-arm64", "win-x64"];
     foreach (string plat in platforms)
     {
         Trace.WriteLine($"Building for platform: {plat}");
-        result = BuildScripts(scripts, scriptsToProcess, coreDir, plat, force, scriptsDir, excludeMode, currentBranch);
+        result = BuildScripts(coreScripts, scriptsToProcess, coreDir, plat, force, coreScriptsDir, excludeMode, currentBranch);
+        if (result != 0)
+        {
+            break;
+        }
+        result = BuildScripts(proScripts, scriptsToProcess, proDir, plat, force, proScriptsDir, excludeMode, currentBranch);
         if (result != 0)
         {
             break;
         }
     }
 }
-else if (runtime == "win-x64" && RuntimeInformation.OSArchitecture != Architecture.X64)
-{
-    Trace.WriteLine("Warning: Building for win-x64 on non-x64 architecture may fail.");
-    result = BuildScripts(scripts, scriptsToProcess, coreDir, runtime, force, scriptsDir, excludeMode, currentBranch);
-}
-else if (runtime == "osx-arm64" && RuntimeInformation.OSArchitecture != Architecture.Arm64)
-{
-    Trace.WriteLine("Warning: Building for osx-arm64 on non-Arm64 architecture may fail.");
-    result = BuildScripts(scripts, scriptsToProcess, coreDir, runtime, force, scriptsDir, excludeMode, currentBranch);
-}
-else if (runtime == "linux-x64" && RuntimeInformation.OSArchitecture != Architecture.X64)
-{
-    Trace.WriteLine("Warning: Building for linux-x64 on non-x64 architecture may fail.");
-    result = BuildScripts(scripts, scriptsToProcess, coreDir, runtime, force, scriptsDir, excludeMode, currentBranch);
-}
 else
 {
-    result = BuildScripts(scripts, scriptsToProcess, coreDir, runtime, force, scriptsDir, excludeMode, currentBranch);
+    result = BuildScripts(coreScripts, scriptsToProcess, coreDir, runtime, force, coreScriptsDir, excludeMode, currentBranch);
+    if (result == 0 && proScripts.Length > 0)
+    {
+        result = BuildScripts(proScripts, scriptsToProcess, proDir, runtime, force, proScriptsDir, excludeMode, currentBranch);
+    }
 }
 
 if (result != 0)
@@ -142,10 +140,10 @@ if (result != 0)
 
 return 0;
 
-static int BuildScripts(string[] scripts, HashSet<string> scriptsToProcess, string coreDir, string runtime, bool force,
+static int BuildScripts(string[] scripts, HashSet<string> scriptsToProcess, string repoDir, string runtime, bool force,
     string scriptsDir, bool excludeMode, string currentBranch)
 {
-    string outDir = Path.GetFullPath(Path.Combine(coreDir, "build-tools", runtime));
+    string outDir = Path.GetFullPath(Path.Combine(repoDir, "build-tools", runtime));
     Trace.WriteLine($"Output directory: {outDir}");
 
     Directory.CreateDirectory(outDir);
@@ -210,6 +208,7 @@ static int BuildScripts(string[] scripts, HashSet<string> scriptsToProcess, stri
 /// <returns>0 on success, non-zero on failure.</returns>
 static int BuildScript(string scriptName, string scriptsDir, string outDir, string runtime)
 {
+    Console.WriteLine($"Building script: {scriptName} for runtime: {runtime}");
     string[] args =
     [
         "build",
@@ -411,7 +410,7 @@ static void SaveBuildRecord(string recordFilePath, string branch)
 /// <summary>
 /// Gets the relative directory containing the build scripts.
 /// </summary>
-static string GetScriptsDirectory([CallerFilePath] string? callerFilePath = null)
+static string GetCoreScriptsDirectory([CallerFilePath] string? callerFilePath = null)
 {
     string dllDirectory = AppContext.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 

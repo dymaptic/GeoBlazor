@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-      <CoreVersion>5.0.0.80</CoreVersion>
+      <CoreVersion>5.0.0.82</CoreVersion>
     <Configurations>Debug;Release;SourceGen Highlighting</Configurations>
     <Platforms>AnyCPU</Platforms>
     <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
@@ -47,7 +47,6 @@
   </ItemGroup>
   <!-- ESBuild Project Trigger: Must happen before RESTORE -->
   <PropertyGroup>
-    <BuildDependsOn>TriggerESBuild;$(BuildDependsOn)</BuildDependsOn>
     <ESBuildLockFilePath>$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core/esBuild.lock</ESBuildLockFilePath>
     <ESBuildLockFileTimeStamp Condition="EXISTS($(ESBuildLockFilePath))">$([System.IO.File]::GetLastWriteTime(`$(ESBuildLockFilePath)`).Ticks)</ESBuildLockFileTimeStamp>
     <ESBuildLockFileTimeStamp Condition="'$(ESBuildLockFileTimeStamp)' == ''">0</ESBuildLockFileTimeStamp>
@@ -64,7 +63,6 @@
             MSBuildRestoreSessionId;
             NugetInteractive;
             Platform;
-            ProESBuildRequired;
             ShowScriptDialogs;
             TargetFramework;
             TargetFrameworks;

@@ -5,6 +5,7 @@
 // C# file-based app version of esBuild.ps1
 // Usage: dotnet esBuild.cs [options]
 //   -c, --configuration <Debug|Release>  Build configuration (default: Debug)
+//   -f, --force                          Force rebuild, ignoring lock files and record
 //   -p, --pro                            Run the GeoBlazor Pro ESBuild process
 //   -pc, --prooncorechange               Run the GeoBlazor Pro ESBuild process if pro OR core files have changed
 //   -d, --dialog                         Show a console dialog during build
@@ -30,6 +31,7 @@ string toolsDir = Path.GetFullPath(Path.Combine(scriptDir, "..", $"{os}-{arch}")
 
 // Parse command line arguments
 string configuration = Environment.GetEnvironmentVariable("Configuration") ?? "Debug";
+bool force = false;
 bool help = false;
 bool pro = false;
 bool proOnCoreChange = false;
@@ -51,6 +53,10 @@ for (int i = 0; i < args.Length; i++)
         case "-d":
         case "--dialog":
             dialog = true;
+            break;
+        case "-f":
+        case "--force":
+            force = true;
             break;
         case "-p":
         case "-pro":
@@ -88,6 +94,7 @@ if (help)
     Trace.WriteLine("ESBuild TypeScript -> JavaScript Compilation Script");
     Trace.WriteLine("");
     Trace.WriteLine("Parameters:");
+    Trace.WriteLine("  -f, --force                          Removes any lock files and forces the script to run");
     Trace.WriteLine("  -c, --configuration <string>         Build configuration (default is 'Debug')");
     Trace.WriteLine("                                       Valid values are 'Debug' and 'Release'");
     Trace.WriteLine("  -p, --pro                            Run the GeoBlazor Pro ESBuild process");
@@ -130,21 +137,25 @@ string proRecordFilePath = Path.GetFullPath(Path.Combine(proSourceDir, "..", ".e
 string recordFilePath = pro ? proRecordFilePath : coreRecordFilePath;
 
 string currentBranch = GetCurrentGitBranch(sourceDir);
-bool needsBuild = CheckIfNeedsBuild(
-    recordFilePath,
-    currentBranch,
-    scriptsDir, outputDir, pro);
 
-if (!needsBuild && pro && proOnCoreChange)
+if (!force)
 {
-    needsBuild = CheckIfNeedsBuild(coreRecordFilePath,
-        currentBranch, coreScriptsDir, coreOutputDir, false);
-}
+    bool needsBuild = CheckIfNeedsBuild(
+        recordFilePath,
+        currentBranch,
+        scriptsDir, outputDir, pro);
 
-if (!needsBuild)
-{
-    KillDialog(dialogProcess);
-    Environment.Exit(0);
+    if (!needsBuild && pro && proOnCoreChange)
+    {
+        needsBuild = CheckIfNeedsBuild(coreRecordFilePath,
+            currentBranch, coreScriptsDir, coreOutputDir, false);
+    }
+
+    if (!needsBuild)
+    {
+        KillDialog(dialogProcess);
+        Environment.Exit(0);
+    }
 }
 
 if (!verbose)
@@ -172,38 +183,18 @@ try
     }
 
     // npm install
-    var (installOutput, installExitCode) = RunNpmCommand(sourceDir, "install", dialogProcess);
+    await ProcessRunner.RunNpmCommand(sourceDir, "install");
     Trace.WriteLine("-----");
-
-    if (installExitCode != 0 || HasErrorOrWarning(installOutput))
-    {
-        Trace.WriteLine("NPM Install failed");
-        HoldDialog(dialogProcess);
-        return 1;
-    }
 
     // Run ESLint before build
     Trace.WriteLine("Running ESLint...");
-    var (lintOutput, lintExitCode) = RunNpmCommand(sourceDir, "run lint", dialogProcess);
+    await ProcessRunner.RunNpmCommand(sourceDir, "run lint");
     Trace.WriteLine("-----");
-
-    if (lintExitCode != 0 || lintOutput.Any(l => l.Contains("error", StringComparison.OrdinalIgnoreCase)))
-    {
-        Trace.WriteLine("ESLint found errors");
-        HoldDialog(dialogProcess);
-        return 1;
-    }
 
     // Run build
     string buildCommand = configuration == "Release" ? "run releaseBuild" : "run debugBuild";
-    var (buildOutput, buildExitCode) = RunNpmCommand(sourceDir, buildCommand, dialogProcess);
+    await ProcessRunner.RunNpmCommand(sourceDir, buildCommand);
     Trace.WriteLine("-----");
-
-    if (buildExitCode != 0 || HasErrorOrWarning(buildOutput))
-    {
-        HoldDialog(dialogProcess);
-        return 1;
-    }
 
     // Update build record on success
     SaveBuildRecord(recordFilePath, currentBranch);
@@ -551,72 +542,6 @@ static void KillDialog(Process? dialog)
     catch
     {
         dialog.Kill();
-    }
-}
-
-/// <summary>
-/// Runs an npm command using PowerShell 7 for cross-platform compatibility.
-/// Output is captured and also written to the Trace listeners.
-/// </summary>
-/// <param name="workingDirectory">The directory to run the command in.</param>
-/// <param name="command">The npm command (e.g., "install", "run build").</param>
-/// <param name="dialogProcess">Optional ConsoleDialog process for output display.</param>
-/// <returns>A tuple containing the output lines and exit code.</returns>
-static (List<string> Output, int ExitCode) RunNpmCommand(string workingDirectory, string command, Process? dialogProcess)
-{
-    var output = new List<string>();
-
-    try
-    {
-        // Use pwsh (PowerShell 7) for cross-platform compatibility
-        // This ensures proper shell resolution and avoids issues with multiple npm installations
-        var psi = new ProcessStartInfo
-        {
-            FileName = "pwsh",
-            Arguments = $"-NoProfile -Command \"npm {command}\"",
-            WorkingDirectory = workingDirectory,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            UseShellExecute = false,
-            CreateNoWindow = true
-        };
-
-        using var process = Process.Start(psi);
-        if (process is null)
-        {
-            return (["Failed to start npm"], 1);
-        }
-
-        // Read output asynchronously
-        process.OutputDataReceived += (sender, e) =>
-        {
-            if (e.Data is not null)
-            {
-                Trace.WriteLine(e.Data);
-                output.Add(e.Data);
-            }
-        };
-
-        process.ErrorDataReceived += (sender, e) =>
-        {
-            if (e.Data is not null)
-            {
-                Trace.WriteLine(e.Data);
-                output.Add(e.Data);
-            }
-        };
-
-        process.BeginOutputReadLine();
-        process.BeginErrorReadLine();
-        process.WaitForExit();
-
-        return (output, process.ExitCode);
-    }
-    catch (Exception ex)
-    {
-        Trace.WriteLine($"Error running npm {command}: {ex.Message}{Environment.NewLine}{ex.StackTrace}");
-        output.Add(ex.Message);
-        return (output, 1);
     }
 }
 

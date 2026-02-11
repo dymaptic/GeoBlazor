@@ -1,0 +1,5 @@
+<Project>
+    <PropertyGroup>
+        <BuildDependsOn>TriggerESBuild;$(BuildDependsOn)</BuildDependsOn>
+    </PropertyGroup>
+</Project>
