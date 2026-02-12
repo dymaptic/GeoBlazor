@@ -466,7 +466,7 @@ public abstract partial class Widget : MapComponent
         base.UpdateGeoBlazorReferences(coreJsModule, proJsModule, view, parent, layer, depth, visited);
         if (needsUpdate)
         {
-            _ = Task.Run(async () => await UpdateWidget());
+            InvokeAsync(UpdateWidget);
         }
     }
 
