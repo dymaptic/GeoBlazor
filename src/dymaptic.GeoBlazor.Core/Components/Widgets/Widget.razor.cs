@@ -454,6 +454,7 @@ public abstract partial class Widget : MapComponent
         }
     }
 
+    /// <inheritdoc />
     protected internal override void UpdateGeoBlazorReferences(IJSObjectReference coreJsModule, IJSObjectReference? proJsModule,
         MapView? view, MapComponent? parent, Layer? layer, int depth = 0, HashSet<object>? visited = null)
     {
