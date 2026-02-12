@@ -41,6 +41,8 @@ string proScriptsDir = Path.GetFullPath(Path.Combine(proDir, "build-tools", "bui
 
 Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
 Trace.WriteLine("Starting ScriptBuilder...");
+Trace.WriteLine($"Core scripts directory: {coreScriptsDir}");
+Trace.WriteLine($"Pro scripts directory: {proScriptsDir}");
 
 string[] coreScripts = Directory.GetFiles(coreScriptsDir, "*.cs");
 string[] proScripts = Directory.Exists(proScriptsDir) ? Directory.GetFiles(proScriptsDir, "*.cs") : [];

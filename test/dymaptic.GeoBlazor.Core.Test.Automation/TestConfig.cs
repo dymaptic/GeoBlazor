@@ -327,6 +327,11 @@ public class TestConfig
 
                 await Task.WhenAll(appShutdownTasks);
             }
+            else if (!CoreOnly)
+            {
+                // Pro Unit always runs in container
+                await ShutdownContainerCoverage(ProcessName.PRO_UNIT, ProUnitTestComposeFilePath);
+            }
 
             await KillProcessesByIds();
             await KillProcessesByTestPorts();
@@ -808,7 +813,8 @@ public class TestConfig
     {
         try
         {
-            if (_useContainer)
+            // Pro Unit tests need to always run in a container because they wipe out state that other tests depend on.
+            if (_useContainer || context.OperationKey == ProcessName.PRO_UNIT)
             {
                 await StartUnitTestContainer(context);
             }
@@ -1951,8 +1957,8 @@ internal static class ProcessName
 {
     public static readonly string[] OrderedList =
     {
-        TEST_SETUP, PRE_BUILD, CODE_COVERAGE_TOOL_INSTALLATION, WEB_APP, WEB_TEST, CORE_UNIT, PRO_UNIT, PRO_VALIDATION,
-        CODE_COVERAGE, CODE_COVERAGE_REPORT, TEST_CLEANUP, TEST_SHUTDOWN, FINAL_SUMMARY
+        TEST_SETUP, PRE_BUILD, CODE_COVERAGE_TOOL_INSTALLATION, WEB_APP, WEB_TEST, CORE_UNIT, PRO_UNIT,
+        PRO_VALIDATION, CODE_COVERAGE, CODE_COVERAGE_REPORT, TEST_CLEANUP, TEST_SHUTDOWN, FINAL_SUMMARY
     };
     public const string TEST_SETUP = "TEST_SETUP";
     public const string PRE_BUILD = "PRE_BUILD";

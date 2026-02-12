@@ -116,7 +116,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
             string testUrl = BuildTestUrl(testName);
 
             using var testCts = CancellationTokenSource.CreateLinkedTokenSource(TestConfig.Cts.Token);
-            testCts.CancelAfter(TimeSpan.FromMinutes(3));
+            testCts.CancelAfter(TimeSpan.FromMinutes(2));
 
             var context = ResilienceContextPool.Shared.Get(
                 new ResilienceContextCreationArguments(testName, null, testCts.Token));
@@ -340,7 +340,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
     private static readonly RetryStrategyOptions retryStrategyOptions = new()
     {
         BackoffType = DelayBackoffType.Exponential,
-        MaxRetryAttempts = 2,
+        MaxRetryAttempts = 1,
         Delay = TimeSpan.FromSeconds(5),
         OnRetry = args =>
         {

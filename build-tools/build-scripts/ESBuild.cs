@@ -109,9 +109,9 @@ if (verbose)
 {
     if (dialog) // only start the dialog early if we are in Verbose + Dialog mode
     {
-        dialogProcess = StartConsoleDialog(toolsDir, $"GeoBlazor {(pro ? "Pro" : "Core")} ESBuild", pro);
+        dialogProcess = StartConsoleDialog(toolsDir, $"GeoBlazor {(pro ? "PRO" : "CORE")} ESBuild", pro);
     }
-    Trace.WriteLine("Launching ESBuild...");
+    Trace.WriteLine($"{(pro ? "PRO:" : "CORE:")} Launching ESBuild...");
 }
 
 // Normalize configuration
@@ -163,7 +163,7 @@ if (!verbose)
     if (dialog) // start the dialog now if we are not in Verbose mode
     {
         dialogProcess = StartConsoleDialog(toolsDir, 
-            $"GeoBlazor {(pro ? "Pro" : "Core")} ESBuild", pro);
+            $"GeoBlazor {(pro ? "PRO" : "CORE")} ESBuild", pro);
     }
     Trace.WriteLine("Launching ESBuild...");
 }
@@ -299,28 +299,28 @@ static bool CheckIfNeedsBuild(string recordFilePath, string currentBranch, strin
 
     if (branchChanged)
     {
-        Trace.WriteLine($"{(pro ? "Pro" : "Core")}: Git branch changed from \"{lastBuild.Branch}\" to \"{currentBranch}\". Rebuilding...");
+        Trace.WriteLine($"{(pro ? "PRO" : "CORE")}: Git branch changed from \"{lastBuild.Branch}\" to \"{currentBranch}\". Rebuilding...");
         return true;
     }
 
     if (!GetScriptsModifiedSince(scriptsDir, lastBuild.Timestamp, pro))
     {
-        Trace.WriteLine($"{(pro ? "Pro" : "Core")}: No changes in Scripts folder since last build.");
+        Trace.WriteLine($"{(pro ? "PRO" : "CORE")}: No changes in Scripts folder since last build.");
 
         // Check output directory for existing files
         if (Directory.Exists(outputDir) && Directory.GetFiles(outputDir).Length > 0)
         {
-            Trace.WriteLine($"{(pro ? "Pro" : "Core")}: Output directory is not empty. Skipping build.");
+            Trace.WriteLine($"{(pro ? "PRO" : "CORE")}: Output directory is not empty. Skipping build.");
             return false;
         }
         else
         {
-            Trace.WriteLine($"{(pro ? "Pro" : "Core")}: Output directory is empty. Proceeding with build.");
+            Trace.WriteLine($"{(pro ? "PRO" : "CORE")}: Output directory is empty. Proceeding with build.");
             return true;
         }
     }
 
-    Trace.WriteLine($"{(pro ? "Pro" : "Core")}: Changes detected in Scripts folder. Proceeding with build.");
+    Trace.WriteLine($"{(pro ? "PRO" : "CORE")}: Changes detected in Scripts folder. Proceeding with build.");
     return true;
 }
 
@@ -452,7 +452,7 @@ static bool GetScriptsModifiedSince(string scriptsDir, long lastTimestamp, bool 
     {
         if (File.GetLastWriteTimeUtc(file) > lastBuildTime)
         {
-            Trace.WriteLine($"{(pro ? "Pro" : "Core")}: File {file} modified at {File.GetLastWriteTimeUtc(file).ToLongTimeString()} (last build: {lastBuildTime.ToLongTimeString()})");
+            Trace.WriteLine($"{(pro ? "PRO" : "CORE")}: File {file} modified at {File.GetLastWriteTimeUtc(file).ToLongTimeString()} (last build: {lastBuildTime.ToLongTimeString()})");
             return true;
         }
     }
@@ -543,18 +543,6 @@ static void KillDialog(Process? dialog)
     {
         dialog.Kill();
     }
-}
-
-/// <summary>
-/// Checks if the output contains any error or warning messages.
-/// </summary>
-/// <param name="output">The list of output lines to check.</param>
-/// <returns>True if any line contains "Error" or "Warning" (case-insensitive).</returns>
-static bool HasErrorOrWarning(List<string> output)
-{
-    return output.Any(line =>
-        line.Contains("Error", StringComparison.OrdinalIgnoreCase) ||
-        line.Contains("Warning", StringComparison.OrdinalIgnoreCase));
 }
 
 /// <summary>
