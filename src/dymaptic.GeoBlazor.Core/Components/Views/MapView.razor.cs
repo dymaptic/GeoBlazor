@@ -280,7 +280,7 @@ public partial class MapView : MapComponent
         if (IsDisposed) return;
 #if DEBUG
         ErrorMessage = error.Message?.Replace("\n", "<br>") ?? error.Stack;
-        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
 #endif
         var exception = new JavascriptException(error);
 
@@ -1216,14 +1216,12 @@ public partial class MapView : MapComponent
 #region Public Methods
 
     /// <inheritdoc />
-    public override ValueTask Refresh()
+    public override async ValueTask Refresh()
     {
         NeedsRender = true;
         ExtentSetByCode = false;
         ExtentChangedInJs = false;
-        StateHasChanged();
-
-        return ValueTask.CompletedTask;
+        await InvokeAsync(StateHasChanged);
     }
 
     /// <summary>
@@ -1234,7 +1232,7 @@ public partial class MapView : MapComponent
     {
         _renderCalled = true;
         NeedsRender = true;
-        StateHasChanged();
+        InvokeAsync(StateHasChanged);
     }
 
     /// <summary>
@@ -1525,7 +1523,7 @@ public partial class MapView : MapComponent
     /// <param name="isBasemapReferenceLayer">
     ///     If true, adds the layer as a Basemap Reference Layer.
     /// </param>
-    public Task AddLayer(Layer layer, bool isBasemapLayer = false, bool isBasemapReferenceLayer = false)
+    public async Task AddLayer(Layer layer, bool isBasemapLayer = false, bool isBasemapReferenceLayer = false)
     {
         if (isBasemapLayer && layer.IsBasemapReferenceLayer != true)
         {
@@ -1553,12 +1551,13 @@ public partial class MapView : MapComponent
 
         layer.View ??= this;
 
-        if (CoreJsModule is null || !MapRendered) return Task.CompletedTask;
+        if (CoreJsModule is null || !MapRendered)
+        {
+            return;
+        }
 
         _newLayers.Add((layer, isBasemapLayer, isBasemapReferenceLayer));
-        StateHasChanged();
-
-        return Task.CompletedTask;
+        await InvokeAsync(StateHasChanged);
     }
 
     /// <summary>
@@ -2353,7 +2352,7 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     Adds a widget to the view.
     /// </summary>
-    public Task AddWidget(Widget widget)
+    public async Task AddWidget(Widget widget)
     {
         if (!_widgets.Contains(widget))
         {
@@ -2361,12 +2360,13 @@ public partial class MapView : MapComponent
             widget.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, null);
         }
 
-        if (CoreJsModule is null || !widget.ArcGISWidget || !MapRendered) return Task.CompletedTask;
+        if (CoreJsModule is null || !widget.ArcGISWidget || !MapRendered)
+        {
+            return;
+        }
 
         _newWidgets.Add(widget);
-        StateHasChanged();
-
-        return Task.CompletedTask;
+        await InvokeAsync(StateHasChanged);
     }
 
     /// <summary>
@@ -2538,7 +2538,7 @@ public partial class MapView : MapComponent
             catch (Exception ex)
             {
                 ErrorMessage = ex.Message;
-                StateHasChanged();
+                await InvokeAsync(StateHasChanged);
 
                 throw;
             }
@@ -2583,7 +2583,7 @@ public partial class MapView : MapComponent
             }
 
             _firstRenderComplete = true;
-            StateHasChanged();
+            await InvokeAsync(StateHasChanged);
 
             return;
         }
@@ -2600,6 +2600,8 @@ public partial class MapView : MapComponent
 
         if (MapRendered)
         {
+            // layers added in code can have race conditions that require another render before adding to the map,
+            // so we store them in AddLayer and then add them here after the main render
             if (_newLayers.Any())
             {
                 (Layer Layer, bool IsBasemapLayer, bool IsBasemapReferenceLayer)[] newLayers = _newLayers.ToArray();
@@ -2609,6 +2611,17 @@ public partial class MapView : MapComponent
                 {
                     await CoreJsModule!.InvokeVoidAsync("addLayer", CancellationTokenSource.Token,
                         (object)newLayer, Map?.Id, Id, isBasemapLayer, isBasemapReferenceLayer);
+                    
+                    // this updates widgets that were assigned a LayerId instead of a Layer
+                    if (_widgets.Where(w => w.LayerId == newLayer.Id).ToList() is { Count: > 0 } widgetMatches)
+                    {
+                        foreach (Widget widget in widgetMatches)
+                        {
+                            // set layer to null forces widget to update and call JavaScript
+                            widget.Layer = null;
+                            widget.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, this, this, newLayer);
+                        }
+                    }
                 }
             }
 

@@ -454,6 +454,21 @@ public abstract partial class Widget : MapComponent
         }
     }
 
+    protected internal override void UpdateGeoBlazorReferences(IJSObjectReference coreJsModule, IJSObjectReference? proJsModule,
+        MapView? view, MapComponent? parent, Layer? layer, int depth = 0, HashSet<object>? visited = null)
+    {
+        bool needsUpdate = false;
+        if (layer is not null && layer.Id != Layer?.Id)
+        {
+            needsUpdate = true;
+        }
+        base.UpdateGeoBlazorReferences(coreJsModule, proJsModule, view, parent, layer, depth, visited);
+        if (needsUpdate)
+        {
+            _ = Task.Run(async () => await UpdateWidget());
+        }
+    }
+
     /// <summary>
     ///     Updates the widget internally. Not intended for public use.
     /// </summary>
@@ -477,7 +492,7 @@ public abstract partial class Widget : MapComponent
 
         try
         {
-            JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
         }
         catch
@@ -491,7 +506,7 @@ public abstract partial class Widget : MapComponent
         }
 
         // ReSharper disable once RedundantCast
-        await JsComponentReference!.InvokeVoidAsync("updateComponent", CancellationTokenSource.Token, (object)this);
+        await JsComponentReference.InvokeVoidAsync("updateComponent", CancellationTokenSource.Token, (object)this);
     }
     
     private bool _externalWidgetRegistered;
