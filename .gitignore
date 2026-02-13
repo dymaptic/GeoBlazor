@@ -398,4 +398,5 @@ DefaultDocsLinks
 !/samples/dymaptic.GeoBlazor.Core.Sample.OAuth/dymaptic.GeoBlazor.Core.Sample.OAuth/appsettings.json
 /src/dymaptic.GeoBlazor.Core/.esbuild-timestamp.json
 .esbuild-record.json
+build-tools/debug-output/**/*
 /samples/dymaptic.GeoBlazor.Core.Sample.TokenRefresh/dymaptic.GeoBlazor.Core.Sample.TokenRefresh/arcgis_token_cache.json
