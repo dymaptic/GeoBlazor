@@ -123,7 +123,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     The Id of the relevant Layer for the MapComponent. Not always applicable to every component type.
     /// </summary>
     [Parameter]
-    public Guid? LayerId { get; set; }
+    public virtual Guid? LayerId { get; set; }
 
     /// <summary>
     ///     Indicates the visibility of the component. Default value: true.
@@ -885,6 +885,17 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     }
 
     /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        LayerId ??= Layer?.Id;
+        Layer ??= Parent?.Layer;
+        View ??= Parent?.View;
+        CoreJsModule ??= Parent?.CoreJsModule;
+        ProJsModule ??= Parent?.ProJsModule;
+    }
+
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -1087,7 +1098,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <param name="visited">
     ///     Previously updated parent components
     /// </param>
-    protected internal void UpdateGeoBlazorReferences(IJSObjectReference coreJsModule, IJSObjectReference? proJsModule,
+    protected internal virtual void UpdateGeoBlazorReferences(IJSObjectReference coreJsModule,
+        IJSObjectReference? proJsModule,
         MapView? view, MapComponent? parent, Layer? layer, int depth = 0, HashSet<object>? visited = null)
     {
         visited ??= new HashSet<object>();

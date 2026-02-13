@@ -446,7 +446,7 @@ public abstract partial class Layer : MapComponent
         _delayedUpdate = false;
 
         // ReSharper disable once RedundantCast
-        await JsComponentReference!.InvokeAsync<string?>("updateComponent", CancellationTokenSource.Token,
+        await JsComponentReference.InvokeAsync<string?>("updateComponent", CancellationTokenSource.Token,
             (object)this);
     }
 
