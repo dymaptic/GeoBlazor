@@ -95,10 +95,12 @@ public class TestConfig
     public static int WebInconclusiveTestCount;
 
     public static readonly CancellationTokenSource Cts = new();
+    public static Stopwatch FullSuiteStopwatch = new();
 
     [AssemblyInitialize]
     public static async Task AssemblyInitialize(TestContext testContext)
     {
+        FullSuiteStopwatch.Start();
         Trace.Listeners.Add(new ConsoleTraceListener());
         Trace.Listeners.Add(new StringBuilderTraceListener(logBuilders));
         Trace.AutoFlush = true;
@@ -341,12 +343,19 @@ public class TestConfig
                 await GenerateCoverageReport();
             }
 
+            FullSuiteStopwatch.Stop();
+
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
 
             Trace.WriteLine("TEST RUN COMPLETE", ProcessName.FINAL_SUMMARY);
 
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+
+            Trace.WriteLine($"TIME: {FullSuiteStopwatch.Elapsed.Minutes}m {FullSuiteStopwatch.Elapsed.Seconds}s",
+                ProcessName.FINAL_SUMMARY);
+
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
 
             if (!ProOnly)
@@ -814,7 +823,7 @@ public class TestConfig
         try
         {
             // Pro Unit tests need to always run in a container because they wipe out state that other tests depend on.
-            if (_useContainer || context.OperationKey == ProcessName.PRO_UNIT)
+            if (_useContainer || (context.OperationKey == ProcessName.PRO_UNIT))
             {
                 await StartUnitTestContainer(context);
             }

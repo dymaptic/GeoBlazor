@@ -18,6 +18,8 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
     [TestInitialize]
     public async Task TestSetup()
     {
+        _testStopwatch.Start();
+
         // transient error on setup found, seems to be very rare, so we will just retry
         await _retryPipeline.ExecuteAsync(async _ => await Setup());
     }
@@ -82,6 +84,11 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
             finally
             {
                 _pooledBrowser = null;
+
+                Trace.WriteLine(
+                    $"Test {TestContext.TestName} completed in {_testStopwatch.Elapsed.Minutes}m {
+                        _testStopwatch.Elapsed.Seconds}s. {TestContext.CurrentTestOutcome}", ProcessName.WEB_TEST);
+                _testStopwatch.Stop();
             }
         }
     }
@@ -351,6 +358,8 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
             return ValueTask.CompletedTask;
         }
     };
+
+    private readonly Stopwatch _testStopwatch = new();
 
     private readonly List<IBrowserContext> _contexts = new();
     private readonly BrowserTypeLaunchOptions? _launchOptions = new()

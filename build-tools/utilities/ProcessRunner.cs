@@ -37,8 +37,9 @@ public static class ProcessRunner
         Dictionary<string, string>? environmentVariables = null,
         CancellationToken cancellationToken = default, params IEnumerable<string> args)
     {
+        // make sure there is a space after the word "Error" to avoid false positives on output like "0 Error(s)"
         return RunCommand(workingDirectory, "dotnet", command, environmentVariables, cancellationToken,
-            ["Build FAILED"], args);
+            ["Build FAILED", "Error "], args);
     }
 
     /// <summary>
@@ -55,78 +56,97 @@ public static class ProcessRunner
         Dictionary<string, string>? environmentVariables, CancellationToken cancellationToken,
         string[] failureTriggerWords, params IEnumerable<string> args)
     {
-        var arguments = $"{command} {string.Join(" ", args.Where(a => !string.IsNullOrWhiteSpace(a)))}";
+        Stopwatch sw = new();
+        sw.Start();
+        string arguments = $"{command} {string.Join(" ", args.Where(a => !string.IsNullOrWhiteSpace(a)))}";
 
-        var psi = new ProcessStartInfo
+        try
         {
-            FileName = fileName,
-            Arguments = arguments,
-            WorkingDirectory = workingDirectory,
-            UseShellExecute = false,
-            CreateNoWindow = true,
-            RedirectStandardError = true,
-            RedirectStandardOutput = true
-        };
-
-        if (environmentVariables != null)
-        {
-            foreach (var kvp in environmentVariables)
+            var psi = new ProcessStartInfo
             {
-                psi.Environment[kvp.Key] = kvp.Value;
-            }
-        }
+                FileName = fileName,
+                Arguments = arguments,
+                WorkingDirectory = workingDirectory,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardError = true,
+                RedirectStandardOutput = true
+            };
 
-        await LaunchResilientTask($"dotnet {arguments}", async context =>
-        {
-            using var process = Process.Start(psi);
-
-            if (process != null)
+            if (environmentVariables != null)
             {
-                process.OutputDataReceived += (_, e) =>
+                foreach (var kvp in environmentVariables)
                 {
-                    if (e.Data != null)
-                    {
-                        Console.WriteLine(e.Data);
-
-                        foreach (var triggerWord in failureTriggerWords)
-                        {
-                            if (e.Data.Contains(triggerWord, StringComparison.OrdinalIgnoreCase))
-                            {
-                                throw new Exception($"Detected failure word '{triggerWord}' in output of process {
-                                    psi.FileName} {psi.Arguments}.");
-                            }
-                        }
-                    }
-                };
-
-                process.ErrorDataReceived += (_, e) =>
-                {
-                    if (e.Data != null)
-                    {
-                        Console.WriteLine(e.Data);
-
-                        foreach (var triggerWord in failureTriggerWords)
-                        {
-                            if (e.Data.Contains(triggerWord, StringComparison.OrdinalIgnoreCase))
-                            {
-                                throw new Exception($"Detected failure word '{triggerWord}' in error output of process {
-                                    psi.FileName} {psi.Arguments}.");
-                            }
-                        }
-                    }
-                };
-
-                process.BeginOutputReadLine();
-                process.BeginErrorReadLine();
-
-                await process.WaitForExitAsync(cancellationToken);
-
-                if (!process.HasExited)
-                {
-                    process.Kill(true);
+                    psi.Environment[kvp.Key] = kvp.Value;
                 }
             }
-        }, cancellationToken);
+
+            await LaunchResilientTask($"dotnet {arguments}", async context =>
+            {
+                using var process = Process.Start(psi);
+
+                if (process != null)
+                {
+                    process.OutputDataReceived += (_, e) =>
+                    {
+                        if (e.Data != null)
+                        {
+                            Console.WriteLine(e.Data);
+
+                            foreach (var triggerWord in failureTriggerWords)
+                            {
+                                if (e.Data.Contains(triggerWord, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    throw new Exception($"Detected failure word '{triggerWord}' in output of process {
+                                        psi.FileName} {psi.Arguments}.");
+                                }
+                            }
+                        }
+                    };
+
+                    process.ErrorDataReceived += (_, e) =>
+                    {
+                        if (e.Data != null)
+                        {
+                            Console.WriteLine(e.Data);
+
+                            foreach (var triggerWord in failureTriggerWords)
+                            {
+                                if (e.Data.Contains(triggerWord, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    throw new Exception($"Detected failure word '{triggerWord
+                                    }' in error output of process {
+                                        psi.FileName} {psi.Arguments}.");
+                                }
+                            }
+                        }
+                    };
+
+                    process.BeginOutputReadLine();
+                    process.BeginErrorReadLine();
+
+                    await process.WaitForExitAsync(cancellationToken);
+
+                    if (!process.HasExited)
+                    {
+                        process.Kill(true);
+                    }
+
+                    if (process.ExitCode != 0)
+                    {
+                        throw new Exception($"Error code {process.ExitCode} for process {psi.FileName} {psi.Arguments
+                        }");
+                    }
+                }
+            }, cancellationToken);
+        }
+        finally
+        {
+            sw.Stop();
+
+            Console.WriteLine($"Process {fileName} {arguments} completed in {sw.Elapsed.Minutes}m {sw.Elapsed.Seconds
+            }s.");
+        }
     }
 
     private static async Task LaunchResilientTask(string taskName, Func<ResilienceContext, ValueTask> task,

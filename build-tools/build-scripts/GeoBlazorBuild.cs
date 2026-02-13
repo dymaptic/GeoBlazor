@@ -6,6 +6,7 @@
 // GeoBlazorBuild - Primary build script for GeoBlazor and GeoBlazor Pro
 // Usage: dotnet GeoBlazorBuild.dll [options] or ./GeoBlazorBuild.exe [options]
 //   -pro                               Build GeoBlazor Pro as well as Core (default is false)
+//   -po,  --pro-only                   Build only GeoBlazor Pro, skipping Core (implies -pro, default is false)
 //   -pub, --publish-version            Truncate the build version to 3 digits for NuGet (default is false)
 //   -obf, --obfuscate                  Obfuscate the Pro license validation logic (default is false)
 //   -docs, --generate-docs             Generate documentation files for the docs site (default is false)
@@ -15,6 +16,7 @@
 //   -v, --version <string>             Specify a custom version number, or "current" (default is to auto-increment)
 //   -c, --configuration <string>       Build configuration (default is 'Release')
 //   -vc, --validator-config <string>   Validator build configuration (default is 'Release')
+//   -nc, --no-clean                    Skip the clean step (default is false)
 //   -su, --server-url <string>         License server URL (default is 'https://licensing.dymaptic.com')
 //   -retries <int>                     Number of times to retry the build on failure (default is 5)
 //   -h, --help                         Display this help message
@@ -23,7 +25,6 @@ using System.Diagnostics;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using Polly;
 using Utilities;
 
 
@@ -44,6 +45,7 @@ DateTime scriptStartTime = DateTime.Now;
 
 // Parse command line arguments
 bool pro = false;
+bool core = true; // Core builds by default, Pro is opt-in
 bool publishVersion = false;
 bool obfuscate = false;
 bool generateDocs = false;
@@ -51,6 +53,7 @@ bool generateXmlComments = false;
 bool package = false;
 bool binlog = false;
 bool help = false;
+bool clean = true;
 string? customVersion = null;
 string configuration = Environment.GetEnvironmentVariable("Configuration") ?? "Release";
 string validatorConfig = Environment.GetEnvironmentVariable("ValidatorConfiguration") ?? "Release";
@@ -65,6 +68,11 @@ for (int i = 0; i < args.Length; i++)
         case "-pro":
         case "--pro":
             pro = true;
+            break;
+        case "-po":
+        case "--pro-only":
+            pro = true;
+            core = false;
             break;
         case "-pub":
         case "--publish-version":
@@ -93,6 +101,10 @@ for (int i = 0; i < args.Length; i++)
         case "-h":
         case "--help":
             help = true;
+            break;
+        case "-nc":
+        case "--no-clean":
+            clean = false;
             break;
         case "-v":
         case "--version":
@@ -148,6 +160,7 @@ if (help)
     Console.WriteLine();
     Console.WriteLine("Parameters:");
     Console.WriteLine("  -pro                               Build GeoBlazor Pro as well as Core (default is false)");
+    Console.WriteLine("  -po,  --pro-only                   Build only GeoBlazor Pro, skipping Core (implies -pro, default is false)");
     Console.WriteLine("  -pub, --publish-version            Truncate the build version to 3 digits for NuGet (default is false)");
     Console.WriteLine("  -obf, --obfuscate                  Obfuscate the Pro license validation logic (default is false)");
     Console.WriteLine("  -docs, --generate-docs             Generate documentation files for the docs site (default is false)");
@@ -156,6 +169,7 @@ if (help)
     Console.WriteLine("  -bl, --binlog                      Generate MSBuild binary log files (default is false)");
     Console.WriteLine("  -v, --version <string>             Specify a custom version number (default is to auto-increment)");
     Console.WriteLine("  -c, --configuration <string>       Build configuration (default is 'Release')");
+    Console.WriteLine("  -nc, --no-clean                    Skip the clean step (default is false)");
     Console.WriteLine("  -vc, --validator-config <string>   Validator build configuration (default is 'Release')");
     Console.WriteLine("  -su, --server-url <string>         License server URL (default is 'https://licensing.dymaptic.com')");
     Console.WriteLine("  -retries <int>                     Number of times to retry the build on failure (default is 5)");
@@ -207,40 +221,49 @@ try
     string version = customVersion ?? "";
     bool customVersionSet = !string.IsNullOrEmpty(customVersion);
 
-    // STEP: Clean old build artifacts
-    GbCli.WriteStepHeader(step, "Cleaning old build artifacts");
-
-    await ProcessRunner.RunDotnetCommand(coreProjectPath, "clean", null, cts.Token, 
-        $"\"{Path.Combine(coreProjectPath, "dymaptic.GeoBlazor.Core.csproj")}\"");
-    DeleteDirectoryIfExists(Path.Combine(coreProjectPath, "bin"));
-    DeleteDirectoryIfExists(Path.Combine(coreProjectPath, "obj"));
-    DeleteDirectoryContentsIfExists(Path.Combine(coreProjectPath, "wwwroot", "js"));
-    DeleteFileIfExists(Path.Combine(coreProjectPath, "esBuild.lock"));
-    DeleteDirectoryIfExists(Path.Combine(coreProjectPath, "node_modules"), usePowerShell: true);
-
-    if (pro)
+    if (clean)
     {
-        await ProcessRunner.RunDotnetCommand(proProjectPath, "clean", null, cts.Token,
-            $"\"{Path.Combine(proProjectPath, "dymaptic.GeoBlazor.Pro.csproj")}\"");
-        DeleteDirectoryIfExists(Path.Combine(proProjectPath, "bin"));
-        DeleteDirectoryIfExists(Path.Combine(proProjectPath, "obj"));
-        DeleteDirectoryContentsIfExists(Path.Combine(proProjectPath, "obf"));
-        DeleteDirectoryContentsIfExists(Path.Combine(proProjectPath, "build", "resources"));
-        DeleteDirectoryContentsIfExists(Path.Combine(proProjectPath, "wwwroot", "js"));
-        DeleteFileIfExists(Path.Combine(proProjectPath, "esBuild.lock"));
-        DeleteDirectoryIfExists(Path.Combine(proProjectPath, "node_modules"), usePowerShell: true);
+        // STEP: Clean old build artifacts
+        GbCli.WriteStepHeader(step, "Cleaning old build artifacts");
 
-        if (Directory.Exists(validatorProjectPath))
+        List<Task> cleanTasks = [];
+
+        cleanTasks.Add(ProcessRunner.RunDotnetCommand(coreProjectPath, "clean", null, cts.Token, 
+            $"\"{Path.Combine(coreProjectPath, "dymaptic.GeoBlazor.Core.csproj")}\""));
+        cleanTasks.Add(Task.Run(() => DeleteDirectoryIfExists(Path.Combine(coreProjectPath, "bin"))));
+        cleanTasks.Add(Task.Run(() => DeleteDirectoryIfExists(Path.Combine(coreProjectPath, "obj"))));
+        cleanTasks.Add(Task.Run(() => DeleteDirectoryContentsIfExists(Path.Combine(coreProjectPath, "wwwroot", "js"))));
+        cleanTasks.Add(Task.Run(() => DeleteFileIfExists(Path.Combine(coreProjectPath, "esBuild.lock"))));
+        cleanTasks.Add(Task.Run(() => DeleteDirectoryIfExists(Path.Combine(coreProjectPath, "node_modules"), usePowerShell: true)));
+
+        if (pro)
         {
-            await ProcessRunner.RunDotnetCommand(validatorProjectPath, "clean", null, cts.Token,
-                $"\"{Path.Combine(validatorProjectPath, "dymaptic.GeoBlazor.Pro.V.csproj")}\"");
-            DeleteDirectoryIfExists(Path.Combine(validatorProjectPath, "bin"));
-            DeleteDirectoryIfExists(Path.Combine(validatorProjectPath, "obj"));
-            DeleteDirectoryContentsIfExists(Path.Combine(validatorProjectPath, "obf"));
+            cleanTasks.Add(ProcessRunner.RunDotnetCommand(proProjectPath, "clean", null, cts.Token,
+                $"\"{Path.Combine(proProjectPath, "dymaptic.GeoBlazor.Pro.csproj")}\""));
+            cleanTasks.Add(Task.Run(() => DeleteDirectoryIfExists(Path.Combine(proProjectPath, "bin"))));
+            cleanTasks.Add(Task.Run(() => DeleteDirectoryIfExists(Path.Combine(proProjectPath, "obj"))));
+            cleanTasks.Add(Task.Run(() => DeleteDirectoryContentsIfExists(Path.Combine(proProjectPath, "obf"))));
+            cleanTasks.Add(Task.Run(() => DeleteDirectoryContentsIfExists(Path.Combine(proProjectPath, "build", "resources"))));
+            cleanTasks.Add(Task.Run(() => DeleteDirectoryContentsIfExists(Path.Combine(proProjectPath, "wwwroot", "js"))));
+            cleanTasks.Add(Task.Run(() => DeleteFileIfExists(Path.Combine(proProjectPath, "esBuild.lock"))));
+            cleanTasks.Add(Task.Run(() => DeleteDirectoryIfExists(Path.Combine(proProjectPath, "node_modules"), 
+                usePowerShell: true)));
+
+            if (Directory.Exists(validatorProjectPath))
+            {
+                cleanTasks.Add(ProcessRunner.RunDotnetCommand(validatorProjectPath, "clean", null, cts.Token,
+                    $"\"{Path.Combine(validatorProjectPath, "dymaptic.GeoBlazor.Pro.V.csproj")}\""));
+                cleanTasks.Add(Task.Run(() => DeleteDirectoryIfExists(Path.Combine(validatorProjectPath, "bin"))));
+                cleanTasks.Add(Task.Run(() => DeleteDirectoryIfExists(Path.Combine(validatorProjectPath, "obj"))));
+                cleanTasks.Add(Task.Run(() => DeleteDirectoryContentsIfExists(Path.Combine(validatorProjectPath, "obf"))));
+            }
         }
+
+        await Task.WhenAll(cleanTasks);
+        
+        GbCli.WriteStepCompleted(step, stepStartTime);
+        step++;
     }
-    GbCli.WriteStepCompleted(step, stepStartTime);
-    step++;
 
     // STEP: Update library versions (if no custom version specified)
     if (!customVersionSet)
@@ -302,71 +325,77 @@ try
         step++;
     }
 
-    // STEP: Restore .NET packages for Core
-    stepStartTime = DateTime.Now;
-    GbCli.WriteStepHeader(step, "Restoring GeoBlazor Core .NET Packages");
-
-    await ProcessRunner.RunDotnetCommand(coreProjectPath, "restore", null, cts.Token);
-
-    GbCli.WriteStepCompleted(step, stepStartTime);
-    step++;
-
-    // STEP: Build Core Project and NuGet Package
-    stepStartTime = DateTime.Now;
-    GbCli.WriteStepHeader(step, package ? "Building Core Project and NuGet Package" : "Building Core Project");
-
-    List<string> coreBuildArgs =
-    [
-        $"dymaptic.GeoBlazor.Core.csproj",
-        $"--no-restore",
-        "-c",
-        configuration,
-        $"/p:GenerateDocs={generateDocs.ToString().ToLower()}",
-        $"/p:GenerateXmlComments={generateXmlComments.ToString().ToLower()}",
-        $"/p:CoreVersion={version}",
-        $"/p:GeneratePackage={package.ToString().ToLower()}",
-        "/p:ShowScriptDialogs=false"
-    ];
-
-    if (binlog)
+    // Core-specific steps
+    if (core)
     {
-        coreBuildArgs.Add($"-bl:\"{Path.Combine(coreRepoRoot, $"core_build_{configuration.ToLower()}.binlog")}\"");
-    }
+        // STEP: Restore .NET packages for Core
+        stepStartTime = DateTime.Now;
+        GbCli.WriteStepHeader(step, "Restoring GeoBlazor Core .NET Packages");
 
-    Console.WriteLine($"Executing 'dotnet build {string.Join(" ", coreBuildArgs)}'");
+        await ProcessRunner.RunDotnetCommand(coreProjectPath, "restore", null, cts.Token);
 
-    await ProcessRunner.RunDotnetCommand(coreProjectPath, "build", null, cts.Token, coreBuildArgs);
+        GbCli.WriteStepCompleted(step, stepStartTime);
+        step++;
 
-    // Verify JavaScript files were created
-    string coreJsPath = Path.Combine(coreProjectPath, "wwwroot", "js");
-    if (!Directory.Exists(coreJsPath) || Directory.GetFiles(coreJsPath, "*.js").Length == 0)
-    {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine("ERROR: Core JavaScript files still not found after waiting. Exiting.");
-        Console.ResetColor();
-        return 1;
-    }
+        // STEP: Build Core Project and NuGet Package
+        stepStartTime = DateTime.Now;
+        GbCli.WriteStepHeader(step, package ? "Building Core Project and NuGet Package" : "Building Core Project");
 
-    if (package)
-    {
-        // Copy generated NuGet package to repo root
-        string coreBinPath = Path.Combine(coreProjectPath, "bin", configuration);
-        if (Directory.Exists(coreBinPath))
+        List<string> coreBuildArgs =
+        [
+            $"dymaptic.GeoBlazor.Core.csproj",
+            $"--no-restore",
+            "-c",
+            configuration,
+            $"/p:GenerateDocs={generateDocs.ToString().ToLower()}",
+            $"/p:GenerateXmlComments={generateXmlComments.ToString().ToLower()}",
+            $"/p:CoreVersion={version}",
+            $"/p:GeneratePackage={package.ToString().ToLower()}",
+            "/p:ShowScriptDialogs=false"
+        ];
+
+        if (binlog)
         {
-            var coreNupkg = Directory.GetFiles(coreBinPath, "*.nupkg", SearchOption.AllDirectories)
-                .Select(f => new FileInfo(f))
-                .OrderByDescending(f => f.LastWriteTime)
-                .FirstOrDefault();
-            if (coreNupkg != null)
+            coreBuildArgs.Add($"-bl:\"{Path.Combine(coreRepoRoot, $"core_build_{configuration.ToLower()}.binlog")}\"");
+        }
+
+        Console.WriteLine($"Executing 'dotnet build {string.Join(" ", coreBuildArgs)}'");
+
+        await ProcessRunner.RunDotnetCommand(coreProjectPath, "build", null, cts.Token, coreBuildArgs);
+
+        // Verify JavaScript files were created
+        string coreJsPath = Path.Combine(coreProjectPath, "wwwroot", "js");
+        if (!Directory.Exists(coreJsPath) || Directory.GetFiles(coreJsPath, "*.js").Length == 0)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("ERROR: Core JavaScript files still not found after waiting. Exiting.");
+            Console.ResetColor();
+            return 1;
+        }
+
+        if (package)
+        {
+            // Copy generated NuGet package to repo root
+            string coreBinPath = Path.Combine(coreProjectPath, "bin", configuration);
+            if (Directory.Exists(coreBinPath))
             {
+                var coreNupkg = Directory.GetFiles(coreBinPath, "*.nupkg", SearchOption.AllDirectories)
+                    .Select(f => new FileInfo(f))
+                    .OrderByDescending(f => f.LastWriteTime)
+                    .FirstOrDefault();
+                if (coreNupkg is null)
+                {
+                    throw new FileNotFoundException("NuGet package not found in Core bin directory.");
+                }
+
                 File.Copy(coreNupkg.FullName, Path.Combine(coreRepoRoot, coreNupkg.Name), true);
                 Console.WriteLine($"Copied {coreNupkg.Name} to {coreRepoRoot}");
             }
         }
-    }
 
-    GbCli.WriteStepCompleted(step, stepStartTime);
-    step++;
+        GbCli.WriteStepCompleted(step, stepStartTime);
+        step++;
+    }
 
     // Pro-specific steps
     if (pro)
@@ -514,11 +543,13 @@ try
                     .Select(f => new FileInfo(f))
                     .OrderByDescending(f => f.LastWriteTime)
                     .FirstOrDefault();
-                if (proNupkg != null)
+                if (proNupkg is null)
                 {
-                    File.Copy(proNupkg.FullName, Path.Combine(coreRepoRoot, proNupkg.Name), true);
-                    Console.WriteLine($"Copied {proNupkg.Name} to {coreRepoRoot}");
+                    throw new FileNotFoundException("NuGet package not found in Pro bin directory.");
                 }
+
+                File.Copy(proNupkg.FullName, Path.Combine(coreRepoRoot, proNupkg.Name), true);
+                Console.WriteLine($"Copied {proNupkg.Name} to {coreRepoRoot}");
             }
         }
 

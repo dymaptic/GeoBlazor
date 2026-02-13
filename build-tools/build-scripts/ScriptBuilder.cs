@@ -182,7 +182,7 @@ static int BuildScripts(string[] scripts, HashSet<string> scriptsToProcess, stri
             }
         }
 
-        if (!branchChanged && !CheckIfNeedsBuild(timeStamp, script, outDir))
+        if (!force && !branchChanged && !CheckIfNeedsBuild(timeStamp, script, outDir, scriptsDir))
         {
             Trace.WriteLine($"Skipping unchanged script: {Path.GetFileName(script)}");
             continue;
@@ -307,9 +307,9 @@ static string GetCurrentGitBranch(string workingDirectory)
 /// <param name="script">The script name to check for changes.</param>
 /// <param name="outputDir">Path to the JavaScript output directory.</param>
 /// <returns>True if a build should be performed.</returns>
-static bool CheckIfNeedsBuild(long timeStamp, string script, string outputDir)
+static bool CheckIfNeedsBuild(long timeStamp, string script, string outputDir, string scriptsDir)
 {
-    if (!GetScriptModifiedSince(script, timeStamp))
+    if (!GetScriptModifiedSince(script, timeStamp, scriptsDir))
     {
         Trace.WriteLine("No change in script since last build.");
 
@@ -341,6 +341,8 @@ static bool CheckIfNeedsBuild(long timeStamp, string script, string outputDir)
             Trace.WriteLine("Output directory is empty. Proceeding with build.");
             return true;
         }
+
+        return false;
     }
 
     Trace.WriteLine("Changes detected in Scripts folder. Proceeding with build.");
@@ -383,11 +385,56 @@ static (long Timestamp, string Branch) GetLastBuildRecord(string recordFilePath)
 /// <param name="script">Path to the source script.</param>
 /// <param name="lastTimestamp">Unix timestamp (milliseconds) of the last build.</param>
 /// <returns>True if the file has been modified since the timestamp.</returns>
-static bool GetScriptModifiedSince(string script, long lastTimestamp)
+static bool GetScriptModifiedSince(string script, long lastTimestamp, string scriptsDir)
 {
     var lastBuildTime = DateTimeOffset.FromUnixTimeMilliseconds(lastTimestamp).DateTime;
 
-    return File.GetLastWriteTimeUtc(script) > lastBuildTime;
+    bool isModified = File.GetLastWriteTimeUtc(script) > lastBuildTime;
+
+    if (isModified)
+    {
+        return true;
+    }
+
+    // read the script headers and see if it references any other files that may have been modified
+    string[] lines = File.ReadAllLines(script);
+
+    foreach (string line in lines)
+    {
+        if (line.StartsWith("#:project", StringComparison.InvariantCultureIgnoreCase))
+        {
+            string projectFilePathRelativePath = line.Substring("#:project".Length).Trim();
+            string projectFilePath = Path.GetFullPath(Path.Combine(scriptsDir, projectFilePathRelativePath));
+            if (!File.Exists(projectFilePath))
+            {
+                Trace.WriteLine($"Referenced project file not found: {projectFilePath}");
+                continue;
+            }
+            if (GetScriptModifiedSince(projectFilePath, lastTimestamp, scriptsDir))
+            {
+                Trace.WriteLine($"Referenced project file {projectFilePath} has been modified since last build.");
+                return true;
+            }
+
+            string? projectFolderPath = Path.GetDirectoryName(projectFilePath);
+            if (projectFolderPath == null)
+            {
+                Trace.WriteLine($"Could not determine project folder path for {projectFilePath}");
+                continue;
+            }
+            string[] referencedFiles = Directory.GetFiles(projectFolderPath, "*.cs", SearchOption.AllDirectories);
+            foreach (string refFile in referencedFiles)
+            {
+                if (GetScriptModifiedSince(refFile, lastTimestamp, scriptsDir))
+                {
+                    Trace.WriteLine($"Referenced file {refFile} has been modified since last build.");
+                    return true;
+                }
+            }
+        }
+    }
+
+    return isModified;
 }
 
 /// <summary>
