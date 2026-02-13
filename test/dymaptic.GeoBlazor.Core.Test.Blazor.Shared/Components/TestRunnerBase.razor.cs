@@ -24,7 +24,7 @@ public partial class TestRunnerBase : IAsyncDisposable
         var retryStrategyOptions = new RetryStrategyOptions
         {
             BackoffType = DelayBackoffType.Exponential,
-            MaxRetryAttempts = 3,
+            MaxRetryAttempts = 2, // one retry is usually plenty, two just in case
             Delay = TimeSpan.FromSeconds(1),
             ShouldHandle = new PredicateBuilder().Handle<Exception>(ex =>
                 !ex.Message.Contains("Invalid GeoBlazor registration key")
@@ -34,6 +34,10 @@ public partial class TestRunnerBase : IAsyncDisposable
                 && !ex.Message.Contains("Map component view is in an invalid state")),
             OnRetry = async args =>
             {
+                if (args.Context.OperationKey is null)
+                {
+                    return;
+                }
                 await CleanupTest(args.Context.OperationKey!, true);
                 _testResults[args.Context.OperationKey!] = $"Attempt {args.AttemptNumber + 1} failed. Retrying...";
             }

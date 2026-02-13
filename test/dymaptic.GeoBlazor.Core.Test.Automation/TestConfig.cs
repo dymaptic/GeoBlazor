@@ -389,7 +389,7 @@ public class TestConfig
 
             if (SkippedTests.Count > 0)
             {
-                Trace.WriteLine($"INCONCLUSIVE TESTS: {SkippedTests.Count}", ProcessName.FINAL_SUMMARY);
+                Trace.WriteLine($"SKIPPED TESTS: {SkippedTests.Count}", ProcessName.FINAL_SUMMARY);
 
                 foreach (var skipped in SkippedTests.Keys)
                 {
