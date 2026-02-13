@@ -25,31 +25,33 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
     [TestCleanup]
     public async Task TestCleanup()
     {
+        var fullTestName = $"{GetType().Name.Split('_').Last()}.{TestContext.TestName}";
+
         switch (TestContext.CurrentTestOutcome)
         {
             case UnitTestOutcome.Passed:
-                if (!TestConfig.SkippedTests.ContainsKey(TestContext.TestName))
+                if (!TestConfig.SkippedTests.ContainsKey(fullTestName))
                 {
-                    TestConfig.PassedTests.TryAdd(TestContext.TestName, 0);
+                    TestConfig.PassedTests.TryAdd(fullTestName, 0);
                 }
 
                 break;
             case UnitTestOutcome.Failed:
-                if (!TestConfig.FailedTests.ContainsKey(TestContext.TestName))
+                if (!TestConfig.FailedTests.ContainsKey(fullTestName))
                 {
-                    throw new Exception($"Test {TestContext.TestName
-                    } failed but was not added to FailedTests during the Exception handler");
+                    throw new Exception(
+                        $"Test {fullTestName} failed but was not added to FailedTests during the Exception handler");
                 }
 
                 break;
             case UnitTestOutcome.Inconclusive:
-                TestConfig.FilteredTests!.Remove($"{GetType().Name.Split('_').Last()}.{TestContext.TestName}");
-                TestConfig.InconclusiveTests.TryAdd(TestContext.TestName, 0);
+                TestConfig.FilteredTests!.Remove(fullTestName);
+                TestConfig.InconclusiveTests.TryAdd(fullTestName, 0);
 
                 break;
             case UnitTestOutcome.Ignored:
-                TestConfig.FilteredTests!.Remove($"{GetType().Name.Split('_').Last()}.{TestContext.TestName}");
-                TestConfig.SkippedTests.TryAdd(TestContext.TestName, 0);
+                TestConfig.FilteredTests!.Remove(fullTestName);
+                TestConfig.SkippedTests.TryAdd(fullTestName, 0);
 
                 break;
         }
@@ -88,7 +90,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
     {
         if (TestConfig.UnitOnly)
         {
-            TestConfig.SkippedTests.TryAdd(testName.Split('.').Last(), 0);
+            TestConfig.SkippedTests.TryAdd(testName, 0);
             TestConfig.FilteredTests!.Remove(testName);
             Trace.WriteLine($"{testName} Skipped", ProcessName.WEB_TEST);
 
