@@ -234,7 +234,6 @@ try
         cleanTasks.Add(Task.Run(() => DeleteDirectoryIfExists(Path.Combine(coreProjectPath, "obj"))));
         cleanTasks.Add(Task.Run(() => DeleteDirectoryContentsIfExists(Path.Combine(coreProjectPath, "wwwroot", "js"))));
         cleanTasks.Add(Task.Run(() => DeleteFileIfExists(Path.Combine(coreProjectPath, "esBuild.lock"))));
-        cleanTasks.Add(Task.Run(() => DeleteDirectoryIfExists(Path.Combine(coreProjectPath, "node_modules"), usePowerShell: true)));
 
         if (pro)
         {
@@ -246,8 +245,6 @@ try
             cleanTasks.Add(Task.Run(() => DeleteDirectoryContentsIfExists(Path.Combine(proProjectPath, "build", "resources"))));
             cleanTasks.Add(Task.Run(() => DeleteDirectoryContentsIfExists(Path.Combine(proProjectPath, "wwwroot", "js"))));
             cleanTasks.Add(Task.Run(() => DeleteFileIfExists(Path.Combine(proProjectPath, "esBuild.lock"))));
-            cleanTasks.Add(Task.Run(() => DeleteDirectoryIfExists(Path.Combine(proProjectPath, "node_modules"), 
-                usePowerShell: true)));
 
             if (Directory.Exists(validatorProjectPath))
             {
@@ -601,7 +598,7 @@ static void DeleteFileIfExists(string path)
 /// If true, uses PowerShell 7 for deletion which handles long paths on Windows.
 /// Useful for node_modules directories.
 /// </param>
-static void DeleteDirectoryIfExists(string path, bool usePowerShell = false)
+static void DeleteDirectoryIfExists(string path)
 {
     if (!Directory.Exists(path))
     {
@@ -610,32 +607,7 @@ static void DeleteDirectoryIfExists(string path, bool usePowerShell = false)
 
     try
     {
-        if (usePowerShell)
-        {
-            // Use PowerShell 7 for cross-platform deletion - handles long paths on Windows
-            string escapedPath = path.Replace("'", "''");
-            var psi = new ProcessStartInfo
-            {
-                FileName = "pwsh",
-                Arguments = $"-NoProfile -Command \"Remove-Item -LiteralPath '{escapedPath}' -Recurse -Force -ErrorAction Stop\"",
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                RedirectStandardError = true
-            };
-            using var process = Process.Start(psi);
-            process?.WaitForExit(60000); // 60 second timeout for large node_modules
-
-            // Verify deletion
-            if (Directory.Exists(path))
-            {
-                Console.WriteLine($"WARNING: Failed to delete {path} with PowerShell, trying .NET fallback...");
-                Directory.Delete(path, true);
-            }
-        }
-        else
-        {
-            Directory.Delete(path, true);
-        }
+        Directory.Delete(path, true);
 
         // Verify and wait for filesystem to settle
         int retries = 10;

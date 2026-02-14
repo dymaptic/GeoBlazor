@@ -95,12 +95,11 @@ public class TestConfig
     public static int WebInconclusiveTestCount;
 
     public static readonly CancellationTokenSource Cts = new();
-    public static Stopwatch FullSuiteStopwatch = new();
 
     [AssemblyInitialize]
     public static async Task AssemblyInitialize(TestContext testContext)
     {
-        FullSuiteStopwatch.Start();
+        fullSuiteStopwatch.Start();
         Trace.Listeners.Add(new ConsoleTraceListener());
         Trace.Listeners.Add(new StringBuilderTraceListener(logBuilders));
         Trace.AutoFlush = true;
@@ -212,17 +211,12 @@ public class TestConfig
 
         await Task.WhenAll(setupTasks);
 
+        // Fire off the Web Browser for main web tests suite
+        var webServerLaunchTask = LaunchPipelineTask(ProcessName.WEB_APP_SERVER, LaunchWebTests);
+
         if (!_useContainer)
         {
             await LaunchPipelineTask(ProcessName.PRE_BUILD, PreBuildAllProjects);
-        }
-
-        List<Task> runTasks = [];
-
-        if (!UnitOnly)
-        {
-            // WEB TESTS
-            runTasks.Add(LaunchPipelineTask(ProcessName.WEB_APP, LaunchWebTests));
         }
 
         // UNIT TESTS
@@ -240,13 +234,25 @@ public class TestConfig
             }
         }
 
-        await Task.WhenAll(runTasks);
+        await webServerLaunchTask;
+
+        Trace.WriteLine($"Assembly Initialization Complete in {fullSuiteStopwatch.Elapsed.Minutes}m {
+            fullSuiteStopwatch.Elapsed.Seconds}s",
+            ProcessName.TEST_SETUP);
         _webTestStartTime = DateTime.UtcNow;
     }
 
     [AssemblyCleanup]
     public static async Task AssemblyCleanup()
     {
+        // ensure unit tests have completed
+        if (runTasks.Any())
+        {
+            await Task.WhenAll(runTasks);
+        }
+
+        Stopwatch cleanupStopwatch = new();
+        cleanupStopwatch.Start();
         var webTestEndTime = DateTime.UtcNow;
 
         try
@@ -290,7 +296,7 @@ public class TestConfig
                 {
                     List<Task> coverageShutdownTasks =
                     [
-                        ShutdownContainerCoverage(ProcessName.WEB_APP, ComposeFilePath)
+                        ShutdownContainerCoverage(ProcessName.WEB_APP_SERVER, ComposeFilePath)
                     ];
 
                     if (!ProOnly)
@@ -343,7 +349,13 @@ public class TestConfig
                 await GenerateCoverageReport();
             }
 
-            FullSuiteStopwatch.Stop();
+            cleanupStopwatch.Stop();
+
+            Trace.WriteLine(
+                $"Assembly Cleanup Complete in {cleanupStopwatch.Elapsed.Minutes}m {cleanupStopwatch.Elapsed.Seconds}s",
+                ProcessName.TEST_CLEANUP);
+
+            fullSuiteStopwatch.Stop();
 
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
@@ -353,7 +365,7 @@ public class TestConfig
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
 
-            Trace.WriteLine($"TIME: {FullSuiteStopwatch.Elapsed.Minutes}m {FullSuiteStopwatch.Elapsed.Seconds}s",
+            Trace.WriteLine($"TIME: {fullSuiteStopwatch.Elapsed.Minutes}m {fullSuiteStopwatch.Elapsed.Seconds}s",
                 ProcessName.FINAL_SUMMARY);
 
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
@@ -372,7 +384,7 @@ public class TestConfig
                 Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             }
 
-            Trace.WriteLine($"{ProcessName.WEB_APP} SUMMARY: {(WebFailedTestCount > 0 ? "FAILED!" : "PASSED")}",
+            Trace.WriteLine($"{ProcessName.WEB_APP_SERVER} SUMMARY: {(WebFailedTestCount > 0 ? "FAILED!" : "PASSED")}",
                 ProcessName.FINAL_SUMMARY);
             Trace.WriteLine($"  total: {_webTestTotalTestCount}", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine($"  failed: {WebFailedTestCount}", ProcessName.FINAL_SUMMARY);
@@ -799,6 +811,8 @@ public class TestConfig
 
     private static async ValueTask LaunchWebTests(ResilienceContext context)
     {
+        webLaunchStopwatch.Start();
+
         try
         {
             if (_useContainer)
@@ -816,10 +830,20 @@ public class TestConfig
 
             throw;
         }
+        finally
+        {
+            webLaunchStopwatch.Stop();
+
+            Trace.WriteLine($"Web Tests Server Ready in {webLaunchStopwatch.Elapsed.Minutes}m {
+                webLaunchStopwatch.Elapsed.Seconds
+            }s", ProcessName.WEB_APP_SERVER);
+        }
     }
 
     private static async ValueTask LaunchUnitTests(ResilienceContext context)
     {
+        var unitTestStopwatch = Stopwatch.StartNew();
+
         try
         {
             // Pro Unit tests need to always run in a container because they wipe out state that other tests depend on.
@@ -837,6 +861,14 @@ public class TestConfig
             context.Properties.Set(exceptionKey, $"{ex.Message}{Environment.NewLine}{ex.StackTrace}");
 
             throw;
+        }
+        finally
+        {
+            unitTestStopwatch.Stop();
+
+            Trace.WriteLine(
+                $"Tests Complete in {unitTestStopwatch.Elapsed.Minutes}m {unitTestStopwatch.Elapsed.Seconds}s",
+                context.OperationKey);
         }
     }
 
@@ -1076,8 +1108,8 @@ public class TestConfig
             await BuildContainer(filePath, processName, context);
         }
 
-        Trace.WriteLine($"Starting container with: docker {string.Join(" ", args)}", processName);
-        Trace.WriteLine($"Working directory: {_projectFolder}", processName);
+        Trace.WriteLine($"Starting container with: docker {string.Join(" ", args)}", $"CONTAINER_BUILD: {processName}");
+        Trace.WriteLine($"Working directory: {_projectFolder}", $"CONTAINER_BUILD: {processName}");
 
         if (_cover)
         {
@@ -1133,6 +1165,7 @@ public class TestConfig
                 }
             }))
             .WithWorkingDirectory(_projectFolder)
+            .WithValidation(CommandResultValidation.None)
             .ExecuteAsync(linkedTokenSource.Token, gracefulCts.Token);
 
         var containerName = processName switch
@@ -1283,7 +1316,7 @@ public class TestConfig
             ];
         }
 
-        Trace.WriteLine($"Starting test app: {cmdLineApp} {string.Join(" ", args)}", ProcessName.TEST_SETUP);
+        Trace.WriteLine($"Starting test app: {cmdLineApp} {string.Join(" ", args)}", ProcessName.WEB_APP_SERVER);
 
         var ioExceptionThrown = false;
         string? ioExceptionMessage = null;
@@ -1300,7 +1333,7 @@ public class TestConfig
                     ioExceptionThrown = true;
                 }
 
-                Trace.WriteLine(line, ProcessName.WEB_APP);
+                Trace.WriteLine(line, ProcessName.WEB_APP_SERVER);
             }))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
                 Trace.WriteLine(line, ProcessName.WEB_APP_ERROR)))
@@ -1336,11 +1369,11 @@ public class TestConfig
         if (context.Properties.TryGetValue(retryAttemptKey, out var retryAttempt) && (retryAttempt > 0))
         {
             // if the first build fails, try with no cache
-            await BuildContainer(ComposeFilePath, ProcessName.WEB_APP, context);
+            await BuildContainer(ComposeFilePath, ProcessName.WEB_APP_SERVER, context);
         }
 
-        Trace.WriteLine($"Starting container with: docker {string.Join(" ", args)}", ProcessName.WEB_APP);
-        Trace.WriteLine($"Working directory: {_projectFolder}", ProcessName.WEB_APP);
+        Trace.WriteLine($"Starting container with: docker {string.Join(" ", args)}", ProcessName.WEB_APP_SERVER);
+        Trace.WriteLine($"Working directory: {_projectFolder}", ProcessName.WEB_APP_SERVER);
 
         if (_cover)
         {
@@ -1350,7 +1383,7 @@ public class TestConfig
             args =
             [
                 "collect",
-                "--session-id", ProcessName.WEB_APP,
+                "--session-id", ProcessName.WEB_APP_SERVER,
                 "-o", CoverageFilePath,
                 "-f", _coverageFormat,
                 dockerCommand
@@ -1372,13 +1405,13 @@ public class TestConfig
                 ["HTTP_PORT"] = _httpPort.ToString(),
                 ["HTTPS_PORT"] = _httpsPort.ToString(),
                 ["COVER"] = _cover.ToString().ToLower(),
-                ["SESSION_ID"] = ProcessName.WEB_APP,
+                ["SESSION_ID"] = ProcessName.WEB_APP_SERVER,
                 ["COVERAGE_FORMAT"] = _coverageFormat,
                 ["COVERAGE_FILE_VERSION"] = _coverageFileVersion,
                 ["GEOBLAZOR_CORE_LICENSE_KEY"] = _configuration!["GEOBLAZOR_CORE_LICENSE_KEY"],
                 ["GEOBLAZOR_PRO_LICENSE_KEY"] = _configuration["GEOBLAZOR_PRO_LICENSE_KEY"]
             })
-            .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, ProcessName.WEB_APP)))
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, ProcessName.WEB_APP_SERVER)))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
             {
                 if (line.Contains("ERROR:"))
@@ -1411,8 +1444,9 @@ public class TestConfig
             "compose", "-f", filePath, "build", "--no-cache"
         ];
 
-        Trace.WriteLine($"Re-building container with: docker {string.Join(" ", args)}", processName);
-        Trace.WriteLine($"Working directory: {_projectFolder}", processName);
+        Trace.WriteLine($"Re-building container with: docker {string.Join(" ", args)}",
+            $"CONTAINER_BUILD: {processName}");
+        Trace.WriteLine($"Working directory: {_projectFolder}", $"CONTAINER_BUILD: {processName}");
 
         CancellationTokenSource waitTokenSource = new();
 
@@ -1435,7 +1469,8 @@ public class TestConfig
                 ["GEOBLAZOR_CORE_LICENSE_KEY"] = _configuration!["GEOBLAZOR_CORE_LICENSE_KEY"],
                 ["GEOBLAZOR_PRO_LICENSE_KEY"] = _configuration["GEOBLAZOR_PRO_LICENSE_KEY"]
             })
-            .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, processName)))
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
+                Trace.WriteLine(line, $"CONTAINER_BUILD: {processName}")))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
             {
                 if (line.Contains("ERROR:"))
@@ -1446,6 +1481,7 @@ public class TestConfig
                 }
             }))
             .WithWorkingDirectory(_projectFolder)
+            .WithValidation(CommandResultValidation.None)
             .ExecuteAsync(linkedTokenSource.Token, gracefulCts.Token);
 
         if (_webAppContainerExceptionThrown)
@@ -1459,8 +1495,8 @@ public class TestConfig
         // Get the container name from the compose file
         var containerName = processName switch
         {
-            ProcessName.WEB_APP when composeFilePath.EndsWith("core.yml") => "geoblazor-core-tests-test-app-1",
-            ProcessName.WEB_APP when composeFilePath.EndsWith("pro.yml") => "geoblazor-pro-tests-test-app-1",
+            ProcessName.WEB_APP_SERVER when composeFilePath.EndsWith("core.yml") => "geoblazor-core-tests-test-app-1",
+            ProcessName.WEB_APP_SERVER when composeFilePath.EndsWith("pro.yml") => "geoblazor-pro-tests-test-app-1",
             ProcessName.CORE_UNIT => "gb-core-unit-core-unit-1",
             ProcessName.PRO_UNIT => "gb-pro-unit-pro-unit-1",
             ProcessName.PRO_VALIDATION => "gb-pro-validation-pro-validation-1",
@@ -1533,7 +1569,7 @@ public class TestConfig
                 if (i % 10 == 0)
                 {
                     Trace.WriteLine($"Waiting for Test Site at {TestAppHttpUrl}. Attempt {i} out of {maxAttempts}...",
-                        ProcessName.TEST_SETUP);
+                        ProcessName.WEB_APP_SERVER);
                 }
 
                 var response =
@@ -1542,7 +1578,7 @@ public class TestConfig
                 if (response.IsSuccessStatusCode ||
                     response.StatusCode is >= (HttpStatusCode)300 and < (HttpStatusCode)400)
                 {
-                    Trace.WriteLine($"Test Site is ready! Status: {response.StatusCode}", ProcessName.TEST_SETUP);
+                    Trace.WriteLine($"Test Site is ready! Status: {response.StatusCode}", ProcessName.WEB_APP_SERVER);
 
                     return;
                 }
@@ -1617,7 +1653,7 @@ public class TestConfig
                 if (i % 10 == 0)
                 {
                     Trace.WriteLine($"Waiting for Test Container {containerName}. Attempt {i} out of {maxAttempts}...",
-                        processName);
+                        $"CONTAINER_BUILD: {processName}");
                 }
 
                 await Cli.Wrap("docker")
@@ -1627,7 +1663,7 @@ public class TestConfig
                     {
                         if (line.Contains(containerName))
                         {
-                            Trace.WriteLine($"Container {containerName} is running", processName);
+                            Trace.WriteLine($"Container {containerName} is running", $"CONTAINER_BUILD: {processName}");
                             isRunning = true;
                         }
                     }))
@@ -1635,7 +1671,7 @@ public class TestConfig
 
                 if (isRunning)
                 {
-                    Trace.WriteLine($"Test Container {containerName} is ready!", processName);
+                    Trace.WriteLine($"Test Container {containerName} is ready!", $"CONTAINER_BUILD: {processName}");
 
                     return;
                 }
@@ -1889,6 +1925,10 @@ public class TestConfig
         await File.WriteAllTextAsync(LogFilePath, sb.ToString());
     }
 
+    private static readonly Stopwatch fullSuiteStopwatch = new();
+    private static readonly Stopwatch webLaunchStopwatch = new();
+    private static readonly List<Task> runTasks = [];
+
     private static readonly RetryStrategyOptions appRetryStrategyOptions = new()
     {
         BackoffType = DelayBackoffType.Exponential,
@@ -1966,13 +2006,13 @@ internal static class ProcessName
 {
     public static readonly string[] OrderedList =
     {
-        TEST_SETUP, PRE_BUILD, CODE_COVERAGE_TOOL_INSTALLATION, WEB_APP, WEB_TEST, CORE_UNIT, PRO_UNIT,
+        TEST_SETUP, PRE_BUILD, CODE_COVERAGE_TOOL_INSTALLATION, WEB_APP_SERVER, WEB_TEST, CORE_UNIT, PRO_UNIT,
         PRO_VALIDATION, CODE_COVERAGE, CODE_COVERAGE_REPORT, TEST_CLEANUP, TEST_SHUTDOWN, FINAL_SUMMARY
     };
     public const string TEST_SETUP = "TEST_SETUP";
     public const string PRE_BUILD = "PRE_BUILD";
     public const string CODE_COVERAGE_TOOL_INSTALLATION = "CODE_COVERAGE_TOOL_INSTALLATION";
-    public const string WEB_APP = "WEB_APP";
+    public const string WEB_APP_SERVER = "WEB_APP_SERVER";
     public const string WEB_TEST = "WEB_TEST";
     public const string CORE_UNIT = "CORE_UNIT";
     public const string PRO_UNIT = "PRO_UNIT";

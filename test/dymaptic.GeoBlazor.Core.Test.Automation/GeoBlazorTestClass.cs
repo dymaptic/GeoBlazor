@@ -29,66 +29,71 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
     {
         var fullTestName = $"{GetType().Name.Split('_').Last()}.{TestContext.TestName}";
 
-        switch (TestContext.CurrentTestOutcome)
+        try
         {
-            case UnitTestOutcome.Passed:
-                if (!TestConfig.SkippedTests.ContainsKey(fullTestName))
+            switch (TestContext.CurrentTestOutcome)
+            {
+                case UnitTestOutcome.Passed:
+                    if (!TestConfig.SkippedTests.ContainsKey(fullTestName)
+                        && !TestConfig.InconclusiveTests.ContainsKey(fullTestName)
+                        && TestConfig.FilteredTests!.Contains(fullTestName))
+                    {
+                        TestConfig.PassedTests.TryAdd(fullTestName, 0);
+                    }
+
+                    break;
+                case UnitTestOutcome.Failed:
+                    if (!TestConfig.FailedTests.ContainsKey(fullTestName))
+                    {
+                        throw new Exception($"Test {fullTestName
+                        } failed but was not added to FailedTests during the Exception handler");
+                    }
+
+                    break;
+                case UnitTestOutcome.Inconclusive:
+                    TestConfig.FilteredTests!.Remove(fullTestName);
+                    TestConfig.InconclusiveTests.TryAdd(fullTestName, 0);
+
+                    break;
+                case UnitTestOutcome.Ignored:
+                    TestConfig.FilteredTests!.Remove(fullTestName);
+                    TestConfig.SkippedTests.TryAdd(fullTestName, 0);
+
+                    break;
+            }
+
+            if (TestOK())
+            {
+                foreach (var context in _contexts)
                 {
-                    TestConfig.PassedTests.TryAdd(fullTestName, 0);
+                    await context.CloseAsync().ConfigureAwait(false);
                 }
+            }
 
-                break;
-            case UnitTestOutcome.Failed:
-                if (!TestConfig.FailedTests.ContainsKey(fullTestName))
+            _contexts.Clear();
+
+            // Return browser to pool instead of abandoning it
+            if (_pooledBrowser is not null)
+            {
+                try
                 {
-                    throw new Exception($"Test {fullTestName
-                    } failed but was not added to FailedTests during the Exception handler");
+                    await BrowserPool.GetInstance(BrowserType, _launchOptions!, TestConfig.BrowserPoolSize)
+                        .ReturnAsync(_pooledBrowser)
+                        .ConfigureAwait(false);
                 }
-
-                break;
-            case UnitTestOutcome.Inconclusive:
-                TestConfig.FilteredTests!.Remove(fullTestName);
-                TestConfig.InconclusiveTests.TryAdd(fullTestName, 0);
-
-                break;
-            case UnitTestOutcome.Ignored:
-                TestConfig.FilteredTests!.Remove(fullTestName);
-                TestConfig.SkippedTests.TryAdd(fullTestName, 0);
-
-                break;
-        }
-
-        if (TestOK())
-        {
-            foreach (var context in _contexts)
-            {
-                await context.CloseAsync().ConfigureAwait(false);
+                catch (Exception ex)
+                {
+                    Trace.WriteLine($"Error returning browser to pool: {ex.Message}", ProcessName.WEB_TEST);
+                }
             }
         }
-
-        _contexts.Clear();
-
-        // Return browser to pool instead of abandoning it
-        if (_pooledBrowser is not null)
+        finally
         {
-            try
-            {
-                await BrowserPool.GetInstance(BrowserType, _launchOptions!, TestConfig.BrowserPoolSize)
-                    .ReturnAsync(_pooledBrowser)
-                    .ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine($"Error returning browser to pool: {ex.Message}", ProcessName.WEB_TEST);
-            }
-            finally
-            {
-                _pooledBrowser = null;
+            _pooledBrowser = null;
 
-                Trace.WriteLine($"Test {TestContext.TestName} completed in {_testStopwatch.Elapsed.Minutes}m {
-                    _testStopwatch.Elapsed.Seconds}s. {TestContext.CurrentTestOutcome}", ProcessName.WEB_TEST);
-                _testStopwatch.Stop();
-            }
+            Trace.WriteLine($"Test {TestContext.TestName} completed in {_testStopwatch.Elapsed.Minutes}m {
+                _testStopwatch.Elapsed.Seconds}s. {TestContext.CurrentTestOutcome}", ProcessName.WEB_TEST);
+            _testStopwatch.Stop();
         }
     }
 

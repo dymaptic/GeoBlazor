@@ -148,18 +148,21 @@ foreach (string line in await File.ReadAllLinesAsync(testOutputLogPath))
     if (line.Contains("FINAL_SUMMARY"))
     {
         string content = line.Substring(38); // 38 is the timestamp plus FINAL_SUMMARY:
-        Console.WriteLine(content);
         if (finalCountRegex.Match(line) is { Success: true } match)
         {
             int total = int.Parse(match.Groups["total"].Value);
             int passed = int.Parse(match.Groups["passed"].Value);
             double passedPercentage = (double)passed / total * 100;
-            Console.WriteLine($"TEST RESULTS: {passed} / {total} TESTS PASSED ({passedPercentage:F2}%).");
+            Console.WriteLine($"PASSED TESTS: {passed} / {total} TESTS PASSED ({passedPercentage:F2}%).");
             if (passedPercentage < percentage)
             {
                 Console.WriteLine($"TEST RUN FAILED: Passed percentage {passedPercentage:F2}% is below the required {percentage}%.");
                 failed = true;
             }
+        }
+        else
+        {
+            Console.WriteLine(content);
         }
     }
 }

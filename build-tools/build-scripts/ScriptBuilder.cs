@@ -104,56 +104,116 @@ for (int i = 0; i < args.Length; i++)
 }
 
 string currentBranch = GetCurrentGitBranch(coreDir);
+List<string> platforms = allPlatforms ? ["linux-x64", "osx-arm64", "win-x64"] : [runtime];
 
 int result = -1;
 
-if (allPlatforms)
+string utilitiesDir = Path.Combine(coreScriptsDir, "..", "utilities");
+string utilitiesProjectFile = Path.Combine(utilitiesDir, "Utilities.csproj");
+
+using CancellationTokenSource cts = new();
+
+foreach (string platform in platforms)
 {
-    string[] platforms = ["linux-x64", "osx-arm64", "win-x64"];
-    foreach (string plat in platforms)
+    try
     {
-        Trace.WriteLine($"Building for platform: {plat}");
-        result = BuildScripts(coreScripts, scriptsToProcess, coreDir, plat, force, coreScriptsDir, excludeMode, currentBranch);
-        if (result != 0)
+        string outDir = Path.GetFullPath(Path.Combine(coreDir, "build-tools", platform));
+        Trace.WriteLine($"Output directory: {outDir}");
+        Directory.CreateDirectory(outDir);
+
+        string recordFile = Path.Combine(outDir, ".csbuild-record.json");
+        (long timeStamp, string oldBranch) = GetLastBuildRecord(recordFile);
+        bool branchChanged = oldBranch != currentBranch;
+
+        // Build Utilities first since other scripts may depend on them
+        if (force || branchChanged || CheckIfNeedsBuild(timeStamp, utilitiesProjectFile, outDir, utilitiesDir))
         {
+            // restore first
+            Trace.WriteLine("Cleaning Utilities.csproj...");
+            result = await CleanScript("Utilities.csproj", utilitiesDir, outDir, platform, cts.Token);
+            if (result != 0)
+            {
+                Trace.WriteLine($"Failed to build Utilities.csproj with exit code {result}");
+                cts.Cancel();
+                break;
+            }
+            Trace.WriteLine("Restoring Utilities.csproj...");
+            result = await RestoreScript("Utilities.csproj", utilitiesDir, outDir, platform, cts.Token);
+            if (result != 0)
+            {
+                Trace.WriteLine($"Failed to build Utilities.csproj with exit code {result}");
+                cts.Cancel();
+                break;
+            }
+            Trace.WriteLine("Building Utilities.csproj...");
+            result = await BuildScript("Utilities.csproj", utilitiesDir, outDir, platform, true, cts.Token);
+            if (result != 0)
+            {
+                Trace.WriteLine($"Failed to build Utilities.csproj with exit code {result}");
+                cts.Cancel();
+                break;
+            }
+        }
+        else
+        {
+            Trace.WriteLine("Skipping Utilities.csproj - no changes detected.");
+        }
+
+        // Build Core Scripts
+        result = await BuildScripts(coreScripts, scriptsToProcess, coreScriptsDir, outDir, platform, force, branchChanged, timeStamp, excludeMode, cts);
+
+        if (result == 0)
+        {
+            SaveBuildRecord(recordFile, currentBranch);
+        }
+        else
+        {
+            Trace.WriteLine($"Failed to build core scripts for platform {platform} with exit code {result}");
+            cts.Cancel();
             break;
         }
-        result = BuildScripts(proScripts, scriptsToProcess, proDir, plat, force, proScriptsDir, excludeMode, currentBranch);
-        if (result != 0)
+
+        // Build Pro Scripts if Core succeeded
+        if (proScripts.Length > 0)
         {
-            break;
+            outDir = Path.GetFullPath(Path.Combine(proDir, "build-tools", platform));
+            Trace.WriteLine($"Output directory: {outDir}");
+            Directory.CreateDirectory(outDir);
+
+            recordFile = Path.Combine(outDir, ".csbuild-record.json");
+            (timeStamp, oldBranch) = GetLastBuildRecord(recordFile);
+            branchChanged = oldBranch != currentBranch;
+
+            result = await BuildScripts(proScripts, scriptsToProcess, proScriptsDir, outDir, platform, force, branchChanged, timeStamp, excludeMode, cts);
+            if (result == 0)
+            {
+                SaveBuildRecord(recordFile, currentBranch);
+            }
+            else
+            {
+                Trace.WriteLine($"Failed to build pro scripts for platform {platform} with exit code {result}");
+                cts.Cancel();
+                break;
+            }
         }
     }
-}
-else
-{
-    result = BuildScripts(coreScripts, scriptsToProcess, coreDir, runtime, force, coreScriptsDir, excludeMode, currentBranch);
-    if (result == 0 && proScripts.Length > 0)
+    catch (Exception ex) when (ex is not OperationCanceledException)
     {
-        result = BuildScripts(proScripts, scriptsToProcess, proDir, runtime, force, proScriptsDir, excludeMode, currentBranch);
+        Trace.WriteLine($"Exception occurred while building scripts for platform {platform}: {ex.Message}{Environment.NewLine}{ex.StackTrace}");
+        cts.Cancel();
     }
 }
 
 if (result != 0)
 {
     Trace.WriteLine($"ScriptBuilder failed with exit code {result}");
-    return result;
 }
 
-return 0;
+return result;
 
-static int BuildScripts(string[] scripts, HashSet<string> scriptsToProcess, string repoDir, string runtime, bool force,
-    string scriptsDir, bool excludeMode, string currentBranch)
+static async Task<int> BuildScripts(string[] scripts, HashSet<string> scriptsToProcess, string scriptsDir, string outDir, 
+    string runtime, bool force, bool branchChanged, long timeStamp, bool excludeMode, CancellationTokenSource cts)
 {
-    string outDir = Path.GetFullPath(Path.Combine(repoDir, "build-tools", runtime));
-    Trace.WriteLine($"Output directory: {outDir}");
-
-    Directory.CreateDirectory(outDir);
-
-    string recordFile = Path.Combine(outDir, ".csbuild-record.json");
-    (long timeStamp, string oldBranch) = GetLastBuildRecord(recordFile);
-    bool branchChanged = oldBranch != currentBranch;
-
     if (scriptsToProcess.Count > 0)
     {
         Trace.WriteLine(excludeMode
@@ -161,11 +221,13 @@ static int BuildScripts(string[] scripts, HashSet<string> scriptsToProcess, stri
             : $"Including only specified scripts: {string.Join(", ", scriptsToProcess)}");
     }
 
-    foreach (string script in scripts)
+    int returnCode = 0;
+
+    await Parallel.ForEachAsync(scripts, cts.Token, async (script, token) =>
     {
         if (Path.GetFileName(script) == "ScriptBuilder.cs")
         {
-            continue;
+            return;
         }
 
         if (scriptsToProcess.Count > 0)
@@ -173,31 +235,37 @@ static int BuildScripts(string[] scripts, HashSet<string> scriptsToProcess, stri
             if (excludeMode && scriptsToProcess.Contains(Path.GetFileName(script)))
             {
                 Trace.WriteLine($"Skipping excluded script: {Path.GetFileName(script)}");
-                continue;
+                return;
             }
             else if (!excludeMode && !scriptsToProcess.Contains(Path.GetFileName(script)))
             {
                 Trace.WriteLine($"Skipping unlisted script: {Path.GetFileName(script)}");
-                continue;
+                return;
             }
         }
 
         if (!force && !branchChanged && !CheckIfNeedsBuild(timeStamp, script, outDir, scriptsDir))
         {
             Trace.WriteLine($"Skipping unchanged script: {Path.GetFileName(script)}");
-            continue;
+            return;
         }
 
-        int returnCode = BuildScript(Path.GetFileName(script), scriptsDir, outDir, runtime);
-        if (returnCode != 0)
+        if (token.IsCancellationRequested)
         {
-            return returnCode;
+            Trace.WriteLine($"Build cancelled. Skipping script: {Path.GetFileName(script)}");
+            return;
         }
-    }
 
-    SaveBuildRecord(recordFile, currentBranch);
+        int scriptReturnCode = await BuildScript(Path.GetFileName(script), scriptsDir, outDir, runtime, false, cts.Token);
+        if (scriptReturnCode != 0)
+        {
+            Trace.WriteLine($"Failed to build script: {Path.GetFileName(script)} with exit code {scriptReturnCode}");
+            returnCode = scriptReturnCode;
+            cts.Cancel();
+        }
+    });
 
-    return 0;
+    return returnCode;
 }
 
 /// <summary>
@@ -207,11 +275,14 @@ static int BuildScripts(string[] scripts, HashSet<string> scriptsToProcess, stri
 /// <param name="scriptsDir">The directory containing the script.</param>
 /// <param name="outDir">The output directory for the compiled DLL.</param>
 /// <param name="runtime">The runtime identifier for the build.</param>
+/// <param name="buildDependencies">Whether to build dependencies (e.g., Utilities) before building the script.</param>
+/// <param name="cancellationToken">The cancellation token for the build process.</param>
 /// <returns>0 on success, non-zero on failure.</returns>
-static int BuildScript(string scriptName, string scriptsDir, string outDir, string runtime)
+static async Task<int> BuildScript(string scriptName, string scriptsDir, string outDir, string runtime, bool buildDependencies, 
+    CancellationToken cancellationToken)
 {
     Console.WriteLine($"Building script: {scriptName} for runtime: {runtime}");
-    string[] args =
+    List<string> args =
     [
         "build",
         scriptName,
@@ -219,6 +290,115 @@ static int BuildScript(string scriptName, string scriptsDir, string outDir, stri
         "Release",
         "-o",
         outDir,
+        "--runtime",
+        runtime
+    ];
+
+    if (!buildDependencies)
+    {
+        args.Add("--no-dependencies");
+    }
+
+    ProcessStartInfo psi = new ProcessStartInfo
+    {
+        FileName = "dotnet",
+        Arguments = string.Join(" ", args),
+        WorkingDirectory = scriptsDir,
+        RedirectStandardInput = true,
+        RedirectStandardOutput = true,
+        RedirectStandardError = true,
+        UseShellExecute = false
+    };
+    
+    using Process? process = Process.Start(psi);
+    if (process is null)
+    {
+        Trace.WriteLine($"Failed to build {scriptName}");
+        return 1;
+    }
+
+    // Read output asynchronously
+    process.OutputDataReceived += (sender, e) =>
+    {
+        if (e.Data is not null)
+        {
+            Trace.WriteLine(e.Data);
+        }
+    };
+
+    process.ErrorDataReceived += (sender, e) =>
+    {
+        if (e.Data is not null)
+        {
+            Trace.WriteLine(e.Data);
+        }
+    };
+
+    process.BeginOutputReadLine();
+    process.BeginErrorReadLine();
+    await process.WaitForExitAsync(cancellationToken);
+    return process.ExitCode;
+}
+
+static async Task<int> CleanScript(string scriptName, string scriptsDir, string outDir, string runtime, 
+    CancellationToken cancellationToken)
+{
+    Console.WriteLine($"Cleaning script: {scriptName} for runtime: {runtime}");
+    string[] args =
+    [
+        "clean",
+        scriptName
+    ];
+
+    ProcessStartInfo psi = new ProcessStartInfo
+    {
+        FileName = "dotnet",
+        Arguments = string.Join(" ", args),
+        WorkingDirectory = scriptsDir,
+        RedirectStandardInput = true,
+        RedirectStandardOutput = true,
+        RedirectStandardError = true,
+        UseShellExecute = false
+    };
+    
+    using Process? process = Process.Start(psi);
+    if (process is null)
+    {
+        Trace.WriteLine($"Failed to build {scriptName}");
+        return 1;
+    }
+
+    // Read output asynchronously
+    process.OutputDataReceived += (sender, e) =>
+    {
+        if (e.Data is not null)
+        {
+            Trace.WriteLine(e.Data);
+        }
+    };
+
+    process.ErrorDataReceived += (sender, e) =>
+    {
+        if (e.Data is not null)
+        {
+            Trace.WriteLine(e.Data);
+        }
+    };
+
+    process.BeginOutputReadLine();
+    process.BeginErrorReadLine();
+    await process.WaitForExitAsync(cancellationToken);
+    return process.ExitCode;
+}
+
+static async Task<int> RestoreScript(string scriptName, string scriptsDir, string outDir, string runtime, 
+    CancellationToken cancellationToken)
+{
+    Console.WriteLine($"Restoring packages for script: {scriptName} for runtime: {runtime}");
+    string[] args =
+    [
+        "restore",
+        scriptName,
         "--runtime",
         runtime
     ];
@@ -260,7 +440,7 @@ static int BuildScript(string scriptName, string scriptsDir, string outDir, stri
 
     process.BeginOutputReadLine();
     process.BeginErrorReadLine();
-    process.WaitForExit();
+    await process.WaitForExitAsync(cancellationToken);
     return process.ExitCode;
 }
 
