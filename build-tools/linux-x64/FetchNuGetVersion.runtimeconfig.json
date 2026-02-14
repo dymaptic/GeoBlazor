@@ -12,8 +12,8 @@
       }
     },
     "configProperties": {
-      "EntryPointFilePath": "D:\\dymaptic.GeoBlazor.CodeGen\\GeoBlazor.Pro\\GeoBlazor\\build-tools\\build-scripts\\FetchNuGetVersion.cs",
-      "EntryPointFileDirectoryPath": "D:\\dymaptic.GeoBlazor.CodeGen\\GeoBlazor.Pro\\GeoBlazor\\build-tools\\build-scripts",
+      "EntryPointFilePath": "/home/timpurdum/repo/GeoBlazor.Pro/GeoBlazor/build-tools/build-scripts/FetchNuGetVersion.cs",
+      "EntryPointFileDirectoryPath": "/home/timpurdum/repo/GeoBlazor.Pro/GeoBlazor/build-tools/build-scripts",
       "Microsoft.Extensions.DependencyInjection.VerifyOpenGenericServiceTrimmability": true,
       "System.ComponentModel.DefaultValueAttribute.IsSupported": false,
       "System.ComponentModel.Design.IDesignerHost.IsSupported": false,
