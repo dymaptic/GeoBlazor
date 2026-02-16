@@ -57,11 +57,11 @@ public partial class Index
             {
                 await AppValidator.ValidateLicense();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                var version = AppValidator.GetType().Assembly.GetName().Version;
+                Version? version = AppValidator.GetType().Assembly.GetName().Version;
 
-                throw new InvalidRegistrationException($"Failed to validate GeoBlazor License Key: {
+                throw new InvalidRegistrationException($"{ex.Message}{Environment.NewLine}License Key: {
                     GeoBlazorSettings.RegistrationKey ?? GeoBlazorSettings.LicenseKey}{Environment.NewLine}URL: {
                         NavigationManager.Uri}{Environment.NewLine}GeoBlazor Version: {version}");
             }
@@ -103,9 +103,9 @@ public partial class Index
             {
                 string? firstUnpassedClass = _testClassNames
                     .FirstOrDefault(t => !_results.ContainsKey(t)
-                        || (_results[t].Passed.Count == 0 && _results[t].Inconclusive.Count == 0));
+                        || ((_results[t].Passed.Count == 0) && (_results[t].Inconclusive.Count == 0)));
 
-                if (firstUnpassedClass is not null && _testClassNames.IndexOf(firstUnpassedClass) > 0)
+                if (firstUnpassedClass is not null && (_testClassNames.IndexOf(firstUnpassedClass) > 0))
                 {
                     await ScrollAndOpenClass(firstUnpassedClass);
                 }
@@ -150,7 +150,7 @@ public partial class Index
 
         if (ProOnly)
         {
-            var proAssembly = Assembly.Load("dymaptic.GeoBlazor.Pro.Test.Blazor.Shared");
+            Assembly proAssembly = Assembly.Load("dymaptic.GeoBlazor.Pro.Test.Blazor.Shared");
 
             types = proAssembly.GetTypes()
                 .Where(t => t.Name != "ProTestRunnerBase")
@@ -158,12 +158,12 @@ public partial class Index
         }
         else
         {
-            var assembly = Assembly.Load("dymaptic.GeoBlazor.Core.Test.Blazor.Shared");
+            Assembly assembly = Assembly.Load("dymaptic.GeoBlazor.Core.Test.Blazor.Shared");
             types = assembly.GetTypes();
 
             try
             {
-                var proAssembly = Assembly.Load("dymaptic.GeoBlazor.Pro.Test.Blazor.Shared");
+                Assembly proAssembly = Assembly.Load("dymaptic.GeoBlazor.Pro.Test.Blazor.Shared");
 
                 types = types.Concat(proAssembly.GetTypes()
                         .Where(t => t.Name != "ProTestRunnerBase"))
@@ -207,7 +207,7 @@ public partial class Index
     {
         string? firstUntestedClass = _testClassNames
             .FirstOrDefault(t => !_results!.ContainsKey(t)
-                || (_results[t].Passed.Count == 0 && _results[t].Inconclusive.Count == 0));
+                || ((_results[t].Passed.Count == 0) && (_results[t].Inconclusive.Count == 0)));
 
         if (firstUntestedClass is not null)
         {
@@ -225,7 +225,8 @@ public partial class Index
     {
         _running = true;
 
-        foreach (var kvp in _testComponents.OrderBy(k => _testClassNames.IndexOf(k.Key)).Skip(offset))
+        foreach (KeyValuePair<string, TestWrapper?> kvp in _testComponents.OrderBy(k => _testClassNames.IndexOf(k.Key))
+            .Skip(offset))
         {
             if (token.IsCancellationRequested)
             {
@@ -234,8 +235,8 @@ public partial class Index
 
             if (_results!.TryGetValue(kvp.Key, out TestResult? results))
             {
-                if (onlyFailedTests && results.Failed.Count == 0
-                    && (results.Passed.Count > 0 || results.Inconclusive.Count > 0))
+                if (onlyFailedTests && (results.Failed.Count == 0)
+                    && ((results.Passed.Count > 0) || (results.Inconclusive.Count > 0)))
                 {
                     break;
                 }
@@ -247,14 +248,14 @@ public partial class Index
             }
         }
 
-        var resultBuilder = new StringBuilder($"""
+        StringBuilder resultBuilder = new($"""
 
-                                               # GeoBlazor Unit Test Results
-                                               {DateTime.Now}
-                                               Passed: {_results!.Values.Select(r => r.Passed.Count).Sum()}
-                                               Failed: {_results.Values.Select(r => r.Failed.Count).Sum()}
-                                               Inconclusive: {_results.Values.Select(r => r.Inconclusive.Count).Sum()}
-                                               """);
+                                           # GeoBlazor Unit Test Results
+                                           {DateTime.Now}
+                                           Passed: {_results!.Values.Select(r => r.Passed.Count).Sum()}
+                                           Failed: {_results.Values.Select(r => r.Failed.Count).Sum()}
+                                           Inconclusive: {_results.Values.Select(r => r.Inconclusive.Count).Sum()}
+                                           """);
 
         foreach (KeyValuePair<string, TestResult> result in _results)
         {
@@ -309,7 +310,7 @@ public partial class Index
         await SaveResults();
         await InvokeAsync(StateHasChanged);
 
-        if (_settings.StopOnFail && result.Failed.Count > 0)
+        if (_settings.StopOnFail && (result.Failed.Count > 0))
         {
             await CancelRun();
             await ScrollAndOpenClass(result.ClassName);
@@ -381,7 +382,7 @@ public partial class Index
             builder.Append($"<span class=\"pending\">Pending: {result.Pending}</span>");
         }
 
-        if (result.Passed.Count > 0 || result.Failed.Count > 0 || result.Inconclusive.Count > 0)
+        if ((result.Passed.Count > 0) || (result.Failed.Count > 0) || (result.Inconclusive.Count > 0))
         {
             if (result.Pending > 0)
             {

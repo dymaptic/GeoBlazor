@@ -143,12 +143,12 @@ if (!force)
     bool needsBuild = CheckIfNeedsBuild(
         recordFilePath,
         currentBranch,
-        scriptsDir, outputDir, pro);
+        scriptsDir, outputDir, pro ? "PRO" : "CORE", pro ? "PRO" : "CORE");
 
     if (!needsBuild && pro && proOnCoreChange)
     {
         needsBuild = CheckIfNeedsBuild(coreRecordFilePath,
-            currentBranch, coreScriptsDir, coreOutputDir, false);
+            currentBranch, coreScriptsDir, coreOutputDir, "CORE", "PRO");
     }
 
     if (!needsBuild)
