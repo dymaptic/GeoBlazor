@@ -111,7 +111,7 @@ if (verbose)
     {
         dialogProcess = StartConsoleDialog(toolsDir, $"GeoBlazor {(pro ? "PRO" : "CORE")} ESBuild", pro);
     }
-    Trace.WriteLine($"{(pro ? "PRO:" : "CORE:")} Launching ESBuild...");
+    Trace.WriteLine($"ESBUILD {(pro ? "PRO:" : "CORE:")} Launching...");
 }
 
 // Normalize configuration
@@ -165,7 +165,7 @@ if (!verbose)
         dialogProcess = StartConsoleDialog(toolsDir, 
             $"GeoBlazor {(pro ? "PRO" : "CORE")} ESBuild", pro);
     }
-    Trace.WriteLine("Launching ESBuild...");
+    Trace.WriteLine($"ESBUILD {(pro ? "PRO:" : "CORE:")} Launching...");
 }
 
 try
@@ -187,7 +187,7 @@ try
     Trace.WriteLine("-----");
 
     // Run ESLint before build
-    Trace.WriteLine("Running ESLint...");
+    Trace.WriteLine($"ESBUILD {(pro ? "PRO" : "CORE")}: Running ESLint...");
     await ProcessRunner.RunNpmCommand(sourceDir, "run lint");
     Trace.WriteLine("-----");
 
@@ -199,13 +199,13 @@ try
     // Update build record on success
     SaveBuildRecord(recordFilePath, currentBranch);
 
-    Trace.WriteLine("NPM Build Complete");
+    Trace.WriteLine($"ESBUILD {(pro ? "PRO" : "CORE")}: NPM Build Complete");
     KillDialog(dialogProcess);
     return 0;
 }
 catch (Exception ex)
 {
-    Trace.WriteLine("An error occurred in esBuild.cs");
+    Trace.WriteLine($"ESBUILD {(pro ? "PRO" : "CORE")}: An error occurred in esBuild.cs");
     Trace.WriteLine($"{ex.Message}{Environment.NewLine}{ex.StackTrace}");
     HoldDialog(dialogProcess);
     return 1;
@@ -290,7 +290,7 @@ static (long Timestamp, string Branch) GetLastBuildRecord(string recordFilePath)
 /// <param name="outputDir">Path to the JavaScript output directory.</param>
 /// <returns>True if a build should be performed.</returns>
 static bool CheckIfNeedsBuild(string recordFilePath, string currentBranch, string scriptsDir, string outputDir,
-    bool pro)
+    string proOrCore, string sourceProject)
 {
     // Check if build is needed
     var lastBuild = GetLastBuildRecord(recordFilePath);
@@ -299,28 +299,28 @@ static bool CheckIfNeedsBuild(string recordFilePath, string currentBranch, strin
 
     if (branchChanged)
     {
-        Trace.WriteLine($"{(pro ? "PRO" : "CORE")}: Git branch changed from \"{lastBuild.Branch}\" to \"{currentBranch}\". Rebuilding...");
+        Trace.WriteLine($"ESBUILD {sourceProject}: Git branch changed from \"{lastBuild.Branch}\" to \"{currentBranch}\". Rebuilding...");
         return true;
     }
 
-    if (!GetScriptsModifiedSince(scriptsDir, lastBuild.Timestamp, pro))
+    if (!GetScriptsModifiedSince(scriptsDir, lastBuild.Timestamp, sourceProject))
     {
-        Trace.WriteLine($"{(pro ? "PRO" : "CORE")}: No changes in Scripts folder since last build.");
+        Trace.WriteLine($"ESBUILD {sourceProject}: No changes in Scripts folder since last build.");
 
         // Check output directory for existing files
         if (Directory.Exists(outputDir) && Directory.GetFiles(outputDir).Length > 0)
         {
-            Trace.WriteLine($"{(pro ? "PRO" : "CORE")}: Output directory is not empty. Skipping build.");
+            Trace.WriteLine($"ESBUILD {sourceProject}: Output directory is not empty. Skipping build.");
             return false;
         }
         else
         {
-            Trace.WriteLine($"{(pro ? "PRO" : "CORE")}: Output directory is empty. Proceeding with build.");
+            Trace.WriteLine($"ESBUILD {sourceProject}: Output directory is empty. Proceeding with build.");
             return true;
         }
     }
 
-    Trace.WriteLine($"{(pro ? "PRO" : "CORE")}: Changes detected in Scripts folder. Proceeding with build.");
+    Trace.WriteLine($"ESBUILD {sourceProject}: Changes detected in Scripts folder. Proceeding with build.");
     return true;
 }
 
@@ -334,7 +334,7 @@ static bool CheckIfNeedsBuild(string recordFilePath, string currentBranch, strin
 /// <param name="verbose">If true, logs each file operation.</param>
 static void CopyScriptsToPro(string coreScriptsDir, string proScriptsDir, bool verbose)
 {
-    Trace.WriteLine("Copying core Scripts to Pro Scripts directory...");
+    Trace.WriteLine("ESBUILD PRO: Copying core Scripts to Pro Scripts directory...");
     if (!Directory.Exists(proScriptsDir))
     {
         Directory.CreateDirectory(proScriptsDir);
@@ -355,7 +355,7 @@ static void CopyScriptsToPro(string coreScriptsDir, string proScriptsDir, bool v
         {
             string fileName = match.Groups["fileName"].Value;
             proPrefixedFiles.Add($"{fileName}.ts");
-            Console.WriteLine($"Found pro_ file: {fileName}.ts");
+            Trace.WriteLine($"ESBUILD PRO: Found pro_ file: {fileName}.ts");
             continue;
         }
         if (line.TrimStart().StartsWith("chunkNames"))
@@ -386,7 +386,7 @@ static void CopyScriptsToPro(string coreScriptsDir, string proScriptsDir, bool v
             copiedCount++;
             if (verbose)
             {
-                Trace.WriteLine($"Copied new file: {fileName}");
+                Trace.WriteLine($"ESBUILD PRO: Copied new file: {fileName}");
             }
             continue;
         }
@@ -399,7 +399,7 @@ static void CopyScriptsToPro(string coreScriptsDir, string proScriptsDir, bool v
             File.Copy(filePath, destinationPath, true);
             if (verbose)
             {
-                Trace.WriteLine($"Updated file: {fileName}");
+                Trace.WriteLine($"ESBUILD PRO: Updated file: {fileName}");
             }
             copiedCount++;
         }
@@ -409,7 +409,7 @@ static void CopyScriptsToPro(string coreScriptsDir, string proScriptsDir, bool v
         }
     }
     
-    Trace.WriteLine($"Copied {copiedCount} files, skipped {skippedCount} files.");
+    Trace.WriteLine($"ESBUILD PRO: Copied {copiedCount} files, skipped {skippedCount} files.");
 }
 
 /// <summary>
@@ -439,7 +439,7 @@ static void SaveBuildRecord(string recordFilePath, string branch)
 /// <param name="scriptsDir">Path to the Scripts directory to scan.</param>
 /// <param name="lastTimestamp">Unix timestamp (milliseconds) of the last build.</param>
 /// <returns>True if any files have been modified since the timestamp.</returns>
-static bool GetScriptsModifiedSince(string scriptsDir, long lastTimestamp, bool pro)
+static bool GetScriptsModifiedSince(string scriptsDir, long lastTimestamp, string sourceProject)
 {
     if (!Directory.Exists(scriptsDir))
     {
@@ -452,7 +452,7 @@ static bool GetScriptsModifiedSince(string scriptsDir, long lastTimestamp, bool 
     {
         if (File.GetLastWriteTimeUtc(file) > lastBuildTime)
         {
-            Trace.WriteLine($"{(pro ? "PRO" : "CORE")}: File {file} modified at {File.GetLastWriteTimeUtc(file).ToLongTimeString()} (last build: {lastBuildTime.ToLongTimeString()})");
+            Trace.WriteLine($"ESBUILD {sourceProject}: File {file} modified at {File.GetLastWriteTimeUtc(file).ToLocalTime():T} (last build: {lastBuildTime.ToLocalTime():T})");
             return true;
         }
     }
@@ -473,7 +473,7 @@ static Process? StartConsoleDialog(string buildDir, string title, bool pro)
         string consoleDialogPath = Path.Combine(buildDir, "ConsoleDialog.dll");
         if (!File.Exists(consoleDialogPath))
         {
-            Trace.WriteLine($"ConsoleDialog.dll not found at {consoleDialogPath}");
+            Trace.WriteLine($"ESBUILD {(pro ? "PRO" : "CORE")}: ConsoleDialog.dll not found at {consoleDialogPath}");
             return null;
         }
         
@@ -500,7 +500,7 @@ static Process? StartConsoleDialog(string buildDir, string title, bool pro)
 
         if (dialog?.StandardInput is null)
         {
-            Trace.WriteLine("Failed to start console dialog. Exiting.");
+            Trace.WriteLine($"ESBUILD {(pro ? "PRO" : "CORE")}: Failed to start console dialog. Exiting.");
         }
         else
         {
@@ -512,7 +512,7 @@ static Process? StartConsoleDialog(string buildDir, string title, bool pro)
     }
     catch (Exception ex)
     {
-        Trace.WriteLine($"Failed to start ConsoleDialog: {ex.Message}");
+        Trace.WriteLine($"ESBUILD {(pro ? "PRO" : "CORE")}: Failed to start ConsoleDialog: {ex.Message}");
         return null;
     }
 }

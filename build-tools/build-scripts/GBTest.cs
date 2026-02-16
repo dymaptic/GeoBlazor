@@ -110,7 +110,8 @@ List<string> buildArgs =
 [
     "--project", testProjectFilePath,
     "-c", config,
-    "--ignore-exit-code", "2"
+    "--ignore-exit-code", "2",
+    "-v:d"
 ];
 
 if (filter != null)

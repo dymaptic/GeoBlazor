@@ -7,10 +7,4 @@
         <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration) --dialog" ContinueOnError="false" Condition="$(ShowScriptDialogs) == 'true'"/>
         <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration)" ContinueOnError="false" Condition="$(ShowScriptDialogs) != 'true'"/>
     </Target>
-    <Target Name="ClearStaleLockFiles"
-            AfterTargets="Build"
-            Condition="'$(ESBuildLockFileExists)' == 'true'">
-        <Message Importance="low" Text="Clearing stale ESBuild lock files..."/>
-        <Exec Command="dotnet $(GBBuildToolsPath)/ESBuildClearLocks.dll -sf"/>
-    </Target>
 </Project>

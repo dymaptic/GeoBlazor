@@ -55,7 +55,7 @@ COPY $TEST_FOLDER $TEST_FOLDER
 RUN --mount=type=cache,target=/root/.nuget/packages \
     dotnet build $TEST_PROJECT \
     -c Release \
-    /p:UsePackageReference=false \
+    /p:UsePackageReferences=false \
     /p:DebugSymbols=true \
     /p:DebugType=portable \
     /p:GeneratePackage=false \

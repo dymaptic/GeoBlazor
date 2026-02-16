@@ -49,23 +49,12 @@ RUN dotnet ./build-tools/linux-x64/BuildAppSettings.dll \
     -w "${WFS_SERVERS}" 
 
 # Build from source with debug symbols for code coverage
-# UsePackageReference=false builds GeoBlazor from source instead of NuGet
+# UsePackageReferences=false builds GeoBlazor from source instead of NuGet
 # DebugSymbols=true and DebugType=portable ensure PDB files are generated
-RUN --mount=type=cache,target=/root/.nuget/packages \
-    dotnet build ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj \
-    -c Release \
-    /p:UsePackageReference=false \
-    /p:DebugSymbols=true \
-    /p:DebugType=portable \
-    /p:GeneratePackage=false \
-    /p:GenerateDocs=false \
-    /p:GenerateXmlComments=false \
-    /p:ShowScriptDialogs=false
-
 RUN --mount=type=cache,target=/root/.nuget/packages \
     dotnet publish ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj \
     -c Release \
-    /p:UsePackageReference=false \
+    /p:UsePackageReferences=false \
     /p:DebugSymbols=true \
     /p:DebugType=portable \
     /p:GeneratePackage=false \

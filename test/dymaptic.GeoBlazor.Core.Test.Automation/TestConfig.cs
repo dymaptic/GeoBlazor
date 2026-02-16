@@ -1291,7 +1291,7 @@ public class TestConfig
             "/p:GenerateDocs=false",
             "/p:DebugSymbols=true",
             "/p:DebugType=portable",
-            "/p:UsePackageReference=false",
+            "/p:UsePackageReferences=false",
             "/p:ShowScriptDialogs=false",
             "-v:d"
         ];

@@ -1,4 +1,4 @@
-export let protoTypeDefinitions: string = `
+﻿export let protoTypeDefinitions: string = `
 syntax = "proto3";
 package dymaptic.GeoBlazor.Core.Serialization;
 import "google/protobuf/empty.proto";

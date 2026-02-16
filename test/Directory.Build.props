@@ -6,6 +6,6 @@
         <GeneratePackage>false</GeneratePackage>
         <GenerateDocs>false</GenerateDocs>
         <GenerateXmlComments>false</GenerateXmlComments>
-        <UsePackageReference>false</UsePackageReference>
+        <UsePackageReferences>false</UsePackageReferences>
     </PropertyGroup>
 </Project>
