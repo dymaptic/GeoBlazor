@@ -21,11 +21,9 @@
 //   -retries <int>                     Number of times to retry the build on failure (default is 5)
 //   -h, --help                         Display this help message
 
-using System.Diagnostics;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using Utilities;
 
 
 // Paths
@@ -187,17 +185,6 @@ Console.CancelKeyPress += async (_, e) =>
     await cts.CancelAsync();
     Environment.Exit(1);
 };
-
-if (package)
-{
-    generateDocs = true;
-}
-
-// If generating docs, also generate XML comments
-if (generateDocs)
-{
-    generateXmlComments = true;
-}
 
 Console.WriteLine("Starting GeoBlazor Build Script");
 Console.WriteLine($"Pro Build: {pro}");
@@ -416,39 +403,22 @@ try
         serverUrl = serverUrl.TrimEnd('/');
         Console.WriteLine($"Setting License Server Url to {serverUrl}");
 
-        string devBuildValidatorPath = Path.Combine(validatorProjectPath, "DevBuildValidator.cs");
-        string publishTaskValidatorPath = Path.Combine(validatorProjectPath, "PublishTaskValidator.cs");
+        string BuildValidatorPath = Path.Combine(validatorProjectPath, "BuildValidator.cs");
 
-        // Update DevBuildValidator.cs
-        string devValidatorContent = File.ReadAllText(devBuildValidatorPath);
+        // Update BuildValidator.cs
+        string devValidatorContent = File.ReadAllText(BuildValidatorPath);
         devValidatorContent = Regex.Replace(
             devValidatorContent,
             @"public string SU \{ get; set; \} = null!;",
             $"public string SU {{ get; set; }} = \"{serverUrl}/api/validate/v4\";");
-        File.WriteAllText(devBuildValidatorPath, devValidatorContent);
+        File.WriteAllText(BuildValidatorPath, devValidatorContent);
         Thread.Sleep(500);
 
         // Verify the update
-        devValidatorContent = File.ReadAllText(devBuildValidatorPath);
+        devValidatorContent = File.ReadAllText(BuildValidatorPath);
         if (!devValidatorContent.Contains($"public string SU {{ get; set; }} = \"{serverUrl}/api/validate/v4\";"))
         {
-            throw new Exception("Failed to set ServerUrl in DevBuildValidator.cs");
-        }
-
-        // Update PublishTaskValidator.cs
-        string publishValidatorContent = File.ReadAllText(publishTaskValidatorPath);
-        publishValidatorContent = Regex.Replace(
-            publishValidatorContent,
-            @"public string SU \{ get; set; \} = null!;",
-            $"public string SU {{ get; set; }} = \"{serverUrl}/api/validate/v4/publish\";");
-        File.WriteAllText(publishTaskValidatorPath, publishValidatorContent);
-        Thread.Sleep(500);
-
-        // Verify the update
-        publishValidatorContent = File.ReadAllText(publishTaskValidatorPath);
-        if (!publishValidatorContent.Contains($"public string SU {{ get; set; }} = \"{serverUrl}/api/validate/v4/publish\";"))
-        {
-            throw new Exception("Failed to set ServerUrl in PublishTaskValidator.cs");
+            throw new Exception("Failed to set ServerUrl in BuildValidator.cs");
         }
 
         // Build validator
@@ -474,19 +444,12 @@ try
         finally
         {
             // Restore the ServerUrls in the Validator project even if the build fails
-            devValidatorContent = File.ReadAllText(devBuildValidatorPath);
+            devValidatorContent = File.ReadAllText(BuildValidatorPath);
             devValidatorContent = Regex.Replace(
                 devValidatorContent,
                 @"public string SU \{ get; set; \} = "".*"";",
                 "public string SU { get; set; } = null!;");
-            File.WriteAllText(devBuildValidatorPath, devValidatorContent);
-
-            publishValidatorContent = File.ReadAllText(publishTaskValidatorPath);
-            publishValidatorContent = Regex.Replace(
-                publishValidatorContent,
-                @"public string SU \{ get; set; \} = "".*"";",
-                "public string SU { get; set; } = null!;");
-            File.WriteAllText(publishTaskValidatorPath, publishValidatorContent);
+            File.WriteAllText(BuildValidatorPath, devValidatorContent);
         }
 
         GbCli.WriteStepCompleted(step, stepStartTime);

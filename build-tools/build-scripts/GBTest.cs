@@ -18,10 +18,8 @@
 //       --container        Run tests in a container (sets USE_CONTAINER=true)
 
 using CliWrap;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using Utilities;
+
 
 // Default option values
 bool cover = false;
@@ -133,37 +131,66 @@ if (container)
 }
 
 // Execute the test project
-await RunDotnetCommandWithOutputAsync(testProjectDir, "run", buildArgs, environmentVariables, cts.Token, forceCts.Token);
+TestProgress progress = new();
+
+await RunDotnetCommandWithOutputAsync(testProjectDir, "run", buildArgs, environmentVariables, cts.Token, forceCts.Token,
+    progress);
 
 Console.WriteLine("FINAL SUMMARY");
 Console.WriteLine("-------------------------------------------------------");
 
-// Read the test output log
-string testOutputLogPath = Path.Combine(testProjectDir, "test-run.log");
-
-Regex finalCountRegex = new(@"^.*FINAL_SUMMARY: PASSED TESTS: (?<passed>\d+) / (?<total>\d+)\s*$");
-
 bool failed = false;
-foreach (string line in await File.ReadAllLinesAsync(testOutputLogPath))
+
+if (progress.WasCancelled)
 {
-    if (line.Contains("FINAL_SUMMARY"))
+    int ran = progress.Passed + progress.Failed + progress.Skipped;
+    Console.WriteLine($"Test run was cancelled. {ran} tests completed before cancellation.");
+
+    if (ran > 0)
     {
-        string content = line.Substring(38); // 38 is the timestamp plus FINAL_SUMMARY:
-        if (finalCountRegex.Match(line) is { Success: true } match)
+        double passedPercentage = (double)progress.Passed / ran * 100;
+        Console.WriteLine($"PASSED TESTS: {progress.Passed} / {ran} TESTS RAN ({passedPercentage:F2}%).");
+        Console.WriteLine($"FAILED: {progress.Failed} / SKIPPED: {progress.Skipped}");
+
+        if (passedPercentage < percentage)
         {
-            int total = int.Parse(match.Groups["total"].Value);
-            int passed = int.Parse(match.Groups["passed"].Value);
-            double passedPercentage = (double)passed / total * 100;
-            Console.WriteLine($"PASSED TESTS: {passed} / {total} TESTS PASSED ({passedPercentage:F2}%).");
-            if (passedPercentage < percentage)
-            {
-                Console.WriteLine($"TEST RUN FAILED: Passed percentage {passedPercentage:F2}% is below the required {percentage}%.");
-                failed = true;
-            }
+            Console.WriteLine($"TEST RUN FAILED: Passed percentage {passedPercentage:F2}% is below the required {
+                percentage}%.");
+            failed = true;
         }
-        else
+    }
+}
+else
+{
+    // Read the test output log
+    string testOutputLogPath = Path.Combine(testProjectDir, "test-run.log");
+
+    Regex finalCountRegex = new(@"^.*FINAL_SUMMARY: PASSED TESTS: (?<passed>\d+) / (?<total>\d+)\s*$");
+
+    foreach (string line in await File.ReadAllLinesAsync(testOutputLogPath))
+    {
+        if (line.Contains("FINAL_SUMMARY"))
         {
-            Console.WriteLine(content);
+            string content = line.Substring(38); // 38 is the timestamp plus FINAL_SUMMARY:
+
+            if (finalCountRegex.Match(line) is { Success: true } match)
+            {
+                int total = int.Parse(match.Groups["total"].Value);
+                int passed = int.Parse(match.Groups["passed"].Value);
+                double passedPercentage = (double)passed / total * 100;
+                Console.WriteLine($"PASSED TESTS: {passed} / {total} TESTS PASSED ({passedPercentage:F2}%).");
+
+                if (passedPercentage < percentage)
+                {
+                    Console.WriteLine($"TEST RUN FAILED: Passed percentage {passedPercentage
+                        :F2}% is below the required {percentage}%.");
+                    failed = true;
+                }
+            }
+            else
+            {
+                Console.WriteLine(content);
+            }
         }
     }
 }
@@ -188,7 +215,7 @@ return 0;
 /// <returns>The exit code of the process.</returns>
 static async Task RunDotnetCommandWithOutputAsync(string workingDirectory,
     string command, IEnumerable<string> args, Dictionary<string, string?>? environmentVariables,
-    CancellationToken cancellationToken, CancellationToken forceCancellationToken)
+    CancellationToken cancellationToken, CancellationToken forceCancellationToken, TestProgress progress)
 {
     bool summaryStarted = false;
     bool testLineMatched = false;
@@ -236,6 +263,9 @@ static async Task RunDotnetCommandWithOutputAsync(string workingDirectory,
                     int failed = int.Parse(match.Groups["failed"].Value);
                     int skipped = int.Parse(match.Groups["skipped"].Value);
                     string content = match.Groups["content"].Value;
+                    progress.Passed = passed;
+                    progress.Failed = failed;
+                    progress.Skipped = skipped;
                     Console.ForegroundColor = defaultColor;
                     Console.Write("[");
                     Console.ForegroundColor = ConsoleColor.Green;
@@ -273,6 +303,15 @@ static async Task RunDotnetCommandWithOutputAsync(string workingDirectory,
     }
     catch (OperationCanceledException)
     {
+        progress.WasCancelled = true;
         Console.WriteLine("Test run was canceled.");
     }
+}
+
+internal class TestProgress
+{
+    public int Passed { get; set; }
+    public int Failed { get; set; }
+    public int Skipped { get; set; }
+    public bool WasCancelled { get; set; }
 }

@@ -35,6 +35,11 @@ COPY ./Directory.Build.* ./
 COPY ./.gitignore ./.gitignore
 COPY ./nuget.config ./nuget.config
 COPY ./src/ ./src/
+
+# Create GeoBlazor NuGet Packages
+RUN --mount=type=cache,target=/root/.nuget/packages \
+    dotnet ./build-tools/linux-x64/GeoBlazorBuild.dll -pkg -obf -c "Release"
+
 COPY ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared
 COPY ./test/dymaptic.GeoBlazor.Core.Test.WebApp ./test/dymaptic.GeoBlazor.Core.Test.WebApp
 
@@ -54,14 +59,16 @@ RUN dotnet ./build-tools/linux-x64/BuildAppSettings.dll \
 RUN --mount=type=cache,target=/root/.nuget/packages \
     dotnet publish ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj \
     -c Release \
-    /p:UsePackageReferences=false \
+    /p:UsePackageReferences=true \
     /p:DebugSymbols=true \
     /p:DebugType=portable \
     /p:GeneratePackage=false \
     /p:GenerateDocs=false \
     /p:GenerateXmlComments=false \
     /p:ShowScriptDialogs=false \
-    -o /app/publish
+    -o /app/publish -bl 
+
+RUN cp ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/msbuild.binlog /app/publish/msbuild.binlog
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0
 
