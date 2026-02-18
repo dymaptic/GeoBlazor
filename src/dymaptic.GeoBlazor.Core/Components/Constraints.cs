@@ -7,6 +7,60 @@
 public class Constraints : MapComponent
 {
     /// <summary>
+    ///     Parameterless constructor for use as a Razor Component.
+    /// </summary>
+    [ActivatorUtilitiesConstructor]
+    public Constraints()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any
+    ///     order.
+    /// </summary>
+    /// <param name="lods">
+    ///     An array of LODs. If not specified, this value is read from the Map.
+    /// </param>
+    /// <param name="geometry">
+    ///     The area in which the user is allowed to navigate laterally. Only Extent and Polygon geometry types are supported.
+    ///     Z-values are ignored.
+    /// </param>
+    /// <param name="minScale">
+    ///     The minimum scale the user is allowed to zoom to within the view.
+    /// </param>
+    /// <param name="maxScale">
+    ///     The maximum scale the user is allowed to zoom to within the view. Setting this value to 0 allows the user to
+    ///     overzoom layer tiles.
+    /// </param>
+    /// <param name="minZoom">
+    ///     The minimum zoom level the user is allowed to zoom to within the view.
+    /// </param>
+    /// <param name="maxZoom">
+    ///     The maximum zoom level the user is allowed to zoom to within the view. Setting this value to 0 allows the user to
+    ///     over-zoom layer tiles.
+    /// </param>
+    /// <param name="snapToZoom">
+    ///     Indicates whether the view snaps to a LOD when zooming in or out.
+    /// </param>
+    /// <param name="rotationEnabled">
+    ///     Indicates whether rotation is enabled in the view.
+    /// </param>
+    public Constraints(List<LOD>? lods = null, Geometry? geometry = null, double? minScale = null,
+        double? maxScale = null,
+        double? minZoom = null, double? maxZoom = null, bool? snapToZoom = null, bool? rotationEnabled = null)
+    {
+        AllowRender = false;
+        Lods = lods;
+        Geometry = geometry;
+        MinScale = minScale;
+        MaxScale = maxScale;
+        MinZoom = minZoom;
+        MaxZoom = maxZoom;
+        SnapToZoom = snapToZoom;
+        RotationEnabled = rotationEnabled;
+    }
+
+    /// <summary>
     ///     An array of LODs. If not specified, this value is read from the Map.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

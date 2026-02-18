@@ -109,7 +109,7 @@ List<string> platforms = allPlatforms ? ["linux-x64", "osx-arm64", "win-x64"] : 
 
 int result = -1;
 
-string utilitiesDir = Path.Combine(coreScriptsDir, "..", "utilities");
+string utilitiesDir = Path.GetFullPath(Path.Combine(coreScriptsDir, "..", "utilities"));
 string[] utilitiesProjectFiles = Directory.GetFiles(utilitiesDir, "*.csproj", SearchOption.AllDirectories);
 HashSet<string> updatedUtilities = [];
 
@@ -536,11 +536,15 @@ static bool CheckIfNeedsBuild(long timeStamp, string script, string outputDir, s
                 Trace.WriteLine($"Output DLL missing: {outputDll}. Proceeding with build.");
                 return true;
             }
-            string outputRuntimeJson = Path.Combine(outputDir, fileName + ".runtimeconfig.json");
-            if (!File.Exists(outputRuntimeJson))
+            // Library projects (.csproj) don't produce runtimeconfig.json, only scripts (.cs) do
+            if (script.EndsWith(".cs", StringComparison.OrdinalIgnoreCase))
             {
-                Trace.WriteLine($"Output runtime config missing: {outputRuntimeJson}. Proceeding with build.");
-                return true;
+                string outputRuntimeJson = Path.Combine(outputDir, fileName + ".runtimeconfig.json");
+                if (!File.Exists(outputRuntimeJson))
+                {
+                    Trace.WriteLine($"Output runtime config missing: {outputRuntimeJson}. Proceeding with build.");
+                    return true;
+                }
             }
         }
         else
@@ -647,11 +651,14 @@ static List<string> GetScriptReferences(string scriptPath)
 
     try
     {
+        string scriptDir = Path.GetDirectoryName(scriptPath)!;
         string scriptContent = File.ReadAllText(scriptPath);
-        var matches = Regex.Matches(scriptContent, @"#:project\s+([^\n]+)", RegexOptions.IgnoreCase);
+        var matches = Regex.Matches(scriptContent, @"#:project\s+([^\r\n]+)", RegexOptions.IgnoreCase);
         foreach (Match match in matches)
         {
-            references.Add(match.Groups[1].Value);
+            string refPath = match.Groups[1].Value.Trim();
+            // Resolve relative paths to full paths so they match updatedUtilities entries
+            references.Add(Path.GetFullPath(Path.Combine(scriptDir, refPath)));
         }
         return references;
     }

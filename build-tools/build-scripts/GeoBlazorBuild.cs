@@ -24,11 +24,13 @@
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using Utilities;
 
 
 // Paths
 // Get the script cs file path, that way we can run this script from either the CS file or the Executable
 string scriptsDir = PathFinder.GetScriptsDirectory();
+
 // Scripts folder is at GeoBlazor/build-tools/build-scripts/, Core root is GeoBlazor/
 string coreRepoRoot = Path.GetFullPath(Path.Combine(scriptsDir, "..", ".."));
 string proRepoRoot = Path.GetFullPath(Path.Combine(coreRepoRoot, ".."));
@@ -61,58 +63,72 @@ int buildRetries = 5;
 for (int i = 0; i < args.Length; i++)
 {
     string arg = args[i].ToLowerInvariant();
+
     switch (arg)
     {
         case "-pro":
         case "--pro":
             pro = true;
+
             break;
         case "-po":
         case "--pro-only":
             pro = true;
             core = false;
+
             break;
         case "-pub":
         case "--publish-version":
             publishVersion = true;
+
             break;
         case "-obf":
         case "--obfuscate":
             obfuscate = true;
+
             break;
         case "-docs":
         case "--generate-docs":
             generateDocs = true;
+
             break;
         case "-xml":
         case "--generate-xml":
             generateXmlComments = true;
+
             break;
         case "-pkg":
         case "--package":
             package = true;
+
             break;
         case "-bl":
         case "--binlog":
             binlog = true;
+
             break;
         case "-h":
         case "--help":
             help = true;
+
             break;
         case "-nc":
         case "--no-clean":
             clean = false;
+
             break;
         case "-v":
         case "--version":
             if (i + 1 < args.Length)
             {
                 string version = args[++i];
+
                 if (version.Trim('"') == "current")
                 {
                     XDocument coreProps = XDocument.Load(corePropsPath);
-                    string? currentCoreVersion = coreProps.Root?.Element("PropertyGroup")?.Element("CoreVersion")?.Value;
+
+                    string? currentCoreVersion =
+                        coreProps.Root?.Element("PropertyGroup")?.Element("CoreVersion")?.Value;
                     customVersion = currentCoreVersion;
                 }
                 else
@@ -120,6 +136,7 @@ for (int i = 0; i < args.Length; i++)
                     customVersion = version.Trim('"');
                 }
             }
+
             break;
         case "-c":
         case "--configuration":
@@ -127,6 +144,7 @@ for (int i = 0; i < args.Length; i++)
             {
                 configuration = args[++i];
             }
+
             break;
         case "-vc":
         case "--validator-config":
@@ -134,6 +152,7 @@ for (int i = 0; i < args.Length; i++)
             {
                 validatorConfig = args[++i];
             }
+
             break;
         case "-su":
         case "--server-url":
@@ -141,13 +160,15 @@ for (int i = 0; i < args.Length; i++)
             {
                 serverUrl = args[++i];
             }
+
             break;
         case "-retries":
         case "--retries":
-            if (i + 1 < args.Length && int.TryParse(args[++i], out int retries))
+            if ((i + 1 < args.Length) && int.TryParse(args[++i], out int retries))
             {
                 buildRetries = retries;
             }
+
             break;
     }
 }
@@ -158,24 +179,41 @@ if (help)
     Console.WriteLine();
     Console.WriteLine("Parameters:");
     Console.WriteLine("  -pro                               Build GeoBlazor Pro as well as Core (default is false)");
-    Console.WriteLine("  -po,  --pro-only                   Build only GeoBlazor Pro, skipping Core (implies -pro, default is false)");
-    Console.WriteLine("  -pub, --publish-version            Truncate the build version to 3 digits for NuGet (default is false)");
-    Console.WriteLine("  -obf, --obfuscate                  Obfuscate the Pro license validation logic (default is false)");
-    Console.WriteLine("  -docs, --generate-docs             Generate documentation files for the docs site (default is false)");
-    Console.WriteLine("  -xml, --generate-xml               Generate the XML comments for intellisense (default is false)");
+
+    Console.WriteLine(
+        "  -po,  --pro-only                   Build only GeoBlazor Pro, skipping Core (implies -pro, default is false)");
+
+    Console.WriteLine(
+        "  -pub, --publish-version            Truncate the build version to 3 digits for NuGet (default is false)");
+
+    Console.WriteLine(
+        "  -obf, --obfuscate                  Obfuscate the Pro license validation logic (default is false)");
+
+    Console.WriteLine(
+        "  -docs, --generate-docs             Generate documentation files for the docs site (default is false)");
+
+    Console.WriteLine(
+        "  -xml, --generate-xml               Generate the XML comments for intellisense (default is false)");
     Console.WriteLine("  -pkg, --package                    Create NuGet packages (default is false)");
     Console.WriteLine("  -bl, --binlog                      Generate MSBuild binary log files (default is false)");
-    Console.WriteLine("  -v, --version <string>             Specify a custom version number (default is to auto-increment)");
+
+    Console.WriteLine(
+        "  -v, --version <string>             Specify a custom version number (default is to auto-increment)");
     Console.WriteLine("  -c, --configuration <string>       Build configuration (default is 'Release')");
     Console.WriteLine("  -nc, --no-clean                    Skip the clean step (default is false)");
     Console.WriteLine("  -vc, --validator-config <string>   Validator build configuration (default is 'Release')");
-    Console.WriteLine("  -su, --server-url <string>         License server URL (default is 'https://licensing.dymaptic.com')");
-    Console.WriteLine("  -retries <int>                     Number of times to retry the build on failure (default is 5)");
+
+    Console.WriteLine(
+        "  -su, --server-url <string>         License server URL (default is 'https://licensing.dymaptic.com')");
+
+    Console.WriteLine(
+        "  -retries <int>                     Number of times to retry the build on failure (default is 5)");
     Console.WriteLine("  -h, --help                         Display this help message");
+
     return 0;
 }
 
-CancellationTokenSource cts = new CancellationTokenSource();
+CancellationTokenSource cts = new();
 
 // Handle Ctrl+C by killing the child process
 Console.CancelKeyPress += async (_, e) =>
@@ -208,6 +246,15 @@ try
     string version = customVersion ?? "";
     bool customVersionSet = !string.IsNullOrEmpty(customVersion);
 
+    // STEP: Stop the Analyzers running in your IDE, so the build can continue
+    GbCli.WriteStepHeader(step, "Preparing Build Environment. Stopping IDE Analyzers.");
+    ProcessKiller.KillByProcessOrFileName("dymaptic.GeoBlazor.Core.Analyzers.dll");
+
+    GbCli.WriteStepCompleted(step, stepStartTime);
+    step++;
+    stepStartTime = DateTime.Now;
+
+
     if (clean)
     {
         // STEP: Clean old build artifacts
@@ -215,7 +262,7 @@ try
 
         List<Task> cleanTasks = [];
 
-        cleanTasks.Add(ProcessRunner.RunDotnetCommand(coreProjectPath, "clean", null, cts.Token, 
+        cleanTasks.Add(ProcessRunner.RunDotnetCommand(coreProjectPath, "clean", null, cts.Token,
             $"\"{Path.Combine(coreProjectPath, "dymaptic.GeoBlazor.Core.csproj")}\""));
         cleanTasks.Add(Task.Run(() => DeleteDirectoryIfExists(Path.Combine(coreProjectPath, "bin"))));
         cleanTasks.Add(Task.Run(() => DeleteDirectoryIfExists(Path.Combine(coreProjectPath, "obj"))));
@@ -229,8 +276,12 @@ try
             cleanTasks.Add(Task.Run(() => DeleteDirectoryIfExists(Path.Combine(proProjectPath, "bin"))));
             cleanTasks.Add(Task.Run(() => DeleteDirectoryIfExists(Path.Combine(proProjectPath, "obj"))));
             cleanTasks.Add(Task.Run(() => DeleteDirectoryContentsIfExists(Path.Combine(proProjectPath, "obf"))));
-            cleanTasks.Add(Task.Run(() => DeleteDirectoryContentsIfExists(Path.Combine(proProjectPath, "build", "resources"))));
-            cleanTasks.Add(Task.Run(() => DeleteDirectoryContentsIfExists(Path.Combine(proProjectPath, "wwwroot", "js"))));
+
+            cleanTasks.Add(Task.Run(() =>
+                DeleteDirectoryContentsIfExists(Path.Combine(proProjectPath, "build", "resources"))));
+
+            cleanTasks.Add(
+                Task.Run(() => DeleteDirectoryContentsIfExists(Path.Combine(proProjectPath, "wwwroot", "js"))));
             cleanTasks.Add(Task.Run(() => DeleteFileIfExists(Path.Combine(proProjectPath, "esBuild.lock"))));
 
             if (Directory.Exists(validatorProjectPath))
@@ -239,12 +290,14 @@ try
                     $"\"{Path.Combine(validatorProjectPath, "dymaptic.GeoBlazor.Pro.V.csproj")}\""));
                 cleanTasks.Add(Task.Run(() => DeleteDirectoryIfExists(Path.Combine(validatorProjectPath, "bin"))));
                 cleanTasks.Add(Task.Run(() => DeleteDirectoryIfExists(Path.Combine(validatorProjectPath, "obj"))));
-                cleanTasks.Add(Task.Run(() => DeleteDirectoryContentsIfExists(Path.Combine(validatorProjectPath, "obf"))));
+
+                cleanTasks.Add(
+                    Task.Run(() => DeleteDirectoryContentsIfExists(Path.Combine(validatorProjectPath, "obf"))));
             }
         }
 
         await Task.WhenAll(cleanTasks);
-        
+
         GbCli.WriteStepCompleted(step, stepStartTime);
         step++;
     }
@@ -268,14 +321,15 @@ try
             version = await BumpVersionAsync(proRepoRoot, publishVersion, true);
 
             // Compare versions and use the higher one
-            if (CompareVersions(newCoreVersion, version) > 0 &&
-                CompareVersions(currentCoreVersion ?? "0.0.0", currentProVersion ?? "0.0.0") > 0)
+            if ((CompareVersions(newCoreVersion, version) > 0) &&
+                (CompareVersions(currentCoreVersion ?? "0.0.0", currentProVersion ?? "0.0.0") > 0))
             {
                 version = newCoreVersion;
             }
             else if (CompareVersions(newCoreVersion, version) < 0)
             {
-                Console.WriteLine($"Core version ({newCoreVersion}) and Pro version ({version}) do not match after bumping. Please ensure both versions are the same in Directory.Build.props.");
+                Console.WriteLine($"Core version ({newCoreVersion}) and Pro version ({version
+                }) do not match after bumping. Please ensure both versions are the same in Directory.Build.props.");
             }
 
             if (currentProVersion == version)
@@ -327,8 +381,8 @@ try
 
         List<string> coreBuildArgs =
         [
-            $"dymaptic.GeoBlazor.Core.csproj",
-            $"--no-restore",
+            "dymaptic.GeoBlazor.Core.csproj",
+            "--no-restore",
             "-c",
             configuration,
             $"/p:GenerateDocs={generateDocs.ToString().ToLower()}",
@@ -349,11 +403,13 @@ try
 
         // Verify JavaScript files were created
         string coreJsPath = Path.Combine(coreProjectPath, "wwwroot", "js");
-        if (!Directory.Exists(coreJsPath) || Directory.GetFiles(coreJsPath, "*.js").Length == 0)
+
+        if (!Directory.Exists(coreJsPath) || (Directory.GetFiles(coreJsPath, "*.js").Length == 0))
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("ERROR: Core JavaScript files still not found after waiting. Exiting.");
             Console.ResetColor();
+
             return 1;
         }
 
@@ -361,12 +417,14 @@ try
         {
             // Copy generated NuGet package to repo root
             string coreBinPath = Path.Combine(coreProjectPath, "bin", configuration);
+
             if (Directory.Exists(coreBinPath))
             {
-                var coreNupkg = Directory.GetFiles(coreBinPath, "*.nupkg", SearchOption.AllDirectories)
+                FileInfo? coreNupkg = Directory.GetFiles(coreBinPath, "*.nupkg", SearchOption.AllDirectories)
                     .Select(f => new FileInfo(f))
                     .OrderByDescending(f => f.LastWriteTime)
                     .FirstOrDefault();
+
                 if (coreNupkg is null)
                 {
                     throw new FileNotFoundException("NuGet package not found in Core bin directory.");
@@ -407,16 +465,18 @@ try
 
         // Update BuildValidator.cs
         string devValidatorContent = File.ReadAllText(BuildValidatorPath);
-        devValidatorContent = Regex.Replace(
-            devValidatorContent,
-            @"public string SU \{ get; set; \} = null!;",
-            $"public string SU {{ get; set; }} = \"{serverUrl}/api/validate/v4\";");
+        
+        string nullServerUrlLine = $"public string SU {{ get; set; }} = null!;";
+        string populatedServerUrlLine = $"public string SU {{ get; set; }} = \"{serverUrl}\";";
+
+        devValidatorContent = Regex.Replace(devValidatorContent, nullServerUrlLine, populatedServerUrlLine);
         File.WriteAllText(BuildValidatorPath, devValidatorContent);
         Thread.Sleep(500);
 
         // Verify the update
         devValidatorContent = File.ReadAllText(BuildValidatorPath);
-        if (!devValidatorContent.Contains($"public string SU {{ get; set; }} = \"{serverUrl}/api/validate/v4\";"))
+
+        if (!devValidatorContent.Contains(populatedServerUrlLine))
         {
             throw new Exception("Failed to set ServerUrl in BuildValidator.cs");
         }
@@ -429,12 +489,13 @@ try
             $"/p:ProVersion={version}",
             "-c",
             validatorConfig,
-			"/p:ShowScriptDialogs=false"
+            "/p:ShowScriptDialogs=false"
         ];
-        
+
         if (binlog)
         {
-            validatorBuildArgs.Add($"-bl:\"{Path.Combine(coreRepoRoot, $"validator_build_{validatorConfig.ToLower()}.binlog")}\"");
+            validatorBuildArgs.Add($"-bl:\"{
+                Path.Combine(coreRepoRoot, $"validator_build_{validatorConfig.ToLower()}.binlog")}\"");
         }
 
         try
@@ -445,10 +506,8 @@ try
         {
             // Restore the ServerUrls in the Validator project even if the build fails
             devValidatorContent = File.ReadAllText(BuildValidatorPath);
-            devValidatorContent = Regex.Replace(
-                devValidatorContent,
-                @"public string SU \{ get; set; \} = "".*"";",
-                "public string SU { get; set; } = null!;");
+
+            devValidatorContent = Regex.Replace(devValidatorContent, populatedServerUrlLine, nullServerUrlLine);
             File.WriteAllText(BuildValidatorPath, devValidatorContent);
         }
 
@@ -457,13 +516,15 @@ try
 
         // STEP: Build Pro project and package
         stepStartTime = DateTime.Now;
-        GbCli.WriteStepHeader(step, package ? "Building GeoBlazor Pro Project and NuGet Package" : "Building GeoBlazor Pro Project");
+
+        GbCli.WriteStepHeader(step,
+            package ? "Building GeoBlazor Pro Project and NuGet Package" : "Building GeoBlazor Pro Project");
 
         List<string> proBuildArgs =
         [
-            $"dymaptic.GeoBlazor.Pro.csproj",
+            "dymaptic.GeoBlazor.Pro.csproj",
             "--no-restore",
-            $"-c",
+            "-c",
             configuration,
             $"/p:GenerateDocs={generateDocs.ToString().ToLower()}",
             $"/p:GenerateXmlComments={generateXmlComments.ToString().ToLower()}",
@@ -471,7 +532,7 @@ try
             $"/p:ProVersion={version}",
             $"/p:OptOutFromObfuscation={optOutFromObfuscation.ToString().ToLower()}",
             $"/p:GeneratePackage={package.ToString().ToLower()}",
-			"/p:ShowScriptDialogs=false"
+            "/p:ShowScriptDialogs=false"
         ];
 
         if (binlog)
@@ -485,11 +546,13 @@ try
 
         // Verify Pro JavaScript files were created
         string proJsPath = Path.Combine(proProjectPath, "wwwroot", "js");
-        if (!Directory.Exists(proJsPath) || Directory.GetFiles(proJsPath, "*.js").Length == 0)
+
+        if (!Directory.Exists(proJsPath) || (Directory.GetFiles(proJsPath, "*.js").Length == 0))
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("ERROR: Pro JavaScript files still not found after waiting. Exiting.");
             Console.ResetColor();
+
             return 1;
         }
 
@@ -497,12 +560,14 @@ try
         {
             // Copy generated NuGet package to Core repo root
             string proBinPath = Path.Combine(proProjectPath, "bin", configuration);
+
             if (Directory.Exists(proBinPath))
             {
-                var proNupkg = Directory.GetFiles(proBinPath, "*.nupkg", SearchOption.AllDirectories)
+                FileInfo? proNupkg = Directory.GetFiles(proBinPath, "*.nupkg", SearchOption.AllDirectories)
                     .Select(f => new FileInfo(f))
                     .OrderByDescending(f => f.LastWriteTime)
                     .FirstOrDefault();
+
                 if (proNupkg is null)
                 {
                     throw new FileNotFoundException("NuGet package not found in Pro bin directory.");
@@ -521,6 +586,7 @@ try
 catch (Exception ex)
 {
     Console.WriteLine($"An error occurred: {ex.Message}");
+
     return 1;
 }
 finally
@@ -574,7 +640,8 @@ static void DeleteDirectoryIfExists(string path)
 
         // Verify and wait for filesystem to settle
         int retries = 10;
-        while (Directory.Exists(path) && retries > 0)
+
+        while (Directory.Exists(path) && (retries > 0))
         {
             Thread.Sleep(100);
             retries--;
@@ -637,7 +704,8 @@ static async Task<string> BumpVersionAsync(string repoRoot, bool publish, bool i
     }
 
     // Parse version: major.minor.patch.build-beta-betaVersion
-    var match = Regex.Match(currentVersion, @"(\d+)\.(\d+)\.(\d+)\.?(\d*)?-?(beta)?-?(\d*)?");
+    Match match = Regex.Match(currentVersion, @"(\d+)\.(\d+)\.(\d+)\.?(\d*)?-?(beta)?-?(\d*)?");
+
     if (!match.Success)
     {
         throw new Exception($"Could not parse version: {currentVersion}");
@@ -646,11 +714,15 @@ static async Task<string> BumpVersionAsync(string repoRoot, bool publish, bool i
     int majorVersion = int.Parse(match.Groups[1].Value);
     int minorVersion = int.Parse(match.Groups[2].Value);
     int patchVersion = int.Parse(match.Groups[3].Value);
+
     int buildVersion = match.Groups[4].Success && !string.IsNullOrEmpty(match.Groups[4].Value)
-        ? int.Parse(match.Groups[4].Value) : 0;
+        ? int.Parse(match.Groups[4].Value)
+        : 0;
     bool isBeta = match.Groups[5].Success && !string.IsNullOrEmpty(match.Groups[5].Value);
+
     int betaVersion = match.Groups[6].Success && !string.IsNullOrEmpty(match.Groups[6].Value)
-        ? int.Parse(match.Groups[6].Value) : 0;
+        ? int.Parse(match.Groups[6].Value)
+        : 0;
 
     string newVersion;
 
@@ -658,25 +730,28 @@ static async Task<string> BumpVersionAsync(string repoRoot, bool publish, bool i
     {
         if (isBeta)
         {
-            throw new Exception("Cannot publish a beta version. Please update the version in Directory.Build.props to a release version.");
+            throw new Exception(
+                "Cannot publish a beta version. Please update the version in Directory.Build.props to a release version.");
         }
 
         // Check the latest version on NuGet.org
         string packageName = isPro ? "dymaptic.geoblazor.pro" : "dymaptic.geoblazor.core";
         string nugetUrl = $"https://azuresearch-usnc.nuget.org/query?q={packageName}&prerelease=false";
 
-        using var httpClient = new HttpClient();
+        using HttpClient httpClient = new();
         string response = await httpClient.GetStringAsync(nugetUrl);
-        using var doc = JsonDocument.Parse(response);
+        using JsonDocument doc = JsonDocument.Parse(response);
 
         string? latestVersion = null;
-        if (doc.RootElement.TryGetProperty("data", out var data) && data.GetArrayLength() > 0)
+
+        if (doc.RootElement.TryGetProperty("data", out JsonElement data) && (data.GetArrayLength() > 0))
         {
             // Find the highest version
             latestVersion = data.EnumerateArray()
                 .Select(d => d.GetProperty("version").GetString())
                 .Where(v => v != null)
-                .OrderByDescending(v => Version.TryParse(v!.Split('-')[0], out var ver) ? ver : new Version(0, 0, 0))
+                .OrderByDescending(v =>
+                    Version.TryParse(v!.Split('-')[0], out Version? ver) ? ver : new Version(0, 0, 0))
                 .FirstOrDefault();
         }
 
@@ -685,19 +760,20 @@ static async Task<string> BumpVersionAsync(string repoRoot, bool publish, bool i
             throw new Exception("Could not determine latest version from NuGet API.");
         }
 
-        var nugetMatch = Regex.Match(latestVersion, @"(\d+)\.(\d+)\.(\d+)\.?(\d*)?(-beta-)?(\d*)?");
+        Match nugetMatch = Regex.Match(latestVersion, @"(\d+)\.(\d+)\.(\d+)\.?(\d*)?(-beta-)?(\d*)?");
         int nugetMajor = int.Parse(nugetMatch.Groups[1].Value);
         int nugetMinor = int.Parse(nugetMatch.Groups[2].Value);
         int nugetPatch = int.Parse(nugetMatch.Groups[3].Value);
 
-        if (nugetMajor > majorVersion ||
-            (nugetMajor == majorVersion && nugetMinor > minorVersion) ||
-            (nugetMajor == majorVersion && nugetMinor == minorVersion && nugetPatch > patchVersion))
+        if ((nugetMajor > majorVersion) ||
+            ((nugetMajor == majorVersion) && (nugetMinor > minorVersion)) ||
+            ((nugetMajor == majorVersion) && (nugetMinor == minorVersion) && (nugetPatch > patchVersion)))
         {
-            throw new Exception("Version in NuGet is greater than local version. Please update the version in Directory.Build.props to match the latest version on Nuget.org.");
+            throw new Exception(
+                "Version in NuGet is greater than local version. Please update the version in Directory.Build.props to match the latest version on Nuget.org.");
         }
 
-        if (nugetMajor == majorVersion && nugetMinor == minorVersion && nugetPatch == patchVersion)
+        if ((nugetMajor == majorVersion) && (nugetMinor == minorVersion) && (nugetPatch == patchVersion))
         {
             // Increment the patch version for release
             newVersion = $"{majorVersion}.{minorVersion}.{patchVersion + 1}";
@@ -737,8 +813,8 @@ static async Task<string> BumpVersionAsync(string repoRoot, bool publish, bool i
 static int CompareVersions(string version1, string version2)
 {
     // Simple version comparison - extract numeric parts
-    var v1Match = Regex.Match(version1, @"(\d+)\.(\d+)\.(\d+)\.?(\d*)?");
-    var v2Match = Regex.Match(version2, @"(\d+)\.(\d+)\.(\d+)\.?(\d*)?");
+    Match v1Match = Regex.Match(version1, @"(\d+)\.(\d+)\.(\d+)\.?(\d*)?");
+    Match v2Match = Regex.Match(version2, @"(\d+)\.(\d+)\.(\d+)\.?(\d*)?");
 
     if (!v1Match.Success || !v2Match.Success)
     {
@@ -748,17 +824,33 @@ static int CompareVersions(string version1, string version2)
     int major1 = int.Parse(v1Match.Groups[1].Value);
     int minor1 = int.Parse(v1Match.Groups[2].Value);
     int patch1 = int.Parse(v1Match.Groups[3].Value);
+
     int build1 = v1Match.Groups[4].Success && !string.IsNullOrEmpty(v1Match.Groups[4].Value)
-        ? int.Parse(v1Match.Groups[4].Value) : 0;
+        ? int.Parse(v1Match.Groups[4].Value)
+        : 0;
 
     int major2 = int.Parse(v2Match.Groups[1].Value);
     int minor2 = int.Parse(v2Match.Groups[2].Value);
     int patch2 = int.Parse(v2Match.Groups[3].Value);
-    int build2 = v2Match.Groups[4].Success && !string.IsNullOrEmpty(v2Match.Groups[4].Value)
-        ? int.Parse(v2Match.Groups[4].Value) : 0;
 
-    if (major1 != major2) return major1.CompareTo(major2);
-    if (minor1 != minor2) return minor1.CompareTo(minor2);
-    if (patch1 != patch2) return patch1.CompareTo(patch2);
+    int build2 = v2Match.Groups[4].Success && !string.IsNullOrEmpty(v2Match.Groups[4].Value)
+        ? int.Parse(v2Match.Groups[4].Value)
+        : 0;
+
+    if (major1 != major2)
+    {
+        return major1.CompareTo(major2);
+    }
+
+    if (minor1 != minor2)
+    {
+        return minor1.CompareTo(minor2);
+    }
+
+    if (patch1 != patch2)
+    {
+        return patch1.CompareTo(patch2);
+    }
+
     return build1.CompareTo(build2);
 }
