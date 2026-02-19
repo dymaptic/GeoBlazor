@@ -975,7 +975,7 @@ public class TestConfig
             "/p:ShowScriptDialogs=false"
         ];
 
-        List<string> filterArgs = [.._filters ?? [], @"TestCategory\!~AutomationExclude"];
+        List<string> filterArgs = [.._filters ?? [], "TestCategory!~AutomationExclude"];
         string filter = string.Join("|", filterArgs);
         args.Add($"--filter {filter}");
 
@@ -1110,7 +1110,7 @@ public class TestConfig
         CancellationTokenSource linkedTokenSource =
             CancellationTokenSource.CreateLinkedTokenSource(context.CancellationToken, waitTokenSource.Token);
 
-        List<string> filterArgs = [.._filters ?? [], @"TestCategory\!~AutomationExclude"];
+        List<string> filterArgs = [.._filters ?? [], "TestCategory!~AutomationExclude"];
         string filter = string.Join("|", filterArgs);
 
         _ = Cli.Wrap(cmdLineApp)
