@@ -16,6 +16,7 @@
 // Options:
 //   --exclude       When specified, the listed scripts will be skipped instead of included
 //   --force, -f     Force rebuild of all scripts regardless of changes
+//   --clean, -c     Clean before building
 //   --linux, -l     Build for Linux platform
 //   --mac,   -m     Build for macOS platform
 //   --win,   -w     Build for Windows platform
@@ -49,6 +50,7 @@ string[] coreScripts = Directory.GetFiles(coreScriptsDir, "*.cs");
 string[] proScripts = Directory.Exists(proScriptsDir) ? Directory.GetFiles(proScriptsDir, "*.cs") : [];
 
 bool force = false;
+bool cleanBeforeBuild = false;
 bool allPlatforms = false;
 string os = OperatingSystem.IsWindows()
     ? "win" 
@@ -64,6 +66,10 @@ for (int i = 0; i < args.Length; i++)
 
     switch (arg.ToLowerInvariant())
     {
+        case "--clean":
+        case "-c":
+            cleanBeforeBuild = true;
+            break;
         case "--exclude":
             excludeMode = true;
             break;
@@ -92,6 +98,7 @@ for (int i = 0; i < args.Length; i++)
             Console.WriteLine("Options:");
             Console.WriteLine("  --exclude        Exclude listed scripts instead of including them");
             Console.WriteLine("  --force, -f      Force rebuild of all scripts");
+            Console.WriteLine("  --clean, -c      Clean before building");
             Console.WriteLine("  --linux, -l      Build for Linux platform");
             Console.WriteLine("  --mac,   -m      Build for macOS platform");
             Console.WriteLine("  --win,   -w      Build for Windows platform");
@@ -167,8 +174,8 @@ foreach (string platform in platforms)
         }
 
         // Build Core Scripts
-        result = await BuildScripts(coreScripts, scriptsToProcess, coreScriptsDir, outDir, platform, force, branchChanged, 
-        timeStamp, excludeMode, updatedUtilities, cts);
+        result = await BuildScripts(coreScripts, scriptsToProcess, coreScriptsDir, outDir, platform, force,
+            cleanBeforeBuild, branchChanged, timeStamp, excludeMode, updatedUtilities, cts);
 
         if (result == 0)
         {
@@ -192,8 +199,8 @@ foreach (string platform in platforms)
             (timeStamp, oldBranch) = GetLastBuildRecord(recordFile);
             branchChanged = oldBranch != currentBranch;
 
-            result = await BuildScripts(proScripts, scriptsToProcess, proScriptsDir, outDir, platform, force, branchChanged, 
-            timeStamp, excludeMode, updatedUtilities, cts);
+            result = await BuildScripts(proScripts, scriptsToProcess, proScriptsDir, outDir, platform, force,
+                cleanBeforeBuild, branchChanged, timeStamp, excludeMode, updatedUtilities, cts);
             if (result == 0)
             {
                 SaveBuildRecord(recordFile, currentBranch);
@@ -220,79 +227,132 @@ if (result != 0)
 
 return result;
 
-static async Task<int> BuildScripts(string[] scripts, HashSet<string> scriptsToProcess, string scriptsDir, string outDir, 
-    string runtime, bool force, bool branchChanged, long timeStamp, bool excludeMode, HashSet<string> updatedUtilities, CancellationTokenSource cts)
+static async Task<int> BuildScripts(string[] scripts, HashSet<string> scriptsToProcess, string scriptsDir, string outDir,
+    string runtime, bool force, bool cleanBeforeBuild, bool branchChanged, long timeStamp, bool excludeMode,
+    HashSet<string> updatedUtilities, CancellationTokenSource cts)
 {
+    List<string> filteredScripts;
     if (scriptsToProcess.Count > 0)
     {
         Trace.WriteLine(excludeMode
             ? $"Excluding specified scripts: {string.Join(", ", scriptsToProcess)}"
             : $"Including only specified scripts: {string.Join(", ", scriptsToProcess)}");
+
+        filteredScripts = excludeMode
+            ? scripts.Where(s => !scriptsToProcess.Contains(Path.GetFileName(s))).ToList()
+            : scripts.Where(s => scriptsToProcess.Contains(Path.GetFileName(s))).ToList();
+    }
+    else
+    {
+        filteredScripts = scripts.ToList();
+    }
+
+    filteredScripts.RemoveAll(s => Path.GetFileName(s) == "ScriptBuilder.cs");
+
+    Dictionary<string, List<string>> scriptReferences = [];
+
+    foreach (string script in filteredScripts)
+    {
+        scriptReferences[script] = GetScriptReferences(script);
     }
 
     int returnCode = 0;
 
     using SemaphoreSlim semaphore = new(1, 1);
 
-    await Parallel.ForEachAsync(scripts, cts.Token, async (script, token) =>
+    if (cleanBeforeBuild)
     {
-        if (Path.GetFileName(script) == "ScriptBuilder.cs")
+        await Parallel.ForEachAsync(filteredScripts, cts.Token, async (script, token) =>
         {
-            return;
-        }
+            string fileName = Path.GetFileName(script);
 
-        if (scriptsToProcess.Count > 0)
-        {
-            if (excludeMode && scriptsToProcess.Contains(Path.GetFileName(script)))
+            if (token.IsCancellationRequested)
             {
-                Trace.WriteLine($"Skipping excluded script: {Path.GetFileName(script)}");
+                Trace.WriteLine($"Build cancelled. Skipping script: {fileName}");
                 return;
             }
-            else if (!excludeMode && !scriptsToProcess.Contains(Path.GetFileName(script)))
+
+            if (!force && !branchChanged && !CheckIfNeedsBuild(timeStamp, script, outDir, scriptsDir) 
+                && !updatedUtilities.Intersect(scriptReferences[script]).Any())
             {
-                Trace.WriteLine($"Skipping unlisted script: {Path.GetFileName(script)}");
+                Trace.WriteLine($"Skipping unchanged script: {fileName}");
                 return;
             }
-        }
 
-        List<string> references = GetScriptReferences(script);
+            if (scriptReferences[script].Any())
+            {
+                await semaphore.WaitAsync(token);
+            }
 
-        if (!force && !branchChanged && !CheckIfNeedsBuild(timeStamp, script, outDir, scriptsDir) && !updatedUtilities.Intersect(references).Any())
-        {
-            Trace.WriteLine($"Skipping unchanged script: {Path.GetFileName(script)}");
-            return;
-        }
+            try
+            {
+                int scriptReturnCode = await CleanScript(fileName, scriptsDir, outDir, runtime, cts.Token);
+
+                if (scriptReturnCode != 0)
+                {
+                    Trace.WriteLine($"Failed to clean script: {fileName} with exit code {scriptReturnCode}");
+                    returnCode = scriptReturnCode;
+                    cts.Cancel();
+                }
+            }
+            catch (Exception ex) when (ex is not OperationCanceledException)
+            {
+                Trace.WriteLine($"Exception occurred while cleaning script {fileName}: {ex.Message}{Environment.NewLine}{ex.StackTrace}");
+                returnCode = 1;
+                cts.Cancel();
+            }
+            finally
+            {
+                if (scriptReferences[script].Any())
+                {
+                    semaphore.Release();
+                }
+            }
+        });
+    }
+
+    await Parallel.ForEachAsync(filteredScripts, cts.Token, async (script, token) =>
+    {
+        string fileName = Path.GetFileName(script);
 
         if (token.IsCancellationRequested)
         {
-            Trace.WriteLine($"Build cancelled. Skipping script: {Path.GetFileName(script)}");
+            Trace.WriteLine($"Build cancelled. Skipping script: {fileName}");
+            return;
+        }
+        
+        if (!force && !branchChanged && !CheckIfNeedsBuild(timeStamp, script, outDir, scriptsDir) 
+            && !updatedUtilities.Intersect(scriptReferences[script]).Any())
+        {
+            Trace.WriteLine($"Skipping unchanged script: {fileName}");
             return;
         }
 
-        if (references.Any())
+        if (scriptReferences[script].Any())
         {
             await semaphore.WaitAsync(token);
         }
+
         try
         {
-            int scriptReturnCode = await BuildScript(Path.GetFileName(script), scriptsDir, outDir, runtime, cts.Token);
+            int scriptReturnCode = await BuildScript(fileName, scriptsDir, outDir, runtime, cts.Token);
 
             if (scriptReturnCode != 0)
             {
-                Trace.WriteLine($"Failed to build script: {Path.GetFileName(script)} with exit code {scriptReturnCode}");
+                Trace.WriteLine($"Failed to build script: {fileName} with exit code {scriptReturnCode}");
                 returnCode = scriptReturnCode;
                 cts.Cancel();
             }
         }
         catch (Exception ex) when (ex is not OperationCanceledException)
         {
-            Trace.WriteLine($"Exception occurred while building script {Path.GetFileName(script)}: {ex.Message}{Environment.NewLine}{ex.StackTrace}");
+            Trace.WriteLine($"Exception occurred while building script {fileName}: {ex.Message}{Environment.NewLine}{ex.StackTrace}");
             returnCode = 1;
             cts.Cancel();
         }
         finally
         {
-            if (references.Any())
+            if (scriptReferences[script].Any())
             {
                 semaphore.Release();
             }

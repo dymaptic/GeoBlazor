@@ -532,7 +532,8 @@ try
             $"/p:ProVersion={version}",
             $"/p:OptOutFromObfuscation={optOutFromObfuscation.ToString().ToLower()}",
             $"/p:GeneratePackage={package.ToString().ToLower()}",
-            "/p:ShowScriptDialogs=false"
+            "/p:ShowScriptDialogs=false",
+            "/p:SkipLocalBuildLicenseValidation=true" // LicenseValidation step is for local build testing
         ];
 
         if (binlog)
