@@ -36,7 +36,7 @@ string? _consoleTempFile = null;
 
 string? title = null;
 int wait = 3;
-int idleTimeout = 60;
+int idleTimeout = 300;
 
 for (int i = 0; i < args.Length; i++)
 {
@@ -418,58 +418,55 @@ void CloseConsole(string title, int wait)
 
 ShowOrUpdateConsole(title, string.Empty);
 
-CancellationTokenSource cts = new();
-cts.CancelAfter(TimeSpan.FromSeconds(60));
-
 bool hold = false;
-bool messageReceived = false;
+long lastMessageTicks = DateTime.UtcNow.Ticks;
 
 _ = Task.Run(async () =>
 {
-    while ((!cts.IsCancellationRequested || hold)
-        && (_consoleProcess is null || !_consoleProcess.HasExited))
+    while (_consoleProcess is null || !_consoleProcess.HasExited)
     {
         await Task.Delay(1000);
 
-        if (messageReceived)
+        if (!hold && (DateTime.UtcNow.Ticks - Volatile.Read(ref lastMessageTicks)) > (long)idleTimeout * TimeSpan.TicksPerSecond)
         {
-            cts = new CancellationTokenSource();
-            cts.CancelAfter(TimeSpan.FromSeconds(idleTimeout));
-            messageReceived = false;
+            Console.WriteLine("Console dialog timed out. Closing...");
+            CloseConsole(title, wait);
+            Environment.Exit(0);
         }
     }
-    Console.WriteLine("Console dialog timed out. Closing...");
+    Console.WriteLine("Console window closed. Exiting...");
     CloseConsole(title, wait);
     Environment.Exit(0);
 });
 
-while (!cts.IsCancellationRequested)
+while (true)
 {
     if (_consoleProcess?.HasExited == true)
     {
         break;
     }
-    
+
     if (Console.ReadLine() is not { } inputLine)
     {
+        Thread.Sleep(100);
         continue;
     }
+
+    Volatile.Write(ref lastMessageTicks, DateTime.UtcNow.Ticks);
 
     if (inputLine.Trim().Equals("hold", StringComparison.OrdinalIgnoreCase))
     {
         hold = true;
-
-        break;
+        continue;
     }
 
     if (inputLine.Trim().Equals("exit", StringComparison.OrdinalIgnoreCase))
     {
         CloseConsole(title, wait);
-        
+
         break;
     }
 
-    messageReceived = true;
     ShowOrUpdateConsole(title, inputLine);
 }
 

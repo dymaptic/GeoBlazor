@@ -67,7 +67,7 @@ public static partial class ProcessRunner
 
         try
         {
-            var psi = new ProcessStartInfo
+            ProcessStartInfo psi = new()
             {
                 FileName = fileName,
                 Arguments = arguments,
@@ -78,14 +78,14 @@ public static partial class ProcessRunner
                 RedirectStandardOutput = true
             };
 
-            foreach (var kvp in environmentVariables)
+            foreach (KeyValuePair<string, string> kvp in environmentVariables)
             {
                 psi.Environment[kvp.Key] = kvp.Value;
             }
 
             await LaunchResilientTask($"dotnet {arguments}", async _ =>
             {
-                using var process = Process.Start(psi);
+                using Process? process = Process.Start(psi);
                 bool lineWasEmpty = false;
 
                 if (process != null)
@@ -97,50 +97,76 @@ public static partial class ProcessRunner
                             string line = e.Data;
 
                             Console.Write("| ");
+                            int lineSpace = windowWidth - 3;
 
                             if (stepHeaderRegex.Match(line) is { Success: true } headerMatch && lineWasEmpty)
                             {
-                                Console.BackgroundColor = ConsoleColor.DarkBlue;
+                                string indents = headerMatch.Groups["indents"].Value;
+
+                                Console.BackgroundColor = (indents.Length == 0 ? 0 : indents.Length / 2) switch
+                                {
+                                    0 => ConsoleColor.DarkBlue,
+                                    1 => ConsoleColor.DarkGreen,
+                                    _ => ConsoleColor.DarkYellow
+                                };
                                 Console.ForegroundColor = ConsoleColor.White;
                                 string header = headerMatch.Groups["header"].Value;
                                 string timestamp = headerMatch.Groups["timestamp"].Value;
-                                int buffer = windowWidth - header.Length - timestamp.Length - 3;
+                                int buffer = windowWidth - indents.Length - header.Length - timestamp.Length - 3;
 
                                 while (buffer < 0)
                                 {
                                     buffer += windowWidth;
                                 }
 
-                                Console.WriteLine($"{header}{new string(' ', buffer)}{timestamp}");
+                                Console.Write($"{indents}{header}{new string(' ', buffer)}{timestamp}");
+                                Console.ResetColor();
+                                Console.WriteLine();
                             }
                             else if (stepFooterRegex.Match(line) is { Success: true } footerMatch)
                             {
+                                string indents = footerMatch.Groups["indents"].Value;
+
+                                Console.BackgroundColor = (indents.Length == 0 ? 0 : indents.Length / 2) switch
+                                {
+                                    0 => ConsoleColor.Blue,
+                                    1 => ConsoleColor.Green,
+                                    _ => ConsoleColor.Yellow
+                                };
                                 Console.BackgroundColor = ConsoleColor.DarkGray;
                                 Console.ForegroundColor = ConsoleColor.White;
                                 string footer = footerMatch.Groups["footer"].Value;
-                                int buffer = windowWidth - footer.Length - 3;
+                                int buffer = windowWidth - indents.Length - footer.Length - 3;
 
                                 while (buffer < 0)
                                 {
                                     buffer += windowWidth;
                                 }
 
-                                Console.WriteLine($"{footer}{new string(' ', buffer)}");
+                                Console.Write($"{indents}{footer}{new string(' ', buffer)}");
+                                Console.ResetColor();
+                                Console.WriteLine();
                             }
                             else
                             {
+                                while (line.Length > lineSpace)
+                                {
+                                    Console.WriteLine(line[..lineSpace]);
+                                    Console.Write("|  ");
+                                    line = line[lineSpace..];
+                                }
+
                                 Console.WriteLine(line);
                             }
 
-                            Console.ResetColor();
-
                             lineWasEmpty = string.IsNullOrEmpty(line);
 
-                            foreach (var triggerWord in failureTriggerWords)
+                            foreach (string triggerWord in failureTriggerWords)
                             {
                                 if (e.Data.Contains(triggerWord, StringComparison.OrdinalIgnoreCase))
                                 {
-                                    throw new TaskFailureException($"Detected failure word '{triggerWord}' in output of process {psi.FileName} {psi.Arguments}.");
+                                    throw new TaskFailureException($"Detected failure word '{triggerWord
+                                    }' in output of process {psi.FileName} {psi.Arguments}.");
                                 }
                             }
                         }
@@ -154,11 +180,12 @@ public static partial class ProcessRunner
                             Console.WriteLine($"| {e.Data}");
                             Console.ResetColor();
 
-                            foreach (var triggerWord in failureTriggerWords)
+                            foreach (string triggerWord in failureTriggerWords)
                             {
                                 if (e.Data.Contains(triggerWord, StringComparison.OrdinalIgnoreCase))
                                 {
-                                    throw new TaskFailureException($"Detected failure word '{triggerWord}' in error output of process {psi.FileName} {psi.Arguments}.");
+                                    throw new TaskFailureException($"Detected failure word '{triggerWord
+                                    }' in error output of process {psi.FileName} {psi.Arguments}.");
                                 }
                             }
                         }
@@ -176,7 +203,8 @@ public static partial class ProcessRunner
 
                     if (process.ExitCode != 0)
                     {
-                        throw new Exception($"Error code {process.ExitCode} for process {psi.FileName} {psi.Arguments}");
+                        throw new Exception($"Error code {process.ExitCode} for process {psi.FileName} {psi.Arguments
+                        }");
                     }
                 }
             }, cancellationToken);
@@ -185,28 +213,29 @@ public static partial class ProcessRunner
         {
             sw.Stop();
 
-            Console.WriteLine($"Process {fileName} {arguments} completed in {sw.Elapsed.Minutes}m {sw.Elapsed.Seconds}s.");
+            Console.WriteLine($"Process {fileName} {arguments} completed in {sw.Elapsed.Minutes}m {sw.Elapsed.Seconds
+            }s.");
         }
     }
 
     private static async Task LaunchResilientTask(string taskName, Func<ResilienceContext, ValueTask> task,
         CancellationToken cancellationToken)
     {
-        var context = ResilienceContextPool.Shared.Get(
+        ResilienceContext context = ResilienceContextPool.Shared.Get(
             new ResilienceContextCreationArguments(taskName, null, cancellationToken));
         await ResilienceSetup.AppRetryPipeline.ExecuteAsync(task, context);
 
         ResilienceContextPool.Shared.Return(context);
     }
 
-    private static readonly Regex stepHeaderRegex = StepHeaderRegex();
-    private static readonly Regex stepFooterRegex = StepFooterRegex();
-
-    [GeneratedRegex(@"^(?<header>\d+\.\s.*?)\s*(?<timestamp>[\d\:]+)", RegexOptions.Compiled)]
+    [GeneratedRegex(@"^(?<indents>[|\s]*?)(?<header>\d+\.\s.*?)\s*(?<timestamp>[\d\:]+)", RegexOptions.Compiled)]
     private static partial Regex StepHeaderRegex();
 
-    [GeneratedRegex(@"^(?<footer>Step \d+ completed in .*?)\s*$", RegexOptions.Compiled)]
+    [GeneratedRegex(@"^(?<indents>[|\s]*?)(?<footer>Step \d+ completed in .*?)\s*$", RegexOptions.Compiled)]
     private static partial Regex StepFooterRegex();
+
+    private static readonly Regex stepHeaderRegex = StepHeaderRegex();
+    private static readonly Regex stepFooterRegex = StepFooterRegex();
 }
 
 public class TaskFailureException(string message) : Exception(message);

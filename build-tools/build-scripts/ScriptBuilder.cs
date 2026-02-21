@@ -145,7 +145,7 @@ foreach (string platform in platforms)
                 result = await CleanScript(utilityProj, utilitiesDir, outDir, platform, cts.Token);
                 if (result != 0)
                 {
-                    Trace.WriteLine($"Failed to build {projectName} with exit code {result}");
+                    Trace.WriteLine($"Failed to clean {projectName} with exit code {result}");
                     cts.Cancel();
                     break;
                 }
@@ -153,7 +153,7 @@ foreach (string platform in platforms)
                 result = await RestoreScript(utilityProj, utilitiesDir, outDir, platform, cts.Token);
                 if (result != 0)
                 {
-                    Trace.WriteLine($"Failed to build {projectName} with exit code {result}");
+                    Trace.WriteLine($"Failed to restore {projectName} with exit code {result}");
                     cts.Cancel();
                     break;
                 }

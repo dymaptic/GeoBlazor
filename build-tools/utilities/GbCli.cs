@@ -60,7 +60,7 @@ public static class GbCli
     {
         int windowWidth = GetWindowWidth();
         TimeSpan elapsed = DateTime.Now - stepStartTime;
-        Console.BackgroundColor = ConsoleColor.Yellow;
+        Console.BackgroundColor = ConsoleColor.Magenta;
         Console.ForegroundColor = ConsoleColor.Black;
         string content = $"Step {step} completed in {elapsed}.";
         int contentLength = content.Length;
@@ -79,7 +79,7 @@ public static class GbCli
             windowWidth = Console.WindowWidth;
             Environment.SetEnvironmentVariable("CONSOLE_WIDTH", windowWidth.ToString());
         }
-        else if (Environment.GetEnvironmentVariable("CONSOLE_WIDTH") is {} envWidthString
+        else if (Environment.GetEnvironmentVariable("CONSOLE_WIDTH") is { } envWidthString
             && int.TryParse(envWidthString, out int envWidth))
         {
             windowWidth = envWidth - 2; // subtract 2 for child process indentation in ProcessRunner.cs

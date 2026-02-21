@@ -25,7 +25,9 @@ public static class Utilities
                 "ConsoleDialog.dll",
                 $"\"{title}\"",
                 "-w",
-                "2"
+                "2",
+                "-t",
+                "600"
             ];
 
             var psi = new ProcessStartInfo
