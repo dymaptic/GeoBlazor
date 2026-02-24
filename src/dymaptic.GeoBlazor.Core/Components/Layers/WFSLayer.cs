@@ -5,6 +5,9 @@ public partial class WFSLayer
    // Add custom code to this file to override generated code
    
    /// <inheritdoc />
+   public string FeatureTableLayerType => Type.ToString();
+   
+   /// <inheritdoc />
    public override async Task RegisterChildComponent(MapComponent child)
    {
       switch (child)

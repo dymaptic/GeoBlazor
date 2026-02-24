@@ -417,10 +417,86 @@ public abstract partial class Widget : MapComponent
                     continue;
                 }
 
-                if (!PreviousParameters.TryGetValue(kvp.Key, out object? previousValue)
-                    || (!kvp.Value?.Equals(previousValue) ?? true))
+                if (!PreviousParameters.TryGetValue(kvp.Key, out object? previousValue))
                 {
-                    await UpdateWidget();
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
+
+                    break;
+                }
+
+                Type paramType = previousValue!.GetType();
+
+                if (paramType.IsArray)
+                {
+                    Array prevArray = (Array)previousValue;
+                    Array currArray = (Array)kvp.Value!;
+
+                    if (prevArray.Length != currArray.Length)
+                    {
+                        if (MapRendered)
+                        {
+                            await UpdateWidget();
+                        }
+
+                        break;
+                    }
+
+                    for (int i = 0; i < prevArray.Length; i++)
+                    {
+                        if (!Equals(prevArray.GetValue(i), currArray.GetValue(i)))
+                        {
+                            if (MapRendered)
+                            {
+                                await UpdateWidget();
+                            }
+
+                            break;
+                        }
+                    }
+                }
+                else if (paramType.IsGenericType)
+                {
+                    ICollection prevCollection = (ICollection)previousValue;
+                    ICollection currCollection = (ICollection)kvp.Value!;
+
+                    if (prevCollection.Count != currCollection.Count)
+                    {
+                        if (MapRendered)
+                        {
+                            await UpdateWidget();
+                        }
+
+                        break;
+                    }
+
+                    IEnumerator prevEnumerator = prevCollection.GetEnumerator();
+                    using var prevEnumerator1 = prevEnumerator as IDisposable;
+                    IEnumerator currEnumerator = currCollection.GetEnumerator();
+                    using var currEnumerator1 = currEnumerator as IDisposable;
+
+                    while (prevEnumerator.MoveNext() && currEnumerator.MoveNext())
+                    {
+                        if (!Equals(prevEnumerator.Current, currEnumerator.Current))
+                        {
+                            if (MapRendered)
+                            {
+                                await UpdateWidget();
+                            }
+
+                            break;
+                        }
+                    }
+                }
+                else if (!kvp.Value?.Equals(previousValue) ?? true)
+                {
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
+
                     break;
                 }
             }

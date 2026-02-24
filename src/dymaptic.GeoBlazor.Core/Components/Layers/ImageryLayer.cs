@@ -5,7 +5,9 @@ public partial class ImageryLayer : Layer
     /// <inheritdoc />
     public override LayerType Type => LayerType.Imagery;
 
-
+    /// <inheritdoc />
+    public string FeatureTableLayerType => Type.ToString();
+    
     /// <summary>
     ///     The tiling scheme information for the layer.
     /// </summary>

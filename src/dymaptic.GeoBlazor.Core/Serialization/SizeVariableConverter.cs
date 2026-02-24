@@ -135,7 +135,8 @@ internal class SizeVariableConverter : JsonConverter<SizeVariable>
     public override void Write(Utf8JsonWriter writer, SizeVariable value, JsonSerializerOptions options)
     {
         PropertyInfo[] props = value.GetPropertyInfos()
-            .Where(p => p.SetMethod is not null)
+            .Where(p => p.SetMethod is not null 
+                && !_excludedProperties.Contains(p.Name))
             .ToArray();
 
         writer.WriteStartObject();
@@ -214,4 +215,11 @@ internal class SizeVariableConverter : JsonConverter<SizeVariable>
 
         return (dimension, sizeVariable);
     }
+    
+    private string[] _excludedProperties = 
+        [
+            nameof(MapComponent.Parent),
+            nameof(MapComponent.View),
+            nameof(MapComponent.Layer)
+        ];
 }

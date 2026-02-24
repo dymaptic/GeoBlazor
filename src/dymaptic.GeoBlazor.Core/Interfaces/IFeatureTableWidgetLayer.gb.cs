@@ -7,6 +7,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///     An array of layers listed within the <a target="_blank" href="https://developers.arcgis.com/calcite-design-system/components/dropdown/">dropdown component</a> of the table's header.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html#layers">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface IFeatureTableWidgetLayers : IMapComponent
+public partial interface IFeatureTableWidgetLayer : IMapComponent
 {
 }
