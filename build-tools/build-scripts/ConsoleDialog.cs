@@ -357,6 +357,8 @@ void CloseLinuxTerminalWindow(string tempFilePath)
     }
 }
 
+bool _cleanupComplete = false;
+
 /// <summary>
 /// Closes the console window gracefully, waiting for final messages to display
 /// before killing the process and cleaning up the temp file.
@@ -387,6 +389,12 @@ void CloseConsole(string title, int wait)
             {
                 CloseLinuxTerminalWindow(_consoleTempFile);
             }
+            
+            // delete the temp file
+            if (_consoleTempFile is not null)
+            {
+                File.Delete(_consoleTempFile);
+            }
         }
         catch
         {
@@ -412,6 +420,7 @@ void CloseConsole(string title, int wait)
         finally
         {
             _consoleTempFile = null;
+            _cleanupComplete = true;
         }
     }
 }
@@ -438,6 +447,28 @@ _ = Task.Run(async () =>
     CloseConsole(title, wait);
     Environment.Exit(0);
 });
+
+// Handle Ctrl-C gracefully
+Console.CancelKeyPress += (sender, e) =>
+{
+    e.Cancel = true; // Prevent immediate termination to allow cleanup
+
+    _ = Task.Run(() => CloseConsole(title, wait));
+
+    int timeoutSeconds = wait * 2;
+
+    while (!_cleanupComplete && (timeoutSeconds > 0))
+    {
+        Thread.Sleep(1000);
+        timeoutSeconds--;
+    }
+
+    if (_cleanupComplete)
+    {
+        Environment.Exit(1);
+        return;
+    }
+};
 
 while (true)
 {

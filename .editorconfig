@@ -4,6 +4,11 @@ root = true
 [**/wwwroot/js/**.js]
 generated_code = true
 
+# MSBuild / XML project files
+[*.{props,csproj,targets}]
+ij_xml_attribute_wrap = split_into_lines
+ij_xml_keep_line_breaks = true
+
 # C# files
 [*.cs]
 
@@ -122,7 +127,7 @@ csharp_style_conditional_delegate_call = true
 # Modifier preferences
 csharp_prefer_static_anonymous_function = true
 csharp_prefer_static_local_function = true
-csharp_preferred_modifier_order = public,private,protected,internal,file,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,required,volatile,async
+csharp_preferred_modifier_order = public, private, protected, internal, file, static, extern, new, virtual, abstract, sealed, override, readonly, unsafe, required, volatile, async
 csharp_style_prefer_readonly_struct = true
 csharp_style_prefer_readonly_struct_member = true
 
@@ -268,7 +273,7 @@ dotnet_naming_symbols.private_constants.required_modifiers = const
 
 dotnet_naming_symbols.private_static_readonly.applicable_kinds = field
 dotnet_naming_symbols.private_static_readonly.applicable_accessibilities = private
-dotnet_naming_symbols.private_static_readonly.required_modifiers = static,readonly
+dotnet_naming_symbols.private_static_readonly.required_modifiers = static, readonly
 
 dotnet_naming_symbols.public_fields.applicable_kinds = field
 dotnet_naming_symbols.public_fields.applicable_accessibilities = public
