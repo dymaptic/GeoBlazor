@@ -142,7 +142,7 @@ void StartWindowsConsole(string title)
     string escapedPath = _consoleTempFile!.Replace("'", "''");
     string command = $"$Host.UI.RawUI.WindowTitle = '{title}'; " +
                    $"Write-Host '{title}' -ForegroundColor Cyan; " +
-                   $"Write-Host ('=' * 50); " +
+                   $"Write-Host ('=' * 120); " +
                    $"Get-Content -Path '{escapedPath}' -Wait -Tail 100";
 
     _consoleProcess = new Process
@@ -170,7 +170,7 @@ void StartMacConsole(string title)
 
     // Build the shell command for the visible Terminal window
     // clear removes the login banner and echoed command that Terminal.app shows
-    string shellCommand = $"clear; echo '{shellTitle}'; echo '=================================================='; tail -f '{shellPath}'";
+    string shellCommand = $"clear; echo '{shellTitle}'; echo '{new string('=', 80)}'; tail -f '{shellPath}'";
 
     // Escape the shell command for embedding in an AppleScript double-quoted string
     string asCommand = shellCommand.Replace("\\", "\\\\").Replace("\"", "\\\"");
@@ -222,7 +222,7 @@ void StartLinuxConsole(string title)
     string shellPath = _consoleTempFile!.Replace("'", "'\\''");
 
     // Shell command to display title banner and follow the log file
-    string shellCommand = $"echo '{shellTitle}'; echo '=================================================='; tail -f '{shellPath}'";
+    string shellCommand = $"echo '{shellTitle}'; echo '{new string('=', 80)}'; tail -f '{shellPath}'";
 
     // Try common Linux terminal emulators in order of popularity
     // Use ArgumentList to pass args directly as argv, avoiding shell escaping issues
