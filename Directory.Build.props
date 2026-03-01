@@ -72,7 +72,8 @@
             ;dymaptic.GeoBlazor.Pro.V;
         </ESBuildNonTriggeringProjects>
   </PropertyGroup>
-  <Target Name="TriggerESBuild" BeforeTargets="Restore;BeforeBuild" Condition="!$(ESBuildNonTriggeringProjects.Contains(';$(MSBuildProjectName);'))">
+  <Target Name="TriggerESBuild" BeforeTargets="Restore;BeforeBuild" 
+          Condition="'$(TargetFramework)' != 'netstandard2.0' AND !$(ESBuildNonTriggeringProjects.Contains(';$(MSBuildProjectName);'))">
     <!-- Evaluate lock file freshness at execution time -->
     <PropertyGroup>
       <_ESBuildLockFileTimeStamp>0</_ESBuildLockFileTimeStamp>
