@@ -199,10 +199,6 @@ export default class GeoJSONLayerGenerated extends BaseComponent {
         return this.layer.createPopupTemplate(options);
     }
 
-    async createQuery(): Promise<any> {
-        return this.layer.createQuery();
-    }
-
     async fetchAttributionData(): Promise<any> {
         return await this.layer.fetchAttributionData();
     }

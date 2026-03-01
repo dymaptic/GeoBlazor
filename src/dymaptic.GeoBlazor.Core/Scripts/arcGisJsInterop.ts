@@ -118,7 +118,6 @@ export const graphicsRefs: Record<string, Record<string, Graphic>> = {};
 export const actionHandlers: Record<string, any> = {};
 export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
-export let ProtoGraphicCollection;
 
 // region module variables
 let notifyExtentChanged: boolean = true;
@@ -614,6 +613,7 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
     view.on('drag', (evt) => {
         userChangedViewExtent = true;
         clearTimeout(dragTimeoutId);
+        // @ts-ignore incorrect Node error about Timeout type
         dragTimeoutId = setTimeout(() => {
             requestAnimationFrame(async () => {
                 await dotNetRef.invokeMethodAsync('OnJavascriptDrag', evt);
@@ -793,6 +793,7 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
         clearTimeout(mouseWheelTimeoutId);
         userChangedViewExtent = true;
         setCursor('wait', viewId);
+        // @ts-ignore incorrect Node warning
         mouseWheelTimeoutId = setTimeout(() => {
             requestAnimationFrame(async () => {
                 await dotNetRef.invokeMethodAsync('OnJavascriptMouseWheel', evt);
@@ -806,6 +807,7 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
         clearTimeout(resizeTimeoutId);
         userChangedViewExtent = true;
         setCursor('wait', viewId);
+        // @ts-ignore incorrect Node warning
         resizeTimeoutId = setTimeout(() => {
             requestAnimationFrame(async () => {
                 await dotNetRef.invokeMethodAsync('OnJavascriptResize', evt);
@@ -829,6 +831,7 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
             return;
         }
         userChangedViewExtent = true;
+        // @ts-ignore incorrect Node warning
         watchExtentTimeoutId = setTimeout(() => {
             requestAnimationFrame(async () => {
                 if (view instanceof SceneView) {
@@ -1829,13 +1832,12 @@ export function setVisibility(componentId: string, visible: boolean): void {
 }
 
 export let GraphicCollectionSerializationRecord;
-export let ProtoViewHitCollection;
 
 export let ProtoTypes: {[key: string]: any} = {};
 export let protobufRoot: any = null;
 
 export function loadProtobuf(): void {
-    if (GraphicCollectionSerializationRecord !== undefined && ProtoViewHitCollection !== undefined) {
+    if (GraphicCollectionSerializationRecord !== undefined) {
         return;
     }
 
@@ -1855,17 +1857,6 @@ export function loadProtobuf(): void {
     });
 
     GraphicCollectionSerializationRecord = ProtoTypes["GraphicCollection"];
-    // TODO: UNCOMMENT:
-    //  ProtoViewHitCollection = ProtoTypes["ViewHitCollection"];
-    
-    // TODO: REMOVE WHEN NOT NEEDED:
-    load("_content/dymaptic.GeoBlazor.Core/graphic.json", function (err, root) {
-        if (err) {
-            throw err;
-        }
-        ProtoGraphicCollection = root?.lookupType("ProtoGraphicCollection");
-        ProtoViewHitCollection = root?.lookupType("ProtoViewHitCollection");
-    });
 }
 
 export function getArcGisObjectById(id: string | null) : any {
@@ -1886,26 +1877,15 @@ export async function getGraphicsFromProtobufStream(streamRef): Promise<any[] | 
 }
 
 export function decodeProtobufGraphics(uintArray: Uint8Array): any[] {
-    // const decoded = GraphicCollectionSerializationRecord.decode(uintArray);
-    // const array = GraphicCollectionSerializationRecord.toObject(decoded, {
-    //     defaults: false,
-    //     enums: String,
-    //     longs: String,
-    //     arrays: false,
-    //     objects: false
-    // });
-    // return array.items;
-
-    // TODO: REPLACE WITH NEW VERSION ABOVE
-    const decoded = ProtoGraphicCollection.decode(uintArray);
-    const array = ProtoGraphicCollection.toObject(decoded, {
+    const decoded = GraphicCollectionSerializationRecord.decode(uintArray);
+    const array = GraphicCollectionSerializationRecord.toObject(decoded, {
         defaults: false,
         enums: String,
         longs: String,
         arrays: false,
         objects: false
     });
-    return array.graphics;
+    return array.items;
 }
 
 export function getProtobufGraphicStream(graphics: DotNetGraphic[], layer: FeatureLayer | GeoJSONLayer | null): any {
@@ -1913,10 +1893,10 @@ export function getProtobufGraphicStream(graphics: DotNetGraphic[], layer: Featu
         updateGraphicForProtobuf(graphics[i], layer);
     }
     const obj = {
-        graphics: graphics
+        items: graphics
     };
-    const collection = ProtoGraphicCollection.fromObject(obj);
-    const encoded = ProtoGraphicCollection.encode(collection).finish();
+    const collection = GraphicCollectionSerializationRecord.fromObject(obj);
+    const encoded = GraphicCollectionSerializationRecord.encode(collection).finish();
     return DotNet.createJSStreamReference(encoded);
 }
 

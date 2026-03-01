@@ -1,7 +1,8 @@
 import FeatureLayerViewGenerated from './featureLayerView.gb';
 import Query from '@arcgis/core/rest/support/Query';
 import {DotNetQuery} from './definitions';
-import {getProtobufGraphicStream, hasValue, graphicsRefs, lookupJsGraphicById} from './geoBlazorCore';
+import {hasValue, lookupJsGraphicById} from './geoBlazorCore';
+import {buildDotNetQuery} from "./query";
 
 export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
     
@@ -9,14 +10,14 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
         super(component);
     }
 
-    async setFeatureEffect(dnfeatureEffect): Promise<void> {
+    async setFeatureEffect(dnFeatureEffect): Promise<void> {
         let {buildJsFeatureEffect} = await import('./featureEffect');
-        this.component.featureEffect = await buildJsFeatureEffect(dnfeatureEffect, this.layerId, this.viewId);
+        this.component.featureEffect = await buildJsFeatureEffect(dnFeatureEffect, this.layerId, this.viewId);
     }
 
-    async setFilter(dnDeatureFilter): Promise<void> {
+    async setFilter(dnFeatureFilter): Promise<void> {
         let {buildJsFeatureFilter} = await import('./featureFilter');
-        this.component.filter = await buildJsFeatureFilter(dnDeatureFilter, this.layerId, this.viewId);
+        this.component.filter = await buildJsFeatureFilter(dnFeatureFilter, this.layerId, this.viewId);
     }
 
     setMaximumNumberOfFeatures(maximumNumberOfFeatures: number): void {
@@ -27,8 +28,9 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
         return this.component.createAggregateQuery();
     }
 
-    createQuery(): Query {
-        return this.component.createQuery();
+    async createQuery(): Promise<DotNetQuery> {
+        let jsQuery = this.component.createQuery();
+        return await buildDotNetQuery(jsQuery, this.viewId);
     }
 
     highlight(target: any): any {
@@ -58,54 +60,41 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
         return this.component.highlight(graphics);
     }
 
-    async queryExtent(query: DotNetQuery, options: any): Promise<any> {
+    async queryExtent(query: DotNetQuery, signal: AbortSignal): Promise<any> {
         let {buildJsQuery} = await import('./query');
-        let jsQuery = await buildJsQuery(query);
-        let result = await this.component.queryExtent(jsQuery, options);
+        let jsQuery = buildJsQuery(query) as Query | undefined;
+        let result = await this.component.queryExtent(jsQuery, { signal: signal });
         return {
             count: result.count,
             extent: result.extent
         };
     }
 
-    async queryFeatureCount(query: DotNetQuery, options: any): Promise<number> {
+    async queryFeatureCount(query: DotNetQuery, signal: AbortSignal): Promise<number> {
         let {buildJsQuery} = await import('./query');
-        let jsQuery = await buildJsQuery(query);
-        return await this.component.queryFeatureCount(jsQuery, options);
+        let jsQuery = buildJsQuery(query);
+        return await this.component.queryFeatureCount(jsQuery, { signal: signal });
     }
 
-    async queryFeatures(query: DotNetQuery, options: any, dotNetRef: any, queryId: string)
+    async queryFeatures(query: DotNetQuery, options: any, signal: AbortSignal)
         : Promise<any | null> {
-        try {
             let jsQuery: Query | undefined = undefined;
             let {buildJsQuery} = await import('./query');
 
             if (hasValue(query)) {
-                jsQuery = await buildJsQuery(query);
+            jsQuery = buildJsQuery(query);
             }
 
-            let featureSet = await this.component.queryFeatures(jsQuery, options);
+        let featureSet = await this.component.queryFeatures(jsQuery, { signal: signal });
             let {buildDotNetFeatureSet} = await import('./featureSet');
 
-            let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, this.layerId, this.viewId);
-            if (dotNetFeatureSet.features.length > 0) {
-                let graphics = getProtobufGraphicStream(dotNetFeatureSet.features, this.component.layer);
-                await dotNetRef.invokeMethodAsync('OnQueryFeaturesStreamCallback', graphics, queryId);
-                dotNetFeatureSet.features = [];
-            }
-
-            return dotNetFeatureSet;
-        } catch (error) {
-            console.debug(error);
-            throw error;
-        }
+        return await buildDotNetFeatureSet(featureSet, this.layerId, this.viewId);
     }
 
-    async queryObjectIds(query: DotNetQuery, options: any): Promise<(string | number)[]> {
+    async queryObjectIds(query: DotNetQuery, signal: AbortSignal): Promise<(string | number)[]> {
         let {buildJsQuery} = await import('./query');
-        let jsQuery = await buildJsQuery(query);
-        let objectIds = await this.component.queryObjectIds(jsQuery, options);
-        return objectIds;
+        let jsQuery = buildJsQuery(query);
+        return await this.component.queryObjectIds(jsQuery, { signal: signal });
     }
 
 }

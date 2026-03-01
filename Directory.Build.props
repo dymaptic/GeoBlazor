@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <CoreVersion>5.0.0.126</CoreVersion>
+    <CoreVersion>5.0.0.127</CoreVersion>
     <Configurations>Debug;Release;SourceGen Highlighting</Configurations>
     <Platforms>AnyCPU</Platforms>
     <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
@@ -72,8 +72,7 @@
             ;dymaptic.GeoBlazor.Pro.V;
         </ESBuildNonTriggeringProjects>
   </PropertyGroup>
-  <Target Name="TriggerESBuild" BeforeTargets="Restore;BeforeBuild" 
-          Condition="'$(TargetFramework)' != 'netstandard2.0' AND !$(ESBuildNonTriggeringProjects.Contains(';$(MSBuildProjectName);'))">
+  <Target Name="TriggerESBuild" BeforeTargets="Restore;BeforeBuild" Condition="'$(TargetFramework)' != 'netstandard2.0' AND !$(ESBuildNonTriggeringProjects.Contains(';$(MSBuildProjectName);'))">
     <!-- Evaluate lock file freshness at execution time -->
     <PropertyGroup>
       <_ESBuildLockFileTimeStamp>0</_ESBuildLockFileTimeStamp>
