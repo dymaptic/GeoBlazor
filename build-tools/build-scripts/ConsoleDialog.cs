@@ -104,8 +104,25 @@ void ShowOrUpdateConsole(string title, string message)
 }
 
 /// <summary>
+/// Detects if running under Windows Subsystem for Linux.
+/// </summary>
+bool IsWsl()
+{
+    try
+    {
+        if (File.Exists("/proc/version"))
+        {
+            string version = File.ReadAllText("/proc/version");
+            return version.Contains("microsoft", StringComparison.OrdinalIgnoreCase);
+        }
+    }
+    catch { }
+    return false;
+}
+
+/// <summary>
 /// Starts a platform-specific console window that tails the log file.
-/// Dispatches to Windows, macOS, or Linux-specific implementations.
+/// Dispatches to Windows, macOS, WSL, or Linux-specific implementations.
 /// </summary>
 /// <param name="title">The title for the console window.</param>
 void StartConsoleWindow(string title)
@@ -123,7 +140,14 @@ void StartConsoleWindow(string title)
         }
         else if (OperatingSystem.IsLinux())
         {
-            StartLinuxConsole(windowTitle);
+            if (IsWsl())
+            {
+                StartWslConsole(windowTitle);
+            }
+            else
+            {
+                StartLinuxConsole(windowTitle);
+            }
         }
     }
     catch
@@ -209,6 +233,72 @@ void StartMacConsole(string title)
         }
     };
     _consoleProcess.Start();
+}
+
+/// <summary>
+/// Starts a console window from WSL by using Windows Terminal (wt.exe) to open
+/// a new tab that runs tail -f back inside WSL. Falls back to standard Linux
+/// terminals if Windows Terminal is not available.
+/// </summary>
+/// <remarks>
+/// Uses a temp script file instead of bash -c to avoid wt.exe interpreting
+/// semicolons as its own command delimiters.
+/// </remarks>
+void StartWslConsole(string title)
+{
+    // Write a helper bash script to avoid wt.exe's ';' delimiter parsing issues.
+    // wt.exe treats ';' as a separator for multiple tab/pane commands, so passing
+    // "echo '...'; tail -f '...'" via bash -c gets split into separate WT commands.
+    string scriptFile = _consoleTempFile + ".sh";
+    string shellTitle = title.Replace("'", "'\\''");
+    string shellPath = _consoleTempFile!.Replace("'", "'\\''");
+    File.WriteAllText(scriptFile,
+        $"#!/bin/bash\necho '{shellTitle}'\necho '{new string('=', 80)}'\ntail -f '{shellPath}'\n");
+
+    // Try Windows Terminal (wt.exe) - available on most modern Windows 10/11 + WSL setups
+    try
+    {
+        var startInfo = new ProcessStartInfo
+        {
+            FileName = "wt.exe",
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+        startInfo.ArgumentList.Add("new-tab");
+        startInfo.ArgumentList.Add("--title");
+        startInfo.ArgumentList.Add(title);
+        startInfo.ArgumentList.Add("--");
+        startInfo.ArgumentList.Add("wsl.exe");
+        startInfo.ArgumentList.Add("bash");
+        startInfo.ArgumentList.Add(scriptFile);
+
+        var wtProcess = new Process { StartInfo = startInfo };
+        wtProcess.Start();
+        wtProcess.WaitForExit(5000); // wt.exe exits immediately after dispatching
+
+        // wt.exe exits immediately (delegates to Windows Terminal server),
+        // so use a sentinel process for lifecycle tracking
+        _consoleProcess = new Process
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = "sleep",
+                Arguments = "86400",
+                UseShellExecute = false,
+                CreateNoWindow = true
+            }
+        };
+        _consoleProcess.Start();
+        return;
+    }
+    catch
+    {
+        // wt.exe not available, clean up script and fall through
+        try { File.Delete(scriptFile); } catch { }
+    }
+
+    // Fallback: try standard Linux terminal emulators (unlikely to work in WSL, but try anyway)
+    StartLinuxConsole(title);
 }
 
 /// <summary>
@@ -390,10 +480,13 @@ void CloseConsole(string title, int wait)
                 CloseLinuxTerminalWindow(_consoleTempFile);
             }
             
-            // delete the temp file
+            // delete the temp file and WSL helper script
             if (_consoleTempFile is not null)
             {
                 File.Delete(_consoleTempFile);
+                // Clean up the WSL helper script if it exists
+                string scriptFile = _consoleTempFile + ".sh";
+                if (File.Exists(scriptFile)) File.Delete(scriptFile);
             }
         }
         catch
