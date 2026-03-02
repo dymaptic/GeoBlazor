@@ -427,7 +427,23 @@ public abstract partial class Widget : MapComponent
                     break;
                 }
 
-                Type paramType = previousValue!.GetType();
+                if (previousValue is null)
+                {
+                    if (kvp.Value is not null)
+                    {
+                        if (MapRendered)
+                        {
+                            await UpdateWidget();
+                        }
+
+                        break;
+                    }
+                    
+                    // both null, no change
+                    continue;
+                }
+
+                Type paramType = previousValue.GetType();
 
                 if (paramType.IsArray)
                 {
@@ -457,9 +473,8 @@ public abstract partial class Widget : MapComponent
                         }
                     }
                 }
-                else if (paramType.IsGenericType)
+                else if (paramType.IsGenericType && previousValue is ICollection prevCollection)
                 {
-                    ICollection prevCollection = (ICollection)previousValue;
                     ICollection currCollection = (ICollection)kvp.Value!;
 
                     if (prevCollection.Count != currCollection.Count)
