@@ -507,35 +507,41 @@ export function generateSerializableJson(object: any): string | null {
         return object.toString();
     }
 
-    // Create a path-based tracking for circular references
-    const ancestors: any[] = [];
-    let json = JSON.stringify(object, function(key, value) {
-        if (key.startsWith('_') || key === 'jsComponentReference') {
-            return undefined;
-        }
-
-        // If value is an object (and not null or empty array), check for circularity
-        if (typeof value === 'object' && value !== null &&
-            !(Array.isArray(value) && value.length === 0)) {
-
-            // `this` is the object that value is contained in,
-            // i.e., its direct parent.
-            while (ancestors.length > 0 && ancestors.at(-1) !== this) {
-                // this pops us back up one level in the tree to find the actual parent
-                ancestors.pop();
-            }
-
-            if (ancestors.includes(value)) {
+    try {
+        // Create a path-based tracking for circular references
+        const ancestors: any[] = [];
+        let json = JSON.stringify(object, function(key, value) {
+            if (key.startsWith('_') || key === 'jsComponentReference') {
                 return undefined;
             }
-            ancestors.push(value);
+
+            // If value is an object (and not null or empty array), check for circularity
+            if (typeof value === 'object' && value !== null &&
+                !(Array.isArray(value) && value.length === 0)) {
+
+                // `this` is the object that value is contained in,
+                // i.e., its direct parent.
+                while (ancestors.length > 0 && ancestors.at(-1) !== this) {
+                    // this pops us back up one level in the tree to find the actual parent
+                    ancestors.pop();
+                }
+
+                if (ancestors.includes(value)) {
+                    return undefined;
+                }
+                ancestors.push(value);
+                return value;
+            }
+
             return value;
-        }
+        });
 
-        return value;
-    });
-
-    return json;
+        return json;
+    }
+    catch (e) {
+        console.error(e);
+        throw e;
+    }
 }
 
 export function removeCircularReferences(jsObject: any) {
