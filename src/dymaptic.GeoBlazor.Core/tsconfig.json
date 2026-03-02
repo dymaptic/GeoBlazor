@@ -17,10 +17,10 @@
     "target": "ES2023",
     "paths": {
       "@arcgis/*": [
-        "/lib/*"
+        "./node_modules/@arcgis/*"
       ],
       "@esri/*": [
-        "/lib/*"
+        "./node_modules/@esri/*"
       ]
     },
     "allowSyntheticDefaultImports": true,

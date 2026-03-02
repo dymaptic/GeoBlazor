@@ -68,7 +68,7 @@ RUN --mount=type=cache,target=/root/.nuget/packages \
     /p:ShowScriptDialogs=false \
     -o /app/publish -bl 
 
-RUN cp ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/msbuild.binlog /app/publish/msbuild.binlog
+RUN cp ./msbuild.binlog /app/publish/msbuild.binlog 2>/dev/null || true
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0
 
