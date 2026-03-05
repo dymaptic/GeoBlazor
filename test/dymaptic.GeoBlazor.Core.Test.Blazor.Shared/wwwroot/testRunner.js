@@ -522,3 +522,9 @@ export function assertGeoBlazorErrorMessageShown(methodName, errorMessage) {
         throw new Error(`Expected error message to contain ${errorMessage} but was ${errorDiv.innerText}`);
     }
 }
+
+export function isValidElementRef(methodName, elementRef) {
+    if (!(elementRef instanceof HTMLElement)) {
+        throw new Error("ElementRef is not an HTMLElement");
+    }
+}

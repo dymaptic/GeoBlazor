@@ -25,6 +25,9 @@
         }
       },
       "Utilities/1.0.0": {
+        "dependencies": {
+          "Polly.Core": "8.6.5"
+        },
         "runtime": {
           "Utilities.dll": {
             "assemblyVersion": "1.0.0.0",

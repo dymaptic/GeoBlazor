@@ -28,7 +28,8 @@ import Color from "@arcgis/core/Color";
 import esriConfig from "@arcgis/core/config";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
-import * as geometryEngine from "@arcgis/core/geometry/geometryEngine";
+import * as arcGisGeometryEngine from "@arcgis/core/geometry/geometryEngine";
+import * as arcGisProjectionEngine from "@arcgis/core/geometry/projection";
 import Graphic from "@arcgis/core/Graphic";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import Layer from "@arcgis/core/layers/Layer";
@@ -90,6 +91,8 @@ import {
     setProperty
 } from "./geoBlazorCore";
 import ScreenPoint = __esri.ScreenPoint;
+import GeometryEngineWrapper from "./geometryEngine";
+import ProjectionWrapper from "./projectionEngine";
 // endregion
 
 // region exports
@@ -109,9 +112,12 @@ export {
     buildJsGeometry,
     buildJsGraphic,
     buildJsSymbol,
-    reactiveUtils,
-    geometryEngine
+    reactiveUtils
 };
+
+
+export const geometryEngine: GeometryEngineWrapper = new GeometryEngineWrapper(arcGisGeometryEngine);
+export const projectionEngine: ProjectionWrapper = new ProjectionWrapper(arcGisProjectionEngine);
 
 export const popupTemplateRefs: Record<string, Accessor> = {};
 export const graphicsRefs: Record<string, Record<string, Graphic>> = {};
