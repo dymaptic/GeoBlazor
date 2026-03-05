@@ -50,6 +50,11 @@ jobs:
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.event.pull_request.head.ref || github.ref }}
 
+      - name: Clean node_modules
+        shell: pwsh
+        run: |
+            Remove-Item -Recurse -Force ./src/dymaptic.GeoBlazor.Core/node_modules -ErrorAction SilentlyContinue
+
       - name: Run Tests
         shell: pwsh
         env:
