@@ -39,7 +39,7 @@ public class TestConfig
     /// </summary>
     public static bool IsCI { get; private set; }
 
-    public static ConcurrentDictionary<string, string> FailedTests { get; } = new();
+    public static ConcurrentDictionary<string, Dictionary<string, string>> FailedTests { get; } = new();
 
     public static ConcurrentDictionary<string, byte> InconclusiveTests { get; } = new();
     public static ConcurrentDictionary<string, byte> PassedTests { get; } = new();
@@ -423,7 +423,9 @@ public class TestConfig
                 Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             }
 
-            Trace.WriteLine($"FAILED TESTS: {FailedTests.Count}", ProcessName.FINAL_SUMMARY);
+            int failedCount = FailedTests.Values.Sum(d => d.Count);
+
+            Trace.WriteLine($"FAILED TESTS: {failedCount}", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
 
@@ -432,28 +434,33 @@ public class TestConfig
                 Trace.WriteLine("FAILED TEST DETAILS:", ProcessName.FINAL_SUMMARY);
                 Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
 
-                List<KeyValuePair<string, string>> sortedFailedTests = FailedTests
-                    .OrderBy(kvp => kvp.Key)
-                    .ToList();
-
-                for (int i = 0; i < sortedFailedTests.Count; i++)
+                foreach (KeyValuePair<string, Dictionary<string, string>> kvp in FailedTests)
                 {
-                    KeyValuePair<string, string> failedTest = sortedFailedTests[i];
+                    string testCategory = kvp.Key.ToUpperInvariant();
 
-                    if (i > 0)
+                    List<KeyValuePair<string, string>> sortedFailedTests = kvp.Value
+                        .OrderBy(d => d.Key)
+                        .ToList();
+
+                    for (int i = 0; i < sortedFailedTests.Count; i++)
                     {
-                        Trace.WriteLine("------------", ProcessName.FINAL_SUMMARY);
-                    }
+                        KeyValuePair<string, string> failedTest = sortedFailedTests[i];
 
-                    // trim off extra timestamp from web browser and split lines
-                    string[] errorLines = failedTest.Value.Substring(26).Split(Environment.NewLine);
+                        if (i > 0)
+                        {
+                            Trace.WriteLine("------------", ProcessName.FINAL_SUMMARY);
+                        }
 
-                    Trace.WriteLine($"  {failedTest.Key}:",
-                        ProcessName.FINAL_SUMMARY);
+                        // trim off extra timestamp from web browser and split lines
+                        string[] errorLines = failedTest.Value.Substring(26).Split(Environment.NewLine);
 
-                    foreach (string errorLine in errorLines)
-                    {
-                        Trace.WriteLine($"    {errorLine}", ProcessName.FINAL_SUMMARY);
+                        Trace.WriteLine($"  {testCategory} - {failedTest.Key}",
+                            ProcessName.FINAL_SUMMARY);
+
+                        foreach (string errorLine in errorLines)
+                        {
+                            Trace.WriteLine($"    {errorLine}", ProcessName.FINAL_SUMMARY);
+                        }
                     }
                 }
             }
@@ -1033,9 +1040,14 @@ public class TestConfig
             throw new ProcessExitedException($"{processName} process exited with code {result.ExitCode}");
         }
 
+        if (!FailedTests.ContainsKey(processName))
+        {
+            FailedTests[processName] = new Dictionary<string, string>();
+        }
+
         foreach (KeyValuePair<string, string> failedTest in failedTests)
         {
-            FailedTests.TryAdd(failedTest.Key, failedTest.Value);
+            FailedTests[processName].TryAdd(failedTest.Key, failedTest.Value);
         }
 
         foreach (string test in inconclusiveTests)
@@ -1193,9 +1205,14 @@ public class TestConfig
             throw;
         }
 
+        if (!FailedTests.ContainsKey(processName))
+        {
+            FailedTests[processName] = new Dictionary<string, string>();
+        }
+
         foreach (KeyValuePair<string, string> failedTest in failedTests)
         {
-            FailedTests.TryAdd(failedTest.Key, failedTest.Value);
+            FailedTests[processName].TryAdd(failedTest.Key, failedTest.Value);
         }
 
         foreach (string test in inconclusiveTests)
@@ -1539,8 +1556,9 @@ public class TestConfig
         using HttpClient httpClient = new(handler);
 
         // worst-case scenario for docker build is ~ 6 minutes
-        // set this to 60 seconds * 8 = 8 minutes
-        int maxAttempts = 60 * 8;
+        // set this to 60 seconds * 15 = 15 minutes
+        double maxMinutes = 15.0;
+        int maxAttempts = (int)(60 * maxMinutes);
 
         Exception? lastException = null;
         Process? testProcess = null;
@@ -1551,7 +1569,10 @@ public class TestConfig
             {
                 if (i % 10 == 0)
                 {
-                    Trace.WriteLine($"Waiting for Test Site at {TestAppHttpUrl}. Attempt {i} out of {maxAttempts}...",
+                    double minutes = i / 60.0;
+
+                    Trace.WriteLine(
+                        $"Waiting for Test Site at {TestAppHttpUrl}.{minutes:N2} out of max {maxMinutes:N2} minutes...",
                         ProcessName.WEB_APP_SERVER);
                 }
 
@@ -1616,8 +1637,9 @@ public class TestConfig
         CancellationToken cancellationToken)
     {
         // worst-case scenario for docker build is ~ 6 minutes
-        // set this to 60 seconds * 8 = 8 minutes
-        int maxAttempts = 60 * 8;
+        // set this to 60 seconds * 15 = 15 minutes
+        double maxMinutes = 15.0;
+        int maxAttempts = (int)(60 * maxMinutes);
 
         Exception? lastException = null;
 
@@ -1635,7 +1657,11 @@ public class TestConfig
             {
                 if (i % 10 == 0)
                 {
-                    Trace.WriteLine($"Waiting for Test Container {containerName}. Attempt {i} out of {maxAttempts}...",
+                    double minutes = i / 60.0;
+
+                    Trace.WriteLine(
+                        $"Waiting for Test Container {containerName}. {minutes:N2} out of max {maxMinutes
+                            :N2} minutes...",
                         $"CONTAINER_BUILD: {processName}");
                 }
 

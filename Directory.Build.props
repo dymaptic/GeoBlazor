@@ -82,28 +82,19 @@
     <Target Name="TriggerESBuild"
             BeforeTargets="Restore;BeforeBuild"
             Condition="!$(ESBuildNonTriggeringProjects.Contains(';$(MSBuildProjectName);'))">
-        <!-- Evaluate lock file freshness at execution time -->
-        <PropertyGroup>
-            <_ESBuildLockFileTimeStamp>0</_ESBuildLockFileTimeStamp>
-            <_ESBuildLockFileTimeStamp Condition="Exists('$(ESBuildLockFilePath)')">$([System.IO.File]::GetLastWriteTime(`$(ESBuildLockFilePath)`).Ticks)</_ESBuildLockFileTimeStamp>
-            <_StaleFileThreshold>$([System.DateTime]::Now.AddMinutes(-5).Ticks)</_StaleFileThreshold>
-            <_ESBuildNeeded Condition="$(_ESBuildLockFileTimeStamp) &lt; $(_StaleFileThreshold)">true</_ESBuildNeeded>
-            <NoWarn>$(NoWarn);MSB3491</NoWarn>
-        </PropertyGroup>
-        <!-- Write lock file to prevent other projects from also triggering -->
-        <WriteLinesToFile File="$(ESBuildLockFilePath)"
-                          Lines="$([System.DateTime]::Now.ToString(`o`))"
-                          Overwrite="true"
-                          ContinueOnError="true"
-                          Condition="'$(_ESBuildNeeded.Trim())' == 'true'" />
+        <!-- Atomically check-and-acquire the lock file; exit code 0 = acquired -->
+        <Exec Command="dotnet &quot;$(GBBuildToolsPath)/AcquireBuildLock.dll&quot; &quot;$(ESBuildLockFilePath)&quot; 5"
+              IgnoreExitCode="true">
+            <Output TaskParameter="ExitCode" PropertyName="_AcquireLockExitCode" />
+        </Exec>
         <Message Importance="high"
                  Text="Triggering Core ESBuild from $(MSBuildProjectName)"
-                 Condition="'$(_ESBuildNeeded.Trim())' == 'true'" />
+                 Condition="'$(_AcquireLockExitCode)' == '0'" />
         <Exec Command="dotnet restore $(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj"
-              Condition="'$(_ESBuildNeeded.Trim())' == 'true'" />
+              Condition="'$(_AcquireLockExitCode)' == '0'" />
         <MSBuild Projects="$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj"
                  Properties="GBBuildToolsPath=$(GBBuildToolsPath);ShowScriptDialogs=$(ShowScriptDialogs)"
                  RemoveProperties="$(ESBuildRemoveProps)"
-                 Condition="'$(_ESBuildNeeded.Trim())' == 'true'" />
+                 Condition="'$(_AcquireLockExitCode)' == '0'" />
     </Target>
 </Project>

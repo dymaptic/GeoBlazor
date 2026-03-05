@@ -55,7 +55,7 @@ import TileLayer from "@arcgis/core/layers/TileLayer";
 import View from "@arcgis/core/views/View";
 import WebMap from "@arcgis/core/WebMap";
 import Widget from "@arcgis/core/widgets/Widget";
-import {load, parse} from "protobufjs";
+import {parse} from "protobufjs";
 import {protoTypeDefinitions} from "./geoblazorProto";
 import {buildDotNetExtent, buildJsExtent} from './extent';
 import {buildJsGraphic} from './graphic';
@@ -645,7 +645,8 @@ async function setEventListeners(view: MapView | SceneView, dotNetRef: any, even
         if (pointerDown) {
             userChangedViewExtent = true;
         }
-        
+
+        // @ts-ignore incorrect Node error about Timeout type
         pointerMoveTimeoutId = setTimeout(() => {
             requestAnimationFrame(async () => {
                 await dotNetRef.invokeMethodAsync('OnJavascriptPointerMove', evt);

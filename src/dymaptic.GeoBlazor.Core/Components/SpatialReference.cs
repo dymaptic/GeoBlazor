@@ -173,6 +173,13 @@ internal class SpatialReferenceConverter : JsonConverter<SpatialReference>
 #pragma warning disable BL0005
                     switch (propertyName)
                     {
+                        case "id":
+                            if (Guid.TryParse(reader.GetString(), out Guid id))
+                            {
+                                spatialReference.Id = id;
+                            }
+
+                            break;
                         case "wkid":
                             spatialReference.Wkid = reader.GetInt32();
                             break;
@@ -218,6 +225,7 @@ internal class SpatialReferenceConverter : JsonConverter<SpatialReference>
         }
 
         writer.WriteStartObject();
+        writer.WriteString("id", value.Id.ToString());
         if (value.Wkid.HasValue)
         {
             writer.WriteNumber("wkid", value.Wkid.Value);

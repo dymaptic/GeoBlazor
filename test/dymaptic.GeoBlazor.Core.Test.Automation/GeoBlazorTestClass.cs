@@ -43,7 +43,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
                     break;
                 case UnitTestOutcome.Failed:
-                    if (!TestConfig.FailedTests.ContainsKey(fullTestName))
+                    if (!TestConfig.FailedTests[ProcessName.WEB_TEST].ContainsKey(fullTestName))
                     {
                         throw new Exception($"Test {fullTestName
                         } failed but was not added to FailedTests during the Exception handler");
@@ -215,7 +215,12 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
             Trace.WriteLine(messages, ProcessName.WEB_TEST);
             Trace.WriteLine(errors, ProcessName.WEB_TEST_ERROR);
 
-            TestConfig.FailedTests[testName] = $"{messages}{Environment.NewLine}{errors}";
+            if (!TestConfig.FailedTests.ContainsKey(ProcessName.WEB_TEST))
+            {
+                TestConfig.FailedTests[ProcessName.WEB_TEST] = new Dictionary<string, string>();
+            }
+
+            TestConfig.FailedTests[ProcessName.WEB_TEST][testName] = $"{messages}{Environment.NewLine}{errors}";
             Interlocked.Increment(ref TestConfig.WebFailedTestCount);
             Assert.Fail($"{testName} Failed: {errors}");
         }

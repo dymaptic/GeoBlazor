@@ -442,6 +442,15 @@ try
     // Pro-specific steps
     if (pro)
     {
+        // Refresh the ESBuild lock file to prevent the TriggerESBuild MSBuild target
+        // from re-running Core ESBuild during Pro build steps. If the lock file becomes
+        // stale (>5 minutes old), MSBuild would re-trigger ESBuild which wipes and
+        // regenerates JS files with new content hashes, causing static web asset manifest
+        // mismatches (the manifest still references the old hashes from the Core build).
+        string esBuildLockPath = Path.Combine(coreProjectPath, "esBuild.lock");
+        File.WriteAllText(esBuildLockPath, DateTime.Now.ToString("o"));
+        Console.WriteLine("Refreshed ESBuild lock file to prevent re-trigger during Pro build.");
+
         // STEP: Restore Pro .NET packages
         stepStartTime = DateTime.Now;
         GbCli.WriteStepHeader(step, "Restoring GeoBlazor Pro .NET Packages");
@@ -516,6 +525,9 @@ try
 
         // STEP: Build Pro project and package
         stepStartTime = DateTime.Now;
+
+        // Refresh lock file again after validator build (which can take significant time)
+        File.WriteAllText(esBuildLockPath, DateTime.Now.ToString("o"));
 
         GbCli.WriteStepHeader(step,
             package ? "Building GeoBlazor Pro Project and NuGet Package" : "Building GeoBlazor Pro Project");
