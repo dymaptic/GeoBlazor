@@ -422,6 +422,7 @@ public partial class FeaturesViewModel : MapComponent,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonConverter(typeof(ElementReferenceConverter))]
     public ElementReference? ElementReferenceContent { get; set; }
 
     /// <summary>

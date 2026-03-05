@@ -1,3 +1,7 @@
+using Microsoft.JSInterop.Implementation;
+using FieldInfo = System.Reflection.FieldInfo;
+
+
 namespace dymaptic.GeoBlazor.Core.Serialization;
 
 /// <summary>
@@ -29,9 +33,7 @@ public static class IJSStreamReferenceExtensions
     ///     This overload returns an <see cref="object" />, so the type does not need to be known at compile time.
     /// </summary>
     internal static async Task<object?> ReadJsStreamReferenceAsJSON(this IJSStreamReference jsStreamReference,
-        Type returnType,
-        long? maxAllowedSize = null,
-        CancellationToken cancellationToken = default)
+        Type returnType, long? maxAllowedSize = null, CancellationToken cancellationToken = default)
     {
         maxAllowedSize ??= 1_000_000_000L;
 
@@ -46,6 +48,30 @@ public static class IJSStreamReferenceExtensions
             return json.Trim('"');
         }
 
-        return JsonSerializer.Deserialize(json, returnType, GeoBlazorSerialization.JsonSerializerOptions);
+        return JsonSerializer.Deserialize(json, returnType, jsStreamReference.GetJsonSerializerOptions());
     }
+
+    private static JsonSerializerOptions GetJsonSerializerOptions(this IJSStreamReference jsStreamReference)
+    {
+        // steal the private IJSRuntime from this instance
+        IJSRuntime jsRuntime = (IJSRuntime)jsRuntimeFieldInfo.GetValue(jsStreamReference)!;
+
+        if (serializerOptionsCache.TryGetValue(jsRuntime, out JsonSerializerOptions? options))
+        {
+            return options;
+        }
+
+        // copy the static options
+        options = new(GeoBlazorSerialization.JsonSerializerOptions);
+        
+        // add the ElementReferenceConverter
+        options.Converters.Add(new ElementReferenceConverter(new WebElementReferenceContext(jsRuntime)));
+
+        serializerOptionsCache[jsRuntime] = options;
+        return options;
+    }
+    
+    private static readonly FieldInfo jsRuntimeFieldInfo = typeof(JSStreamReference)
+        .GetField("_jsRuntime", BindingFlags.NonPublic | BindingFlags.Instance)!;
+    private static readonly ConcurrentDictionary<IJSRuntime, JsonSerializerOptions> serializerOptionsCache = new();
 }

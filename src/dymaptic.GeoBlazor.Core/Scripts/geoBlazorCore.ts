@@ -502,6 +502,13 @@ export function generateSerializableJson(object: any): string | null {
     if (!hasValue(object)) {
         return null;
     }
+    
+    if (object instanceof HTMLElement) {
+        let id = applyCaptureIdToElement(object);
+        return `{
+            "__innerId": "${id}"
+        }`;
+    }
 
     if (typeof object !== 'object') {
         return object.toString();
@@ -513,6 +520,13 @@ export function generateSerializableJson(object: any): string | null {
         let json = JSON.stringify(object, function(key, value) {
             if (key.startsWith('_') || key === 'jsComponentReference') {
                 return undefined;
+            }
+            
+            if (value instanceof HTMLElement) {
+                let id = applyCaptureIdToElement(object);
+                return `{
+                    "__innerId": "${id}"
+                }`;
             }
 
             // If value is an object (and not null or empty array), check for circularity
@@ -596,6 +610,16 @@ export function base64ToArrayBuffer(base64): Uint8Array {
         bytes[i] = binaryString.charCodeAt(i);
     }
     return bytes;
+}
+
+export function applyCaptureIdToElement(element: Element): string {
+    let referenceCaptureId = crypto.randomUUID();
+    element.setAttribute(getCaptureIdAttributeName(referenceCaptureId), '');
+    return referenceCaptureId;
+}
+
+export function getCaptureIdAttributeName(referenceCaptureId: string) {
+    return `_bl_${referenceCaptureId}`;
 }
 
 // endregion
