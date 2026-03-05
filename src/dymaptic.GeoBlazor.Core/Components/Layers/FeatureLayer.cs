@@ -78,6 +78,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
 
     /// <inheritdoc />
     public override LayerType Type => LayerType.Feature;
+    
+    /// <inheritdoc />
+    public string FeatureTableLayerType => Type.ToString();
 
     /// <summary>  
     ///     Configures the method for reducing the number of point features in the view.  

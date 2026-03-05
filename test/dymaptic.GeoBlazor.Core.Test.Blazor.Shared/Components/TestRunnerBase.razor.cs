@@ -367,11 +367,11 @@ public partial class TestRunnerBase : IAsyncDisposable
     }
 
     protected async Task AssertJavaScript(string jsAssertFunction, [CallerMemberName] string methodName = "",
-        params object[] args)
+        params object?[] args)
     {
         await _retryPipeline.ExecuteAsync(async token =>
         {
-            List<object> jsArgs = [methodName];
+            List<object?> jsArgs = [methodName];
             jsArgs.AddRange(args);
 
             if (jsAssertFunction.Contains("."))

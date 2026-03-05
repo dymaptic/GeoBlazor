@@ -175,4 +175,70 @@ public record DomKeyboardEvent(
 /// <summary>
 ///     Interface for DOM UI events (keyboard, mouse, touch).
 /// </summary>
+[JsonConverter(typeof(DomUiEventConverter))]
 public interface IDomUiEvent;
+
+internal class DomUiEventConverter : JsonConverter<IDomUiEvent>
+{
+    public override IDomUiEvent? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        Utf8JsonReader cloneReader = reader;
+        Dictionary<string, object?>? temp = JsonSerializer
+            .Deserialize<Dictionary<string, object?>>(ref cloneReader, options);
+
+        if (temp is null)
+        {
+            return null;
+        }
+        
+        PropertyInfo[] pointerProps = typeof(DomPointerEvent).GetProperties();
+        PropertyInfo[] mouseProps = typeof(DomMouseEvent).GetProperties();
+        PropertyInfo[] keyboardProps = typeof(DomKeyboardEvent).GetProperties();
+
+        pointerProps = pointerProps
+            .Where(p => mouseProps.All(mp => mp.Name != p.Name) 
+                && keyboardProps.All(kp => kp.Name != p.Name))
+            .ToArray();
+
+        mouseProps = mouseProps
+            .Where(p => pointerProps.All(pp => pp.Name != p.Name)
+                && keyboardProps.All(kp => kp.Name != p.Name))
+            .ToArray();
+        
+        keyboardProps = keyboardProps
+            .Where(p => pointerProps.All(pp => pp.Name != p.Name)
+                && mouseProps.All(mp => mp.Name != p.Name))
+            .ToArray();
+
+        foreach (PropertyInfo prop in pointerProps)
+        {
+            if (temp.ContainsKey(prop.Name.ToLowerFirstChar()))
+            {
+                return JsonSerializer.Deserialize<DomPointerEvent>(ref reader, options);
+            }
+        }
+
+        foreach (PropertyInfo prop in mouseProps)
+        {
+            if (temp.ContainsKey(prop.Name.ToLowerFirstChar()))
+            {
+                return JsonSerializer.Deserialize<DomMouseEvent>(ref reader, options);
+            }
+        }
+        
+        foreach (PropertyInfo prop in keyboardProps)
+        {
+            if (temp.ContainsKey(prop.Name.ToLowerFirstChar()))
+            {
+                return JsonSerializer.Deserialize<DomKeyboardEvent>(ref reader, options);
+            }
+        }
+        
+        return null;
+    }
+
+    public override void Write(Utf8JsonWriter writer, IDomUiEvent value, JsonSerializerOptions options)
+    {
+        JsonSerializer.Serialize(writer, value, typeof(object), options);
+    }
+}

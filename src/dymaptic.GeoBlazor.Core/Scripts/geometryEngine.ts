@@ -353,7 +353,7 @@ export default class GeometryEngineWrapper extends BaseComponent {
 
     }
 
-    async geodesicLength(geometry: DotNetGeometry, unit: LinearUnits | null): Promise<number | null> {
+    async geodesicLength(geometry: DotNetGeometry, unit: LengthUnit | null): Promise<number | null> {
         let geodeticLengthOperator = await import('@arcgis/core/geometry/operators/geodeticLengthOperator');
         if (!geodeticLengthOperator.isLoaded()) {
             await geodeticLengthOperator.load();

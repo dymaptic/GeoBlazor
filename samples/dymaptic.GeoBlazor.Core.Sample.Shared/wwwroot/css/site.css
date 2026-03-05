@@ -7,43 +7,43 @@
 }
 
 body {
-background-color: var(--background-grey-1);
+    background-color: var(--background-grey-1);
 }
 
 footer {
-display: none;
+    display: none;
 }
 
 summary {
-display: list-item;
-list-style-position: outside;
+    display: list-item;
+    list-style-position: outside;
 }
 
 summary a {
-margin-left: -2rem;
+    margin-left: -2rem;
 }
 
 .esri-feature-templates {
-background: unset;
+    background: unset;
 }
 
 .esri-feature-form {
     background-color: var(--background-grey-1);
 }
 
-.esri-widget {
-color: unset;
+.esri-widget:not(.esri-feature-table) {
+    color: unset;
 }
 
 .esri-button {
-color: unset;
-background-color: unset;
-border: 0.125rem solid transparent;
+    color: unset;
+    background-color: unset;
+    border: 0.125rem solid transparent;
 }
 
 .esri-button:hover {
-color: unset;
-border-color: var(--geoblazor-accent-hover);
+    color: unset;
+    border-color: var(--geoblazor-accent-hover);
 }
 
 :root {
@@ -55,23 +55,25 @@ border-color: var(--geoblazor-accent-hover);
     --calcite-input-actions-icon-color: var(--text-emphasis);
     --calcite-label-text-color: var(--text-emphasis);
     --calcite-list-label-text-color: var(--text-emphasis);
+    --calcite-color-text-2: var(--text-emphasis);
+    --calcite-color-foreground-2: var(--background-grey-3);
 }
 
 .nav-link {
-color: unset;
+    color: unset;
 }
 
 .nav-link:hover {
-color: unset;
+    color: unset;
 }
 
 .nav-list-link .oi {
-top: 2px;
-height: 18px;
+    top: 2px;
+    height: 18px;
 }
 
 .container {
-background-color: unset;
+    background-color: unset;
 }
 
 /*** TYPOGRAPHY ***/
@@ -168,16 +170,38 @@ i.icon {
     background-position: center;
 }
 
-i.icon.plus {background-image: url('../images/icons/plus.svg');}
-i.icon.check {background-image: url('../images/icons/check.svg');}
-i.icon.close--accent {background-image: url('../images/icons/close-accent.svg');}
-i.icon.close {background-image: url('../images/icons/close.svg');}
-i.icon.info {background-image: url('../images/icons/info.svg');}
-i.icon.edit {background-image: url('../images/icons/edit.svg');}
-i.icon.save {background-image: url('../images/icons/save.svg');}
+i.icon.plus {
+    background-image: url('../images/icons/plus.svg');
+}
+
+i.icon.check {
+    background-image: url('../images/icons/check.svg');
+}
+
+i.icon.close--accent {
+    background-image: url('../images/icons/close-accent.svg');
+}
+
+i.icon.close {
+    background-image: url('../images/icons/close.svg');
+}
+
+i.icon.info {
+    background-image: url('../images/icons/info.svg');
+}
+
+i.icon.edit {
+    background-image: url('../images/icons/edit.svg');
+}
+
+i.icon.save {
+    background-image: url('../images/icons/save.svg');
+}
 
 @media (prefers-color-scheme: light) {
-    i.icon.info {background-image: url('../images/icons/info.svg');}
+    i.icon.info {
+        background-image: url('../images/icons/info.svg');
+    }
 }
 
 .error {
@@ -193,11 +217,11 @@ hr {
 
 /*** CONTROLS ***/
 
-body {   /* body tag added to help overwrite Bootstrap */
+body { /* body tag added to help overwrite Bootstrap */
 
     text-wrap: pretty;
     color: var(--text);
-    
+
     .btn {
         color: var(--text-button);
         font-family: 'Aller', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -248,7 +272,7 @@ body {   /* body tag added to help overwrite Bootstrap */
     .btn-primary:active,
     .btn-primary:focus,
     .btn-primary:focus-visible,
-    :not(.btn-check)+.btn.btn-primary:active,  /* Bootstrap override */
+    :not(.btn-check) + .btn.btn-primary:active, /* Bootstrap override */
     .btn-primary:first-child:active {
         background-color: var(--geoblazor-primary-hover);
     }
@@ -261,7 +285,7 @@ body {   /* body tag added to help overwrite Bootstrap */
     .btn-secondary:active,
     .btn-secondary:focus,
     .btn-secondary:focus-visible,
-    :not(.btn-check)+.btn.btn-secondary:active,  /* Bootstrap override */
+    :not(.btn-check) + .btn.btn-secondary:active, /* Bootstrap override */
     .btn-secondary:first-child:active {
         background-color: var(--geoblazor-secondary-hover);
     }
@@ -274,7 +298,7 @@ body {   /* body tag added to help overwrite Bootstrap */
     .btn-accent:active,
     .btn-accent:focus,
     .btn-accent:focus-visible,
-    :not(.btn-check)+.btn.btn-accent:active,  /* Bootstrap override */
+    :not(.btn-check) + .btn.btn-accent:active, /* Bootstrap override */
     .btn-accent:first-child:active {
         background-color: var(--geoblazor-accent-hover);
     }
@@ -288,7 +312,7 @@ body {   /* body tag added to help overwrite Bootstrap */
     .btn-gradient:active,
     .btn-gradient:focus,
     .btn-gradient:focus-visible,
-    :not(.btn-check)+.btn.btn-gradient:active,  /* Bootstrap override */
+    :not(.btn-check) + .btn.btn-gradient:active, /* Bootstrap override */
     .btn-gradient:first-child:active {
         background-color: unset;
         background: var(--torchy-gradient-horizontal-hover);
@@ -306,7 +330,7 @@ body {   /* body tag added to help overwrite Bootstrap */
     .btn-gradient-dark:active,
     .btn-gradient-dark:focus,
     .btn-gradient-dark:focus-visible,
-    :not(.btn-check)+.btn.btn-gradient-dark:active,  /* Bootstrap override */
+    :not(.btn-check) + .btn.btn-gradient-dark:active, /* Bootstrap override */
     .btn-gradient-dark:first-child:active {
         background: linear-gradient(var(--geoblazor-gradient-dark-hover), var(--geoblazor-gradient-dark-hover)) padding-box,
         var(--torchy-gradient-horizontal-hover) border-box;
@@ -319,7 +343,7 @@ body {   /* body tag added to help overwrite Bootstrap */
         .btn-gradient-dark:active,
         .btn-gradient-dark:focus,
         .btn-gradient-dark:focus-visible,
-        :not(.btn-check)+.btn.btn-gradient-dark:active,  /* Bootstrap override */
+        :not(.btn-check) + .btn.btn-gradient-dark:active, /* Bootstrap override */
         .btn-gradient-dark:first-child:active {
             color: var(--geoblazor-primary);
         }
@@ -336,7 +360,7 @@ body {   /* body tag added to help overwrite Bootstrap */
     .btn-danger:active, .btn-danger.btn-small:active,
     .btn-danger:focus, .btn-danger.btn-small:focus,
     .btn-danger:focus-visible, .btn-danger.btn-small:focus-visible,
-    :not(.btn-check)+.btn.btn-danger:active,  /* Bootstrap override */
+    :not(.btn-check) + .btn.btn-danger:active, /* Bootstrap override */
     .btn-danger:first-child:active, .btn-danger.btn-small:first-child:active {
         background-color: var(--error);
     }
@@ -354,9 +378,9 @@ body {   /* body tag added to help overwrite Bootstrap */
 }
 
 .spaced-row {
-    margin: 1rem 0; 
-    display: flex; 
-    flex-direction: row; 
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
@@ -418,7 +442,7 @@ body {   /* body tag added to help overwrite Bootstrap */
 
 /*** INPUT FIELDS ***/
 
-body {   /* body tag added to help overwrite Bootstrap */
+body { /* body tag added to help overwrite Bootstrap */
 
     input,
     select,
@@ -440,7 +464,7 @@ body {   /* body tag added to help overwrite Bootstrap */
         padding: 0.5rem 2rem;
         min-width: 8rem;
     }
-    
+
     input:not([type="checkbox"]) {
         padding: 0.5rem 2rem;
         min-width: 8rem;
@@ -450,7 +474,7 @@ body {   /* body tag added to help overwrite Bootstrap */
         background-color: var(--background-grey-2);
         color: var(--text-emphasis);
     }
-    
+
     select optgroup {
         background-color: var(--background-grey-3);
         color: var(--text-emphasis);
@@ -533,6 +557,7 @@ form {
     align-items: center;
     gap: 0.25rem;
 }
+
 .form-group__tooltip-field i.icon {
     width: 2rem;
     height: 2rem;
@@ -567,13 +592,16 @@ body {
             border: solid transparent;
             border-width: 0 0 0.125rem;
         }
+
         td, th {
             padding: 0.65rem;
         }
+
         th {
             color: var(--text-emphasis);
             font-size: 1.25rem;
         }
+
         td {
             color: var(--text);
         }
@@ -613,7 +641,6 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
 }
 
 
-
 #blazor-error-ui {
     background: var(--background-grey-2);
     color: var(--geoblazor-accent);
@@ -648,14 +675,17 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
     width: 12px;
     height: 12px;
 }
+
 ::-webkit-scrollbar-track {
     background: var(--background-grey-2);
     border-radius: 6px;
 }
+
 ::-webkit-scrollbar-thumb {
     background: var(--background-grey-3);
     border-radius: 6px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
     background: var(--background-grey-4);
 }
@@ -802,7 +832,7 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
     height: 6rem;
 }
 
-.side-bar>hr {
+.side-bar > hr {
     border-bottom: 0.25rem solid var(--geoblazor-primary);
     width: calc(100% - 2rem);
     margin: 0 1rem;
@@ -836,7 +866,7 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
     height: 100%;
     width: calc(100% - 3.5rem);
     background-size: contain;
-    background-repeat:  no-repeat;
+    background-repeat: no-repeat;
     background-position: left center;
     background-image: url('../images/GeoBlazor_by_dymaptic-Logo-400px.webp');
 }
@@ -979,9 +1009,9 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
     .navbar__logo {
         background-image: url('../images/GeoBlazor_by_dymaptic-Logo-400px-dark.webp');
     }
-    
+
     .side-bar {
-        background: linear-gradient(var(--background-grey-1), var(--background-grey-1)) padding-box, 
+        background: linear-gradient(var(--background-grey-1), var(--background-grey-1)) padding-box,
         var(--geoblazor-gradient-vertical) border-box;
     }
 
@@ -992,7 +1022,7 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
     .nav-list .nav-list-item:has(.nav-list-link.active) {
         background-color: var(--background-grey-4);
     }
-    
+
     .oi img:not(.pro .oi img) {
         filter: invert(1);
     }
@@ -1012,7 +1042,7 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
 
 .dymaptic-branding {
     margin: 0.5rem;
-    top: -2rem!important;
+    top: -2rem !important;
 }
 
 .instructions {
@@ -1074,7 +1104,7 @@ input:checked[type=checkbox] {
 
 .form-check-input:focus[type=checkbox] {
     border-color: var(--geoblazor-accent-emphasis);
-    box-shadow: 0 0 0 0.25rem 
+    box-shadow: 0 0 0 0.25rem
 }
 
 .form-check-input:hover[type=checkbox] {
@@ -1145,15 +1175,15 @@ input[type=radio] {
     input[type="text"], input[type="number"] {
         width: 5.5rem;
     }
-    
+
     .links-div {
         flex-direction: column;
     }
-    
+
     .spaced-row {
         flex-direction: column;
     }
-    
+
     body {
         .btn {
             padding: 1rem;
