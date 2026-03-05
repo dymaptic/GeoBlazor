@@ -399,3 +399,4 @@ DefaultDocsLinks
 .esbuild-record.json
 *.nupkg.bak
 /samples/dymaptic.GeoBlazor.Core.Sample.TokenRefresh/dymaptic.GeoBlazor.Core.Sample.TokenRefresh/arcgis_token_cache.json
+build-tools/debug-output
