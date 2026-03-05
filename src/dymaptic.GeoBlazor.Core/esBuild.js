@@ -39,7 +39,7 @@ if (!fs.existsSync(OUTPUT_DIR)) {
 try {
     await esbuild.build(options);
 } catch (err) {
-    console.log(`ESBuild Failed: ${err}. Attempting to build without clean plugin...`);
+    console.log(`wwwroot file possibly locked. Attempting to build without clean plugin...`);
     // try without clean plugin
     options.plugins = [];
     try {

@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.Build.NoTargets/3.7.134">
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFrameworks>net8.0;netstandard2.0</TargetFrameworks>
     </PropertyGroup>
     <!-- ESBuild-Triggering "Project" to enforce that this only fires once per build, no matter what project we build from -->
     <Target BeforeTargets="PrepareForRun" Name="ESBuild">

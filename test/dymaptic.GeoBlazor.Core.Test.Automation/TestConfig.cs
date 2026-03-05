@@ -215,9 +215,6 @@ public class TestConfig
 
         await Task.WhenAll(setupTasks);
 
-        // Fire off the Web Browser for main web tests suite
-        Task webServerLaunchTask = LaunchPipelineTask(ProcessName.WEB_APP_SERVER, LaunchWebTests);
-
         // UNIT TESTS
         if (!WebOnly)
         {
@@ -233,7 +230,13 @@ public class TestConfig
             }
         }
 
-        await webServerLaunchTask;
+        // Fire off the Web Browser for main web tests suite
+        if (!UnitOnly)
+        {
+            await LaunchPipelineTask(ProcessName.WEB_APP_SERVER, LaunchWebTests);
+        }
+        
+        await Task.WhenAll(runTasks);
 
         Trace.WriteLine($"Assembly Initialization Complete in {fullSuiteStopwatch.Elapsed.Minutes}m {
             fullSuiteStopwatch.Elapsed.Seconds}s",
