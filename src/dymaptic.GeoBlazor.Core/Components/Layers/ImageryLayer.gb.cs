@@ -10,7 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// </summary>
 public partial class ImageryLayer : IBlendLayer,
     ICustomParametersMixin,
-    IFeatureTableWidgetLayers,
+    IFeatureTableWidgetLayer,
     IOperationalLayer,
     IPortalLayer,
     IRasterPresetRendererMixin,

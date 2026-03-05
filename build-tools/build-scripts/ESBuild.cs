@@ -374,7 +374,7 @@ static void CopyScriptsToPro(string coreScriptsDir, string proScriptsDir, bool v
         string fileName = Path.GetFileName(filePath);
         fileNames.Add(fileName);
         string destinationFileName = fileName;
-        if (proPrefixedFiles.Contains(fileName))
+        if (proPrefixedFiles.Contains(Path.GetFileNameWithoutExtension(filePath)))
         {
             destinationFileName = $"pro_{fileName}";
         }
@@ -408,6 +408,17 @@ static void CopyScriptsToPro(string coreScriptsDir, string proScriptsDir, bool v
             skippedCount++;
         }
     }
+    
+    // update arcGisJsInterop references to pro_ prefixed scripts
+    string arcGisJsInteropPath = Path.Combine(proScriptsDir, "arcGisJsInterop.ts");
+    string proArcGisJsInterop = File.ReadAllText(arcGisJsInteropPath);
+
+    foreach (string proFile in proPrefixedFiles)
+    {
+        proArcGisJsInterop = proArcGisJsInterop.Replace($"\"./{proFile}\"", $"\"./pro_{proFile}\"");
+    }
+    
+    File.WriteAllText(arcGisJsInteropPath, proArcGisJsInterop);
     
     Trace.WriteLine($"ESBUILD PRO: Copied {copiedCount} files, skipped {skippedCount} files.");
 }

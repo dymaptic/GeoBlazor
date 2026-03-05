@@ -100,6 +100,14 @@ export async function buildJsWidget(dotNetObject: any, layerId: string | null, v
             } catch (e) {
                 throw e;
             }
+        case 'feature-table':
+            try {
+                // @ts-ignore only available in GeoBlazor Pro
+                let {buildJsFeatureTableWidget} = await import('./featureTableWidget');
+                return await buildJsFeatureTableWidget(dotNetObject, layerId, viewId);
+            } catch (e) {
+                throw e;
+            }
         case 'feature-templates':
             try {
                 // @ts-ignore only available in GeoBlazor Pro

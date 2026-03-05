@@ -2235,7 +2235,7 @@ public partial class MapView : MapComponent
             CancellationTokenSource = new CancellationTokenSource();
         }
 
-        return await JsSyncManager.InvokeJsMethod<HitTestResult>(JsComponentReference!, IsServer,
+        return await JsComponentReference!.InvokeJsMethod<HitTestResult>(IsServer,
             className: nameof(MapView), cancellationToken: CancellationTokenSource.Token,
             parameters: [screenPoint, Id, options]);
     }

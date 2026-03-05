@@ -40,42 +40,46 @@
     <div class="detail-results @(_collapsed ? "collapsed" : "")">
         @foreach (KeyValuePair<string, string> entry in _testResults)
         {
-            MethodInfo methodInfo = _methodInfos!.First(mi => mi.Name == entry.Key);
-            <h3>@Extensions.CamelCaseToSpaces(entry.Key)</h3>
-            <div class="test-results-container" id="@entry.Key">
-                <div class="test-results-col">
-                    <div class="button-row">
-                        <button id="@($"run-{methodInfo.Name.ToKebabCase()}-btn")"
-                                @onclick="@(() => RunTest(methodInfo, CancellationToken.None))">
-                            Run Test
-                        </button>
-                        <label>
-                            <input type="checkbox" @bind="@_interactionToggles[entry.Key]"/>
-                            Pause for Interaction
-                        </label>
-                        @if (_currentTest == entry.Key)
-                        {
-                            <button @onclick="@(() => CleanupTest(entry.Key))">Stop</button>
-                        }
+            MethodInfo? methodInfo = _methodInfos!.FirstOrDefault(mi => mi.Name == entry.Key);
+
+            if (methodInfo is not null)
+            {
+                <h3>@Extensions.CamelCaseToSpaces(entry.Key)</h3>
+                <div class="test-results-container" id="@entry.Key">
+                    <div class="test-results-col">
+                        <div class="button-row">
+                            <button id="@($"run-{methodInfo.Name.ToKebabCase()}-btn")"
+                                    @onclick="@(() => RunTest(methodInfo, CancellationToken.None))">
+                                Run Test
+                            </button>
+                            <label>
+                                <input type="checkbox" @bind="@_interactionToggles[entry.Key]"/>
+                                Pause for Interaction
+                            </label>
+                            @if (_currentTest == entry.Key)
+                            {
+                                <button @onclick="@(() => CleanupTest(entry.Key))">Stop</button>
+                            }
+                        </div>
+                        @((MarkupString)entry.Value)
                     </div>
-                    @((MarkupString)entry.Value)
-                </div>
-                @if (_testRenderFragments.TryGetValue(entry.Key, out RenderFragment? fragment))
-                {
-                    <ErrorHandler MethodName="@entry.Key" OnError="OnRenderError">
-                        <ChildContent>
-                            <div style="display: flex; justify-content: center; position: relative;">
-                                <div style="position: absolute; top: -100px; right: 10px;">
-                                    <div style="position: relative; height: 100%; width: 100%;">
-                                        @fragment
+                    @if (_testRenderFragments.TryGetValue(entry.Key, out RenderFragment? fragment))
+                    {
+                        <ErrorHandler MethodName="@entry.Key" OnError="OnRenderError">
+                            <ChildContent>
+                                <div style="display: flex; justify-content: center; position: relative;">
+                                    <div style="position: absolute; top: -100px; right: 10px;">
+                                        <div style="position: relative; height: 100%; width: 100%;">
+                                            @fragment
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </ChildContent>
-                        <ErrorContent></ErrorContent>
-                    </ErrorHandler>
-                }
-            </div>
+                            </ChildContent>
+                            <ErrorContent></ErrorContent>
+                        </ErrorHandler>
+                    }
+                </div>
+            }
         }
     </div>
 </div>

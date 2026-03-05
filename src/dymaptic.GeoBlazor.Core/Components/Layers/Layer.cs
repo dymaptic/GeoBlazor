@@ -342,8 +342,24 @@ public abstract partial class Layer : MapComponent
                     break;
                 }
 
-                Type paramType = previousValue!.GetType();
+                if (previousValue is null)
+                {
+                    if (kvp.Value is not null)
+                    {
+                        if (MapRendered)
+                        {
+                            await UpdateLayer();
+                        }
 
+                        break;
+                    }
+                    
+                    // both null, no change
+                    continue;
+                }
+
+                Type paramType = previousValue.GetType();
+                
                 if (paramType.IsArray)
                 {
                     Array prevArray = (Array)previousValue;
@@ -375,9 +391,8 @@ public abstract partial class Layer : MapComponent
 
                     if (layerChanged) break;
                 }
-                else if (paramType.IsGenericType)
+                else if (paramType.IsGenericType && previousValue is ICollection prevCollection)
                 {
-                    ICollection prevCollection = (ICollection)previousValue;
                     ICollection currCollection = (ICollection)kvp.Value!;
 
                     if (prevCollection.Count != currCollection.Count)

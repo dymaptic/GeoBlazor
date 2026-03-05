@@ -7,6 +7,8 @@ public partial class GeoJSONLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     /// <inheritdoc />
     public override LayerType Type => LayerType.GeoJSON;
 
+    /// <inheritdoc />
+    public string FeatureTableLayerType => Type.ToString();
 
     /// <summary>
     ///     A copyright string to identify ownership of the data.

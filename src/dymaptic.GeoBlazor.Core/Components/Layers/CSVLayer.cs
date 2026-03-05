@@ -6,7 +6,9 @@ public partial class CSVLayer : Layer, IFeatureReductionLayer, IPopupTemplateLay
 
     /// <inheritdoc />
     public override LayerType Type => LayerType.CSV;
-
+    
+    /// <inheritdoc />
+    public string FeatureTableLayerType => Type.ToString();
 
     /// <summary>
     ///     A copyright string to identify ownership of the data.

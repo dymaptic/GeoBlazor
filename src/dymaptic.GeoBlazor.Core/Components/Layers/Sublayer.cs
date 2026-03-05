@@ -1,7 +1,10 @@
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-public partial class Sublayer : MapComponent, IPopupTemplateLayer
+public partial class Sublayer : MapComponent, IPopupTemplateLayer, IFeatureTableWidgetLayer
 {
+    /// <inheritdoc />
+    public string FeatureTableLayerType => nameof(Sublayer);
+    
     /// <summary>
     ///     A SQL where clause used to filter features in the image. Only the features that satisfy the definition expression are displayed in the View. Definition expressions may be set when a Sublayer is constructed prior to it loading in the view or after it has been added to the MapImageLayer. To see if you can use this property, check the supportsSublayerDefinitionExpression property of MapImageLayer.capabilities.
     /// </summary>
