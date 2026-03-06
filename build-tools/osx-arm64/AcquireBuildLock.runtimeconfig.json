@@ -12,7 +12,7 @@
       }
     },
     "configProperties": {
-      "EntryPointFilePath": "D:\\dymaptic.GeoBlazor.CodeGen\\GeoBlazor.Pro\\GeoBlazor\\build-tools\\build-scripts\\ConsoleDialog.cs",
+      "EntryPointFilePath": "D:\\dymaptic.GeoBlazor.CodeGen\\GeoBlazor.Pro\\GeoBlazor\\build-tools\\build-scripts\\AcquireBuildLock.cs",
       "EntryPointFileDirectoryPath": "D:\\dymaptic.GeoBlazor.CodeGen\\GeoBlazor.Pro\\GeoBlazor\\build-tools\\build-scripts",
       "Microsoft.Extensions.DependencyInjection.VerifyOpenGenericServiceTrimmability": true,
       "System.ComponentModel.DefaultValueAttribute.IsSupported": false,
@@ -22,7 +22,6 @@
       "System.Data.DataSet.XmlSerializationIsSupported": false,
       "System.Diagnostics.Tracing.EventSource.IsSupported": false,
       "System.Linq.Enumerable.IsSizeOptimized": true,
-      "System.Net.Security.UseManagedNtlm": false,
       "System.Net.SocketsHttpHandler.Http3Support": false,
       "System.Reflection.Metadata.MetadataUpdater.IsSupported": false,
       "System.Resources.ResourceManager.AllowCustomResourceTypes": false,

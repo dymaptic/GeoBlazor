@@ -12,7 +12,7 @@
       }
     },
     "configProperties": {
-      "EntryPointFilePath": "D:\\dymaptic.GeoBlazor.CodeGen\\GeoBlazor.Pro\\GeoBlazor\\build-tools\\build-scripts\\ConsoleDialog.cs",
+      "EntryPointFilePath": "D:\\dymaptic.GeoBlazor.CodeGen\\GeoBlazor.Pro\\GeoBlazor\\build-tools\\build-scripts\\AcquireBuildLock.cs",
       "EntryPointFileDirectoryPath": "D:\\dymaptic.GeoBlazor.CodeGen\\GeoBlazor.Pro\\GeoBlazor\\build-tools\\build-scripts",
       "Microsoft.Extensions.DependencyInjection.VerifyOpenGenericServiceTrimmability": true,
       "System.ComponentModel.DefaultValueAttribute.IsSupported": false,
