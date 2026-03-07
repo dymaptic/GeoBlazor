@@ -11,7 +11,7 @@ using System.Xml;
 using DelayBackoffType = Polly.DelayBackoffType;
 
 
-[assembly: Parallelize(Scope = ExecutionScope.MethodLevel)]
+[assembly: Parallelize(Scope = ExecutionScope.MethodLevel, Workers = 16)]
 
 
 namespace dymaptic.GeoBlazor.Core.Test.Automation;
@@ -609,6 +609,10 @@ public class TestConfig
                     FilteredTests = FilteredTests.Intersect(filteredTests).ToList();
                 }
 
+                // Remove custom routing keywords that control TestConfig logic but aren't
+                // valid MSTest filter expressions (they'd be interpreted as FullyQualifiedName~keyword)
+                _filters.RemoveAll(f => f is "unit" or "web" or "core" or "core_" or "pro" or "pro_");
+
                 // Microsoft.Test.Platform only accepts a single filter argument
                 break;
             }
@@ -986,7 +990,7 @@ public class TestConfig
         ];
 
         List<string> filterArgs = [.._filters ?? [], "TestCategory!~AutomationExclude"];
-        string filter = string.Join("|", filterArgs);
+        string filter = string.Join("&", filterArgs);
         args.Add($"--filter {filter}");
 
         if (_cover)
@@ -1126,7 +1130,7 @@ public class TestConfig
             CancellationTokenSource.CreateLinkedTokenSource(context.CancellationToken, waitTokenSource.Token);
 
         List<string> filterArgs = [.._filters ?? [], "TestCategory!~AutomationExclude"];
-        string filter = string.Join("|", filterArgs);
+        string filter = string.Join("&", filterArgs);
 
         _ = Cli.Wrap(cmdLineApp)
             .WithArguments(args)

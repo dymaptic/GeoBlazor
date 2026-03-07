@@ -88,6 +88,7 @@ export function buildJsExtent(dotNetExtent: any, currentSpatialReference: any | 
     } else if (currentSpatialReference !== null) {
         properties.spatialReference = currentSpatialReference;
     }
+    
     let extent = new Extent(properties);
     arcGisObjectRefs[dotNetExtent.id] = extent;
 
