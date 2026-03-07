@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html">GeoBlazor Docs</a>
 ///     A slider widget that can be used for filtering data, or gathering
@@ -10,6 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 /// </summary>
 public partial class SliderWidget
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -166,7 +168,8 @@ public partial class SliderWidget
     ///     The unique ID assigned to the widget when the widget is created.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public SliderWidget(string containerId,
+    public SliderWidget(
+        string containerId,
         bool? disabled = null,
         bool? draggableSegmentsEnabled = null,
         double? effectiveMax = null,
@@ -233,102 +236,10 @@ public partial class SliderWidget
         Position = position;
         ViewModel = viewModel;
         WidgetId = widgetId;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        if (TickConfigs is not null)
-        {
-            foreach (TickConfig child in TickConfigs)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-
-        ViewModel?.ValidateRequiredGeneratedChildren();
-        VisibleElements?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case TickConfig tickConfigs:
-                TickConfigs ??= [];
-
-                if (!TickConfigs.Contains(tickConfigs))
-                {
-                    TickConfigs = [..TickConfigs, tickConfigs];
-                    ModifiedParameters[nameof(TickConfigs)] = TickConfigs;
-
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
-                }
-
-                return true;
-            case SliderViewModel viewModel:
-                if (viewModel != ViewModel)
-                {
-                    ViewModel = viewModel;
-                    ModifiedParameters[nameof(ViewModel)] = ViewModel;
-
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
-                }
-
-                return true;
-            case SliderVisibleElements visibleElements:
-                if (visibleElements != VisibleElements)
-                {
-                    VisibleElements = visibleElements;
-                    ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
-
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
-                }
-
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case TickConfig tickConfigs:
-                TickConfigs = TickConfigs?.Where(t => t != tickConfigs).ToList();
-                ModifiedParameters[nameof(TickConfigs)] = TickConfigs;
-
-                return true;
-            case SliderViewModel _:
-                ViewModel = null;
-                ModifiedParameters[nameof(ViewModel)] = ViewModel;
-
-                return true;
-            case SliderVisibleElements _:
-                VisibleElements = null;
-                ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
-
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -341,7 +252,7 @@ public partial class SliderWidget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<double>? DoubleCollectionSteps { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetdoublesteps-property">GeoBlazor Docs</a>
     ///     Sets steps, or intervals, on the slider that restrict user
@@ -352,7 +263,7 @@ public partial class SliderWidget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? DoubleSteps { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgeteffectivesegmentelements-property">GeoBlazor Docs</a>
     ///     The HTML Element nodes representing the slider segment between the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#min">min</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#effectiveMin">effectiveMin</a>, and the segment between the
@@ -362,8 +273,8 @@ public partial class SliderWidget
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public IReadOnlyList<ElementReference>? EffectiveSegmentElements { get; protected set; }
-
+    public IReadOnlyList<HTMLElement>? EffectiveSegmentElements { get; protected set; }
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetinputcreatedfunction-property">GeoBlazor Docs</a>
     ///     A function that provides the developer with access to the input elements when
@@ -374,7 +285,7 @@ public partial class SliderWidget
     [Parameter]
     [JsonIgnore]
     public InputCreatedFunction? InputCreatedFunction { get; set; }
-
+    
     /// <summary>
     ///    JS-invokable method that triggers the <see cref="InputCreatedFunction"/> function.
     ///     Should not be called by consuming code.
@@ -389,7 +300,7 @@ public partial class SliderWidget
             // cancel if the component is disposed
             return;
         }
-
+        
         if (InputCreatedFunction is not null)
         {
             await InputCreatedFunction.Invoke(inputElement,
@@ -397,12 +308,12 @@ public partial class SliderWidget
                 thumbIndex);
         }
     }
-
+    
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="InputCreatedFunction" /> function was registered.
     /// </summary>
     public bool HasInputCreatedFunction => InputCreatedFunction is not null;
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetinputformatfunction-property">GeoBlazor Docs</a>
     ///     A function used to format user inputs.
@@ -411,12 +322,12 @@ public partial class SliderWidget
     [ArcGISProperty]
     [Parameter]
     public SliderLabelFormatter? InputFormatFunction { get; set; }
-
+    
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="InputFormatFunction" /> function was registered.
     /// </summary>
     public bool HasInputFormatFunction => InputFormatFunction is not null;
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetinputparsefunction-property">GeoBlazor Docs</a>
     ///     Function used to parse slider inputs formatted by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#inputFormatFunction">inputFormatFunction</a>.
@@ -425,12 +336,12 @@ public partial class SliderWidget
     [ArcGISProperty]
     [Parameter]
     public InputParser? InputParseFunction { get; set; }
-
+    
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="InputParseFunction" /> function was registered.
     /// </summary>
     public bool HasInputParseFunction => InputParseFunction is not null;
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetlabelelements-property">GeoBlazor Docs</a>
     ///     The HTML Element nodes representing <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#labels">labels</a> attached to slider thumbs.
@@ -439,8 +350,8 @@ public partial class SliderWidget
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public IReadOnlyList<ElementReference>? LabelElements { get; protected set; }
-
+    public IReadOnlyList<HTMLElement>? LabelElements { get; protected set; }
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetlabelformatfunction-property">GeoBlazor Docs</a>
     ///     A function used to format labels.
@@ -449,12 +360,12 @@ public partial class SliderWidget
     [ArcGISProperty]
     [Parameter]
     public SliderLabelFormatter? LabelFormatFunction { get; set; }
-
+    
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="LabelFormatFunction" /> function was registered.
     /// </summary>
     public bool HasLabelFormatFunction => LabelFormatFunction is not null;
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetlabels-property">GeoBlazor Docs</a>
     ///     An array of strings associated with 'values' generated using an internal label formatter or
@@ -465,7 +376,7 @@ public partial class SliderWidget
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public LabelInfos? Labels { get; protected set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetmaxlabelelement-property">GeoBlazor Docs</a>
     ///     The HTML Element node representing the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#max">max</a> value label.
@@ -474,8 +385,8 @@ public partial class SliderWidget
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public ElementReference? MaxLabelElement { get; protected set; }
-
+    public HTMLElement? MaxLabelElement { get; protected set; }
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetminlabelelement-property">GeoBlazor Docs</a>
     ///     The HTML Element node representing the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#min">min</a> value label.
@@ -484,8 +395,8 @@ public partial class SliderWidget
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public ElementReference? MinLabelElement { get; protected set; }
-
+    public HTMLElement? MinLabelElement { get; protected set; }
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetsegmentelements-property">GeoBlazor Docs</a>
     ///     The HTML Element nodes representing interactive slider segments.
@@ -494,8 +405,8 @@ public partial class SliderWidget
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public IReadOnlyList<ElementReference>? SegmentElements { get; protected set; }
-
+    public IReadOnlyList<HTMLElement>? SegmentElements { get; protected set; }
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetstate-property">GeoBlazor Docs</a>
     ///     The current state of the widget.
@@ -505,7 +416,7 @@ public partial class SliderWidget
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public SliderState? State { get; protected set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetthumbcreatedfunction-property">GeoBlazor Docs</a>
     ///     Function that executes each time a thumb is created on the slider.
@@ -515,7 +426,7 @@ public partial class SliderWidget
     [Parameter]
     [JsonIgnore]
     public ThumbCreatedFunction? ThumbCreatedFunction { get; set; }
-
+    
     /// <summary>
     ///    JS-invokable method that triggers the <see cref="ThumbCreatedFunction"/> function.
     ///     Should not be called by consuming code.
@@ -523,15 +434,15 @@ public partial class SliderWidget
     [JSInvokable]
     public async Task OnJsThumbCreatedFunction(int index,
         double value,
-        ElementReference thumbElement,
-        ElementReference labelElement)
+        HTMLElement thumbElement,
+        HTMLElement labelElement)
     {
         if (IsDisposed)
         {
             // cancel if the component is disposed
             return;
         }
-
+        
         if (ThumbCreatedFunction is not null)
         {
             await ThumbCreatedFunction.Invoke(index,
@@ -540,12 +451,12 @@ public partial class SliderWidget
                 labelElement);
         }
     }
-
+    
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="ThumbCreatedFunction" /> function was registered.
     /// </summary>
     public bool HasThumbCreatedFunction => ThumbCreatedFunction is not null;
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetthumbelements-property">GeoBlazor Docs</a>
     ///     The HTML Element nodes representing slider thumbs.
@@ -554,8 +465,8 @@ public partial class SliderWidget
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public IReadOnlyList<ElementReference>? ThumbElements { get; protected set; }
-
+    public IReadOnlyList<HTMLElement>? ThumbElements { get; protected set; }
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgettickconfigs-property">GeoBlazor Docs</a>
     ///     When set, renders ticks along the slider track.
@@ -565,7 +476,7 @@ public partial class SliderWidget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<TickConfig>? TickConfigs { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgettickelements-property">GeoBlazor Docs</a>
     ///     The HTML Element nodes representing slider ticks and their associated labels.
@@ -575,7 +486,7 @@ public partial class SliderWidget
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public IReadOnlyList<IReadOnlyList<TickElementGroup>>? TickElements { get; protected set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgettrackelement-property">GeoBlazor Docs</a>
     ///     The HTML Element node representing the slider track.
@@ -584,8 +495,8 @@ public partial class SliderWidget
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public ElementReference? TrackElement { get; protected set; }
-
+    public HTMLElement? TrackElement { get; protected set; }
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetviewmodel-property">GeoBlazor Docs</a>
     ///     The view model for the Slider widget.
@@ -595,7 +506,7 @@ public partial class SliderWidget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public SliderViewModel? ViewModel { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetvisibleelements-property">GeoBlazor Docs</a>
     ///     The visible elements that are displayed within the widget.
@@ -605,9 +516,8 @@ public partial class SliderWidget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public SliderVisibleElements? VisibleElements { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -620,8 +530,8 @@ public partial class SliderWidget
         {
             return Disabled;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -630,28 +540,26 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Disabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "disabled");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            Disabled = result.Value.Value;
+             Disabled = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Disabled)] = Disabled;
+             ModifiedParameters[nameof(Disabled)] = Disabled;
         }
-
+         
         return Disabled;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DoubleCollectionSteps property.
     /// </summary>
@@ -661,8 +569,8 @@ public partial class SliderWidget
         {
             return DoubleCollectionSteps;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -671,27 +579,27 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return DoubleCollectionSteps;
         }
 
         // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
+            IsServer, "GetProperty", nameof(SliderWidget, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "steps");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            DoubleCollectionSteps = result;
+             DoubleCollectionSteps = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(DoubleCollectionSteps)] = DoubleCollectionSteps;
+             ModifiedParameters[nameof(DoubleCollectionSteps)] = DoubleCollectionSteps;
         }
-
+         
         return DoubleCollectionSteps;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DoubleSteps property.
     /// </summary>
@@ -701,8 +609,8 @@ public partial class SliderWidget
         {
             return DoubleSteps;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -711,28 +619,26 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return DoubleSteps;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "doubleSteps");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            DoubleSteps = result.Value.Value;
+             DoubleSteps = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(DoubleSteps)] = DoubleSteps;
+             ModifiedParameters[nameof(DoubleSteps)] = DoubleSteps;
         }
-
+         
         return DoubleSteps;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DraggableSegmentsEnabled property.
     /// </summary>
@@ -742,8 +648,8 @@ public partial class SliderWidget
         {
             return DraggableSegmentsEnabled;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -752,28 +658,26 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return DraggableSegmentsEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "draggableSegmentsEnabled");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            DraggableSegmentsEnabled = result.Value.Value;
+             DraggableSegmentsEnabled = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(DraggableSegmentsEnabled)] = DraggableSegmentsEnabled;
+             ModifiedParameters[nameof(DraggableSegmentsEnabled)] = DraggableSegmentsEnabled;
         }
-
+         
         return DraggableSegmentsEnabled;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the EffectiveMax property.
     /// </summary>
@@ -783,8 +687,8 @@ public partial class SliderWidget
         {
             return EffectiveMax;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -793,28 +697,26 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return EffectiveMax;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "effectiveMax");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            EffectiveMax = result.Value.Value;
+             EffectiveMax = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(EffectiveMax)] = EffectiveMax;
+             ModifiedParameters[nameof(EffectiveMax)] = EffectiveMax;
         }
-
+         
         return EffectiveMax;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the EffectiveMin property.
     /// </summary>
@@ -824,8 +726,8 @@ public partial class SliderWidget
         {
             return EffectiveMin;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -834,39 +736,37 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return EffectiveMin;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "effectiveMin");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            EffectiveMin = result.Value.Value;
+             EffectiveMin = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(EffectiveMin)] = EffectiveMin;
+             ModifiedParameters[nameof(EffectiveMin)] = EffectiveMin;
         }
-
+         
         return EffectiveMin;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the EffectiveSegmentElements property.
     /// </summary>
-    public async Task<IReadOnlyList<ElementReference>?> GetEffectiveSegmentElements()
+    public async Task<IReadOnlyList<HTMLElement>?> GetEffectiveSegmentElements()
     {
         if (CoreJsModule is null)
         {
             return EffectiveSegmentElements;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -875,39 +775,38 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return EffectiveSegmentElements;
         }
 
         // get the property value
-        IReadOnlyList<ElementReference>? result =
-            await JsComponentReference!.InvokeAsync<IReadOnlyList<ElementReference>?>("getProperty",
-                CancellationTokenSource.Token, "effectiveSegmentElements");
-
+        IReadOnlyList<HTMLElement>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<HTMLElement>?>(
+            IsServer, "GetProperty", nameof(SliderWidget, View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "effectiveSegmentElements");
         if (result is not null)
         {
 #pragma warning disable BL0005
-            EffectiveSegmentElements = result;
+             EffectiveSegmentElements = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(EffectiveSegmentElements)] = EffectiveSegmentElements;
+             ModifiedParameters[nameof(EffectiveSegmentElements)] = EffectiveSegmentElements;
         }
-
+         
         return EffectiveSegmentElements;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelElements property.
     /// </summary>
-    public async Task<IReadOnlyList<ElementReference>?> GetLabelElements()
+    public async Task<IReadOnlyList<HTMLElement>?> GetLabelElements()
     {
         if (CoreJsModule is null)
         {
             return LabelElements;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -916,28 +815,27 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return LabelElements;
         }
 
         // get the property value
-        IReadOnlyList<ElementReference>? result =
-            await JsComponentReference!.InvokeAsync<IReadOnlyList<ElementReference>?>("getProperty",
-                CancellationTokenSource.Token, "labelElements");
-
+        IReadOnlyList<HTMLElement>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<HTMLElement>?>(
+            IsServer, "GetProperty", nameof(SliderWidget, View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "labelElements");
         if (result is not null)
         {
 #pragma warning disable BL0005
-            LabelElements = result;
+             LabelElements = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(LabelElements)] = LabelElements;
+             ModifiedParameters[nameof(LabelElements)] = LabelElements;
         }
-
+         
         return LabelElements;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelInputsEnabled property.
     /// </summary>
@@ -947,8 +845,8 @@ public partial class SliderWidget
         {
             return LabelInputsEnabled;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -957,28 +855,26 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return LabelInputsEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "labelInputsEnabled");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            LabelInputsEnabled = result.Value.Value;
+             LabelInputsEnabled = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(LabelInputsEnabled)] = LabelInputsEnabled;
+             ModifiedParameters[nameof(LabelInputsEnabled)] = LabelInputsEnabled;
         }
-
+         
         return LabelInputsEnabled;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Labels property.
     /// </summary>
@@ -988,8 +884,8 @@ public partial class SliderWidget
         {
             return Labels;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -998,27 +894,27 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Labels;
         }
 
         // get the property value
-        LabelInfos? result = await JsComponentReference!.InvokeAsync<LabelInfos?>("getProperty",
+        LabelInfos? result = await JsComponentReference!.InvokeJsMethod<LabelInfos?>(
+            IsServer, "GetProperty", nameof(SliderWidget, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "labels");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Labels = result;
+             Labels = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Labels)] = Labels;
+             ModifiedParameters[nameof(Labels)] = Labels;
         }
-
+         
         return Labels;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Layout property.
     /// </summary>
@@ -1028,8 +924,8 @@ public partial class SliderWidget
         {
             return Layout;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1038,28 +934,26 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Layout;
         }
 
         // get the property value
-        JsNullableEnumWrapper<SliderLayout>? result =
-            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SliderLayout>?>("getNullableValueTypedProperty",
-                CancellationTokenSource.Token, JsComponentReference, "layout");
-
+        JsNullableEnumWrapper<SliderLayout>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SliderLayout>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "layout");
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            Layout = (SliderLayout)result.Value.Value!;
+             Layout = (SliderLayout)result.Value.Value!;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Layout)] = Layout;
+             ModifiedParameters[nameof(Layout)] = Layout;
         }
-
+         
         return Layout;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Max property.
     /// </summary>
@@ -1069,8 +963,8 @@ public partial class SliderWidget
         {
             return Max;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1079,39 +973,37 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Max;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "max");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            Max = result.Value.Value;
+             Max = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Max)] = Max;
+             ModifiedParameters[nameof(Max)] = Max;
         }
-
+         
         return Max;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxLabelElement property.
     /// </summary>
-    public async Task<ElementReference?> GetMaxLabelElement()
+    public async Task<HTMLElement?> GetMaxLabelElement()
     {
         if (CoreJsModule is null)
         {
             return MaxLabelElement;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1120,28 +1012,27 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return MaxLabelElement;
         }
 
         // get the property value
-        JsNullableElementReferenceWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableElementReferenceWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "maxLabelElement");
-
-        if (result is { Value: not null })
+        HTMLElement? result = await JsComponentReference!.InvokeJsMethod<HTMLElement?>(
+            IsServer, "GetProperty", nameof(SliderWidget, View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "maxLabelElement");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            MaxLabelElement = result.Value.Value;
+             MaxLabelElement = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(MaxLabelElement)] = MaxLabelElement;
+             ModifiedParameters[nameof(MaxLabelElement)] = MaxLabelElement;
         }
-
+         
         return MaxLabelElement;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Min property.
     /// </summary>
@@ -1151,8 +1042,8 @@ public partial class SliderWidget
         {
             return Min;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1161,39 +1052,37 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Min;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "min");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            Min = result.Value.Value;
+             Min = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Min)] = Min;
+             ModifiedParameters[nameof(Min)] = Min;
         }
-
+         
         return Min;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinLabelElement property.
     /// </summary>
-    public async Task<ElementReference?> GetMinLabelElement()
+    public async Task<HTMLElement?> GetMinLabelElement()
     {
         if (CoreJsModule is null)
         {
             return MinLabelElement;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1202,28 +1091,27 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return MinLabelElement;
         }
 
         // get the property value
-        JsNullableElementReferenceWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableElementReferenceWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "minLabelElement");
-
-        if (result is { Value: not null })
+        HTMLElement? result = await JsComponentReference!.InvokeJsMethod<HTMLElement?>(
+            IsServer, "GetProperty", nameof(SliderWidget, View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "minLabelElement");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            MinLabelElement = result.Value.Value;
+             MinLabelElement = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(MinLabelElement)] = MinLabelElement;
+             ModifiedParameters[nameof(MinLabelElement)] = MinLabelElement;
         }
-
+         
         return MinLabelElement;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Precision property.
     /// </summary>
@@ -1233,8 +1121,8 @@ public partial class SliderWidget
         {
             return Precision;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1243,28 +1131,26 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Precision;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "precision");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            Precision = result.Value.Value;
+             Precision = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Precision)] = Precision;
+             ModifiedParameters[nameof(Precision)] = Precision;
         }
-
+         
         return Precision;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the RangeLabelInputsEnabled property.
     /// </summary>
@@ -1274,8 +1160,8 @@ public partial class SliderWidget
         {
             return RangeLabelInputsEnabled;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1284,39 +1170,37 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return RangeLabelInputsEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "rangeLabelInputsEnabled");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            RangeLabelInputsEnabled = result.Value.Value;
+             RangeLabelInputsEnabled = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(RangeLabelInputsEnabled)] = RangeLabelInputsEnabled;
+             ModifiedParameters[nameof(RangeLabelInputsEnabled)] = RangeLabelInputsEnabled;
         }
-
+         
         return RangeLabelInputsEnabled;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SegmentElements property.
     /// </summary>
-    public async Task<IReadOnlyList<ElementReference>?> GetSegmentElements()
+    public async Task<IReadOnlyList<HTMLElement>?> GetSegmentElements()
     {
         if (CoreJsModule is null)
         {
             return SegmentElements;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1325,28 +1209,27 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SegmentElements;
         }
 
         // get the property value
-        IReadOnlyList<ElementReference>? result =
-            await JsComponentReference!.InvokeAsync<IReadOnlyList<ElementReference>?>("getProperty",
-                CancellationTokenSource.Token, "segmentElements");
-
+        IReadOnlyList<HTMLElement>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<HTMLElement>?>(
+            IsServer, "GetProperty", nameof(SliderWidget, View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "segmentElements");
         if (result is not null)
         {
 #pragma warning disable BL0005
-            SegmentElements = result;
+             SegmentElements = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SegmentElements)] = SegmentElements;
+             ModifiedParameters[nameof(SegmentElements)] = SegmentElements;
         }
-
+         
         return SegmentElements;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SnapOnClickEnabled property.
     /// </summary>
@@ -1356,8 +1239,8 @@ public partial class SliderWidget
         {
             return SnapOnClickEnabled;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1366,28 +1249,26 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SnapOnClickEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "snapOnClickEnabled");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            SnapOnClickEnabled = result.Value.Value;
+             SnapOnClickEnabled = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SnapOnClickEnabled)] = SnapOnClickEnabled;
+             ModifiedParameters[nameof(SnapOnClickEnabled)] = SnapOnClickEnabled;
         }
-
+         
         return SnapOnClickEnabled;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -1397,8 +1278,8 @@ public partial class SliderWidget
         {
             return State;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1407,28 +1288,26 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return State;
         }
 
         // get the property value
-        JsNullableEnumWrapper<SliderState>? result =
-            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SliderState>?>("getNullableValueTypedProperty",
-                CancellationTokenSource.Token, JsComponentReference, "state");
-
+        JsNullableEnumWrapper<SliderState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SliderState>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "state");
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            State = (SliderState)result.Value.Value!;
+             State = (SliderState)result.Value.Value!;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(State)] = State;
+             ModifiedParameters[nameof(State)] = State;
         }
-
+         
         return State;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SyncedSegmentsEnabled property.
     /// </summary>
@@ -1438,8 +1317,8 @@ public partial class SliderWidget
         {
             return SyncedSegmentsEnabled;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1448,39 +1327,37 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SyncedSegmentsEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "syncedSegmentsEnabled");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            SyncedSegmentsEnabled = result.Value.Value;
+             SyncedSegmentsEnabled = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SyncedSegmentsEnabled)] = SyncedSegmentsEnabled;
+             ModifiedParameters[nameof(SyncedSegmentsEnabled)] = SyncedSegmentsEnabled;
         }
-
+         
         return SyncedSegmentsEnabled;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ThumbElements property.
     /// </summary>
-    public async Task<IReadOnlyList<ElementReference>?> GetThumbElements()
+    public async Task<IReadOnlyList<HTMLElement>?> GetThumbElements()
     {
         if (CoreJsModule is null)
         {
             return ThumbElements;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1489,28 +1366,27 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ThumbElements;
         }
 
         // get the property value
-        IReadOnlyList<ElementReference>? result =
-            await JsComponentReference!.InvokeAsync<IReadOnlyList<ElementReference>?>("getProperty",
-                CancellationTokenSource.Token, "thumbElements");
-
+        IReadOnlyList<HTMLElement>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<HTMLElement>?>(
+            IsServer, "GetProperty", nameof(SliderWidget, View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "thumbElements");
         if (result is not null)
         {
 #pragma warning disable BL0005
-            ThumbElements = result;
+             ThumbElements = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ThumbElements)] = ThumbElements;
+             ModifiedParameters[nameof(ThumbElements)] = ThumbElements;
         }
-
+         
         return ThumbElements;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ThumbsConstrained property.
     /// </summary>
@@ -1520,8 +1396,8 @@ public partial class SliderWidget
         {
             return ThumbsConstrained;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1530,28 +1406,26 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ThumbsConstrained;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "thumbsConstrained");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            ThumbsConstrained = result.Value.Value;
+             ThumbsConstrained = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ThumbsConstrained)] = ThumbsConstrained;
+             ModifiedParameters[nameof(ThumbsConstrained)] = ThumbsConstrained;
         }
-
+         
         return ThumbsConstrained;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the TickConfigs property.
     /// </summary>
@@ -1561,8 +1435,8 @@ public partial class SliderWidget
         {
             return TickConfigs;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1571,27 +1445,31 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return TickConfigs;
         }
 
-        IReadOnlyList<TickConfig>? result =
-            await JsComponentReference.InvokeAsync<IReadOnlyList<TickConfig>?>("getTickConfigs",
-                CancellationTokenSource.Token);
-
+        IReadOnlyList<TickConfig>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<TickConfig>?>(
+            IsServer, nameof(GetTickConfigs), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            foreach (TickConfig item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             TickConfigs = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(TickConfigs)] = TickConfigs;
         }
-
+        
         return TickConfigs;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the TickElements property.
     /// </summary>
@@ -1601,8 +1479,8 @@ public partial class SliderWidget
         {
             return TickElements;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1611,39 +1489,38 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return TickElements;
         }
 
         // get the property value
-        IReadOnlyList<IReadOnlyList<TickElementGroup>>? result =
-            await JsComponentReference!.InvokeAsync<IReadOnlyList<IReadOnlyList<TickElementGroup>>?>("getProperty",
-                CancellationTokenSource.Token, "tickElements");
-
+        IReadOnlyList<IReadOnlyList<TickElementGroup>>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<IReadOnlyList<TickElementGroup>>?>(
+            IsServer, "GetProperty", nameof(SliderWidget, View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "tickElements");
         if (result is not null)
         {
 #pragma warning disable BL0005
-            TickElements = result;
+             TickElements = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(TickElements)] = TickElements;
+             ModifiedParameters[nameof(TickElements)] = TickElements;
         }
-
+         
         return TickElements;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the TrackElement property.
     /// </summary>
-    public async Task<ElementReference?> GetTrackElement()
+    public async Task<HTMLElement?> GetTrackElement()
     {
         if (CoreJsModule is null)
         {
             return TrackElement;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1652,28 +1529,27 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return TrackElement;
         }
 
         // get the property value
-        JsNullableElementReferenceWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableElementReferenceWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "trackElement");
-
-        if (result is { Value: not null })
+        HTMLElement? result = await JsComponentReference!.InvokeJsMethod<HTMLElement?>(
+            IsServer, "GetProperty", nameof(SliderWidget, View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "trackElement");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            TrackElement = result.Value.Value;
+             TrackElement = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(TrackElement)] = TrackElement;
+             ModifiedParameters[nameof(TrackElement)] = TrackElement;
         }
-
+         
         return TrackElement;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Values property.
     /// </summary>
@@ -1683,8 +1559,8 @@ public partial class SliderWidget
         {
             return Values;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1693,27 +1569,27 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Values;
         }
 
         // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
+            IsServer, "GetProperty", nameof(SliderWidget, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "values");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Values = result;
+             Values = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Values)] = Values;
+             ModifiedParameters[nameof(Values)] = Values;
         }
-
+         
         return Values;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -1723,8 +1599,8 @@ public partial class SliderWidget
         {
             return ViewModel;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1733,33 +1609,33 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ViewModel;
         }
 
-        SliderViewModel? result =
-            await JsComponentReference.InvokeAsync<SliderViewModel?>("getViewModel", CancellationTokenSource.Token);
-
+        SliderViewModel? result = await JsComponentReference.InvokeJsMethod<SliderViewModel?>(
+            IsServer, nameof(GetViewModel), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
             if (ViewModel is not null)
             {
                 result.Id = ViewModel.Id;
             }
-
             result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-
+            
 #pragma warning disable BL0005
             ViewModel = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ViewModel)] = ViewModel;
         }
-
+        
         return ViewModel;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibleElements property.
     /// </summary>
@@ -1769,8 +1645,8 @@ public partial class SliderWidget
         {
             return VisibleElements;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1779,28 +1655,34 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return VisibleElements;
         }
 
-        SliderVisibleElements? result = await JsComponentReference.InvokeAsync<SliderVisibleElements?>(
-            "getVisibleElements", CancellationTokenSource.Token);
-
+        SliderVisibleElements? result = await JsComponentReference.InvokeJsMethod<SliderVisibleElements?>(
+            IsServer, nameof(GetVisibleElements), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (VisibleElements is not null)
+            {
+                result.Id = VisibleElements.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             VisibleElements = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
         }
-
+        
         return VisibleElements;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -1816,13 +1698,13 @@ public partial class SliderWidget
         Disabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Disabled)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1831,16 +1713,16 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "disabled", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DoubleCollectionSteps property after render.
     /// </summary>
@@ -1853,13 +1735,13 @@ public partial class SliderWidget
         DoubleCollectionSteps = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(DoubleCollectionSteps)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1868,16 +1750,16 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "steps", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DoubleSteps property after render.
     /// </summary>
@@ -1890,13 +1772,13 @@ public partial class SliderWidget
         DoubleSteps = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(DoubleSteps)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1905,16 +1787,16 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "steps", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DraggableSegmentsEnabled property after render.
     /// </summary>
@@ -1927,13 +1809,13 @@ public partial class SliderWidget
         DraggableSegmentsEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(DraggableSegmentsEnabled)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1942,16 +1824,16 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "draggableSegmentsEnabled", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the EffectiveMax property after render.
     /// </summary>
@@ -1964,13 +1846,13 @@ public partial class SliderWidget
         EffectiveMax = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(EffectiveMax)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1979,16 +1861,16 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "effectiveMax", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the EffectiveMin property after render.
     /// </summary>
@@ -2001,13 +1883,13 @@ public partial class SliderWidget
         EffectiveMin = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(EffectiveMin)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2016,16 +1898,16 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "effectiveMin", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LabelInputsEnabled property after render.
     /// </summary>
@@ -2038,13 +1920,13 @@ public partial class SliderWidget
         LabelInputsEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LabelInputsEnabled)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2053,16 +1935,16 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelInputsEnabled", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Layout property after render.
     /// </summary>
@@ -2075,13 +1957,13 @@ public partial class SliderWidget
         Layout = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Layout)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2090,16 +1972,16 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layout", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Max property after render.
     /// </summary>
@@ -2112,13 +1994,13 @@ public partial class SliderWidget
         Max = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Max)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2127,16 +2009,16 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "max", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Min property after render.
     /// </summary>
@@ -2149,13 +2031,13 @@ public partial class SliderWidget
         Min = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Min)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2164,16 +2046,16 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "min", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Precision property after render.
     /// </summary>
@@ -2186,13 +2068,13 @@ public partial class SliderWidget
         Precision = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Precision)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2201,16 +2083,16 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "precision", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the RangeLabelInputsEnabled property after render.
     /// </summary>
@@ -2223,13 +2105,13 @@ public partial class SliderWidget
         RangeLabelInputsEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(RangeLabelInputsEnabled)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2238,16 +2120,16 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rangeLabelInputsEnabled", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SnapOnClickEnabled property after render.
     /// </summary>
@@ -2260,13 +2142,13 @@ public partial class SliderWidget
         SnapOnClickEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SnapOnClickEnabled)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2275,16 +2157,16 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "snapOnClickEnabled", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SyncedSegmentsEnabled property after render.
     /// </summary>
@@ -2297,13 +2179,13 @@ public partial class SliderWidget
         SyncedSegmentsEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SyncedSegmentsEnabled)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2312,16 +2194,16 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "syncedSegmentsEnabled", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ThumbsConstrained property after render.
     /// </summary>
@@ -2334,13 +2216,13 @@ public partial class SliderWidget
         ThumbsConstrained = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ThumbsConstrained)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2349,16 +2231,16 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "thumbsConstrained", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the TickConfigs property after render.
     /// </summary>
@@ -2367,6 +2249,15 @@ public partial class SliderWidget
     /// </param>
     public async Task SetTickConfigs(IReadOnlyList<TickConfig>? value)
     {
+#pragma warning disable BL0005
+        TickConfigs = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(TickConfigs)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
         if (value is not null)
         {
             foreach (TickConfig item in value)
@@ -2374,18 +2265,9 @@ public partial class SliderWidget
                 item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-
-#pragma warning disable BL0005
-        TickConfigs = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(TickConfigs)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2394,16 +2276,17 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setTickConfigs",
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetTickConfigs), nameof(SliderWidget), 
             CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Values property after render.
     /// </summary>
@@ -2416,13 +2299,13 @@ public partial class SliderWidget
         Values = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Values)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2431,16 +2314,16 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "values", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -2449,22 +2332,22 @@ public partial class SliderWidget
     /// </param>
     public async Task SetViewModel(SliderViewModel? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ViewModel)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2473,16 +2356,17 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setViewModel",
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetViewModel), nameof(SliderWidget), 
             CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the VisibleElements property after render.
     /// </summary>
@@ -2491,22 +2375,22 @@ public partial class SliderWidget
     /// </param>
     public async Task SetVisibleElements(SliderVisibleElements? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         VisibleElements = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(VisibleElements)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2515,18 +2399,18 @@ public partial class SliderWidget
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setVisibleElements",
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetVisibleElements), nameof(SliderWidget), 
             CancellationTokenSource.Token, value);
     }
-
+    
 #endregion
-
 
 #region Add to Collection Methods
 
@@ -2543,7 +2427,7 @@ public partial class SliderWidget
             : [..TickConfigs, ..values];
         await SetTickConfigs(join);
     }
-
+    
     /// <summary>
     ///     Asynchronously adds elements to the Values property.
     /// </summary>
@@ -2557,12 +2441,12 @@ public partial class SliderWidget
             : [..Values, ..values];
         await SetValues(join);
     }
-
+    
 #endregion
-
 
 #region Remove From Collection Methods
 
+    
     /// <summary>
     ///     Asynchronously remove an element from the TickConfigs property.
     /// </summary>
@@ -2575,10 +2459,10 @@ public partial class SliderWidget
         {
             return;
         }
-
         await SetTickConfigs(TickConfigs.Except(values).ToArray());
     }
-
+    
+    
     /// <summary>
     ///     Asynchronously remove an element from the Values property.
     /// </summary>
@@ -2591,12 +2475,10 @@ public partial class SliderWidget
         {
             return;
         }
-
         await SetValues(Values.Except(values).ToArray());
     }
-
+    
 #endregion
-
 
 #region Event Handlers
 
@@ -2611,15 +2493,14 @@ public partial class SliderWidget
             // cancel if the component is disposed
             return;
         }
-
+    
         SliderMaxChangeEvent? maxChangeEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderMaxChangeEvent>();
-
         if (maxChangeEvent is not null)
         {
             await OnMaxChange.InvokeAsync(maxChangeEvent);
         }
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetonmaxchange-property">GeoBlazor Docs</a>
     ///     Event Listener for MaxChange.
@@ -2627,12 +2508,12 @@ public partial class SliderWidget
     [Parameter]
     [JsonIgnore]
     public EventCallback<SliderMaxChangeEvent> OnMaxChange { get; set; }
-
+   
     /// <summary>
     ///     Used in JavaScript layer to determine if the event listener is registered.
     /// </summary>
     public bool HasMaxChangeListener => OnMaxChange.HasDelegate;
-
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2644,15 +2525,14 @@ public partial class SliderWidget
             // cancel if the component is disposed
             return;
         }
-
+    
         SliderMaxClickEvent? maxClickEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderMaxClickEvent>();
-
         if (maxClickEvent is not null)
         {
             await OnMaxClick.InvokeAsync(maxClickEvent);
         }
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetonmaxclick-property">GeoBlazor Docs</a>
     ///     Event Listener for MaxClick.
@@ -2660,12 +2540,12 @@ public partial class SliderWidget
     [Parameter]
     [JsonIgnore]
     public EventCallback<SliderMaxClickEvent> OnMaxClick { get; set; }
-
+   
     /// <summary>
     ///     Used in JavaScript layer to determine if the event listener is registered.
     /// </summary>
     public bool HasMaxClickListener => OnMaxClick.HasDelegate;
-
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2677,15 +2557,14 @@ public partial class SliderWidget
             // cancel if the component is disposed
             return;
         }
-
+    
         SliderMinChangeEvent? minChangeEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderMinChangeEvent>();
-
         if (minChangeEvent is not null)
         {
             await OnMinChange.InvokeAsync(minChangeEvent);
         }
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetonminchange-property">GeoBlazor Docs</a>
     ///     Event Listener for MinChange.
@@ -2693,12 +2572,12 @@ public partial class SliderWidget
     [Parameter]
     [JsonIgnore]
     public EventCallback<SliderMinChangeEvent> OnMinChange { get; set; }
-
+   
     /// <summary>
     ///     Used in JavaScript layer to determine if the event listener is registered.
     /// </summary>
     public bool HasMinChangeListener => OnMinChange.HasDelegate;
-
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2710,15 +2589,14 @@ public partial class SliderWidget
             // cancel if the component is disposed
             return;
         }
-
+    
         SliderMinClickEvent? minClickEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderMinClickEvent>();
-
         if (minClickEvent is not null)
         {
             await OnMinClick.InvokeAsync(minClickEvent);
         }
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetonminclick-property">GeoBlazor Docs</a>
     ///     Event Listener for MinClick.
@@ -2726,12 +2604,12 @@ public partial class SliderWidget
     [Parameter]
     [JsonIgnore]
     public EventCallback<SliderMinClickEvent> OnMinClick { get; set; }
-
+   
     /// <summary>
     ///     Used in JavaScript layer to determine if the event listener is registered.
     /// </summary>
     public bool HasMinClickListener => OnMinClick.HasDelegate;
-
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2743,16 +2621,14 @@ public partial class SliderWidget
             // cancel if the component is disposed
             return;
         }
-
-        SliderSegmentClickEvent? segmentClickEvent =
-            await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderSegmentClickEvent>();
-
+    
+        SliderSegmentClickEvent? segmentClickEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderSegmentClickEvent>();
         if (segmentClickEvent is not null)
         {
             await OnSegmentClick.InvokeAsync(segmentClickEvent);
         }
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetonsegmentclick-property">GeoBlazor Docs</a>
     ///     Event Listener for SegmentClick.
@@ -2760,12 +2636,12 @@ public partial class SliderWidget
     [Parameter]
     [JsonIgnore]
     public EventCallback<SliderSegmentClickEvent> OnSegmentClick { get; set; }
-
+   
     /// <summary>
     ///     Used in JavaScript layer to determine if the event listener is registered.
     /// </summary>
     public bool HasSegmentClickListener => OnSegmentClick.HasDelegate;
-
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2777,16 +2653,14 @@ public partial class SliderWidget
             // cancel if the component is disposed
             return;
         }
-
-        SliderSegmentDragEvent? segmentDragEvent =
-            await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderSegmentDragEvent>();
-
+    
+        SliderSegmentDragEvent? segmentDragEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderSegmentDragEvent>();
         if (segmentDragEvent is not null)
         {
             await OnSegmentDrag.InvokeAsync(segmentDragEvent);
         }
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetonsegmentdrag-property">GeoBlazor Docs</a>
     ///     Event Listener for SegmentDrag.
@@ -2794,12 +2668,12 @@ public partial class SliderWidget
     [Parameter]
     [JsonIgnore]
     public EventCallback<SliderSegmentDragEvent> OnSegmentDrag { get; set; }
-
+   
     /// <summary>
     ///     Used in JavaScript layer to determine if the event listener is registered.
     /// </summary>
     public bool HasSegmentDragListener => OnSegmentDrag.HasDelegate;
-
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2811,16 +2685,14 @@ public partial class SliderWidget
             // cancel if the component is disposed
             return;
         }
-
-        SliderThumbChangeEvent? thumbChangeEvent =
-            await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderThumbChangeEvent>();
-
+    
+        SliderThumbChangeEvent? thumbChangeEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderThumbChangeEvent>();
         if (thumbChangeEvent is not null)
         {
             await OnThumbChange.InvokeAsync(thumbChangeEvent);
         }
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetonthumbchange-property">GeoBlazor Docs</a>
     ///     Event Listener for ThumbChange.
@@ -2828,12 +2700,12 @@ public partial class SliderWidget
     [Parameter]
     [JsonIgnore]
     public EventCallback<SliderThumbChangeEvent> OnThumbChange { get; set; }
-
+   
     /// <summary>
     ///     Used in JavaScript layer to determine if the event listener is registered.
     /// </summary>
     public bool HasThumbChangeListener => OnThumbChange.HasDelegate;
-
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2845,15 +2717,14 @@ public partial class SliderWidget
             // cancel if the component is disposed
             return;
         }
-
+    
         SliderThumbClickEvent? thumbClickEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderThumbClickEvent>();
-
         if (thumbClickEvent is not null)
         {
             await OnThumbClick.InvokeAsync(thumbClickEvent);
         }
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetonthumbclick-property">GeoBlazor Docs</a>
     ///     Event Listener for ThumbClick.
@@ -2861,12 +2732,12 @@ public partial class SliderWidget
     [Parameter]
     [JsonIgnore]
     public EventCallback<SliderThumbClickEvent> OnThumbClick { get; set; }
-
+   
     /// <summary>
     ///     Used in JavaScript layer to determine if the event listener is registered.
     /// </summary>
     public bool HasThumbClickListener => OnThumbClick.HasDelegate;
-
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2878,15 +2749,14 @@ public partial class SliderWidget
             // cancel if the component is disposed
             return;
         }
-
+    
         SliderThumbDragEvent? thumbDragEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderThumbDragEvent>();
-
         if (thumbDragEvent is not null)
         {
             await OnThumbDrag.InvokeAsync(thumbDragEvent);
         }
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetonthumbdrag-property">GeoBlazor Docs</a>
     ///     Event Listener for ThumbDrag.
@@ -2894,12 +2764,12 @@ public partial class SliderWidget
     [Parameter]
     [JsonIgnore]
     public EventCallback<SliderThumbDragEvent> OnThumbDrag { get; set; }
-
+   
     /// <summary>
     ///     Used in JavaScript layer to determine if the event listener is registered.
     /// </summary>
     public bool HasThumbDragListener => OnThumbDrag.HasDelegate;
-
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2911,15 +2781,14 @@ public partial class SliderWidget
             // cancel if the component is disposed
             return;
         }
-
+    
         SliderTickClickEvent? tickClickEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderTickClickEvent>();
-
         if (tickClickEvent is not null)
         {
             await OnTickClick.InvokeAsync(tickClickEvent);
         }
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetontickclick-property">GeoBlazor Docs</a>
     ///     Event Listener for TickClick.
@@ -2927,12 +2796,12 @@ public partial class SliderWidget
     [Parameter]
     [JsonIgnore]
     public EventCallback<SliderTickClickEvent> OnTickClick { get; set; }
-
+   
     /// <summary>
     ///     Used in JavaScript layer to determine if the event listener is registered.
     /// </summary>
     public bool HasTickClickListener => OnTickClick.HasDelegate;
-
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2944,15 +2813,14 @@ public partial class SliderWidget
             // cancel if the component is disposed
             return;
         }
-
+    
         SliderTrackClickEvent? trackClickEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderTrackClickEvent>();
-
         if (trackClickEvent is not null)
         {
             await OnTrackClick.InvokeAsync(trackClickEvent);
         }
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetontrackclick-property">GeoBlazor Docs</a>
     ///     Event Listener for TrackClick.
@@ -2960,11 +2828,98 @@ public partial class SliderWidget
     [Parameter]
     [JsonIgnore]
     public EventCallback<SliderTrackClickEvent> OnTrackClick { get; set; }
-
+   
     /// <summary>
     ///     Used in JavaScript layer to determine if the event listener is registered.
     /// </summary>
     public bool HasTrackClickListener => OnTrackClick.HasDelegate;
-
+    
 #endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case TickConfig tickConfigs:
+                TickConfigs ??= [];
+                if (!TickConfigs.Contains(tickConfigs))
+                {
+                    TickConfigs = [..TickConfigs, tickConfigs];
+                    ModifiedParameters[nameof(TickConfigs)] = TickConfigs;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
+                }
+                
+                return true;
+            case SliderViewModel viewModel:
+                if (viewModel != ViewModel)
+                {
+                    ViewModel = viewModel;
+                    ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
+                }
+                
+                return true;
+            case SliderVisibleElements visibleElements:
+                if (visibleElements != VisibleElements)
+                {
+                    VisibleElements = visibleElements;
+                    ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case TickConfig tickConfigs:
+                TickConfigs = TickConfigs?.Where(t => t != tickConfigs).ToList();
+                ModifiedParameters[nameof(TickConfigs)] = TickConfigs;
+                return true;
+            case SliderViewModel _:
+                ViewModel = null;
+                ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                return true;
+            case SliderVisibleElements _:
+                VisibleElements = null;
+                ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        if (TickConfigs is not null)
+        {
+            foreach (TickConfig child in TickConfigs)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+        ViewModel?.ValidateRequiredGeneratedChildren();
+        VisibleElements?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

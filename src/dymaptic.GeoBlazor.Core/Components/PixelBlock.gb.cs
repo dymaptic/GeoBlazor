@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html">GeoBlazor Docs</a>
 ///     An object representing the pixel arrays in the view.
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class PixelBlock : MapComponent
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -53,7 +55,8 @@ public partial class PixelBlock : MapComponent
     ///     The width (or number of columns) of the PixelBlock in pixels.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#width">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public PixelBlock(int? height = null,
+    public PixelBlock(
+        int? height = null,
         Stream? mask = null,
         bool? maskIsAlpha = null,
         Stream? pixels = null,
@@ -72,9 +75,726 @@ public partial class PixelBlock : MapComponent
         Statistics = statistics;
         ValidPixelCount = validPixelCount;
         Width = width;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
+    
+    
+#region Public Properties / Blazor Parameters
 
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockheight-property">GeoBlazor Docs</a>
+    ///     The height (or number of rows) of the PixelBlock in pixels.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#height">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public int? Height { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockmask-property">GeoBlazor Docs</a>
+    ///     An array of nodata mask.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#mask">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Stream? Mask { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockmaskisalpha-property">GeoBlazor Docs</a>
+    ///     Indicates whether mask should be used as alpha values.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#maskIsAlpha">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? MaskIsAlpha { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockpixels-property">GeoBlazor Docs</a>
+    ///     A two dimensional array representing the pixels from the Image Service
+    ///     displayed on the client.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#pixels">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Stream? Pixels { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockpixeltype-property">GeoBlazor Docs</a>
+    ///     The pixel type.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#pixelType">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public PixelType? PixelType { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockstatistics-property">GeoBlazor Docs</a>
+    ///     An array of objects containing numeric statistical properties.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#statistics">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<PixelBlockStatistics>? Statistics { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockvalidpixelcount-property">GeoBlazor Docs</a>
+    ///     Number of valid pixels.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#validPixelCount">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public int? ValidPixelCount { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockwidth-property">GeoBlazor Docs</a>
+    ///     The width (or number of columns) of the PixelBlock in pixels.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#width">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public int? Width { get; set; }
+    
+#endregion
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Height property.
+    /// </summary>
+    public async Task<int?> GetHeight()
+    {
+        if (CoreJsModule is null)
+        {
+            return Height;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Height;
+        }
+
+        // get the property value
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "height");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             Height = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Height)] = Height;
+        }
+         
+        return Height;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Mask property.
+    /// </summary>
+    public async Task<Stream?> GetMask()
+    {
+        if (CoreJsModule is null)
+        {
+            return Mask;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Mask;
+        }
+
+        // get the property value
+        Stream? result = await JsComponentReference!.InvokeJsMethod<Stream?>(
+            IsServer, "GetProperty", nameof(PixelBlock, View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "mask");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Mask = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Mask)] = Mask;
+        }
+         
+        return Mask;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the MaskIsAlpha property.
+    /// </summary>
+    public async Task<bool?> GetMaskIsAlpha()
+    {
+        if (CoreJsModule is null)
+        {
+            return MaskIsAlpha;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return MaskIsAlpha;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "maskIsAlpha");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             MaskIsAlpha = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(MaskIsAlpha)] = MaskIsAlpha;
+        }
+         
+        return MaskIsAlpha;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Pixels property.
+    /// </summary>
+    public async Task<Stream?> GetPixels()
+    {
+        if (CoreJsModule is null)
+        {
+            return Pixels;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Pixels;
+        }
+
+        // get the property value
+        Stream? result = await JsComponentReference!.InvokeJsMethod<Stream?>(
+            IsServer, "GetProperty", nameof(PixelBlock, View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "pixels");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Pixels = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Pixels)] = Pixels;
+        }
+         
+        return Pixels;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the PixelType property.
+    /// </summary>
+    public async Task<PixelType?> GetPixelType()
+    {
+        if (CoreJsModule is null)
+        {
+            return PixelType;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return PixelType;
+        }
+
+        // get the property value
+        JsNullableEnumWrapper<PixelType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PixelType>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "pixelType");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             PixelType = (PixelType)result.Value.Value!;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(PixelType)] = PixelType;
+        }
+         
+        return PixelType;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Statistics property.
+    /// </summary>
+    public async Task<IReadOnlyList<PixelBlockStatistics>?> GetStatistics()
+    {
+        if (CoreJsModule is null)
+        {
+            return Statistics;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Statistics;
+        }
+
+        IReadOnlyList<PixelBlockStatistics>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<PixelBlockStatistics>?>(
+            IsServer, nameof(GetStatistics), nameof(PixelBlock), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            foreach (PixelBlockStatistics item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+#pragma warning disable BL0005
+            Statistics = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Statistics)] = Statistics;
+        }
+        
+        return Statistics;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ValidPixelCount property.
+    /// </summary>
+    public async Task<int?> GetValidPixelCount()
+    {
+        if (CoreJsModule is null)
+        {
+            return ValidPixelCount;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return ValidPixelCount;
+        }
+
+        // get the property value
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "validPixelCount");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             ValidPixelCount = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(ValidPixelCount)] = ValidPixelCount;
+        }
+         
+        return ValidPixelCount;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Width property.
+    /// </summary>
+    public async Task<int?> GetWidth()
+    {
+        if (CoreJsModule is null)
+        {
+            return Width;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Width;
+        }
+
+        // get the property value
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "width");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             Width = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Width)] = Width;
+        }
+         
+        return Width;
+    }
+    
+#endregion
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the Height property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetHeight(int? value)
+    {
+#pragma warning disable BL0005
+        Height = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Height)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "height", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Mask property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetMask(Stream? value)
+    {
+#pragma warning disable BL0005
+        Mask = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Mask)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "mask", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the MaskIsAlpha property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetMaskIsAlpha(bool? value)
+    {
+#pragma warning disable BL0005
+        MaskIsAlpha = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(MaskIsAlpha)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "maskIsAlpha", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Pixels property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPixels(Stream? value)
+    {
+#pragma warning disable BL0005
+        Pixels = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Pixels)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "pixels", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the PixelType property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPixelType(PixelType? value)
+    {
+#pragma warning disable BL0005
+        PixelType = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(PixelType)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "pixelType", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Statistics property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetStatistics(IReadOnlyList<PixelBlockStatistics>? value)
+    {
+#pragma warning disable BL0005
+        Statistics = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Statistics)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            foreach (PixelBlockStatistics item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetStatistics), nameof(PixelBlock), 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the ValidPixelCount property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetValidPixelCount(int? value)
+    {
+#pragma warning disable BL0005
+        ValidPixelCount = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ValidPixelCount)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "validPixelCount", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Width property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetWidth(int? value)
+    {
+#pragma warning disable BL0005
+        Width = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Width)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "width", value);
+    }
+    
+#endregion
 
 #region Add to Collection Methods
 
@@ -91,12 +811,12 @@ public partial class PixelBlock : MapComponent
             : [..Statistics, ..values];
         await SetStatistics(join);
     }
-
+    
 #endregion
-
 
 #region Remove From Collection Methods
 
+    
     /// <summary>
     ///     Asynchronously remove an element from the Statistics property.
     /// </summary>
@@ -109,787 +829,10 @@ public partial class PixelBlock : MapComponent
         {
             return;
         }
-
         await SetStatistics(Statistics.Except(values).ToArray());
     }
-
+    
 #endregion
-
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        if (Statistics is not null)
-        {
-            foreach (PixelBlockStatistics child in Statistics)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-
-        base.ValidateRequiredGeneratedChildren();
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case PixelBlockStatistics statistics:
-                Statistics ??= [];
-
-                if (!Statistics.Contains(statistics))
-                {
-                    Statistics = [..Statistics, statistics];
-                    ModifiedParameters[nameof(Statistics)] = Statistics;
-                }
-
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case PixelBlockStatistics statistics:
-                Statistics = Statistics?.Where(s => s != statistics).ToList();
-                ModifiedParameters[nameof(Statistics)] = Statistics;
-
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-
-
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockheight-property">GeoBlazor Docs</a>
-    ///     The height (or number of rows) of the PixelBlock in pixels.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#height">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? Height { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockmask-property">GeoBlazor Docs</a>
-    ///     An array of nodata mask.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#mask">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Stream? Mask { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockmaskisalpha-property">GeoBlazor Docs</a>
-    ///     Indicates whether mask should be used as alpha values.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#maskIsAlpha">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? MaskIsAlpha { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockpixels-property">GeoBlazor Docs</a>
-    ///     A two dimensional array representing the pixels from the Image Service
-    ///     displayed on the client.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#pixels">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Stream? Pixels { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockpixeltype-property">GeoBlazor Docs</a>
-    ///     The pixel type.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#pixelType">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public PixelType? PixelType { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockstatistics-property">GeoBlazor Docs</a>
-    ///     An array of objects containing numeric statistical properties.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#statistics">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<PixelBlockStatistics>? Statistics { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockvalidpixelcount-property">GeoBlazor Docs</a>
-    ///     Number of valid pixels.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#validPixelCount">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? ValidPixelCount { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockwidth-property">GeoBlazor Docs</a>
-    ///     The width (or number of columns) of the PixelBlock in pixels.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#width">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? Width { get; set; }
-
-#endregion
-
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Height property.
-    /// </summary>
-    public async Task<int?> GetHeight()
-    {
-        if (CoreJsModule is null)
-        {
-            return Height;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Height;
-        }
-
-        // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "height");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            Height = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Height)] = Height;
-        }
-
-        return Height;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Mask property.
-    /// </summary>
-    public async Task<Stream?> GetMask()
-    {
-        if (CoreJsModule is null)
-        {
-            return Mask;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Mask;
-        }
-
-        // get the property value
-        Stream? result = await JsComponentReference!.InvokeAsync<Stream?>("getProperty",
-            CancellationTokenSource.Token, "mask");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Mask = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Mask)] = Mask;
-        }
-
-        return Mask;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the MaskIsAlpha property.
-    /// </summary>
-    public async Task<bool?> GetMaskIsAlpha()
-    {
-        if (CoreJsModule is null)
-        {
-            return MaskIsAlpha;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return MaskIsAlpha;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "maskIsAlpha");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            MaskIsAlpha = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(MaskIsAlpha)] = MaskIsAlpha;
-        }
-
-        return MaskIsAlpha;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Pixels property.
-    /// </summary>
-    public async Task<Stream?> GetPixels()
-    {
-        if (CoreJsModule is null)
-        {
-            return Pixels;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Pixels;
-        }
-
-        // get the property value
-        Stream? result = await JsComponentReference!.InvokeAsync<Stream?>("getProperty",
-            CancellationTokenSource.Token, "pixels");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Pixels = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Pixels)] = Pixels;
-        }
-
-        return Pixels;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the PixelType property.
-    /// </summary>
-    public async Task<PixelType?> GetPixelType()
-    {
-        if (CoreJsModule is null)
-        {
-            return PixelType;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return PixelType;
-        }
-
-        // get the property value
-        JsNullableEnumWrapper<PixelType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PixelType>?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "pixelType");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            PixelType = (PixelType)result.Value.Value!;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(PixelType)] = PixelType;
-        }
-
-        return PixelType;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Statistics property.
-    /// </summary>
-    public async Task<IReadOnlyList<PixelBlockStatistics>?> GetStatistics()
-    {
-        if (CoreJsModule is null)
-        {
-            return Statistics;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Statistics;
-        }
-
-        IReadOnlyList<PixelBlockStatistics>? result =
-            await JsComponentReference.InvokeAsync<IReadOnlyList<PixelBlockStatistics>?>("getStatistics",
-                CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Statistics = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Statistics)] = Statistics;
-        }
-
-        return Statistics;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ValidPixelCount property.
-    /// </summary>
-    public async Task<int?> GetValidPixelCount()
-    {
-        if (CoreJsModule is null)
-        {
-            return ValidPixelCount;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return ValidPixelCount;
-        }
-
-        // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "validPixelCount");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            ValidPixelCount = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(ValidPixelCount)] = ValidPixelCount;
-        }
-
-        return ValidPixelCount;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Width property.
-    /// </summary>
-    public async Task<int?> GetWidth()
-    {
-        if (CoreJsModule is null)
-        {
-            return Width;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Width;
-        }
-
-        // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "width");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            Width = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Width)] = Width;
-        }
-
-        return Width;
-    }
-
-#endregion
-
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the Height property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetHeight(int? value)
-    {
-#pragma warning disable BL0005
-        Height = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Height)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "height", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Mask property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetMask(Stream? value)
-    {
-#pragma warning disable BL0005
-        Mask = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Mask)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "mask", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the MaskIsAlpha property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetMaskIsAlpha(bool? value)
-    {
-#pragma warning disable BL0005
-        MaskIsAlpha = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(MaskIsAlpha)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "maskIsAlpha", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Pixels property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetPixels(Stream? value)
-    {
-#pragma warning disable BL0005
-        Pixels = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Pixels)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "pixels", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the PixelType property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetPixelType(PixelType? value)
-    {
-#pragma warning disable BL0005
-        PixelType = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(PixelType)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "pixelType", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Statistics property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetStatistics(IReadOnlyList<PixelBlockStatistics>? value)
-    {
-        if (value is not null)
-        {
-            foreach (PixelBlockStatistics item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-
-#pragma warning disable BL0005
-        Statistics = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Statistics)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await JsComponentReference.InvokeVoidAsync("setStatistics",
-            CancellationTokenSource.Token, value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the ValidPixelCount property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetValidPixelCount(int? value)
-    {
-#pragma warning disable BL0005
-        ValidPixelCount = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ValidPixelCount)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "validPixelCount", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Width property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetWidth(int? value)
-    {
-#pragma warning disable BL0005
-        Width = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Width)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "width", value);
-    }
-
-#endregion
-
 
 #region Public Methods
 
@@ -908,8 +851,8 @@ public partial class PixelBlock : MapComponent
         {
             return;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -918,17 +861,24 @@ public partial class PixelBlock : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference!.InvokeVoidAsync("addData",
+        
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer
+            nameof(AddData), nameof(PixelBlock), 
             CancellationTokenSource.Token,
             planeData);
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockgetasrgba-method">GeoBlazor Docs</a>
     ///     Returns pixels and masks using a single array in bip format
@@ -942,7 +892,7 @@ public partial class PixelBlock : MapComponent
         {
             return null;
         }
-
+        
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -952,16 +902,17 @@ public partial class PixelBlock : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
-        return await JsComponentReference!.InvokeAsync<Stream?>("getAsRGBA",
+        
+        return await JsComponentReference!.InvokeJsMethod<Stream?>(
+            IsServer, nameof(GetAsRGBA), nameof(PixelBlock), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockgetasrgbafloat-method">GeoBlazor Docs</a>
     ///     Similar to <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#getAsRGBA">getAsRGBA</a>, but returns floating point data.
@@ -974,7 +925,7 @@ public partial class PixelBlock : MapComponent
         {
             return null;
         }
-
+        
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -984,16 +935,17 @@ public partial class PixelBlock : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
-        return await JsComponentReference!.InvokeAsync<float[]?>("getAsRGBAFloat",
+        
+        return await JsComponentReference!.InvokeJsMethod<float[]?>(
+            IsServer, nameof(GetAsRGBAFloat), nameof(PixelBlock), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockgetplanecount-method">GeoBlazor Docs</a>
     ///     Returns the plane band count of the PixelBlock.
@@ -1006,7 +958,7 @@ public partial class PixelBlock : MapComponent
         {
             return null;
         }
-
+        
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -1016,15 +968,65 @@ public partial class PixelBlock : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
-        return await JsComponentReference!.InvokeAsync<int?>("getPlaneCount",
+        
+        return await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(GetPlaneCount), nameof(PixelBlock), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
-
+    
 #endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case PixelBlockStatistics statistics:
+                Statistics ??= [];
+                if (!Statistics.Contains(statistics))
+                {
+                    Statistics = [..Statistics, statistics];
+                    ModifiedParameters[nameof(Statistics)] = Statistics;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case PixelBlockStatistics statistics:
+                Statistics = Statistics?.Where(s => s != statistics).ToList();
+                ModifiedParameters[nameof(Statistics)] = Statistics;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        if (Statistics is not null)
+        {
+            foreach (PixelBlockStatistics child in Statistics)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLLayerView.html">GeoBlazor Docs</a>
 ///     Represents the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a> of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-KMLLayer.html">KMLLayer</a>
@@ -10,6 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class KMLLayerView : LayerView
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -26,15 +28,16 @@ public partial class KMLLayerView : LayerView
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public KMLLayerView(bool? visible = null)
+    public KMLLayerView(
+        bool? visible = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Visible = visible;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -46,7 +49,7 @@ public partial class KMLLayerView : LayerView
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public IReadOnlyList<KMLLayerViewMapImage>? AllVisibleMapImages { get; protected set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLLayerView.html#kmllayerviewallvisiblepoints-property">GeoBlazor Docs</a>
     ///     A collection of graphics representing all the points from visible sublayers.
@@ -56,7 +59,7 @@ public partial class KMLLayerView : LayerView
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public IReadOnlyList<Graphic>? AllVisiblePoints { get; protected set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLLayerView.html#kmllayerviewallvisiblepolygons-property">GeoBlazor Docs</a>
     ///     A collection of graphics representing all the polygons from visible sublayers.
@@ -66,7 +69,7 @@ public partial class KMLLayerView : LayerView
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public IReadOnlyList<Graphic>? AllVisiblePolygons { get; protected set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLLayerView.html#kmllayerviewallvisiblepolylines-property">GeoBlazor Docs</a>
     ///     A collection of graphics representing all the polylines from visible sublayers.
@@ -76,9 +79,8 @@ public partial class KMLLayerView : LayerView
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public IReadOnlyList<Graphic>? AllVisiblePolylines { get; protected set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -91,8 +93,8 @@ public partial class KMLLayerView : LayerView
         {
             return AllVisibleMapImages;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -101,27 +103,31 @@ public partial class KMLLayerView : LayerView
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return AllVisibleMapImages;
         }
 
-        IReadOnlyList<KMLLayerViewMapImage>? result =
-            await JsComponentReference.InvokeAsync<IReadOnlyList<KMLLayerViewMapImage>?>("getAllVisibleMapImages",
-                CancellationTokenSource.Token);
-
+        IReadOnlyList<KMLLayerViewMapImage>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<KMLLayerViewMapImage>?>(
+            IsServer, nameof(GetAllVisibleMapImages), nameof(KMLLayerView), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            foreach (KMLLayerViewMapImage item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             AllVisibleMapImages = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(AllVisibleMapImages)] = AllVisibleMapImages;
         }
-
+        
         return AllVisibleMapImages;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the AllVisiblePoints property.
     /// </summary>
@@ -131,8 +137,8 @@ public partial class KMLLayerView : LayerView
         {
             return AllVisiblePoints;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -141,15 +147,16 @@ public partial class KMLLayerView : LayerView
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return AllVisiblePoints;
         }
 
-        IReadOnlyList<Graphic>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Graphic>?>(
-            "getAllVisiblePoints", CancellationTokenSource.Token);
-
+        IReadOnlyList<Graphic>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Graphic>?>(
+            IsServer, nameof(GetAllVisiblePoints), nameof(KMLLayerView), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
             foreach (Graphic item in result)
@@ -161,10 +168,10 @@ public partial class KMLLayerView : LayerView
 #pragma warning restore BL0005
             ModifiedParameters[nameof(AllVisiblePoints)] = AllVisiblePoints;
         }
-
+        
         return AllVisiblePoints;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the AllVisiblePolygons property.
     /// </summary>
@@ -174,8 +181,8 @@ public partial class KMLLayerView : LayerView
         {
             return AllVisiblePolygons;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -184,15 +191,16 @@ public partial class KMLLayerView : LayerView
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return AllVisiblePolygons;
         }
 
-        IReadOnlyList<Graphic>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Graphic>?>(
-            "getAllVisiblePolygons", CancellationTokenSource.Token);
-
+        IReadOnlyList<Graphic>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Graphic>?>(
+            IsServer, nameof(GetAllVisiblePolygons), nameof(KMLLayerView), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
             foreach (Graphic item in result)
@@ -204,10 +212,10 @@ public partial class KMLLayerView : LayerView
 #pragma warning restore BL0005
             ModifiedParameters[nameof(AllVisiblePolygons)] = AllVisiblePolygons;
         }
-
+        
         return AllVisiblePolygons;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the AllVisiblePolylines property.
     /// </summary>
@@ -217,8 +225,8 @@ public partial class KMLLayerView : LayerView
         {
             return AllVisiblePolylines;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -227,15 +235,16 @@ public partial class KMLLayerView : LayerView
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return AllVisiblePolylines;
         }
 
-        IReadOnlyList<Graphic>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Graphic>?>(
-            "getAllVisiblePolylines", CancellationTokenSource.Token);
-
+        IReadOnlyList<Graphic>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Graphic>?>(
+            IsServer, nameof(GetAllVisiblePolylines), nameof(KMLLayerView), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
             foreach (Graphic item in result)
@@ -247,9 +256,10 @@ public partial class KMLLayerView : LayerView
 #pragma warning restore BL0005
             ModifiedParameters[nameof(AllVisiblePolylines)] = AllVisiblePolylines;
         }
-
+        
         return AllVisiblePolylines;
     }
-
+    
 #endregion
+
 }

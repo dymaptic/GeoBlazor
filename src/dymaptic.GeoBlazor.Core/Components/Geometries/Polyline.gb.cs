@@ -88,8 +88,8 @@ public partial class Polyline
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Polyline?>(
-            "addPath", 
+        return await JsComponentReference!.InvokeJsMethod<Polyline?>(
+            IsServer, nameof(AddPath), nameof(Polyline), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             points);
     }
@@ -130,8 +130,8 @@ public partial class Polyline
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Point?>(
-            "getPoint", 
+        return await JsComponentReference!.InvokeJsMethod<Point?>(
+            IsServer, nameof(GetPoint), nameof(Polyline), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             pathIndex,
             pointIndex);
@@ -177,8 +177,8 @@ public partial class Polyline
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Polyline?>(
-            "insertPoint", 
+        return await JsComponentReference!.InvokeJsMethod<Polyline?>(
+            IsServer, nameof(InsertPoint), nameof(Polyline), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             pathIndex,
             pointIndex,
@@ -216,8 +216,8 @@ public partial class Polyline
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Point[]?>(
-            "removePath", 
+        return await JsComponentReference!.InvokeJsMethod<Point[]?>(
+            IsServer, nameof(RemovePath), nameof(Polyline), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             index);
     }
@@ -258,8 +258,8 @@ public partial class Polyline
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Point?>(
-            "removePoint", 
+        return await JsComponentReference!.InvokeJsMethod<Point?>(
+            IsServer, nameof(RemovePoint), nameof(Polyline), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             pathIndex,
             pointIndex);
@@ -305,8 +305,8 @@ public partial class Polyline
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Polyline?>(
-            "setPoint", 
+        return await JsComponentReference!.InvokeJsMethod<Polyline?>(
+            IsServer, nameof(SetPoint), nameof(Polyline), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             pathIndex,
             pointIndex,

@@ -33,7 +33,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record SymbolTableElementInfo(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    ElementReference? Preview = null,
+    HTMLElement? Preview = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     RampTitle? RampTitleLabel = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

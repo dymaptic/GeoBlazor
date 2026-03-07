@@ -139,7 +139,8 @@ public partial class SimpleMarkerSymbol : ISymbol2D,
         }
 
         // get the property value
-        Outline? result = await JsComponentReference!.InvokeAsync<Outline?>("getProperty",
+        Outline? result = await JsComponentReference!.InvokeJsMethod<Outline?>(
+            IsServer, "GetProperty", nameof(SimpleMarkerSymbol, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "outline");
         if (result is not null)
         {
@@ -178,7 +179,8 @@ public partial class SimpleMarkerSymbol : ISymbol2D,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(SimpleMarkerSymbol, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "path");
         if (result is not null)
         {
@@ -217,7 +219,8 @@ public partial class SimpleMarkerSymbol : ISymbol2D,
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
+            IsServer, "GetProperty", nameof(SimpleMarkerSymbol, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "size");
         if (result is not null)
         {

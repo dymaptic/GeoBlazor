@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.RasterStretchRenderer.html">GeoBlazor Docs</a>
 ///     RasterStretchRenderer defines the symbology with a gradual ramp of colors for each pixel in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html">ImageryLayer</a>,
@@ -10,6 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 /// </summary>
 public partial class RasterStretchRenderer
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -78,7 +80,8 @@ public partial class RasterStretchRenderer
     ///     The sigmoid strength level determines how much of the sigmoidal function will be used in the stretch.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-RasterStretchRenderer.html#sigmoidStrengthLevel">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public RasterStretchRenderer(ColorRamp? colorRamp = null,
+    public RasterStretchRenderer(
+        ColorRamp? colorRamp = null,
         bool? computeGamma = null,
         bool? dynamicRangeAdjustment = null,
         IReadOnlyList<double>? gamma = null,
@@ -107,50 +110,10 @@ public partial class RasterStretchRenderer
         MaxPercent = maxPercent;
         MinPercent = minPercent;
         SigmoidStrengthLevel = sigmoidStrengthLevel;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        ColorRamp?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ColorRamp colorRamp:
-                if (colorRamp != ColorRamp)
-                {
-                    ColorRamp = colorRamp;
-                    ModifiedParameters[nameof(ColorRamp)] = ColorRamp;
-                }
-
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ColorRamp _:
-                ColorRamp = null;
-                ModifiedParameters[nameof(ColorRamp)] = ColorRamp;
-
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -162,7 +125,7 @@ public partial class RasterStretchRenderer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ColorRamp? ColorRamp { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.RasterStretchRenderer.html#rasterstretchrenderercustomstatistics-property">GeoBlazor Docs</a>
     ///     The input band statistics can be specified through the customStatistics property.
@@ -172,7 +135,7 @@ public partial class RasterStretchRenderer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<RasterBandStatistics>? CustomStatistics { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.RasterStretchRenderer.html#rasterstretchrenderergamma-property">GeoBlazor Docs</a>
     ///     The gamma values to be used if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-RasterStretchRenderer.html#useGamma">useGamma</a> is set to `true`.
@@ -182,7 +145,7 @@ public partial class RasterStretchRenderer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<double>? Gamma { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.RasterStretchRenderer.html#rasterstretchrenderermaxpercent-property">GeoBlazor Docs</a>
     ///     Applicable when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-RasterStretchRenderer.html#stretchType">stretchType</a> is `percent-clip`.
@@ -192,7 +155,7 @@ public partial class RasterStretchRenderer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? MaxPercent { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.RasterStretchRenderer.html#rasterstretchrendererminpercent-property">GeoBlazor Docs</a>
     ///     Applicable when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-RasterStretchRenderer.html#stretchType">stretchType</a> is `percent-clip`.
@@ -202,7 +165,7 @@ public partial class RasterStretchRenderer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? MinPercent { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.RasterStretchRenderer.html#rasterstretchrenderersigmoidstrengthlevel-property">GeoBlazor Docs</a>
     ///     The sigmoid strength level determines how much of the sigmoidal function will be used in the stretch.
@@ -212,9 +175,8 @@ public partial class RasterStretchRenderer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? SigmoidStrengthLevel { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -227,8 +189,8 @@ public partial class RasterStretchRenderer
         {
             return ColorRamp;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -237,26 +199,33 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ColorRamp;
         }
 
-        ColorRamp? result = await JsComponentReference.InvokeAsync<ColorRamp?>(
-            "getColorRamp", CancellationTokenSource.Token);
-
+        ColorRamp? result = await JsComponentReference.InvokeJsMethod<ColorRamp?>(
+            IsServer, nameof(GetColorRamp), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (ColorRamp is not null)
+            {
+                result.Id = ColorRamp.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             ColorRamp = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ColorRamp)] = ColorRamp;
         }
-
+        
         return ColorRamp;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ComputeGamma property.
     /// </summary>
@@ -266,8 +235,8 @@ public partial class RasterStretchRenderer
         {
             return ComputeGamma;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -276,28 +245,26 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ComputeGamma;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "computeGamma");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            ComputeGamma = result.Value.Value;
+             ComputeGamma = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ComputeGamma)] = ComputeGamma;
+             ModifiedParameters[nameof(ComputeGamma)] = ComputeGamma;
         }
-
+         
         return ComputeGamma;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomStatistics property.
     /// </summary>
@@ -307,8 +274,8 @@ public partial class RasterStretchRenderer
         {
             return CustomStatistics;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -317,28 +284,27 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return CustomStatistics;
         }
 
         // get the property value
-        IReadOnlyList<RasterBandStatistics>? result =
-            await JsComponentReference!.InvokeAsync<IReadOnlyList<RasterBandStatistics>?>("getProperty",
-                CancellationTokenSource.Token, "customStatistics");
-
+        IReadOnlyList<RasterBandStatistics>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<RasterBandStatistics>?>(
+            IsServer, "GetProperty", nameof(RasterStretchRenderer, View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "customStatistics");
         if (result is not null)
         {
 #pragma warning disable BL0005
-            CustomStatistics = result;
+             CustomStatistics = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(CustomStatistics)] = CustomStatistics;
+             ModifiedParameters[nameof(CustomStatistics)] = CustomStatistics;
         }
-
+         
         return CustomStatistics;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DynamicRangeAdjustment property.
     /// </summary>
@@ -348,8 +314,8 @@ public partial class RasterStretchRenderer
         {
             return DynamicRangeAdjustment;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -358,28 +324,26 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return DynamicRangeAdjustment;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "dynamicRangeAdjustment");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            DynamicRangeAdjustment = result.Value.Value;
+             DynamicRangeAdjustment = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(DynamicRangeAdjustment)] = DynamicRangeAdjustment;
+             ModifiedParameters[nameof(DynamicRangeAdjustment)] = DynamicRangeAdjustment;
         }
-
+         
         return DynamicRangeAdjustment;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Gamma property.
     /// </summary>
@@ -389,8 +353,8 @@ public partial class RasterStretchRenderer
         {
             return Gamma;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -399,27 +363,27 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Gamma;
         }
 
         // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
+            IsServer, "GetProperty", nameof(RasterStretchRenderer, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "gamma");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Gamma = result;
+             Gamma = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Gamma)] = Gamma;
+             ModifiedParameters[nameof(Gamma)] = Gamma;
         }
-
+         
         return Gamma;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxPercent property.
     /// </summary>
@@ -429,8 +393,8 @@ public partial class RasterStretchRenderer
         {
             return MaxPercent;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -439,28 +403,26 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return MaxPercent;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxPercent");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            MaxPercent = result.Value.Value;
+             MaxPercent = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(MaxPercent)] = MaxPercent;
+             ModifiedParameters[nameof(MaxPercent)] = MaxPercent;
         }
-
+         
         return MaxPercent;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinPercent property.
     /// </summary>
@@ -470,8 +432,8 @@ public partial class RasterStretchRenderer
         {
             return MinPercent;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -480,28 +442,26 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return MinPercent;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "minPercent");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            MinPercent = result.Value.Value;
+             MinPercent = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(MinPercent)] = MinPercent;
+             ModifiedParameters[nameof(MinPercent)] = MinPercent;
         }
-
+         
         return MinPercent;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the NumberOfStandardDeviations property.
     /// </summary>
@@ -511,8 +471,8 @@ public partial class RasterStretchRenderer
         {
             return NumberOfStandardDeviations;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -521,28 +481,26 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return NumberOfStandardDeviations;
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "numberOfStandardDeviations");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            NumberOfStandardDeviations = result.Value.Value;
+             NumberOfStandardDeviations = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(NumberOfStandardDeviations)] = NumberOfStandardDeviations;
+             ModifiedParameters[nameof(NumberOfStandardDeviations)] = NumberOfStandardDeviations;
         }
-
+         
         return NumberOfStandardDeviations;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the OutputMax property.
     /// </summary>
@@ -552,8 +510,8 @@ public partial class RasterStretchRenderer
         {
             return OutputMax;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -562,28 +520,26 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return OutputMax;
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "outputMax");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            OutputMax = result.Value.Value;
+             OutputMax = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(OutputMax)] = OutputMax;
+             ModifiedParameters[nameof(OutputMax)] = OutputMax;
         }
-
+         
         return OutputMax;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the OutputMin property.
     /// </summary>
@@ -593,8 +549,8 @@ public partial class RasterStretchRenderer
         {
             return OutputMin;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -603,28 +559,26 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return OutputMin;
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "outputMin");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            OutputMin = result.Value.Value;
+             OutputMin = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(OutputMin)] = OutputMin;
+             ModifiedParameters[nameof(OutputMin)] = OutputMin;
         }
-
+         
         return OutputMin;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SigmoidStrengthLevel property.
     /// </summary>
@@ -634,8 +588,8 @@ public partial class RasterStretchRenderer
         {
             return SigmoidStrengthLevel;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -644,28 +598,26 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SigmoidStrengthLevel;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "sigmoidStrengthLevel");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            SigmoidStrengthLevel = result.Value.Value;
+             SigmoidStrengthLevel = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SigmoidStrengthLevel)] = SigmoidStrengthLevel;
+             ModifiedParameters[nameof(SigmoidStrengthLevel)] = SigmoidStrengthLevel;
         }
-
+         
         return SigmoidStrengthLevel;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the StretchType property.
     /// </summary>
@@ -675,8 +627,8 @@ public partial class RasterStretchRenderer
         {
             return StretchType;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -685,28 +637,26 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return StretchType;
         }
 
         // get the property value
-        JsNullableEnumWrapper<StretchType>? result =
-            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<StretchType>?>("getNullableValueTypedProperty",
-                CancellationTokenSource.Token, JsComponentReference, "stretchType");
-
+        JsNullableEnumWrapper<StretchType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<StretchType>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "stretchType");
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            StretchType = (StretchType)result.Value.Value!;
+             StretchType = (StretchType)result.Value.Value!;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(StretchType)] = StretchType;
+             ModifiedParameters[nameof(StretchType)] = StretchType;
         }
-
+         
         return StretchType;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the UseGamma property.
     /// </summary>
@@ -716,8 +666,8 @@ public partial class RasterStretchRenderer
         {
             return UseGamma;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -726,30 +676,27 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return UseGamma;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "useGamma");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            UseGamma = result.Value.Value;
+             UseGamma = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(UseGamma)] = UseGamma;
+             ModifiedParameters[nameof(UseGamma)] = UseGamma;
         }
-
+         
         return UseGamma;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -761,22 +708,22 @@ public partial class RasterStretchRenderer
     /// </param>
     public async Task SetColorRamp(ColorRamp? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         ColorRamp = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ColorRamp)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -785,16 +732,16 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "colorRamp", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ComputeGamma property after render.
     /// </summary>
@@ -807,13 +754,13 @@ public partial class RasterStretchRenderer
         ComputeGamma = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ComputeGamma)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -822,16 +769,16 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "computeGamma", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the CustomStatistics property after render.
     /// </summary>
@@ -844,13 +791,13 @@ public partial class RasterStretchRenderer
         CustomStatistics = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(CustomStatistics)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -859,16 +806,16 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "customStatistics", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DynamicRangeAdjustment property after render.
     /// </summary>
@@ -881,13 +828,13 @@ public partial class RasterStretchRenderer
         DynamicRangeAdjustment = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(DynamicRangeAdjustment)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -896,16 +843,16 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "dynamicRangeAdjustment", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Gamma property after render.
     /// </summary>
@@ -918,13 +865,13 @@ public partial class RasterStretchRenderer
         Gamma = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Gamma)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -933,16 +880,16 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "gamma", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MaxPercent property after render.
     /// </summary>
@@ -955,13 +902,13 @@ public partial class RasterStretchRenderer
         MaxPercent = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MaxPercent)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -970,16 +917,16 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxPercent", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MinPercent property after render.
     /// </summary>
@@ -992,13 +939,13 @@ public partial class RasterStretchRenderer
         MinPercent = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MinPercent)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1007,16 +954,16 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minPercent", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the NumberOfStandardDeviations property after render.
     /// </summary>
@@ -1029,13 +976,13 @@ public partial class RasterStretchRenderer
         NumberOfStandardDeviations = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(NumberOfStandardDeviations)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1044,16 +991,16 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "numberOfStandardDeviations", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the OutputMax property after render.
     /// </summary>
@@ -1066,13 +1013,13 @@ public partial class RasterStretchRenderer
         OutputMax = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(OutputMax)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1081,16 +1028,16 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outputMax", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the OutputMin property after render.
     /// </summary>
@@ -1103,13 +1050,13 @@ public partial class RasterStretchRenderer
         OutputMin = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(OutputMin)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1118,16 +1065,16 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outputMin", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SigmoidStrengthLevel property after render.
     /// </summary>
@@ -1140,13 +1087,13 @@ public partial class RasterStretchRenderer
         SigmoidStrengthLevel = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SigmoidStrengthLevel)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1155,16 +1102,16 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sigmoidStrengthLevel", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the UseGamma property after render.
     /// </summary>
@@ -1177,13 +1124,13 @@ public partial class RasterStretchRenderer
         UseGamma = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(UseGamma)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1192,18 +1139,17 @@ public partial class RasterStretchRenderer
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "useGamma", value);
     }
-
+    
 #endregion
-
 
 #region Add to Collection Methods
 
@@ -1220,7 +1166,7 @@ public partial class RasterStretchRenderer
             : [..CustomStatistics, ..values];
         await SetCustomStatistics(join);
     }
-
+    
     /// <summary>
     ///     Asynchronously adds elements to the Gamma property.
     /// </summary>
@@ -1234,12 +1180,12 @@ public partial class RasterStretchRenderer
             : [..Gamma, ..values];
         await SetGamma(join);
     }
-
+    
 #endregion
-
 
 #region Remove From Collection Methods
 
+    
     /// <summary>
     ///     Asynchronously remove an element from the CustomStatistics property.
     /// </summary>
@@ -1252,10 +1198,10 @@ public partial class RasterStretchRenderer
         {
             return;
         }
-
         await SetCustomStatistics(CustomStatistics.Except(values).ToArray());
     }
-
+    
+    
     /// <summary>
     ///     Asynchronously remove an element from the Gamma property.
     /// </summary>
@@ -1268,9 +1214,50 @@ public partial class RasterStretchRenderer
         {
             return;
         }
-
         await SetGamma(Gamma.Except(values).ToArray());
     }
-
+    
 #endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ColorRamp colorRamp:
+                if (colorRamp != ColorRamp)
+                {
+                    ColorRamp = colorRamp;
+                    ModifiedParameters[nameof(ColorRamp)] = ColorRamp;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ColorRamp _:
+                ColorRamp = null;
+                ModifiedParameters[nameof(ColorRamp)] = ColorRamp;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        ColorRamp?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

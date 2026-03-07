@@ -83,7 +83,8 @@ public partial class SpatialReference
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(SpatialReference, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "imageCoordinateSystem");
         if (result is not null)
         {
@@ -239,7 +240,8 @@ public partial class SpatialReference
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(SpatialReference, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "wkt");
         if (result is not null)
         {
@@ -278,7 +280,8 @@ public partial class SpatialReference
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(SpatialReference, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "wkt2");
         if (result is not null)
         {

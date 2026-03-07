@@ -15,19 +15,20 @@ public partial record ArcGISImageServiceFetchPixelsOptions(
     Interpolation? Interpolation = null)
 {
     /// <summary>
-    ///     Parameterless constructor
+    ///     Parameterless Constructor
     /// </summary>
-    public ArcGISImageServiceFetchPixelsOptions() : this(null, null)
+    public ArcGISImageServiceFetchPixelsOptions(): this(null, null)
     {
     }
-
+    
     /// <summary>
     ///     
     /// </summary>
     public bool? ApplyRendering { get; set; } = ApplyRendering;
-
+    
     /// <summary>
     ///     
     /// </summary>
     public Interpolation? Interpolation { get; set; } = Interpolation;
+    
 }

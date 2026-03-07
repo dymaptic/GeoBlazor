@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.UnsupportedLayer.html">GeoBlazor Docs</a>
 ///     Represents an unsupported layer instance.
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// </summary>
 public partial class UnsupportedLayer : Layer
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -32,7 +34,7 @@ public partial class UnsupportedLayer : Layer
     ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
     /// <param name="listMode">
-    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
+    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
     ///     default "show"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -42,7 +44,7 @@ public partial class UnsupportedLayer : Layer
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#opacity">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
-    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
+    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visibilityTimeExtent">
@@ -58,7 +60,8 @@ public partial class UnsupportedLayer : Layer
     /// <param name="excludeApiKey">
     ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
     /// </param>
-    public UnsupportedLayer(string? arcGISLayerId = null,
+    public UnsupportedLayer(
+        string? arcGISLayerId = null,
         Extent? fullExtent = null,
         bool? isBasemapReferenceLayer = null,
         ListMode? listMode = null,
@@ -79,9 +82,11 @@ public partial class UnsupportedLayer : Layer
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
         ExcludeApiKey = excludeApiKey;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
+    
+    
     /// <inheritdoc />
     public override LayerType Type => LayerType.Unsupported;
+    
 }

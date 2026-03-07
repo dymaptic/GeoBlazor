@@ -22,9 +22,11 @@ export default class BaseComponent implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
+    
     getProperty(prop: string) {
         return this.component[prop];
     }
+
     unwrap() {
         return this.component;
     }

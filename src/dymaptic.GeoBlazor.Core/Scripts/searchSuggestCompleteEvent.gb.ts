@@ -8,7 +8,7 @@ export async function buildJsSearchSuggestCompleteEventGenerated(dotNetObject: a
 
     let jsSearchSuggestCompleteEvent: any = {};
     if (hasValue(dotNetObject.results) && dotNetObject.results.length > 0) {
-        let {buildJsSearchSuggestCompleteEventResults} = await import('./searchSuggestCompleteEventResults');
+        let { buildJsSearchSuggestCompleteEventResults } = await import('./searchSuggestCompleteEventResults');
         jsSearchSuggestCompleteEvent.results = await Promise.all(dotNetObject.results.map(async i => await buildJsSearchSuggestCompleteEventResults(i, layerId, viewId))) as any;
     }
 
@@ -38,9 +38,9 @@ export async function buildDotNetSearchSuggestCompleteEventGenerated(jsObject: a
     }
     
     let dotNetSearchSuggestCompleteEvent: any = {};
-
+    
     if (hasValue(jsObject.results)) {
-        let {buildDotNetSearchSuggestCompleteEventResults} = await import('./searchSuggestCompleteEventResults');
+        let { buildDotNetSearchSuggestCompleteEventResults } = await import('./searchSuggestCompleteEventResults');
         dotNetSearchSuggestCompleteEvent.results = await Promise.all(jsObject.results.map(async i => await buildDotNetSearchSuggestCompleteEventResults(i, viewId)));
     }
     

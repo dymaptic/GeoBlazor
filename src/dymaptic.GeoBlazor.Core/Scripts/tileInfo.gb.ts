@@ -39,7 +39,7 @@ export default class TileInfoGenerated extends BaseComponent {
             this.component.size = dotNetObject.size;
         }
     }
-
+    
     // region methods
     async scaleToZoom(scale: any): Promise<any> {
         return this.component.scaleToZoom(scale);

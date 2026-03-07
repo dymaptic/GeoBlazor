@@ -126,7 +126,8 @@ public partial class UniqueValue : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(UniqueValue, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "value");
         if (result is not null)
         {
@@ -165,7 +166,8 @@ public partial class UniqueValue : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(UniqueValue, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "value2");
         if (result is not null)
         {
@@ -204,7 +206,8 @@ public partial class UniqueValue : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(UniqueValue, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "value3");
         if (result is not null)
         {

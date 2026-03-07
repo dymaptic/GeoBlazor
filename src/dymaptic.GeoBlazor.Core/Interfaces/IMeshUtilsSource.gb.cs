@@ -8,6 +8,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///     param extent The extent from which to create the mesh.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-meshUtils.html#createFromElevation">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface IMeshUtilsSource 
+public partial interface IMeshUtilsSource : IMapComponent
 {
 }

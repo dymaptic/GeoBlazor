@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureEffect.html">GeoBlazor Docs</a>
 ///     FeatureEffect allows you to emphasize or deemphasize features that
@@ -10,6 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class FeatureEffect
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -39,7 +41,8 @@ public partial class FeatureEffect
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureEffect.html#Effect">effect</a> applied to features that meet the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureEffect.html#filter">filter</a> requirements.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureEffect.html#includedEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public FeatureEffect(IReadOnlyList<Effect>? excludedEffect = null,
+    public FeatureEffect(
+        IReadOnlyList<Effect>? excludedEffect = null,
         bool? excludedLabelsVisible = null,
         FeatureFilter? filter = null,
         IReadOnlyList<Effect>? includedEffect = null)
@@ -50,50 +53,10 @@ public partial class FeatureEffect
         ExcludedLabelsVisible = excludedLabelsVisible;
         Filter = filter;
         IncludedEffect = includedEffect;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        Filter?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case FeatureFilter filter:
-                if (filter != Filter)
-                {
-                    Filter = filter;
-                    ModifiedParameters[nameof(Filter)] = Filter;
-                }
-
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case FeatureFilter _:
-                Filter = null;
-                ModifiedParameters[nameof(Filter)] = Filter;
-
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -106,7 +69,7 @@ public partial class FeatureEffect
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ExcludedLabelsVisible { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureEffect.html#featureeffectfilter-property">GeoBlazor Docs</a>
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html">filter</a> that drives the effect.
@@ -116,9 +79,8 @@ public partial class FeatureEffect
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public FeatureFilter? Filter { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -131,8 +93,8 @@ public partial class FeatureEffect
         {
             return ExcludedEffect;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -141,15 +103,16 @@ public partial class FeatureEffect
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ExcludedEffect;
         }
 
-        IReadOnlyList<Effect>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Effect>?>(
-            "getExcludedEffect", CancellationTokenSource.Token);
-
+        IReadOnlyList<Effect>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Effect>?>(
+            IsServer, nameof(GetExcludedEffect), nameof(FeatureEffect), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -157,10 +120,10 @@ public partial class FeatureEffect
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ExcludedEffect)] = ExcludedEffect;
         }
-
+        
         return ExcludedEffect;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ExcludedLabelsVisible property.
     /// </summary>
@@ -170,8 +133,8 @@ public partial class FeatureEffect
         {
             return ExcludedLabelsVisible;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -180,28 +143,26 @@ public partial class FeatureEffect
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ExcludedLabelsVisible;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "excludedLabelsVisible");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            ExcludedLabelsVisible = result.Value.Value;
+             ExcludedLabelsVisible = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ExcludedLabelsVisible)] = ExcludedLabelsVisible;
+             ModifiedParameters[nameof(ExcludedLabelsVisible)] = ExcludedLabelsVisible;
         }
-
+         
         return ExcludedLabelsVisible;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Filter property.
     /// </summary>
@@ -211,8 +172,8 @@ public partial class FeatureEffect
         {
             return Filter;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -221,33 +182,33 @@ public partial class FeatureEffect
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Filter;
         }
 
-        FeatureFilter? result =
-            await JsComponentReference.InvokeAsync<FeatureFilter?>("getFilter", CancellationTokenSource.Token);
-
+        FeatureFilter? result = await JsComponentReference.InvokeJsMethod<FeatureFilter?>(
+            IsServer, nameof(GetFilter), nameof(FeatureEffect), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
             if (Filter is not null)
             {
                 result.Id = Filter.Id;
             }
-
             result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-
+            
 #pragma warning disable BL0005
             Filter = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Filter)] = Filter;
         }
-
+        
         return Filter;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the IncludedEffect property.
     /// </summary>
@@ -257,8 +218,8 @@ public partial class FeatureEffect
         {
             return IncludedEffect;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -267,15 +228,16 @@ public partial class FeatureEffect
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return IncludedEffect;
         }
 
-        IReadOnlyList<Effect>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Effect>?>(
-            "getIncludedEffect", CancellationTokenSource.Token);
-
+        IReadOnlyList<Effect>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Effect>?>(
+            IsServer, nameof(GetIncludedEffect), nameof(FeatureEffect), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -283,12 +245,11 @@ public partial class FeatureEffect
 #pragma warning restore BL0005
             ModifiedParameters[nameof(IncludedEffect)] = IncludedEffect;
         }
-
+        
         return IncludedEffect;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -304,13 +265,13 @@ public partial class FeatureEffect
         ExcludedEffect = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ExcludedEffect)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -319,16 +280,16 @@ public partial class FeatureEffect
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "excludedEffect", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ExcludedLabelsVisible property after render.
     /// </summary>
@@ -341,13 +302,13 @@ public partial class FeatureEffect
         ExcludedLabelsVisible = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ExcludedLabelsVisible)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -356,16 +317,16 @@ public partial class FeatureEffect
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "excludedLabelsVisible", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Filter property after render.
     /// </summary>
@@ -374,22 +335,22 @@ public partial class FeatureEffect
     /// </param>
     public async Task SetFilter(FeatureFilter? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         Filter = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Filter)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -398,16 +359,16 @@ public partial class FeatureEffect
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "filter", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the IncludedEffect property after render.
     /// </summary>
@@ -420,13 +381,13 @@ public partial class FeatureEffect
         IncludedEffect = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(IncludedEffect)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -435,18 +396,17 @@ public partial class FeatureEffect
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "includedEffect", value);
     }
-
+    
 #endregion
-
 
 #region Add to Collection Methods
 
@@ -463,7 +423,7 @@ public partial class FeatureEffect
             : [..ExcludedEffect, ..values];
         await SetExcludedEffect(join);
     }
-
+    
     /// <summary>
     ///     Asynchronously adds elements to the IncludedEffect property.
     /// </summary>
@@ -477,12 +437,12 @@ public partial class FeatureEffect
             : [..IncludedEffect, ..values];
         await SetIncludedEffect(join);
     }
-
+    
 #endregion
-
 
 #region Remove From Collection Methods
 
+    
     /// <summary>
     ///     Asynchronously remove an element from the ExcludedEffect property.
     /// </summary>
@@ -495,10 +455,10 @@ public partial class FeatureEffect
         {
             return;
         }
-
         await SetExcludedEffect(ExcludedEffect.Except(values).ToArray());
     }
-
+    
+    
     /// <summary>
     ///     Asynchronously remove an element from the IncludedEffect property.
     /// </summary>
@@ -511,9 +471,50 @@ public partial class FeatureEffect
         {
             return;
         }
-
         await SetIncludedEffect(IncludedEffect.Except(values).ToArray());
     }
-
+    
 #endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case FeatureFilter filter:
+                if (filter != Filter)
+                {
+                    Filter = filter;
+                    ModifiedParameters[nameof(Filter)] = Filter;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case FeatureFilter _:
+                Filter = null;
+                ModifiedParameters[nameof(Filter)] = Filter;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        Filter?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

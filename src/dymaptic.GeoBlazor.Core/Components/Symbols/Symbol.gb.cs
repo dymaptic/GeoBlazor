@@ -39,7 +39,8 @@ public abstract partial class Symbol
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
+            IsServer, "GetProperty", nameof(Symbol, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "color");
         if (result is not null)
         {

@@ -65,7 +65,8 @@ public partial class TextPopupContent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(TextPopupContent, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "text");
         if (result is not null)
         {

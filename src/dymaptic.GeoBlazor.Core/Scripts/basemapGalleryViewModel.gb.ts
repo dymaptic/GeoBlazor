@@ -26,7 +26,7 @@ export default class BasemapGalleryViewModelGenerated extends BaseComponent {
         }
 
     }
-
+    
     // region methods
     async basemapEquals(basemap1: any,
         basemap2: any): Promise<any> {
@@ -150,7 +150,7 @@ export async function buildDotNetBasemapGalleryViewModelGenerated(jsObject: any,
 
     if (hasValue(dotNetBasemapGalleryViewModel.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetBasemapGalleryViewModel.id)) {
-            let {default: BasemapGalleryViewModelWrapper} = await import('./basemapGalleryViewModel');
+            let { default: BasemapGalleryViewModelWrapper } = await import('./basemapGalleryViewModel');
             let basemapGalleryViewModelWrapper = new BasemapGalleryViewModelWrapper(jsObject);
             basemapGalleryViewModelWrapper.geoBlazorId = dotNetBasemapGalleryViewModel.id;
             basemapGalleryViewModelWrapper.viewId = viewId;

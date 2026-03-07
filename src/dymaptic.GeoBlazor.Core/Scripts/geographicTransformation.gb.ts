@@ -22,7 +22,7 @@ export default class GeographicTransformationGenerated extends BaseComponent {
         }
 
     }
-
+    
     // region methods
     async getInverse(): Promise<any> {
         let result = this.component.getInverse();

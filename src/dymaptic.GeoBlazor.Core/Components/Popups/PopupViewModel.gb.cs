@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupViewModel.html">GeoBlazor Docs</a>
 ///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a> widget, which allows users to view
@@ -10,6 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 /// </summary>
 public partial class PopupViewModel : FeaturesViewModel
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -84,8 +86,9 @@ public partial class PopupViewModel : FeaturesViewModel
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="highlightEnabled">
-    ///     Highlight the selected feature using one of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-support-HighlightOptions.html">HighlightOptions</a> defined in the view's
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#highlights">highlights</a> collection.
+    ///     Highlight the selected feature using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#highlightOptions">highlightOptions</a>
+    ///     set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#highlightOptions">highlightOptions</a>
+    ///     set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#highlightEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -147,7 +150,12 @@ public partial class PopupViewModel : FeaturesViewModel
     ///     The information to display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#content">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public PopupViewModel(IReadOnlyList<ActionBase>? actions = null,
+    /// <param name="hTMLElementContent">
+    ///     The information to display.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#content">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    public PopupViewModel(
+        IReadOnlyList<ActionBase>? actions = null,
         Graphic? activeFeature = null,
         bool? autoCloseEnabled = null,
         bool? browseClusterEnabled = null,
@@ -173,7 +181,8 @@ public partial class PopupViewModel : FeaturesViewModel
         string? title = null,
         bool? updateLocationEnabled = null,
         bool? visible = null,
-        Widget? widgetContent = null)
+        Widget? widgetContent = null,
+        HTMLElement? hTMLElementContent = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -204,6 +213,9 @@ public partial class PopupViewModel : FeaturesViewModel
         UpdateLocationEnabled = updateLocationEnabled;
         Visible = visible;
         WidgetContent = widgetContent;
-#pragma warning restore BL0005
+        HTMLElementContent = hTMLElementContent;
+#pragma warning restore BL0005    
     }
+    
+    
 }

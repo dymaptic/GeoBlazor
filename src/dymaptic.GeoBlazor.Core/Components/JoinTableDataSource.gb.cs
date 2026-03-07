@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.JoinTableDataSource.html">GeoBlazor Docs</a>
 ///     The result of an on-the-fly join operation at runtime.
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class JoinTableDataSource
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -40,7 +42,8 @@ public partial class JoinTableDataSource
     ///     The right table for joining to the left table source.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#JoinTableDataSource">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public JoinTableDataSource(string leftTableKey,
+    public JoinTableDataSource(
+        string leftTableKey,
         string rightTableKey,
         DynamicJoinType joinType,
         DynamicLayer leftTableSource,
@@ -53,10 +56,10 @@ public partial class JoinTableDataSource
         JoinType = joinType;
         LeftTableSource = leftTableSource;
         RightTableSource = rightTableSource;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -68,7 +71,7 @@ public partial class JoinTableDataSource
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public DynamicLayer? LeftTableSource { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.JoinTableDataSource.html#jointabledatasourcerighttablesource-property">GeoBlazor Docs</a>
     ///     The right table for joining to the left table source.
@@ -78,9 +81,8 @@ public partial class JoinTableDataSource
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public DynamicLayer? RightTableSource { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -93,8 +95,8 @@ public partial class JoinTableDataSource
         {
             return JoinType;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -103,28 +105,26 @@ public partial class JoinTableDataSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return JoinType;
         }
 
         // get the property value
-        JsNullableEnumWrapper<DynamicJoinType>? result =
-            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<DynamicJoinType>?>("getNullableValueTypedProperty",
-                CancellationTokenSource.Token, JsComponentReference, "joinType");
-
+        JsNullableEnumWrapper<DynamicJoinType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<DynamicJoinType>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "joinType");
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            JoinType = (DynamicJoinType)result.Value.Value!;
+             JoinType = (DynamicJoinType)result.Value.Value!;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(JoinType)] = JoinType;
+             ModifiedParameters[nameof(JoinType)] = JoinType;
         }
-
+         
         return JoinType;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LeftTableKey property.
     /// </summary>
@@ -134,8 +134,8 @@ public partial class JoinTableDataSource
         {
             return LeftTableKey;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -144,27 +144,27 @@ public partial class JoinTableDataSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return LeftTableKey;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(JoinTableDataSource, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "leftTableKey");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            LeftTableKey = result;
+             LeftTableKey = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(LeftTableKey)] = LeftTableKey;
+             ModifiedParameters[nameof(LeftTableKey)] = LeftTableKey;
         }
-
+         
         return LeftTableKey;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LeftTableSource property.
     /// </summary>
@@ -174,8 +174,8 @@ public partial class JoinTableDataSource
         {
             return LeftTableSource;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -184,27 +184,27 @@ public partial class JoinTableDataSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return LeftTableSource;
         }
 
         // get the property value
-        DynamicLayer? result = await JsComponentReference!.InvokeAsync<DynamicLayer?>("getProperty",
+        DynamicLayer? result = await JsComponentReference!.InvokeJsMethod<DynamicLayer?>(
+            IsServer, "GetProperty", nameof(JoinTableDataSource, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "leftTableSource");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            LeftTableSource = result;
+             LeftTableSource = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(LeftTableSource)] = LeftTableSource;
+             ModifiedParameters[nameof(LeftTableSource)] = LeftTableSource;
         }
-
+         
         return LeftTableSource;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the RightTableKey property.
     /// </summary>
@@ -214,8 +214,8 @@ public partial class JoinTableDataSource
         {
             return RightTableKey;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -224,27 +224,27 @@ public partial class JoinTableDataSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return RightTableKey;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(JoinTableDataSource, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "rightTableKey");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            RightTableKey = result;
+             RightTableKey = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(RightTableKey)] = RightTableKey;
+             ModifiedParameters[nameof(RightTableKey)] = RightTableKey;
         }
-
+         
         return RightTableKey;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the RightTableSource property.
     /// </summary>
@@ -254,8 +254,8 @@ public partial class JoinTableDataSource
         {
             return RightTableSource;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -264,29 +264,28 @@ public partial class JoinTableDataSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return RightTableSource;
         }
 
         // get the property value
-        DynamicLayer? result = await JsComponentReference!.InvokeAsync<DynamicLayer?>("getProperty",
+        DynamicLayer? result = await JsComponentReference!.InvokeJsMethod<DynamicLayer?>(
+            IsServer, "GetProperty", nameof(JoinTableDataSource, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "rightTableSource");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            RightTableSource = result;
+             RightTableSource = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(RightTableSource)] = RightTableSource;
+             ModifiedParameters[nameof(RightTableSource)] = RightTableSource;
         }
-
+         
         return RightTableSource;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -302,13 +301,13 @@ public partial class JoinTableDataSource
         JoinType = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(JoinType)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -317,16 +316,16 @@ public partial class JoinTableDataSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "joinType", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LeftTableKey property after render.
     /// </summary>
@@ -339,13 +338,13 @@ public partial class JoinTableDataSource
         LeftTableKey = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LeftTableKey)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -354,16 +353,16 @@ public partial class JoinTableDataSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "leftTableKey", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LeftTableSource property after render.
     /// </summary>
@@ -376,13 +375,13 @@ public partial class JoinTableDataSource
         LeftTableSource = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LeftTableSource)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -391,16 +390,16 @@ public partial class JoinTableDataSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "leftTableSource", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the RightTableKey property after render.
     /// </summary>
@@ -413,13 +412,13 @@ public partial class JoinTableDataSource
         RightTableKey = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(RightTableKey)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -428,16 +427,16 @@ public partial class JoinTableDataSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rightTableKey", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the RightTableSource property after render.
     /// </summary>
@@ -450,13 +449,13 @@ public partial class JoinTableDataSource
         RightTableSource = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(RightTableSource)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -465,15 +464,16 @@ public partial class JoinTableDataSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rightTableSource", value);
     }
-
+    
 #endregion
+
 }

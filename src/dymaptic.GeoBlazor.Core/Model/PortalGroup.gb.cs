@@ -52,6 +52,18 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     The title of the group.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalGroup.html#title">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="SourceJSON">
+///     The JSON used to create the property values when the `PortalGroup` is created.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalGroup.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="ThumbnailUrl">
+///     The URL to the thumbnail used for the group.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalGroup.html#thumbnailUrl">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="Url">
+///     The URL to the group.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalGroup.html#url">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 public partial record PortalGroup(
     PortalGroupAccess? Access = null,
     DateTime? Created = null,
@@ -63,46 +75,47 @@ public partial record PortalGroup(
     string? PortalGroupId = null,
     string? Snippet = null,
     IReadOnlyCollection<string>? Tags = null,
-    string? Title = null) : IInteractiveRecord
+    string? Title = null,
+    string? SourceJSON = null,
+    string? ThumbnailUrl = null,
+    string? Url = null): IInteractiveRecord
 {
     /// <summary>
-    ///     Parameterless constructor
+    ///     Parameterless Constructor
     /// </summary>
-    public PortalGroup() : this(null, null)
+    public PortalGroup(): this(null, null)
     {
     }
-
+    
     /// <summary>
     ///     Represents the JavaScript component reference.
     /// </summary>
     public IJSObjectReference? JsComponentReference { get; set; }
-
+    
     /// <summary>
     ///     Allows for transmitting CancellationToken cancel signals to JavaScript.
     /// </summary>
     public AbortManager? AbortManager { get; set; }
-
+    
     /// <summary>
     ///     A unique Id to identify this record in JavaScript.
     /// </summary>
     public Guid Id { get; set; } = Guid.NewGuid();
-
+    
     /// <summary>
     ///     Reference to the Core JavaScript module.
     /// </summary>
     public IJSObjectReference? CoreJsModule { get; set; }
-
+    
     /// <summary>
     ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
     /// </summary>
     public bool IsServer { get; set; }
-
+    
     /// <summary>
     ///     Cancellation Token for async methods.
     /// </summary>
     protected readonly CancellationTokenSource CancellationTokenSource = new();
-
-
 #region Public Methods
 
     /// <summary>
@@ -120,8 +133,8 @@ public partial record PortalGroup(
         {
             return null;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -130,23 +143,28 @@ public partial record PortalGroup(
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
+        
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-
-        string[]? result = await JsComponentReference!.InvokeAsync<string[]?>("fetchCategorySchema",
+        string[]? result = await JsComponentReference!.InvokeJsMethod<string[]?>(
+            IsServer, nameof(FetchCategorySchema), nameof(PortalGroup), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             abortSignal);
-
+                
         await AbortManager.DisposeAbortController(cancellationToken);
-
+        
         return result;
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.PortalGroup.html#portalgroupfetchmembers-method">GeoBlazor Docs</a>
     ///     Fetches the current members of the group.
@@ -162,8 +180,8 @@ public partial record PortalGroup(
         {
             return null;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -172,23 +190,28 @@ public partial record PortalGroup(
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
+        
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-
-        Members? result = await JsComponentReference!.InvokeAsync<Members?>("fetchMembers",
+        Members? result = await JsComponentReference!.InvokeJsMethod<Members?>(
+            IsServer, nameof(FetchMembers), nameof(PortalGroup), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             abortSignal);
-
+                
         await AbortManager.DisposeAbortController(cancellationToken);
-
+        
         return result;
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.PortalGroup.html#portalgroupgetthumbnailurl-method">GeoBlazor Docs</a>
     ///     Get the URL to the thumbnail image for the group.
@@ -204,7 +227,7 @@ public partial record PortalGroup(
         {
             return null;
         }
-
+        
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -214,17 +237,18 @@ public partial record PortalGroup(
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
-        return await JsComponentReference!.InvokeAsync<string?>("getThumbnailUrl",
+        
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GetThumbnailUrl), nameof(PortalGroup), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             width);
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.PortalGroup.html#portalgroupqueryitems-method">GeoBlazor Docs</a>
     ///     Executes a query against the group to return an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">PortalItem</a> objects
@@ -246,8 +270,8 @@ public partial record PortalGroup(
         {
             return null;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -256,23 +280,29 @@ public partial record PortalGroup(
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
+        
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-
-        PortalQueryResult? result = await JsComponentReference!.InvokeAsync<PortalQueryResult?>("queryItems",
+        PortalQueryResult? result = await JsComponentReference!.InvokeJsMethod<PortalQueryResult?>(
+            IsServer, nameof(QueryItems), nameof(PortalGroup), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             queryParams,
             abortSignal);
-
+                
         await AbortManager.DisposeAbortController(cancellationToken);
-
+        
         return result;
     }
-
+    
 #endregion
+
 }

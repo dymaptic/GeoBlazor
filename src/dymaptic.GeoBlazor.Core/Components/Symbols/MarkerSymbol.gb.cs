@@ -80,7 +80,8 @@ public abstract partial class MarkerSymbol
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
+            IsServer, "GetProperty", nameof(MarkerSymbol, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "xoffset");
         if (result is not null)
         {
@@ -119,7 +120,8 @@ public abstract partial class MarkerSymbol
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
+            IsServer, "GetProperty", nameof(MarkerSymbol, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "yoffset");
         if (result is not null)
         {

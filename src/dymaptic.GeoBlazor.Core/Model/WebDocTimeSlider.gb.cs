@@ -40,19 +40,19 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-widgets-TimeSlider.html#stops">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record WebDocTimeSlider(
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     TimeExtent? CurrentTimeExtent = null,
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     TimeExtent? FullTimeExtent = null,
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? Loop = null,
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? NumStops = null,
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? NumThumbs = null,
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? StopDelay = null,
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     TimeInterval? StopInterval = null,
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyList<DateTime>? Stops = null);

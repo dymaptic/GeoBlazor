@@ -126,7 +126,8 @@ public partial class RelationshipLabels : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(RelationshipLabels, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "bottom");
         if (result is not null)
         {
@@ -165,7 +166,8 @@ public partial class RelationshipLabels : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(RelationshipLabels, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "left");
         if (result is not null)
         {
@@ -204,7 +206,8 @@ public partial class RelationshipLabels : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(RelationshipLabels, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "right");
         if (result is not null)
         {
@@ -243,7 +246,8 @@ public partial class RelationshipLabels : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(RelationshipLabels, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "top");
         if (result is not null)
         {

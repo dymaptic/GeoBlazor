@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.CompassWidget.html">GeoBlazor Docs</a>
 ///     The Compass widget indicates where north is in relation to the current view
@@ -11,6 +12,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 /// </summary>
 public partial class CompassWidget : IGoTo
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -59,7 +61,8 @@ public partial class CompassWidget : IGoTo
     ///     The unique ID assigned to the widget when the widget is created.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public CompassWidget(string? containerId = null,
+    public CompassWidget(
+        string? containerId = null,
         GoToOverride? goToOverride = null,
         string? icon = null,
         string? label = null,
@@ -80,10 +83,10 @@ public partial class CompassWidget : IGoTo
         ViewModel = viewModel;
         Visible = visible;
         WidgetId = widgetId;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -95,9 +98,8 @@ public partial class CompassWidget : IGoTo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public CompassViewModel? ViewModel { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -110,8 +112,8 @@ public partial class CompassWidget : IGoTo
         {
             return ViewModel;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -120,35 +122,34 @@ public partial class CompassWidget : IGoTo
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ViewModel;
         }
 
-        CompassViewModel? result =
-            await JsComponentReference.InvokeAsync<CompassViewModel?>("getViewModel", CancellationTokenSource.Token);
-
+        CompassViewModel? result = await JsComponentReference.InvokeJsMethod<CompassViewModel?>(
+            IsServer, nameof(GetViewModel), nameof(CompassWidget), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
             if (ViewModel is not null)
             {
                 result.Id = ViewModel.Id;
             }
-
             result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-
+            
 #pragma warning disable BL0005
             ViewModel = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ViewModel)] = ViewModel;
         }
-
+        
         return ViewModel;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -160,22 +161,22 @@ public partial class CompassWidget : IGoTo
     /// </param>
     public async Task SetViewModel(CompassViewModel? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ViewModel)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -184,18 +185,18 @@ public partial class CompassWidget : IGoTo
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setViewModel",
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetViewModel), nameof(CompassWidget), 
             CancellationTokenSource.Token, value);
     }
-
+    
 #endregion
-
 
 #region Public Methods
 
@@ -212,8 +213,8 @@ public partial class CompassWidget : IGoTo
         {
             return;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -222,25 +223,25 @@ public partial class CompassWidget : IGoTo
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference!.InvokeVoidAsync("reset",
+        
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer
+            nameof(Reset), nameof(CompassWidget), 
             CancellationTokenSource.Token);
     }
-
+    
 #endregion
 
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        ViewModel?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -252,13 +253,12 @@ public partial class CompassWidget : IGoTo
                 {
                     ViewModel = viewModel;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
-
                     if (MapRendered)
                     {
                         await UpdateWidget();
                     }
                 }
-
+                
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -273,10 +273,18 @@ public partial class CompassWidget : IGoTo
             case CompassViewModel _:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
-
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        ViewModel?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

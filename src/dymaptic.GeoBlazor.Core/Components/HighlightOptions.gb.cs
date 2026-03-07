@@ -128,7 +128,8 @@ public partial class HighlightOptions
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
+            IsServer, "GetProperty", nameof(HighlightOptions, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "color");
         if (result is not null)
         {
@@ -206,7 +207,8 @@ public partial class HighlightOptions
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
+            IsServer, "GetProperty", nameof(HighlightOptions, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "haloColor");
         if (result is not null)
         {
@@ -284,7 +286,8 @@ public partial class HighlightOptions
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(HighlightOptions, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {
@@ -323,7 +326,8 @@ public partial class HighlightOptions
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
+            IsServer, "GetProperty", nameof(HighlightOptions, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "shadowColor");
         if (result is not null)
         {

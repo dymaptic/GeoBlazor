@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureSnappingLayerSource.html">GeoBlazor Docs</a>
 ///     The FeatureSnappingLayerSource specifies which layers will be utilized for snapping in the
@@ -10,6 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class FeatureSnappingLayerSource
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -26,15 +28,16 @@ public partial class FeatureSnappingLayerSource
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-snapping-FeatureSnappingLayerSource.html#enabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public FeatureSnappingLayerSource(bool? enabled = null)
+    public FeatureSnappingLayerSource(
+        bool? enabled = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Enabled = enabled;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -47,9 +50,97 @@ public partial class FeatureSnappingLayerSource
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? Enabled { get; set; }
-
+    
 #endregion
 
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Enabled property.
+    /// </summary>
+    public async Task<bool?> GetEnabled()
+    {
+        if (CoreJsModule is null)
+        {
+            return Enabled;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Enabled;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "enabled");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             Enabled = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Enabled)] = Enabled;
+        }
+         
+        return Enabled;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Layer property.
+    /// </summary>
+    public async Task<Layer?> GetLayer()
+    {
+        if (CoreJsModule is null)
+        {
+            return Layer;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Layer;
+        }
+
+        Layer? result = await JsComponentReference.InvokeJsMethod<Layer?>(
+            IsServer, nameof(GetLayer), nameof(FeatureSnappingLayerSource), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (Layer is not null)
+            {
+                result.Id = Layer.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            Layer = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Layer)] = Layer;
+        }
+        
+        return Layer;
+    }
+    
+#endregion
 
 #region Property Setters
 
@@ -65,13 +156,13 @@ public partial class FeatureSnappingLayerSource
         Enabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Enabled)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -80,106 +171,16 @@ public partial class FeatureSnappingLayerSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "enabled", value);
     }
-
+    
 #endregion
 
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Enabled property.
-    /// </summary>
-    public async Task<bool?> GetEnabled()
-    {
-        if (CoreJsModule is null)
-        {
-            return Enabled;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Enabled;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "enabled");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            Enabled = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Enabled)] = Enabled;
-        }
-
-        return Enabled;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Layer property.
-    /// </summary>
-    public async Task<Layer?> GetLayer()
-    {
-        if (CoreJsModule is null)
-        {
-            return Layer;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Layer;
-        }
-
-        Layer? result = await JsComponentReference.InvokeAsync<Layer?>("getLayer", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-            if (Layer is not null)
-            {
-                result.Id = Layer.Id;
-            }
-
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-
-#pragma warning disable BL0005
-            Layer = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Layer)] = Layer;
-        }
-
-        return Layer;
-    }
-
-#endregion
 }

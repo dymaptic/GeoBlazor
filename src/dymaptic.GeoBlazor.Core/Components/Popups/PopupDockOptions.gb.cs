@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupDockOptions.html">GeoBlazor Docs</a>
 ///     Docking the popup allows for a better user experience, particularly when opening
@@ -10,6 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 /// </summary>
 public partial class PopupDockOptions
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -43,7 +45,8 @@ public partial class PopupDockOptions
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#dockOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public PopupDockOptions(PopupDockPosition? position = null,
+    public PopupDockOptions(
+        PopupDockPosition? position = null,
         bool? buttonEnabled = null,
         BreakPoint? breakPoint = null,
         bool? boolBreakpoint = null,
@@ -56,50 +59,10 @@ public partial class PopupDockOptions
         BreakPoint = breakPoint;
         BoolBreakpoint = boolBreakpoint;
         PopupDockOptionsBreakpoint = popupDockOptionsBreakpoint;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        PopupDockOptionsBreakpoint?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case PopupDockOptionsBreakpoint popupDockOptionsBreakpoint:
-                if (popupDockOptionsBreakpoint != PopupDockOptionsBreakpoint)
-                {
-                    PopupDockOptionsBreakpoint = popupDockOptionsBreakpoint;
-                    ModifiedParameters[nameof(PopupDockOptionsBreakpoint)] = PopupDockOptionsBreakpoint;
-                }
-
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case PopupDockOptionsBreakpoint _:
-                PopupDockOptionsBreakpoint = null;
-                ModifiedParameters[nameof(PopupDockOptionsBreakpoint)] = PopupDockOptionsBreakpoint;
-
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -112,7 +75,7 @@ public partial class PopupDockOptions
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? BoolBreakpoint { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupDockOptions.html#popupdockoptionspopupdockoptionsbreakpoint-property">GeoBlazor Docs</a>
     ///     Defines the dimensions of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a> at which to dock the popup.
@@ -123,9 +86,8 @@ public partial class PopupDockOptions
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PopupDockOptionsBreakpoint? PopupDockOptionsBreakpoint { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -138,8 +100,8 @@ public partial class PopupDockOptions
         {
             return BoolBreakpoint;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -148,28 +110,26 @@ public partial class PopupDockOptions
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return BoolBreakpoint;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "boolBreakpoint");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            BoolBreakpoint = result.Value.Value;
+             BoolBreakpoint = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(BoolBreakpoint)] = BoolBreakpoint;
+             ModifiedParameters[nameof(BoolBreakpoint)] = BoolBreakpoint;
         }
-
+         
         return BoolBreakpoint;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ButtonEnabled property.
     /// </summary>
@@ -179,8 +139,8 @@ public partial class PopupDockOptions
         {
             return ButtonEnabled;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -189,28 +149,26 @@ public partial class PopupDockOptions
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ButtonEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "buttonEnabled");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            ButtonEnabled = result.Value.Value;
+             ButtonEnabled = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ButtonEnabled)] = ButtonEnabled;
+             ModifiedParameters[nameof(ButtonEnabled)] = ButtonEnabled;
         }
-
+         
         return ButtonEnabled;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupDockOptionsBreakpoint property.
     /// </summary>
@@ -220,8 +178,8 @@ public partial class PopupDockOptions
         {
             return PopupDockOptionsBreakpoint;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -230,26 +188,33 @@ public partial class PopupDockOptions
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return PopupDockOptionsBreakpoint;
         }
 
-        PopupDockOptionsBreakpoint? result = await JsComponentReference.InvokeAsync<PopupDockOptionsBreakpoint?>(
-            "getPopupDockOptionsBreakpoint", CancellationTokenSource.Token);
-
+        PopupDockOptionsBreakpoint? result = await JsComponentReference.InvokeJsMethod<PopupDockOptionsBreakpoint?>(
+            IsServer, nameof(GetPopupDockOptionsBreakpoint), nameof(PopupDockOptions), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (PopupDockOptionsBreakpoint is not null)
+            {
+                result.Id = PopupDockOptionsBreakpoint.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             PopupDockOptionsBreakpoint = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(PopupDockOptionsBreakpoint)] = PopupDockOptionsBreakpoint;
         }
-
+        
         return PopupDockOptionsBreakpoint;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Position property.
     /// </summary>
@@ -259,8 +224,8 @@ public partial class PopupDockOptions
         {
             return Position;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -269,30 +234,27 @@ public partial class PopupDockOptions
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Position;
         }
 
         // get the property value
-        JsNullableEnumWrapper<PopupDockPosition>? result =
-            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PopupDockPosition>?>("getNullableValueTypedProperty",
-                CancellationTokenSource.Token, JsComponentReference, "position");
-
+        JsNullableEnumWrapper<PopupDockPosition>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PopupDockPosition>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "position");
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            Position = (PopupDockPosition)result.Value.Value!;
+             Position = (PopupDockPosition)result.Value.Value!;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Position)] = Position;
+             ModifiedParameters[nameof(Position)] = Position;
         }
-
+         
         return Position;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -308,13 +270,13 @@ public partial class PopupDockOptions
         BoolBreakpoint = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(BoolBreakpoint)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -323,16 +285,16 @@ public partial class PopupDockOptions
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "breakpoint", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ButtonEnabled property after render.
     /// </summary>
@@ -345,13 +307,13 @@ public partial class PopupDockOptions
         ButtonEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ButtonEnabled)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -360,16 +322,16 @@ public partial class PopupDockOptions
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "buttonEnabled", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PopupDockOptionsBreakpoint property after render.
     /// </summary>
@@ -378,22 +340,22 @@ public partial class PopupDockOptions
     /// </param>
     public async Task SetPopupDockOptionsBreakpoint(PopupDockOptionsBreakpoint? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         PopupDockOptionsBreakpoint = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(PopupDockOptionsBreakpoint)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -402,16 +364,16 @@ public partial class PopupDockOptions
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "breakpoint", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Position property after render.
     /// </summary>
@@ -424,13 +386,13 @@ public partial class PopupDockOptions
         Position = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Position)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -439,15 +401,57 @@ public partial class PopupDockOptions
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "position", value);
     }
-
+    
 #endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case PopupDockOptionsBreakpoint popupDockOptionsBreakpoint:
+                if (popupDockOptionsBreakpoint != PopupDockOptionsBreakpoint)
+                {
+                    PopupDockOptionsBreakpoint = popupDockOptionsBreakpoint;
+                    ModifiedParameters[nameof(PopupDockOptionsBreakpoint)] = PopupDockOptionsBreakpoint;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case PopupDockOptionsBreakpoint _:
+                PopupDockOptionsBreakpoint = null;
+                ModifiedParameters[nameof(PopupDockOptionsBreakpoint)] = PopupDockOptionsBreakpoint;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        PopupDockOptionsBreakpoint?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

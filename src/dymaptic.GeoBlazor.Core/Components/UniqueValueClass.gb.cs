@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValueClass.html">GeoBlazor Docs</a>
 ///     Defines a category within a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueGroup.html">UniqueValueGroup</a>.
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class UniqueValueClass : MapComponent
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -22,7 +24,7 @@ public partial class UniqueValueClass : MapComponent
     /// </summary>
     /// <param name="label">
     ///     Describes the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#values">values</a> represented by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#symbol">symbol</a> in the
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="symbol">
@@ -33,7 +35,8 @@ public partial class UniqueValueClass : MapComponent
     ///     An array of unique values that should be rendered with the same symbol.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#values">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public UniqueValueClass(string? label = null,
+    public UniqueValueClass(
+        string? label = null,
         Symbol? symbol = null,
         IReadOnlyList<UniqueValue>? values = null)
     {
@@ -42,9 +45,306 @@ public partial class UniqueValueClass : MapComponent
         Label = label;
         Symbol = symbol;
         Values = values;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
+    
+    
+#region Public Properties / Blazor Parameters
 
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValueClass.html#uniquevalueclasslabel-property">GeoBlazor Docs</a>
+    ///     Describes the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#values">values</a> represented by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#symbol">symbol</a> in the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#label">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Label { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValueClass.html#uniquevalueclasssymbol-property">GeoBlazor Docs</a>
+    ///     Defines the symbol used to represent features containing the given <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#values">values</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#symbol">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Symbol? Symbol { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValueClass.html#uniquevalueclassvalues-property">GeoBlazor Docs</a>
+    ///     An array of unique values that should be rendered with the same symbol.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#values">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<UniqueValue>? Values { get; set; }
+    
+#endregion
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Label property.
+    /// </summary>
+    public async Task<string?> GetLabel()
+    {
+        if (CoreJsModule is null)
+        {
+            return Label;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Label;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(UniqueValueClass, View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "label");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Label = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Label)] = Label;
+        }
+         
+        return Label;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Symbol property.
+    /// </summary>
+    public async Task<Symbol?> GetSymbol()
+    {
+        if (CoreJsModule is null)
+        {
+            return Symbol;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Symbol;
+        }
+
+        Symbol? result = await JsComponentReference.InvokeJsMethod<Symbol?>(
+            IsServer, nameof(GetSymbol), nameof(UniqueValueClass), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (Symbol is not null)
+            {
+                result.Id = Symbol.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            Symbol = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Symbol)] = Symbol;
+        }
+        
+        return Symbol;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Values property.
+    /// </summary>
+    public async Task<IReadOnlyList<UniqueValue>?> GetValues()
+    {
+        if (CoreJsModule is null)
+        {
+            return Values;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Values;
+        }
+
+        IReadOnlyList<UniqueValue>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<UniqueValue>?>(
+            IsServer, nameof(GetValues), nameof(UniqueValueClass), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            foreach (UniqueValue item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+#pragma warning disable BL0005
+            Values = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Values)] = Values;
+        }
+        
+        return Values;
+    }
+    
+#endregion
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the Label property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetLabel(string? value)
+    {
+#pragma warning disable BL0005
+        Label = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Label)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "label", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Symbol property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetSymbol(Symbol? value)
+    {
+#pragma warning disable BL0005
+        Symbol = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Symbol)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "symbol", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Values property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetValues(IReadOnlyList<UniqueValue>? value)
+    {
+#pragma warning disable BL0005
+        Values = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Values)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            foreach (UniqueValue item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "values", value);
+    }
+    
+#endregion
 
 #region Add to Collection Methods
 
@@ -61,12 +361,12 @@ public partial class UniqueValueClass : MapComponent
             : [..Values, ..values];
         await SetValues(join);
     }
-
+    
 #endregion
-
 
 #region Remove From Collection Methods
 
+    
     /// <summary>
     ///     Asynchronously remove an element from the Values property.
     /// </summary>
@@ -79,28 +379,11 @@ public partial class UniqueValueClass : MapComponent
         {
             return;
         }
-
         await SetValues(Values.Except(values).ToArray());
     }
-
+    
 #endregion
 
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        Symbol?.ValidateRequiredGeneratedChildren();
-
-        if (Values is not null)
-        {
-            foreach (UniqueValue child in Values)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-
-        base.ValidateRequiredGeneratedChildren();
-    }
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -113,17 +396,16 @@ public partial class UniqueValueClass : MapComponent
                     Symbol = symbol;
                     ModifiedParameters[nameof(Symbol)] = Symbol;
                 }
-
+                
                 return true;
             case UniqueValue values:
                 Values ??= [];
-
                 if (!Values.Contains(values))
                 {
                     Values = [..Values, values];
                     ModifiedParameters[nameof(Values)] = Values;
                 }
-
+                
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -138,303 +420,29 @@ public partial class UniqueValueClass : MapComponent
             case Symbol _:
                 Symbol = null;
                 ModifiedParameters[nameof(Symbol)] = Symbol;
-
                 return true;
             case UniqueValue values:
                 Values = Values?.Where(v => v != values).ToList();
                 ModifiedParameters[nameof(Values)] = Values;
-
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-
-
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValueClass.html#uniquevalueclasslabel-property">GeoBlazor Docs</a>
-    ///     Describes the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#values">values</a> represented by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#symbol">symbol</a> in the
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#label">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Label { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValueClass.html#uniquevalueclasssymbol-property">GeoBlazor Docs</a>
-    ///     Defines the symbol used to represent features containing the given <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#values">values</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#symbol">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Symbol? Symbol { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValueClass.html#uniquevalueclassvalues-property">GeoBlazor Docs</a>
-    ///     An array of unique values that should be rendered with the same symbol.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#values">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<UniqueValue>? Values { get; set; }
-
-#endregion
-
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Label property.
-    /// </summary>
-    public async Task<string?> GetLabel()
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
     {
-        if (CoreJsModule is null)
+    
+        Symbol?.ValidateRequiredGeneratedChildren();
+        if (Values is not null)
         {
-            return Label;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Label;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "label");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Label = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Label)] = Label;
-        }
-
-        return Label;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Symbol property.
-    /// </summary>
-    public async Task<Symbol?> GetSymbol()
-    {
-        if (CoreJsModule is null)
-        {
-            return Symbol;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Symbol;
-        }
-
-        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>("getSymbol", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Symbol = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Symbol)] = Symbol;
-        }
-
-        return Symbol;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Values property.
-    /// </summary>
-    public async Task<IReadOnlyList<UniqueValue>?> GetValues()
-    {
-        if (CoreJsModule is null)
-        {
-            return Values;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Values;
-        }
-
-        IReadOnlyList<UniqueValue>? result =
-            await JsComponentReference.InvokeAsync<IReadOnlyList<UniqueValue>?>("getValues",
-                CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Values = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Values)] = Values;
-        }
-
-        return Values;
-    }
-
-#endregion
-
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the Label property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetLabel(string? value)
-    {
-#pragma warning disable BL0005
-        Label = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Label)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "label", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Symbol property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetSymbol(Symbol? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
-#pragma warning disable BL0005
-        Symbol = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Symbol)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "symbol", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Values property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetValues(IReadOnlyList<UniqueValue>? value)
-    {
-        if (value is not null)
-        {
-            foreach (UniqueValue item in value)
+            foreach (UniqueValue child in Values)
             {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+                child.ValidateRequiredGeneratedChildren();
             }
         }
-
-#pragma warning disable BL0005
-        Values = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Values)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "values", value);
+        base.ValidateRequiredGeneratedChildren();
     }
-
-#endregion
+      
 }

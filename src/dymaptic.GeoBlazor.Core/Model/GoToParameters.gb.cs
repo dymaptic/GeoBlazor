@@ -16,19 +16,20 @@ public partial record GoToParameters(
     GoToTarget? Target = null)
 {
     /// <summary>
-    ///     Parameterless constructor
+    ///     Parameterless Constructor
     /// </summary>
-    public GoToParameters() : this(null, null)
+    public GoToParameters(): this(null, null)
     {
     }
-
+    
     /// <summary>
     ///     
     /// </summary>
     public GoToOptions? Options { get; set; } = Options;
-
+    
     /// <summary>
     ///     
     /// </summary>
     public GoToTarget? Target { get; set; } = Target;
+    
 }

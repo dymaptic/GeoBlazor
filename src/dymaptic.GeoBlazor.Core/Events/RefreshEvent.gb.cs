@@ -4,11 +4,11 @@ namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Events.RefreshEvent.html">GeoBlazor Docs</a>
-///     Event result type for the CSVLayer.OnRefresh event.
+///     Event result type for the WFSLayer.OnRefresh event.
 /// </summary>
 /// <param name="DataChanged">
 ///     Indicates if the layer's data has changed.
 /// </param>
 public partial record RefreshEvent(
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? DataChanged = null);

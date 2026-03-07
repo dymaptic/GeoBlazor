@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendViewModel.html">GeoBlazor Docs</a>
 ///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widget and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">component</a>,
@@ -11,6 +12,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class LegendViewModel : MapComponent
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -29,7 +31,7 @@ public partial class LegendViewModel : MapComponent
     /// </param>
     /// <param name="basemapLegendVisible">
     ///     Indicates whether to show the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">Basemap</a> layers in the Legend.
-    ///     default false
+    ///     default filterBasemaps
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#basemapLegendVisible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="hideLayersNotInCurrentView">
@@ -39,7 +41,7 @@ public partial class LegendViewModel : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#hideLayersNotInCurrentView">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="layerInfos">
-    ///     Defines which layers and sublayers are shown in the legend, including any <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#basemapLegendVisible">basemap layers</a> you want visible.
+    ///     Specifies a subset of the layers in the map to display in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="respectLayerVisibility">
@@ -48,10 +50,11 @@ public partial class LegendViewModel : MapComponent
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#respectLayerVisibility">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public LegendViewModel(IReadOnlyList<ActiveLayerInfo>? activeLayerInfos = null,
+    public LegendViewModel(
+        IReadOnlyList<ActiveLayerInfo>? activeLayerInfos = null,
         bool? basemapLegendVisible = null,
         bool? hideLayersNotInCurrentView = null,
-        IReadOnlyList<LegendViewModelLayerInfo>? layerInfos = null,
+        IReadOnlyList<LegendViewModelLayerInfos>? layerInfos = null,
         bool? respectLayerVisibility = null)
     {
         AllowRender = false;
@@ -61,82 +64,10 @@ public partial class LegendViewModel : MapComponent
         HideLayersNotInCurrentView = hideLayersNotInCurrentView;
         LayerInfos = layerInfos;
         RespectLayerVisibility = respectLayerVisibility;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        if (ActiveLayerInfos is not null)
-        {
-            foreach (ActiveLayerInfo child in ActiveLayerInfos)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-
-        if (LayerInfos is not null)
-        {
-            foreach (LegendViewModelLayerInfo child in LayerInfos)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-
-        base.ValidateRequiredGeneratedChildren();
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ActiveLayerInfo activeLayerInfos:
-                ActiveLayerInfos ??= [];
-
-                if (!ActiveLayerInfos.Contains(activeLayerInfos))
-                {
-                    ActiveLayerInfos = [..ActiveLayerInfos, activeLayerInfos];
-                    ModifiedParameters[nameof(ActiveLayerInfos)] = ActiveLayerInfos;
-                }
-
-                return true;
-            case LegendViewModelLayerInfo layerInfos:
-                LayerInfos ??= [];
-
-                if (!LayerInfos.Contains(layerInfos))
-                {
-                    LayerInfos = [..LayerInfos, layerInfos];
-                    ModifiedParameters[nameof(LayerInfos)] = LayerInfos;
-                }
-
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ActiveLayerInfo activeLayerInfos:
-                ActiveLayerInfos = ActiveLayerInfos?.Where(a => a != activeLayerInfos).ToList();
-                ModifiedParameters[nameof(ActiveLayerInfos)] = ActiveLayerInfos;
-
-                return true;
-            case LegendViewModelLayerInfo layerInfos:
-                LayerInfos = LayerInfos?.Where(l => l != layerInfos).ToList();
-                ModifiedParameters[nameof(LayerInfos)] = LayerInfos;
-
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -149,18 +80,18 @@ public partial class LegendViewModel : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<ActiveLayerInfo>? ActiveLayerInfos { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendViewModel.html#legendviewmodelbasemaplegendvisible-property">GeoBlazor Docs</a>
     ///     Indicates whether to show the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">Basemap</a> layers in the Legend.
-    ///     default false
+    ///     default filterBasemaps
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#basemapLegendVisible">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? BasemapLegendVisible { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendViewModel.html#legendviewmodelhidelayersnotincurrentview-property">GeoBlazor Docs</a>
     ///     When `true`, layers will only be shown in the legend if
@@ -172,17 +103,17 @@ public partial class LegendViewModel : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? HideLayersNotInCurrentView { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendViewModel.html#legendviewmodellayerinfos-property">GeoBlazor Docs</a>
-    ///     Defines which layers and sublayers are shown in the legend, including any <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#basemapLegendVisible">basemap layers</a> you want visible.
+    ///     Specifies a subset of the layers in the map to display in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<LegendViewModelLayerInfo>? LayerInfos { get; set; }
-
+    public IReadOnlyList<LegendViewModelLayerInfos>? LayerInfos { get; set; }
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendViewModel.html#legendviewmodelrespectlayervisibility-property">GeoBlazor Docs</a>
     ///     Determines whether to respect the properties of the layers in the map that
@@ -194,7 +125,7 @@ public partial class LegendViewModel : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? RespectLayerVisibility { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendViewModel.html#legendviewmodelstate-property">GeoBlazor Docs</a>
     ///     The view model's state.
@@ -205,9 +136,8 @@ public partial class LegendViewModel : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public LegendViewModelState? State { get; protected set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -220,8 +150,8 @@ public partial class LegendViewModel : MapComponent
         {
             return ActiveLayerInfos;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -230,27 +160,31 @@ public partial class LegendViewModel : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ActiveLayerInfos;
         }
 
-        IReadOnlyList<ActiveLayerInfo>? result =
-            await JsComponentReference.InvokeAsync<IReadOnlyList<ActiveLayerInfo>?>("getActiveLayerInfos",
-                CancellationTokenSource.Token);
-
+        IReadOnlyList<ActiveLayerInfo>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<ActiveLayerInfo>?>(
+            IsServer, nameof(GetActiveLayerInfos), nameof(LegendViewModel), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            foreach (ActiveLayerInfo item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             ActiveLayerInfos = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ActiveLayerInfos)] = ActiveLayerInfos;
         }
-
+        
         return ActiveLayerInfos;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the BasemapLegendVisible property.
     /// </summary>
@@ -260,8 +194,8 @@ public partial class LegendViewModel : MapComponent
         {
             return BasemapLegendVisible;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -270,28 +204,26 @@ public partial class LegendViewModel : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return BasemapLegendVisible;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "basemapLegendVisible");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            BasemapLegendVisible = result.Value.Value;
+             BasemapLegendVisible = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(BasemapLegendVisible)] = BasemapLegendVisible;
+             ModifiedParameters[nameof(BasemapLegendVisible)] = BasemapLegendVisible;
         }
-
+         
         return BasemapLegendVisible;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the HideLayersNotInCurrentView property.
     /// </summary>
@@ -301,8 +233,8 @@ public partial class LegendViewModel : MapComponent
         {
             return HideLayersNotInCurrentView;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -311,39 +243,37 @@ public partial class LegendViewModel : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return HideLayersNotInCurrentView;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "hideLayersNotInCurrentView");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            HideLayersNotInCurrentView = result.Value.Value;
+             HideLayersNotInCurrentView = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(HideLayersNotInCurrentView)] = HideLayersNotInCurrentView;
+             ModifiedParameters[nameof(HideLayersNotInCurrentView)] = HideLayersNotInCurrentView;
         }
-
+         
         return HideLayersNotInCurrentView;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LayerInfos property.
     /// </summary>
-    public async Task<IReadOnlyList<LegendViewModelLayerInfo>?> GetLayerInfos()
+    public async Task<IReadOnlyList<LegendViewModelLayerInfos>?> GetLayerInfos()
     {
         if (CoreJsModule is null)
         {
             return LayerInfos;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -352,27 +282,31 @@ public partial class LegendViewModel : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return LayerInfos;
         }
 
-        IReadOnlyList<LegendViewModelLayerInfo>? result =
-            await JsComponentReference.InvokeAsync<IReadOnlyList<LegendViewModelLayerInfo>?>("getLayerInfos",
-                CancellationTokenSource.Token);
-
+        IReadOnlyList<LegendViewModelLayerInfos>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<LegendViewModelLayerInfos>?>(
+            IsServer, nameof(GetLayerInfos), nameof(LegendViewModel), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            foreach (LegendViewModelLayerInfos item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             LayerInfos = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(LayerInfos)] = LayerInfos;
         }
-
+        
         return LayerInfos;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the RespectLayerVisibility property.
     /// </summary>
@@ -382,8 +316,8 @@ public partial class LegendViewModel : MapComponent
         {
             return RespectLayerVisibility;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -392,28 +326,26 @@ public partial class LegendViewModel : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return RespectLayerVisibility;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "respectLayerVisibility");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            RespectLayerVisibility = result.Value.Value;
+             RespectLayerVisibility = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(RespectLayerVisibility)] = RespectLayerVisibility;
+             ModifiedParameters[nameof(RespectLayerVisibility)] = RespectLayerVisibility;
         }
-
+         
         return RespectLayerVisibility;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -423,8 +355,8 @@ public partial class LegendViewModel : MapComponent
         {
             return State;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -433,31 +365,27 @@ public partial class LegendViewModel : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return State;
         }
 
         // get the property value
-        JsNullableEnumWrapper<LegendViewModelState>? result =
-            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LegendViewModelState>?>(
-                "getNullableValueTypedProperty",
-                CancellationTokenSource.Token, JsComponentReference, "state");
-
+        JsNullableEnumWrapper<LegendViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LegendViewModelState>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "state");
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            State = (LegendViewModelState)result.Value.Value!;
+             State = (LegendViewModelState)result.Value.Value!;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(State)] = State;
+             ModifiedParameters[nameof(State)] = State;
         }
-
+         
         return State;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -469,6 +397,15 @@ public partial class LegendViewModel : MapComponent
     /// </param>
     public async Task SetActiveLayerInfos(IReadOnlyList<ActiveLayerInfo>? value)
     {
+#pragma warning disable BL0005
+        ActiveLayerInfos = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ActiveLayerInfos)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
         if (value is not null)
         {
             foreach (ActiveLayerInfo item in value)
@@ -476,18 +413,9 @@ public partial class LegendViewModel : MapComponent
                 item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-
-#pragma warning disable BL0005
-        ActiveLayerInfos = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ActiveLayerInfos)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -496,16 +424,16 @@ public partial class LegendViewModel : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "activeLayerInfos", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the BasemapLegendVisible property after render.
     /// </summary>
@@ -518,13 +446,13 @@ public partial class LegendViewModel : MapComponent
         BasemapLegendVisible = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(BasemapLegendVisible)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -533,16 +461,16 @@ public partial class LegendViewModel : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "basemapLegendVisible", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the HideLayersNotInCurrentView property after render.
     /// </summary>
@@ -555,13 +483,13 @@ public partial class LegendViewModel : MapComponent
         HideLayersNotInCurrentView = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(HideLayersNotInCurrentView)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -570,43 +498,43 @@ public partial class LegendViewModel : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "hideLayersNotInCurrentView", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LayerInfos property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLayerInfos(IReadOnlyList<LegendViewModelLayerInfo>? value)
+    public async Task SetLayerInfos(IReadOnlyList<LegendViewModelLayerInfos>? value)
     {
-        if (value is not null)
-        {
-            foreach (LegendViewModelLayerInfo item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-
 #pragma warning disable BL0005
         LayerInfos = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LayerInfos)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            foreach (LegendViewModelLayerInfos item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -615,16 +543,16 @@ public partial class LegendViewModel : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layerInfos", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the RespectLayerVisibility property after render.
     /// </summary>
@@ -637,13 +565,13 @@ public partial class LegendViewModel : MapComponent
         RespectLayerVisibility = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(RespectLayerVisibility)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -652,18 +580,17 @@ public partial class LegendViewModel : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "respectLayerVisibility", value);
     }
-
+    
 #endregion
-
 
 #region Add to Collection Methods
 
@@ -680,26 +607,26 @@ public partial class LegendViewModel : MapComponent
             : [..ActiveLayerInfos, ..values];
         await SetActiveLayerInfos(join);
     }
-
+    
     /// <summary>
     ///     Asynchronously adds elements to the LayerInfos property.
     /// </summary>
     /// <param name="values">
     ///    The elements to add.
     /// </param>
-    public async Task AddToLayerInfos(params LegendViewModelLayerInfo[] values)
+    public async Task AddToLayerInfos(params LegendViewModelLayerInfos[] values)
     {
-        LegendViewModelLayerInfo[] join = LayerInfos is null
+        LegendViewModelLayerInfos[] join = LayerInfos is null
             ? values
             : [..LayerInfos, ..values];
         await SetLayerInfos(join);
     }
-
+    
 #endregion
-
 
 #region Remove From Collection Methods
 
+    
     /// <summary>
     ///     Asynchronously remove an element from the ActiveLayerInfos property.
     /// </summary>
@@ -712,25 +639,93 @@ public partial class LegendViewModel : MapComponent
         {
             return;
         }
-
         await SetActiveLayerInfos(ActiveLayerInfos.Except(values).ToArray());
     }
-
+    
+    
     /// <summary>
     ///     Asynchronously remove an element from the LayerInfos property.
     /// </summary>
     /// <param name="values">
     ///    The elements to remove.
     /// </param>
-    public async Task RemoveFromLayerInfos(params LegendViewModelLayerInfo[] values)
+    public async Task RemoveFromLayerInfos(params LegendViewModelLayerInfos[] values)
     {
         if (LayerInfos is null)
         {
             return;
         }
-
         await SetLayerInfos(LayerInfos.Except(values).ToArray());
     }
-
+    
 #endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ActiveLayerInfo activeLayerInfos:
+                ActiveLayerInfos ??= [];
+                if (!ActiveLayerInfos.Contains(activeLayerInfos))
+                {
+                    ActiveLayerInfos = [..ActiveLayerInfos, activeLayerInfos];
+                    ModifiedParameters[nameof(ActiveLayerInfos)] = ActiveLayerInfos;
+                }
+                
+                return true;
+            case LegendViewModelLayerInfos layerInfos:
+                LayerInfos ??= [];
+                if (!LayerInfos.Contains(layerInfos))
+                {
+                    LayerInfos = [..LayerInfos, layerInfos];
+                    ModifiedParameters[nameof(LayerInfos)] = LayerInfos;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ActiveLayerInfo activeLayerInfos:
+                ActiveLayerInfos = ActiveLayerInfos?.Where(a => a != activeLayerInfos).ToList();
+                ModifiedParameters[nameof(ActiveLayerInfos)] = ActiveLayerInfos;
+                return true;
+            case LegendViewModelLayerInfos layerInfos:
+                LayerInfos = LayerInfos?.Where(l => l != layerInfos).ToList();
+                ModifiedParameters[nameof(LayerInfos)] = LayerInfos;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        if (ActiveLayerInfos is not null)
+        {
+            foreach (ActiveLayerInfo child in ActiveLayerInfos)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+        if (LayerInfos is not null)
+        {
+            foreach (LegendViewModelLayerInfos child in LayerInfos)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TileMatrixSet.html">GeoBlazor Docs</a>
 ///     Contains information about the tiling scheme for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html">WMTSSublayer</a>.
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class TileMatrixSet : MapComponent
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -32,7 +34,8 @@ public partial class TileMatrixSet : MapComponent
     ///     The unique ID assigned to the TileMatrixSet.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileMatrixSet.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public TileMatrixSet(Extent? fullExtent = null,
+    public TileMatrixSet(
+        Extent? fullExtent = null,
         TileInfo? tileInfo = null,
         string? tileMatrixSetId = null)
     {
@@ -41,16 +44,305 @@ public partial class TileMatrixSet : MapComponent
         FullExtent = fullExtent;
         TileInfo = tileInfo;
         TileMatrixSetId = tileMatrixSetId;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
+    
+    
+#region Public Properties / Blazor Parameters
 
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TileMatrixSet.html#tilematrixsetfullextent-property">GeoBlazor Docs</a>
+    ///     The full extent of the TileMatrixSet.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileMatrixSet.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Extent? FullExtent { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TileMatrixSet.html#tilematrixsettileinfo-property">GeoBlazor Docs</a>
+    ///     The tiling scheme information for the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileMatrixSet.html#tileInfo">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public TileInfo? TileInfo { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TileMatrixSet.html#tilematrixsettilematrixsetid-property">GeoBlazor Docs</a>
+    ///     The unique ID assigned to the TileMatrixSet.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileMatrixSet.html#id">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? TileMatrixSetId { get; set; }
+    
+#endregion
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the FullExtent property.
+    /// </summary>
+    public async Task<Extent?> GetFullExtent()
     {
-        FullExtent?.ValidateRequiredGeneratedChildren();
-        TileInfo?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
+        if (CoreJsModule is null)
+        {
+            return FullExtent;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return FullExtent;
+        }
+
+        Extent? result = await JsComponentReference.InvokeJsMethod<Extent?>(
+            IsServer, nameof(GetFullExtent), nameof(TileMatrixSet), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (FullExtent is not null)
+            {
+                result.Id = FullExtent.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            FullExtent = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(FullExtent)] = FullExtent;
+        }
+        
+        return FullExtent;
     }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the TileInfo property.
+    /// </summary>
+    public async Task<TileInfo?> GetTileInfo()
+    {
+        if (CoreJsModule is null)
+        {
+            return TileInfo;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return TileInfo;
+        }
+
+        TileInfo? result = await JsComponentReference.InvokeJsMethod<TileInfo?>(
+            IsServer, nameof(GetTileInfo), nameof(TileMatrixSet), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (TileInfo is not null)
+            {
+                result.Id = TileInfo.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            TileInfo = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(TileInfo)] = TileInfo;
+        }
+        
+        return TileInfo;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the TileMatrixSetId property.
+    /// </summary>
+    public async Task<string?> GetTileMatrixSetId()
+    {
+        if (CoreJsModule is null)
+        {
+            return TileMatrixSetId;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return TileMatrixSetId;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(TileMatrixSet, View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "id");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             TileMatrixSetId = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(TileMatrixSetId)] = TileMatrixSetId;
+        }
+         
+        return TileMatrixSetId;
+    }
+    
+#endregion
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the FullExtent property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetFullExtent(Extent? value)
+    {
+#pragma warning disable BL0005
+        FullExtent = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(FullExtent)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "fullExtent", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the TileInfo property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetTileInfo(TileInfo? value)
+    {
+#pragma warning disable BL0005
+        TileInfo = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(TileInfo)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "tileInfo", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the TileMatrixSetId property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetTileMatrixSetId(string? value)
+    {
+#pragma warning disable BL0005
+        TileMatrixSetId = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(TileMatrixSetId)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "id", value);
+    }
+    
+#endregion
+
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -63,7 +355,7 @@ public partial class TileMatrixSet : MapComponent
                     FullExtent = fullExtent;
                     ModifiedParameters[nameof(FullExtent)] = FullExtent;
                 }
-
+                
                 return true;
             case TileInfo tileInfo:
                 if (tileInfo != TileInfo)
@@ -71,7 +363,7 @@ public partial class TileMatrixSet : MapComponent
                     TileInfo = tileInfo;
                     ModifiedParameters[nameof(TileInfo)] = TileInfo;
                 }
-
+                
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -86,313 +378,23 @@ public partial class TileMatrixSet : MapComponent
             case Extent _:
                 FullExtent = null;
                 ModifiedParameters[nameof(FullExtent)] = FullExtent;
-
                 return true;
             case TileInfo _:
                 TileInfo = null;
                 ModifiedParameters[nameof(TileInfo)] = TileInfo;
-
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-
-
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TileMatrixSet.html#tilematrixsetfullextent-property">GeoBlazor Docs</a>
-    ///     The full extent of the TileMatrixSet.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileMatrixSet.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Extent? FullExtent { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TileMatrixSet.html#tilematrixsettileinfo-property">GeoBlazor Docs</a>
-    ///     The tiling scheme information for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileMatrixSet.html#tileInfo">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public TileInfo? TileInfo { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TileMatrixSet.html#tilematrixsettilematrixsetid-property">GeoBlazor Docs</a>
-    ///     The unique ID assigned to the TileMatrixSet.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileMatrixSet.html#id">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? TileMatrixSetId { get; set; }
-
-#endregion
-
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the FullExtent property.
-    /// </summary>
-    public async Task<Extent?> GetFullExtent()
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
     {
-        if (CoreJsModule is null)
-        {
-            return FullExtent;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return FullExtent;
-        }
-
-        Extent? result =
-            await JsComponentReference.InvokeAsync<Extent?>("getFullExtent", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-            if (FullExtent is not null)
-            {
-                result.Id = FullExtent.Id;
-            }
-
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-
-#pragma warning disable BL0005
-            FullExtent = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(FullExtent)] = FullExtent;
-        }
-
-        return FullExtent;
+    
+        FullExtent?.ValidateRequiredGeneratedChildren();
+        TileInfo?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
     }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the TileInfo property.
-    /// </summary>
-    public async Task<TileInfo?> GetTileInfo()
-    {
-        if (CoreJsModule is null)
-        {
-            return TileInfo;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return TileInfo;
-        }
-
-        TileInfo? result =
-            await JsComponentReference.InvokeAsync<TileInfo?>("getTileInfo", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-            if (TileInfo is not null)
-            {
-                result.Id = TileInfo.Id;
-            }
-
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-
-#pragma warning disable BL0005
-            TileInfo = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(TileInfo)] = TileInfo;
-        }
-
-        return TileInfo;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the TileMatrixSetId property.
-    /// </summary>
-    public async Task<string?> GetTileMatrixSetId()
-    {
-        if (CoreJsModule is null)
-        {
-            return TileMatrixSetId;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return TileMatrixSetId;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "id");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            TileMatrixSetId = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(TileMatrixSetId)] = TileMatrixSetId;
-        }
-
-        return TileMatrixSetId;
-    }
-
-#endregion
-
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the FullExtent property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetFullExtent(Extent? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
-#pragma warning disable BL0005
-        FullExtent = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(FullExtent)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "fullExtent", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the TileInfo property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetTileInfo(TileInfo? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
-#pragma warning disable BL0005
-        TileInfo = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(TileInfo)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "tileInfo", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the TileMatrixSetId property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetTileMatrixSetId(string? value)
-    {
-#pragma warning disable BL0005
-        TileMatrixSetId = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(TileMatrixSetId)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "id", value);
-    }
-
-#endregion
+      
 }

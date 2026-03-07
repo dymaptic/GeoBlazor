@@ -74,7 +74,8 @@ public abstract partial class MediaInfo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(MediaInfo, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "altText");
         if (result is not null)
         {
@@ -113,7 +114,8 @@ public abstract partial class MediaInfo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(MediaInfo, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "caption");
         if (result is not null)
         {
@@ -152,7 +154,8 @@ public abstract partial class MediaInfo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(MediaInfo, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {

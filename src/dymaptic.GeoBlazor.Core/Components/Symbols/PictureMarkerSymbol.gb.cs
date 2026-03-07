@@ -123,7 +123,8 @@ public partial class PictureMarkerSymbol : ISymbol2D,
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
+            IsServer, "GetProperty", nameof(PictureMarkerSymbol, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "height");
         if (result is not null)
         {
@@ -162,7 +163,8 @@ public partial class PictureMarkerSymbol : ISymbol2D,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(PictureMarkerSymbol, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "url");
         if (result is not null)
         {
@@ -201,7 +203,8 @@ public partial class PictureMarkerSymbol : ISymbol2D,
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
+            IsServer, "GetProperty", nameof(PictureMarkerSymbol, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "width");
         if (result is not null)
         {

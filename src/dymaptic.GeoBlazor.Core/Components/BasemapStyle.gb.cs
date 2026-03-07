@@ -73,7 +73,8 @@ public partial class BasemapStyle
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(BasemapStyle, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "apiKey");
         if (result is not null)
         {
@@ -112,7 +113,8 @@ public partial class BasemapStyle
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(BasemapStyle, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "language");
         if (result is not null)
         {
@@ -190,7 +192,8 @@ public partial class BasemapStyle
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(BasemapStyle, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "serviceUrl");
         if (result is not null)
         {
@@ -229,7 +232,8 @@ public partial class BasemapStyle
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(BasemapStyle, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "worldview");
         if (result is not null)
         {

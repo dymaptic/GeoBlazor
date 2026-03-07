@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SnappingOptions.html">GeoBlazor Docs</a>
 ///     The `SnappingOptions` allows users to configure snapping for their editing or drawing experience in both the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Sketch.html#snappingOptions">Sketch</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Editor.html#snappingOptions">Editor</a> widgets.
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class SnappingOptions
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -55,7 +57,8 @@ public partial class SnappingOptions
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-snapping-SnappingOptions.html#selfEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public SnappingOptions(bool? attributeRulesEnabled = null,
+    public SnappingOptions(
+        bool? attributeRulesEnabled = null,
         double? distance = null,
         bool? enabled = null,
         bool? featureEnabled = null,
@@ -72,9 +75,598 @@ public partial class SnappingOptions
         FeatureSources = featureSources;
         GridEnabled = gridEnabled;
         SelfEnabled = selfEnabled;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
+    
+    
+#region Public Properties / Blazor Parameters
 
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SnappingOptions.html#snappingoptionsattributerulesenabled-property">GeoBlazor Docs</a>
+    ///     When true, enables support for attribute rule-based snapping.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-snapping-SnappingOptions.html#attributeRulesEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? AttributeRulesEnabled { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SnappingOptions.html#snappingoptionsfeaturesources-property">GeoBlazor Docs</a>
+    ///     List of sources for feature snapping.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-snapping-SnappingOptions.html#featureSources">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<FeatureSnappingLayerSource>? FeatureSources { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SnappingOptions.html#snappingoptionsgridenabled-property">GeoBlazor Docs</a>
+    ///     Turns the grid on or off.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-snapping-SnappingOptions.html#gridEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? GridEnabled { get; set; }
+    
+#endregion
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the AttributeRulesEnabled property.
+    /// </summary>
+    public async Task<bool?> GetAttributeRulesEnabled()
+    {
+        if (CoreJsModule is null)
+        {
+            return AttributeRulesEnabled;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return AttributeRulesEnabled;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "attributeRulesEnabled");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             AttributeRulesEnabled = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(AttributeRulesEnabled)] = AttributeRulesEnabled;
+        }
+         
+        return AttributeRulesEnabled;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Distance property.
+    /// </summary>
+    public async Task<double?> GetDistance()
+    {
+        if (CoreJsModule is null)
+        {
+            return Distance;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Distance;
+        }
+
+        // get the property value
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "distance");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             Distance = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Distance)] = Distance;
+        }
+         
+        return Distance;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Enabled property.
+    /// </summary>
+    public async Task<bool?> GetEnabled()
+    {
+        if (CoreJsModule is null)
+        {
+            return Enabled;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Enabled;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "enabled");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             Enabled = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Enabled)] = Enabled;
+        }
+         
+        return Enabled;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the FeatureEnabled property.
+    /// </summary>
+    public async Task<bool?> GetFeatureEnabled()
+    {
+        if (CoreJsModule is null)
+        {
+            return FeatureEnabled;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return FeatureEnabled;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "featureEnabled");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             FeatureEnabled = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(FeatureEnabled)] = FeatureEnabled;
+        }
+         
+        return FeatureEnabled;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the FeatureSources property.
+    /// </summary>
+    public async Task<IReadOnlyList<FeatureSnappingLayerSource>?> GetFeatureSources()
+    {
+        if (CoreJsModule is null)
+        {
+            return FeatureSources;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return FeatureSources;
+        }
+
+        IReadOnlyList<FeatureSnappingLayerSource>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<FeatureSnappingLayerSource>?>(
+            IsServer, nameof(GetFeatureSources), nameof(SnappingOptions), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            foreach (FeatureSnappingLayerSource item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+#pragma warning disable BL0005
+            FeatureSources = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(FeatureSources)] = FeatureSources;
+        }
+        
+        return FeatureSources;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the GridEnabled property.
+    /// </summary>
+    public async Task<bool?> GetGridEnabled()
+    {
+        if (CoreJsModule is null)
+        {
+            return GridEnabled;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return GridEnabled;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "gridEnabled");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             GridEnabled = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(GridEnabled)] = GridEnabled;
+        }
+         
+        return GridEnabled;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the SelfEnabled property.
+    /// </summary>
+    public async Task<bool?> GetSelfEnabled()
+    {
+        if (CoreJsModule is null)
+        {
+            return SelfEnabled;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return SelfEnabled;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "selfEnabled");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             SelfEnabled = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(SelfEnabled)] = SelfEnabled;
+        }
+         
+        return SelfEnabled;
+    }
+    
+#endregion
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the AttributeRulesEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetAttributeRulesEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        AttributeRulesEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(AttributeRulesEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "attributeRulesEnabled", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Distance property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetDistance(double? value)
+    {
+#pragma warning disable BL0005
+        Distance = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Distance)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "distance", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Enabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        Enabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Enabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "enabled", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the FeatureEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetFeatureEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        FeatureEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(FeatureEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "featureEnabled", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the FeatureSources property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetFeatureSources(IReadOnlyList<FeatureSnappingLayerSource>? value)
+    {
+#pragma warning disable BL0005
+        FeatureSources = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(FeatureSources)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            foreach (FeatureSnappingLayerSource item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "featureSources", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the GridEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetGridEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        GridEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(GridEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "gridEnabled", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the SelfEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetSelfEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        SelfEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(SelfEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "selfEnabled", value);
+    }
+    
+#endregion
 
 #region Add to Collection Methods
 
@@ -91,12 +683,12 @@ public partial class SnappingOptions
             : [..FeatureSources, ..values];
         await SetFeatureSources(join);
     }
-
+    
 #endregion
-
 
 #region Remove From Collection Methods
 
+    
     /// <summary>
     ///     Asynchronously remove an element from the FeatureSources property.
     /// </summary>
@@ -109,26 +701,11 @@ public partial class SnappingOptions
         {
             return;
         }
-
         await SetFeatureSources(FeatureSources.Except(values).ToArray());
     }
-
+    
 #endregion
 
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        if (FeatureSources is not null)
-        {
-            foreach (FeatureSnappingLayerSource child in FeatureSources)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-
-        base.ValidateRequiredGeneratedChildren();
-    }
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -137,13 +714,12 @@ public partial class SnappingOptions
         {
             case FeatureSnappingLayerSource featureSources:
                 FeatureSources ??= [];
-
                 if (!FeatureSources.Contains(featureSources))
                 {
                     FeatureSources = [..FeatureSources, featureSources];
                     ModifiedParameters[nameof(FeatureSources)] = FeatureSources;
                 }
-
+                
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -158,610 +734,24 @@ public partial class SnappingOptions
             case FeatureSnappingLayerSource featureSources:
                 FeatureSources = FeatureSources?.Where(f => f != featureSources).ToList();
                 ModifiedParameters[nameof(FeatureSources)] = FeatureSources;
-
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-
-
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SnappingOptions.html#snappingoptionsattributerulesenabled-property">GeoBlazor Docs</a>
-    ///     When true, enables support for attribute rule-based snapping.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-snapping-SnappingOptions.html#attributeRulesEnabled">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? AttributeRulesEnabled { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SnappingOptions.html#snappingoptionsfeaturesources-property">GeoBlazor Docs</a>
-    ///     List of sources for feature snapping.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-snapping-SnappingOptions.html#featureSources">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<FeatureSnappingLayerSource>? FeatureSources { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SnappingOptions.html#snappingoptionsgridenabled-property">GeoBlazor Docs</a>
-    ///     Turns the grid on or off.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-snapping-SnappingOptions.html#gridEnabled">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? GridEnabled { get; set; }
-
-#endregion
-
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the AttributeRulesEnabled property.
-    /// </summary>
-    public async Task<bool?> GetAttributeRulesEnabled()
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
     {
-        if (CoreJsModule is null)
+    
+        if (FeatureSources is not null)
         {
-            return AttributeRulesEnabled;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return AttributeRulesEnabled;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "attributeRulesEnabled");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            AttributeRulesEnabled = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(AttributeRulesEnabled)] = AttributeRulesEnabled;
-        }
-
-        return AttributeRulesEnabled;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Distance property.
-    /// </summary>
-    public async Task<double?> GetDistance()
-    {
-        if (CoreJsModule is null)
-        {
-            return Distance;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Distance;
-        }
-
-        // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "distance");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            Distance = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Distance)] = Distance;
-        }
-
-        return Distance;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Enabled property.
-    /// </summary>
-    public async Task<bool?> GetEnabled()
-    {
-        if (CoreJsModule is null)
-        {
-            return Enabled;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Enabled;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "enabled");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            Enabled = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Enabled)] = Enabled;
-        }
-
-        return Enabled;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the FeatureEnabled property.
-    /// </summary>
-    public async Task<bool?> GetFeatureEnabled()
-    {
-        if (CoreJsModule is null)
-        {
-            return FeatureEnabled;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return FeatureEnabled;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "featureEnabled");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            FeatureEnabled = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(FeatureEnabled)] = FeatureEnabled;
-        }
-
-        return FeatureEnabled;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the FeatureSources property.
-    /// </summary>
-    public async Task<IReadOnlyList<FeatureSnappingLayerSource>?> GetFeatureSources()
-    {
-        if (CoreJsModule is null)
-        {
-            return FeatureSources;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return FeatureSources;
-        }
-
-        IReadOnlyList<FeatureSnappingLayerSource>? result =
-            await JsComponentReference.InvokeAsync<IReadOnlyList<FeatureSnappingLayerSource>?>("getFeatureSources",
-                CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            FeatureSources = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(FeatureSources)] = FeatureSources;
-        }
-
-        return FeatureSources;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the GridEnabled property.
-    /// </summary>
-    public async Task<bool?> GetGridEnabled()
-    {
-        if (CoreJsModule is null)
-        {
-            return GridEnabled;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return GridEnabled;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "gridEnabled");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            GridEnabled = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(GridEnabled)] = GridEnabled;
-        }
-
-        return GridEnabled;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the SelfEnabled property.
-    /// </summary>
-    public async Task<bool?> GetSelfEnabled()
-    {
-        if (CoreJsModule is null)
-        {
-            return SelfEnabled;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return SelfEnabled;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "selfEnabled");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            SelfEnabled = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(SelfEnabled)] = SelfEnabled;
-        }
-
-        return SelfEnabled;
-    }
-
-#endregion
-
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the AttributeRulesEnabled property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetAttributeRulesEnabled(bool? value)
-    {
-#pragma warning disable BL0005
-        AttributeRulesEnabled = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(AttributeRulesEnabled)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "attributeRulesEnabled", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Distance property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetDistance(double? value)
-    {
-#pragma warning disable BL0005
-        Distance = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Distance)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "distance", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Enabled property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetEnabled(bool? value)
-    {
-#pragma warning disable BL0005
-        Enabled = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Enabled)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "enabled", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the FeatureEnabled property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetFeatureEnabled(bool? value)
-    {
-#pragma warning disable BL0005
-        FeatureEnabled = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(FeatureEnabled)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "featureEnabled", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the FeatureSources property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetFeatureSources(IReadOnlyList<FeatureSnappingLayerSource>? value)
-    {
-        if (value is not null)
-        {
-            foreach (FeatureSnappingLayerSource item in value)
+            foreach (FeatureSnappingLayerSource child in FeatureSources)
             {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+                child.ValidateRequiredGeneratedChildren();
             }
         }
-
-#pragma warning disable BL0005
-        FeatureSources = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(FeatureSources)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "featureSources", value);
+        base.ValidateRequiredGeneratedChildren();
     }
-
-    /// <summary>
-    ///    Asynchronously set the value of the GridEnabled property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetGridEnabled(bool? value)
-    {
-#pragma warning disable BL0005
-        GridEnabled = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(GridEnabled)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "gridEnabled", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the SelfEnabled property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetSelfEnabled(bool? value)
-    {
-#pragma warning disable BL0005
-        SelfEnabled = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(SelfEnabled)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "selfEnabled", value);
-    }
-
-#endregion
+      
 }

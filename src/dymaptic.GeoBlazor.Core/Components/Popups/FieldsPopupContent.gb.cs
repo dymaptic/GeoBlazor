@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.FieldsPopupContent.html">GeoBlazor Docs</a>
 ///     A `FieldsContent` popup element represents the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">FieldInfo</a> associated with a
@@ -10,6 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 /// </summary>
 public partial class FieldsPopupContent
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -22,7 +24,7 @@ public partial class FieldsPopupContent
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="fieldInfos">
-    ///     Array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">`fieldInfos`</a>.
+    ///     Array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">fieldInfos</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-FieldsContent.html#fieldInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="description">
@@ -33,7 +35,8 @@ public partial class FieldsPopupContent
     ///     Heading indicating what the field's content represents.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-FieldsContent.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public FieldsPopupContent(IReadOnlyList<FieldInfo> fieldInfos,
+    public FieldsPopupContent(
+        IReadOnlyList<FieldInfo> fieldInfos,
         string? description = null,
         string? title = null)
     {
@@ -42,24 +45,274 @@ public partial class FieldsPopupContent
         FieldInfos = fieldInfos;
         Description = description;
         Title = title;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.FieldsPopupContent.html#fieldspopupcontentfieldinfos-property">GeoBlazor Docs</a>
-    ///     Array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">`fieldInfos`</a>.
+    ///     Array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">fieldInfos</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-FieldsContent.html#fieldInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<FieldInfo>? FieldInfos { get; set; }
-
+    
 #endregion
 
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Description property.
+    /// </summary>
+    public async Task<string?> GetDescription()
+    {
+        if (CoreJsModule is null)
+        {
+            return Description;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Description;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(FieldsPopupContent, View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "description");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Description = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Description)] = Description;
+        }
+         
+        return Description;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the FieldInfos property.
+    /// </summary>
+    public async Task<IReadOnlyList<FieldInfo>?> GetFieldInfos()
+    {
+        if (CoreJsModule is null)
+        {
+            return FieldInfos;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return FieldInfos;
+        }
+
+        IReadOnlyList<FieldInfo>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<FieldInfo>?>(
+            IsServer, nameof(GetFieldInfos), nameof(FieldsPopupContent), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            foreach (FieldInfo item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+#pragma warning disable BL0005
+            FieldInfos = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(FieldInfos)] = FieldInfos;
+        }
+        
+        return FieldInfos;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Title property.
+    /// </summary>
+    public async Task<string?> GetTitle()
+    {
+        if (CoreJsModule is null)
+        {
+            return Title;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Title;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(FieldsPopupContent, View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "title");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Title = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Title)] = Title;
+        }
+         
+        return Title;
+    }
+    
+#endregion
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the Description property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetDescription(string? value)
+    {
+#pragma warning disable BL0005
+        Description = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Description)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "description", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the FieldInfos property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetFieldInfos(IReadOnlyList<FieldInfo>? value)
+    {
+#pragma warning disable BL0005
+        FieldInfos = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(FieldInfos)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            foreach (FieldInfo item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "fieldInfos", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Title property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetTitle(string? value)
+    {
+#pragma warning disable BL0005
+        Title = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Title)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "title", value);
+    }
+    
+#endregion
 
 #region Add to Collection Methods
 
@@ -76,12 +329,12 @@ public partial class FieldsPopupContent
             : [..FieldInfos, ..values];
         await SetFieldInfos(join);
     }
-
+    
 #endregion
-
 
 #region Remove From Collection Methods
 
+    
     /// <summary>
     ///     Asynchronously remove an element from the FieldInfos property.
     /// </summary>
@@ -94,26 +347,11 @@ public partial class FieldsPopupContent
         {
             return;
         }
-
         await SetFieldInfos(FieldInfos.Except(values).ToArray());
     }
-
+    
 #endregion
 
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        if (FieldInfos is not null)
-        {
-            foreach (FieldInfo child in FieldInfos)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-
-        base.ValidateRequiredGeneratedChildren();
-    }
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -122,13 +360,12 @@ public partial class FieldsPopupContent
         {
             case FieldInfo fieldInfos:
                 FieldInfos ??= [];
-
                 if (!FieldInfos.Contains(fieldInfos))
                 {
                     FieldInfos = [..FieldInfos, fieldInfos];
                     ModifiedParameters[nameof(FieldInfos)] = FieldInfos;
                 }
-
+                
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -143,259 +380,24 @@ public partial class FieldsPopupContent
             case FieldInfo fieldInfos:
                 FieldInfos = FieldInfos?.Where(f => f != fieldInfos).ToList();
                 ModifiedParameters[nameof(FieldInfos)] = FieldInfos;
-
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Description property.
-    /// </summary>
-    public async Task<string?> GetDescription()
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
     {
-        if (CoreJsModule is null)
+    
+        if (FieldInfos is not null)
         {
-            return Description;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Description;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "description");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Description = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Description)] = Description;
-        }
-
-        return Description;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the FieldInfos property.
-    /// </summary>
-    public async Task<IReadOnlyList<FieldInfo>?> GetFieldInfos()
-    {
-        if (CoreJsModule is null)
-        {
-            return FieldInfos;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return FieldInfos;
-        }
-
-        IReadOnlyList<FieldInfo>? result =
-            await JsComponentReference.InvokeAsync<IReadOnlyList<FieldInfo>?>("getFieldInfos",
-                CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            FieldInfos = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(FieldInfos)] = FieldInfos;
-        }
-
-        return FieldInfos;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Title property.
-    /// </summary>
-    public async Task<string?> GetTitle()
-    {
-        if (CoreJsModule is null)
-        {
-            return Title;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Title;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "title");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Title = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Title)] = Title;
-        }
-
-        return Title;
-    }
-
-#endregion
-
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the Description property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetDescription(string? value)
-    {
-#pragma warning disable BL0005
-        Description = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Description)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "description", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the FieldInfos property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetFieldInfos(IReadOnlyList<FieldInfo>? value)
-    {
-        if (value is not null)
-        {
-            foreach (FieldInfo item in value)
+            foreach (FieldInfo child in FieldInfos)
             {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+                child.ValidateRequiredGeneratedChildren();
             }
         }
-
-#pragma warning disable BL0005
-        FieldInfos = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(FieldInfos)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "fieldInfos", value);
+        base.ValidateRequiredGeneratedChildren();
     }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Title property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetTitle(string? value)
-    {
-#pragma warning disable BL0005
-        Title = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Title)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "title", value);
-    }
-
-#endregion
+      
 }

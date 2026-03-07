@@ -20,9 +20,9 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-SceneService.html#version">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record SceneServiceVersion(
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Major = null,
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Minor = null,
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? VersionString = null);

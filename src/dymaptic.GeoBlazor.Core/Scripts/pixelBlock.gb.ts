@@ -43,7 +43,7 @@ export default class PixelBlockGenerated extends BaseComponent {
             this.component.width = dotNetObject.width;
         }
     }
-
+    
     // region methods
     async addData(planeData: any): Promise<void> {
         let { buildJsPixelBlockAddDataPlaneData } = await import('./pixelBlockAddDataPlaneData');
@@ -190,7 +190,7 @@ export async function buildDotNetPixelBlockGenerated(jsObject: any, layerId: str
 
     if (hasValue(dotNetPixelBlock.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetPixelBlock.id)) {
-            let {default: PixelBlockWrapper} = await import('./pixelBlock');
+            let { default: PixelBlockWrapper } = await import('./pixelBlock');
             let pixelBlockWrapper = new PixelBlockWrapper(jsObject);
             pixelBlockWrapper.geoBlazorId = dotNetPixelBlock.id;
             pixelBlockWrapper.viewId = viewId;

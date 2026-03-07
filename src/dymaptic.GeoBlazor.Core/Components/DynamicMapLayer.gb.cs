@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DynamicMapLayer.html">GeoBlazor Docs</a>
 ///     A dynamic map layer refers to a layer published in a map service that has
@@ -10,6 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class DynamicMapLayer
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -29,17 +31,18 @@ public partial class DynamicMapLayer
     ///     An optional property for specifying the GDB version.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#DynamicMapLayer">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public DynamicMapLayer(long mapLayerId,
+    public DynamicMapLayer(
+        long mapLayerId,
         string? gdbVersion = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         MapLayerId = mapLayerId;
         GdbVersion = gdbVersion;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -52,21 +55,8 @@ public partial class DynamicMapLayer
     [RequiredProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public long? MapLayerId { get; set; }
-
+    
 #endregion
-
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        if (MapLayerId is null)
-        {
-            throw new MissingRequiredChildElementException(nameof(DynamicMapLayer), nameof(MapLayerId));
-        }
-
-        base.ValidateRequiredGeneratedChildren();
-    }
-
 
 #region Property Getters
 
@@ -79,8 +69,8 @@ public partial class DynamicMapLayer
         {
             return GdbVersion;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -89,27 +79,27 @@ public partial class DynamicMapLayer
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return GdbVersion;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(DynamicMapLayer, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "gdbVersion");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            GdbVersion = result;
+             GdbVersion = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(GdbVersion)] = GdbVersion;
+             ModifiedParameters[nameof(GdbVersion)] = GdbVersion;
         }
-
+         
         return GdbVersion;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MapLayerId property.
     /// </summary>
@@ -119,8 +109,8 @@ public partial class DynamicMapLayer
         {
             return MapLayerId;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -129,30 +119,27 @@ public partial class DynamicMapLayer
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return MapLayerId;
         }
 
         // get the property value
-        JsNullableLongWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableLongWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableLongWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableLongWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "mapLayerId");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            MapLayerId = result.Value.Value!.Value;
+             MapLayerId = result.Value.Value!.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(MapLayerId)] = MapLayerId;
+             ModifiedParameters[nameof(MapLayerId)] = MapLayerId;
         }
-
+         
         return MapLayerId;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -168,13 +155,13 @@ public partial class DynamicMapLayer
         GdbVersion = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(GdbVersion)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -183,16 +170,16 @@ public partial class DynamicMapLayer
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "gdbVersion", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MapLayerId property after render.
     /// </summary>
@@ -205,13 +192,13 @@ public partial class DynamicMapLayer
         MapLayerId = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MapLayerId)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -220,15 +207,27 @@ public partial class DynamicMapLayer
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mapLayerId", value);
     }
-
+    
 #endregion
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        if (MapLayerId is null)
+        {
+            throw new MissingRequiredChildElementException(nameof(DynamicMapLayer), nameof(MapLayerId));
+        }
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

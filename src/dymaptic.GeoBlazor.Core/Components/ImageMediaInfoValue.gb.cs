@@ -70,7 +70,8 @@ public partial class ImageMediaInfoValue
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(ImageMediaInfoValue, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "linkURL");
         if (result is not null)
         {
@@ -109,7 +110,8 @@ public partial class ImageMediaInfoValue
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(ImageMediaInfoValue, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sourceURL");
         if (result is not null)
         {

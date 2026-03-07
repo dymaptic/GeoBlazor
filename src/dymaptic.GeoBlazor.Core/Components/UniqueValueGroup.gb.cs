@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValueGroup.html">GeoBlazor Docs</a>
 ///     UniqueValueGroup represents a group of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html">unique value classes</a>
@@ -10,6 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class UniqueValueGroup : MapComponent
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -26,19 +28,218 @@ public partial class UniqueValueGroup : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueGroup.html#classes">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="heading">
-    ///     The heading to be displayed for the group of unique classes in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
+    ///     The heading to be displayed for the group of unique classes in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueGroup.html#heading">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public UniqueValueGroup(IReadOnlyList<UniqueValueClass>? classes = null,
+    public UniqueValueGroup(
+        IReadOnlyList<UniqueValueClass>? classes = null,
         string? heading = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Classes = classes;
         Heading = heading;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
+    
+    
+#region Public Properties / Blazor Parameters
 
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValueGroup.html#uniquevaluegroupclasses-property">GeoBlazor Docs</a>
+    ///     Specifies the classes (or unique categories) to group under a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueGroup.html#heading">heading</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueGroup.html#classes">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<UniqueValueClass>? Classes { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValueGroup.html#uniquevaluegroupheading-property">GeoBlazor Docs</a>
+    ///     The heading to be displayed for the group of unique classes in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueGroup.html#heading">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Heading { get; set; }
+    
+#endregion
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Classes property.
+    /// </summary>
+    public async Task<IReadOnlyList<UniqueValueClass>?> GetClasses()
+    {
+        if (CoreJsModule is null)
+        {
+            return Classes;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Classes;
+        }
+
+        IReadOnlyList<UniqueValueClass>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<UniqueValueClass>?>(
+            IsServer, nameof(GetClasses), nameof(UniqueValueGroup), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            foreach (UniqueValueClass item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+#pragma warning disable BL0005
+            Classes = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Classes)] = Classes;
+        }
+        
+        return Classes;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Heading property.
+    /// </summary>
+    public async Task<string?> GetHeading()
+    {
+        if (CoreJsModule is null)
+        {
+            return Heading;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Heading;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(UniqueValueGroup, View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "heading");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Heading = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Heading)] = Heading;
+        }
+         
+        return Heading;
+    }
+    
+#endregion
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the Classes property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetClasses(IReadOnlyList<UniqueValueClass>? value)
+    {
+#pragma warning disable BL0005
+        Classes = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Classes)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            foreach (UniqueValueClass item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "classes", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Heading property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetHeading(string? value)
+    {
+#pragma warning disable BL0005
+        Heading = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Heading)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "heading", value);
+    }
+    
+#endregion
 
 #region Add to Collection Methods
 
@@ -55,12 +256,12 @@ public partial class UniqueValueGroup : MapComponent
             : [..Classes, ..values];
         await SetClasses(join);
     }
-
+    
 #endregion
-
 
 #region Remove From Collection Methods
 
+    
     /// <summary>
     ///     Asynchronously remove an element from the Classes property.
     /// </summary>
@@ -73,26 +274,11 @@ public partial class UniqueValueGroup : MapComponent
         {
             return;
         }
-
         await SetClasses(Classes.Except(values).ToArray());
     }
-
+    
 #endregion
 
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        if (Classes is not null)
-        {
-            foreach (UniqueValueClass child in Classes)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-
-        base.ValidateRequiredGeneratedChildren();
-    }
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -101,13 +287,12 @@ public partial class UniqueValueGroup : MapComponent
         {
             case UniqueValueClass classes:
                 Classes ??= [];
-
                 if (!Classes.Contains(classes))
                 {
                     Classes = [..Classes, classes];
                     ModifiedParameters[nameof(Classes)] = Classes;
                 }
-
+                
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -122,207 +307,24 @@ public partial class UniqueValueGroup : MapComponent
             case UniqueValueClass classes:
                 Classes = Classes?.Where(c => c != classes).ToList();
                 ModifiedParameters[nameof(Classes)] = Classes;
-
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-
-
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValueGroup.html#uniquevaluegroupclasses-property">GeoBlazor Docs</a>
-    ///     Specifies the classes (or unique categories) to group under a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueGroup.html#heading">heading</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueGroup.html#classes">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<UniqueValueClass>? Classes { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValueGroup.html#uniquevaluegroupheading-property">GeoBlazor Docs</a>
-    ///     The heading to be displayed for the group of unique classes in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueGroup.html#heading">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Heading { get; set; }
-
-#endregion
-
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Classes property.
-    /// </summary>
-    public async Task<IReadOnlyList<UniqueValueClass>?> GetClasses()
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
     {
-        if (CoreJsModule is null)
+    
+        if (Classes is not null)
         {
-            return Classes;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Classes;
-        }
-
-        IReadOnlyList<UniqueValueClass>? result =
-            await JsComponentReference.InvokeAsync<IReadOnlyList<UniqueValueClass>?>("getClasses",
-                CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Classes = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Classes)] = Classes;
-        }
-
-        return Classes;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Heading property.
-    /// </summary>
-    public async Task<string?> GetHeading()
-    {
-        if (CoreJsModule is null)
-        {
-            return Heading;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Heading;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "heading");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Heading = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Heading)] = Heading;
-        }
-
-        return Heading;
-    }
-
-#endregion
-
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the Classes property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetClasses(IReadOnlyList<UniqueValueClass>? value)
-    {
-        if (value is not null)
-        {
-            foreach (UniqueValueClass item in value)
+            foreach (UniqueValueClass child in Classes)
             {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+                child.ValidateRequiredGeneratedChildren();
             }
         }
-
-#pragma warning disable BL0005
-        Classes = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Classes)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "classes", value);
+        base.ValidateRequiredGeneratedChildren();
     }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Heading property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetHeading(string? value)
-    {
-#pragma warning disable BL0005
-        Heading = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Heading)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "heading", value);
-    }
-
-#endregion
+      
 }

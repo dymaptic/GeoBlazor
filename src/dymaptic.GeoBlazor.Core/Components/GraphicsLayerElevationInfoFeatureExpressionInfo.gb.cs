@@ -94,7 +94,8 @@ public partial class GraphicsLayerElevationInfoFeatureExpressionInfo : MapCompon
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(GraphicsLayerElevationInfoFeatureExpressionInfo, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "expression");
         if (result is not null)
         {
@@ -133,7 +134,8 @@ public partial class GraphicsLayerElevationInfoFeatureExpressionInfo : MapCompon
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(GraphicsLayerElevationInfoFeatureExpressionInfo, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {

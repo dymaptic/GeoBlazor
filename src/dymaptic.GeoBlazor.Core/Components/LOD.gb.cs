@@ -135,7 +135,8 @@ public partial class LOD
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(LOD, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "levelValue");
         if (result is not null)
         {

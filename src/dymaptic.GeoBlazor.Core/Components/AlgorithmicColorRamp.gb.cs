@@ -115,7 +115,8 @@ public partial class AlgorithmicColorRamp
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
+            IsServer, "GetProperty", nameof(AlgorithmicColorRamp, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "fromColor");
         if (result is not null)
         {
@@ -154,7 +155,8 @@ public partial class AlgorithmicColorRamp
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
+            IsServer, "GetProperty", nameof(AlgorithmicColorRamp, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "toColor");
         if (result is not null)
         {

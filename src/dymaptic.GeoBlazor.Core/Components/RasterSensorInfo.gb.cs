@@ -270,7 +270,8 @@ public partial class RasterSensorInfo : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(RasterSensorInfo, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "productName");
         if (result is not null)
         {
@@ -387,7 +388,8 @@ public partial class RasterSensorInfo : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(RasterSensorInfo, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sensorName");
         if (result is not null)
         {

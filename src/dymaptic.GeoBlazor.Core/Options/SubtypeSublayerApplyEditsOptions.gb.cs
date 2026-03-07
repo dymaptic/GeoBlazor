@@ -24,34 +24,35 @@ public partial record SubtypeSublayerApplyEditsOptions(
     bool? RollbackOnFailureEnabled = null)
 {
     /// <summary>
-    ///     Parameterless constructor
+    ///     Parameterless Constructor
     /// </summary>
-    public SubtypeSublayerApplyEditsOptions() : this(null, null)
+    public SubtypeSublayerApplyEditsOptions(): this(null, null)
     {
     }
-
+    
     /// <summary>
     ///     
     /// </summary>
     public string? GdbVersion { get; set; } = GdbVersion;
-
+    
     /// <summary>
     ///     
     /// </summary>
     public bool? GlobalIdUsed { get; set; } = GlobalIdUsed;
-
+    
     /// <summary>
     ///     
     /// </summary>
     public bool? ReturnEditMoment { get; set; } = ReturnEditMoment;
-
+    
     /// <summary>
     ///     
     /// </summary>
     public ReturnServiceEditsOption? ReturnServiceEditsOption { get; set; } = ReturnServiceEditsOption;
-
+    
     /// <summary>
     ///     
     /// </summary>
     public bool? RollbackOnFailureEnabled { get; set; } = RollbackOnFailureEnabled;
+    
 }

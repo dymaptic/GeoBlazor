@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.OpacityVariable.html">GeoBlazor Docs</a>
 ///     The opacity visual variable defines the opacity of each feature's symbol based on a numeric
@@ -10,6 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class OpacityVariable
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -37,7 +39,7 @@ public partial class OpacityVariable
     /// </param>
     /// <param name="legendOptions">
     ///     An object providing options for displaying the visual variable in
-    ///     the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
+    ///     the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#legendOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="valueExpression">
@@ -50,7 +52,8 @@ public partial class OpacityVariable
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression as defined in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#valueExpression">valueExpression</a> property.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#valueExpressionTitle">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public OpacityVariable(string? field,
+    public OpacityVariable(
+        string? field = null,
         string? normalizationField = null,
         IReadOnlyList<OpacityStop>? stops = null,
         VisualVariableLegendOptions? legendOptions = null,
@@ -65,10 +68,10 @@ public partial class OpacityVariable
         LegendOptions = legendOptions;
         ValueExpression = valueExpression;
         ValueExpressionTitle = valueExpressionTitle;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -80,9 +83,182 @@ public partial class OpacityVariable
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<OpacityStop>? Stops { get; set; }
-
+    
 #endregion
 
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the NormalizationField property.
+    /// </summary>
+    public async Task<string?> GetNormalizationField()
+    {
+        if (CoreJsModule is null)
+        {
+            return NormalizationField;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return NormalizationField;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(OpacityVariable, View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "normalizationField");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             NormalizationField = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(NormalizationField)] = NormalizationField;
+        }
+         
+        return NormalizationField;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Stops property.
+    /// </summary>
+    public async Task<IReadOnlyList<OpacityStop>?> GetStops()
+    {
+        if (CoreJsModule is null)
+        {
+            return Stops;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Stops;
+        }
+
+        IReadOnlyList<OpacityStop>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<OpacityStop>?>(
+            IsServer, nameof(GetStops), nameof(OpacityVariable), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            foreach (OpacityStop item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+#pragma warning disable BL0005
+            Stops = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Stops)] = Stops;
+        }
+        
+        return Stops;
+    }
+    
+#endregion
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the NormalizationField property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetNormalizationField(string? value)
+    {
+#pragma warning disable BL0005
+        NormalizationField = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(NormalizationField)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "normalizationField", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Stops property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetStops(IReadOnlyList<OpacityStop>? value)
+    {
+#pragma warning disable BL0005
+        Stops = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Stops)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            foreach (OpacityStop item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "stops", value);
+    }
+    
+#endregion
 
 #region Add to Collection Methods
 
@@ -99,12 +275,12 @@ public partial class OpacityVariable
             : [..Stops, ..values];
         await SetStops(join);
     }
-
+    
 #endregion
-
 
 #region Remove From Collection Methods
 
+    
     /// <summary>
     ///     Asynchronously remove an element from the Stops property.
     /// </summary>
@@ -117,26 +293,11 @@ public partial class OpacityVariable
         {
             return;
         }
-
         await SetStops(Stops.Except(values).ToArray());
     }
-
+    
 #endregion
 
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        if (Stops is not null)
-        {
-            foreach (OpacityStop child in Stops)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-
-        base.ValidateRequiredGeneratedChildren();
-    }
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -145,13 +306,12 @@ public partial class OpacityVariable
         {
             case OpacityStop stops:
                 Stops ??= [];
-
                 if (!Stops.Contains(stops))
                 {
                     Stops = [..Stops, stops];
                     ModifiedParameters[nameof(Stops)] = Stops;
                 }
-
+                
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -166,182 +326,24 @@ public partial class OpacityVariable
             case OpacityStop stops:
                 Stops = Stops?.Where(s => s != stops).ToList();
                 ModifiedParameters[nameof(Stops)] = Stops;
-
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the NormalizationField property.
-    /// </summary>
-    public async Task<string?> GetNormalizationField()
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
     {
-        if (CoreJsModule is null)
+    
+        if (Stops is not null)
         {
-            return NormalizationField;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return NormalizationField;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "normalizationField");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            NormalizationField = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(NormalizationField)] = NormalizationField;
-        }
-
-        return NormalizationField;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Stops property.
-    /// </summary>
-    public async Task<IReadOnlyList<OpacityStop>?> GetStops()
-    {
-        if (CoreJsModule is null)
-        {
-            return Stops;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Stops;
-        }
-
-        IReadOnlyList<OpacityStop>? result =
-            await JsComponentReference.InvokeAsync<IReadOnlyList<OpacityStop>?>("getStops",
-                CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Stops = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Stops)] = Stops;
-        }
-
-        return Stops;
-    }
-
-#endregion
-
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the NormalizationField property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetNormalizationField(string? value)
-    {
-#pragma warning disable BL0005
-        NormalizationField = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(NormalizationField)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "normalizationField", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Stops property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetStops(IReadOnlyList<OpacityStop>? value)
-    {
-        if (value is not null)
-        {
-            foreach (OpacityStop item in value)
+            foreach (OpacityStop child in Stops)
             {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+                child.ValidateRequiredGeneratedChildren();
             }
         }
-
-#pragma warning disable BL0005
-        Stops = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Stops)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "stops", value);
+        base.ValidateRequiredGeneratedChildren();
     }
-
-#endregion
+      
 }

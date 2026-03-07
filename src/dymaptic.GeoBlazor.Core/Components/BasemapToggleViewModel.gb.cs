@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapToggleViewModel.html">GeoBlazor Docs</a>
 ///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-basemap-toggle/">Basemap Toggle</a> component and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html">BasemapToggle</a> widget.
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class BasemapToggleViewModel : MapComponent
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -24,14 +26,185 @@ public partial class BasemapToggleViewModel : MapComponent
     ///     The next basemap for toggling.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle-BasemapToggleViewModel.html#nextBasemap">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public BasemapToggleViewModel(Basemap? nextBasemap = null)
+    public BasemapToggleViewModel(
+        Basemap? nextBasemap = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         NextBasemap = nextBasemap;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
+    
+    
+#region Public Properties / Blazor Parameters
 
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapToggleViewModel.html#basemaptoggleviewmodelactivebasemap-property">GeoBlazor Docs</a>
+    ///     The map's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap">basemap</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle-BasemapToggleViewModel.html#activeBasemap">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public Basemap? ActiveBasemap { get; protected set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapToggleViewModel.html#basemaptoggleviewmodelnextbasemap-property">GeoBlazor Docs</a>
+    ///     The next basemap for toggling.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle-BasemapToggleViewModel.html#nextBasemap">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Basemap? NextBasemap { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapToggleViewModel.html#basemaptoggleviewmodelstate-property">GeoBlazor Docs</a>
+    ///     The view model's state.
+    ///     default "disabled"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle-BasemapToggleViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public ViewModelState? State { get; protected set; }
+    
+#endregion
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ActiveBasemap property.
+    /// </summary>
+    public async Task<Basemap?> GetActiveBasemap()
+    {
+        if (CoreJsModule is null)
+        {
+            return ActiveBasemap;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return ActiveBasemap;
+        }
+
+        Basemap? result = await JsComponentReference.InvokeJsMethod<Basemap?>(
+            IsServer, nameof(GetActiveBasemap), nameof(BasemapToggleViewModel), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (ActiveBasemap is not null)
+            {
+                result.Id = ActiveBasemap.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            ActiveBasemap = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ActiveBasemap)] = ActiveBasemap;
+        }
+        
+        return ActiveBasemap;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the NextBasemap property.
+    /// </summary>
+    public async Task<Basemap?> GetNextBasemap()
+    {
+        if (CoreJsModule is null)
+        {
+            return NextBasemap;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return NextBasemap;
+        }
+
+        Basemap? result = await JsComponentReference.InvokeJsMethod<Basemap?>(
+            IsServer, nameof(GetNextBasemap), nameof(BasemapToggleViewModel), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (NextBasemap is not null)
+            {
+                result.Id = NextBasemap.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            NextBasemap = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(NextBasemap)] = NextBasemap;
+        }
+        
+        return NextBasemap;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the State property.
+    /// </summary>
+    public async Task<ViewModelState?> GetState()
+    {
+        if (CoreJsModule is null)
+        {
+            return State;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return State;
+        }
+
+        // get the property value
+        JsNullableEnumWrapper<ViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ViewModelState>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "state");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             State = (ViewModelState)result.Value.Value!;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(State)] = State;
+        }
+         
+        return State;
+    }
+    
+#endregion
 
 #region Property Setters
 
@@ -43,22 +216,22 @@ public partial class BasemapToggleViewModel : MapComponent
     /// </param>
     public async Task SetNextBasemap(Basemap? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         NextBasemap = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(NextBasemap)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -67,18 +240,18 @@ public partial class BasemapToggleViewModel : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setNextBasemap",
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetNextBasemap), nameof(BasemapToggleViewModel), 
             CancellationTokenSource.Token, value);
     }
-
+    
 #endregion
-
 
 #region Public Methods
 
@@ -94,7 +267,7 @@ public partial class BasemapToggleViewModel : MapComponent
         {
             return null;
         }
-
+        
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -104,25 +277,19 @@ public partial class BasemapToggleViewModel : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
-        return await JsComponentReference!.InvokeAsync<string?>("toggle",
+        
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(Toggle), nameof(BasemapToggleViewModel), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
-
+    
 #endregion
 
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        NextBasemap?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -135,7 +302,7 @@ public partial class BasemapToggleViewModel : MapComponent
                     NextBasemap = nextBasemap;
                     ModifiedParameters[nameof(NextBasemap)] = NextBasemap;
                 }
-
+                
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -150,184 +317,18 @@ public partial class BasemapToggleViewModel : MapComponent
             case Basemap _:
                 NextBasemap = null;
                 ModifiedParameters[nameof(NextBasemap)] = NextBasemap;
-
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-
-
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapToggleViewModel.html#basemaptoggleviewmodelactivebasemap-property">GeoBlazor Docs</a>
-    ///     The map's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap">basemap</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle-BasemapToggleViewModel.html#activeBasemap">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public Basemap? ActiveBasemap { get; protected set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapToggleViewModel.html#basemaptoggleviewmodelnextbasemap-property">GeoBlazor Docs</a>
-    ///     The next basemap for toggling.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle-BasemapToggleViewModel.html#nextBasemap">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Basemap? NextBasemap { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapToggleViewModel.html#basemaptoggleviewmodelstate-property">GeoBlazor Docs</a>
-    ///     The view model's state.
-    ///     default "disabled"
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle-BasemapToggleViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public ViewModelState? State { get; protected set; }
-
-#endregion
-
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ActiveBasemap property.
-    /// </summary>
-    public async Task<Basemap?> GetActiveBasemap()
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
     {
-        if (CoreJsModule is null)
-        {
-            return ActiveBasemap;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return ActiveBasemap;
-        }
-
-        Basemap? result = await JsComponentReference.InvokeAsync<Basemap?>(
-            "getActiveBasemap", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-            if (ActiveBasemap is not null)
-            {
-                result.Id = ActiveBasemap.Id;
-            }
-
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-
-#pragma warning disable BL0005
-            ActiveBasemap = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(ActiveBasemap)] = ActiveBasemap;
-        }
-
-        return ActiveBasemap;
+    
+        NextBasemap?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
     }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the NextBasemap property.
-    /// </summary>
-    public async Task<Basemap?> GetNextBasemap()
-    {
-        if (CoreJsModule is null)
-        {
-            return NextBasemap;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return NextBasemap;
-        }
-
-        Basemap? result = await JsComponentReference.InvokeAsync<Basemap?>(
-            "getNextBasemap", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-            if (NextBasemap is not null)
-            {
-                result.Id = NextBasemap.Id;
-            }
-
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-
-#pragma warning disable BL0005
-            NextBasemap = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(NextBasemap)] = NextBasemap;
-        }
-
-        return NextBasemap;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the State property.
-    /// </summary>
-    public async Task<ViewModelState?> GetState()
-    {
-        if (CoreJsModule is null)
-        {
-            return State;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return State;
-        }
-
-        // get the property value
-        JsNullableEnumWrapper<ViewModelState>? result =
-            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ViewModelState>?>("getNullableValueTypedProperty",
-                CancellationTokenSource.Token, JsComponentReference, "state");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            State = (ViewModelState)result.Value.Value!;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(State)] = State;
-        }
-
-        return State;
-    }
-
-#endregion
+      
 }

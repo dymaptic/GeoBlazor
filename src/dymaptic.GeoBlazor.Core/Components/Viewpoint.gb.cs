@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Viewpoint.html">GeoBlazor Docs</a>
 ///     Describes a point of view for a 2D or 3D view.
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class Viewpoint
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -37,7 +39,8 @@ public partial class Viewpoint
     ///     The viewpoint camera (3D only).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html#camera">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public Viewpoint(Geometry? targetGeometry = null,
+    public Viewpoint(
+        Geometry? targetGeometry = null,
         double? scale = null,
         double? rotation = null,
         Camera? camera = null)
@@ -48,16 +51,370 @@ public partial class Viewpoint
         Scale = scale;
         Rotation = rotation;
         Camera = camera;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
+    
+    
+#region Public Properties / Blazor Parameters
 
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Viewpoint.html#viewpointcamera-property">GeoBlazor Docs</a>
+    ///     The viewpoint camera (3D only).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html#camera">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Camera? Camera { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Viewpoint.html#viewpointtargetgeometry-property">GeoBlazor Docs</a>
+    ///     The target geometry framed by the viewpoint.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html#targetGeometry">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Geometry? TargetGeometry { get; set; }
+    
+#endregion
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Camera property.
+    /// </summary>
+    public async Task<Camera?> GetCamera()
     {
-        Camera?.ValidateRequiredGeneratedChildren();
-        TargetGeometry?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
+        if (CoreJsModule is null)
+        {
+            return Camera;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Camera;
+        }
+
+        Camera? result = await JsComponentReference.InvokeJsMethod<Camera?>(
+            IsServer, nameof(GetCamera), nameof(Viewpoint), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (Camera is not null)
+            {
+                result.Id = Camera.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            Camera = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Camera)] = Camera;
+        }
+        
+        return Camera;
     }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Rotation property.
+    /// </summary>
+    public async Task<double?> GetRotation()
+    {
+        if (CoreJsModule is null)
+        {
+            return Rotation;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Rotation;
+        }
+
+        // get the property value
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "rotation");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             Rotation = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Rotation)] = Rotation;
+        }
+         
+        return Rotation;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Scale property.
+    /// </summary>
+    public async Task<double?> GetScale()
+    {
+        if (CoreJsModule is null)
+        {
+            return Scale;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Scale;
+        }
+
+        // get the property value
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "scale");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             Scale = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Scale)] = Scale;
+        }
+         
+        return Scale;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the TargetGeometry property.
+    /// </summary>
+    public async Task<Geometry?> GetTargetGeometry()
+    {
+        if (CoreJsModule is null)
+        {
+            return TargetGeometry;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return TargetGeometry;
+        }
+
+        Geometry? result = await JsComponentReference.InvokeJsMethod<Geometry?>(
+            IsServer, nameof(GetTargetGeometry), nameof(Viewpoint), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (TargetGeometry is not null)
+            {
+                result.Id = TargetGeometry.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            TargetGeometry = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(TargetGeometry)] = TargetGeometry;
+        }
+        
+        return TargetGeometry;
+    }
+    
+#endregion
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the Camera property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetCamera(Camera? value)
+    {
+#pragma warning disable BL0005
+        Camera = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Camera)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "camera", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Rotation property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetRotation(double? value)
+    {
+#pragma warning disable BL0005
+        Rotation = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Rotation)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "rotation", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Scale property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetScale(double? value)
+    {
+#pragma warning disable BL0005
+        Scale = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Scale)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "scale", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the TargetGeometry property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetTargetGeometry(Geometry? value)
+    {
+#pragma warning disable BL0005
+        TargetGeometry = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(TargetGeometry)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "targetGeometry", value);
+    }
+    
+#endregion
+
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -70,7 +427,7 @@ public partial class Viewpoint
                     Camera = camera;
                     ModifiedParameters[nameof(Camera)] = Camera;
                 }
-
+                
                 return true;
             case Geometry targetGeometry:
                 if (targetGeometry != TargetGeometry)
@@ -78,7 +435,7 @@ public partial class Viewpoint
                     TargetGeometry = targetGeometry;
                     ModifiedParameters[nameof(TargetGeometry)] = TargetGeometry;
                 }
-
+                
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -93,367 +450,23 @@ public partial class Viewpoint
             case Camera _:
                 Camera = null;
                 ModifiedParameters[nameof(Camera)] = Camera;
-
                 return true;
             case Geometry _:
                 TargetGeometry = null;
                 ModifiedParameters[nameof(TargetGeometry)] = TargetGeometry;
-
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-
-
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Viewpoint.html#viewpointcamera-property">GeoBlazor Docs</a>
-    ///     The viewpoint camera (3D only).
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html#camera">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Camera? Camera { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Viewpoint.html#viewpointtargetgeometry-property">GeoBlazor Docs</a>
-    ///     The target geometry framed by the viewpoint.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html#targetGeometry">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Geometry? TargetGeometry { get; set; }
-
-#endregion
-
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Camera property.
-    /// </summary>
-    public async Task<Camera?> GetCamera()
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
     {
-        if (CoreJsModule is null)
-        {
-            return Camera;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Camera;
-        }
-
-        Camera? result = await JsComponentReference.InvokeAsync<Camera?>("getCamera", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Camera = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Camera)] = Camera;
-        }
-
-        return Camera;
+    
+        Camera?.ValidateRequiredGeneratedChildren();
+        TargetGeometry?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
     }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Rotation property.
-    /// </summary>
-    public async Task<double?> GetRotation()
-    {
-        if (CoreJsModule is null)
-        {
-            return Rotation;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Rotation;
-        }
-
-        // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "rotation");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            Rotation = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Rotation)] = Rotation;
-        }
-
-        return Rotation;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Scale property.
-    /// </summary>
-    public async Task<double?> GetScale()
-    {
-        if (CoreJsModule is null)
-        {
-            return Scale;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Scale;
-        }
-
-        // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "scale");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            Scale = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Scale)] = Scale;
-        }
-
-        return Scale;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the TargetGeometry property.
-    /// </summary>
-    public async Task<Geometry?> GetTargetGeometry()
-    {
-        if (CoreJsModule is null)
-        {
-            return TargetGeometry;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return TargetGeometry;
-        }
-
-        Geometry? result = await JsComponentReference.InvokeAsync<Geometry?>(
-            "getTargetGeometry", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            TargetGeometry = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(TargetGeometry)] = TargetGeometry;
-        }
-
-        return TargetGeometry;
-    }
-
-#endregion
-
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the Camera property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetCamera(Camera? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
-#pragma warning disable BL0005
-        Camera = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Camera)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "camera", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Rotation property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetRotation(double? value)
-    {
-#pragma warning disable BL0005
-        Rotation = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Rotation)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "rotation", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Scale property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetScale(double? value)
-    {
-#pragma warning disable BL0005
-        Scale = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Scale)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "scale", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the TargetGeometry property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetTargetGeometry(Geometry? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
-#pragma warning disable BL0005
-        TargetGeometry = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(TargetGeometry)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "targetGeometry", value);
-    }
-
-#endregion
+      
 }

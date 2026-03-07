@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html">GeoBlazor Docs</a>
 ///     Represents the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a> of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html">CSVLayer</a>
@@ -12,6 +13,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 public partial class CSVLayerView : LayerView,
     IHighlightLayerViewMixin
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -24,7 +26,7 @@ public partial class CSVLayerView : LayerView,
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="featureEffect">
-    ///     The featureEffect can be used to draw attention to features of interest.
+    ///     The featureEffect can be used to draw attention features of interest.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="filter">
@@ -51,7 +53,8 @@ public partial class CSVLayerView : LayerView,
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public CSVLayerView(FeatureEffect? featureEffect = null,
+    public CSVLayerView(
+        FeatureEffect? featureEffect = null,
         FeatureFilter? filter = null,
         HighlightOptions? highlightOptions = null,
         double? maximumNumberOfFeatures = null,
@@ -62,22 +65,742 @@ public partial class CSVLayerView : LayerView,
 #pragma warning disable BL0005
         FeatureEffect = featureEffect;
         Filter = filter;
-#pragma warning disable CS0618 // Type or member is obsolete
         HighlightOptions = highlightOptions;
-#pragma warning restore CS0618 // Type or member is obsolete
         MaximumNumberOfFeatures = maximumNumberOfFeatures;
         MaximumNumberOfFeaturesExceeded = maximumNumberOfFeaturesExceeded;
         Visible = visible;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
+    
+    
+#region Public Properties / Blazor Parameters
 
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewavailablefields-property">GeoBlazor Docs</a>
+    ///     A list of attribute fields fetched for each feature including fields required for layer's `renderer`
+    ///     `labelingInfo`, `elevationInfo`, and additional fields defined on the `outFields` properties.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#availableFields">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public IReadOnlyList<string>? AvailableFields { get; protected set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewdataupdating-property">GeoBlazor Docs</a>
+    ///     Indicates whether the layer view is currently fetching new features.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#dataUpdating">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public bool? DataUpdating { get; protected set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewfeatureeffect-property">GeoBlazor Docs</a>
+    ///     The featureEffect can be used to draw attention features of interest.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public FeatureEffect? FeatureEffect { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewfilter-property">GeoBlazor Docs</a>
+    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#where">attribute</a>,
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#geometry">geometry</a>,
+    ///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#timeExtent">time extent</a>
+    ///     filter.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#filter">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public FeatureFilter? Filter { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewhasallfeatures-property">GeoBlazor Docs</a>
+    ///     Indicates whether the layer view contains all available features from the service.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#hasAllFeatures">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public bool? HasAllFeatures { get; protected set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewhasallfeaturesinview-property">GeoBlazor Docs</a>
+    ///     This property helps determine if the layer view has successfully retrieved all relevant data for the current extent, even if no features are visible
+    ///     (for example, if the result is zero).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#hasAllFeaturesInView">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public bool? HasAllFeaturesInView { get; protected set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewhasfullgeometries-property">GeoBlazor Docs</a>
+    ///     Indicates whether the layer view has geometries at full resolution.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#hasFullGeometries">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public bool? HasFullGeometries { get; protected set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewmaximumnumberoffeatures-property">GeoBlazor Docs</a>
+    ///     The maximum number of features that can be displayed at a time.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#maximumNumberOfFeatures">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? MaximumNumberOfFeatures { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewmaximumnumberoffeaturesexceeded-property">GeoBlazor Docs</a>
+    ///     Signifies whether the maximum number of features has been exceeded.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#maximumNumberOfFeaturesExceeded">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? MaximumNumberOfFeaturesExceeded { get; set; }
+    
+#endregion
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the AvailableFields property.
+    /// </summary>
+    public async Task<IReadOnlyList<string>?> GetAvailableFields()
     {
-        FeatureEffect?.ValidateRequiredGeneratedChildren();
-        Filter?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
+        if (CoreJsModule is null)
+        {
+            return AvailableFields;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return AvailableFields;
+        }
+
+        // get the property value
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
+            IsServer, "GetProperty", nameof(CSVLayerView, View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "availableFields");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             AvailableFields = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(AvailableFields)] = AvailableFields;
+        }
+         
+        return AvailableFields;
     }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the DataUpdating property.
+    /// </summary>
+    public async Task<bool?> GetDataUpdating()
+    {
+        if (CoreJsModule is null)
+        {
+            return DataUpdating;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return DataUpdating;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "dataUpdating");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             DataUpdating = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(DataUpdating)] = DataUpdating;
+        }
+         
+        return DataUpdating;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the FeatureEffect property.
+    /// </summary>
+    public async Task<FeatureEffect?> GetFeatureEffect()
+    {
+        if (CoreJsModule is null)
+        {
+            return FeatureEffect;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return FeatureEffect;
+        }
+
+        FeatureEffect? result = await JsComponentReference.InvokeJsMethod<FeatureEffect?>(
+            IsServer, nameof(GetFeatureEffect), nameof(CSVLayerView), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (FeatureEffect is not null)
+            {
+                result.Id = FeatureEffect.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            FeatureEffect = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
+        }
+        
+        return FeatureEffect;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Filter property.
+    /// </summary>
+    public async Task<FeatureFilter?> GetFilter()
+    {
+        if (CoreJsModule is null)
+        {
+            return Filter;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Filter;
+        }
+
+        FeatureFilter? result = await JsComponentReference.InvokeJsMethod<FeatureFilter?>(
+            IsServer, nameof(GetFilter), nameof(CSVLayerView), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (Filter is not null)
+            {
+                result.Id = Filter.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            Filter = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Filter)] = Filter;
+        }
+        
+        return Filter;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the HasAllFeatures property.
+    /// </summary>
+    public async Task<bool?> GetHasAllFeatures()
+    {
+        if (CoreJsModule is null)
+        {
+            return HasAllFeatures;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return HasAllFeatures;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "hasAllFeatures");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             HasAllFeatures = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(HasAllFeatures)] = HasAllFeatures;
+        }
+         
+        return HasAllFeatures;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the HasAllFeaturesInView property.
+    /// </summary>
+    public async Task<bool?> GetHasAllFeaturesInView()
+    {
+        if (CoreJsModule is null)
+        {
+            return HasAllFeaturesInView;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return HasAllFeaturesInView;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "hasAllFeaturesInView");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             HasAllFeaturesInView = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(HasAllFeaturesInView)] = HasAllFeaturesInView;
+        }
+         
+        return HasAllFeaturesInView;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the HasFullGeometries property.
+    /// </summary>
+    public async Task<bool?> GetHasFullGeometries()
+    {
+        if (CoreJsModule is null)
+        {
+            return HasFullGeometries;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return HasFullGeometries;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "hasFullGeometries");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             HasFullGeometries = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(HasFullGeometries)] = HasFullGeometries;
+        }
+         
+        return HasFullGeometries;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the HighlightOptions property.
+    /// </summary>
+    [Obsolete("$Deprecated since GeoBlazor version 4.4.0. Use the {nameof(MapView.Highlights)} property instead.")]
+    public async Task<HighlightOptions?> GetHighlightOptions()
+    {
+        if (CoreJsModule is null)
+        {
+            return HighlightOptions;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return HighlightOptions;
+        }
+
+        HighlightOptions? result = await JsComponentReference.InvokeJsMethod<HighlightOptions?>(
+            IsServer, nameof(GetHighlightOptions), nameof(CSVLayerView), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (HighlightOptions is not null)
+            {
+                result.Id = HighlightOptions.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            HighlightOptions = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
+        }
+        
+        return HighlightOptions;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the MaximumNumberOfFeatures property.
+    /// </summary>
+    public async Task<double?> GetMaximumNumberOfFeatures()
+    {
+        if (CoreJsModule is null)
+        {
+            return MaximumNumberOfFeatures;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return MaximumNumberOfFeatures;
+        }
+
+        // get the property value
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "maximumNumberOfFeatures");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             MaximumNumberOfFeatures = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(MaximumNumberOfFeatures)] = MaximumNumberOfFeatures;
+        }
+         
+        return MaximumNumberOfFeatures;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the MaximumNumberOfFeaturesExceeded property.
+    /// </summary>
+    public async Task<bool?> GetMaximumNumberOfFeaturesExceeded()
+    {
+        if (CoreJsModule is null)
+        {
+            return MaximumNumberOfFeaturesExceeded;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return MaximumNumberOfFeaturesExceeded;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "maximumNumberOfFeaturesExceeded");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             MaximumNumberOfFeaturesExceeded = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(MaximumNumberOfFeaturesExceeded)] = MaximumNumberOfFeaturesExceeded;
+        }
+         
+        return MaximumNumberOfFeaturesExceeded;
+    }
+    
+#endregion
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the FeatureEffect property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetFeatureEffect(FeatureEffect? value)
+    {
+#pragma warning disable BL0005
+        FeatureEffect = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(FeatureEffect)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetFeatureEffect), nameof(CSVLayerView), 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Filter property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetFilter(FeatureFilter? value)
+    {
+#pragma warning disable BL0005
+        Filter = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Filter)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetFilter), nameof(CSVLayerView), 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the HighlightOptions property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    [Obsolete("$Deprecated since GeoBlazor version 4.4.0. Use the {nameof(MapView.Highlights)} property instead.")]
+    public async Task SetHighlightOptions(HighlightOptions? value)
+    {
+#pragma warning disable BL0005
+        HighlightOptions = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(HighlightOptions)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetHighlightOptions), nameof(CSVLayerView), 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the MaximumNumberOfFeatures property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetMaximumNumberOfFeatures(double? value)
+    {
+#pragma warning disable BL0005
+        MaximumNumberOfFeatures = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(MaximumNumberOfFeatures)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "maximumNumberOfFeatures", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the MaximumNumberOfFeaturesExceeded property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetMaximumNumberOfFeaturesExceeded(bool? value)
+    {
+#pragma warning disable BL0005
+        MaximumNumberOfFeaturesExceeded = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(MaximumNumberOfFeaturesExceeded)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "maximumNumberOfFeaturesExceeded", value);
+    }
+    
+#endregion
+
+#region Public Methods
+
+#endregion
+
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -90,7 +813,7 @@ public partial class CSVLayerView : LayerView,
                     FeatureEffect = featureEffect;
                     ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
                 }
-
+                
                 return true;
             case FeatureFilter filter:
                 if (filter != Filter)
@@ -98,7 +821,7 @@ public partial class CSVLayerView : LayerView,
                     Filter = filter;
                     ModifiedParameters[nameof(Filter)] = Filter;
                 }
-
+                
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -113,654 +836,23 @@ public partial class CSVLayerView : LayerView,
             case FeatureEffect _:
                 FeatureEffect = null;
                 ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
-
                 return true;
             case FeatureFilter _:
                 Filter = null;
                 ModifiedParameters[nameof(Filter)] = Filter;
-
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-
-
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewavailablefields-property">GeoBlazor Docs</a>
-    ///     A list of attribute fields fetched for each feature including fields required for layer's `renderer`
-    ///     `labelingInfo`, `elevationInfo`, and additional fields defined on the `outFields` properties.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#availableFields">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public IReadOnlyList<string>? AvailableFields { get; protected set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewdataupdating-property">GeoBlazor Docs</a>
-    ///     Indicates whether the layer view is currently fetching new features.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#dataUpdating">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public bool? DataUpdating { get; protected set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewfeatureeffect-property">GeoBlazor Docs</a>
-    ///     The featureEffect can be used to draw attention to features of interest.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public FeatureEffect? FeatureEffect { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewfilter-property">GeoBlazor Docs</a>
-    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#where">attribute</a>,
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#geometry">geometry</a>,
-    ///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#timeExtent">time extent</a>
-    ///     filter.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#filter">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public FeatureFilter? Filter { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewhasallfeatures-property">GeoBlazor Docs</a>
-    ///     Indicates whether the layer view contains all available features from the service or source.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#hasAllFeatures">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public bool? HasAllFeatures { get; protected set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewhasallfeaturesinview-property">GeoBlazor Docs</a>
-    ///     This property helps determine if the layer view has successfully retrieved all relevant data for the current extent, even if no features are visible
-    ///     (for example, if the result is zero).
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#hasAllFeaturesInView">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public bool? HasAllFeaturesInView { get; protected set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewhasfullgeometries-property">GeoBlazor Docs</a>
-    ///     Indicates whether the LayerView contains geometries at full resolution.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#hasFullGeometries">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public bool? HasFullGeometries { get; protected set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewmaximumnumberoffeatures-property">GeoBlazor Docs</a>
-    ///     The maximum number of features that can be displayed at a time.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#maximumNumberOfFeatures">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? MaximumNumberOfFeatures { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerView.html#csvlayerviewmaximumnumberoffeaturesexceeded-property">GeoBlazor Docs</a>
-    ///     Signifies whether the maximum number of features has been exceeded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-CSVLayerView.html#maximumNumberOfFeaturesExceeded">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? MaximumNumberOfFeaturesExceeded { get; set; }
-
-#endregion
-
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the AvailableFields property.
-    /// </summary>
-    public async Task<IReadOnlyList<string>?> GetAvailableFields()
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
     {
-        if (CoreJsModule is null)
-        {
-            return AvailableFields;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return AvailableFields;
-        }
-
-        // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
-            CancellationTokenSource.Token, "availableFields");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            AvailableFields = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(AvailableFields)] = AvailableFields;
-        }
-
-        return AvailableFields;
+    
+        FeatureEffect?.ValidateRequiredGeneratedChildren();
+        Filter?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
     }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the DataUpdating property.
-    /// </summary>
-    public async Task<bool?> GetDataUpdating()
-    {
-        if (CoreJsModule is null)
-        {
-            return DataUpdating;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return DataUpdating;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "dataUpdating");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            DataUpdating = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(DataUpdating)] = DataUpdating;
-        }
-
-        return DataUpdating;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the FeatureEffect property.
-    /// </summary>
-    public async Task<FeatureEffect?> GetFeatureEffect()
-    {
-        if (CoreJsModule is null)
-        {
-            return FeatureEffect;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return FeatureEffect;
-        }
-
-        FeatureEffect? result = await JsComponentReference.InvokeAsync<FeatureEffect?>(
-            "getFeatureEffect", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            FeatureEffect = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
-        }
-
-        return FeatureEffect;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Filter property.
-    /// </summary>
-    public async Task<FeatureFilter?> GetFilter()
-    {
-        if (CoreJsModule is null)
-        {
-            return Filter;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Filter;
-        }
-
-        FeatureFilter? result =
-            await JsComponentReference.InvokeAsync<FeatureFilter?>("getFilter", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-            if (Filter is not null)
-            {
-                result.Id = Filter.Id;
-            }
-
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-
-#pragma warning disable BL0005
-            Filter = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Filter)] = Filter;
-        }
-
-        return Filter;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the HasAllFeatures property.
-    /// </summary>
-    public async Task<bool?> GetHasAllFeatures()
-    {
-        if (CoreJsModule is null)
-        {
-            return HasAllFeatures;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return HasAllFeatures;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "hasAllFeatures");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            HasAllFeatures = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(HasAllFeatures)] = HasAllFeatures;
-        }
-
-        return HasAllFeatures;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the HasAllFeaturesInView property.
-    /// </summary>
-    public async Task<bool?> GetHasAllFeaturesInView()
-    {
-        if (CoreJsModule is null)
-        {
-            return HasAllFeaturesInView;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return HasAllFeaturesInView;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "hasAllFeaturesInView");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            HasAllFeaturesInView = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(HasAllFeaturesInView)] = HasAllFeaturesInView;
-        }
-
-        return HasAllFeaturesInView;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the HasFullGeometries property.
-    /// </summary>
-    public async Task<bool?> GetHasFullGeometries()
-    {
-        if (CoreJsModule is null)
-        {
-            return HasFullGeometries;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return HasFullGeometries;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "hasFullGeometries");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            HasFullGeometries = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(HasFullGeometries)] = HasFullGeometries;
-        }
-
-        return HasFullGeometries;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the MaximumNumberOfFeatures property.
-    /// </summary>
-    public async Task<double?> GetMaximumNumberOfFeatures()
-    {
-        if (CoreJsModule is null)
-        {
-            return MaximumNumberOfFeatures;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return MaximumNumberOfFeatures;
-        }
-
-        // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "maximumNumberOfFeatures");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            MaximumNumberOfFeatures = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(MaximumNumberOfFeatures)] = MaximumNumberOfFeatures;
-        }
-
-        return MaximumNumberOfFeatures;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the MaximumNumberOfFeaturesExceeded property.
-    /// </summary>
-    public async Task<bool?> GetMaximumNumberOfFeaturesExceeded()
-    {
-        if (CoreJsModule is null)
-        {
-            return MaximumNumberOfFeaturesExceeded;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return MaximumNumberOfFeaturesExceeded;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "maximumNumberOfFeaturesExceeded");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            MaximumNumberOfFeaturesExceeded = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(MaximumNumberOfFeaturesExceeded)] = MaximumNumberOfFeaturesExceeded;
-        }
-
-        return MaximumNumberOfFeaturesExceeded;
-    }
-
-#endregion
-
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the FeatureEffect property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetFeatureEffect(FeatureEffect? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
-#pragma warning disable BL0005
-        FeatureEffect = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(FeatureEffect)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await JsComponentReference.InvokeVoidAsync("setFeatureEffect",
-            CancellationTokenSource.Token, value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Filter property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetFilter(FeatureFilter? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
-#pragma warning disable BL0005
-        Filter = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Filter)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await JsComponentReference.InvokeVoidAsync("setFilter",
-            CancellationTokenSource.Token, value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the MaximumNumberOfFeatures property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetMaximumNumberOfFeatures(double? value)
-    {
-#pragma warning disable BL0005
-        MaximumNumberOfFeatures = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(MaximumNumberOfFeatures)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "maximumNumberOfFeatures", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the MaximumNumberOfFeaturesExceeded property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetMaximumNumberOfFeaturesExceeded(bool? value)
-    {
-#pragma warning disable BL0005
-        MaximumNumberOfFeaturesExceeded = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(MaximumNumberOfFeaturesExceeded)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "maximumNumberOfFeaturesExceeded", value);
-    }
-
-#endregion
+      
 }

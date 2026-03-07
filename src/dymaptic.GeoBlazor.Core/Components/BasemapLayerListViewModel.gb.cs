@@ -114,11 +114,16 @@ public partial class BasemapLayerListViewModel
             return BaseItems;
         }
 
-        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ListItem>?>(
-            "getBaseItems", CancellationTokenSource.Token);
+        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<ListItem>?>(
+            IsServer, nameof(GetBaseItems), nameof(BasemapLayerListViewModel), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
         
         if (result is not null)
         {
+            foreach (ListItem item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             BaseItems = result;
 #pragma warning restore BL0005
@@ -154,7 +159,8 @@ public partial class BasemapLayerListViewModel
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, "GetProperty", nameof(BasemapLayerListViewModel, View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "basemapTitle");
         if (result is not null)
         {
@@ -270,11 +276,16 @@ public partial class BasemapLayerListViewModel
             return ReferenceItems;
         }
 
-        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ListItem>?>(
-            "getReferenceItems", CancellationTokenSource.Token);
+        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<ListItem>?>(
+            IsServer, nameof(GetReferenceItems), nameof(BasemapLayerListViewModel), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
         
         if (result is not null)
         {
+            foreach (ListItem item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             ReferenceItems = result;
 #pragma warning restore BL0005
@@ -479,8 +490,14 @@ public partial class BasemapLayerListViewModel
             return;
         }
         
-        await JsComponentReference!.InvokeVoidAsync(
-            "triggerAction", 
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer
+            nameof(TriggerAction), nameof(BasemapLayerListViewModel), 
             CancellationTokenSource.Token,
             action,
             item);
