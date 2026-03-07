@@ -155,8 +155,7 @@ public partial class Field
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(Field, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "alias");
         if (result is not null)
         {
@@ -195,8 +194,7 @@ public partial class Field
         }
 
         // get the property value
-        object? result = await JsComponentReference!.InvokeJsMethod<object?>(
-            IsServer, "GetProperty", nameof(Field, View?.QueryResultsMaxSizeLimit,
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "defaultValue");
         if (result is not null)
         {
@@ -235,8 +233,7 @@ public partial class Field
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(Field, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "description");
         if (result is not null)
         {
@@ -274,9 +271,8 @@ public partial class Field
             return Domain;
         }
 
-        Domain? result = await JsComponentReference.InvokeJsMethod<Domain?>(
-            IsServer, nameof(GetDomain), nameof(Field), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Domain? result = await JsComponentReference.InvokeAsync<Domain?>(
+            "getDomain", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -393,8 +389,7 @@ public partial class Field
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(Field, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {

@@ -144,8 +144,7 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(RasterFunction, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "functionArguments");
         if (result is not null)
         {
@@ -184,8 +183,7 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(RasterFunction, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "functionName");
         if (result is not null)
         {
@@ -263,8 +261,7 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(RasterFunction, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "rasterFunctionDefinition");
         if (result is not null)
         {
@@ -303,8 +300,7 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(RasterFunction, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "variableName");
         if (result is not null)
         {

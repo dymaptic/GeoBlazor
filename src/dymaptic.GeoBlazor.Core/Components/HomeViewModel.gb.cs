@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.HomeViewModel.html">GeoBlazor Docs</a>
 ///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-home/">Home</a> component and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home.html">Home</a> widget that
@@ -12,7 +11,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class HomeViewModel : IGoTo
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -36,18 +34,105 @@ public partial class HomeViewModel : IGoTo
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home-HomeViewModel.html#viewpoint">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public HomeViewModel(
-        GoToOverride? goToOverride = null,
+    public HomeViewModel(GoToOverride? goToOverride = null,
         Viewpoint? viewpoint = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         GoToOverride = goToOverride;
         Viewpoint = viewpoint;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the Viewpoint property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetViewpoint(Viewpoint? value)
+    {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
+#pragma warning disable BL0005
+        Viewpoint = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Viewpoint)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await JsComponentReference.InvokeVoidAsync("setViewpoint",
+            CancellationTokenSource.Token, value);
+    }
+
+#endregion
+
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        Viewpoint?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Viewpoint viewpoint:
+                if (viewpoint != Viewpoint)
+                {
+                    Viewpoint = viewpoint;
+                    ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Viewpoint _:
+                Viewpoint = null;
+                ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -60,7 +145,7 @@ public partial class HomeViewModel : IGoTo
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public HomeViewModelState? State { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.HomeViewModel.html#homeviewmodelviewpoint-property">GeoBlazor Docs</a>
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">Viewpoint</a>, or point of view, to zoom to when
@@ -72,8 +157,9 @@ public partial class HomeViewModel : IGoTo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Viewpoint? Viewpoint { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -86,8 +172,8 @@ public partial class HomeViewModel : IGoTo
         {
             return State;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -96,26 +182,28 @@ public partial class HomeViewModel : IGoTo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return State;
         }
 
         // get the property value
-        JsNullableEnumWrapper<HomeViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<HomeViewModelState>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "state");
+        JsNullableEnumWrapper<HomeViewModelState>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<HomeViewModelState>?>("getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "state");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             State = (HomeViewModelState)result.Value.Value!;
+            State = (HomeViewModelState)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(State)] = State;
+            ModifiedParameters[nameof(State)] = State;
         }
-         
+
         return State;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Viewpoint property.
     /// </summary>
@@ -125,8 +213,8 @@ public partial class HomeViewModel : IGoTo
         {
             return Viewpoint;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -135,81 +223,28 @@ public partial class HomeViewModel : IGoTo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Viewpoint;
         }
 
-        Viewpoint? result = await JsComponentReference.InvokeJsMethod<Viewpoint?>(
-            IsServer, nameof(GetViewpoint), nameof(HomeViewModel), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        Viewpoint? result = await JsComponentReference.InvokeAsync<Viewpoint?>(
+            "getViewpoint", CancellationTokenSource.Token);
+
         if (result is not null)
         {
-            if (Viewpoint is not null)
-            {
-                result.Id = Viewpoint.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Viewpoint = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
         }
-        
+
         return Viewpoint;
     }
-    
+
 #endregion
 
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the Viewpoint property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetViewpoint(Viewpoint? value)
-    {
-#pragma warning disable BL0005
-        Viewpoint = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Viewpoint)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetViewpoint), nameof(HomeViewModel), 
-            CancellationTokenSource.Token, value);
-    }
-    
-#endregion
 
 #region Public Methods
 
@@ -226,8 +261,8 @@ public partial class HomeViewModel : IGoTo
         {
             return;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -236,23 +271,16 @@ public partial class HomeViewModel : IGoTo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer
-            nameof(CancelGo), nameof(HomeViewModel), 
+
+        await JsComponentReference!.InvokeVoidAsync("cancelGo",
             CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.HomeViewModel.html#homeviewmodelgo-method">GeoBlazor Docs</a>
     ///     Animates the view to the initial <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">Viewpoint</a> of the view or the
@@ -266,8 +294,8 @@ public partial class HomeViewModel : IGoTo
         {
             return;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -276,24 +304,18 @@ public partial class HomeViewModel : IGoTo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer
-            nameof(Go), nameof(HomeViewModel), 
+
+        await JsComponentReference!.InvokeVoidAsync("go",
             CancellationTokenSource.Token);
     }
-    
+
 #endregion
+
 
 #region Event Handlers
 
@@ -308,14 +330,15 @@ public partial class HomeViewModel : IGoTo
             // cancel if the component is disposed
             return;
         }
-    
+
         HomeViewModelGoEvent? goEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<HomeViewModelGoEvent>();
+
         if (goEvent is not null)
         {
             await OnGo.InvokeAsync(goEvent);
         }
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.HomeViewModel.html#homeviewmodelongo-property">GeoBlazor Docs</a>
     ///     Indicates whether there is an event listener on the instance that matches
@@ -326,53 +349,11 @@ public partial class HomeViewModel : IGoTo
     [Parameter]
     [JsonIgnore]
     public EventCallback<HomeViewModelGoEvent> OnGo { get; set; }
-   
+
     /// <summary>
     ///     Used in JavaScript layer to determine if the event listener is registered.
     /// </summary>
     public bool HasGoListener => OnGo.HasDelegate;
-    
+
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Viewpoint viewpoint:
-                if (viewpoint != Viewpoint)
-                {
-                    Viewpoint = viewpoint;
-                    ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Viewpoint _:
-                Viewpoint = null;
-                ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        Viewpoint?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

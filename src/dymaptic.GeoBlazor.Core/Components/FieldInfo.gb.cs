@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FieldInfo.html">GeoBlazor Docs</a>
 ///     The `FieldInfo` class defines how a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Field.html">Field</a> participates,
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class FieldInfo
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -44,8 +42,7 @@ public partial class FieldInfo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html#stringFieldOption">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="format">
-    ///     Class which provides formatting options for numerical or date fields and how they should display within
-    ///     a popup.
+    ///     Class which provides formatting options for numerical or date fields and how they should display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html#format">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="isEditable">
@@ -63,8 +60,7 @@ public partial class FieldInfo
     ///     on the field to show in the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html#statisticType">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public FieldInfo(
-        string? fieldName = null,
+    public FieldInfo(string? fieldName = null,
         string? label = null,
         string? tooltip = null,
         StringFieldOption? stringFieldOption = null,
@@ -83,23 +79,62 @@ public partial class FieldInfo
         IsEditable = isEditable;
         Visible = visible;
         StatisticType = statisticType;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        Format?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case FieldInfoFormat format:
+                if (format != Format)
+                {
+                    Format = format;
+                    ModifiedParameters[nameof(Format)] = Format;
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case FieldInfoFormat _:
+                Format = null;
+                ModifiedParameters[nameof(Format)] = Format;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FieldInfo.html#fieldinfoformat-property">GeoBlazor Docs</a>
-    ///     Class which provides formatting options for numerical or date fields and how they should display within
-    ///     a popup.
+    ///     Class which provides formatting options for numerical or date fields and how they should display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html#format">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public FieldInfoFormat? Format { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FieldInfo.html#fieldinfostatistictype-property">GeoBlazor Docs</a>
     ///     Used in a `one:many` or `many:many` relationship to compute the statistics
@@ -110,8 +145,9 @@ public partial class FieldInfo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public StatisticType? StatisticType { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -124,8 +160,8 @@ public partial class FieldInfo
         {
             return FieldName;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -134,27 +170,27 @@ public partial class FieldInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return FieldName;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(FieldInfo, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "fieldName");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FieldName = result;
+            FieldName = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FieldName)] = FieldName;
+            ModifiedParameters[nameof(FieldName)] = FieldName;
         }
-         
+
         return FieldName;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Format property.
     /// </summary>
@@ -164,8 +200,8 @@ public partial class FieldInfo
         {
             return Format;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -174,33 +210,26 @@ public partial class FieldInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Format;
         }
 
-        FieldInfoFormat? result = await JsComponentReference.InvokeJsMethod<FieldInfoFormat?>(
-            IsServer, nameof(GetFormat), nameof(FieldInfo), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        FieldInfoFormat? result =
+            await JsComponentReference.InvokeAsync<FieldInfoFormat?>("getFormat", CancellationTokenSource.Token);
+
         if (result is not null)
         {
-            if (Format is not null)
-            {
-                result.Id = Format.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Format = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Format)] = Format;
         }
-        
+
         return Format;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsEditable property.
     /// </summary>
@@ -210,8 +239,8 @@ public partial class FieldInfo
         {
             return IsEditable;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -220,26 +249,28 @@ public partial class FieldInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return IsEditable;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "isEditable");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             IsEditable = result.Value.Value;
+            IsEditable = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(IsEditable)] = IsEditable;
+            ModifiedParameters[nameof(IsEditable)] = IsEditable;
         }
-         
+
         return IsEditable;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Label property.
     /// </summary>
@@ -249,8 +280,8 @@ public partial class FieldInfo
         {
             return Label;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -259,27 +290,27 @@ public partial class FieldInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Label;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(FieldInfo, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "label");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Label = result;
+            Label = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Label)] = Label;
+            ModifiedParameters[nameof(Label)] = Label;
         }
-         
+
         return Label;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the StatisticType property.
     /// </summary>
@@ -289,8 +320,8 @@ public partial class FieldInfo
         {
             return StatisticType;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -299,26 +330,28 @@ public partial class FieldInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return StatisticType;
         }
 
         // get the property value
-        JsNullableEnumWrapper<StatisticType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<StatisticType>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "statisticType");
+        JsNullableEnumWrapper<StatisticType>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<StatisticType>?>("getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "statisticType");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             StatisticType = (StatisticType)result.Value.Value!;
+            StatisticType = (StatisticType)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(StatisticType)] = StatisticType;
+            ModifiedParameters[nameof(StatisticType)] = StatisticType;
         }
-         
+
         return StatisticType;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the StringFieldOption property.
     /// </summary>
@@ -328,8 +361,8 @@ public partial class FieldInfo
         {
             return StringFieldOption;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -338,26 +371,28 @@ public partial class FieldInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return StringFieldOption;
         }
 
         // get the property value
-        JsNullableEnumWrapper<StringFieldOption>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<StringFieldOption>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "stringFieldOption");
+        JsNullableEnumWrapper<StringFieldOption>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<StringFieldOption>?>("getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "stringFieldOption");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             StringFieldOption = (StringFieldOption)result.Value.Value!;
+            StringFieldOption = (StringFieldOption)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(StringFieldOption)] = StringFieldOption;
+            ModifiedParameters[nameof(StringFieldOption)] = StringFieldOption;
         }
-         
+
         return StringFieldOption;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Tooltip property.
     /// </summary>
@@ -367,8 +402,8 @@ public partial class FieldInfo
         {
             return Tooltip;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -377,28 +412,29 @@ public partial class FieldInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Tooltip;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(FieldInfo, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "tooltip");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Tooltip = result;
+            Tooltip = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Tooltip)] = Tooltip;
+            ModifiedParameters[nameof(Tooltip)] = Tooltip;
         }
-         
+
         return Tooltip;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -414,13 +450,13 @@ public partial class FieldInfo
         FieldName = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(FieldName)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -429,16 +465,16 @@ public partial class FieldInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fieldName", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Format property after render.
     /// </summary>
@@ -447,22 +483,22 @@ public partial class FieldInfo
     /// </param>
     public async Task SetFormat(FieldInfoFormat? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         Format = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Format)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -471,16 +507,16 @@ public partial class FieldInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "format", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the IsEditable property after render.
     /// </summary>
@@ -493,13 +529,13 @@ public partial class FieldInfo
         IsEditable = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(IsEditable)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -508,16 +544,16 @@ public partial class FieldInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "isEditable", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Label property after render.
     /// </summary>
@@ -530,13 +566,13 @@ public partial class FieldInfo
         Label = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Label)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -545,16 +581,16 @@ public partial class FieldInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "label", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the StatisticType property after render.
     /// </summary>
@@ -567,13 +603,13 @@ public partial class FieldInfo
         StatisticType = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(StatisticType)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -582,16 +618,16 @@ public partial class FieldInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "statisticType", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the StringFieldOption property after render.
     /// </summary>
@@ -604,13 +640,13 @@ public partial class FieldInfo
         StringFieldOption = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(StringFieldOption)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -619,16 +655,16 @@ public partial class FieldInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "stringFieldOption", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Tooltip property after render.
     /// </summary>
@@ -641,13 +677,13 @@ public partial class FieldInfo
         Tooltip = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Tooltip)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -656,57 +692,15 @@ public partial class FieldInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "tooltip", value);
     }
-    
+
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case FieldInfoFormat format:
-                if (format != Format)
-                {
-                    Format = format;
-                    ModifiedParameters[nameof(Format)] = Format;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case FieldInfoFormat _:
-                Format = null;
-                ModifiedParameters[nameof(Format)] = Format;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        Format?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

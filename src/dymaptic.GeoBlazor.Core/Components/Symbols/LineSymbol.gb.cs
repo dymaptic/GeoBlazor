@@ -40,8 +40,7 @@ public abstract partial class LineSymbol
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, "GetProperty", nameof(LineSymbol, View?.QueryResultsMaxSizeLimit,
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, "width");
         if (result is not null)
         {

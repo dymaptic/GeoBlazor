@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html">GeoBlazor Docs</a>
 ///     Authoring information related to generating renderers
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class AuthoringInfo
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -103,8 +101,7 @@ public partial class AuthoringInfo
     ///     one of the Smart Mapping methods or sliders.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#visualVariables">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public AuthoringInfo(
-        ClassificationMethod? classificationMethod = null,
+    public AuthoringInfo(ClassificationMethod? classificationMethod = null,
         ColorRamp? colorRamp = null,
         double? fadeRatio = null,
         AuthoringInfoField? field1 = null,
@@ -143,10 +140,88 @@ public partial class AuthoringInfo
         UnivariateSymbolStyle = univariateSymbolStyle;
         UnivariateTheme = univariateTheme;
         VisualVariables = visualVariables;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        ColorRamp?.ValidateRequiredGeneratedChildren();
+        Statistics?.ValidateRequiredGeneratedChildren();
+
+        if (VisualVariables is not null)
+        {
+            foreach (AuthoringInfoVisualVariable child in VisualVariables)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ColorRamp colorRamp:
+                if (colorRamp != ColorRamp)
+                {
+                    ColorRamp = colorRamp;
+                    ModifiedParameters[nameof(ColorRamp)] = ColorRamp;
+                }
+
+                return true;
+            case AuthoringInfoStatistics statistics:
+                if (statistics != Statistics)
+                {
+                    Statistics = statistics;
+                    ModifiedParameters[nameof(Statistics)] = Statistics;
+                }
+
+                return true;
+            case AuthoringInfoVisualVariable visualVariables:
+                VisualVariables ??= [];
+
+                if (!VisualVariables.Contains(visualVariables))
+                {
+                    VisualVariables = [..VisualVariables, visualVariables];
+                    ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ColorRamp _:
+                ColorRamp = null;
+                ModifiedParameters[nameof(ColorRamp)] = ColorRamp;
+
+                return true;
+            case AuthoringInfoStatistics _:
+                Statistics = null;
+                ModifiedParameters[nameof(Statistics)] = Statistics;
+
+                return true;
+            case AuthoringInfoVisualVariable visualVariables:
+                VisualVariables = VisualVariables?.Where(v => v != visualVariables).ToList();
+                ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -159,7 +234,7 @@ public partial class AuthoringInfo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ClassificationMethod? ClassificationMethod { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfocolorramp-property">GeoBlazor Docs</a>
     ///     Indicates the color ramp was used to create the symbols for Unique Value or Class Breaks renderer for Imagery Layer.
@@ -169,7 +244,7 @@ public partial class AuthoringInfo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ColorRamp? ColorRamp { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfofaderatio-property">GeoBlazor Docs</a>
     ///     Only applicable to <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-HeatmapRenderer.html">HeatmapRenderer</a>
@@ -180,7 +255,7 @@ public partial class AuthoringInfo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? FadeRatio { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfofield1-property">GeoBlazor Docs</a>
     ///     A numeric field used for generating a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-relationship.html">relationship renderer</a>
@@ -191,7 +266,7 @@ public partial class AuthoringInfo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public AuthoringInfoField? Field1 { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfofield2-property">GeoBlazor Docs</a>
     ///     A numeric field used for generating a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-relationship.html">relationship renderer</a>
@@ -202,7 +277,7 @@ public partial class AuthoringInfo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public AuthoringInfoField? Field2 { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfofields-property">GeoBlazor Docs</a>
     ///     An array of string values representing field names used for creating a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-predominance.html">predominance renderer</a>.
@@ -212,7 +287,7 @@ public partial class AuthoringInfo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<string>? Fields { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfoflowtheme-property">GeoBlazor Docs</a>
     ///     Only applicable to flow renderers.
@@ -222,7 +297,7 @@ public partial class AuthoringInfo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public AuthoringInfoFlowTheme? FlowTheme { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfofocus-property">GeoBlazor Docs</a>
     ///     The focus of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-relationship.html">relationship renderer</a>.
@@ -232,7 +307,7 @@ public partial class AuthoringInfo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Focus { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfoisautogenerated-property">GeoBlazor Docs</a>
     ///     Indicates whether the renderer was created internally by the JS API's rendering engine for
@@ -244,7 +319,7 @@ public partial class AuthoringInfo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? IsAutoGenerated { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfolengthunit-property">GeoBlazor Docs</a>
     ///     **Only applicable to renderer used in web scenes.*Indicates the unit used in real-world sizes.
@@ -254,7 +329,7 @@ public partial class AuthoringInfo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public LengthUnit? LengthUnit { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfomaxslidervalue-property">GeoBlazor Docs</a>
     ///     Indicates the value of the upper handle if a slider was used to generate the dot value for dot density renderer.
@@ -264,7 +339,7 @@ public partial class AuthoringInfo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? MaxSliderValue { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfominslidervalue-property">GeoBlazor Docs</a>
     ///     Indicates the value of the lower handle if a slider was used to generate the dot value for dot density renderer.
@@ -274,7 +349,7 @@ public partial class AuthoringInfo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? MinSliderValue { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfonumclasses-property">GeoBlazor Docs</a>
     ///     The number of classes used to classify each field of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-relationship.html">relationship renderer</a>.
@@ -284,7 +359,7 @@ public partial class AuthoringInfo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? NumClasses { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfostandarddeviationinterval-property">GeoBlazor Docs</a>
     ///     Indicates the standard deviation interval for each stop in a classed color or
@@ -295,7 +370,7 @@ public partial class AuthoringInfo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? StandardDeviationInterval { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfostatistics-property">GeoBlazor Docs</a>
     ///     Only for renderers of type `univariate-color-size` with an `above-and-below` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#univariateTheme">univariateTheme</a>.
@@ -305,7 +380,7 @@ public partial class AuthoringInfo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public AuthoringInfoStatistics? Statistics { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfounivariatesymbolstyle-property">GeoBlazor Docs</a>
     ///     Only applicable to <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-univariateColorSize.html">univariateColorSize</a> renderers with an `above-and-below` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#univariateTheme">univariateTheme</a>.
@@ -315,7 +390,7 @@ public partial class AuthoringInfo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public UnivariateSymbolStyle? UnivariateSymbolStyle { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfounivariatetheme-property">GeoBlazor Docs</a>
     ///     Only applicable to <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-univariateColorSize.html">univariateColorSize</a> renderers.
@@ -325,7 +400,7 @@ public partial class AuthoringInfo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public UnivariateTheme? UnivariateTheme { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html#authoringinfovisualvariables-property">GeoBlazor Docs</a>
     ///     Contains authoring properties of visual variables generated from
@@ -336,8 +411,9 @@ public partial class AuthoringInfo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<AuthoringInfoVisualVariable>? VisualVariables { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -350,8 +426,8 @@ public partial class AuthoringInfo
         {
             return ClassificationMethod;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -360,26 +436,29 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ClassificationMethod;
         }
 
         // get the property value
-        JsNullableEnumWrapper<ClassificationMethod>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ClassificationMethod>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "classificationMethod");
+        JsNullableEnumWrapper<ClassificationMethod>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ClassificationMethod>?>(
+                "getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "classificationMethod");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ClassificationMethod = (ClassificationMethod)result.Value.Value!;
+            ClassificationMethod = (ClassificationMethod)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ClassificationMethod)] = ClassificationMethod;
+            ModifiedParameters[nameof(ClassificationMethod)] = ClassificationMethod;
         }
-         
+
         return ClassificationMethod;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ColorRamp property.
     /// </summary>
@@ -389,8 +468,8 @@ public partial class AuthoringInfo
         {
             return ColorRamp;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -399,33 +478,26 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ColorRamp;
         }
 
-        ColorRamp? result = await JsComponentReference.InvokeJsMethod<ColorRamp?>(
-            IsServer, nameof(GetColorRamp), nameof(AuthoringInfo), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        ColorRamp? result = await JsComponentReference.InvokeAsync<ColorRamp?>(
+            "getColorRamp", CancellationTokenSource.Token);
+
         if (result is not null)
         {
-            if (ColorRamp is not null)
-            {
-                result.Id = ColorRamp.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             ColorRamp = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ColorRamp)] = ColorRamp;
         }
-        
+
         return ColorRamp;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FadeRatio property.
     /// </summary>
@@ -435,8 +507,8 @@ public partial class AuthoringInfo
         {
             return FadeRatio;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -445,26 +517,28 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return FadeRatio;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "fadeRatio");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             FadeRatio = result.Value.Value;
+            FadeRatio = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FadeRatio)] = FadeRatio;
+            ModifiedParameters[nameof(FadeRatio)] = FadeRatio;
         }
-         
+
         return FadeRatio;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Field1 property.
     /// </summary>
@@ -474,8 +548,8 @@ public partial class AuthoringInfo
         {
             return Field1;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -484,33 +558,26 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Field1;
         }
 
-        AuthoringInfoField? result = await JsComponentReference.InvokeJsMethod<AuthoringInfoField?>(
-            IsServer, nameof(GetField1), nameof(AuthoringInfo), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        AuthoringInfoField? result =
+            await JsComponentReference.InvokeAsync<AuthoringInfoField?>("getField1", CancellationTokenSource.Token);
+
         if (result is not null)
         {
-            if (Field1 is not null)
-            {
-                result.Id = Field1.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Field1 = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Field1)] = Field1;
         }
-        
+
         return Field1;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Field2 property.
     /// </summary>
@@ -520,8 +587,8 @@ public partial class AuthoringInfo
         {
             return Field2;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -530,33 +597,26 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Field2;
         }
 
-        AuthoringInfoField? result = await JsComponentReference.InvokeJsMethod<AuthoringInfoField?>(
-            IsServer, nameof(GetField2), nameof(AuthoringInfo), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        AuthoringInfoField? result =
+            await JsComponentReference.InvokeAsync<AuthoringInfoField?>("getField2", CancellationTokenSource.Token);
+
         if (result is not null)
         {
-            if (Field2 is not null)
-            {
-                result.Id = Field2.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Field2 = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Field2)] = Field2;
         }
-        
+
         return Field2;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Fields property.
     /// </summary>
@@ -566,8 +626,8 @@ public partial class AuthoringInfo
         {
             return Fields;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -576,27 +636,27 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Fields;
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
-            IsServer, "GetProperty", nameof(AuthoringInfo, View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, "fields");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Fields = result;
+            Fields = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Fields)] = Fields;
+            ModifiedParameters[nameof(Fields)] = Fields;
         }
-         
+
         return Fields;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FlowTheme property.
     /// </summary>
@@ -606,8 +666,8 @@ public partial class AuthoringInfo
         {
             return FlowTheme;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -616,26 +676,29 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return FlowTheme;
         }
 
         // get the property value
-        JsNullableEnumWrapper<AuthoringInfoFlowTheme>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<AuthoringInfoFlowTheme>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "flowTheme");
+        JsNullableEnumWrapper<AuthoringInfoFlowTheme>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<AuthoringInfoFlowTheme>?>(
+                "getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "flowTheme");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             FlowTheme = (AuthoringInfoFlowTheme)result.Value.Value!;
+            FlowTheme = (AuthoringInfoFlowTheme)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FlowTheme)] = FlowTheme;
+            ModifiedParameters[nameof(FlowTheme)] = FlowTheme;
         }
-         
+
         return FlowTheme;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Focus property.
     /// </summary>
@@ -645,8 +708,8 @@ public partial class AuthoringInfo
         {
             return Focus;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -655,27 +718,27 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Focus;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(AuthoringInfo, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "focus");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Focus = result;
+            Focus = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Focus)] = Focus;
+            ModifiedParameters[nameof(Focus)] = Focus;
         }
-         
+
         return Focus;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsAutoGenerated property.
     /// </summary>
@@ -685,8 +748,8 @@ public partial class AuthoringInfo
         {
             return IsAutoGenerated;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -695,26 +758,28 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return IsAutoGenerated;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "isAutoGenerated");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             IsAutoGenerated = result.Value.Value;
+            IsAutoGenerated = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(IsAutoGenerated)] = IsAutoGenerated;
+            ModifiedParameters[nameof(IsAutoGenerated)] = IsAutoGenerated;
         }
-         
+
         return IsAutoGenerated;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LengthUnit property.
     /// </summary>
@@ -724,8 +789,8 @@ public partial class AuthoringInfo
         {
             return LengthUnit;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -734,26 +799,28 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return LengthUnit;
         }
 
         // get the property value
-        JsNullableEnumWrapper<LengthUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LengthUnit>?>("getNullableValueTypedProperty",
+        JsNullableEnumWrapper<LengthUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LengthUnit>?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "lengthUnit");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             LengthUnit = (LengthUnit)result.Value.Value!;
+            LengthUnit = (LengthUnit)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LengthUnit)] = LengthUnit;
+            ModifiedParameters[nameof(LengthUnit)] = LengthUnit;
         }
-         
+
         return LengthUnit;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxSliderValue property.
     /// </summary>
@@ -763,8 +830,8 @@ public partial class AuthoringInfo
         {
             return MaxSliderValue;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -773,26 +840,28 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return MaxSliderValue;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxSliderValue");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MaxSliderValue = result.Value.Value;
+            MaxSliderValue = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MaxSliderValue)] = MaxSliderValue;
+            ModifiedParameters[nameof(MaxSliderValue)] = MaxSliderValue;
         }
-         
+
         return MaxSliderValue;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinSliderValue property.
     /// </summary>
@@ -802,8 +871,8 @@ public partial class AuthoringInfo
         {
             return MinSliderValue;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -812,26 +881,28 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return MinSliderValue;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "minSliderValue");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MinSliderValue = result.Value.Value;
+            MinSliderValue = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MinSliderValue)] = MinSliderValue;
+            ModifiedParameters[nameof(MinSliderValue)] = MinSliderValue;
         }
-         
+
         return MinSliderValue;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NumClasses property.
     /// </summary>
@@ -841,8 +912,8 @@ public partial class AuthoringInfo
         {
             return NumClasses;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -851,26 +922,28 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return NumClasses;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "numClasses");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             NumClasses = result.Value.Value;
+            NumClasses = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(NumClasses)] = NumClasses;
+            ModifiedParameters[nameof(NumClasses)] = NumClasses;
         }
-         
+
         return NumClasses;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the StandardDeviationInterval property.
     /// </summary>
@@ -880,8 +953,8 @@ public partial class AuthoringInfo
         {
             return StandardDeviationInterval;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -890,26 +963,28 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return StandardDeviationInterval;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "standardDeviationInterval");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             StandardDeviationInterval = result.Value.Value;
+            StandardDeviationInterval = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(StandardDeviationInterval)] = StandardDeviationInterval;
+            ModifiedParameters[nameof(StandardDeviationInterval)] = StandardDeviationInterval;
         }
-         
+
         return StandardDeviationInterval;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Statistics property.
     /// </summary>
@@ -919,8 +994,8 @@ public partial class AuthoringInfo
         {
             return Statistics;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -929,33 +1004,27 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Statistics;
         }
 
-        AuthoringInfoStatistics? result = await JsComponentReference.InvokeJsMethod<AuthoringInfoStatistics?>(
-            IsServer, nameof(GetStatistics), nameof(AuthoringInfo), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        AuthoringInfoStatistics? result =
+            await JsComponentReference.InvokeAsync<AuthoringInfoStatistics?>("getStatistics",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
-            if (Statistics is not null)
-            {
-                result.Id = Statistics.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Statistics = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Statistics)] = Statistics;
         }
-        
+
         return Statistics;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UnivariateSymbolStyle property.
     /// </summary>
@@ -965,8 +1034,8 @@ public partial class AuthoringInfo
         {
             return UnivariateSymbolStyle;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -975,26 +1044,29 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return UnivariateSymbolStyle;
         }
 
         // get the property value
-        JsNullableEnumWrapper<UnivariateSymbolStyle>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<UnivariateSymbolStyle>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "univariateSymbolStyle");
+        JsNullableEnumWrapper<UnivariateSymbolStyle>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<UnivariateSymbolStyle>?>(
+                "getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "univariateSymbolStyle");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             UnivariateSymbolStyle = (UnivariateSymbolStyle)result.Value.Value!;
+            UnivariateSymbolStyle = (UnivariateSymbolStyle)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(UnivariateSymbolStyle)] = UnivariateSymbolStyle;
+            ModifiedParameters[nameof(UnivariateSymbolStyle)] = UnivariateSymbolStyle;
         }
-         
+
         return UnivariateSymbolStyle;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UnivariateTheme property.
     /// </summary>
@@ -1004,8 +1076,8 @@ public partial class AuthoringInfo
         {
             return UnivariateTheme;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1014,26 +1086,28 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return UnivariateTheme;
         }
 
         // get the property value
-        JsNullableEnumWrapper<UnivariateTheme>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<UnivariateTheme>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "univariateTheme");
+        JsNullableEnumWrapper<UnivariateTheme>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<UnivariateTheme>?>("getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "univariateTheme");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             UnivariateTheme = (UnivariateTheme)result.Value.Value!;
+            UnivariateTheme = (UnivariateTheme)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(UnivariateTheme)] = UnivariateTheme;
+            ModifiedParameters[nameof(UnivariateTheme)] = UnivariateTheme;
         }
-         
+
         return UnivariateTheme;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisualVariables property.
     /// </summary>
@@ -1043,8 +1117,8 @@ public partial class AuthoringInfo
         {
             return VisualVariables;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1053,32 +1127,29 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return VisualVariables;
         }
 
-        IReadOnlyList<AuthoringInfoVisualVariable>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<AuthoringInfoVisualVariable>?>(
-            IsServer, nameof(GetVisualVariables), nameof(AuthoringInfo), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        IReadOnlyList<AuthoringInfoVisualVariable>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<AuthoringInfoVisualVariable>?>("getVisualVariables",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
-            foreach (AuthoringInfoVisualVariable item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             VisualVariables = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
         }
-        
+
         return VisualVariables;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -1094,13 +1165,13 @@ public partial class AuthoringInfo
         ClassificationMethod = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ClassificationMethod)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1109,16 +1180,16 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "classificationMethod", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ColorRamp property after render.
     /// </summary>
@@ -1127,22 +1198,22 @@ public partial class AuthoringInfo
     /// </param>
     public async Task SetColorRamp(ColorRamp? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         ColorRamp = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ColorRamp)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1151,16 +1222,16 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "colorRamp", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FadeRatio property after render.
     /// </summary>
@@ -1173,13 +1244,13 @@ public partial class AuthoringInfo
         FadeRatio = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(FadeRatio)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1188,16 +1259,16 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fadeRatio", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Field1 property after render.
     /// </summary>
@@ -1206,22 +1277,22 @@ public partial class AuthoringInfo
     /// </param>
     public async Task SetField1(AuthoringInfoField? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         Field1 = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Field1)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1230,16 +1301,16 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field1", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Field2 property after render.
     /// </summary>
@@ -1248,22 +1319,22 @@ public partial class AuthoringInfo
     /// </param>
     public async Task SetField2(AuthoringInfoField? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         Field2 = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Field2)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1272,16 +1343,16 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field2", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Fields property after render.
     /// </summary>
@@ -1294,13 +1365,13 @@ public partial class AuthoringInfo
         Fields = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Fields)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1309,16 +1380,16 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fields", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FlowTheme property after render.
     /// </summary>
@@ -1331,13 +1402,13 @@ public partial class AuthoringInfo
         FlowTheme = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(FlowTheme)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1346,16 +1417,16 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "flowTheme", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Focus property after render.
     /// </summary>
@@ -1368,13 +1439,13 @@ public partial class AuthoringInfo
         Focus = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Focus)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1383,16 +1454,16 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "focus", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the IsAutoGenerated property after render.
     /// </summary>
@@ -1405,13 +1476,13 @@ public partial class AuthoringInfo
         IsAutoGenerated = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(IsAutoGenerated)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1420,16 +1491,16 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "isAutoGenerated", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LengthUnit property after render.
     /// </summary>
@@ -1442,13 +1513,13 @@ public partial class AuthoringInfo
         LengthUnit = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LengthUnit)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1457,16 +1528,16 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "lengthUnit", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxSliderValue property after render.
     /// </summary>
@@ -1479,13 +1550,13 @@ public partial class AuthoringInfo
         MaxSliderValue = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MaxSliderValue)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1494,16 +1565,16 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxSliderValue", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinSliderValue property after render.
     /// </summary>
@@ -1516,13 +1587,13 @@ public partial class AuthoringInfo
         MinSliderValue = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MinSliderValue)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1531,16 +1602,16 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minSliderValue", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the NumClasses property after render.
     /// </summary>
@@ -1553,13 +1624,13 @@ public partial class AuthoringInfo
         NumClasses = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(NumClasses)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1568,16 +1639,16 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "numClasses", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the StandardDeviationInterval property after render.
     /// </summary>
@@ -1590,13 +1661,13 @@ public partial class AuthoringInfo
         StandardDeviationInterval = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(StandardDeviationInterval)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1605,16 +1676,16 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "standardDeviationInterval", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Statistics property after render.
     /// </summary>
@@ -1623,22 +1694,22 @@ public partial class AuthoringInfo
     /// </param>
     public async Task SetStatistics(AuthoringInfoStatistics? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         Statistics = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Statistics)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1647,16 +1718,16 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "statistics", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UnivariateSymbolStyle property after render.
     /// </summary>
@@ -1669,13 +1740,13 @@ public partial class AuthoringInfo
         UnivariateSymbolStyle = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(UnivariateSymbolStyle)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1684,16 +1755,16 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "univariateSymbolStyle", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UnivariateTheme property after render.
     /// </summary>
@@ -1706,13 +1777,13 @@ public partial class AuthoringInfo
         UnivariateTheme = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(UnivariateTheme)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1721,16 +1792,16 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "univariateTheme", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the VisualVariables property after render.
     /// </summary>
@@ -1739,15 +1810,6 @@ public partial class AuthoringInfo
     /// </param>
     public async Task SetVisualVariables(IReadOnlyList<AuthoringInfoVisualVariable>? value)
     {
-#pragma warning disable BL0005
-        VisualVariables = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(VisualVariables)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
         if (value is not null)
         {
             foreach (AuthoringInfoVisualVariable item in value)
@@ -1755,9 +1817,18 @@ public partial class AuthoringInfo
                 item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        
-    
-        try 
+
+#pragma warning disable BL0005
+        VisualVariables = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(VisualVariables)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1766,17 +1837,18 @@ public partial class AuthoringInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "visualVariables", value);
     }
-    
+
 #endregion
+
 
 #region Add to Collection Methods
 
@@ -1793,7 +1865,7 @@ public partial class AuthoringInfo
             : [..Fields, ..values];
         await SetFields(join);
     }
-    
+
     /// <summary>
     ///     Asynchronously adds elements to the VisualVariables property.
     /// </summary>
@@ -1807,12 +1879,12 @@ public partial class AuthoringInfo
             : [..VisualVariables, ..values];
         await SetVisualVariables(join);
     }
-    
+
 #endregion
+
 
 #region Remove From Collection Methods
 
-    
     /// <summary>
     ///     Asynchronously remove an element from the Fields property.
     /// </summary>
@@ -1825,10 +1897,10 @@ public partial class AuthoringInfo
         {
             return;
         }
+
         await SetFields(Fields.Except(values).ToArray());
     }
-    
-    
+
     /// <summary>
     ///     Asynchronously remove an element from the VisualVariables property.
     /// </summary>
@@ -1841,83 +1913,9 @@ public partial class AuthoringInfo
         {
             return;
         }
+
         await SetVisualVariables(VisualVariables.Except(values).ToArray());
     }
-    
+
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ColorRamp colorRamp:
-                if (colorRamp != ColorRamp)
-                {
-                    ColorRamp = colorRamp;
-                    ModifiedParameters[nameof(ColorRamp)] = ColorRamp;
-                }
-                
-                return true;
-            case AuthoringInfoStatistics statistics:
-                if (statistics != Statistics)
-                {
-                    Statistics = statistics;
-                    ModifiedParameters[nameof(Statistics)] = Statistics;
-                }
-                
-                return true;
-            case AuthoringInfoVisualVariable visualVariables:
-                VisualVariables ??= [];
-                if (!VisualVariables.Contains(visualVariables))
-                {
-                    VisualVariables = [..VisualVariables, visualVariables];
-                    ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ColorRamp _:
-                ColorRamp = null;
-                ModifiedParameters[nameof(ColorRamp)] = ColorRamp;
-                return true;
-            case AuthoringInfoStatistics _:
-                Statistics = null;
-                ModifiedParameters[nameof(Statistics)] = Statistics;
-                return true;
-            case AuthoringInfoVisualVariable visualVariables:
-                VisualVariables = VisualVariables?.Where(v => v != visualVariables).ToList();
-                ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        ColorRamp?.ValidateRequiredGeneratedChildren();
-        Statistics?.ValidateRequiredGeneratedChildren();
-        if (VisualVariables is not null)
-        {
-            foreach (AuthoringInfoVisualVariable child in VisualVariables)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

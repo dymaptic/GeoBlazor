@@ -16,7 +16,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#TickElementGroup">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record TickElementGroup(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    HTMLElement? TickElement = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    HTMLElement? LabelElement = null);
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    ElementReference? TickElement = null,
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    ElementReference? LabelElement = null);

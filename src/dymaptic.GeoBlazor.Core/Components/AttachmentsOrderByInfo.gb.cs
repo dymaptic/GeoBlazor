@@ -96,8 +96,7 @@ public partial class AttachmentsOrderByInfo : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(AttachmentsOrderByInfo, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "field");
         if (result is not null)
         {

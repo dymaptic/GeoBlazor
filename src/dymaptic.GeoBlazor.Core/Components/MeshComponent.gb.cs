@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshComponent.html">GeoBlazor Docs</a>
 ///     The MeshComponent class is used to apply one or more materials to
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class MeshComponent : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -41,8 +39,7 @@ public partial class MeshComponent : MapComponent
     ///     Specifies the type of normals used for lighting.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshComponent.html#shading">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public MeshComponent(
-        byte[]? faces = null,
+    public MeshComponent(byte[]? faces = null,
         IMeshComponentMaterial? material = null,
         string? name = null,
         MeshShading? shading = null)
@@ -53,330 +50,9 @@ public partial class MeshComponent : MapComponent
         Material = material;
         Name = name;
         Shading = shading;
-#pragma warning restore BL0005    
-    }
-    
-    
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshComponent.html#meshcomponentfaces-property">GeoBlazor Docs</a>
-    ///     A flat array of indices that refer to vertices in the
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Mesh.html#vertexAttributes">vertexAttributes</a> of the
-    ///     mesh to which the component belongs.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshComponent.html#faces">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public byte[]? Faces { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshComponent.html#meshcomponentmaterial-property">GeoBlazor Docs</a>
-    ///     The material determines how the component is visualized.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshComponent.html#material">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IMeshComponentMaterial? Material { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshComponent.html#meshcomponentname-property">GeoBlazor Docs</a>
-    ///     Specifies a name of the component.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshComponent.html#name">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Name { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshComponent.html#meshcomponentshading-property">GeoBlazor Docs</a>
-    ///     Specifies the type of normals used for lighting.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshComponent.html#shading">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public MeshShading? Shading { get; set; }
-    
-#endregion
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Faces property.
-    /// </summary>
-    public async Task<byte[]?> GetFaces()
-    {
-        if (CoreJsModule is null)
-        {
-            return Faces;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Faces;
-        }
-
-        // get the property value
-        byte[]? result = await JsComponentReference!.InvokeJsMethod<byte[]?>(
-            IsServer, "GetProperty", nameof(MeshComponent, View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "faces");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Faces = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Faces)] = Faces;
-        }
-         
-        return Faces;
     }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Name property.
-    /// </summary>
-    public async Task<string?> GetName()
-    {
-        if (CoreJsModule is null)
-        {
-            return Name;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Name;
-        }
 
-        // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(MeshComponent, View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "name");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Name = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Name)] = Name;
-        }
-         
-        return Name;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Shading property.
-    /// </summary>
-    public async Task<MeshShading?> GetShading()
-    {
-        if (CoreJsModule is null)
-        {
-            return Shading;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Shading;
-        }
-
-        // get the property value
-        JsNullableEnumWrapper<MeshShading>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<MeshShading>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "shading");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             Shading = (MeshShading)result.Value.Value!;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Shading)] = Shading;
-        }
-         
-        return Shading;
-    }
-    
-#endregion
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the Faces property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetFaces(byte[]? value)
-    {
-#pragma warning disable BL0005
-        Faces = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Faces)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "faces", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Material property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetMaterial(IMeshComponentMaterial? value)
-    {
-#pragma warning disable BL0005
-        Material = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Material)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "material", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Name property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetName(string? value)
-    {
-#pragma warning disable BL0005
-        Name = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Name)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "name", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Shading property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetShading(MeshShading? value)
-    {
-#pragma warning disable BL0005
-        Shading = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Shading)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "shading", value);
-    }
-    
-#endregion
 
 #region Add to Collection Methods
 
@@ -393,12 +69,12 @@ public partial class MeshComponent : MapComponent
             : [..Faces, ..values];
         await SetFaces(join);
     }
-    
+
 #endregion
+
 
 #region Remove From Collection Methods
 
-    
     /// <summary>
     ///     Asynchronously remove an element from the Faces property.
     /// </summary>
@@ -411,9 +87,381 @@ public partial class MeshComponent : MapComponent
         {
             return;
         }
+
         await SetFaces(Faces.Except(values).ToArray());
     }
-    
+
 #endregion
 
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        Material?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case IMeshComponentMaterial material:
+                if (material != Material)
+                {
+                    Material = material;
+                    ModifiedParameters[nameof(Material)] = Material;
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case IMeshComponentMaterial _:
+                Material = null;
+                ModifiedParameters[nameof(Material)] = Material;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
+
+#region Public Properties / Blazor Parameters
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshComponent.html#meshcomponentfaces-property">GeoBlazor Docs</a>
+    ///     A flat array of indices that refer to vertices in the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Mesh.html#vertexAttributes">vertexAttributes</a> of the
+    ///     mesh to which the component belongs.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshComponent.html#faces">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public byte[]? Faces { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshComponent.html#meshcomponentmaterial-property">GeoBlazor Docs</a>
+    ///     The material determines how the component is visualized.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshComponent.html#material">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IMeshComponentMaterial? Material { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshComponent.html#meshcomponentname-property">GeoBlazor Docs</a>
+    ///     Specifies a name of the component.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshComponent.html#name">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Name { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshComponent.html#meshcomponentshading-property">GeoBlazor Docs</a>
+    ///     Specifies the type of normals used for lighting.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshComponent.html#shading">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public MeshShading? Shading { get; set; }
+
+#endregion
+
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Faces property.
+    /// </summary>
+    public async Task<byte[]?> GetFaces()
+    {
+        if (CoreJsModule is null)
+        {
+            return Faces;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Faces;
+        }
+
+        // get the property value
+        byte[]? result = await JsComponentReference!.InvokeAsync<byte[]?>("getProperty",
+            CancellationTokenSource.Token, "faces");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Faces = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Faces)] = Faces;
+        }
+
+        return Faces;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Name property.
+    /// </summary>
+    public async Task<string?> GetName()
+    {
+        if (CoreJsModule is null)
+        {
+            return Name;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Name;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "name");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Name = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Name)] = Name;
+        }
+
+        return Name;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Shading property.
+    /// </summary>
+    public async Task<MeshShading?> GetShading()
+    {
+        if (CoreJsModule is null)
+        {
+            return Shading;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Shading;
+        }
+
+        // get the property value
+        JsNullableEnumWrapper<MeshShading>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<MeshShading>?>("getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "shading");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            Shading = (MeshShading)result.Value.Value!;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Shading)] = Shading;
+        }
+
+        return Shading;
+    }
+
+#endregion
+
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the Faces property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetFaces(byte[]? value)
+    {
+#pragma warning disable BL0005
+        Faces = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Faces)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "faces", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Material property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetMaterial(IMeshComponentMaterial? value)
+    {
+        if (value is not null)
+        {
+            ((MapComponent)value).UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
+#pragma warning disable BL0005
+        Material = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Material)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await JsComponentReference.InvokeVoidAsync("setMaterial",
+            CancellationTokenSource.Token, value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Name property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetName(string? value)
+    {
+#pragma warning disable BL0005
+        Name = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Name)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "name", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Shading property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetShading(MeshShading? value)
+    {
+#pragma warning disable BL0005
+        Shading = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Shading)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "shading", value);
+    }
+
+#endregion
 }

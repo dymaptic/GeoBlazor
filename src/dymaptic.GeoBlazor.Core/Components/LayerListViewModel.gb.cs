@@ -172,16 +172,11 @@ public partial class LayerListViewModel : MapComponent
             return OperationalItems;
         }
 
-        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<ListItem>?>(
-            IsServer, nameof(GetOperationalItems), nameof(LayerListViewModel), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ListItem>?>(
+            "getOperationalItems", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (ListItem item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             OperationalItems = result;
 #pragma warning restore BL0005
@@ -357,14 +352,8 @@ public partial class LayerListViewModel : MapComponent
             return;
         }
         
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer
-            nameof(MoveListItem), nameof(LayerListViewModel), 
+        await JsComponentReference!.InvokeVoidAsync(
+            "moveListItem", 
             CancellationTokenSource.Token,
             targetItem,
             fromParentItem,
@@ -409,14 +398,8 @@ public partial class LayerListViewModel : MapComponent
             return;
         }
         
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer
-            nameof(TriggerAction), nameof(LayerListViewModel), 
+        await JsComponentReference!.InvokeVoidAsync(
+            "triggerAction", 
             CancellationTokenSource.Token,
             action,
             item);

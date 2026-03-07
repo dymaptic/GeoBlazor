@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Label.html">GeoBlazor Docs</a>
 ///     Defines label expressions, symbols, scale ranges, label priorities, and label placement options for labels on a layer.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class Label
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -86,8 +84,7 @@ public partial class Label
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#where">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public Label(
-        LabelPlacement? labelPlacement = null,
+    public Label(LabelPlacement? labelPlacement = null,
         string? labelExpression = null,
         LabelExpressionInfo? labelExpressionInfo = null,
         Symbol? symbol = null,
@@ -106,10 +103,12 @@ public partial class Label
         LabelPlacement = labelPlacement;
         LabelExpression = labelExpression;
         LabelExpressionInfo = labelExpressionInfo;
+
         if (symbol is not null)
         {
             Symbol = symbol;
         }
+
         AllowOverrun = allowOverrun;
         DeconflictionStrategy = deconflictionStrategy;
         LabelPosition = labelPosition;
@@ -119,10 +118,64 @@ public partial class Label
         RepeatLabelDistance = repeatLabelDistance;
         UseCodedValues = useCodedValues;
         Where = where;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        LabelExpressionInfo?.ValidateRequiredGeneratedChildren();
+        Symbol?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case LabelExpressionInfo labelExpressionInfo:
+                if (labelExpressionInfo != LabelExpressionInfo)
+                {
+                    LabelExpressionInfo = labelExpressionInfo;
+                    ModifiedParameters[nameof(LabelExpressionInfo)] = LabelExpressionInfo;
+                }
+
+                return true;
+            case Symbol symbol:
+                if (symbol != Symbol)
+                {
+                    Symbol = symbol;
+                    ModifiedParameters[nameof(Symbol)] = Symbol;
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case LabelExpressionInfo _:
+                LabelExpressionInfo = null;
+                ModifiedParameters[nameof(LabelExpressionInfo)] = LabelExpressionInfo;
+
+                return true;
+            case Symbol _:
+                Symbol = null;
+                ModifiedParameters[nameof(Symbol)] = Symbol;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -135,7 +188,7 @@ public partial class Label
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? AllowOverrun { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Label.html#labellabelexpressioninfo-property">GeoBlazor Docs</a>
     ///     Defines the labels for a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a>.
@@ -146,7 +199,7 @@ public partial class Label
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public LabelExpressionInfo? LabelExpressionInfo { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Label.html#labelsymbol-property">GeoBlazor Docs</a>
     ///     Defines the symbol used for rendering the label.
@@ -156,8 +209,9 @@ public partial class Label
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Symbol? Symbol { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -170,8 +224,8 @@ public partial class Label
         {
             return AllowOverrun;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -180,26 +234,28 @@ public partial class Label
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return AllowOverrun;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "allowOverrun");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             AllowOverrun = result.Value.Value;
+            AllowOverrun = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AllowOverrun)] = AllowOverrun;
+            ModifiedParameters[nameof(AllowOverrun)] = AllowOverrun;
         }
-         
+
         return AllowOverrun;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DeconflictionStrategy property.
     /// </summary>
@@ -209,8 +265,8 @@ public partial class Label
         {
             return DeconflictionStrategy;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -219,26 +275,29 @@ public partial class Label
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return DeconflictionStrategy;
         }
 
         // get the property value
-        JsNullableEnumWrapper<DeconflictionStrategy>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<DeconflictionStrategy>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "deconflictionStrategy");
+        JsNullableEnumWrapper<DeconflictionStrategy>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<DeconflictionStrategy>?>(
+                "getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "deconflictionStrategy");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             DeconflictionStrategy = (DeconflictionStrategy)result.Value.Value!;
+            DeconflictionStrategy = (DeconflictionStrategy)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DeconflictionStrategy)] = DeconflictionStrategy;
+            ModifiedParameters[nameof(DeconflictionStrategy)] = DeconflictionStrategy;
         }
-         
+
         return DeconflictionStrategy;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelExpression property.
     /// </summary>
@@ -248,8 +307,8 @@ public partial class Label
         {
             return LabelExpression;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -258,27 +317,27 @@ public partial class Label
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return LabelExpression;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(Label, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "labelExpression");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LabelExpression = result;
+            LabelExpression = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LabelExpression)] = LabelExpression;
+            ModifiedParameters[nameof(LabelExpression)] = LabelExpression;
         }
-         
+
         return LabelExpression;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelExpressionInfo property.
     /// </summary>
@@ -288,8 +347,8 @@ public partial class Label
         {
             return LabelExpressionInfo;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -298,16 +357,15 @@ public partial class Label
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return LabelExpressionInfo;
         }
 
-        LabelExpressionInfo? result = await JsComponentReference.InvokeJsMethod<LabelExpressionInfo?>(
-            IsServer, nameof(GetLabelExpressionInfo), nameof(Label), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        LabelExpressionInfo? result = await JsComponentReference.InvokeAsync<LabelExpressionInfo?>(
+            "getLabelExpressionInfo", CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -315,10 +373,10 @@ public partial class Label
 #pragma warning restore BL0005
             ModifiedParameters[nameof(LabelExpressionInfo)] = LabelExpressionInfo;
         }
-        
+
         return LabelExpressionInfo;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelPlacement property.
     /// </summary>
@@ -328,8 +386,8 @@ public partial class Label
         {
             return LabelPlacement;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -338,26 +396,28 @@ public partial class Label
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return LabelPlacement;
         }
 
         // get the property value
-        JsNullableEnumWrapper<LabelPlacement>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LabelPlacement>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "labelPlacement");
+        JsNullableEnumWrapper<LabelPlacement>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LabelPlacement>?>("getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "labelPlacement");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             LabelPlacement = (LabelPlacement)result.Value.Value!;
+            LabelPlacement = (LabelPlacement)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LabelPlacement)] = LabelPlacement;
+            ModifiedParameters[nameof(LabelPlacement)] = LabelPlacement;
         }
-         
+
         return LabelPlacement;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelPosition property.
     /// </summary>
@@ -367,8 +427,8 @@ public partial class Label
         {
             return LabelPosition;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -377,26 +437,28 @@ public partial class Label
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return LabelPosition;
         }
 
         // get the property value
-        JsNullableEnumWrapper<LabelPosition>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LabelPosition>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "labelPosition");
+        JsNullableEnumWrapper<LabelPosition>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LabelPosition>?>("getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "labelPosition");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             LabelPosition = (LabelPosition)result.Value.Value!;
+            LabelPosition = (LabelPosition)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LabelPosition)] = LabelPosition;
+            ModifiedParameters[nameof(LabelPosition)] = LabelPosition;
         }
-         
+
         return LabelPosition;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -406,8 +468,8 @@ public partial class Label
         {
             return MaxScale;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -416,26 +478,28 @@ public partial class Label
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return MaxScale;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxScale");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MaxScale = result.Value.Value;
+            MaxScale = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MaxScale)] = MaxScale;
+            ModifiedParameters[nameof(MaxScale)] = MaxScale;
         }
-         
+
         return MaxScale;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -445,8 +509,8 @@ public partial class Label
         {
             return MinScale;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -455,26 +519,28 @@ public partial class Label
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return MinScale;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "minScale");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MinScale = result.Value.Value;
+            MinScale = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MinScale)] = MinScale;
+            ModifiedParameters[nameof(MinScale)] = MinScale;
         }
-         
+
         return MinScale;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RepeatLabel property.
     /// </summary>
@@ -484,8 +550,8 @@ public partial class Label
         {
             return RepeatLabel;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -494,26 +560,28 @@ public partial class Label
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return RepeatLabel;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "repeatLabel");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             RepeatLabel = result.Value.Value;
+            RepeatLabel = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RepeatLabel)] = RepeatLabel;
+            ModifiedParameters[nameof(RepeatLabel)] = RepeatLabel;
         }
-         
+
         return RepeatLabel;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RepeatLabelDistance property.
     /// </summary>
@@ -523,8 +591,8 @@ public partial class Label
         {
             return RepeatLabelDistance;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -533,27 +601,27 @@ public partial class Label
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return RepeatLabelDistance;
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, "GetProperty", nameof(Label, View?.QueryResultsMaxSizeLimit,
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, "repeatLabelDistance");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             RepeatLabelDistance = result;
+            RepeatLabelDistance = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RepeatLabelDistance)] = RepeatLabelDistance;
+            ModifiedParameters[nameof(RepeatLabelDistance)] = RepeatLabelDistance;
         }
-         
+
         return RepeatLabelDistance;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UseCodedValues property.
     /// </summary>
@@ -563,8 +631,8 @@ public partial class Label
         {
             return UseCodedValues;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -573,26 +641,28 @@ public partial class Label
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return UseCodedValues;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "useCodedValues");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             UseCodedValues = result.Value.Value;
+            UseCodedValues = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(UseCodedValues)] = UseCodedValues;
+            ModifiedParameters[nameof(UseCodedValues)] = UseCodedValues;
         }
-         
+
         return UseCodedValues;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Where property.
     /// </summary>
@@ -602,8 +672,8 @@ public partial class Label
         {
             return Where;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -612,28 +682,29 @@ public partial class Label
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Where;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(Label, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "where");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Where = result;
+            Where = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Where)] = Where;
+            ModifiedParameters[nameof(Where)] = Where;
         }
-         
+
         return Where;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -649,13 +720,13 @@ public partial class Label
         AllowOverrun = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(AllowOverrun)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -664,16 +735,16 @@ public partial class Label
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "allowOverrun", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DeconflictionStrategy property after render.
     /// </summary>
@@ -686,13 +757,13 @@ public partial class Label
         DeconflictionStrategy = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(DeconflictionStrategy)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -701,16 +772,16 @@ public partial class Label
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "deconflictionStrategy", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelExpression property after render.
     /// </summary>
@@ -723,13 +794,13 @@ public partial class Label
         LabelExpression = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LabelExpression)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -738,16 +809,16 @@ public partial class Label
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelExpression", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelExpressionInfo property after render.
     /// </summary>
@@ -756,22 +827,22 @@ public partial class Label
     /// </param>
     public async Task SetLabelExpressionInfo(LabelExpressionInfo? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         LabelExpressionInfo = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LabelExpressionInfo)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -780,16 +851,16 @@ public partial class Label
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "labelExpressionInfo", value);
+
+        await JsComponentReference.InvokeVoidAsync("setLabelExpressionInfo",
+            CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelPlacement property after render.
     /// </summary>
@@ -802,13 +873,13 @@ public partial class Label
         LabelPlacement = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LabelPlacement)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -817,16 +888,16 @@ public partial class Label
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelPlacement", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelPosition property after render.
     /// </summary>
@@ -839,13 +910,13 @@ public partial class Label
         LabelPosition = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LabelPosition)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -854,16 +925,16 @@ public partial class Label
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelPosition", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -876,13 +947,13 @@ public partial class Label
         MaxScale = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MaxScale)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -891,16 +962,16 @@ public partial class Label
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -913,13 +984,13 @@ public partial class Label
         MinScale = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MinScale)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -928,16 +999,16 @@ public partial class Label
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RepeatLabel property after render.
     /// </summary>
@@ -950,13 +1021,13 @@ public partial class Label
         RepeatLabel = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(RepeatLabel)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -965,16 +1036,16 @@ public partial class Label
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "repeatLabel", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RepeatLabelDistance property after render.
     /// </summary>
@@ -987,13 +1058,13 @@ public partial class Label
         RepeatLabelDistance = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(RepeatLabelDistance)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1002,16 +1073,16 @@ public partial class Label
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "repeatLabelDistance", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UseCodedValues property after render.
     /// </summary>
@@ -1024,13 +1095,13 @@ public partial class Label
         UseCodedValues = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(UseCodedValues)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1039,16 +1110,16 @@ public partial class Label
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "useCodedValues", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Where property after render.
     /// </summary>
@@ -1061,13 +1132,13 @@ public partial class Label
         Where = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Where)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1076,70 +1147,15 @@ public partial class Label
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "where", value);
     }
-    
+
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case LabelExpressionInfo labelExpressionInfo:
-                if (labelExpressionInfo != LabelExpressionInfo)
-                {
-                    LabelExpressionInfo = labelExpressionInfo;
-                    ModifiedParameters[nameof(LabelExpressionInfo)] = LabelExpressionInfo;
-                }
-                
-                return true;
-            case Symbol symbol:
-                if (symbol != Symbol)
-                {
-                    Symbol = symbol;
-                    ModifiedParameters[nameof(Symbol)] = Symbol;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case LabelExpressionInfo _:
-                LabelExpressionInfo = null;
-                ModifiedParameters[nameof(LabelExpressionInfo)] = LabelExpressionInfo;
-                return true;
-            case Symbol _:
-                Symbol = null;
-                ModifiedParameters[nameof(Symbol)] = Symbol;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        LabelExpressionInfo?.ValidateRequiredGeneratedChildren();
-        Symbol?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

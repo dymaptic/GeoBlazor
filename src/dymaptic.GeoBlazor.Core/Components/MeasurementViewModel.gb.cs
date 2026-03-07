@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeasurementViewModel.html">GeoBlazor Docs</a>
 ///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html">Measurement</a> widget.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class MeasurementViewModel : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -35,8 +33,7 @@ public partial class MeasurementViewModel : MapComponent
     ///     Unit system (imperial, metric) or specific unit used for displaying the distance values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement-MeasurementViewModel.html#linearUnit">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public MeasurementViewModel(
-        ActiveTool? activeTool = null,
+    public MeasurementViewModel(ActiveTool? activeTool = null,
         SystemOrAreaUnit? areaUnit = null,
         SystemOrLengthUnit? linearUnit = null)
     {
@@ -45,10 +42,10 @@ public partial class MeasurementViewModel : MapComponent
         ActiveTool = activeTool;
         AreaUnit = areaUnit;
         LinearUnit = linearUnit;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -61,7 +58,7 @@ public partial class MeasurementViewModel : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ActiveTool? ActiveTool { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeasurementViewModel.html#measurementviewmodelactiveviewmodel-property">GeoBlazor Docs</a>
     ///     View model of the active measurement widget.
@@ -71,7 +68,7 @@ public partial class MeasurementViewModel : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public IMeasurementViewModelActiveViewModel? ActiveViewModel { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeasurementViewModel.html#measurementviewmodelareaunit-property">GeoBlazor Docs</a>
     ///     Unit system (imperial, metric) or specific unit used for displaying the area values.
@@ -81,7 +78,7 @@ public partial class MeasurementViewModel : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public SystemOrAreaUnit? AreaUnit { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeasurementViewModel.html#measurementviewmodellinearunit-property">GeoBlazor Docs</a>
     ///     Unit system (imperial, metric) or specific unit used for displaying the distance values.
@@ -91,7 +88,7 @@ public partial class MeasurementViewModel : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public SystemOrLengthUnit? LinearUnit { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeasurementViewModel.html#measurementviewmodelstate-property">GeoBlazor Docs</a>
     ///     The ViewModel's state.
@@ -102,8 +99,9 @@ public partial class MeasurementViewModel : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public MeasurementViewModelState? State { get; protected set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -116,8 +114,8 @@ public partial class MeasurementViewModel : MapComponent
         {
             return ActiveTool;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -126,26 +124,28 @@ public partial class MeasurementViewModel : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ActiveTool;
         }
 
         // get the property value
-        JsNullableEnumWrapper<ActiveTool>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ActiveTool>?>("getNullableValueTypedProperty",
+        JsNullableEnumWrapper<ActiveTool>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ActiveTool>?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "activeTool");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ActiveTool = (ActiveTool)result.Value.Value!;
+            ActiveTool = (ActiveTool)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ActiveTool)] = ActiveTool;
+            ModifiedParameters[nameof(ActiveTool)] = ActiveTool;
         }
-         
+
         return ActiveTool;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ActiveViewModel property.
     /// </summary>
@@ -155,8 +155,8 @@ public partial class MeasurementViewModel : MapComponent
         {
             return ActiveViewModel;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -165,33 +165,34 @@ public partial class MeasurementViewModel : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ActiveViewModel;
         }
 
-        IMeasurementViewModelActiveViewModel? result = await JsComponentReference.InvokeJsMethod<IMeasurementViewModelActiveViewModel?>(
-            IsServer, nameof(GetActiveViewModel), nameof(MeasurementViewModel), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        IMeasurementViewModelActiveViewModel? result =
+            await JsComponentReference.InvokeAsync<IMeasurementViewModelActiveViewModel?>("getActiveViewModel",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (ActiveViewModel is not null)
             {
                 result.Id = ActiveViewModel.Id;
             }
+
             ((MapComponent)result).UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
+
 #pragma warning disable BL0005
             ActiveViewModel = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ActiveViewModel)] = ActiveViewModel;
         }
-        
+
         return ActiveViewModel;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AreaUnit property.
     /// </summary>
@@ -201,8 +202,8 @@ public partial class MeasurementViewModel : MapComponent
         {
             return AreaUnit;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -211,26 +212,28 @@ public partial class MeasurementViewModel : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return AreaUnit;
         }
 
         // get the property value
-        JsNullableEnumWrapper<SystemOrAreaUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SystemOrAreaUnit>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "areaUnit");
+        JsNullableEnumWrapper<SystemOrAreaUnit>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SystemOrAreaUnit>?>("getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "areaUnit");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             AreaUnit = (SystemOrAreaUnit)result.Value.Value!;
+            AreaUnit = (SystemOrAreaUnit)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AreaUnit)] = AreaUnit;
+            ModifiedParameters[nameof(AreaUnit)] = AreaUnit;
         }
-         
+
         return AreaUnit;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LinearUnit property.
     /// </summary>
@@ -240,8 +243,8 @@ public partial class MeasurementViewModel : MapComponent
         {
             return LinearUnit;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -250,26 +253,28 @@ public partial class MeasurementViewModel : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return LinearUnit;
         }
 
         // get the property value
-        JsNullableEnumWrapper<SystemOrLengthUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SystemOrLengthUnit>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "linearUnit");
+        JsNullableEnumWrapper<SystemOrLengthUnit>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SystemOrLengthUnit>?>("getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "linearUnit");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             LinearUnit = (SystemOrLengthUnit)result.Value.Value!;
+            LinearUnit = (SystemOrLengthUnit)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LinearUnit)] = LinearUnit;
+            ModifiedParameters[nameof(LinearUnit)] = LinearUnit;
         }
-         
+
         return LinearUnit;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -279,8 +284,8 @@ public partial class MeasurementViewModel : MapComponent
         {
             return State;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -289,27 +294,31 @@ public partial class MeasurementViewModel : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return State;
         }
 
         // get the property value
-        JsNullableEnumWrapper<MeasurementViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<MeasurementViewModelState>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "state");
+        JsNullableEnumWrapper<MeasurementViewModelState>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<MeasurementViewModelState>?>(
+                "getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "state");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             State = (MeasurementViewModelState)result.Value.Value!;
+            State = (MeasurementViewModelState)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(State)] = State;
+            ModifiedParameters[nameof(State)] = State;
         }
-         
+
         return State;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -325,13 +334,13 @@ public partial class MeasurementViewModel : MapComponent
         ActiveTool = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ActiveTool)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -340,16 +349,16 @@ public partial class MeasurementViewModel : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "activeTool", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the AreaUnit property after render.
     /// </summary>
@@ -362,13 +371,13 @@ public partial class MeasurementViewModel : MapComponent
         AreaUnit = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(AreaUnit)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -377,16 +386,16 @@ public partial class MeasurementViewModel : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "areaUnit", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LinearUnit property after render.
     /// </summary>
@@ -399,13 +408,13 @@ public partial class MeasurementViewModel : MapComponent
         LinearUnit = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LinearUnit)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -414,16 +423,15 @@ public partial class MeasurementViewModel : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "linearUnit", value);
     }
-    
-#endregion
 
+#endregion
 }

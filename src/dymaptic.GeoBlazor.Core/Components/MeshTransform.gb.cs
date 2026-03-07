@@ -173,8 +173,7 @@ public partial class MeshTransform : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
-            IsServer, "GetProperty", nameof(MeshTransform, View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
             CancellationTokenSource.Token, "rotationAxis");
         if (result is not null)
         {
@@ -213,8 +212,7 @@ public partial class MeshTransform : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
-            IsServer, "GetProperty", nameof(MeshTransform, View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
             CancellationTokenSource.Token, "scale");
         if (result is not null)
         {
@@ -253,8 +251,7 @@ public partial class MeshTransform : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
-            IsServer, "GetProperty", nameof(MeshTransform, View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
             CancellationTokenSource.Token, "translation");
         if (result is not null)
         {

@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocalBasemapsSource.html">GeoBlazor Docs</a>
 ///     The LocalBasemapsSource class is a Collection-driven <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">Basemap</a> <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#source">source</a>
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class LocalBasemapsSource : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -27,127 +25,28 @@ public partial class LocalBasemapsSource : MapComponent
     ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">Basemap</a>s.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-LocalBasemapsSource.html#basemaps">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public LocalBasemapsSource(
-        IReadOnlyList<Basemap>? basemaps = null)
+    public LocalBasemapsSource(IReadOnlyList<Basemap>? basemaps = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Basemaps = basemaps;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
-#region Public Properties / Blazor Parameters
 
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocalBasemapsSource.html#localbasemapssourcebasemaps-property">GeoBlazor Docs</a>
-    ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">Basemap</a>s.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-LocalBasemapsSource.html#basemaps">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<Basemap>? Basemaps { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocalBasemapsSource.html#localbasemapssourcestate-property">GeoBlazor Docs</a>
-    ///     The source's state.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-LocalBasemapsSource.html#state">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public string? State { get; protected set; }
-    
-#endregion
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Basemaps property.
-    /// </summary>
-    public async Task<IReadOnlyList<Basemap>?> GetBasemaps()
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
     {
-        if (CoreJsModule is null)
+        if (Basemaps is not null)
         {
-            return Basemaps;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Basemaps;
-        }
-
-        IReadOnlyList<Basemap>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Basemap>?>(
-            IsServer, nameof(GetBasemaps), nameof(LocalBasemapsSource), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            foreach (Basemap item in result)
+            foreach (Basemap child in Basemaps)
             {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+                child.ValidateRequiredGeneratedChildren();
             }
-#pragma warning disable BL0005
-            Basemaps = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Basemaps)] = Basemaps;
-        }
-        
-        return Basemaps;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the State property.
-    /// </summary>
-    public async Task<string?> GetState()
-    {
-        if (CoreJsModule is null)
-        {
-            return State;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return State;
         }
 
-        // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(LocalBasemapsSource, View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "state");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             State = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(State)] = State;
-        }
-         
-        return State;
+        base.ValidateRequiredGeneratedChildren();
     }
-    
-#endregion
+
 
 #region Property Setters
 
@@ -159,15 +58,6 @@ public partial class LocalBasemapsSource : MapComponent
     /// </param>
     public async Task SetBasemaps(IReadOnlyList<Basemap>? value)
     {
-#pragma warning disable BL0005
-        Basemaps = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Basemaps)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
         if (value is not null)
         {
             foreach (Basemap item in value)
@@ -175,9 +65,18 @@ public partial class LocalBasemapsSource : MapComponent
                 item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        
-    
-        try 
+
+#pragma warning disable BL0005
+        Basemaps = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Basemaps)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -186,17 +85,18 @@ public partial class LocalBasemapsSource : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "basemaps", value);
     }
-    
+
 #endregion
+
 
 #region Add to Collection Methods
 
@@ -213,12 +113,12 @@ public partial class LocalBasemapsSource : MapComponent
             : [..Basemaps, ..values];
         await SetBasemaps(join);
     }
-    
+
 #endregion
+
 
 #region Remove From Collection Methods
 
-    
     /// <summary>
     ///     Asynchronously remove an element from the Basemaps property.
     /// </summary>
@@ -231,9 +131,10 @@ public partial class LocalBasemapsSource : MapComponent
         {
             return;
         }
+
         await SetBasemaps(Basemaps.Except(values).ToArray());
     }
-    
+
 #endregion
 
 
@@ -244,12 +145,13 @@ public partial class LocalBasemapsSource : MapComponent
         {
             case Basemap basemaps:
                 Basemaps ??= [];
+
                 if (!Basemaps.Contains(basemaps))
                 {
                     Basemaps = [..Basemaps, basemaps];
                     ModifiedParameters[nameof(Basemaps)] = Basemaps;
                 }
-                
+
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -264,24 +166,124 @@ public partial class LocalBasemapsSource : MapComponent
             case Basemap basemaps:
                 Basemaps = Basemaps?.Where(b => b != basemaps).ToList();
                 ModifiedParameters[nameof(Basemaps)] = Basemaps;
+
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
+
+
+#region Public Properties / Blazor Parameters
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocalBasemapsSource.html#localbasemapssourcebasemaps-property">GeoBlazor Docs</a>
+    ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">Basemap</a>s.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-LocalBasemapsSource.html#basemaps">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<Basemap>? Basemaps { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocalBasemapsSource.html#localbasemapssourcestate-property">GeoBlazor Docs</a>
+    ///     The source's state.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-LocalBasemapsSource.html#state">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public string? State { get; protected set; }
+
+#endregion
+
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Basemaps property.
+    /// </summary>
+    public async Task<IReadOnlyList<Basemap>?> GetBasemaps()
     {
-    
-        if (Basemaps is not null)
+        if (CoreJsModule is null)
         {
-            foreach (Basemap child in Basemaps)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
+            return Basemaps;
         }
-        base.ValidateRequiredGeneratedChildren();
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Basemaps;
+        }
+
+        IReadOnlyList<Basemap>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<Basemap>?>("getBasemaps",
+                CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+            foreach (Basemap item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+#pragma warning disable BL0005
+            Basemaps = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Basemaps)] = Basemaps;
+        }
+
+        return Basemaps;
     }
-      
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the State property.
+    /// </summary>
+    public async Task<string?> GetState()
+    {
+        if (CoreJsModule is null)
+        {
+            return State;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return State;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "state");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            State = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(State)] = State;
+        }
+
+        return State;
+    }
+
+#endregion
 }

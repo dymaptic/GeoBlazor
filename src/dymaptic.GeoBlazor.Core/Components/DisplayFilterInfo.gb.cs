@@ -112,8 +112,7 @@ public partial class DisplayFilterInfo : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(DisplayFilterInfo, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "activeFilterId");
         if (result is not null)
         {
@@ -152,8 +151,7 @@ public partial class DisplayFilterInfo : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<DisplayFilter>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<DisplayFilter>?>(
-            IsServer, "GetProperty", nameof(DisplayFilterInfo, View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<DisplayFilter>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<DisplayFilter>?>("getProperty",
             CancellationTokenSource.Token, "filters");
         if (result is not null)
         {

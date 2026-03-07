@@ -19,22 +19,21 @@ public partial record PixelBlockAddDataPlaneData(
     PixelBlockAddDataPlaneDataStatistics? Statistics = null)
 {
     /// <summary>
-    ///     Parameterless Constructor
+    ///     Parameterless constructor
     /// </summary>
-    public PixelBlockAddDataPlaneData(): this(null, null)
+    public PixelBlockAddDataPlaneData() : this(null, null)
     {
     }
-    
+
     /// <summary>
     ///     A two dimensional array representing the pixels to add.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#addData">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyCollection<double>? Pixels { get; set; } = Pixels;
-    
+
     /// <summary>
     ///     An array of objects containing numeric statistical properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#addData">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public PixelBlockAddDataPlaneDataStatistics? Statistics { get; set; } = Statistics;
-    
 }

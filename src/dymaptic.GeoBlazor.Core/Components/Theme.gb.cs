@@ -95,8 +95,7 @@ public partial class Theme : MapComponent
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, "GetProperty", nameof(Theme, View?.QueryResultsMaxSizeLimit,
+        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, "accentColor");
         if (result is not null)
         {
@@ -135,8 +134,7 @@ public partial class Theme : MapComponent
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, "GetProperty", nameof(Theme, View?.QueryResultsMaxSizeLimit,
+        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, "textColor");
         if (result is not null)
         {

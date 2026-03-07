@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.ScaleBarWidget.html">GeoBlazor Docs</a>
 ///     The ScaleBar widget displays a scale bar on the map or in a specified HTML node.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 /// </summary>
 public partial class ScaleBarWidget
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -62,8 +60,7 @@ public partial class ScaleBarWidget
     ///     The unique ID assigned to the widget when the widget is created.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public ScaleBarWidget(
-        string? containerId = null,
+    public ScaleBarWidget(string? containerId = null,
         string? icon = null,
         string? label = null,
         MapView? mapView = null,
@@ -86,10 +83,55 @@ public partial class ScaleBarWidget
         ViewModel = viewModel;
         Visible = visible;
         WidgetId = widgetId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        ViewModel?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ScaleBarViewModel viewModel:
+                if (viewModel != ViewModel)
+                {
+                    ViewModel = viewModel;
+                    ModifiedParameters[nameof(ViewModel)] = ViewModel;
+
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ScaleBarViewModel _:
+                ViewModel = null;
+                ModifiedParameters[nameof(ViewModel)] = ViewModel;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -102,7 +144,7 @@ public partial class ScaleBarWidget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ScaleBarWidgetStyle? Style { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.ScaleBarWidget.html#scalebarwidgetviewmodel-property">GeoBlazor Docs</a>
     ///     The view model for this widget.
@@ -112,8 +154,9 @@ public partial class ScaleBarWidget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ScaleBarViewModel? ViewModel { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -126,8 +169,8 @@ public partial class ScaleBarWidget
         {
             return Style;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -136,26 +179,29 @@ public partial class ScaleBarWidget
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Style;
         }
 
         // get the property value
-        JsNullableEnumWrapper<ScaleBarWidgetStyle>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ScaleBarWidgetStyle>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "style");
+        JsNullableEnumWrapper<ScaleBarWidgetStyle>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ScaleBarWidgetStyle>?>(
+                "getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "style");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Style = (ScaleBarWidgetStyle)result.Value.Value!;
+            Style = (ScaleBarWidgetStyle)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Style)] = Style;
+            ModifiedParameters[nameof(Style)] = Style;
         }
-         
+
         return Style;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Unit property.
     /// </summary>
@@ -165,8 +211,8 @@ public partial class ScaleBarWidget
         {
             return Unit;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -175,26 +221,28 @@ public partial class ScaleBarWidget
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Unit;
         }
 
         // get the property value
-        JsNullableEnumWrapper<ScaleUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ScaleUnit>?>("getNullableValueTypedProperty",
+        JsNullableEnumWrapper<ScaleUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ScaleUnit>?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "unit");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Unit = (ScaleUnit)result.Value.Value!;
+            Unit = (ScaleUnit)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Unit)] = Unit;
+            ModifiedParameters[nameof(Unit)] = Unit;
         }
-         
+
         return Unit;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -204,8 +252,8 @@ public partial class ScaleBarWidget
         {
             return ViewModel;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -214,34 +262,35 @@ public partial class ScaleBarWidget
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ViewModel;
         }
 
-        ScaleBarViewModel? result = await JsComponentReference.InvokeJsMethod<ScaleBarViewModel?>(
-            IsServer, nameof(GetViewModel), nameof(ScaleBarWidget), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        ScaleBarViewModel? result =
+            await JsComponentReference.InvokeAsync<ScaleBarViewModel?>("getViewModel", CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (ViewModel is not null)
             {
                 result.Id = ViewModel.Id;
             }
+
             result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
+
 #pragma warning disable BL0005
             ViewModel = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ViewModel)] = ViewModel;
         }
-        
+
         return ViewModel;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -257,13 +306,13 @@ public partial class ScaleBarWidget
         Style = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Style)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -272,16 +321,16 @@ public partial class ScaleBarWidget
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "style", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Unit property after render.
     /// </summary>
@@ -294,13 +343,13 @@ public partial class ScaleBarWidget
         Unit = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Unit)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -309,16 +358,16 @@ public partial class ScaleBarWidget
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "unit", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -327,22 +376,22 @@ public partial class ScaleBarWidget
     /// </param>
     public async Task SetViewModel(ScaleBarViewModel? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ViewModel)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -351,62 +400,15 @@ public partial class ScaleBarWidget
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetViewModel), nameof(ScaleBarWidget), 
+
+        await JsComponentReference.InvokeVoidAsync("setViewModel",
             CancellationTokenSource.Token, value);
     }
-    
+
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ScaleBarViewModel viewModel:
-                if (viewModel != ViewModel)
-                {
-                    ViewModel = viewModel;
-                    ModifiedParameters[nameof(ViewModel)] = ViewModel;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ScaleBarViewModel _:
-                ViewModel = null;
-                ModifiedParameters[nameof(ViewModel)] = ViewModel;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        ViewModel?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

@@ -94,8 +94,7 @@ public partial class AreaMeasurement2DViewModelMeasurementLabel : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(AreaMeasurement2DViewModelMeasurementLabel, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "area");
         if (result is not null)
         {
@@ -134,8 +133,7 @@ public partial class AreaMeasurement2DViewModelMeasurementLabel : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(AreaMeasurement2DViewModelMeasurementLabel, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "perimeter");
         if (result is not null)
         {

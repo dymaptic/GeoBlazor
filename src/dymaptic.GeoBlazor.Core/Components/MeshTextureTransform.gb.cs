@@ -117,8 +117,7 @@ public partial class MeshTextureTransform : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
-            IsServer, "GetProperty", nameof(MeshTextureTransform, View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
             CancellationTokenSource.Token, "offset");
         if (result is not null)
         {
@@ -196,8 +195,7 @@ public partial class MeshTextureTransform : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
-            IsServer, "GetProperty", nameof(MeshTextureTransform, View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
             CancellationTokenSource.Token, "scale");
         if (result is not null)
         {

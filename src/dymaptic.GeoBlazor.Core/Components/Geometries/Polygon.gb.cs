@@ -38,9 +38,8 @@ public partial class Polygon
             return Centroid;
         }
 
-        Point? result = await JsComponentReference.InvokeJsMethod<Point?>(
-            IsServer, nameof(GetCentroid), nameof(Polygon), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Point? result = await JsComponentReference.InvokeAsync<Point?>(
+            "getCentroid", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -48,7 +47,6 @@ public partial class Polygon
             {
                 result.Id = Centroid.Id;
             }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             Centroid = result;
@@ -94,8 +92,8 @@ public partial class Polygon
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<Polygon?>(
-            IsServer, nameof(AddRing), nameof(Polygon), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<Polygon?>(
+            "addRing", 
             CancellationTokenSource.Token,
             points);
     }
@@ -131,8 +129,8 @@ public partial class Polygon
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(Contains), nameof(Polygon), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "contains", 
             CancellationTokenSource.Token,
             point);
     }
@@ -173,8 +171,8 @@ public partial class Polygon
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<Point?>(
-            IsServer, nameof(GetPoint), nameof(Polygon), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<Point?>(
+            "getPoint", 
             CancellationTokenSource.Token,
             ringIndex,
             pointIndex);
@@ -220,8 +218,8 @@ public partial class Polygon
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<Polygon?>(
-            IsServer, nameof(InsertPoint), nameof(Polygon), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<Polygon?>(
+            "insertPoint", 
             CancellationTokenSource.Token,
             ringIndex,
             pointIndex,
@@ -259,8 +257,8 @@ public partial class Polygon
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(IsClockwise), nameof(Polygon), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "isClockwise", 
             CancellationTokenSource.Token,
             ring);
     }
@@ -301,8 +299,8 @@ public partial class Polygon
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<Point?>(
-            IsServer, nameof(RemovePoint), nameof(Polygon), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<Point?>(
+            "removePoint", 
             CancellationTokenSource.Token,
             ringIndex,
             pointIndex);
@@ -339,8 +337,8 @@ public partial class Polygon
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<Point[]?>(
-            IsServer, nameof(RemoveRing), nameof(Polygon), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<Point[]?>(
+            "removeRing", 
             CancellationTokenSource.Token,
             index);
     }
@@ -385,8 +383,8 @@ public partial class Polygon
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<Polygon?>(
-            IsServer, nameof(SetPoint), nameof(Polygon), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<Polygon?>(
+            "setPoint", 
             CancellationTokenSource.Token,
             ringIndex,
             pointIndex,

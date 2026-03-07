@@ -35,40 +35,39 @@ public partial record WebSceneUpdateFromOptions(
     bool? WidgetsExcluded = null)
 {
     /// <summary>
-    ///     Parameterless Constructor
+    ///     Parameterless constructor
     /// </summary>
-    public WebSceneUpdateFromOptions(): this(null, null)
+    public WebSceneUpdateFromOptions() : this(null, null)
     {
     }
-    
+
     /// <summary>
     ///     Do not update the initial environment from the view, defaults to false.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#updateFrom">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? EnvironmentExcluded { get; set; } = EnvironmentExcluded;
-    
+
     /// <summary>
     ///     Do not update the thumbnail from the view.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#updateFrom">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? ThumbnailExcluded { get; set; } = ThumbnailExcluded;
-    
+
     /// <summary>
     ///     The size of the thumbnail.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#updateFrom">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public WebSceneThumbnailSize? ThumbnailSize { get; set; } = ThumbnailSize;
-    
+
     /// <summary>
     ///     Do not update the initial viewpoint from the view, defaults to false.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#updateFrom">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? ViewpointExcluded { get; set; } = ViewpointExcluded;
-    
+
     /// <summary>
     ///     When `true`, the webscene's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#widgets">widgets</a> property will not be updated.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#updateFrom">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? WidgetsExcluded { get; set; } = WidgetsExcluded;
-    
 }

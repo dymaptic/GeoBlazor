@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalBasemapsSource.html">GeoBlazor Docs</a>
 ///     The PortalBasemapsSource class is a Portal-driven <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">Basemap</a> <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html#source">source</a>
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class PortalBasemapsSource
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -43,8 +41,7 @@ public partial class PortalBasemapsSource
     ///     Callback for updating basemaps after being fetched and filtered.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html#updateBasemapsCallback">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public PortalBasemapsSource(
-        IReadOnlyList<Basemap>? basemaps = null,
+    public PortalBasemapsSource(IReadOnlyList<Basemap>? basemaps = null,
         BasemapFilter? filterFunction = null,
         Portal? portal = null,
         string? query = null,
@@ -57,288 +54,15 @@ public partial class PortalBasemapsSource
         Portal = portal;
         Query = query;
         UpdateBasemapsCallback = updateBasemapsCallback;
-#pragma warning restore BL0005    
-    }
-    
-    
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalBasemapsSource.html#portalbasemapssourcefilterfunction-property">GeoBlazor Docs</a>
-    ///     Function used to filter basemaps after being fetched from the Portal.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html#filterFunction">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore]
-    public BasemapFilter? FilterFunction { get; set; }
-    
-    /// <summary>
-    ///     JS-invokable method that triggers the <see cref="FilterFunction"/> function.
-    ///     Should not be called by consuming code.
-    /// </summary>
-    [JSInvokable]
-    public async Task<bool?> OnJsFilterFunction(Basemap item,
-        int index,
-        IReadOnlyCollection<Basemap> array)
-    {
-        if (IsDisposed)
-        {
-            // cancel if the component is disposed
-            return null;
-        }
-    
-        bool? result = null;
-    
-        if (FilterFunction is not null)
-        {
-            result = await FilterFunction.Invoke(item,
-                index,
-                array);
-        }
-        
-        return result;
-    }
-    
-    /// <summary>
-    ///     A convenience property that signifies whether a custom <see cref="FilterFunction" /> function was registered.
-    /// </summary>
-    public bool HasFilterFunction => FilterFunction is not null;
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalBasemapsSource.html#portalbasemapssourceportal-property">GeoBlazor Docs</a>
-    ///     The Portal from which to fetch basemaps.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html#portal">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Portal? Portal { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalBasemapsSource.html#portalbasemapssourcequery-property">GeoBlazor Docs</a>
-    ///     An object with key-value pairs used to create a custom basemap gallery group query.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html#query">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Query { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalBasemapsSource.html#portalbasemapssourceupdatebasemapscallback-property">GeoBlazor Docs</a>
-    ///     Callback for updating basemaps after being fetched and filtered.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html#updateBasemapsCallback">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore]
-    public UpdateBasemapsCallback? UpdateBasemapsCallback { get; set; }
-    
-    /// <summary>
-    ///     JS-invokable method that triggers the <see cref="UpdateBasemapsCallback"/> function.
-    ///     Should not be called by consuming code.
-    /// </summary>
-    [JSInvokable]
-    public async Task<Basemap[]?> OnJsUpdateBasemapsCallback(IReadOnlyCollection<Basemap> items)
-    {
-        if (IsDisposed)
-        {
-            // cancel if the component is disposed
-            return null;
-        }
-    
-        Basemap[]? result = null;
-    
-        if (UpdateBasemapsCallback is not null)
-        {
-            result = await UpdateBasemapsCallback.Invoke(items);
-        }
-        
-        return result;
-    }
-    
-    /// <summary>
-    ///     A convenience property that signifies whether a custom <see cref="UpdateBasemapsCallback" /> function was registered.
-    /// </summary>
-    public bool HasUpdateBasemapsCallback => UpdateBasemapsCallback is not null;
-    
-#endregion
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Portal property.
-    /// </summary>
-    public async Task<Portal?> GetPortal()
-    {
-        if (CoreJsModule is null)
-        {
-            return Portal;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Portal;
-        }
-
-        Portal? result = await JsComponentReference.InvokeJsMethod<Portal?>(
-            IsServer, nameof(GetPortal), nameof(PortalBasemapsSource), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            if (Portal is not null)
-            {
-                result.Id = Portal.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
-#pragma warning disable BL0005
-            Portal = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Portal)] = Portal;
-        }
-        
-        return Portal;
     }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Query property.
-    /// </summary>
-    public async Task<string?> GetQuery()
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
     {
-        if (CoreJsModule is null)
-        {
-            return Query;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Query;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(PortalBasemapsSource, View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "query");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Query = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Query)] = Query;
-        }
-         
-        return Query;
+        Portal?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
     }
-    
-#endregion
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the Portal property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetPortal(Portal? value)
-    {
-#pragma warning disable BL0005
-        Portal = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Portal)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPortal), nameof(PortalBasemapsSource), 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Query property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetQuery(string? value)
-    {
-#pragma warning disable BL0005
-        Query = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Query)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "query", value);
-    }
-    
-#endregion
-
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -351,7 +75,7 @@ public partial class PortalBasemapsSource
                     Portal = portal;
                     ModifiedParameters[nameof(Portal)] = Portal;
                 }
-                
+
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -366,18 +90,289 @@ public partial class PortalBasemapsSource
             case Portal _:
                 Portal = null;
                 ModifiedParameters[nameof(Portal)] = Portal;
+
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
+
+
+#region Public Properties / Blazor Parameters
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalBasemapsSource.html#portalbasemapssourcefilterfunction-property">GeoBlazor Docs</a>
+    ///     Function used to filter basemaps after being fetched from the Portal.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html#filterFunction">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore]
+    public BasemapFilter? FilterFunction { get; set; }
+
+    /// <summary>
+    ///     JS-invokable method that triggers the <see cref="FilterFunction"/> function.
+    ///     Should not be called by consuming code.
+    /// </summary>
+    [JSInvokable]
+    public async Task<bool?> OnJsFilterFunction(Basemap item,
+        int index,
+        IReadOnlyCollection<Basemap> array)
     {
-    
-        Portal?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return null;
+        }
+
+        bool? result = null;
+
+        if (FilterFunction is not null)
+        {
+            result = await FilterFunction.Invoke(item,
+                index,
+                array);
+        }
+
+        return result;
     }
-      
+
+    /// <summary>
+    ///     A convenience property that signifies whether a custom <see cref="FilterFunction" /> function was registered.
+    /// </summary>
+    public bool HasFilterFunction => FilterFunction is not null;
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalBasemapsSource.html#portalbasemapssourceportal-property">GeoBlazor Docs</a>
+    ///     The Portal from which to fetch basemaps.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html#portal">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Portal? Portal { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalBasemapsSource.html#portalbasemapssourcequery-property">GeoBlazor Docs</a>
+    ///     An object with key-value pairs used to create a custom basemap gallery group query.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html#query">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Query { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalBasemapsSource.html#portalbasemapssourceupdatebasemapscallback-property">GeoBlazor Docs</a>
+    ///     Callback for updating basemaps after being fetched and filtered.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html#updateBasemapsCallback">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore]
+    public UpdateBasemapsCallback? UpdateBasemapsCallback { get; set; }
+
+    /// <summary>
+    ///     JS-invokable method that triggers the <see cref="UpdateBasemapsCallback"/> function.
+    ///     Should not be called by consuming code.
+    /// </summary>
+    [JSInvokable]
+    public async Task<Basemap[]?> OnJsUpdateBasemapsCallback(IReadOnlyCollection<Basemap> items)
+    {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return null;
+        }
+
+        Basemap[]? result = null;
+
+        if (UpdateBasemapsCallback is not null)
+        {
+            result = await UpdateBasemapsCallback.Invoke(items);
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    ///     A convenience property that signifies whether a custom <see cref="UpdateBasemapsCallback" /> function was registered.
+    /// </summary>
+    public bool HasUpdateBasemapsCallback => UpdateBasemapsCallback is not null;
+
+#endregion
+
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Portal property.
+    /// </summary>
+    public async Task<Portal?> GetPortal()
+    {
+        if (CoreJsModule is null)
+        {
+            return Portal;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Portal;
+        }
+
+        Portal? result = await JsComponentReference.InvokeAsync<Portal?>("getPortal", CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+            if (Portal is not null)
+            {
+                result.Id = Portal.Id;
+            }
+
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+
+#pragma warning disable BL0005
+            Portal = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Portal)] = Portal;
+        }
+
+        return Portal;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Query property.
+    /// </summary>
+    public async Task<string?> GetQuery()
+    {
+        if (CoreJsModule is null)
+        {
+            return Query;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Query;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "query");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Query = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Query)] = Query;
+        }
+
+        return Query;
+    }
+
+#endregion
+
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the Portal property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPortal(Portal? value)
+    {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
+#pragma warning disable BL0005
+        Portal = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Portal)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await JsComponentReference.InvokeVoidAsync("setPortal",
+            CancellationTokenSource.Token, value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Query property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetQuery(string? value)
+    {
+#pragma warning disable BL0005
+        Query = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Query)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "query", value);
+    }
+
+#endregion
 }

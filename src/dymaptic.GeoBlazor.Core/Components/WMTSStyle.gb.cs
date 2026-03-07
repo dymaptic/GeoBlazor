@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSStyle.html">GeoBlazor Docs</a>
 ///     Contains information about the WMTS Style for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html">WMTSSublayer</a>.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class WMTSStyle : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -27,7 +25,7 @@ public partial class WMTSStyle : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSStyle.html#description">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="legendUrl">
-    ///     The URL to the legend which gets used in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widget.
+    ///     The URL to the legend which gets used in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSStyle.html#legendUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
@@ -38,8 +36,7 @@ public partial class WMTSStyle : MapComponent
     ///     The unique ID assigned to the style.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSStyle.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public WMTSStyle(
-        string? description = null,
+    public WMTSStyle(string? description = null,
         string? legendUrl = null,
         string? title = null,
         string? wMTSStyleId = null)
@@ -50,10 +47,10 @@ public partial class WMTSStyle : MapComponent
         LegendUrl = legendUrl;
         Title = title;
         WMTSStyleId = wMTSStyleId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -65,17 +62,17 @@ public partial class WMTSStyle : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Description { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSStyle.html#wmtsstylelegendurl-property">GeoBlazor Docs</a>
-    ///     The URL to the legend which gets used in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widget.
+    ///     The URL to the legend which gets used in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSStyle.html#legendUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? LegendUrl { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSStyle.html#wmtsstyletitle-property">GeoBlazor Docs</a>
     ///     The title of the WMTS style.
@@ -85,7 +82,7 @@ public partial class WMTSStyle : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSStyle.html#wmtsstylewmtsstyleid-property">GeoBlazor Docs</a>
     ///     The unique ID assigned to the style.
@@ -95,8 +92,9 @@ public partial class WMTSStyle : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? WMTSStyleId { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -109,8 +107,8 @@ public partial class WMTSStyle : MapComponent
         {
             return Description;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -119,27 +117,27 @@ public partial class WMTSStyle : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Description;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(WMTSStyle, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "description");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Description = result;
+            Description = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Description)] = Description;
+            ModifiedParameters[nameof(Description)] = Description;
         }
-         
+
         return Description;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendUrl property.
     /// </summary>
@@ -149,8 +147,8 @@ public partial class WMTSStyle : MapComponent
         {
             return LegendUrl;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -159,27 +157,27 @@ public partial class WMTSStyle : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return LegendUrl;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(WMTSStyle, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "legendUrl");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LegendUrl = result;
+            LegendUrl = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LegendUrl)] = LegendUrl;
+            ModifiedParameters[nameof(LegendUrl)] = LegendUrl;
         }
-         
+
         return LegendUrl;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -189,8 +187,8 @@ public partial class WMTSStyle : MapComponent
         {
             return Title;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -199,27 +197,27 @@ public partial class WMTSStyle : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Title;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(WMTSStyle, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "title");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Title = result;
+            Title = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Title)] = Title;
+            ModifiedParameters[nameof(Title)] = Title;
         }
-         
+
         return Title;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the WMTSStyleId property.
     /// </summary>
@@ -229,8 +227,8 @@ public partial class WMTSStyle : MapComponent
         {
             return WMTSStyleId;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -239,28 +237,29 @@ public partial class WMTSStyle : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return WMTSStyleId;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(WMTSStyle, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "id");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             WMTSStyleId = result;
+            WMTSStyleId = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(WMTSStyleId)] = WMTSStyleId;
+            ModifiedParameters[nameof(WMTSStyleId)] = WMTSStyleId;
         }
-         
+
         return WMTSStyleId;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -276,13 +275,13 @@ public partial class WMTSStyle : MapComponent
         Description = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Description)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -291,16 +290,16 @@ public partial class WMTSStyle : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "description", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendUrl property after render.
     /// </summary>
@@ -313,13 +312,13 @@ public partial class WMTSStyle : MapComponent
         LegendUrl = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LegendUrl)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -328,16 +327,16 @@ public partial class WMTSStyle : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendUrl", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -350,13 +349,13 @@ public partial class WMTSStyle : MapComponent
         Title = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Title)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -365,16 +364,16 @@ public partial class WMTSStyle : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the WMTSStyleId property after render.
     /// </summary>
@@ -387,13 +386,13 @@ public partial class WMTSStyle : MapComponent
         WMTSStyleId = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(WMTSStyleId)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -402,16 +401,15 @@ public partial class WMTSStyle : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
     }
-    
-#endregion
 
+#endregion
 }

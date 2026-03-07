@@ -343,8 +343,7 @@ public partial class SliderViewModel
         }
 
         // get the property value
-        LabelInfos? result = await JsComponentReference!.InvokeJsMethod<LabelInfos?>(
-            IsServer, "GetProperty", nameof(SliderViewModel, View?.QueryResultsMaxSizeLimit,
+        LabelInfos? result = await JsComponentReference!.InvokeAsync<LabelInfos?>("getProperty",
             CancellationTokenSource.Token, "labels");
         if (result is not null)
         {
@@ -578,8 +577,7 @@ public partial class SliderViewModel
         }
 
         // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
-            IsServer, "GetProperty", nameof(SliderViewModel, View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
             CancellationTokenSource.Token, "values");
         if (result is not null)
         {
@@ -928,8 +926,8 @@ public partial class SliderViewModel
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(DefaultInputFormatFunction), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<string?>(
+            "defaultInputFormatFunction", 
             CancellationTokenSource.Token,
             value);
     }
@@ -965,8 +963,8 @@ public partial class SliderViewModel
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(DefaultInputParseFunction), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<double?>(
+            "defaultInputParseFunction", 
             CancellationTokenSource.Token,
             value);
     }
@@ -1002,8 +1000,8 @@ public partial class SliderViewModel
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(DefaultLabelFormatFunction), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<string?>(
+            "defaultLabelFormatFunction", 
             CancellationTokenSource.Token,
             value);
     }
@@ -1036,8 +1034,8 @@ public partial class SliderViewModel
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<Bounds?>(
-            IsServer, nameof(GetBounds), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<Bounds?>(
+            "getBounds", 
             CancellationTokenSource.Token);
     }
     
@@ -1072,8 +1070,8 @@ public partial class SliderViewModel
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GetBoundsForValueAtIndex), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<string?>(
+            "getBoundsForValueAtIndex", 
             CancellationTokenSource.Token,
             index);
     }
@@ -1118,8 +1116,8 @@ public partial class SliderViewModel
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GetLabelForValue), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<string?>(
+            "getLabelForValue", 
             CancellationTokenSource.Token,
             value,
             type,
@@ -1162,14 +1160,8 @@ public partial class SliderViewModel
             return;
         }
         
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer
-            nameof(SetValue), nameof(SliderViewModel), 
+        await JsComponentReference!.InvokeVoidAsync(
+            "setValue", 
             CancellationTokenSource.Token,
             index,
             value);
@@ -1206,8 +1198,8 @@ public partial class SliderViewModel
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(ToPrecision), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<double?>(
+            "toPrecision", 
             CancellationTokenSource.Token,
             value);
     }

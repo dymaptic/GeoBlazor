@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterialMetallicRoughness.html">GeoBlazor Docs</a>
 ///     A material determines how a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshComponent.html">MeshComponent</a> is visualized.
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 public partial class MeshMaterialMetallicRoughness : MeshMaterial,
     IMeshComponentMaterial
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -96,8 +94,7 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
     ///     default 1
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshMaterialMetallicRoughness.html#roughness">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public MeshMaterialMetallicRoughness(
-        double? alphaCutoff = null,
+    public MeshMaterialMetallicRoughness(double? alphaCutoff = null,
         AlphaMode? alphaMode = null,
         MapColor? color = null,
         MeshTexture? colorTexture = null,
@@ -132,10 +129,10 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         OcclusionTexture = occlusionTexture;
         OcclusionTextureTransform = occlusionTextureTransform;
         Roughness = roughness;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -147,7 +144,7 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MapColor? EmissiveColor { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterialMetallicRoughness.html#meshmaterialmetallicroughnessemissivetexture-property">GeoBlazor Docs</a>
     ///     Specifies a texture from which to get emissive color information.
@@ -157,7 +154,7 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MeshTexture? EmissiveTexture { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterialMetallicRoughness.html#meshmaterialmetallicroughnessemissivetexturetransform-property">GeoBlazor Docs</a>
     ///     A transformation of UV mesh coordinates used to sample the emissive texture.
@@ -168,7 +165,7 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MeshTextureTransform? EmissiveTextureTransform { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterialMetallicRoughness.html#meshmaterialmetallicroughnessmetallic-property">GeoBlazor Docs</a>
     ///     Specifies how much the material behaves like a metal.
@@ -179,7 +176,7 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Metallic { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterialMetallicRoughness.html#meshmaterialmetallicroughnessmetallicroughnesstexture-property">GeoBlazor Docs</a>
     ///     Specifies a texture from which to get the combined metallic/roughness information.
@@ -189,7 +186,7 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MeshTexture? MetallicRoughnessTexture { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterialMetallicRoughness.html#meshmaterialmetallicroughnessocclusiontexture-property">GeoBlazor Docs</a>
     ///     Allows to specify a texture to get the occlusion information from.
@@ -199,7 +196,7 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MeshTexture? OcclusionTexture { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterialMetallicRoughness.html#meshmaterialmetallicroughnessocclusiontexturetransform-property">GeoBlazor Docs</a>
     ///     A transformation of UV mesh coordinates used to sample the occlusion texture.
@@ -210,7 +207,7 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MeshTextureTransform? OcclusionTextureTransform { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeshMaterialMetallicRoughness.html#meshmaterialmetallicroughnessroughness-property">GeoBlazor Docs</a>
     ///     Indicates how rough the surface of the material is.
@@ -221,8 +218,9 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Roughness { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -235,8 +233,8 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         {
             return EmissiveColor;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -245,27 +243,27 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return EmissiveColor;
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, "GetProperty", nameof(MeshMaterialMetallicRoughness, View?.QueryResultsMaxSizeLimit,
+        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, "emissiveColor");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             EmissiveColor = result;
+            EmissiveColor = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(EmissiveColor)] = EmissiveColor;
+            ModifiedParameters[nameof(EmissiveColor)] = EmissiveColor;
         }
-         
+
         return EmissiveColor;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the EmissiveTexture property.
     /// </summary>
@@ -275,8 +273,8 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         {
             return EmissiveTexture;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -285,33 +283,26 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return EmissiveTexture;
         }
 
-        MeshTexture? result = await JsComponentReference.InvokeJsMethod<MeshTexture?>(
-            IsServer, nameof(GetEmissiveTexture), nameof(MeshMaterialMetallicRoughness), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        MeshTexture? result = await JsComponentReference.InvokeAsync<MeshTexture?>(
+            "getEmissiveTexture", CancellationTokenSource.Token);
+
         if (result is not null)
         {
-            if (EmissiveTexture is not null)
-            {
-                result.Id = EmissiveTexture.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             EmissiveTexture = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(EmissiveTexture)] = EmissiveTexture;
         }
-        
+
         return EmissiveTexture;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the EmissiveTextureTransform property.
     /// </summary>
@@ -321,8 +312,8 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         {
             return EmissiveTextureTransform;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -331,33 +322,26 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return EmissiveTextureTransform;
         }
 
-        MeshTextureTransform? result = await JsComponentReference.InvokeJsMethod<MeshTextureTransform?>(
-            IsServer, nameof(GetEmissiveTextureTransform), nameof(MeshMaterialMetallicRoughness), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        MeshTextureTransform? result = await JsComponentReference.InvokeAsync<MeshTextureTransform?>(
+            "getEmissiveTextureTransform", CancellationTokenSource.Token);
+
         if (result is not null)
         {
-            if (EmissiveTextureTransform is not null)
-            {
-                result.Id = EmissiveTextureTransform.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             EmissiveTextureTransform = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(EmissiveTextureTransform)] = EmissiveTextureTransform;
         }
-        
+
         return EmissiveTextureTransform;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Metallic property.
     /// </summary>
@@ -367,8 +351,8 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         {
             return Metallic;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -377,26 +361,28 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Metallic;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "metallic");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Metallic = result.Value.Value;
+            Metallic = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Metallic)] = Metallic;
+            ModifiedParameters[nameof(Metallic)] = Metallic;
         }
-         
+
         return Metallic;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MetallicRoughnessTexture property.
     /// </summary>
@@ -406,8 +392,8 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         {
             return MetallicRoughnessTexture;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -416,33 +402,26 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return MetallicRoughnessTexture;
         }
 
-        MeshTexture? result = await JsComponentReference.InvokeJsMethod<MeshTexture?>(
-            IsServer, nameof(GetMetallicRoughnessTexture), nameof(MeshMaterialMetallicRoughness), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        MeshTexture? result = await JsComponentReference.InvokeAsync<MeshTexture?>(
+            "getMetallicRoughnessTexture", CancellationTokenSource.Token);
+
         if (result is not null)
         {
-            if (MetallicRoughnessTexture is not null)
-            {
-                result.Id = MetallicRoughnessTexture.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             MetallicRoughnessTexture = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(MetallicRoughnessTexture)] = MetallicRoughnessTexture;
         }
-        
+
         return MetallicRoughnessTexture;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OcclusionTexture property.
     /// </summary>
@@ -452,8 +431,8 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         {
             return OcclusionTexture;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -462,33 +441,26 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return OcclusionTexture;
         }
 
-        MeshTexture? result = await JsComponentReference.InvokeJsMethod<MeshTexture?>(
-            IsServer, nameof(GetOcclusionTexture), nameof(MeshMaterialMetallicRoughness), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        MeshTexture? result = await JsComponentReference.InvokeAsync<MeshTexture?>(
+            "getOcclusionTexture", CancellationTokenSource.Token);
+
         if (result is not null)
         {
-            if (OcclusionTexture is not null)
-            {
-                result.Id = OcclusionTexture.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             OcclusionTexture = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(OcclusionTexture)] = OcclusionTexture;
         }
-        
+
         return OcclusionTexture;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OcclusionTextureTransform property.
     /// </summary>
@@ -498,8 +470,8 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         {
             return OcclusionTextureTransform;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -508,33 +480,26 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return OcclusionTextureTransform;
         }
 
-        MeshTextureTransform? result = await JsComponentReference.InvokeJsMethod<MeshTextureTransform?>(
-            IsServer, nameof(GetOcclusionTextureTransform), nameof(MeshMaterialMetallicRoughness), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        MeshTextureTransform? result = await JsComponentReference.InvokeAsync<MeshTextureTransform?>(
+            "getOcclusionTextureTransform", CancellationTokenSource.Token);
+
         if (result is not null)
         {
-            if (OcclusionTextureTransform is not null)
-            {
-                result.Id = OcclusionTextureTransform.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             OcclusionTextureTransform = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(OcclusionTextureTransform)] = OcclusionTextureTransform;
         }
-        
+
         return OcclusionTextureTransform;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Roughness property.
     /// </summary>
@@ -544,8 +509,8 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         {
             return Roughness;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -554,27 +519,30 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Roughness;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "roughness");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Roughness = result.Value.Value;
+            Roughness = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Roughness)] = Roughness;
+            ModifiedParameters[nameof(Roughness)] = Roughness;
         }
-         
+
         return Roughness;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -590,13 +558,13 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         EmissiveColor = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(EmissiveColor)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -605,16 +573,16 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "emissiveColor", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the EmissiveTexture property after render.
     /// </summary>
@@ -623,22 +591,22 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
     /// </param>
     public async Task SetEmissiveTexture(MeshTexture? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         EmissiveTexture = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(EmissiveTexture)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -647,16 +615,16 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "emissiveTexture", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the EmissiveTextureTransform property after render.
     /// </summary>
@@ -665,22 +633,22 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
     /// </param>
     public async Task SetEmissiveTextureTransform(MeshTextureTransform? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         EmissiveTextureTransform = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(EmissiveTextureTransform)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -689,16 +657,16 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "emissiveTextureTransform", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Metallic property after render.
     /// </summary>
@@ -711,13 +679,13 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         Metallic = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Metallic)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -726,16 +694,16 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "metallic", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MetallicRoughnessTexture property after render.
     /// </summary>
@@ -744,22 +712,22 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
     /// </param>
     public async Task SetMetallicRoughnessTexture(MeshTexture? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         MetallicRoughnessTexture = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MetallicRoughnessTexture)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -768,16 +736,16 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "metallicRoughnessTexture", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OcclusionTexture property after render.
     /// </summary>
@@ -786,22 +754,22 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
     /// </param>
     public async Task SetOcclusionTexture(MeshTexture? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         OcclusionTexture = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(OcclusionTexture)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -810,16 +778,16 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "occlusionTexture", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OcclusionTextureTransform property after render.
     /// </summary>
@@ -828,22 +796,22 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
     /// </param>
     public async Task SetOcclusionTextureTransform(MeshTextureTransform? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         OcclusionTextureTransform = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(OcclusionTextureTransform)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -852,16 +820,16 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "occlusionTextureTransform", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Roughness property after render.
     /// </summary>
@@ -874,13 +842,13 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         Roughness = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Roughness)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -889,16 +857,15 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "roughness", value);
     }
-    
-#endregion
 
+#endregion
 }

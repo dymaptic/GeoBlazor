@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ImageMediaInfo.html">GeoBlazor Docs</a>
 ///     An `ImageMediaInfo` is a type of media element that represents images to display within a popup.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class ImageMediaInfo
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -42,8 +40,7 @@ public partial class ImageMediaInfo
     ///     Refresh interval of the layer in minutes.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ImageMediaInfo.html#refreshInterval">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public ImageMediaInfo(
-        string? title = null,
+    public ImageMediaInfo(string? title = null,
         string? caption = null,
         string? altText = null,
         ImageMediaInfoValue? value = null,
@@ -56,10 +53,10 @@ public partial class ImageMediaInfo
         AltText = altText;
         Value = value;
         RefreshInterval = refreshInterval;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -71,8 +68,50 @@ public partial class ImageMediaInfo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ImageMediaInfoValue? Value { get; set; }
-    
+
 #endregion
+
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        Value?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ImageMediaInfoValue value:
+                if (value != Value)
+                {
+                    Value = value;
+                    ModifiedParameters[nameof(Value)] = Value;
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ImageMediaInfoValue _:
+                Value = null;
+                ModifiedParameters[nameof(Value)] = Value;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
 
 #region Property Getters
 
@@ -85,8 +124,8 @@ public partial class ImageMediaInfo
         {
             return RefreshInterval;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -95,26 +134,28 @@ public partial class ImageMediaInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return RefreshInterval;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "refreshInterval");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             RefreshInterval = result.Value.Value;
+            RefreshInterval = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
+            ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
         }
-         
+
         return RefreshInterval;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Value property.
     /// </summary>
@@ -124,8 +165,8 @@ public partial class ImageMediaInfo
         {
             return Value;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -134,34 +175,28 @@ public partial class ImageMediaInfo
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Value;
         }
 
-        ImageMediaInfoValue? result = await JsComponentReference.InvokeJsMethod<ImageMediaInfoValue?>(
-            IsServer, nameof(GetValue), nameof(ImageMediaInfo), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        ImageMediaInfoValue? result =
+            await JsComponentReference.InvokeAsync<ImageMediaInfoValue?>("getValue", CancellationTokenSource.Token);
+
         if (result is not null)
         {
-            if (Value is not null)
-            {
-                result.Id = Value.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Value = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Value)] = Value;
         }
-        
+
         return Value;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -177,13 +212,13 @@ public partial class ImageMediaInfo
         RefreshInterval = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(RefreshInterval)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -192,16 +227,16 @@ public partial class ImageMediaInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "refreshInterval", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Value property after render.
     /// </summary>
@@ -210,22 +245,22 @@ public partial class ImageMediaInfo
     /// </param>
     public async Task SetValue(ImageMediaInfoValue? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         Value = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Value)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -234,57 +269,15 @@ public partial class ImageMediaInfo
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value", value);
     }
-    
+
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ImageMediaInfoValue value:
-                if (value != Value)
-                {
-                    Value = value;
-                    ModifiedParameters[nameof(Value)] = Value;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ImageMediaInfoValue _:
-                Value = null;
-                ModifiedParameters[nameof(Value)] = Value;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        Value?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

@@ -14,5 +14,5 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-background-ColorBackground.html#color">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record ColorBackground(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     MapColor? Color = null);

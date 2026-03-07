@@ -54,10 +54,6 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">content</a> of the popup.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="HTMLElementContent">
-///     Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">content</a> of the popup.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 public partial record PopupOpenOptions(
     bool? Collapsed = null,
     ElementReference? ElementReferenceContent = null,
@@ -70,92 +66,84 @@ public partial record PopupOpenOptions(
     string? StringContent = null,
     string? Title = null,
     bool? UpdateLocationEnabled = null,
-    Widget? WidgetContent = null,
-    HTMLElement? HTMLElementContent = null)
+    Widget? WidgetContent = null)
 {
     /// <summary>
-    ///     Parameterless Constructor
+    ///     Parameterless constructor
     /// </summary>
-    public PopupOpenOptions(): this(null, null)
+    public PopupOpenOptions() : this(null, null)
     {
     }
-    
+
     /// <summary>
     ///     Since: 4.5    When `true`, indicates that only the popup header will display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? Collapsed { get; set; } = Collapsed;
-    
+
     /// <summary>
     ///     Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">content</a> of the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public ElementReference? ElementReferenceContent { get; set; } = ElementReferenceContent;
-    
+
     /// <summary>
     ///     Since: 4.5    This property enables multiple features in a popup to display in a list rather than displaying the first selected feature.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? FeatureMenuOpen { get; set; } = FeatureMenuOpen;
-    
+
     /// <summary>
     ///     Sets the popup's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#features">features</a>, which populate the title and content of the popup based on each graphic's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyCollection<Graphic>? Features { get; set; } = Features;
-    
+
     /// <summary>
     ///     When `true`, indicates the popup should fetch the content of this feature and display it.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? FetchFeatures { get; set; } = FetchFeatures;
-    
+
     /// <summary>
     ///     Sets the popup's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#location">location</a>, which is the geometry used to position the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public Point? Location { get; set; } = Location;
-    
+
     /// <summary>
     ///     Sets pending <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#promises">promises</a> on the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? Promises { get; set; } = Promises;
-    
+
     /// <summary>
     ///     Since: 4.23    When `true`, indicates that the focus should be on the popup after it has been opened.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? ShouldFocus { get; set; } = ShouldFocus;
-    
+
     /// <summary>
     ///     Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">content</a> of the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? StringContent { get; set; } = StringContent;
-    
+
     /// <summary>
     ///     Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#title">title</a> of the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? Title { get; set; } = Title;
-    
+
     /// <summary>
     ///     When `true` indicates the popup should update its <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#location">location</a> for each paginated feature based on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedFeature">selected feature's</a> geometry.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? UpdateLocationEnabled { get; set; } = UpdateLocationEnabled;
-    
+
     /// <summary>
     ///     Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">content</a> of the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public Widget? WidgetContent { get; set; } = WidgetContent;
-    
-    /// <summary>
-    ///     Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">content</a> of the popup.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public HTMLElement? HTMLElementContent { get; set; } = HTMLElementContent;
-    
 }

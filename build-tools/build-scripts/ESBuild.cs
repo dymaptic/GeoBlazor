@@ -354,7 +354,7 @@ static void CopyScriptsToPro(string coreScriptsDir, string proScriptsDir, bool v
         if (match.Success)
         {
             string fileName = match.Groups["fileName"].Value;
-            proPrefixedFiles.Add(fileName);
+            proPrefixedFiles.Add($"{fileName}.ts");
             Trace.WriteLine($"ESBUILD PRO: Found pro_ file: {fileName}.ts");
             continue;
         }

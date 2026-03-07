@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisualVariable.html">GeoBlazor Docs</a>
 ///     The visual variable base class.
@@ -10,360 +9,12 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public abstract partial class VisualVariable
 {
-
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisualVariable.html#visualvariablefield-property">GeoBlazor Docs</a>
-    ///     The name of the numeric attribute field that contains the data
-    ///     values used to determine the color/opacity/size/rotation of each feature.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#field">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Field { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisualVariable.html#visualvariablelegendoptions-property">GeoBlazor Docs</a>
-    ///     An object providing options for displaying the visual variable in
-    ///     the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#legendOptions">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public VisualVariableLegendOptions? LegendOptions { get; set; }
-    
-#endregion
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Field property.
-    /// </summary>
-    public async Task<string?> GetField()
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
     {
-        if (CoreJsModule is null)
-        {
-            return Field;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Field;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(VisualVariable, View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "field");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Field = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Field)] = Field;
-        }
-         
-        return Field;
+        LegendOptions?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
     }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the LegendOptions property.
-    /// </summary>
-    public async Task<VisualVariableLegendOptions?> GetLegendOptions()
-    {
-        if (CoreJsModule is null)
-        {
-            return LegendOptions;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return LegendOptions;
-        }
-
-        VisualVariableLegendOptions? result = await JsComponentReference.InvokeJsMethod<VisualVariableLegendOptions?>(
-            IsServer, nameof(GetLegendOptions), nameof(VisualVariable), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            if (LegendOptions is not null)
-            {
-                result.Id = LegendOptions.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
-#pragma warning disable BL0005
-            LegendOptions = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
-        }
-        
-        return LegendOptions;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ValueExpression property.
-    /// </summary>
-    public async Task<string?> GetValueExpression()
-    {
-        if (CoreJsModule is null)
-        {
-            return ValueExpression;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return ValueExpression;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(VisualVariable, View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "valueExpression");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             ValueExpression = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(ValueExpression)] = ValueExpression;
-        }
-         
-        return ValueExpression;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ValueExpressionTitle property.
-    /// </summary>
-    public async Task<string?> GetValueExpressionTitle()
-    {
-        if (CoreJsModule is null)
-        {
-            return ValueExpressionTitle;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return ValueExpressionTitle;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(VisualVariable, View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "valueExpressionTitle");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             ValueExpressionTitle = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(ValueExpressionTitle)] = ValueExpressionTitle;
-        }
-         
-        return ValueExpressionTitle;
-    }
-    
-#endregion
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the Field property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetField(string? value)
-    {
-#pragma warning disable BL0005
-        Field = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Field)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "field", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the LegendOptions property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetLegendOptions(VisualVariableLegendOptions? value)
-    {
-#pragma warning disable BL0005
-        LegendOptions = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(LegendOptions)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "legendOptions", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the ValueExpression property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetValueExpression(string? value)
-    {
-#pragma warning disable BL0005
-        ValueExpression = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ValueExpression)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "valueExpression", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the ValueExpressionTitle property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetValueExpressionTitle(string? value)
-    {
-#pragma warning disable BL0005
-        ValueExpressionTitle = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ValueExpressionTitle)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "valueExpressionTitle", value);
-    }
-    
-#endregion
-
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -376,7 +27,7 @@ public abstract partial class VisualVariable
                     LegendOptions = legendOptions;
                     ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
                 }
-                
+
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -391,18 +42,360 @@ public abstract partial class VisualVariable
             case VisualVariableLegendOptions _:
                 LegendOptions = null;
                 ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
+
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
+
+
+#region Public Properties / Blazor Parameters
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisualVariable.html#visualvariablefield-property">GeoBlazor Docs</a>
+    ///     The name of the numeric attribute field that contains the data
+    ///     values used to determine the color/opacity/size/rotation of each feature.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#field">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Field { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisualVariable.html#visualvariablelegendoptions-property">GeoBlazor Docs</a>
+    ///     An object providing options for displaying the visual variable in
+    ///     the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#legendOptions">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public VisualVariableLegendOptions? LegendOptions { get; set; }
+
+#endregion
+
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Field property.
+    /// </summary>
+    public async Task<string?> GetField()
     {
-    
-        LegendOptions?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
+        if (CoreJsModule is null)
+        {
+            return Field;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Field;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "field");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Field = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Field)] = Field;
+        }
+
+        return Field;
     }
-      
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the LegendOptions property.
+    /// </summary>
+    public async Task<VisualVariableLegendOptions?> GetLegendOptions()
+    {
+        if (CoreJsModule is null)
+        {
+            return LegendOptions;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return LegendOptions;
+        }
+
+        VisualVariableLegendOptions? result =
+            await JsComponentReference.InvokeAsync<VisualVariableLegendOptions?>("getLegendOptions",
+                CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            LegendOptions = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
+        }
+
+        return LegendOptions;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ValueExpression property.
+    /// </summary>
+    public async Task<string?> GetValueExpression()
+    {
+        if (CoreJsModule is null)
+        {
+            return ValueExpression;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return ValueExpression;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "valueExpression");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            ValueExpression = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ValueExpression)] = ValueExpression;
+        }
+
+        return ValueExpression;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ValueExpressionTitle property.
+    /// </summary>
+    public async Task<string?> GetValueExpressionTitle()
+    {
+        if (CoreJsModule is null)
+        {
+            return ValueExpressionTitle;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return ValueExpressionTitle;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "valueExpressionTitle");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            ValueExpressionTitle = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ValueExpressionTitle)] = ValueExpressionTitle;
+        }
+
+        return ValueExpressionTitle;
+    }
+
+#endregion
+
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the Field property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetField(string value)
+    {
+#pragma warning disable BL0005
+        Field = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Field)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "field", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the LegendOptions property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetLegendOptions(VisualVariableLegendOptions? value)
+    {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
+#pragma warning disable BL0005
+        LegendOptions = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(LegendOptions)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "legendOptions", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the ValueExpression property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetValueExpression(string? value)
+    {
+#pragma warning disable BL0005
+        ValueExpression = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ValueExpression)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "valueExpression", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the ValueExpressionTitle property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetValueExpressionTitle(string? value)
+    {
+#pragma warning disable BL0005
+        ValueExpressionTitle = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ValueExpressionTitle)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "valueExpressionTitle", value);
+    }
+
+#endregion
 }

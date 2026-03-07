@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMapFloorFilter.html">GeoBlazor Docs</a>
 ///     Floor filtering is controlled by a configurable <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FloorFilter.html">floor filter</a>.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class WebMapFloorFilter : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -50,8 +48,7 @@ public partial class WebMapFloorFilter : MapComponent
     ///     Contains the site ID for the initially selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FloorFilter.html#site">site</a> in the floor filter.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#FloorFilter">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public WebMapFloorFilter(
-        bool? enabled = null,
+    public WebMapFloorFilter(bool? enabled = null,
         string? facility = null,
         string? level = null,
         bool? longNames = null,
@@ -68,10 +65,10 @@ public partial class WebMapFloorFilter : MapComponent
         Minimized = minimized;
         PinnedLevels = pinnedLevels;
         Site = site;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -83,7 +80,7 @@ public partial class WebMapFloorFilter : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? Enabled { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMapFloorFilter.html#webmapfloorfilterfacility-property">GeoBlazor Docs</a>
     ///     Contains the facility ID for the initially selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FloorFilter.html#facility">facility</a> in the floor filter.
@@ -93,7 +90,7 @@ public partial class WebMapFloorFilter : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Facility { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMapFloorFilter.html#webmapfloorfilterlevel-property">GeoBlazor Docs</a>
     ///     Contains the level ID for the initially selected floor, which is used when filtering layers by their configured floor-aware properties.
@@ -103,7 +100,7 @@ public partial class WebMapFloorFilter : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Level { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMapFloorFilter.html#webmapfloorfilterlongnames-property">GeoBlazor Docs</a>
     ///     Indicates whether the levels list is showing the long names from longNameField.
@@ -113,7 +110,7 @@ public partial class WebMapFloorFilter : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? LongNames { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMapFloorFilter.html#webmapfloorfilterminimized-property">GeoBlazor Docs</a>
     ///     Indicates whether the floor filter has been minimized to show only the levels list.
@@ -123,7 +120,7 @@ public partial class WebMapFloorFilter : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? Minimized { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMapFloorFilter.html#webmapfloorfilterpinnedlevels-property">GeoBlazor Docs</a>
     ///     Indicates whether the levels portion of the floor filter has been pinned to show the levels list.
@@ -133,7 +130,7 @@ public partial class WebMapFloorFilter : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? PinnedLevels { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMapFloorFilter.html#webmapfloorfiltersite-property">GeoBlazor Docs</a>
     ///     Contains the site ID for the initially selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FloorFilter.html#site">site</a> in the floor filter.
@@ -143,8 +140,9 @@ public partial class WebMapFloorFilter : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Site { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -157,8 +155,8 @@ public partial class WebMapFloorFilter : MapComponent
         {
             return Enabled;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -167,26 +165,28 @@ public partial class WebMapFloorFilter : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Enabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "enabled");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Enabled = result.Value.Value;
+            Enabled = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Enabled)] = Enabled;
+            ModifiedParameters[nameof(Enabled)] = Enabled;
         }
-         
+
         return Enabled;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Facility property.
     /// </summary>
@@ -196,8 +196,8 @@ public partial class WebMapFloorFilter : MapComponent
         {
             return Facility;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -206,27 +206,27 @@ public partial class WebMapFloorFilter : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Facility;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(WebMapFloorFilter, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "facility");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Facility = result;
+            Facility = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Facility)] = Facility;
+            ModifiedParameters[nameof(Facility)] = Facility;
         }
-         
+
         return Facility;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Level property.
     /// </summary>
@@ -236,8 +236,8 @@ public partial class WebMapFloorFilter : MapComponent
         {
             return Level;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -246,27 +246,27 @@ public partial class WebMapFloorFilter : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Level;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(WebMapFloorFilter, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "level");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Level = result;
+            Level = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Level)] = Level;
+            ModifiedParameters[nameof(Level)] = Level;
         }
-         
+
         return Level;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LongNames property.
     /// </summary>
@@ -276,8 +276,8 @@ public partial class WebMapFloorFilter : MapComponent
         {
             return LongNames;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -286,26 +286,28 @@ public partial class WebMapFloorFilter : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return LongNames;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "longNames");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             LongNames = result.Value.Value;
+            LongNames = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LongNames)] = LongNames;
+            ModifiedParameters[nameof(LongNames)] = LongNames;
         }
-         
+
         return LongNames;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Minimized property.
     /// </summary>
@@ -315,8 +317,8 @@ public partial class WebMapFloorFilter : MapComponent
         {
             return Minimized;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -325,26 +327,28 @@ public partial class WebMapFloorFilter : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Minimized;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "minimized");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Minimized = result.Value.Value;
+            Minimized = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Minimized)] = Minimized;
+            ModifiedParameters[nameof(Minimized)] = Minimized;
         }
-         
+
         return Minimized;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PinnedLevels property.
     /// </summary>
@@ -354,8 +358,8 @@ public partial class WebMapFloorFilter : MapComponent
         {
             return PinnedLevels;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -364,26 +368,28 @@ public partial class WebMapFloorFilter : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return PinnedLevels;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "pinnedLevels");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             PinnedLevels = result.Value.Value;
+            PinnedLevels = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PinnedLevels)] = PinnedLevels;
+            ModifiedParameters[nameof(PinnedLevels)] = PinnedLevels;
         }
-         
+
         return PinnedLevels;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Site property.
     /// </summary>
@@ -393,8 +399,8 @@ public partial class WebMapFloorFilter : MapComponent
         {
             return Site;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -403,28 +409,29 @@ public partial class WebMapFloorFilter : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Site;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(WebMapFloorFilter, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "site");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Site = result;
+            Site = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Site)] = Site;
+            ModifiedParameters[nameof(Site)] = Site;
         }
-         
+
         return Site;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -440,13 +447,13 @@ public partial class WebMapFloorFilter : MapComponent
         Enabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Enabled)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -455,16 +462,16 @@ public partial class WebMapFloorFilter : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "enabled", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Facility property after render.
     /// </summary>
@@ -477,13 +484,13 @@ public partial class WebMapFloorFilter : MapComponent
         Facility = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Facility)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -492,16 +499,16 @@ public partial class WebMapFloorFilter : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "facility", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Level property after render.
     /// </summary>
@@ -514,13 +521,13 @@ public partial class WebMapFloorFilter : MapComponent
         Level = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Level)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -529,16 +536,16 @@ public partial class WebMapFloorFilter : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "level", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LongNames property after render.
     /// </summary>
@@ -551,13 +558,13 @@ public partial class WebMapFloorFilter : MapComponent
         LongNames = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LongNames)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -566,16 +573,16 @@ public partial class WebMapFloorFilter : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "longNames", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Minimized property after render.
     /// </summary>
@@ -588,13 +595,13 @@ public partial class WebMapFloorFilter : MapComponent
         Minimized = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Minimized)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -603,16 +610,16 @@ public partial class WebMapFloorFilter : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minimized", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PinnedLevels property after render.
     /// </summary>
@@ -625,13 +632,13 @@ public partial class WebMapFloorFilter : MapComponent
         PinnedLevels = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(PinnedLevels)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -640,16 +647,16 @@ public partial class WebMapFloorFilter : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "pinnedLevels", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Site property after render.
     /// </summary>
@@ -662,13 +669,13 @@ public partial class WebMapFloorFilter : MapComponent
         Site = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Site)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -677,16 +684,15 @@ public partial class WebMapFloorFilter : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "site", value);
     }
-    
-#endregion
 
+#endregion
 }

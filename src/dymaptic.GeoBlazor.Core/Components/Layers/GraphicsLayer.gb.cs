@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.html">GeoBlazor Docs</a>
 ///     A GraphicsLayer contains one or more client-side <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">Graphics</a>.
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 public partial class GraphicsLayer : IBlendLayer,
     IScaleRangeLayer
 {
-
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -22,9 +20,56 @@ public partial class GraphicsLayer : IBlendLayer,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public GraphicsLayerElevationInfo? ElevationInfo { get; set; }
-    
+    public ElevationInfo? ElevationInfo { get; set; }
+
 #endregion
+
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        ElevationInfo?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ElevationInfo elevationInfo:
+                if (elevationInfo != ElevationInfo)
+                {
+                    ElevationInfo = elevationInfo;
+                    ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
+
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ElevationInfo _:
+                ElevationInfo = null;
+                ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
 
 #region Property Getters
 
@@ -37,8 +82,8 @@ public partial class GraphicsLayer : IBlendLayer,
         {
             return BlendMode;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -47,26 +92,28 @@ public partial class GraphicsLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return BlendMode;
         }
 
         // get the property value
-        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>("getNullableValueTypedProperty",
+        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "blendMode");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             BlendMode = (BlendMode)result.Value.Value!;
+            BlendMode = (BlendMode)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(BlendMode)] = BlendMode;
+            ModifiedParameters[nameof(BlendMode)] = BlendMode;
         }
-         
+
         return BlendMode;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Effect property.
     /// </summary>
@@ -76,8 +123,8 @@ public partial class GraphicsLayer : IBlendLayer,
         {
             return Effect;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -86,16 +133,14 @@ public partial class GraphicsLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Effect;
         }
 
-        Effect? result = await JsComponentReference.InvokeJsMethod<Effect?>(
-            IsServer, nameof(GetEffect), nameof(GraphicsLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        Effect? result = await JsComponentReference.InvokeAsync<Effect?>("getEffect", CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -103,21 +148,21 @@ public partial class GraphicsLayer : IBlendLayer,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Effect)] = Effect;
         }
-        
+
         return Effect;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ElevationInfo property.
     /// </summary>
-    public async Task<GraphicsLayerElevationInfo?> GetElevationInfo()
+    public async Task<ElevationInfo?> GetElevationInfo()
     {
         if (CoreJsModule is null)
         {
             return ElevationInfo;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -126,33 +171,26 @@ public partial class GraphicsLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ElevationInfo;
         }
 
-        GraphicsLayerElevationInfo? result = await JsComponentReference.InvokeJsMethod<GraphicsLayerElevationInfo?>(
-            IsServer, nameof(GetElevationInfo), nameof(GraphicsLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        ElevationInfo? result = await JsComponentReference.InvokeAsync<ElevationInfo?>(
+            "getElevationInfo", CancellationTokenSource.Token);
+
         if (result is not null)
         {
-            if (ElevationInfo is not null)
-            {
-                result.Id = ElevationInfo.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             ElevationInfo = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
         }
-        
+
         return ElevationInfo;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -162,8 +200,8 @@ public partial class GraphicsLayer : IBlendLayer,
         {
             return MaxScale;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -172,26 +210,28 @@ public partial class GraphicsLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return MaxScale;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxScale");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MaxScale = result.Value.Value;
+            MaxScale = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MaxScale)] = MaxScale;
+            ModifiedParameters[nameof(MaxScale)] = MaxScale;
         }
-         
+
         return MaxScale;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -201,8 +241,8 @@ public partial class GraphicsLayer : IBlendLayer,
         {
             return MinScale;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -211,26 +251,28 @@ public partial class GraphicsLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return MinScale;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "minScale");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MinScale = result.Value.Value;
+            MinScale = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MinScale)] = MinScale;
+            ModifiedParameters[nameof(MinScale)] = MinScale;
         }
-         
+
         return MinScale;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ScreenSizePerspectiveEnabled property.
     /// </summary>
@@ -240,8 +282,8 @@ public partial class GraphicsLayer : IBlendLayer,
         {
             return ScreenSizePerspectiveEnabled;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -250,27 +292,30 @@ public partial class GraphicsLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ScreenSizePerspectiveEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "screenSizePerspectiveEnabled");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ScreenSizePerspectiveEnabled = result.Value.Value;
+            ScreenSizePerspectiveEnabled = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ScreenSizePerspectiveEnabled)] = ScreenSizePerspectiveEnabled;
+            ModifiedParameters[nameof(ScreenSizePerspectiveEnabled)] = ScreenSizePerspectiveEnabled;
         }
-         
+
         return ScreenSizePerspectiveEnabled;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -286,13 +331,13 @@ public partial class GraphicsLayer : IBlendLayer,
         BlendMode = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(BlendMode)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -301,16 +346,16 @@ public partial class GraphicsLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "blendMode", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Effect property after render.
     /// </summary>
@@ -323,13 +368,13 @@ public partial class GraphicsLayer : IBlendLayer,
         Effect = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Effect)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -338,41 +383,40 @@ public partial class GraphicsLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetEffect), nameof(GraphicsLayer), 
+
+        await JsComponentReference.InvokeVoidAsync("setEffect",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ElevationInfo property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetElevationInfo(GraphicsLayerElevationInfo? value)
+    public async Task SetElevationInfo(ElevationInfo? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         ElevationInfo = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ElevationInfo)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -381,17 +425,16 @@ public partial class GraphicsLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetElevationInfo), nameof(GraphicsLayer), 
+
+        await JsComponentReference.InvokeVoidAsync("setElevationInfo",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -404,13 +447,13 @@ public partial class GraphicsLayer : IBlendLayer,
         MaxScale = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MaxScale)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -419,16 +462,16 @@ public partial class GraphicsLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -441,13 +484,13 @@ public partial class GraphicsLayer : IBlendLayer,
         MinScale = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MinScale)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -456,16 +499,16 @@ public partial class GraphicsLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ScreenSizePerspectiveEnabled property after render.
     /// </summary>
@@ -478,13 +521,13 @@ public partial class GraphicsLayer : IBlendLayer,
         ScreenSizePerspectiveEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ScreenSizePerspectiveEnabled)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -493,61 +536,15 @@ public partial class GraphicsLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "screenSizePerspectiveEnabled", value);
     }
-    
+
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case GraphicsLayerElevationInfo elevationInfo:
-                if (elevationInfo != ElevationInfo)
-                {
-                    ElevationInfo = elevationInfo;
-                    ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case GraphicsLayerElevationInfo _:
-                ElevationInfo = null;
-                ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        ElevationInfo?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

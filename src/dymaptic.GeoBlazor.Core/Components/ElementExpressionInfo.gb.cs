@@ -107,8 +107,7 @@ public partial class ElementExpressionInfo : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(ElementExpressionInfo, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "expression");
         if (result is not null)
         {
@@ -147,8 +146,7 @@ public partial class ElementExpressionInfo : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(ElementExpressionInfo, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "returnType");
         if (result is not null)
         {
@@ -187,8 +185,7 @@ public partial class ElementExpressionInfo : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(ElementExpressionInfo, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {

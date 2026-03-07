@@ -111,8 +111,7 @@ public partial class ColorRampStop : MapComponent
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, "GetProperty", nameof(ColorRampStop, View?.QueryResultsMaxSizeLimit,
+        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, "color");
         if (result is not null)
         {
@@ -151,8 +150,7 @@ public partial class ColorRampStop : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(ColorRampStop, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "label");
         if (result is not null)
         {
@@ -191,8 +189,7 @@ public partial class ColorRampStop : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(ColorRampStop, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "value");
         if (result is not null)
         {

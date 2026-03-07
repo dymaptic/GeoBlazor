@@ -306,14 +306,8 @@ public partial class ZoomViewModel : MapComponent
             return;
         }
         
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer
-            nameof(ZoomIn), nameof(ZoomViewModel), 
+        await JsComponentReference!.InvokeVoidAsync(
+            "zoomIn", 
             CancellationTokenSource.Token);
     }
     
@@ -345,14 +339,8 @@ public partial class ZoomViewModel : MapComponent
             return;
         }
         
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer
-            nameof(ZoomOut), nameof(ZoomViewModel), 
+        await JsComponentReference!.InvokeVoidAsync(
+            "zoomOut", 
             CancellationTokenSource.Token);
     }
     

@@ -2,17 +2,16 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html">GeoBlazor Docs</a>
 ///     VectorTileLayer accesses cached tiles of data and renders it in vector format.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class VectorTileLayer : IBlendLayer,
+    ICustomParametersMixin,
     IOperationalLayer,
     IScaleRangeLayer
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -55,7 +54,7 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
     /// <param name="listMode">
-    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
     ///     default "show"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -93,12 +92,13 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#style">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
-    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="url">
-    ///     The URL to the vector tile service, or the URL to the style resource of vector tiles that
-    ///     will be used to render the layer.
+    ///     The URL to the <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/enterprise/vector-tile-service/">vector tile service</a>,
+    ///     the URL to the <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/enterprise/vector-tile-style/">style resource</a> of vector tiles,
+    ///     or the URL to a <a target="_blank" href="https://github.com/mapbox/tilejson-spec">TileJSON</a> resource that will be used to render the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visibilityTimeExtent">
@@ -114,8 +114,7 @@ public partial class VectorTileLayer : IBlendLayer,
     /// <param name="excludeApiKey">
     ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
     /// </param>
-    public VectorTileLayer(
-        string? apiKey = null,
+    public VectorTileLayer(string? apiKey = null,
         string? arcGISLayerId = null,
         BlendMode? blendMode = null,
         Dictionary<string, object>? customParameters = null,
@@ -158,10 +157,61 @@ public partial class VectorTileLayer : IBlendLayer,
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
         ExcludeApiKey = excludeApiKey;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        if (PortalItem is null && Url is null)
+        {
+            throw new MissingRequiredOptionsChildElementException(nameof(VectorTileLayer),
+                [nameof(PortalItem), nameof(Url)]);
+        }
+
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+
+#region Public Methods
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayerrefresh-method">GeoBlazor Docs</a>
+    ///     Fetches all the data for the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public override async ValueTask Refresh()
+    {
+        await base.Refresh();
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await JsComponentReference!.InvokeVoidAsync("refresh",
+            CancellationTokenSource.Token);
+    }
+
+#endregion
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -173,7 +223,7 @@ public partial class VectorTileLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ApiKey { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayerattributiondataurl-property">GeoBlazor Docs</a>
     ///     The URL that points to the location of the layer's attribution data.
@@ -183,7 +233,7 @@ public partial class VectorTileLayer : IBlendLayer,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public string? AttributionDataUrl { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayerblendmode-property">GeoBlazor Docs</a>
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
@@ -194,7 +244,7 @@ public partial class VectorTileLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public BlendMode? BlendMode { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayercapabilities-property">GeoBlazor Docs</a>
     ///     Indicates the layer's supported capabilities.
@@ -204,7 +254,7 @@ public partial class VectorTileLayer : IBlendLayer,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public VectorTileLayerCapabilities? Capabilities { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayercurrentstyleinfo-property">GeoBlazor Docs</a>
     ///     The current style information of the VectorTileLayer.
@@ -214,7 +264,7 @@ public partial class VectorTileLayer : IBlendLayer,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public VectorTileLayerCurrentStyleInfo? CurrentStyleInfo { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayercustomparameters-property">GeoBlazor Docs</a>
     ///     A list of custom parameters appended to the URL of all resources fetched by the layer.
@@ -224,7 +274,7 @@ public partial class VectorTileLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Dictionary<string, object>? CustomParameters { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayereffect-property">GeoBlazor Docs</a>
     ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
@@ -236,7 +286,7 @@ public partial class VectorTileLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Effect? Effect { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayerinitialextent-property">GeoBlazor Docs</a>
     ///     The initial extent of the layer.
@@ -246,7 +296,7 @@ public partial class VectorTileLayer : IBlendLayer,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public Extent? InitialExtent { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayerrefreshinterval-property">GeoBlazor Docs</a>
     ///     Refresh interval of the layer in minutes.
@@ -257,7 +307,7 @@ public partial class VectorTileLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? RefreshInterval { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayerstyle-property">GeoBlazor Docs</a>
     ///     A style JSON object of vector tiles that will be used to render the layer.
@@ -267,7 +317,7 @@ public partial class VectorTileLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Style { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayertileinfo-property">GeoBlazor Docs</a>
     ///     The tiling scheme information for the layer.
@@ -277,8 +327,9 @@ public partial class VectorTileLayer : IBlendLayer,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public TileInfo? TileInfo { get; protected set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -291,8 +342,8 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             return ApiKey;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -301,27 +352,27 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ApiKey;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(VectorTileLayer, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "apiKey");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ApiKey = result;
+            ApiKey = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ApiKey)] = ApiKey;
+            ModifiedParameters[nameof(ApiKey)] = ApiKey;
         }
-         
+
         return ApiKey;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AttributionDataUrl property.
     /// </summary>
@@ -331,8 +382,8 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             return AttributionDataUrl;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -341,27 +392,27 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return AttributionDataUrl;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(VectorTileLayer, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "attributionDataUrl");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             AttributionDataUrl = result;
+            AttributionDataUrl = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AttributionDataUrl)] = AttributionDataUrl;
+            ModifiedParameters[nameof(AttributionDataUrl)] = AttributionDataUrl;
         }
-         
+
         return AttributionDataUrl;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BlendMode property.
     /// </summary>
@@ -371,8 +422,8 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             return BlendMode;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -381,26 +432,28 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return BlendMode;
         }
 
         // get the property value
-        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>("getNullableValueTypedProperty",
+        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "blendMode");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             BlendMode = (BlendMode)result.Value.Value!;
+            BlendMode = (BlendMode)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(BlendMode)] = BlendMode;
+            ModifiedParameters[nameof(BlendMode)] = BlendMode;
         }
-         
+
         return BlendMode;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Capabilities property.
     /// </summary>
@@ -410,8 +463,8 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             return Capabilities;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -420,27 +473,28 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Capabilities;
         }
 
         // get the property value
-        VectorTileLayerCapabilities? result = await JsComponentReference!.InvokeJsMethod<VectorTileLayerCapabilities?>(
-            IsServer, "GetProperty", nameof(VectorTileLayer, View?.QueryResultsMaxSizeLimit,
+        VectorTileLayerCapabilities? result = await JsComponentReference!.InvokeAsync<VectorTileLayerCapabilities?>(
+            "getProperty",
             CancellationTokenSource.Token, "capabilities");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Capabilities = result;
+            Capabilities = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Capabilities)] = Capabilities;
+            ModifiedParameters[nameof(Capabilities)] = Capabilities;
         }
-         
+
         return Capabilities;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CurrentStyleInfo property.
     /// </summary>
@@ -450,8 +504,8 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             return CurrentStyleInfo;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -460,16 +514,16 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return CurrentStyleInfo;
         }
 
-        VectorTileLayerCurrentStyleInfo? result = await JsComponentReference.InvokeJsMethod<VectorTileLayerCurrentStyleInfo?>(
-            IsServer, nameof(GetCurrentStyleInfo), nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        VectorTileLayerCurrentStyleInfo? result =
+            await JsComponentReference.InvokeAsync<VectorTileLayerCurrentStyleInfo?>("getCurrentStyleInfo",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -477,10 +531,10 @@ public partial class VectorTileLayer : IBlendLayer,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(CurrentStyleInfo)] = CurrentStyleInfo;
         }
-        
+
         return CurrentStyleInfo;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomParameters property.
     /// </summary>
@@ -490,8 +544,8 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             return CustomParameters;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -500,27 +554,28 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return CustomParameters;
         }
 
         // get the property value
-        Dictionary<string, object>? result = await JsComponentReference!.InvokeJsMethod<Dictionary<string, object>?>(
-            IsServer, "GetProperty", nameof(VectorTileLayer, View?.QueryResultsMaxSizeLimit,
+        Dictionary<string, object>? result = await JsComponentReference!.InvokeAsync<Dictionary<string, object>?>(
+            "getProperty",
             CancellationTokenSource.Token, "customParameters");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             CustomParameters = result;
+            CustomParameters = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
+            ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
         }
-         
+
         return CustomParameters;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Effect property.
     /// </summary>
@@ -530,8 +585,8 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             return Effect;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -540,16 +595,14 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Effect;
         }
 
-        Effect? result = await JsComponentReference.InvokeJsMethod<Effect?>(
-            IsServer, nameof(GetEffect), nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        Effect? result = await JsComponentReference.InvokeAsync<Effect?>("getEffect", CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -557,10 +610,10 @@ public partial class VectorTileLayer : IBlendLayer,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Effect)] = Effect;
         }
-        
+
         return Effect;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the InitialExtent property.
     /// </summary>
@@ -570,8 +623,8 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             return InitialExtent;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -580,33 +633,33 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return InitialExtent;
         }
 
-        Extent? result = await JsComponentReference.InvokeJsMethod<Extent?>(
-            IsServer, nameof(GetInitialExtent), nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        Extent? result = await JsComponentReference.InvokeAsync<Extent?>(
+            "getInitialExtent", CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (InitialExtent is not null)
             {
                 result.Id = InitialExtent.Id;
             }
+
             result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
+
 #pragma warning disable BL0005
             InitialExtent = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(InitialExtent)] = InitialExtent;
         }
-        
+
         return InitialExtent;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -616,8 +669,8 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             return MaxScale;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -626,26 +679,28 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return MaxScale;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxScale");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MaxScale = result.Value.Value;
+            MaxScale = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MaxScale)] = MaxScale;
+            ModifiedParameters[nameof(MaxScale)] = MaxScale;
         }
-         
+
         return MaxScale;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -655,8 +710,8 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             return MinScale;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -665,26 +720,28 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return MinScale;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "minScale");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MinScale = result.Value.Value;
+            MinScale = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MinScale)] = MinScale;
+            ModifiedParameters[nameof(MinScale)] = MinScale;
         }
-         
+
         return MinScale;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalItem property.
     /// </summary>
@@ -694,8 +751,8 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             return PortalItem;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -704,33 +761,33 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return PortalItem;
         }
 
-        PortalItem? result = await JsComponentReference.InvokeJsMethod<PortalItem?>(
-            IsServer, nameof(GetPortalItem), nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        PortalItem? result = await JsComponentReference.InvokeAsync<PortalItem?>(
+            "getPortalItem", CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (PortalItem is not null)
             {
                 result.Id = PortalItem.Id;
             }
+
             result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
+
 #pragma warning disable BL0005
             PortalItem = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(PortalItem)] = PortalItem;
         }
-        
+
         return PortalItem;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RefreshInterval property.
     /// </summary>
@@ -740,8 +797,8 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             return RefreshInterval;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -750,26 +807,28 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return RefreshInterval;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "refreshInterval");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             RefreshInterval = result.Value.Value;
+            RefreshInterval = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
+            ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
         }
-         
+
         return RefreshInterval;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -779,8 +838,8 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             return SpatialReference;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -789,16 +848,15 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return SpatialReference;
         }
 
-        SpatialReference? result = await JsComponentReference.InvokeJsMethod<SpatialReference?>(
-            IsServer, nameof(GetSpatialReference), nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
+            "getSpatialReference", CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -806,10 +864,10 @@ public partial class VectorTileLayer : IBlendLayer,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
         }
-        
+
         return SpatialReference;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Style property.
     /// </summary>
@@ -819,8 +877,8 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             return Style;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -829,27 +887,27 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Style;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(VectorTileLayer, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "style");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Style = result;
+            Style = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Style)] = Style;
+            ModifiedParameters[nameof(Style)] = Style;
         }
-         
+
         return Style;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TileInfo property.
     /// </summary>
@@ -859,8 +917,8 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             return TileInfo;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -869,33 +927,33 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return TileInfo;
         }
 
-        TileInfo? result = await JsComponentReference.InvokeJsMethod<TileInfo?>(
-            IsServer, nameof(GetTileInfo), nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        TileInfo? result =
+            await JsComponentReference.InvokeAsync<TileInfo?>("getTileInfo", CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (TileInfo is not null)
             {
                 result.Id = TileInfo.Id;
             }
+
             result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
+
 #pragma warning disable BL0005
             TileInfo = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(TileInfo)] = TileInfo;
         }
-        
+
         return TileInfo;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -905,8 +963,8 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             return Url;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -915,28 +973,29 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Url;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(VectorTileLayer, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "url");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Url = result;
+            Url = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Url)] = Url;
+            ModifiedParameters[nameof(Url)] = Url;
         }
-         
+
         return Url;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -952,13 +1011,13 @@ public partial class VectorTileLayer : IBlendLayer,
         ApiKey = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ApiKey)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -967,16 +1026,16 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "apiKey", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BlendMode property after render.
     /// </summary>
@@ -989,13 +1048,13 @@ public partial class VectorTileLayer : IBlendLayer,
         BlendMode = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(BlendMode)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1004,16 +1063,16 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "blendMode", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CustomParameters property after render.
     /// </summary>
@@ -1026,13 +1085,13 @@ public partial class VectorTileLayer : IBlendLayer,
         CustomParameters = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(CustomParameters)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1041,16 +1100,16 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "customParameters", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Effect property after render.
     /// </summary>
@@ -1063,13 +1122,13 @@ public partial class VectorTileLayer : IBlendLayer,
         Effect = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Effect)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1078,17 +1137,16 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetEffect), nameof(VectorTileLayer), 
+
+        await JsComponentReference.InvokeVoidAsync("setEffect",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -1101,13 +1159,13 @@ public partial class VectorTileLayer : IBlendLayer,
         MaxScale = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MaxScale)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1116,16 +1174,16 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -1138,13 +1196,13 @@ public partial class VectorTileLayer : IBlendLayer,
         MinScale = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MinScale)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1153,16 +1211,16 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PersistenceEnabled property after render.
     /// </summary>
@@ -1175,13 +1233,13 @@ public partial class VectorTileLayer : IBlendLayer,
         PersistenceEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(PersistenceEnabled)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1190,16 +1248,16 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "persistenceEnabled", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
@@ -1208,22 +1266,22 @@ public partial class VectorTileLayer : IBlendLayer,
     /// </param>
     public async Task SetPortalItem(PortalItem? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         PortalItem = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(PortalItem)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1232,17 +1290,16 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPortalItem), nameof(VectorTileLayer), 
+
+        await JsComponentReference.InvokeVoidAsync("setPortalItem",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RefreshInterval property after render.
     /// </summary>
@@ -1255,13 +1312,13 @@ public partial class VectorTileLayer : IBlendLayer,
         RefreshInterval = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(RefreshInterval)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1270,16 +1327,16 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "refreshInterval", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Style property after render.
     /// </summary>
@@ -1292,13 +1349,13 @@ public partial class VectorTileLayer : IBlendLayer,
         Style = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Style)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1307,16 +1364,16 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "style", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -1329,13 +1386,13 @@ public partial class VectorTileLayer : IBlendLayer,
         Url = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Url)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1344,61 +1401,18 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
     }
-    
+
 #endregion
 
-#region Public Methods
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayerrefresh-method">GeoBlazor Docs</a>
-    ///     Fetches all the data for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISMethod]
-    public override async ValueTask Refresh()
-    {
-        await base.Refresh();
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer
-            nameof(Refresh), nameof(VectorTileLayer), 
-            CancellationTokenSource.Token);
-    }
-    
-#endregion
 
 #region Event Handlers
 
@@ -1413,14 +1427,15 @@ public partial class VectorTileLayer : IBlendLayer,
             // cancel if the component is disposed
             return;
         }
-    
+
         RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<RefreshEvent>();
+
         if (refreshEvent is not null)
         {
             await OnRefresh.InvokeAsync(refreshEvent);
         }
     }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayeronrefresh-property">GeoBlazor Docs</a>
     ///     Fires if the layer has the <a href="#refreshInterval">refreshInterval</a> set or when <a href="#refresh">refresh()</a> is called.
@@ -1429,23 +1444,11 @@ public partial class VectorTileLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore]
     public EventCallback<RefreshEvent> OnRefresh { get; set; }
-   
+
     /// <summary>
     ///     Used in JavaScript layer to determine if the event listener is registered.
     /// </summary>
     public bool HasRefreshListener => OnRefresh.HasDelegate;
-    
-#endregion
 
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        if (PortalItem is null && Url is null)
-        {
-            throw new MissingRequiredOptionsChildElementException(nameof(VectorTileLayer), [nameof(PortalItem), nameof(Url)]);
-        }
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
+#endregion
 }

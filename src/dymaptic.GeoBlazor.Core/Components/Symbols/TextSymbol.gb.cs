@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.html">GeoBlazor Docs</a>
 ///     Text symbols are used to define the graphic for displaying labels on
@@ -12,7 +11,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 /// </summary>
 public partial class TextSymbol : ISymbol2D
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -102,8 +100,7 @@ public partial class TextSymbol : ISymbol2D
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-TextSymbol.html#yoffset">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public TextSymbol(
-        string text,
+    public TextSymbol(string text,
         MapColor? color = null,
         MapColor? haloColor = null,
         Dimension? haloSize = null,
@@ -140,10 +137,10 @@ public partial class TextSymbol : ISymbol2D
         VerticalAlignment = verticalAlignment;
         Xoffset = xoffset;
         Yoffset = yoffset;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -155,8 +152,50 @@ public partial class TextSymbol : ISymbol2D
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MapFont? Font { get; set; }
-    
+
 #endregion
+
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        Font?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case MapFont font:
+                if (font != Font)
+                {
+                    Font = font;
+                    ModifiedParameters[nameof(Font)] = Font;
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case MapFont _:
+                Font = null;
+                ModifiedParameters[nameof(Font)] = Font;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
 
 #region Property Getters
 
@@ -169,8 +208,8 @@ public partial class TextSymbol : ISymbol2D
         {
             return Angle;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -179,26 +218,28 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Angle;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "angle");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Angle = result.Value.Value;
+            Angle = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Angle)] = Angle;
+            ModifiedParameters[nameof(Angle)] = Angle;
         }
-         
+
         return Angle;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BackgroundColor property.
     /// </summary>
@@ -208,8 +249,8 @@ public partial class TextSymbol : ISymbol2D
         {
             return BackgroundColor;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -218,27 +259,27 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return BackgroundColor;
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, "GetProperty", nameof(TextSymbol, View?.QueryResultsMaxSizeLimit,
+        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, "backgroundColor");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             BackgroundColor = result;
+            BackgroundColor = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(BackgroundColor)] = BackgroundColor;
+            ModifiedParameters[nameof(BackgroundColor)] = BackgroundColor;
         }
-         
+
         return BackgroundColor;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BorderLineColor property.
     /// </summary>
@@ -248,8 +289,8 @@ public partial class TextSymbol : ISymbol2D
         {
             return BorderLineColor;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -258,27 +299,27 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return BorderLineColor;
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, "GetProperty", nameof(TextSymbol, View?.QueryResultsMaxSizeLimit,
+        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, "borderLineColor");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             BorderLineColor = result;
+            BorderLineColor = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(BorderLineColor)] = BorderLineColor;
+            ModifiedParameters[nameof(BorderLineColor)] = BorderLineColor;
         }
-         
+
         return BorderLineColor;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BorderLineSize property.
     /// </summary>
@@ -288,8 +329,8 @@ public partial class TextSymbol : ISymbol2D
         {
             return BorderLineSize;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -298,26 +339,28 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return BorderLineSize;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "borderLineSize");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             BorderLineSize = result.Value.Value;
+            BorderLineSize = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(BorderLineSize)] = BorderLineSize;
+            ModifiedParameters[nameof(BorderLineSize)] = BorderLineSize;
         }
-         
+
         return BorderLineSize;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Font property.
     /// </summary>
@@ -327,8 +370,8 @@ public partial class TextSymbol : ISymbol2D
         {
             return Font;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -337,33 +380,25 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Font;
         }
 
-        MapFont? result = await JsComponentReference.InvokeJsMethod<MapFont?>(
-            IsServer, nameof(GetFont), nameof(TextSymbol), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        MapFont? result = await JsComponentReference.InvokeAsync<MapFont?>("getFont", CancellationTokenSource.Token);
+
         if (result is not null)
         {
-            if (Font is not null)
-            {
-                result.Id = Font.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Font = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Font)] = Font;
         }
-        
+
         return Font;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HaloColor property.
     /// </summary>
@@ -373,8 +408,8 @@ public partial class TextSymbol : ISymbol2D
         {
             return HaloColor;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -383,27 +418,27 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return HaloColor;
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, "GetProperty", nameof(TextSymbol, View?.QueryResultsMaxSizeLimit,
+        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, "haloColor");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             HaloColor = result;
+            HaloColor = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(HaloColor)] = HaloColor;
+            ModifiedParameters[nameof(HaloColor)] = HaloColor;
         }
-         
+
         return HaloColor;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HaloSize property.
     /// </summary>
@@ -413,8 +448,8 @@ public partial class TextSymbol : ISymbol2D
         {
             return HaloSize;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -423,27 +458,27 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return HaloSize;
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, "GetProperty", nameof(TextSymbol, View?.QueryResultsMaxSizeLimit,
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, "haloSize");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             HaloSize = result;
+            HaloSize = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(HaloSize)] = HaloSize;
+            ModifiedParameters[nameof(HaloSize)] = HaloSize;
         }
-         
+
         return HaloSize;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HorizontalAlignment property.
     /// </summary>
@@ -453,8 +488,8 @@ public partial class TextSymbol : ISymbol2D
         {
             return HorizontalAlignment;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -463,26 +498,29 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return HorizontalAlignment;
         }
 
         // get the property value
-        JsNullableEnumWrapper<HorizontalAlignment>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<HorizontalAlignment>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "horizontalAlignment");
+        JsNullableEnumWrapper<HorizontalAlignment>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<HorizontalAlignment>?>(
+                "getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "horizontalAlignment");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             HorizontalAlignment = (HorizontalAlignment)result.Value.Value!;
+            HorizontalAlignment = (HorizontalAlignment)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(HorizontalAlignment)] = HorizontalAlignment;
+            ModifiedParameters[nameof(HorizontalAlignment)] = HorizontalAlignment;
         }
-         
+
         return HorizontalAlignment;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Kerning property.
     /// </summary>
@@ -492,8 +530,8 @@ public partial class TextSymbol : ISymbol2D
         {
             return Kerning;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -502,26 +540,28 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Kerning;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "kerning");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Kerning = result.Value.Value;
+            Kerning = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Kerning)] = Kerning;
+            ModifiedParameters[nameof(Kerning)] = Kerning;
         }
-         
+
         return Kerning;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LineHeight property.
     /// </summary>
@@ -531,8 +571,8 @@ public partial class TextSymbol : ISymbol2D
         {
             return LineHeight;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -541,26 +581,28 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return LineHeight;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "lineHeight");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             LineHeight = result.Value.Value;
+            LineHeight = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LineHeight)] = LineHeight;
+            ModifiedParameters[nameof(LineHeight)] = LineHeight;
         }
-         
+
         return LineHeight;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LineWidth property.
     /// </summary>
@@ -570,8 +612,8 @@ public partial class TextSymbol : ISymbol2D
         {
             return LineWidth;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -580,27 +622,27 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return LineWidth;
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, "GetProperty", nameof(TextSymbol, View?.QueryResultsMaxSizeLimit,
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, "lineWidth");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LineWidth = result;
+            LineWidth = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LineWidth)] = LineWidth;
+            ModifiedParameters[nameof(LineWidth)] = LineWidth;
         }
-         
+
         return LineWidth;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Rotated property.
     /// </summary>
@@ -610,8 +652,8 @@ public partial class TextSymbol : ISymbol2D
         {
             return Rotated;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -620,26 +662,28 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Rotated;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "rotated");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Rotated = result.Value.Value;
+            Rotated = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Rotated)] = Rotated;
+            ModifiedParameters[nameof(Rotated)] = Rotated;
         }
-         
+
         return Rotated;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Text property.
     /// </summary>
@@ -649,8 +693,8 @@ public partial class TextSymbol : ISymbol2D
         {
             return Text;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -659,27 +703,27 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Text;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(TextSymbol, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "text");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Text = result;
+            Text = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Text)] = Text;
+            ModifiedParameters[nameof(Text)] = Text;
         }
-         
+
         return Text;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VerticalAlignment property.
     /// </summary>
@@ -689,8 +733,8 @@ public partial class TextSymbol : ISymbol2D
         {
             return VerticalAlignment;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -699,26 +743,28 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return VerticalAlignment;
         }
 
         // get the property value
-        JsNullableEnumWrapper<VerticalAlignment>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<VerticalAlignment>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "verticalAlignment");
+        JsNullableEnumWrapper<VerticalAlignment>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<VerticalAlignment>?>("getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "verticalAlignment");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             VerticalAlignment = (VerticalAlignment)result.Value.Value!;
+            VerticalAlignment = (VerticalAlignment)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(VerticalAlignment)] = VerticalAlignment;
+            ModifiedParameters[nameof(VerticalAlignment)] = VerticalAlignment;
         }
-         
+
         return VerticalAlignment;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Xoffset property.
     /// </summary>
@@ -728,8 +774,8 @@ public partial class TextSymbol : ISymbol2D
         {
             return Xoffset;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -738,27 +784,27 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Xoffset;
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, "GetProperty", nameof(TextSymbol, View?.QueryResultsMaxSizeLimit,
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, "xoffset");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Xoffset = result;
+            Xoffset = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Xoffset)] = Xoffset;
+            ModifiedParameters[nameof(Xoffset)] = Xoffset;
         }
-         
+
         return Xoffset;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Yoffset property.
     /// </summary>
@@ -768,8 +814,8 @@ public partial class TextSymbol : ISymbol2D
         {
             return Yoffset;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -778,28 +824,29 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Yoffset;
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, "GetProperty", nameof(TextSymbol, View?.QueryResultsMaxSizeLimit,
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, "yoffset");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Yoffset = result;
+            Yoffset = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Yoffset)] = Yoffset;
+            ModifiedParameters[nameof(Yoffset)] = Yoffset;
         }
-         
+
         return Yoffset;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -815,13 +862,13 @@ public partial class TextSymbol : ISymbol2D
         Angle = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Angle)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -830,16 +877,16 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "angle", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BackgroundColor property after render.
     /// </summary>
@@ -852,13 +899,13 @@ public partial class TextSymbol : ISymbol2D
         BackgroundColor = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(BackgroundColor)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -867,16 +914,16 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "backgroundColor", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BorderLineColor property after render.
     /// </summary>
@@ -889,13 +936,13 @@ public partial class TextSymbol : ISymbol2D
         BorderLineColor = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(BorderLineColor)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -904,16 +951,16 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "borderLineColor", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BorderLineSize property after render.
     /// </summary>
@@ -926,13 +973,13 @@ public partial class TextSymbol : ISymbol2D
         BorderLineSize = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(BorderLineSize)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -941,16 +988,16 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "borderLineSize", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Font property after render.
     /// </summary>
@@ -959,22 +1006,22 @@ public partial class TextSymbol : ISymbol2D
     /// </param>
     public async Task SetFont(MapFont? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         Font = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Font)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -983,16 +1030,16 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "font", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HaloColor property after render.
     /// </summary>
@@ -1005,13 +1052,13 @@ public partial class TextSymbol : ISymbol2D
         HaloColor = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(HaloColor)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1020,16 +1067,16 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "haloColor", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HaloSize property after render.
     /// </summary>
@@ -1042,13 +1089,13 @@ public partial class TextSymbol : ISymbol2D
         HaloSize = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(HaloSize)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1057,16 +1104,16 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "haloSize", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HorizontalAlignment property after render.
     /// </summary>
@@ -1079,13 +1126,13 @@ public partial class TextSymbol : ISymbol2D
         HorizontalAlignment = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(HorizontalAlignment)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1094,16 +1141,16 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "horizontalAlignment", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Kerning property after render.
     /// </summary>
@@ -1116,13 +1163,13 @@ public partial class TextSymbol : ISymbol2D
         Kerning = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Kerning)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1131,16 +1178,16 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "kerning", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LineHeight property after render.
     /// </summary>
@@ -1153,13 +1200,13 @@ public partial class TextSymbol : ISymbol2D
         LineHeight = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LineHeight)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1168,16 +1215,16 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "lineHeight", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LineWidth property after render.
     /// </summary>
@@ -1190,13 +1237,13 @@ public partial class TextSymbol : ISymbol2D
         LineWidth = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LineWidth)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1205,16 +1252,16 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "lineWidth", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Rotated property after render.
     /// </summary>
@@ -1227,13 +1274,13 @@ public partial class TextSymbol : ISymbol2D
         Rotated = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Rotated)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1242,16 +1289,16 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rotated", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Text property after render.
     /// </summary>
@@ -1264,13 +1311,13 @@ public partial class TextSymbol : ISymbol2D
         Text = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Text)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1279,16 +1326,16 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "text", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the VerticalAlignment property after render.
     /// </summary>
@@ -1301,13 +1348,13 @@ public partial class TextSymbol : ISymbol2D
         VerticalAlignment = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(VerticalAlignment)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1316,16 +1363,16 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "verticalAlignment", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Xoffset property after render.
     /// </summary>
@@ -1338,13 +1385,13 @@ public partial class TextSymbol : ISymbol2D
         Xoffset = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Xoffset)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1353,16 +1400,16 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "xoffset", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Yoffset property after render.
     /// </summary>
@@ -1375,13 +1422,13 @@ public partial class TextSymbol : ISymbol2D
         Yoffset = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Yoffset)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1390,57 +1437,15 @@ public partial class TextSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "yoffset", value);
     }
-    
+
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case MapFont font:
-                if (font != Font)
-                {
-                    Font = font;
-                    ModifiedParameters[nameof(Font)] = Font;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case MapFont _:
-                Font = null;
-                ModifiedParameters[nameof(Font)] = Font;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        Font?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

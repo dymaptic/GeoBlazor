@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Camera.html">GeoBlazor Docs</a>
 ///     The camera defines the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#position">position</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#tilt">tilt</a>, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#heading">heading</a>
@@ -12,7 +11,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class Camera : MapComponent
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -48,8 +46,7 @@ public partial class Camera : MapComponent
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#tilt">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public Camera(
-        double? fov = null,
+    public Camera(double? fov = null,
         double? heading = null,
         CameraLayout? layout = null,
         Point? position = null,
@@ -62,10 +59,64 @@ public partial class Camera : MapComponent
         Layout = layout;
         Position = position;
         Tilt = tilt;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        Layout?.ValidateRequiredGeneratedChildren();
+        Position?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case CameraLayout layout:
+                if (layout != Layout)
+                {
+                    Layout = layout;
+                    ModifiedParameters[nameof(Layout)] = Layout;
+                }
+
+                return true;
+            case Point position:
+                if (position != Position)
+                {
+                    Position = position;
+                    ModifiedParameters[nameof(Position)] = Position;
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case CameraLayout _:
+                Layout = null;
+                ModifiedParameters[nameof(Layout)] = Layout;
+
+                return true;
+            case Point _:
+                Position = null;
+                ModifiedParameters[nameof(Position)] = Position;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -78,7 +129,7 @@ public partial class Camera : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Fov { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Camera.html#cameraheading-property">GeoBlazor Docs</a>
     ///     The compass heading of the camera in degrees.
@@ -89,7 +140,7 @@ public partial class Camera : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Heading { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Camera.html#cameralayout-property">GeoBlazor Docs</a>
     ///     The layout defines which sub-region of the camera is rendered.
@@ -99,7 +150,7 @@ public partial class Camera : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public CameraLayout? Layout { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Camera.html#cameraposition-property">GeoBlazor Docs</a>
     ///     The position of the camera defined by a map point.
@@ -109,7 +160,7 @@ public partial class Camera : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Point? Position { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Camera.html#cameratilt-property">GeoBlazor Docs</a>
     ///     The tilt of the camera in degrees with respect to the surface as projected
@@ -121,8 +172,9 @@ public partial class Camera : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Tilt { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -135,8 +187,8 @@ public partial class Camera : MapComponent
         {
             return Fov;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -145,26 +197,28 @@ public partial class Camera : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Fov;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "fov");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Fov = result.Value.Value;
+            Fov = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Fov)] = Fov;
+            ModifiedParameters[nameof(Fov)] = Fov;
         }
-         
+
         return Fov;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Heading property.
     /// </summary>
@@ -174,8 +228,8 @@ public partial class Camera : MapComponent
         {
             return Heading;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -184,26 +238,28 @@ public partial class Camera : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Heading;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "heading");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Heading = result.Value.Value;
+            Heading = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Heading)] = Heading;
+            ModifiedParameters[nameof(Heading)] = Heading;
         }
-         
+
         return Heading;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Layout property.
     /// </summary>
@@ -213,8 +269,8 @@ public partial class Camera : MapComponent
         {
             return Layout;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -223,33 +279,26 @@ public partial class Camera : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Layout;
         }
 
-        CameraLayout? result = await JsComponentReference.InvokeJsMethod<CameraLayout?>(
-            IsServer, nameof(GetLayout), nameof(Camera), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        CameraLayout? result =
+            await JsComponentReference.InvokeAsync<CameraLayout?>("getLayout", CancellationTokenSource.Token);
+
         if (result is not null)
         {
-            if (Layout is not null)
-            {
-                result.Id = Layout.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Layout = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Layout)] = Layout;
         }
-        
+
         return Layout;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Position property.
     /// </summary>
@@ -259,8 +308,8 @@ public partial class Camera : MapComponent
         {
             return Position;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -269,33 +318,32 @@ public partial class Camera : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Position;
         }
 
-        Point? result = await JsComponentReference.InvokeJsMethod<Point?>(
-            IsServer, nameof(GetPosition), nameof(Camera), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        Point? result = await JsComponentReference.InvokeAsync<Point?>("getPosition", CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (Position is not null)
             {
                 result.Id = Position.Id;
             }
+
             result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
+
 #pragma warning disable BL0005
             Position = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Position)] = Position;
         }
-        
+
         return Position;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Tilt property.
     /// </summary>
@@ -305,8 +353,8 @@ public partial class Camera : MapComponent
         {
             return Tilt;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -315,27 +363,30 @@ public partial class Camera : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Tilt;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "tilt");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Tilt = result.Value.Value;
+            Tilt = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Tilt)] = Tilt;
+            ModifiedParameters[nameof(Tilt)] = Tilt;
         }
-         
+
         return Tilt;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -351,13 +402,13 @@ public partial class Camera : MapComponent
         Fov = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Fov)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -366,16 +417,16 @@ public partial class Camera : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fov", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Heading property after render.
     /// </summary>
@@ -388,13 +439,13 @@ public partial class Camera : MapComponent
         Heading = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Heading)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -403,16 +454,16 @@ public partial class Camera : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "heading", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Layout property after render.
     /// </summary>
@@ -421,22 +472,22 @@ public partial class Camera : MapComponent
     /// </param>
     public async Task SetLayout(CameraLayout? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         Layout = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Layout)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -445,16 +496,16 @@ public partial class Camera : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layout", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Position property after render.
     /// </summary>
@@ -463,22 +514,22 @@ public partial class Camera : MapComponent
     /// </param>
     public async Task SetPosition(Point? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         Position = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Position)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -487,16 +538,16 @@ public partial class Camera : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "position", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Tilt property after render.
     /// </summary>
@@ -509,13 +560,13 @@ public partial class Camera : MapComponent
         Tilt = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Tilt)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -524,70 +575,15 @@ public partial class Camera : MapComponent
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "tilt", value);
     }
-    
+
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case CameraLayout layout:
-                if (layout != Layout)
-                {
-                    Layout = layout;
-                    ModifiedParameters[nameof(Layout)] = Layout;
-                }
-                
-                return true;
-            case Point position:
-                if (position != Position)
-                {
-                    Position = position;
-                    ModifiedParameters[nameof(Position)] = Position;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case CameraLayout _:
-                Layout = null;
-                ModifiedParameters[nameof(Layout)] = Layout;
-                return true;
-            case Point _:
-                Position = null;
-                ModifiedParameters[nameof(Position)] = Position;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        Layout?.ValidateRequiredGeneratedChildren();
-        Position?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

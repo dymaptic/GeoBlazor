@@ -136,8 +136,7 @@ public partial class MapFont
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(MapFont, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "family");
         if (result is not null)
         {
@@ -176,8 +175,7 @@ public partial class MapFont
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, "GetProperty", nameof(MapFont, View?.QueryResultsMaxSizeLimit,
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, "size");
         if (result is not null)
         {

@@ -30,45 +30,45 @@ public partial record SubtypeSublayerEdits(
     IReadOnlyCollection<Graphic>? UpdateFeatures = null)
 {
     /// <summary>
-    ///     Parameterless Constructor
+    ///     Parameterless constructor
     /// </summary>
-    public SubtypeSublayerEdits(): this(null, null)
+    public SubtypeSublayerEdits() : this(null, null)
     {
     }
-    
+
     /// <summary>
     ///     
     /// </summary>
     public IReadOnlyCollection<AttachmentEdit>? AddAttachments { get; set; } = AddAttachments;
-    
+
     /// <summary>
     ///     
     /// </summary>
     public IReadOnlyCollection<Graphic>? AddFeatures { get; set; } = AddFeatures;
-    
+
     /// <summary>
     ///     
     /// </summary>
     public IReadOnlyCollection<string>? DeleteAttachments { get; set; } = DeleteAttachments;
-    
+
     /// <summary>
     ///     
     /// </summary>
-    public IReadOnlyCollection<Graphic>? GraphicCollectionDeleteFeatures { get; set; } = GraphicCollectionDeleteFeatures;
-    
+    public IReadOnlyCollection<Graphic>? GraphicCollectionDeleteFeatures { get; set; } =
+        GraphicCollectionDeleteFeatures;
+
     /// <summary>
     ///     
     /// </summary>
     public IReadOnlyCollection<string>? StringCollectionDeleteFeatures { get; set; } = StringCollectionDeleteFeatures;
-    
+
     /// <summary>
     ///     
     /// </summary>
     public IReadOnlyCollection<AttachmentEdit>? UpdateAttachments { get; set; } = UpdateAttachments;
-    
+
     /// <summary>
     ///     
     /// </summary>
     public IReadOnlyCollection<Graphic>? UpdateFeatures { get; set; } = UpdateFeatures;
-    
 }

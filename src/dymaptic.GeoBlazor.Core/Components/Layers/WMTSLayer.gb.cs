@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html">GeoBlazor Docs</a>
 ///     The WMTSLayer is used to create layers based on OGC Web Map Tile Services (WMTS).
@@ -15,7 +14,6 @@ public partial class WMTSLayer : Layer,
     IRefreshableLayer,
     IScaleRangeLayer
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -66,7 +64,7 @@ public partial class WMTSLayer : Layer,
     ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
     /// <param name="listMode">
-    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
     ///     default "show"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -109,7 +107,7 @@ public partial class WMTSLayer : Layer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#sublayers">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
-    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="url">
@@ -133,8 +131,7 @@ public partial class WMTSLayer : Layer,
     /// <param name="excludeApiKey">
     ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
     /// </param>
-    public WMTSLayer(
-        WMTSSublayer? activeLayer = null,
+    public WMTSLayer(WMTSSublayer? activeLayer = null,
         string? arcGISLayerId = null,
         BlendMode? blendMode = null,
         string? copyright = null,
@@ -185,1319 +182,58 @@ public partial class WMTSLayer : Layer,
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
         ExcludeApiKey = excludeApiKey;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
     /// <inheritdoc />
     public override LayerType Type => LayerType.WMTS;
-    
-#region Public Properties / Blazor Parameters
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        PortalItem?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+
+#region Public Methods
 
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayeractivelayer-property">GeoBlazor Docs</a>
-    ///     Currently active sublayer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#activeLayer">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayerrefresh-method">GeoBlazor Docs</a>
+    ///     Fetches all the data for the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public WMTSSublayer? ActiveLayer { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayerblendmode-property">GeoBlazor Docs</a>
-    ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
-    ///     default "normal"
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public BlendMode? BlendMode { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayercopyright-property">GeoBlazor Docs</a>
-    ///     Copyright information for the WMTS service.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#copyright">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Copyright { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayercustomlayerparameters-property">GeoBlazor Docs</a>
-    ///     Use this to append different custom parameters to the WMTS tile requests.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#customLayerParameters">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? CustomLayerParameters { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayercustomparameters-property">GeoBlazor Docs</a>
-    ///     Use this to append custom parameters to all WMTS requests.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#customParameters">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Dictionary<string, object>? CustomParameters { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayereffect-property">GeoBlazor Docs</a>
-    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
-    ///     how image filters work.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Effect? Effect { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayermaxscale-property">GeoBlazor Docs</a>
-    ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
-    ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? MaxScale { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayerminscale-property">GeoBlazor Docs</a>
-    ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
-    ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? MinScale { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayerportalitem-property">GeoBlazor Docs</a>
-    ///     The portal item from which the layer is loaded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public PortalItem? PortalItem { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayerrefreshinterval-property">GeoBlazor Docs</a>
-    ///     Refresh interval of the layer in minutes.
-    ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#refreshInterval">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? RefreshInterval { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayerservicemode-property">GeoBlazor Docs</a>
-    ///     The service mode for the WMTS layer.
-    ///     default "RESTful"
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#serviceMode">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ServiceMode? ServiceMode { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayersublayers-property">GeoBlazor Docs</a>
-    ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html">WMTSSublayer</a> objects.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#sublayers">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<WMTSSublayer>? Sublayers { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayerurl-property">GeoBlazor Docs</a>
-    ///     The URL of the WMTS service.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#url">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Url { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayerversion-property">GeoBlazor Docs</a>
-    ///     Version of the <a target="_blank" href="http://www.opengeospatial.org/standards/wmts">WMTS specification</a> to use.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#version">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Version { get; set; }
-    
+    [ArcGISMethod]
+    public override async ValueTask Refresh()
+    {
+        await base.Refresh();
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await JsComponentReference!.InvokeVoidAsync("refresh",
+            CancellationTokenSource.Token);
+    }
+
 #endregion
 
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ActiveLayer property.
-    /// </summary>
-    public async Task<WMTSSublayer?> GetActiveLayer()
-    {
-        if (CoreJsModule is null)
-        {
-            return ActiveLayer;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return ActiveLayer;
-        }
-
-        WMTSSublayer? result = await JsComponentReference.InvokeJsMethod<WMTSSublayer?>(
-            IsServer, nameof(GetActiveLayer), nameof(WMTSLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            if (ActiveLayer is not null)
-            {
-                result.Id = ActiveLayer.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
-#pragma warning disable BL0005
-            ActiveLayer = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(ActiveLayer)] = ActiveLayer;
-        }
-        
-        return ActiveLayer;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the BlendMode property.
-    /// </summary>
-    public async Task<BlendMode?> GetBlendMode()
-    {
-        if (CoreJsModule is null)
-        {
-            return BlendMode;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return BlendMode;
-        }
-
-        // get the property value
-        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "blendMode");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             BlendMode = (BlendMode)result.Value.Value!;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(BlendMode)] = BlendMode;
-        }
-         
-        return BlendMode;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Copyright property.
-    /// </summary>
-    public async Task<string?> GetCopyright()
-    {
-        if (CoreJsModule is null)
-        {
-            return Copyright;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Copyright;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(WMTSLayer, View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "copyright");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Copyright = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Copyright)] = Copyright;
-        }
-         
-        return Copyright;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the CustomLayerParameters property.
-    /// </summary>
-    public async Task<string?> GetCustomLayerParameters()
-    {
-        if (CoreJsModule is null)
-        {
-            return CustomLayerParameters;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return CustomLayerParameters;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(WMTSLayer, View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "customLayerParameters");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             CustomLayerParameters = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(CustomLayerParameters)] = CustomLayerParameters;
-        }
-         
-        return CustomLayerParameters;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the CustomParameters property.
-    /// </summary>
-    public async Task<Dictionary<string, object>?> GetCustomParameters()
-    {
-        if (CoreJsModule is null)
-        {
-            return CustomParameters;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return CustomParameters;
-        }
-
-        // get the property value
-        Dictionary<string, object>? result = await JsComponentReference!.InvokeJsMethod<Dictionary<string, object>?>(
-            IsServer, "GetProperty", nameof(WMTSLayer, View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "customParameters");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             CustomParameters = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
-        }
-         
-        return CustomParameters;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Effect property.
-    /// </summary>
-    public async Task<Effect?> GetEffect()
-    {
-        if (CoreJsModule is null)
-        {
-            return Effect;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Effect;
-        }
-
-        Effect? result = await JsComponentReference.InvokeJsMethod<Effect?>(
-            IsServer, nameof(GetEffect), nameof(WMTSLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Effect = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Effect)] = Effect;
-        }
-        
-        return Effect;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the MaxScale property.
-    /// </summary>
-    public async Task<double?> GetMaxScale()
-    {
-        if (CoreJsModule is null)
-        {
-            return MaxScale;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return MaxScale;
-        }
-
-        // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "maxScale");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             MaxScale = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(MaxScale)] = MaxScale;
-        }
-         
-        return MaxScale;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the MinScale property.
-    /// </summary>
-    public async Task<double?> GetMinScale()
-    {
-        if (CoreJsModule is null)
-        {
-            return MinScale;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return MinScale;
-        }
-
-        // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "minScale");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             MinScale = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(MinScale)] = MinScale;
-        }
-         
-        return MinScale;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the PortalItem property.
-    /// </summary>
-    public async Task<PortalItem?> GetPortalItem()
-    {
-        if (CoreJsModule is null)
-        {
-            return PortalItem;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return PortalItem;
-        }
-
-        PortalItem? result = await JsComponentReference.InvokeJsMethod<PortalItem?>(
-            IsServer, nameof(GetPortalItem), nameof(WMTSLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            if (PortalItem is not null)
-            {
-                result.Id = PortalItem.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
-#pragma warning disable BL0005
-            PortalItem = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(PortalItem)] = PortalItem;
-        }
-        
-        return PortalItem;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the RefreshInterval property.
-    /// </summary>
-    public async Task<double?> GetRefreshInterval()
-    {
-        if (CoreJsModule is null)
-        {
-            return RefreshInterval;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return RefreshInterval;
-        }
-
-        // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "refreshInterval");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             RefreshInterval = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
-        }
-         
-        return RefreshInterval;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ServiceMode property.
-    /// </summary>
-    public async Task<ServiceMode?> GetServiceMode()
-    {
-        if (CoreJsModule is null)
-        {
-            return ServiceMode;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return ServiceMode;
-        }
-
-        // get the property value
-        JsNullableEnumWrapper<ServiceMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ServiceMode>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "serviceMode");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             ServiceMode = (ServiceMode)result.Value.Value!;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(ServiceMode)] = ServiceMode;
-        }
-         
-        return ServiceMode;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Sublayers property.
-    /// </summary>
-    public async Task<IReadOnlyList<WMTSSublayer>?> GetSublayers()
-    {
-        if (CoreJsModule is null)
-        {
-            return Sublayers;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Sublayers;
-        }
-
-        IReadOnlyList<WMTSSublayer>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<WMTSSublayer>?>(
-            IsServer, nameof(GetSublayers), nameof(WMTSLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            foreach (WMTSSublayer item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-#pragma warning disable BL0005
-            Sublayers = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Sublayers)] = Sublayers;
-        }
-        
-        return Sublayers;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Url property.
-    /// </summary>
-    public async Task<string?> GetUrl()
-    {
-        if (CoreJsModule is null)
-        {
-            return Url;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Url;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(WMTSLayer, View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "url");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Url = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Url)] = Url;
-        }
-         
-        return Url;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Version property.
-    /// </summary>
-    public async Task<string?> GetVersion()
-    {
-        if (CoreJsModule is null)
-        {
-            return Version;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Version;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(WMTSLayer, View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "version");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Version = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Version)] = Version;
-        }
-         
-        return Version;
-    }
-    
-#endregion
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the ActiveLayer property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetActiveLayer(WMTSSublayer? value)
-    {
-#pragma warning disable BL0005
-        ActiveLayer = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ActiveLayer)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetActiveLayer), nameof(WMTSLayer), 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the BlendMode property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetBlendMode(BlendMode? value)
-    {
-#pragma warning disable BL0005
-        BlendMode = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(BlendMode)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "blendMode", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Copyright property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetCopyright(string? value)
-    {
-#pragma warning disable BL0005
-        Copyright = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Copyright)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "copyright", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the CustomLayerParameters property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetCustomLayerParameters(string? value)
-    {
-#pragma warning disable BL0005
-        CustomLayerParameters = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(CustomLayerParameters)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "customLayerParameters", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the CustomParameters property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetCustomParameters(Dictionary<string, object>? value)
-    {
-#pragma warning disable BL0005
-        CustomParameters = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(CustomParameters)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "customParameters", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Effect property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetEffect(Effect? value)
-    {
-#pragma warning disable BL0005
-        Effect = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Effect)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetEffect), nameof(WMTSLayer), 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the MaxScale property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetMaxScale(double? value)
-    {
-#pragma warning disable BL0005
-        MaxScale = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(MaxScale)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "maxScale", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the MinScale property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetMinScale(double? value)
-    {
-#pragma warning disable BL0005
-        MinScale = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(MinScale)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "minScale", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the PersistenceEnabled property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetPersistenceEnabled(bool? value)
-    {
-#pragma warning disable BL0005
-        PersistenceEnabled = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(PersistenceEnabled)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "persistenceEnabled", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the PortalItem property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetPortalItem(PortalItem? value)
-    {
-#pragma warning disable BL0005
-        PortalItem = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(PortalItem)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPortalItem), nameof(WMTSLayer), 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the RefreshInterval property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetRefreshInterval(double? value)
-    {
-#pragma warning disable BL0005
-        RefreshInterval = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(RefreshInterval)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "refreshInterval", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the ServiceMode property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetServiceMode(ServiceMode? value)
-    {
-#pragma warning disable BL0005
-        ServiceMode = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ServiceMode)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "serviceMode", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Sublayers property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetSublayers(IReadOnlyList<WMTSSublayer>? value)
-    {
-#pragma warning disable BL0005
-        Sublayers = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Sublayers)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-        if (value is not null)
-        {
-            foreach (WMTSSublayer item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetSublayers), nameof(WMTSLayer), 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Url property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetUrl(string? value)
-    {
-#pragma warning disable BL0005
-        Url = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Url)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "url", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Version property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetVersion(string? value)
-    {
-#pragma warning disable BL0005
-        Version = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Version)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "version", value);
-    }
-    
-#endregion
 
 #region Add to Collection Methods
 
@@ -1514,12 +250,12 @@ public partial class WMTSLayer : Layer,
             : [..Sublayers, ..values];
         await SetSublayers(join);
     }
-    
+
 #endregion
+
 
 #region Remove From Collection Methods
 
-    
     /// <summary>
     ///     Asynchronously remove an element from the Sublayers property.
     /// </summary>
@@ -1532,53 +268,10 @@ public partial class WMTSLayer : Layer,
         {
             return;
         }
+
         await SetSublayers(Sublayers.Except(values).ToArray());
     }
-    
-#endregion
 
-#region Public Methods
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayerrefresh-method">GeoBlazor Docs</a>
-    ///     Fetches all the data for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISMethod]
-    public override async ValueTask Refresh()
-    {
-        await base.Refresh();
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer
-            nameof(Refresh), nameof(WMTSLayer), 
-            CancellationTokenSource.Token);
-    }
-    
 #endregion
 
 
@@ -1592,12 +285,13 @@ public partial class WMTSLayer : Layer,
                 {
                     PortalItem = portalItem;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
+
                     if (MapRendered)
                     {
                         await UpdateLayer();
                     }
                 }
-                
+
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -1612,18 +306,1314 @@ public partial class WMTSLayer : Layer,
             case PortalItem _:
                 PortalItem = null;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
+
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
+
+
+#region Public Properties / Blazor Parameters
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayeractivelayer-property">GeoBlazor Docs</a>
+    ///     Currently active sublayer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#activeLayer">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public WMTSSublayer? ActiveLayer { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayerblendmode-property">GeoBlazor Docs</a>
+    ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
+    ///     default "normal"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public BlendMode? BlendMode { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayercopyright-property">GeoBlazor Docs</a>
+    ///     Copyright information for the WMTS service.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#copyright">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Copyright { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayercustomlayerparameters-property">GeoBlazor Docs</a>
+    ///     Use this to append different custom parameters to the WMTS tile requests.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#customLayerParameters">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? CustomLayerParameters { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayercustomparameters-property">GeoBlazor Docs</a>
+    ///     Use this to append custom parameters to all WMTS requests.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#customParameters">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Dictionary<string, object>? CustomParameters { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayereffect-property">GeoBlazor Docs</a>
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
+    ///     how image filters work.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Effect? Effect { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayermaxscale-property">GeoBlazor Docs</a>
+    ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
+    ///     default 0
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? MaxScale { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayerminscale-property">GeoBlazor Docs</a>
+    ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
+    ///     default 0
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? MinScale { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayerportalitem-property">GeoBlazor Docs</a>
+    ///     The portal item from which the layer is loaded.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public PortalItem? PortalItem { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayerrefreshinterval-property">GeoBlazor Docs</a>
+    ///     Refresh interval of the layer in minutes.
+    ///     default 0
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#refreshInterval">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? RefreshInterval { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayerservicemode-property">GeoBlazor Docs</a>
+    ///     The service mode for the WMTS layer.
+    ///     default "RESTful"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#serviceMode">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ServiceMode? ServiceMode { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayersublayers-property">GeoBlazor Docs</a>
+    ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSSublayer.html">WMTSSublayer</a> objects.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#sublayers">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<WMTSSublayer>? Sublayers { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayerurl-property">GeoBlazor Docs</a>
+    ///     The URL of the WMTS service.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#url">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Url { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMTSLayer.html#wmtslayerversion-property">GeoBlazor Docs</a>
+    ///     Version of the <a target="_blank" href="http://www.opengeospatial.org/standards/wmts">WMTS specification</a> to use.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html#version">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Version { get; set; }
+
+#endregion
+
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ActiveLayer property.
+    /// </summary>
+    public async Task<WMTSSublayer?> GetActiveLayer()
     {
-    
-        PortalItem?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
+        if (CoreJsModule is null)
+        {
+            return ActiveLayer;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return ActiveLayer;
+        }
+
+        WMTSSublayer? result = await JsComponentReference.InvokeAsync<WMTSSublayer?>(
+            "getActiveLayer", CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            ActiveLayer = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ActiveLayer)] = ActiveLayer;
+        }
+
+        return ActiveLayer;
     }
-      
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the BlendMode property.
+    /// </summary>
+    public async Task<BlendMode?> GetBlendMode()
+    {
+        if (CoreJsModule is null)
+        {
+            return BlendMode;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return BlendMode;
+        }
+
+        // get the property value
+        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>(
+            "getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "blendMode");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            BlendMode = (BlendMode)result.Value.Value!;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(BlendMode)] = BlendMode;
+        }
+
+        return BlendMode;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Copyright property.
+    /// </summary>
+    public async Task<string?> GetCopyright()
+    {
+        if (CoreJsModule is null)
+        {
+            return Copyright;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Copyright;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "copyright");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Copyright = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Copyright)] = Copyright;
+        }
+
+        return Copyright;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the CustomLayerParameters property.
+    /// </summary>
+    public async Task<string?> GetCustomLayerParameters()
+    {
+        if (CoreJsModule is null)
+        {
+            return CustomLayerParameters;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return CustomLayerParameters;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "customLayerParameters");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            CustomLayerParameters = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(CustomLayerParameters)] = CustomLayerParameters;
+        }
+
+        return CustomLayerParameters;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the CustomParameters property.
+    /// </summary>
+    public async Task<Dictionary<string, object>?> GetCustomParameters()
+    {
+        if (CoreJsModule is null)
+        {
+            return CustomParameters;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return CustomParameters;
+        }
+
+        // get the property value
+        Dictionary<string, object>? result = await JsComponentReference!.InvokeAsync<Dictionary<string, object>?>(
+            "getProperty",
+            CancellationTokenSource.Token, "customParameters");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            CustomParameters = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
+        }
+
+        return CustomParameters;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Effect property.
+    /// </summary>
+    public async Task<Effect?> GetEffect()
+    {
+        if (CoreJsModule is null)
+        {
+            return Effect;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Effect;
+        }
+
+        Effect? result = await JsComponentReference.InvokeAsync<Effect?>("getEffect", CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Effect = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Effect)] = Effect;
+        }
+
+        return Effect;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the MaxScale property.
+    /// </summary>
+    public async Task<double?> GetMaxScale()
+    {
+        if (CoreJsModule is null)
+        {
+            return MaxScale;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return MaxScale;
+        }
+
+        // get the property value
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "maxScale");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            MaxScale = result.Value.Value;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(MaxScale)] = MaxScale;
+        }
+
+        return MaxScale;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the MinScale property.
+    /// </summary>
+    public async Task<double?> GetMinScale()
+    {
+        if (CoreJsModule is null)
+        {
+            return MinScale;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return MinScale;
+        }
+
+        // get the property value
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "minScale");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            MinScale = result.Value.Value;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(MinScale)] = MinScale;
+        }
+
+        return MinScale;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the PortalItem property.
+    /// </summary>
+    public async Task<PortalItem?> GetPortalItem()
+    {
+        if (CoreJsModule is null)
+        {
+            return PortalItem;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return PortalItem;
+        }
+
+        PortalItem? result = await JsComponentReference.InvokeAsync<PortalItem?>(
+            "getPortalItem", CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+            if (PortalItem is not null)
+            {
+                result.Id = PortalItem.Id;
+            }
+
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+
+#pragma warning disable BL0005
+            PortalItem = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(PortalItem)] = PortalItem;
+        }
+
+        return PortalItem;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the RefreshInterval property.
+    /// </summary>
+    public async Task<double?> GetRefreshInterval()
+    {
+        if (CoreJsModule is null)
+        {
+            return RefreshInterval;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return RefreshInterval;
+        }
+
+        // get the property value
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "refreshInterval");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            RefreshInterval = result.Value.Value;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
+        }
+
+        return RefreshInterval;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ServiceMode property.
+    /// </summary>
+    public async Task<ServiceMode?> GetServiceMode()
+    {
+        if (CoreJsModule is null)
+        {
+            return ServiceMode;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return ServiceMode;
+        }
+
+        // get the property value
+        JsNullableEnumWrapper<ServiceMode>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ServiceMode>?>("getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "serviceMode");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            ServiceMode = (ServiceMode)result.Value.Value!;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ServiceMode)] = ServiceMode;
+        }
+
+        return ServiceMode;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Sublayers property.
+    /// </summary>
+    public async Task<IReadOnlyList<WMTSSublayer>?> GetSublayers()
+    {
+        if (CoreJsModule is null)
+        {
+            return Sublayers;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Sublayers;
+        }
+
+        IReadOnlyList<WMTSSublayer>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<WMTSSublayer>?>("getSublayers",
+                CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Sublayers = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Sublayers)] = Sublayers;
+        }
+
+        return Sublayers;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Url property.
+    /// </summary>
+    public async Task<string?> GetUrl()
+    {
+        if (CoreJsModule is null)
+        {
+            return Url;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Url;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "url");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Url = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Url)] = Url;
+        }
+
+        return Url;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Version property.
+    /// </summary>
+    public async Task<string?> GetVersion()
+    {
+        if (CoreJsModule is null)
+        {
+            return Version;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Version;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "version");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Version = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Version)] = Version;
+        }
+
+        return Version;
+    }
+
+#endregion
+
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the ActiveLayer property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetActiveLayer(WMTSSublayer? value)
+    {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
+#pragma warning disable BL0005
+        ActiveLayer = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ActiveLayer)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await JsComponentReference.InvokeVoidAsync("setActiveLayer",
+            CancellationTokenSource.Token, value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the BlendMode property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetBlendMode(BlendMode? value)
+    {
+#pragma warning disable BL0005
+        BlendMode = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(BlendMode)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "blendMode", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Copyright property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetCopyright(string? value)
+    {
+#pragma warning disable BL0005
+        Copyright = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Copyright)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "copyright", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the CustomLayerParameters property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetCustomLayerParameters(string? value)
+    {
+#pragma warning disable BL0005
+        CustomLayerParameters = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(CustomLayerParameters)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "customLayerParameters", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the CustomParameters property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetCustomParameters(Dictionary<string, object>? value)
+    {
+#pragma warning disable BL0005
+        CustomParameters = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(CustomParameters)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "customParameters", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Effect property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetEffect(Effect? value)
+    {
+#pragma warning disable BL0005
+        Effect = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Effect)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await JsComponentReference.InvokeVoidAsync("setEffect",
+            CancellationTokenSource.Token, value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the MaxScale property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetMaxScale(double? value)
+    {
+#pragma warning disable BL0005
+        MaxScale = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(MaxScale)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "maxScale", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the MinScale property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetMinScale(double? value)
+    {
+#pragma warning disable BL0005
+        MinScale = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(MinScale)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "minScale", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the PersistenceEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPersistenceEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        PersistenceEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(PersistenceEnabled)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "persistenceEnabled", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the PortalItem property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPortalItem(PortalItem? value)
+    {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
+#pragma warning disable BL0005
+        PortalItem = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(PortalItem)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await JsComponentReference.InvokeVoidAsync("setPortalItem",
+            CancellationTokenSource.Token, value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the RefreshInterval property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetRefreshInterval(double? value)
+    {
+#pragma warning disable BL0005
+        RefreshInterval = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(RefreshInterval)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "refreshInterval", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the ServiceMode property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetServiceMode(ServiceMode? value)
+    {
+#pragma warning disable BL0005
+        ServiceMode = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ServiceMode)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "serviceMode", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Sublayers property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetSublayers(IReadOnlyList<WMTSSublayer>? value)
+    {
+        if (value is not null)
+        {
+            foreach (WMTSSublayer item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+
+#pragma warning disable BL0005
+        Sublayers = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Sublayers)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await JsComponentReference.InvokeVoidAsync("setSublayers",
+            CancellationTokenSource.Token, value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Url property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetUrl(string? value)
+    {
+#pragma warning disable BL0005
+        Url = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Url)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "url", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Version property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetVersion(string? value)
+    {
+#pragma warning disable BL0005
+        Version = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Version)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "version", value);
+    }
+
+#endregion
 }

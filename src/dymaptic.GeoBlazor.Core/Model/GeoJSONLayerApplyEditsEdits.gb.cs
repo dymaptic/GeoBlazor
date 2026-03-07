@@ -29,34 +29,34 @@ public partial record GeoJSONLayerApplyEditsEdits(
     IReadOnlyCollection<Graphic>? UpdateFeatures = null)
 {
     /// <summary>
-    ///     Parameterless Constructor
+    ///     Parameterless constructor
     /// </summary>
-    public GeoJSONLayerApplyEditsEdits(): this(null, null)
+    public GeoJSONLayerApplyEditsEdits() : this(null, null)
     {
     }
-    
+
     /// <summary>
     ///     An array or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">collection</a> of features to be added.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyCollection<Graphic>? AddFeatures { get; set; } = AddFeatures;
-    
+
     /// <summary>
     ///     An array or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">collection</a> of features, or objects to be deleted.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public IReadOnlyCollection<Graphic>? GraphicCollectionDeleteFeatures { get; set; } = GraphicCollectionDeleteFeatures;
-    
+    public IReadOnlyCollection<Graphic>? GraphicCollectionDeleteFeatures { get; set; } =
+        GraphicCollectionDeleteFeatures;
+
     /// <summary>
     ///     An array or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">collection</a> of features, or objects to be deleted.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyCollection<string>? StringCollectionDeleteFeatures { get; set; } = StringCollectionDeleteFeatures;
-    
+
     /// <summary>
     ///     An array or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">collection</a> of features to be updated.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyCollection<Graphic>? UpdateFeatures { get; set; } = UpdateFeatures;
-    
 }

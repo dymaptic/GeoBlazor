@@ -23,44 +23,41 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public partial record GeographicTransformationStep(
     bool? IsInverse = null,
     double? Wkid = null,
-    string? Wkt = null): IInteractiveRecord
+    string? Wkt = null) : IInteractiveRecord
 {
     /// <summary>
-    ///     Parameterless Constructor
+    ///     Parameterless constructor
     /// </summary>
-    public GeographicTransformationStep(): this(null, null)
+    public GeographicTransformationStep() : this(null, null)
     {
     }
-    
+
     /// <summary>
     ///     Represents the JavaScript component reference.
     /// </summary>
     public IJSObjectReference? JsComponentReference { get; set; }
-    
+
     /// <summary>
     ///     Allows for transmitting CancellationToken cancel signals to JavaScript.
     /// </summary>
     public AbortManager? AbortManager { get; set; }
-    
+
     /// <summary>
     ///     A unique Id to identify this record in JavaScript.
     /// </summary>
     public Guid Id { get; set; } = Guid.NewGuid();
-    
+
     /// <summary>
     ///     Reference to the Core JavaScript module.
     /// </summary>
     public IJSObjectReference? CoreJsModule { get; set; }
-    
+
     /// <summary>
     ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
     /// </summary>
     public bool IsServer { get; set; }
-    
-    /// <summary>
-    ///     Cancellation Token for async methods.
-    /// </summary>
-    protected readonly CancellationTokenSource CancellationTokenSource = new();
+
+
 #region Public Methods
 
     /// <summary>
@@ -75,7 +72,7 @@ public partial record GeographicTransformationStep(
         {
             return null;
         }
-        
+
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -85,17 +82,21 @@ public partial record GeographicTransformationStep(
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return null;
         }
-        
-        return await JsComponentReference!.InvokeJsMethod<GeographicTransformationStep?>(
-            IsServer, nameof(GetInverse), nameof(GeographicTransformationStep), View?.QueryResultsMaxSizeLimit, 
+
+        return await JsComponentReference!.InvokeAsync<GeographicTransformationStep?>("getInverse",
             CancellationTokenSource.Token);
     }
-    
+
 #endregion
 
+
+    /// <summary>
+    ///     Cancellation Token for async methods.
+    /// </summary>
+    protected readonly CancellationTokenSource CancellationTokenSource = new();
 }

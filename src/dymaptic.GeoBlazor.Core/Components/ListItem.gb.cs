@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html">GeoBlazor Docs</a>
 ///     The ListItem class represents one of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html#operationalItems">operationalItems</a>
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class ListItem
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -19,6 +17,104 @@ public partial class ListItem
     public ListItem()
     {
     }
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        if (ActionsSections is not null)
+        {
+            foreach (ActionBase[] section in ActionsSections)
+            {
+                foreach (ActionBase child in section)
+                {
+                    child.ValidateRequiredGeneratedChildren();
+                }
+            }
+        }
+
+        if (Children is not null)
+        {
+            foreach (ListItem child in Children)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+
+        Panel?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ActionBase actionsSections:
+                ActionsSections ??= [];
+
+                if (ActionsSections.Length == 0)
+                {
+                    ActionsSections = [[actionsSections]];
+                    ModifiedParameters[nameof(ActionsSections)] = ActionsSections;
+                }
+                else if (!ActionsSections.Any(s => s.Contains(actionsSections)))
+                {
+                    ActionsSections = [..ActionsSections, [actionsSections]];
+                    ModifiedParameters[nameof(ActionsSections)] = ActionsSections;
+                }
+
+                return true;
+            case ListItem children:
+                Children ??= [];
+
+                if (!Children.Contains(children))
+                {
+                    Children = [..Children, children];
+                    ModifiedParameters[nameof(Children)] = Children;
+                }
+
+                return true;
+            case ListItemPanelWidget panel:
+                if (panel != Panel)
+                {
+                    Panel = panel;
+                    ModifiedParameters[nameof(Panel)] = Panel;
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ActionBase actionsSections:
+                ActionsSections = ActionsSections?
+                    .Select(s => s.Where(a => a != actionsSections).ToArray())
+                    .Where(s => s.Any())
+                    .ToArray();
+                ModifiedParameters[nameof(ActionsSections)] = ActionsSections;
+
+                return true;
+            case ListItem children:
+                Children = Children?.Where(c => c != children).ToList();
+                ModifiedParameters[nameof(Children)] = Children;
+
+                return true;
+            case ListItemPanelWidget _:
+                Panel = null;
+                ModifiedParameters[nameof(Panel)] = Panel;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
 
 #region Public Properties / Blazor Parameters
 
@@ -32,7 +128,7 @@ public partial class ListItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ActionsOpen { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemactionssections-property">GeoBlazor Docs</a>
     ///     A nested 2-dimensional collection of actions that could be triggered on the item.
@@ -42,7 +138,7 @@ public partial class ListItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ActionBase[][]? ActionsSections { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemchildren-property">GeoBlazor Docs</a>
     ///     When a layer contains sublayers, this property is a Collection of ListItem objects belonging to the given layer.
@@ -52,7 +148,7 @@ public partial class ListItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<ListItem>? Children { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemchildrensortable-property">GeoBlazor Docs</a>
     ///     Indicates if the children of a list item (or sublayers in a GroupLayer) can be sorted or moved/reordered.
@@ -63,7 +159,7 @@ public partial class ListItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ChildrenSortable { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemconnectionstatus-property">GeoBlazor Docs</a>
     ///     Only valid when the list item represents a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-StreamLayer.html">StreamLayer</a>.
@@ -73,7 +169,7 @@ public partial class ListItem
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public ConnectionStatus? ConnectionStatus { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemerror-property">GeoBlazor Docs</a>
     ///     The Error object returned if an error occurred.
@@ -83,7 +179,7 @@ public partial class ListItem
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public Error? Error { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemhidden-property">GeoBlazor Docs</a>
     ///     When `true`, hides the layer from the LayerList instance.
@@ -94,7 +190,7 @@ public partial class ListItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? Hidden { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemincompatible-property">GeoBlazor Docs</a>
     ///     Whether the layer is unsupported by the view.
@@ -105,7 +201,7 @@ public partial class ListItem
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? Incompatible { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemlayerview-property">GeoBlazor Docs</a>
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a> displaying data for the
@@ -116,7 +212,7 @@ public partial class ListItem
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public LayerView? LayerView { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemlistmodedisabled-property">GeoBlazor Docs</a>
     ///     Specifies whether to ignore the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">listMode</a> property of the child layers in the list item.
@@ -127,7 +223,7 @@ public partial class ListItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ListModeDisabled { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemopen-property">GeoBlazor Docs</a>
     ///     Whether the layer is open in the LayerList.
@@ -138,7 +234,7 @@ public partial class ListItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? Open { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitempanel-property">GeoBlazor Docs</a>
     ///     Allows you to display custom content for each ListItem
@@ -149,7 +245,7 @@ public partial class ListItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ListItemPanelWidget? Panel { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitempublishing-property">GeoBlazor Docs</a>
     ///     Value is `true` when the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#layer">layer</a> is being published.
@@ -160,7 +256,7 @@ public partial class ListItem
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? Publishing { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemsortable-property">GeoBlazor Docs</a>
     ///     Indicates if the list item (or layer in the map) can be sorted or moved/reordered.
@@ -171,7 +267,7 @@ public partial class ListItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? Sortable { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemtitle-property">GeoBlazor Docs</a>
     ///     The title of the layer.
@@ -181,7 +277,7 @@ public partial class ListItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemupdating-property">GeoBlazor Docs</a>
     ///     Value is `true` when the layer is updating; for example, if it is in the process of fetching data.
@@ -192,7 +288,7 @@ public partial class ListItem
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? Updating { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemvisibilitymode-property">GeoBlazor Docs</a>
     ///     Indicates how to manage the visibility of the children layers.
@@ -202,7 +298,7 @@ public partial class ListItem
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public string? VisibilityMode { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemvisibleatcurrentscale-property">GeoBlazor Docs</a>
     ///     Whether the layer is visible at the current scale or not.
@@ -213,7 +309,7 @@ public partial class ListItem
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? VisibleAtCurrentScale { get; protected set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ListItem.html#listitemvisibleatcurrenttimeextent-property">GeoBlazor Docs</a>
     ///     Whether the layer is visible at the current time extent or not.
@@ -224,8 +320,9 @@ public partial class ListItem
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? VisibleAtCurrentTimeExtent { get; protected set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -238,8 +335,8 @@ public partial class ListItem
         {
             return ActionsOpen;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -248,26 +345,28 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ActionsOpen;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "actionsOpen");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ActionsOpen = result.Value.Value;
+            ActionsOpen = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ActionsOpen)] = ActionsOpen;
+            ModifiedParameters[nameof(ActionsOpen)] = ActionsOpen;
         }
-         
+
         return ActionsOpen;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ActionsSections property.
     /// </summary>
@@ -277,8 +376,8 @@ public partial class ListItem
         {
             return ActionsSections;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -287,31 +386,26 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ActionsSections;
         }
 
-        ActionBase[][]? result = await JsComponentReference.InvokeJsMethod<ActionBase[][]?>(
-            IsServer, nameof(GetActionsSections), nameof(ListItem), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        ActionBase[][]? result = await JsComponentReference.InvokeAsync<ActionBase[][]?>(
+            "getActionsSections", CancellationTokenSource.Token);
+
         if (result is not null)
         {
-            foreach (ActionBase item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             ActionsSections = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ActionsSections)] = ActionsSections;
         }
-        
+
         return ActionsSections;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ChildrenSortable property.
     /// </summary>
@@ -321,8 +415,8 @@ public partial class ListItem
         {
             return ChildrenSortable;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -331,26 +425,28 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ChildrenSortable;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "childrenSortable");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ChildrenSortable = result.Value.Value;
+            ChildrenSortable = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ChildrenSortable)] = ChildrenSortable;
+            ModifiedParameters[nameof(ChildrenSortable)] = ChildrenSortable;
         }
-         
+
         return ChildrenSortable;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ConnectionStatus property.
     /// </summary>
@@ -360,8 +456,8 @@ public partial class ListItem
         {
             return ConnectionStatus;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -370,26 +466,28 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ConnectionStatus;
         }
 
         // get the property value
-        JsNullableEnumWrapper<ConnectionStatus>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ConnectionStatus>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "connectionStatus");
+        JsNullableEnumWrapper<ConnectionStatus>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ConnectionStatus>?>("getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "connectionStatus");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ConnectionStatus = (ConnectionStatus)result.Value.Value!;
+            ConnectionStatus = (ConnectionStatus)result.Value.Value!;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ConnectionStatus)] = ConnectionStatus;
+            ModifiedParameters[nameof(ConnectionStatus)] = ConnectionStatus;
         }
-         
+
         return ConnectionStatus;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Error property.
     /// </summary>
@@ -399,8 +497,8 @@ public partial class ListItem
         {
             return Error;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -409,27 +507,27 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Error;
         }
 
         // get the property value
-        Error? result = await JsComponentReference!.InvokeJsMethod<Error?>(
-            IsServer, "GetProperty", nameof(ListItem, View?.QueryResultsMaxSizeLimit,
+        Error? result = await JsComponentReference!.InvokeAsync<Error?>("getProperty",
             CancellationTokenSource.Token, "error");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Error = result;
+            Error = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Error)] = Error;
+            ModifiedParameters[nameof(Error)] = Error;
         }
-         
+
         return Error;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Hidden property.
     /// </summary>
@@ -439,8 +537,8 @@ public partial class ListItem
         {
             return Hidden;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -449,26 +547,28 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Hidden;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "hidden");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Hidden = result.Value.Value;
+            Hidden = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Hidden)] = Hidden;
+            ModifiedParameters[nameof(Hidden)] = Hidden;
         }
-         
+
         return Hidden;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Incompatible property.
     /// </summary>
@@ -478,8 +578,8 @@ public partial class ListItem
         {
             return Incompatible;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -488,26 +588,28 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Incompatible;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "incompatible");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Incompatible = result.Value.Value;
+            Incompatible = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Incompatible)] = Incompatible;
+            ModifiedParameters[nameof(Incompatible)] = Incompatible;
         }
-         
+
         return Incompatible;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Layer property.
     /// </summary>
@@ -517,8 +619,8 @@ public partial class ListItem
         {
             return Layer;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -527,33 +629,32 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Layer;
         }
 
-        Layer? result = await JsComponentReference.InvokeJsMethod<Layer?>(
-            IsServer, nameof(GetLayer), nameof(ListItem), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        Layer? result = await JsComponentReference.InvokeAsync<Layer?>("getLayer", CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (Layer is not null)
             {
                 result.Id = Layer.Id;
             }
+
             result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
+
 #pragma warning disable BL0005
             Layer = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Layer)] = Layer;
         }
-        
+
         return Layer;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LayerView property.
     /// </summary>
@@ -563,8 +664,8 @@ public partial class ListItem
         {
             return LayerView;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -573,33 +674,33 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return LayerView;
         }
 
-        LayerView? result = await JsComponentReference.InvokeJsMethod<LayerView?>(
-            IsServer, nameof(GetLayerView), nameof(ListItem), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        LayerView? result = await JsComponentReference.InvokeAsync<LayerView?>(
+            "getLayerView", CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (LayerView is not null)
             {
                 result.Id = LayerView.Id;
             }
+
             result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
+
 #pragma warning disable BL0005
             LayerView = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(LayerView)] = LayerView;
         }
-        
+
         return LayerView;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ListModeDisabled property.
     /// </summary>
@@ -609,8 +710,8 @@ public partial class ListItem
         {
             return ListModeDisabled;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -619,26 +720,28 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ListModeDisabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "listModeDisabled");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ListModeDisabled = result.Value.Value;
+            ListModeDisabled = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ListModeDisabled)] = ListModeDisabled;
+            ModifiedParameters[nameof(ListModeDisabled)] = ListModeDisabled;
         }
-         
+
         return ListModeDisabled;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Open property.
     /// </summary>
@@ -648,8 +751,8 @@ public partial class ListItem
         {
             return Open;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -658,26 +761,28 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Open;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "open");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Open = result.Value.Value;
+            Open = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Open)] = Open;
+            ModifiedParameters[nameof(Open)] = Open;
         }
-         
+
         return Open;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Publishing property.
     /// </summary>
@@ -687,8 +792,8 @@ public partial class ListItem
         {
             return Publishing;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -697,26 +802,28 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Publishing;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "publishing");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Publishing = result.Value.Value;
+            Publishing = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Publishing)] = Publishing;
+            ModifiedParameters[nameof(Publishing)] = Publishing;
         }
-         
+
         return Publishing;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Sortable property.
     /// </summary>
@@ -726,8 +833,8 @@ public partial class ListItem
         {
             return Sortable;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -736,26 +843,28 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Sortable;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "sortable");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Sortable = result.Value.Value;
+            Sortable = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Sortable)] = Sortable;
+            ModifiedParameters[nameof(Sortable)] = Sortable;
         }
-         
+
         return Sortable;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -765,8 +874,8 @@ public partial class ListItem
         {
             return Title;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -775,27 +884,27 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Title;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(ListItem, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "title");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Title = result;
+            Title = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Title)] = Title;
+            ModifiedParameters[nameof(Title)] = Title;
         }
-         
+
         return Title;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Updating property.
     /// </summary>
@@ -805,8 +914,8 @@ public partial class ListItem
         {
             return Updating;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -815,26 +924,28 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Updating;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "updating");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Updating = result.Value.Value;
+            Updating = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Updating)] = Updating;
+            ModifiedParameters[nameof(Updating)] = Updating;
         }
-         
+
         return Updating;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibilityMode property.
     /// </summary>
@@ -844,8 +955,8 @@ public partial class ListItem
         {
             return VisibilityMode;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -854,27 +965,27 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return VisibilityMode;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(ListItem, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "visibilityMode");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             VisibilityMode = result;
+            VisibilityMode = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(VisibilityMode)] = VisibilityMode;
+            ModifiedParameters[nameof(VisibilityMode)] = VisibilityMode;
         }
-         
+
         return VisibilityMode;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibleAtCurrentScale property.
     /// </summary>
@@ -884,8 +995,8 @@ public partial class ListItem
         {
             return VisibleAtCurrentScale;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -894,26 +1005,28 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return VisibleAtCurrentScale;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "visibleAtCurrentScale");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             VisibleAtCurrentScale = result.Value.Value;
+            VisibleAtCurrentScale = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(VisibleAtCurrentScale)] = VisibleAtCurrentScale;
+            ModifiedParameters[nameof(VisibleAtCurrentScale)] = VisibleAtCurrentScale;
         }
-         
+
         return VisibleAtCurrentScale;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibleAtCurrentTimeExtent property.
     /// </summary>
@@ -923,8 +1036,8 @@ public partial class ListItem
         {
             return VisibleAtCurrentTimeExtent;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -933,27 +1046,30 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return VisibleAtCurrentTimeExtent;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "visibleAtCurrentTimeExtent");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             VisibleAtCurrentTimeExtent = result.Value.Value;
+            VisibleAtCurrentTimeExtent = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(VisibleAtCurrentTimeExtent)] = VisibleAtCurrentTimeExtent;
+            ModifiedParameters[nameof(VisibleAtCurrentTimeExtent)] = VisibleAtCurrentTimeExtent;
         }
-         
+
         return VisibleAtCurrentTimeExtent;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -969,13 +1085,13 @@ public partial class ListItem
         ActionsOpen = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ActionsOpen)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -984,16 +1100,16 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "actionsOpen", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ChildrenSortable property after render.
     /// </summary>
@@ -1006,13 +1122,13 @@ public partial class ListItem
         ChildrenSortable = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ChildrenSortable)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1021,16 +1137,16 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "childrenSortable", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Hidden property after render.
     /// </summary>
@@ -1043,13 +1159,13 @@ public partial class ListItem
         Hidden = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Hidden)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1058,16 +1174,16 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "hidden", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Layer property after render.
     /// </summary>
@@ -1076,22 +1192,22 @@ public partial class ListItem
     /// </param>
     public async Task SetLayer(Layer? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         Layer = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Layer)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1100,17 +1216,16 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetLayer), nameof(ListItem), 
+
+        await JsComponentReference.InvokeVoidAsync("setLayer",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ListModeDisabled property after render.
     /// </summary>
@@ -1123,13 +1238,13 @@ public partial class ListItem
         ListModeDisabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ListModeDisabled)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1138,16 +1253,16 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "listModeDisabled", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Open property after render.
     /// </summary>
@@ -1160,13 +1275,13 @@ public partial class ListItem
         Open = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Open)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1175,16 +1290,16 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "open", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Sortable property after render.
     /// </summary>
@@ -1197,13 +1312,13 @@ public partial class ListItem
         Sortable = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Sortable)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1212,16 +1327,16 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sortable", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -1234,13 +1349,13 @@ public partial class ListItem
         Title = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Title)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1249,107 +1364,15 @@ public partial class ListItem
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
     }
-    
+
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ActionBase actionsSections:
-                ActionsSections ??= [];
-                if (ActionsSections.Length == 0)
-                {
-                    ActionsSections = [[actionsSections]];
-                    ModifiedParameters[nameof(ActionsSections)] = ActionsSections;
-                }
-                else if (!ActionsSections.Any(s => s.Contains(actionsSections)))
-                {
-                    ActionsSections = [..ActionsSections, [actionsSections]];
-                    ModifiedParameters[nameof(ActionsSections)] = ActionsSections;
-                }
-                
-                return true;
-            case ListItem children:
-                Children ??= [];
-                if (!Children.Contains(children))
-                {
-                    Children = [..Children, children];
-                    ModifiedParameters[nameof(Children)] = Children;
-                }
-                
-                return true;
-            case ListItemPanelWidget panel:
-                if (panel != Panel)
-                {
-                    Panel = panel;
-                    ModifiedParameters[nameof(Panel)] = Panel;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ActionBase actionsSections:
-                ActionsSections = ActionsSections?
-                    .Select(s => s.Where(a => a != actionsSections).ToArray())
-                    .Where(s => s.Any()).ToArray();
-                ModifiedParameters[nameof(ActionsSections)] = ActionsSections;
-                return true;
-            case ListItem children:
-                Children = Children?.Where(c => c != children).ToList();
-                ModifiedParameters[nameof(Children)] = Children;
-                return true;
-            case ListItemPanelWidget _:
-                Panel = null;
-                ModifiedParameters[nameof(Panel)] = Panel;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        if (ActionsSections is not null)
-        {
-            foreach (ActionBase[] section in ActionsSections)
-            {
-                foreach (ActionBase child in section)
-                {
-                    child.ValidateRequiredGeneratedChildren();
-                }
-            }
-        }
-        if (Children is not null)
-        {
-            foreach (ListItem child in Children)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        Panel?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

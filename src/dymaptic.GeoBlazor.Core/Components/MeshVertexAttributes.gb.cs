@@ -142,8 +142,7 @@ public partial class MeshVertexAttributes : MapComponent
         }
 
         // get the property value
-        double[]? result = await JsComponentReference!.InvokeJsMethod<double[]?>(
-            IsServer, "GetProperty", nameof(MeshVertexAttributes, View?.QueryResultsMaxSizeLimit,
+        double[]? result = await JsComponentReference!.InvokeAsync<double[]?>("getProperty",
             CancellationTokenSource.Token, "normal");
         if (result is not null)
         {
@@ -182,8 +181,7 @@ public partial class MeshVertexAttributes : MapComponent
         }
 
         // get the property value
-        double[]? result = await JsComponentReference!.InvokeJsMethod<double[]?>(
-            IsServer, "GetProperty", nameof(MeshVertexAttributes, View?.QueryResultsMaxSizeLimit,
+        double[]? result = await JsComponentReference!.InvokeAsync<double[]?>("getProperty",
             CancellationTokenSource.Token, "position");
         if (result is not null)
         {
@@ -222,8 +220,7 @@ public partial class MeshVertexAttributes : MapComponent
         }
 
         // get the property value
-        double[]? result = await JsComponentReference!.InvokeJsMethod<double[]?>(
-            IsServer, "GetProperty", nameof(MeshVertexAttributes, View?.QueryResultsMaxSizeLimit,
+        double[]? result = await JsComponentReference!.InvokeAsync<double[]?>("getProperty",
             CancellationTokenSource.Token, "tangent");
         if (result is not null)
         {
@@ -262,8 +259,7 @@ public partial class MeshVertexAttributes : MapComponent
         }
 
         // get the property value
-        double[]? result = await JsComponentReference!.InvokeJsMethod<double[]?>(
-            IsServer, "GetProperty", nameof(MeshVertexAttributes, View?.QueryResultsMaxSizeLimit,
+        double[]? result = await JsComponentReference!.InvokeAsync<double[]?>("getProperty",
             CancellationTokenSource.Token, "uv");
         if (result is not null)
         {

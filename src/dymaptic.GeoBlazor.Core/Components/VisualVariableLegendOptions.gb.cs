@@ -2,16 +2,14 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisualVariableLegendOptions.html">GeoBlazor Docs</a>
 ///     An object providing options for displaying the visual variable in
-///     the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
+///     the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#legendOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class VisualVariableLegendOptions
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -31,18 +29,17 @@ public partial class VisualVariableLegendOptions
     ///     The title describing the visualization of the visual variable in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#legendOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public VisualVariableLegendOptions(
-        bool? showLegend = null,
+    public VisualVariableLegendOptions(bool? showLegend = null,
         string? title = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         ShowLegend = showLegend;
         Title = title;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+
 #region Property Getters
 
     /// <summary>
@@ -54,8 +51,8 @@ public partial class VisualVariableLegendOptions
         {
             return ShowLegend;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -64,26 +61,28 @@ public partial class VisualVariableLegendOptions
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ShowLegend;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "showLegend");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ShowLegend = result.Value.Value;
+            ShowLegend = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ShowLegend)] = ShowLegend;
+            ModifiedParameters[nameof(ShowLegend)] = ShowLegend;
         }
-         
+
         return ShowLegend;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -93,8 +92,8 @@ public partial class VisualVariableLegendOptions
         {
             return Title;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -103,28 +102,29 @@ public partial class VisualVariableLegendOptions
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Title;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(VisualVariableLegendOptions, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "title");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Title = result;
+            Title = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Title)] = Title;
+            ModifiedParameters[nameof(Title)] = Title;
         }
-         
+
         return Title;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -140,13 +140,13 @@ public partial class VisualVariableLegendOptions
         ShowLegend = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ShowLegend)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -155,16 +155,16 @@ public partial class VisualVariableLegendOptions
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "showLegend", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -177,13 +177,13 @@ public partial class VisualVariableLegendOptions
         Title = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Title)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -192,16 +192,15 @@ public partial class VisualVariableLegendOptions
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
     }
-    
-#endregion
 
+#endregion
 }

@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html">GeoBlazor Docs</a>
 ///     The BasemapLayerList widget provides a way to display a list of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">Basemap</a> layers and switch on/off their visibility.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 /// </summary>
 public partial class BasemapLayerListWidget
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -19,1419 +17,6 @@ public partial class BasemapLayerListWidget
     {
     }
 
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetbasefilterpredicate-property">GeoBlazor Docs</a>
-    ///     Specifies a function to handle filtering base layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">list items</a>.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#baseFilterPredicate">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore]
-    public BaseFilterPredicate? BaseFilterPredicate { get; set; }
-    
-    /// <summary>
-    ///    JS-invokable method that triggers the <see cref="BaseFilterPredicate"/> function.
-    ///     Should not be called by consuming code.
-    /// </summary>
-    [JSInvokable]
-    public async Task OnJsBaseFilterPredicate(ListItem item)
-    {
-        if (IsDisposed)
-        {
-            // cancel if the component is disposed
-            return;
-        }
-        
-        if (BaseFilterPredicate is not null)
-        {
-            await BaseFilterPredicate.Invoke(item);
-        }
-    }
-    
-    /// <summary>
-    ///     A convenience property that signifies whether a custom <see cref="BaseFilterPredicate" /> function was registered.
-    /// </summary>
-    public bool HasBaseFilterPredicate => BaseFilterPredicate is not null;
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetbasefiltertext-property">GeoBlazor Docs</a>
-    ///     The value of the filter input text string if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibleElements">visibleElements.filter</a> is true.
-    ///     default ""
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#baseFilterText">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? BaseFilterText { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetbaseitems-property">GeoBlazor Docs</a>
-    ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>s representing the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#baseLayers">baseLayers</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#baseItems">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public IReadOnlyList<ListItem>? BaseItems { get; protected set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetcataloglayerlist-property">GeoBlazor Docs</a>
-    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-CatalogLayerList.html">CatalogLayerList</a> widget instance that displays a catalog layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CatalogLayer.html#dynamicGroupLayer">dynamic group layer</a>.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#catalogLayerList">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public ICatalogLayerListWidget? CatalogLayerList { get; protected set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetcatalogoptions-property">GeoBlazor Docs</a>
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CatalogLayer.html">CatalogLayer</a> specific properties.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#catalogOptions">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public BasemapLayerListCatalogOptions? CatalogOptions { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetcollapsed-property">GeoBlazor Docs</a>
-    ///     Indicates whether the widget is collapsed.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#collapsed">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? Collapsed { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetdragenabled-property">GeoBlazor Docs</a>
-    ///     Indicates whether <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">list items</a> may be reordered within the list by dragging and dropping.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#dragEnabled">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? DragEnabled { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgeteditingtitle-property">GeoBlazor Docs</a>
-    ///     Indicates whether the form to edit the basemap's title is currently visible.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#editingTitle">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? EditingTitle { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetfilterplaceholder-property">GeoBlazor Docs</a>
-    ///     Placeholder text used in the filter input if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibleElements">visibleElements.filter</a> is true.
-    ///     default ""
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#filterPlaceholder">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? FilterPlaceholder { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetminfilteritems-property">GeoBlazor Docs</a>
-    ///     The minimum number of list items required to display the visibleElements.filter input box.
-    ///     default 10
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#minFilterItems">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? MinFilterItems { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetreferencefilterpredicate-property">GeoBlazor Docs</a>
-    ///     Specifies a function to handle filtering reference layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">list items</a>.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#referenceFilterPredicate">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore]
-    public ReferenceFilterPredicate? ReferenceFilterPredicate { get; set; }
-    
-    /// <summary>
-    ///    JS-invokable method that triggers the <see cref="ReferenceFilterPredicate"/> function.
-    ///     Should not be called by consuming code.
-    /// </summary>
-    [JSInvokable]
-    public async Task OnJsReferenceFilterPredicate(ListItem item)
-    {
-        if (IsDisposed)
-        {
-            // cancel if the component is disposed
-            return;
-        }
-        
-        if (ReferenceFilterPredicate is not null)
-        {
-            await ReferenceFilterPredicate.Invoke(item);
-        }
-    }
-    
-    /// <summary>
-    ///     A convenience property that signifies whether a custom <see cref="ReferenceFilterPredicate" /> function was registered.
-    /// </summary>
-    public bool HasReferenceFilterPredicate => ReferenceFilterPredicate is not null;
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetreferencefiltertext-property">GeoBlazor Docs</a>
-    ///     The value of the filter input text string if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibleElements">visibleElements.filter</a> is true.
-    ///     default ""
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#referenceFilterText">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? ReferenceFilterText { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetreferenceitems-property">GeoBlazor Docs</a>
-    ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>s representing the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#referenceLayers">referenceLayers</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#referenceItems">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public IReadOnlyList<ListItem>? ReferenceItems { get; protected set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetselecteditems-property">GeoBlazor Docs</a>
-    ///     A collection of selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>s representing basemap layers
-    ///     selected by the user.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#selectedItems">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<ListItem>? SelectedItems { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetselectionmode-property">GeoBlazor Docs</a>
-    ///     Specifies the selection mode.
-    ///     default "none"
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#selectionMode">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public SelectionMode? SelectionMode { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetviewmodel-property">GeoBlazor Docs</a>
-    ///     The view model for this widget.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public BasemapLayerListViewModel? ViewModel { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetvisibilityappearance-property">GeoBlazor Docs</a>
-    ///     Determines the icons used to indicate visibility.
-    ///     default "default"
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibilityAppearance">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public VisibilityAppearance? VisibilityAppearance { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetvisibleelements-property">GeoBlazor Docs</a>
-    ///     The visible elements that are displayed within the widget.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibleElements">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public BasemapLayerListWidgetVisibleElements? VisibleElements { get; set; }
-    
-#endregion
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the BaseFilterText property.
-    /// </summary>
-    public async Task<string?> GetBaseFilterText()
-    {
-        if (CoreJsModule is null)
-        {
-            return BaseFilterText;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return BaseFilterText;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(BasemapLayerListWidget, View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "baseFilterText");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             BaseFilterText = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(BaseFilterText)] = BaseFilterText;
-        }
-         
-        return BaseFilterText;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the BaseItems property.
-    /// </summary>
-    public async Task<IReadOnlyList<ListItem>?> GetBaseItems()
-    {
-        if (CoreJsModule is null)
-        {
-            return BaseItems;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return BaseItems;
-        }
-
-        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<ListItem>?>(
-            IsServer, nameof(GetBaseItems), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            foreach (ListItem item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-#pragma warning disable BL0005
-            BaseItems = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(BaseItems)] = BaseItems;
-        }
-        
-        return BaseItems;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the CatalogLayerList property.
-    /// </summary>
-    public async Task<ICatalogLayerListWidget?> GetCatalogLayerList()
-    {
-        if (CoreJsModule is null)
-        {
-            return CatalogLayerList;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return CatalogLayerList;
-        }
-
-        // get the property value
-        ICatalogLayerListWidget? result = await JsComponentReference!.InvokeJsMethod<ICatalogLayerListWidget?>(
-            IsServer, "GetProperty", nameof(BasemapLayerListWidget, View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "catalogLayerList");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             CatalogLayerList = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(CatalogLayerList)] = CatalogLayerList;
-        }
-         
-        return CatalogLayerList;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the CatalogOptions property.
-    /// </summary>
-    public async Task<BasemapLayerListCatalogOptions?> GetCatalogOptions()
-    {
-        if (CoreJsModule is null)
-        {
-            return CatalogOptions;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return CatalogOptions;
-        }
-
-        // get the property value
-        BasemapLayerListCatalogOptions? result = await JsComponentReference!.InvokeJsMethod<BasemapLayerListCatalogOptions?>(
-            IsServer, "GetProperty", nameof(BasemapLayerListWidget, View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "catalogOptions");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             CatalogOptions = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(CatalogOptions)] = CatalogOptions;
-        }
-         
-        return CatalogOptions;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Collapsed property.
-    /// </summary>
-    public async Task<bool?> GetCollapsed()
-    {
-        if (CoreJsModule is null)
-        {
-            return Collapsed;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Collapsed;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "collapsed");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             Collapsed = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Collapsed)] = Collapsed;
-        }
-         
-        return Collapsed;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the DragEnabled property.
-    /// </summary>
-    public async Task<bool?> GetDragEnabled()
-    {
-        if (CoreJsModule is null)
-        {
-            return DragEnabled;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return DragEnabled;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "dragEnabled");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             DragEnabled = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(DragEnabled)] = DragEnabled;
-        }
-         
-        return DragEnabled;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the EditingTitle property.
-    /// </summary>
-    public async Task<bool?> GetEditingTitle()
-    {
-        if (CoreJsModule is null)
-        {
-            return EditingTitle;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return EditingTitle;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "editingTitle");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             EditingTitle = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(EditingTitle)] = EditingTitle;
-        }
-         
-        return EditingTitle;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the FilterPlaceholder property.
-    /// </summary>
-    public async Task<string?> GetFilterPlaceholder()
-    {
-        if (CoreJsModule is null)
-        {
-            return FilterPlaceholder;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return FilterPlaceholder;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(BasemapLayerListWidget, View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "filterPlaceholder");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             FilterPlaceholder = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(FilterPlaceholder)] = FilterPlaceholder;
-        }
-         
-        return FilterPlaceholder;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the MinFilterItems property.
-    /// </summary>
-    public async Task<double?> GetMinFilterItems()
-    {
-        if (CoreJsModule is null)
-        {
-            return MinFilterItems;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return MinFilterItems;
-        }
-
-        // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "minFilterItems");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             MinFilterItems = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(MinFilterItems)] = MinFilterItems;
-        }
-         
-        return MinFilterItems;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ReferenceFilterText property.
-    /// </summary>
-    public async Task<string?> GetReferenceFilterText()
-    {
-        if (CoreJsModule is null)
-        {
-            return ReferenceFilterText;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return ReferenceFilterText;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(BasemapLayerListWidget, View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "referenceFilterText");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             ReferenceFilterText = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(ReferenceFilterText)] = ReferenceFilterText;
-        }
-         
-        return ReferenceFilterText;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ReferenceItems property.
-    /// </summary>
-    public async Task<IReadOnlyList<ListItem>?> GetReferenceItems()
-    {
-        if (CoreJsModule is null)
-        {
-            return ReferenceItems;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return ReferenceItems;
-        }
-
-        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<ListItem>?>(
-            IsServer, nameof(GetReferenceItems), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            foreach (ListItem item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-#pragma warning disable BL0005
-            ReferenceItems = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(ReferenceItems)] = ReferenceItems;
-        }
-        
-        return ReferenceItems;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the SelectedItems property.
-    /// </summary>
-    public async Task<IReadOnlyList<ListItem>?> GetSelectedItems()
-    {
-        if (CoreJsModule is null)
-        {
-            return SelectedItems;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return SelectedItems;
-        }
-
-        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<ListItem>?>(
-            IsServer, nameof(GetSelectedItems), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            foreach (ListItem item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-#pragma warning disable BL0005
-            SelectedItems = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(SelectedItems)] = SelectedItems;
-        }
-        
-        return SelectedItems;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the SelectionMode property.
-    /// </summary>
-    public async Task<SelectionMode?> GetSelectionMode()
-    {
-        if (CoreJsModule is null)
-        {
-            return SelectionMode;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return SelectionMode;
-        }
-
-        // get the property value
-        JsNullableEnumWrapper<SelectionMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SelectionMode>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "selectionMode");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             SelectionMode = (SelectionMode)result.Value.Value!;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(SelectionMode)] = SelectionMode;
-        }
-         
-        return SelectionMode;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ViewModel property.
-    /// </summary>
-    public async Task<BasemapLayerListViewModel?> GetViewModel()
-    {
-        if (CoreJsModule is null)
-        {
-            return ViewModel;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return ViewModel;
-        }
-
-        BasemapLayerListViewModel? result = await JsComponentReference.InvokeJsMethod<BasemapLayerListViewModel?>(
-            IsServer, nameof(GetViewModel), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            if (ViewModel is not null)
-            {
-                result.Id = ViewModel.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
-#pragma warning disable BL0005
-            ViewModel = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(ViewModel)] = ViewModel;
-        }
-        
-        return ViewModel;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the VisibilityAppearance property.
-    /// </summary>
-    public async Task<VisibilityAppearance?> GetVisibilityAppearance()
-    {
-        if (CoreJsModule is null)
-        {
-            return VisibilityAppearance;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return VisibilityAppearance;
-        }
-
-        // get the property value
-        JsNullableEnumWrapper<VisibilityAppearance>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<VisibilityAppearance>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "visibilityAppearance");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             VisibilityAppearance = (VisibilityAppearance)result.Value.Value!;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(VisibilityAppearance)] = VisibilityAppearance;
-        }
-         
-        return VisibilityAppearance;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the VisibleElements property.
-    /// </summary>
-    public async Task<BasemapLayerListWidgetVisibleElements?> GetVisibleElements()
-    {
-        if (CoreJsModule is null)
-        {
-            return VisibleElements;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return VisibleElements;
-        }
-
-        BasemapLayerListWidgetVisibleElements? result = await JsComponentReference.InvokeJsMethod<BasemapLayerListWidgetVisibleElements?>(
-            IsServer, nameof(GetVisibleElements), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            if (VisibleElements is not null)
-            {
-                result.Id = VisibleElements.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
-#pragma warning disable BL0005
-            VisibleElements = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
-        }
-        
-        return VisibleElements;
-    }
-    
-#endregion
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the BaseFilterText property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetBaseFilterText(string? value)
-    {
-#pragma warning disable BL0005
-        BaseFilterText = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(BaseFilterText)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "baseFilterText", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the CatalogOptions property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetCatalogOptions(BasemapLayerListCatalogOptions? value)
-    {
-#pragma warning disable BL0005
-        CatalogOptions = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(CatalogOptions)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "catalogOptions", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Collapsed property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetCollapsed(bool? value)
-    {
-#pragma warning disable BL0005
-        Collapsed = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Collapsed)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "collapsed", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the DragEnabled property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetDragEnabled(bool? value)
-    {
-#pragma warning disable BL0005
-        DragEnabled = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(DragEnabled)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "dragEnabled", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the EditingTitle property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetEditingTitle(bool? value)
-    {
-#pragma warning disable BL0005
-        EditingTitle = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(EditingTitle)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "editingTitle", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the FilterPlaceholder property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetFilterPlaceholder(string? value)
-    {
-#pragma warning disable BL0005
-        FilterPlaceholder = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(FilterPlaceholder)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "filterPlaceholder", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the MinFilterItems property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetMinFilterItems(double? value)
-    {
-#pragma warning disable BL0005
-        MinFilterItems = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(MinFilterItems)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "minFilterItems", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the ReferenceFilterText property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetReferenceFilterText(string? value)
-    {
-#pragma warning disable BL0005
-        ReferenceFilterText = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ReferenceFilterText)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "referenceFilterText", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the SelectedItems property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetSelectedItems(IReadOnlyList<ListItem>? value)
-    {
-#pragma warning disable BL0005
-        SelectedItems = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(SelectedItems)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-        if (value is not null)
-        {
-            foreach (ListItem item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetSelectedItems), nameof(BasemapLayerListWidget), 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the SelectionMode property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetSelectionMode(SelectionMode? value)
-    {
-#pragma warning disable BL0005
-        SelectionMode = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(SelectionMode)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "selectionMode", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the ViewModel property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetViewModel(BasemapLayerListViewModel? value)
-    {
-#pragma warning disable BL0005
-        ViewModel = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ViewModel)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetViewModel), nameof(BasemapLayerListWidget), 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the VisibilityAppearance property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetVisibilityAppearance(VisibilityAppearance? value)
-    {
-#pragma warning disable BL0005
-        VisibilityAppearance = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(VisibilityAppearance)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "visibilityAppearance", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the VisibleElements property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetVisibleElements(BasemapLayerListWidgetVisibleElements? value)
-    {
-#pragma warning disable BL0005
-        VisibleElements = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(VisibleElements)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetVisibleElements), nameof(BasemapLayerListWidget), 
-            CancellationTokenSource.Token, value);
-    }
-    
-#endregion
 
 #region Add to Collection Methods
 
@@ -1448,12 +33,12 @@ public partial class BasemapLayerListWidget
             : [..SelectedItems, ..values];
         await SetSelectedItems(join);
     }
-    
+
 #endregion
+
 
 #region Remove From Collection Methods
 
-    
     /// <summary>
     ///     Asynchronously remove an element from the SelectedItems property.
     /// </summary>
@@ -1466,10 +51,12 @@ public partial class BasemapLayerListWidget
         {
             return;
         }
+
         await SetSelectedItems(SelectedItems.Except(values).ToArray());
     }
-    
+
 #endregion
+
 
 #region Public Methods
 
@@ -1494,8 +81,8 @@ public partial class BasemapLayerListWidget
         {
             return;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1504,31 +91,36 @@ public partial class BasemapLayerListWidget
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer
-            nameof(TriggerAction), nameof(BasemapLayerListWidget), 
+
+        await JsComponentReference!.InvokeVoidAsync("triggerAction",
             CancellationTokenSource.Token,
             action,
             item);
     }
-    
-#endregion
-
-#region Event Handlers
 
 #endregion
 
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        if (SelectedItems is not null)
+        {
+            foreach (ListItem child in SelectedItems)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+
+        ViewModel?.ValidateRequiredGeneratedChildren();
+        VisibleElements?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -1537,40 +129,44 @@ public partial class BasemapLayerListWidget
         {
             case ListItem selectedItems:
                 SelectedItems ??= [];
+
                 if (!SelectedItems.Contains(selectedItems))
                 {
                     SelectedItems = [..SelectedItems, selectedItems];
                     ModifiedParameters[nameof(SelectedItems)] = SelectedItems;
+
                     if (MapRendered)
                     {
                         await UpdateWidget();
                     }
                 }
-                
+
                 return true;
             case BasemapLayerListViewModel viewModel:
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
+
                     if (MapRendered)
                     {
                         await UpdateWidget();
                     }
                 }
-                
+
                 return true;
             case BasemapLayerListWidgetVisibleElements visibleElements:
                 if (visibleElements != VisibleElements)
                 {
                     VisibleElements = visibleElements;
                     ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+
                     if (MapRendered)
                     {
                         await UpdateWidget();
                     }
                 }
-                
+
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -1585,34 +181,1437 @@ public partial class BasemapLayerListWidget
             case ListItem selectedItems:
                 SelectedItems = SelectedItems?.Where(s => s != selectedItems).ToList();
                 ModifiedParameters[nameof(SelectedItems)] = SelectedItems;
+
                 return true;
             case BasemapLayerListViewModel _:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
+
                 return true;
             case BasemapLayerListWidgetVisibleElements _:
                 VisibleElements = null;
                 ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
+
+
+#region Public Properties / Blazor Parameters
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetbasefilterpredicate-property">GeoBlazor Docs</a>
+    ///     Specifies a function to handle filtering base layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">list items</a>.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#baseFilterPredicate">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore]
+    public BaseFilterPredicate? BaseFilterPredicate { get; set; }
+
+    /// <summary>
+    ///    JS-invokable method that triggers the <see cref="BaseFilterPredicate"/> function.
+    ///     Should not be called by consuming code.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsBaseFilterPredicate(ListItem item)
     {
-    
-        if (SelectedItems is not null)
+        if (IsDisposed)
         {
-            foreach (ListItem child in SelectedItems)
+            // cancel if the component is disposed
+            return;
+        }
+
+        if (BaseFilterPredicate is not null)
+        {
+            await BaseFilterPredicate.Invoke(item);
+        }
+    }
+
+    /// <summary>
+    ///     A convenience property that signifies whether a custom <see cref="BaseFilterPredicate" /> function was registered.
+    /// </summary>
+    public bool HasBaseFilterPredicate => BaseFilterPredicate is not null;
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetbasefiltertext-property">GeoBlazor Docs</a>
+    ///     The value of the filter input text string if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibleElements">visibleElements.filter</a> is true.
+    ///     default ""
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#baseFilterText">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BaseFilterText { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetbaseitems-property">GeoBlazor Docs</a>
+    ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>s representing the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#baseLayers">baseLayers</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#baseItems">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public IReadOnlyList<ListItem>? BaseItems { get; protected set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetcataloglayerlist-property">GeoBlazor Docs</a>
+    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-CatalogLayerList.html">CatalogLayerList</a> widget instance that displays a catalog layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CatalogLayer.html#dynamicGroupLayer">dynamic group layer</a>.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#catalogLayerList">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public ICatalogLayerListWidget? CatalogLayerList { get; protected set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetcatalogoptions-property">GeoBlazor Docs</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CatalogLayer.html">CatalogLayer</a> specific properties.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#catalogOptions">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public BasemapLayerListCatalogOptions? CatalogOptions { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetcollapsed-property">GeoBlazor Docs</a>
+    ///     Indicates whether the widget is collapsed.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#collapsed">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? Collapsed { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetdragenabled-property">GeoBlazor Docs</a>
+    ///     Indicates whether <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">list items</a> may be reordered within the list by dragging and dropping.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#dragEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? DragEnabled { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgeteditingtitle-property">GeoBlazor Docs</a>
+    ///     Indicates whether the form to edit the basemap's title is currently visible.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#editingTitle">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? EditingTitle { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetfilterplaceholder-property">GeoBlazor Docs</a>
+    ///     Placeholder text used in the filter input if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibleElements">visibleElements.filter</a> is true.
+    ///     default ""
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#filterPlaceholder">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? FilterPlaceholder { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetminfilteritems-property">GeoBlazor Docs</a>
+    ///     The minimum number of list items required to display the visibleElements.filter input box.
+    ///     default 10
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#minFilterItems">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? MinFilterItems { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetreferencefilterpredicate-property">GeoBlazor Docs</a>
+    ///     Specifies a function to handle filtering reference layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">list items</a>.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#referenceFilterPredicate">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore]
+    public ReferenceFilterPredicate? ReferenceFilterPredicate { get; set; }
+
+    /// <summary>
+    ///    JS-invokable method that triggers the <see cref="ReferenceFilterPredicate"/> function.
+    ///     Should not be called by consuming code.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsReferenceFilterPredicate(ListItem item)
+    {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+
+        if (ReferenceFilterPredicate is not null)
+        {
+            await ReferenceFilterPredicate.Invoke(item);
+        }
+    }
+
+    /// <summary>
+    ///     A convenience property that signifies whether a custom <see cref="ReferenceFilterPredicate" /> function was registered.
+    /// </summary>
+    public bool HasReferenceFilterPredicate => ReferenceFilterPredicate is not null;
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetreferencefiltertext-property">GeoBlazor Docs</a>
+    ///     The value of the filter input text string if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibleElements">visibleElements.filter</a> is true.
+    ///     default ""
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#referenceFilterText">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? ReferenceFilterText { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetreferenceitems-property">GeoBlazor Docs</a>
+    ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>s representing the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#referenceLayers">referenceLayers</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#referenceItems">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public IReadOnlyList<ListItem>? ReferenceItems { get; protected set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetselecteditems-property">GeoBlazor Docs</a>
+    ///     A collection of selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>s representing basemap layers
+    ///     selected by the user.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#selectedItems">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<ListItem>? SelectedItems { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetselectionmode-property">GeoBlazor Docs</a>
+    ///     Specifies the selection mode.
+    ///     default "none"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#selectionMode">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public SelectionMode? SelectionMode { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetviewmodel-property">GeoBlazor Docs</a>
+    ///     The view model for this widget.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public BasemapLayerListViewModel? ViewModel { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetvisibilityappearance-property">GeoBlazor Docs</a>
+    ///     Determines the icons used to indicate visibility.
+    ///     default "default"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibilityAppearance">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public VisibilityAppearance? VisibilityAppearance { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetvisibleelements-property">GeoBlazor Docs</a>
+    ///     The visible elements that are displayed within the widget.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibleElements">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public BasemapLayerListWidgetVisibleElements? VisibleElements { get; set; }
+
+#endregion
+
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the BaseFilterText property.
+    /// </summary>
+    public async Task<string?> GetBaseFilterText()
+    {
+        if (CoreJsModule is null)
+        {
+            return BaseFilterText;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return BaseFilterText;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "baseFilterText");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            BaseFilterText = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(BaseFilterText)] = BaseFilterText;
+        }
+
+        return BaseFilterText;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the BaseItems property.
+    /// </summary>
+    public async Task<IReadOnlyList<ListItem>?> GetBaseItems()
+    {
+        if (CoreJsModule is null)
+        {
+            return BaseItems;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return BaseItems;
+        }
+
+        IReadOnlyList<ListItem>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<ListItem>?>("getBaseItems",
+                CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            BaseItems = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(BaseItems)] = BaseItems;
+        }
+
+        return BaseItems;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the CatalogLayerList property.
+    /// </summary>
+    public async Task<ICatalogLayerListWidget?> GetCatalogLayerList()
+    {
+        if (CoreJsModule is null)
+        {
+            return CatalogLayerList;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return CatalogLayerList;
+        }
+
+        // get the property value
+        ICatalogLayerListWidget? result = await JsComponentReference!.InvokeAsync<ICatalogLayerListWidget?>(
+            "getProperty",
+            CancellationTokenSource.Token, "catalogLayerList");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            CatalogLayerList = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(CatalogLayerList)] = CatalogLayerList;
+        }
+
+        return CatalogLayerList;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the CatalogOptions property.
+    /// </summary>
+    public async Task<BasemapLayerListCatalogOptions?> GetCatalogOptions()
+    {
+        if (CoreJsModule is null)
+        {
+            return CatalogOptions;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return CatalogOptions;
+        }
+
+        // get the property value
+        BasemapLayerListCatalogOptions? result =
+            await JsComponentReference!.InvokeAsync<BasemapLayerListCatalogOptions?>("getProperty",
+                CancellationTokenSource.Token, "catalogOptions");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            CatalogOptions = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(CatalogOptions)] = CatalogOptions;
+        }
+
+        return CatalogOptions;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Collapsed property.
+    /// </summary>
+    public async Task<bool?> GetCollapsed()
+    {
+        if (CoreJsModule is null)
+        {
+            return Collapsed;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Collapsed;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "collapsed");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            Collapsed = result.Value.Value;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Collapsed)] = Collapsed;
+        }
+
+        return Collapsed;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the DragEnabled property.
+    /// </summary>
+    public async Task<bool?> GetDragEnabled()
+    {
+        if (CoreJsModule is null)
+        {
+            return DragEnabled;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return DragEnabled;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "dragEnabled");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            DragEnabled = result.Value.Value;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(DragEnabled)] = DragEnabled;
+        }
+
+        return DragEnabled;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the EditingTitle property.
+    /// </summary>
+    public async Task<bool?> GetEditingTitle()
+    {
+        if (CoreJsModule is null)
+        {
+            return EditingTitle;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return EditingTitle;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "editingTitle");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            EditingTitle = result.Value.Value;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(EditingTitle)] = EditingTitle;
+        }
+
+        return EditingTitle;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the FilterPlaceholder property.
+    /// </summary>
+    public async Task<string?> GetFilterPlaceholder()
+    {
+        if (CoreJsModule is null)
+        {
+            return FilterPlaceholder;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return FilterPlaceholder;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "filterPlaceholder");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            FilterPlaceholder = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(FilterPlaceholder)] = FilterPlaceholder;
+        }
+
+        return FilterPlaceholder;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the MinFilterItems property.
+    /// </summary>
+    public async Task<double?> GetMinFilterItems()
+    {
+        if (CoreJsModule is null)
+        {
+            return MinFilterItems;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return MinFilterItems;
+        }
+
+        // get the property value
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "minFilterItems");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            MinFilterItems = result.Value.Value;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(MinFilterItems)] = MinFilterItems;
+        }
+
+        return MinFilterItems;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ReferenceFilterText property.
+    /// </summary>
+    public async Task<string?> GetReferenceFilterText()
+    {
+        if (CoreJsModule is null)
+        {
+            return ReferenceFilterText;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return ReferenceFilterText;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "referenceFilterText");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            ReferenceFilterText = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ReferenceFilterText)] = ReferenceFilterText;
+        }
+
+        return ReferenceFilterText;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ReferenceItems property.
+    /// </summary>
+    public async Task<IReadOnlyList<ListItem>?> GetReferenceItems()
+    {
+        if (CoreJsModule is null)
+        {
+            return ReferenceItems;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return ReferenceItems;
+        }
+
+        IReadOnlyList<ListItem>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<ListItem>?>("getReferenceItems",
+                CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            ReferenceItems = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ReferenceItems)] = ReferenceItems;
+        }
+
+        return ReferenceItems;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the SelectedItems property.
+    /// </summary>
+    public async Task<IReadOnlyList<ListItem>?> GetSelectedItems()
+    {
+        if (CoreJsModule is null)
+        {
+            return SelectedItems;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return SelectedItems;
+        }
+
+        IReadOnlyList<ListItem>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<ListItem>?>("getSelectedItems",
+                CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            SelectedItems = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(SelectedItems)] = SelectedItems;
+        }
+
+        return SelectedItems;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the SelectionMode property.
+    /// </summary>
+    public async Task<SelectionMode?> GetSelectionMode()
+    {
+        if (CoreJsModule is null)
+        {
+            return SelectionMode;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return SelectionMode;
+        }
+
+        // get the property value
+        JsNullableEnumWrapper<SelectionMode>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SelectionMode>?>("getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "selectionMode");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            SelectionMode = (SelectionMode)result.Value.Value!;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(SelectionMode)] = SelectionMode;
+        }
+
+        return SelectionMode;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ViewModel property.
+    /// </summary>
+    public async Task<BasemapLayerListViewModel?> GetViewModel()
+    {
+        if (CoreJsModule is null)
+        {
+            return ViewModel;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return ViewModel;
+        }
+
+        BasemapLayerListViewModel? result =
+            await JsComponentReference.InvokeAsync<BasemapLayerListViewModel?>("getViewModel",
+                CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+            if (ViewModel is not null)
             {
-                child.ValidateRequiredGeneratedChildren();
+                result.Id = ViewModel.Id;
+            }
+
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+
+#pragma warning disable BL0005
+            ViewModel = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ViewModel)] = ViewModel;
+        }
+
+        return ViewModel;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the VisibilityAppearance property.
+    /// </summary>
+    public async Task<VisibilityAppearance?> GetVisibilityAppearance()
+    {
+        if (CoreJsModule is null)
+        {
+            return VisibilityAppearance;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return VisibilityAppearance;
+        }
+
+        // get the property value
+        JsNullableEnumWrapper<VisibilityAppearance>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<VisibilityAppearance>?>(
+                "getNullableValueTypedProperty",
+                CancellationTokenSource.Token, JsComponentReference, "visibilityAppearance");
+
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+            VisibilityAppearance = (VisibilityAppearance)result.Value.Value!;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(VisibilityAppearance)] = VisibilityAppearance;
+        }
+
+        return VisibilityAppearance;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the VisibleElements property.
+    /// </summary>
+    public async Task<BasemapLayerListWidgetVisibleElements?> GetVisibleElements()
+    {
+        if (CoreJsModule is null)
+        {
+            return VisibleElements;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return VisibleElements;
+        }
+
+        BasemapLayerListWidgetVisibleElements? result =
+            await JsComponentReference.InvokeAsync<BasemapLayerListWidgetVisibleElements?>("getVisibleElements",
+                CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            VisibleElements = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+        }
+
+        return VisibleElements;
+    }
+
+#endregion
+
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the BaseFilterText property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetBaseFilterText(string? value)
+    {
+#pragma warning disable BL0005
+        BaseFilterText = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(BaseFilterText)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "baseFilterText", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the CatalogOptions property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetCatalogOptions(BasemapLayerListCatalogOptions? value)
+    {
+#pragma warning disable BL0005
+        CatalogOptions = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(CatalogOptions)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "catalogOptions", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Collapsed property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetCollapsed(bool? value)
+    {
+#pragma warning disable BL0005
+        Collapsed = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Collapsed)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "collapsed", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the DragEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetDragEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        DragEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(DragEnabled)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "dragEnabled", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the EditingTitle property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetEditingTitle(bool? value)
+    {
+#pragma warning disable BL0005
+        EditingTitle = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(EditingTitle)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "editingTitle", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the FilterPlaceholder property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetFilterPlaceholder(string? value)
+    {
+#pragma warning disable BL0005
+        FilterPlaceholder = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(FilterPlaceholder)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "filterPlaceholder", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the MinFilterItems property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetMinFilterItems(double? value)
+    {
+#pragma warning disable BL0005
+        MinFilterItems = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(MinFilterItems)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "minFilterItems", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the ReferenceFilterText property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetReferenceFilterText(string? value)
+    {
+#pragma warning disable BL0005
+        ReferenceFilterText = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ReferenceFilterText)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "referenceFilterText", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the SelectedItems property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetSelectedItems(IReadOnlyList<ListItem>? value)
+    {
+        if (value is not null)
+        {
+            foreach (ListItem item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        ViewModel?.ValidateRequiredGeneratedChildren();
-        VisibleElements?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
+
+#pragma warning disable BL0005
+        SelectedItems = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(SelectedItems)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await JsComponentReference.InvokeVoidAsync("setSelectedItems",
+            CancellationTokenSource.Token, value);
     }
-      
+
+    /// <summary>
+    ///    Asynchronously set the value of the SelectionMode property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetSelectionMode(SelectionMode? value)
+    {
+#pragma warning disable BL0005
+        SelectionMode = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(SelectionMode)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "selectionMode", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the ViewModel property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetViewModel(BasemapLayerListViewModel? value)
+    {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
+#pragma warning disable BL0005
+        ViewModel = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ViewModel)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await JsComponentReference.InvokeVoidAsync("setViewModel",
+            CancellationTokenSource.Token, value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the VisibilityAppearance property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetVisibilityAppearance(VisibilityAppearance? value)
+    {
+#pragma warning disable BL0005
+        VisibilityAppearance = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(VisibilityAppearance)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "visibilityAppearance", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the VisibleElements property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetVisibleElements(BasemapLayerListWidgetVisibleElements? value)
+    {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
+#pragma warning disable BL0005
+        VisibleElements = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(VisibleElements)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await JsComponentReference.InvokeVoidAsync("setVisibleElements",
+            CancellationTokenSource.Token, value);
+    }
+
+#endregion
+
+
+#region Event Handlers
+
+#endregion
 }

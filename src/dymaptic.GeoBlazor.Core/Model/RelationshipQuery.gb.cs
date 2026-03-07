@@ -92,108 +92,107 @@ public partial record RelationshipQuery(
     string? Where = null)
 {
     /// <summary>
-    ///     Parameterless Constructor
+    ///     Parameterless constructor
     /// </summary>
-    public RelationshipQuery(): this(null, null)
+    public RelationshipQuery() : this(null, null)
     {
     }
-    
+
     /// <summary>
     ///     Indicates if the service should cache the relationship query results.
     ///     default undefined
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#cacheHint">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? CacheHint { get; set; } = CacheHint;
-    
+
     /// <summary>
     ///     Specify the geodatabase version to query.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#gdbVersion">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? GdbVersion { get; set; } = GdbVersion;
-    
+
     /// <summary>
     ///     Specify the number of decimal places for the geometries returned by the query operation.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#geometryPrecision">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public double? GeometryPrecision { get; set; } = GeometryPrecision;
-    
+
     /// <summary>
     ///     The historic moment to query.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#historicMoment">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public DateTime? HistoricMoment { get; set; } = HistoricMoment;
-    
+
     /// <summary>
     ///     The maximum allowable offset used for generalizing geometries returned by the query operation.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#maxAllowableOffset">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public double? MaxAllowableOffset { get; set; } = MaxAllowableOffset;
-    
+
     /// <summary>
     ///     The number of features to retrieve.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#num">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public int? Num { get; set; } = Num;
-    
+
     /// <summary>
     ///     An array of objectIds for the features in the layer/table being queried.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#objectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyCollection<ObjectId>? ObjectIds { get; set; } = ObjectIds;
-    
+
     /// <summary>
     ///     One or more field names used to order the query results.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#orderByFields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyCollection<string>? OrderByFields { get; set; } = OrderByFields;
-    
+
     /// <summary>
     ///     Attribute fields to include in the FeatureSet.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#outFields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyCollection<string>? OutFields { get; set; } = OutFields;
-    
+
     /// <summary>
     ///     The spatial reference for the returned geometry.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#outSpatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public SpatialReference? OutSpatialReference { get; set; } = OutSpatialReference;
-    
+
     /// <summary>
     ///     The ID of the relationship to be queried.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#relationshipId">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public long? RelationshipId { get; set; } = RelationshipId;
-    
+
     /// <summary>
     ///     If `true`, each feature in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSet</a> includes the geometry.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#returnGeometry">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? ReturnGeometry { get; set; } = ReturnGeometry;
-    
+
     /// <summary>
     ///     If `true`, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#returnGeometry">returnGeometry</a> is `true`, then m-values are included in the geometry.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#returnM">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? ReturnM { get; set; } = ReturnM;
-    
+
     /// <summary>
     ///     If `true`, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#returnGeometry">returnGeometry</a> is `true`, then z-values are included in the geometry.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#returnZ">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? ReturnZ { get; set; } = ReturnZ;
-    
+
     /// <summary>
     ///     The zero-based index indicating where to begin retrieving features.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#start">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public int? Start { get; set; } = Start;
-    
+
     /// <summary>
     ///     The definition expression to be applied to the related table or layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#where">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? Where { get; set; } = Where;
-    
 }

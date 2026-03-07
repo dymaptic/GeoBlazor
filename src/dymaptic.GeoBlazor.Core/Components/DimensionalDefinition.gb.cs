@@ -84,8 +84,7 @@ public partial class DimensionalDefinition
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(DimensionalDefinition, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "dimensionName");
         if (result is not null)
         {
@@ -163,8 +162,7 @@ public partial class DimensionalDefinition
         }
 
         // get the property value
-        DimensionalDefinitionValues? result = await JsComponentReference!.InvokeJsMethod<DimensionalDefinitionValues?>(
-            IsServer, "GetProperty", nameof(DimensionalDefinition, View?.QueryResultsMaxSizeLimit,
+        DimensionalDefinitionValues? result = await JsComponentReference!.InvokeAsync<DimensionalDefinitionValues?>("getProperty",
             CancellationTokenSource.Token, "values");
         if (result is not null)
         {
@@ -203,8 +201,7 @@ public partial class DimensionalDefinition
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(DimensionalDefinition, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "variableName");
         if (result is not null)
         {

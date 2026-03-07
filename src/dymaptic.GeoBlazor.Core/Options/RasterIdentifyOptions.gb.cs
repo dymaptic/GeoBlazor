@@ -20,22 +20,22 @@ public partial record RasterIdentifyOptions(
     string? TransposedVariableName = null)
 {
     /// <summary>
-    ///     Parameterless Constructor
+    ///     Parameterless constructor
     /// </summary>
-    public RasterIdentifyOptions(): this(null, null)
+    public RasterIdentifyOptions() : this(null, null)
     {
     }
-    
+
     /// <summary>
     ///     A dimensional definition used for the `identify` operation.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#RasterIdentifyOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public IReadOnlyCollection<DimensionalDefinition>? MultidimensionalDefinition { get; set; } = MultidimensionalDefinition;
-    
+    public IReadOnlyCollection<DimensionalDefinition>? MultidimensionalDefinition { get; set; } =
+        MultidimensionalDefinition;
+
     /// <summary>
     ///     Name of the transposed variable.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#RasterIdentifyOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? TransposedVariableName { get; set; } = TransposedVariableName;
-    
 }

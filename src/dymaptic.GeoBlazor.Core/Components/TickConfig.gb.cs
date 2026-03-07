@@ -92,8 +92,8 @@ public partial class TickConfig
     /// </summary>
     [JSInvokable]
     public async Task OnJsTickCreatedFunction(double value,
-        HTMLElement tickElement,
-        HTMLElement labelElement)
+        ElementReference tickElement,
+        ElementReference labelElement)
     {
         if (IsDisposed)
         {
@@ -232,8 +232,7 @@ public partial class TickConfig
         }
 
         // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
-            IsServer, "GetProperty", nameof(TickConfig, View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
             CancellationTokenSource.Token, "values");
         if (result is not null)
         {

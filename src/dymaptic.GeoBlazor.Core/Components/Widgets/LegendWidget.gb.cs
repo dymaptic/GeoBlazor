@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.html">GeoBlazor Docs</a>
 ///     The Legend widget describes the symbols used to represent layers in a map.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 /// </summary>
 public partial class LegendWidget
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -56,7 +54,7 @@ public partial class LegendWidget
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="layerInfos">
-    ///     Specifies a subset of the layers to display in the legend.
+    ///     Defines which layers and sublayers are shown in the legend, including any <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#basemapLegendVisible">basemap layers</a> you want visible.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="legendStyle">
@@ -101,8 +99,7 @@ public partial class LegendWidget
     ///     The unique ID assigned to the widget when the widget is created.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public LegendWidget(
-        IReadOnlyList<ActiveLayerInfo>? activeLayerInfos = null,
+    public LegendWidget(IReadOnlyList<ActiveLayerInfo>? activeLayerInfos = null,
         bool? basemapLegendVisible = null,
         string? containerId = null,
         double? headingLevel = null,
@@ -139,10 +136,135 @@ public partial class LegendWidget
         ViewModel = viewModel;
         Visible = visible;
         WidgetId = widgetId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        if (Layer is null)
+        {
+            throw new MissingRequiredChildElementException(nameof(LegendWidget), nameof(Layer));
+        }
+
+        if (ActiveLayerInfos is not null)
+        {
+            foreach (ActiveLayerInfo child in ActiveLayerInfos)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+
+        if (LayerInfos is not null)
+        {
+            foreach (LegendLayerInfos child in LayerInfos)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+
+        LegendStyle?.ValidateRequiredGeneratedChildren();
+        ViewModel?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ActiveLayerInfo activeLayerInfos:
+                ActiveLayerInfos ??= [];
+
+                if (!ActiveLayerInfos.Contains(activeLayerInfos))
+                {
+                    ActiveLayerInfos = [..ActiveLayerInfos, activeLayerInfos];
+                    ModifiedParameters[nameof(ActiveLayerInfos)] = ActiveLayerInfos;
+
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
+                }
+
+                return true;
+            case LegendLayerInfos layerInfos:
+                LayerInfos ??= [];
+
+                if (!LayerInfos.Contains(layerInfos))
+                {
+                    LayerInfos = [..LayerInfos, layerInfos];
+                    ModifiedParameters[nameof(LayerInfos)] = LayerInfos;
+
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
+                }
+
+                return true;
+            case LegendStyle legendStyle:
+                if (legendStyle != LegendStyle)
+                {
+                    LegendStyle = legendStyle;
+                    ModifiedParameters[nameof(LegendStyle)] = LegendStyle;
+
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
+                }
+
+                return true;
+            case LegendViewModel viewModel:
+                if (viewModel != ViewModel)
+                {
+                    ViewModel = viewModel;
+                    ModifiedParameters[nameof(ViewModel)] = ViewModel;
+
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ActiveLayerInfo activeLayerInfos:
+                ActiveLayerInfos = ActiveLayerInfos?.Where(a => a != activeLayerInfos).ToList();
+                ModifiedParameters[nameof(ActiveLayerInfos)] = ActiveLayerInfos;
+
+                return true;
+            case LegendLayerInfos layerInfos:
+                LayerInfos = LayerInfos?.Where(l => l != layerInfos).ToList();
+                ModifiedParameters[nameof(LayerInfos)] = LayerInfos;
+
+                return true;
+            case LegendStyle _:
+                LegendStyle = null;
+                ModifiedParameters[nameof(LegendStyle)] = LegendStyle;
+
+                return true;
+            case LegendViewModel _:
+                ViewModel = null;
+                ModifiedParameters[nameof(ViewModel)] = ViewModel;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -155,7 +277,7 @@ public partial class LegendWidget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<ActiveLayerInfo>? ActiveLayerInfos { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.html#legendwidgetbasemaplegendvisible-property">GeoBlazor Docs</a>
     ///     Indicates whether to show the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">Basemap</a> layers in the Legend.
@@ -166,7 +288,7 @@ public partial class LegendWidget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? BasemapLegendVisible { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.html#legendwidgetheadinglevel-property">GeoBlazor Docs</a>
     ///     Indicates the heading level to use for the legend title.
@@ -177,7 +299,7 @@ public partial class LegendWidget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? HeadingLevel { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.html#legendwidgethidelayersnotincurrentview-property">GeoBlazor Docs</a>
     ///     When `true`, layers will only be shown in the legend if
@@ -189,17 +311,17 @@ public partial class LegendWidget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? HideLayersNotInCurrentView { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.html#legendwidgetlayerinfos-property">GeoBlazor Docs</a>
-    ///     Specifies a subset of the layers to display in the legend.
+    ///     Defines which layers and sublayers are shown in the legend, including any <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#basemapLegendVisible">basemap layers</a> you want visible.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<LegendLayerInfos>? LayerInfos { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.html#legendwidgetlegendstyle-property">GeoBlazor Docs</a>
     ///     Indicates the style of the legend.
@@ -210,7 +332,7 @@ public partial class LegendWidget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public LegendStyle? LegendStyle { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.html#legendwidgetrespectlayerdefinitionexpression-property">GeoBlazor Docs</a>
     ///     If a layer uses a unique value render, only features that satisfy the layer's
@@ -223,7 +345,7 @@ public partial class LegendWidget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? RespectLayerDefinitionExpression { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.html#legendwidgetrespectlayervisibility-property">GeoBlazor Docs</a>
     ///     Determines whether to respect the properties of the layers in the map that
@@ -235,7 +357,7 @@ public partial class LegendWidget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? RespectLayerVisibility { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.html#legendwidgetstringstyle-property">GeoBlazor Docs</a>
     ///     Indicates the style of the legend.
@@ -246,7 +368,7 @@ public partial class LegendWidget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? StringStyle { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.html#legendwidgetviewmodel-property">GeoBlazor Docs</a>
     ///     The view model for this widget.
@@ -256,8 +378,9 @@ public partial class LegendWidget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public LegendViewModel? ViewModel { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -270,8 +393,8 @@ public partial class LegendWidget
         {
             return ActiveLayerInfos;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -280,31 +403,27 @@ public partial class LegendWidget
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ActiveLayerInfos;
         }
 
-        IReadOnlyList<ActiveLayerInfo>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<ActiveLayerInfo>?>(
-            IsServer, nameof(GetActiveLayerInfos), nameof(LegendWidget), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        IReadOnlyList<ActiveLayerInfo>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<ActiveLayerInfo>?>("getActiveLayerInfos",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
-            foreach (ActiveLayerInfo item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             ActiveLayerInfos = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ActiveLayerInfos)] = ActiveLayerInfos;
         }
-        
+
         return ActiveLayerInfos;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BasemapLegendVisible property.
     /// </summary>
@@ -314,8 +433,8 @@ public partial class LegendWidget
         {
             return BasemapLegendVisible;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -324,26 +443,28 @@ public partial class LegendWidget
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return BasemapLegendVisible;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "basemapLegendVisible");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             BasemapLegendVisible = result.Value.Value;
+            BasemapLegendVisible = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(BasemapLegendVisible)] = BasemapLegendVisible;
+            ModifiedParameters[nameof(BasemapLegendVisible)] = BasemapLegendVisible;
         }
-         
+
         return BasemapLegendVisible;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HeadingLevel property.
     /// </summary>
@@ -353,8 +474,8 @@ public partial class LegendWidget
         {
             return HeadingLevel;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -363,26 +484,28 @@ public partial class LegendWidget
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return HeadingLevel;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "headingLevel");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             HeadingLevel = result.Value.Value;
+            HeadingLevel = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(HeadingLevel)] = HeadingLevel;
+            ModifiedParameters[nameof(HeadingLevel)] = HeadingLevel;
         }
-         
+
         return HeadingLevel;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HideLayersNotInCurrentView property.
     /// </summary>
@@ -392,8 +515,8 @@ public partial class LegendWidget
         {
             return HideLayersNotInCurrentView;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -402,26 +525,28 @@ public partial class LegendWidget
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return HideLayersNotInCurrentView;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "hideLayersNotInCurrentView");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             HideLayersNotInCurrentView = result.Value.Value;
+            HideLayersNotInCurrentView = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(HideLayersNotInCurrentView)] = HideLayersNotInCurrentView;
+            ModifiedParameters[nameof(HideLayersNotInCurrentView)] = HideLayersNotInCurrentView;
         }
-         
+
         return HideLayersNotInCurrentView;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LayerInfos property.
     /// </summary>
@@ -431,8 +556,8 @@ public partial class LegendWidget
         {
             return LayerInfos;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -441,31 +566,27 @@ public partial class LegendWidget
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return LayerInfos;
         }
 
-        IReadOnlyList<LegendLayerInfos>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<LegendLayerInfos>?>(
-            IsServer, nameof(GetLayerInfos), nameof(LegendWidget), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        IReadOnlyList<LegendLayerInfos>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<LegendLayerInfos>?>("getLayerInfos",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
-            foreach (LegendLayerInfos item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             LayerInfos = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(LayerInfos)] = LayerInfos;
         }
-        
+
         return LayerInfos;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendStyle property.
     /// </summary>
@@ -475,8 +596,8 @@ public partial class LegendWidget
         {
             return LegendStyle;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -485,33 +606,26 @@ public partial class LegendWidget
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return LegendStyle;
         }
 
-        LegendStyle? result = await JsComponentReference.InvokeJsMethod<LegendStyle?>(
-            IsServer, nameof(GetLegendStyle), nameof(LegendWidget), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        LegendStyle? result = await JsComponentReference.InvokeAsync<LegendStyle?>(
+            "getLegendStyle", CancellationTokenSource.Token);
+
         if (result is not null)
         {
-            if (LegendStyle is not null)
-            {
-                result.Id = LegendStyle.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             LegendStyle = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(LegendStyle)] = LegendStyle;
         }
-        
+
         return LegendStyle;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RespectLayerDefinitionExpression property.
     /// </summary>
@@ -521,8 +635,8 @@ public partial class LegendWidget
         {
             return RespectLayerDefinitionExpression;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -531,26 +645,28 @@ public partial class LegendWidget
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return RespectLayerDefinitionExpression;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "respectLayerDefinitionExpression");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             RespectLayerDefinitionExpression = result.Value.Value;
+            RespectLayerDefinitionExpression = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RespectLayerDefinitionExpression)] = RespectLayerDefinitionExpression;
+            ModifiedParameters[nameof(RespectLayerDefinitionExpression)] = RespectLayerDefinitionExpression;
         }
-         
+
         return RespectLayerDefinitionExpression;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RespectLayerVisibility property.
     /// </summary>
@@ -560,8 +676,8 @@ public partial class LegendWidget
         {
             return RespectLayerVisibility;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -570,26 +686,28 @@ public partial class LegendWidget
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return RespectLayerVisibility;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
+            "getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "respectLayerVisibility");
+
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             RespectLayerVisibility = result.Value.Value;
+            RespectLayerVisibility = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RespectLayerVisibility)] = RespectLayerVisibility;
+            ModifiedParameters[nameof(RespectLayerVisibility)] = RespectLayerVisibility;
         }
-         
+
         return RespectLayerVisibility;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the StringStyle property.
     /// </summary>
@@ -599,8 +717,8 @@ public partial class LegendWidget
         {
             return StringStyle;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -609,27 +727,27 @@ public partial class LegendWidget
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return StringStyle;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(LegendWidget, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "style");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             StringStyle = result;
+            StringStyle = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(StringStyle)] = StringStyle;
+            ModifiedParameters[nameof(StringStyle)] = StringStyle;
         }
-         
+
         return StringStyle;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -639,8 +757,8 @@ public partial class LegendWidget
         {
             return ViewModel;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -649,34 +767,28 @@ public partial class LegendWidget
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return ViewModel;
         }
 
-        LegendViewModel? result = await JsComponentReference.InvokeJsMethod<LegendViewModel?>(
-            IsServer, nameof(GetViewModel), nameof(LegendWidget), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        LegendViewModel? result =
+            await JsComponentReference.InvokeAsync<LegendViewModel?>("getViewModel", CancellationTokenSource.Token);
+
         if (result is not null)
         {
-            if (ViewModel is not null)
-            {
-                result.Id = ViewModel.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             ViewModel = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ViewModel)] = ViewModel;
         }
-        
+
         return ViewModel;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -688,15 +800,6 @@ public partial class LegendWidget
     /// </param>
     public async Task SetActiveLayerInfos(IReadOnlyList<ActiveLayerInfo>? value)
     {
-#pragma warning disable BL0005
-        ActiveLayerInfos = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ActiveLayerInfos)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
         if (value is not null)
         {
             foreach (ActiveLayerInfo item in value)
@@ -704,9 +807,18 @@ public partial class LegendWidget
                 item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        
-    
-        try 
+
+#pragma warning disable BL0005
+        ActiveLayerInfos = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ActiveLayerInfos)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -715,17 +827,16 @@ public partial class LegendWidget
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetActiveLayerInfos), nameof(LegendWidget), 
+
+        await JsComponentReference.InvokeVoidAsync("setActiveLayerInfos",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BasemapLegendVisible property after render.
     /// </summary>
@@ -738,13 +849,13 @@ public partial class LegendWidget
         BasemapLegendVisible = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(BasemapLegendVisible)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -753,16 +864,16 @@ public partial class LegendWidget
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "basemapLegendVisible", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HeadingLevel property after render.
     /// </summary>
@@ -775,13 +886,13 @@ public partial class LegendWidget
         HeadingLevel = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(HeadingLevel)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -790,16 +901,16 @@ public partial class LegendWidget
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "headingLevel", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HideLayersNotInCurrentView property after render.
     /// </summary>
@@ -812,13 +923,13 @@ public partial class LegendWidget
         HideLayersNotInCurrentView = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(HideLayersNotInCurrentView)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -827,16 +938,16 @@ public partial class LegendWidget
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "hideLayersNotInCurrentView", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LayerInfos property after render.
     /// </summary>
@@ -845,15 +956,6 @@ public partial class LegendWidget
     /// </param>
     public async Task SetLayerInfos(IReadOnlyList<LegendLayerInfos>? value)
     {
-#pragma warning disable BL0005
-        LayerInfos = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(LayerInfos)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
         if (value is not null)
         {
             foreach (LegendLayerInfos item in value)
@@ -861,9 +963,18 @@ public partial class LegendWidget
                 item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        
-    
-        try 
+
+#pragma warning disable BL0005
+        LayerInfos = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(LayerInfos)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -872,17 +983,16 @@ public partial class LegendWidget
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetLayerInfos), nameof(LegendWidget), 
+
+        await JsComponentReference.InvokeVoidAsync("setLayerInfos",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendStyle property after render.
     /// </summary>
@@ -891,22 +1001,22 @@ public partial class LegendWidget
     /// </param>
     public async Task SetLegendStyle(LegendStyle? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         LegendStyle = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LegendStyle)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -915,17 +1025,16 @@ public partial class LegendWidget
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetLegendStyle), nameof(LegendWidget), 
+
+        await JsComponentReference.InvokeVoidAsync("setLegendStyle",
             CancellationTokenSource.Token, value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RespectLayerDefinitionExpression property after render.
     /// </summary>
@@ -938,13 +1047,13 @@ public partial class LegendWidget
         RespectLayerDefinitionExpression = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(RespectLayerDefinitionExpression)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -953,16 +1062,16 @@ public partial class LegendWidget
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "respectLayerDefinitionExpression", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RespectLayerVisibility property after render.
     /// </summary>
@@ -975,13 +1084,13 @@ public partial class LegendWidget
         RespectLayerVisibility = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(RespectLayerVisibility)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -990,16 +1099,16 @@ public partial class LegendWidget
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "respectLayerVisibility", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the StringStyle property after render.
     /// </summary>
@@ -1012,13 +1121,13 @@ public partial class LegendWidget
         StringStyle = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(StringStyle)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1027,16 +1136,16 @@ public partial class LegendWidget
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "style", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -1045,22 +1154,22 @@ public partial class LegendWidget
     /// </param>
     public async Task SetViewModel(LegendViewModel? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ViewModel)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1069,18 +1178,18 @@ public partial class LegendWidget
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetViewModel), nameof(LegendWidget), 
+
+        await JsComponentReference.InvokeVoidAsync("setViewModel",
             CancellationTokenSource.Token, value);
     }
-    
+
 #endregion
+
 
 #region Add to Collection Methods
 
@@ -1097,7 +1206,7 @@ public partial class LegendWidget
             : [..ActiveLayerInfos, ..values];
         await SetActiveLayerInfos(join);
     }
-    
+
     /// <summary>
     ///     Asynchronously adds elements to the LayerInfos property.
     /// </summary>
@@ -1111,12 +1220,12 @@ public partial class LegendWidget
             : [..LayerInfos, ..values];
         await SetLayerInfos(join);
     }
-    
+
 #endregion
+
 
 #region Remove From Collection Methods
 
-    
     /// <summary>
     ///     Asynchronously remove an element from the ActiveLayerInfos property.
     /// </summary>
@@ -1129,10 +1238,10 @@ public partial class LegendWidget
         {
             return;
         }
+
         await SetActiveLayerInfos(ActiveLayerInfos.Except(values).ToArray());
     }
-    
-    
+
     /// <summary>
     ///     Asynchronously remove an element from the LayerInfos property.
     /// </summary>
@@ -1145,123 +1254,9 @@ public partial class LegendWidget
         {
             return;
         }
+
         await SetLayerInfos(LayerInfos.Except(values).ToArray());
     }
-    
+
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ActiveLayerInfo activeLayerInfos:
-                ActiveLayerInfos ??= [];
-                if (!ActiveLayerInfos.Contains(activeLayerInfos))
-                {
-                    ActiveLayerInfos = [..ActiveLayerInfos, activeLayerInfos];
-                    ModifiedParameters[nameof(ActiveLayerInfos)] = ActiveLayerInfos;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
-                }
-                
-                return true;
-            case LegendLayerInfos layerInfos:
-                LayerInfos ??= [];
-                if (!LayerInfos.Contains(layerInfos))
-                {
-                    LayerInfos = [..LayerInfos, layerInfos];
-                    ModifiedParameters[nameof(LayerInfos)] = LayerInfos;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
-                }
-                
-                return true;
-            case LegendStyle legendStyle:
-                if (legendStyle != LegendStyle)
-                {
-                    LegendStyle = legendStyle;
-                    ModifiedParameters[nameof(LegendStyle)] = LegendStyle;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
-                }
-                
-                return true;
-            case LegendViewModel viewModel:
-                if (viewModel != ViewModel)
-                {
-                    ViewModel = viewModel;
-                    ModifiedParameters[nameof(ViewModel)] = ViewModel;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ActiveLayerInfo activeLayerInfos:
-                ActiveLayerInfos = ActiveLayerInfos?.Where(a => a != activeLayerInfos).ToList();
-                ModifiedParameters[nameof(ActiveLayerInfos)] = ActiveLayerInfos;
-                return true;
-            case LegendLayerInfos layerInfos:
-                LayerInfos = LayerInfos?.Where(l => l != layerInfos).ToList();
-                ModifiedParameters[nameof(LayerInfos)] = LayerInfos;
-                return true;
-            case LegendStyle _:
-                LegendStyle = null;
-                ModifiedParameters[nameof(LegendStyle)] = LegendStyle;
-                return true;
-            case LegendViewModel _:
-                ViewModel = null;
-                ModifiedParameters[nameof(ViewModel)] = ViewModel;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        if (Layer is null)
-        {
-            throw new MissingRequiredChildElementException(nameof(LegendWidget), nameof(Layer));
-        }
-        if (ActiveLayerInfos is not null)
-        {
-            foreach (ActiveLayerInfo child in ActiveLayerInfos)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        if (LayerInfos is not null)
-        {
-            foreach (LegendLayerInfos child in LayerInfos)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        LegendStyle?.ValidateRequiredGeneratedChildren();
-        ViewModel?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

@@ -45,7 +45,7 @@ export default class VectorTileLayerViewWrapper implements IPropertyWrapper {
         let result = await this.component.when(callback,
             errback);
 
-        return result;
+        return generateSerializableJson(result);
     }
 
     // region properties

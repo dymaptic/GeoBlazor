@@ -114,8 +114,8 @@ public partial class ScaleBarViewModel : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GetScaleBarProperties), nameof(ScaleBarViewModel), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<string?>(
+            "getScaleBarProperties", 
             CancellationTokenSource.Token,
             length,
             measurementSystem);

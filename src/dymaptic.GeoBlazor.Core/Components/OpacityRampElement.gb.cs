@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.OpacityRampElement.html">GeoBlazor Docs</a>
 ///     Describes the schema of the OpacityRampElement used as a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#legendElement">legendElement</a>.
@@ -11,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 public partial class OpacityRampElement : MapComponent,
     ILegendElement
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -35,8 +33,7 @@ public partial class OpacityRampElement : MapComponent,
     ///     The title of the opacity ramp as displayed in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#OpacityRampElement">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public OpacityRampElement(
-        IReadOnlyList<OpacityRampStop>? infos = null,
+    public OpacityRampElement(IReadOnlyList<OpacityRampStop>? infos = null,
         RampTitle? rampTitle = null,
         string? stringTitle = null)
     {
@@ -45,294 +42,23 @@ public partial class OpacityRampElement : MapComponent,
         Infos = infos;
         RampTitle = rampTitle;
         StringTitle = stringTitle;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
-#region Public Properties / Blazor Parameters
 
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.OpacityRampElement.html#opacityrampelementinfos-property">GeoBlazor Docs</a>
-    ///     The individual opacity stops rendered in the legend that correspond to the opacity visual variable in the renderer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#OpacityRampElement">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<OpacityRampStop>? Infos { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.OpacityRampElement.html#opacityrampelementramptitle-property">GeoBlazor Docs</a>
-    ///     The title of the opacity ramp as displayed in the legend.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#OpacityRampElement">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public RampTitle? RampTitle { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.OpacityRampElement.html#opacityrampelementstringtitle-property">GeoBlazor Docs</a>
-    ///     The title of the opacity ramp as displayed in the legend.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#OpacityRampElement">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? StringTitle { get; set; }
-    
-#endregion
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Infos property.
-    /// </summary>
-    public async Task<IReadOnlyList<OpacityRampStop>?> GetInfos()
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
     {
-        if (CoreJsModule is null)
+        if (Infos is not null)
         {
-            return Infos;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Infos;
-        }
-
-        IReadOnlyList<OpacityRampStop>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<OpacityRampStop>?>(
-            IsServer, nameof(GetInfos), nameof(OpacityRampElement), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            foreach (OpacityRampStop item in result)
+            foreach (OpacityRampStop child in Infos)
             {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-#pragma warning disable BL0005
-            Infos = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Infos)] = Infos;
-        }
-        
-        return Infos;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the RampTitle property.
-    /// </summary>
-    public async Task<RampTitle?> GetRampTitle()
-    {
-        if (CoreJsModule is null)
-        {
-            return RampTitle;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return RampTitle;
-        }
-
-        // get the property value
-        RampTitle? result = await JsComponentReference!.InvokeJsMethod<RampTitle?>(
-            IsServer, "GetProperty", nameof(OpacityRampElement, View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "title");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             RampTitle = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(RampTitle)] = RampTitle;
-        }
-         
-        return RampTitle;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the StringTitle property.
-    /// </summary>
-    public async Task<string?> GetStringTitle()
-    {
-        if (CoreJsModule is null)
-        {
-            return StringTitle;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return StringTitle;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(OpacityRampElement, View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "title");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             StringTitle = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(StringTitle)] = StringTitle;
-        }
-         
-        return StringTitle;
-    }
-    
-#endregion
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the Infos property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetInfos(IReadOnlyList<OpacityRampStop>? value)
-    {
-#pragma warning disable BL0005
-        Infos = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Infos)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-        if (value is not null)
-        {
-            foreach (OpacityRampStop item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+                child.ValidateRequiredGeneratedChildren();
             }
         }
-        
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "infos", value);
+
+        base.ValidateRequiredGeneratedChildren();
     }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the RampTitle property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetRampTitle(RampTitle? value)
-    {
-#pragma warning disable BL0005
-        RampTitle = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(RampTitle)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "title", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the StringTitle property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetStringTitle(string? value)
-    {
-#pragma warning disable BL0005
-        StringTitle = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(StringTitle)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "title", value);
-    }
-    
-#endregion
+
 
 #region Add to Collection Methods
 
@@ -349,12 +75,12 @@ public partial class OpacityRampElement : MapComponent,
             : [..Infos, ..values];
         await SetInfos(join);
     }
-    
+
 #endregion
+
 
 #region Remove From Collection Methods
 
-    
     /// <summary>
     ///     Asynchronously remove an element from the Infos property.
     /// </summary>
@@ -367,9 +93,10 @@ public partial class OpacityRampElement : MapComponent,
         {
             return;
         }
+
         await SetInfos(Infos.Except(values).ToArray());
     }
-    
+
 #endregion
 
 
@@ -380,12 +107,13 @@ public partial class OpacityRampElement : MapComponent,
         {
             case OpacityRampStop infos:
                 Infos ??= [];
+
                 if (!Infos.Contains(infos))
                 {
                     Infos = [..Infos, infos];
                     ModifiedParameters[nameof(Infos)] = Infos;
                 }
-                
+
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -400,24 +128,294 @@ public partial class OpacityRampElement : MapComponent,
             case OpacityRampStop infos:
                 Infos = Infos?.Where(i => i != infos).ToList();
                 ModifiedParameters[nameof(Infos)] = Infos;
+
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
+
+
+#region Public Properties / Blazor Parameters
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.OpacityRampElement.html#opacityrampelementinfos-property">GeoBlazor Docs</a>
+    ///     The individual opacity stops rendered in the legend that correspond to the opacity visual variable in the renderer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#OpacityRampElement">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<OpacityRampStop>? Infos { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.OpacityRampElement.html#opacityrampelementramptitle-property">GeoBlazor Docs</a>
+    ///     The title of the opacity ramp as displayed in the legend.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#OpacityRampElement">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public RampTitle? RampTitle { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.OpacityRampElement.html#opacityrampelementstringtitle-property">GeoBlazor Docs</a>
+    ///     The title of the opacity ramp as displayed in the legend.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#OpacityRampElement">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? StringTitle { get; set; }
+
+#endregion
+
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Infos property.
+    /// </summary>
+    public async Task<IReadOnlyList<OpacityRampStop>?> GetInfos()
     {
-    
-        if (Infos is not null)
+        if (CoreJsModule is null)
         {
-            foreach (OpacityRampStop child in Infos)
+            return Infos;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Infos;
+        }
+
+        IReadOnlyList<OpacityRampStop>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<OpacityRampStop>?>("getInfos",
+                CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Infos = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Infos)] = Infos;
+        }
+
+        return Infos;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the RampTitle property.
+    /// </summary>
+    public async Task<RampTitle?> GetRampTitle()
+    {
+        if (CoreJsModule is null)
+        {
+            return RampTitle;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return RampTitle;
+        }
+
+        // get the property value
+        RampTitle? result = await JsComponentReference!.InvokeAsync<RampTitle?>("getProperty",
+            CancellationTokenSource.Token, "title");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            RampTitle = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(RampTitle)] = RampTitle;
+        }
+
+        return RampTitle;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the StringTitle property.
+    /// </summary>
+    public async Task<string?> GetStringTitle()
+    {
+        if (CoreJsModule is null)
+        {
+            return StringTitle;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return StringTitle;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "title");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            StringTitle = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(StringTitle)] = StringTitle;
+        }
+
+        return StringTitle;
+    }
+
+#endregion
+
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the Infos property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetInfos(IReadOnlyList<OpacityRampStop>? value)
+    {
+        if (value is not null)
+        {
+            foreach (OpacityRampStop item in value)
             {
-                child.ValidateRequiredGeneratedChildren();
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        base.ValidateRequiredGeneratedChildren();
+
+#pragma warning disable BL0005
+        Infos = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Infos)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "infos", value);
     }
-      
+
+    /// <summary>
+    ///    Asynchronously set the value of the RampTitle property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetRampTitle(RampTitle? value)
+    {
+#pragma warning disable BL0005
+        RampTitle = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(RampTitle)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "title", value);
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the StringTitle property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetStringTitle(string? value)
+    {
+#pragma warning disable BL0005
+        StringTitle = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(StringTitle)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "title", value);
+    }
+
+#endregion
 }

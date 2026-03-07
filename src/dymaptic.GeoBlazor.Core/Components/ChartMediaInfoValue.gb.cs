@@ -2,7 +2,6 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ChartMediaInfoValue.html">GeoBlazor Docs</a>
 ///     The `ChartMediaInfoValue` class contains information for popups regarding how charts should be constructed.
@@ -10,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class ChartMediaInfoValue
 {
-
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -43,8 +41,7 @@ public partial class ChartMediaInfoValue
     ///     An optional array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Color.html">colors</a> where each color corresponds respectively to a field in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValue.html#fields">fields</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValue.html#colors">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public ChartMediaInfoValue(
-        IReadOnlyList<string>? fields = null,
+    public ChartMediaInfoValue(IReadOnlyList<string>? fields = null,
         string? normalizeField = null,
         string? tooltipField = null,
         IReadOnlyList<ChartMediaInfoValueSeries>? series = null,
@@ -57,10 +54,59 @@ public partial class ChartMediaInfoValue
         TooltipField = tooltipField;
         Series = series;
         Colors = colors;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
-    
-    
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+        if (Series is not null)
+        {
+            foreach (ChartMediaInfoValueSeries child in Series)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+
+        base.ValidateRequiredGeneratedChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ChartMediaInfoValueSeries series:
+                Series ??= [];
+
+                if (!Series.Contains(series))
+                {
+                    Series = [..Series, series];
+                    ModifiedParameters[nameof(Series)] = Series;
+                }
+
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ChartMediaInfoValueSeries series:
+                Series = Series?.Where(s => s != series).ToList();
+                ModifiedParameters[nameof(Series)] = Series;
+
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -72,7 +118,7 @@ public partial class ChartMediaInfoValue
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<MapColor>? Colors { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ChartMediaInfoValue.html#chartmediainfovaluefields-property">GeoBlazor Docs</a>
     ///     An array of strings, with each string containing the name of a field to display in the chart.
@@ -82,7 +128,7 @@ public partial class ChartMediaInfoValue
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<string>? Fields { get; set; }
-    
+
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ChartMediaInfoValue.html#chartmediainfovalueseries-property">GeoBlazor Docs</a>
     ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValueSeries.html">ChartMediaInfoValueSeries</a> objects which provide
@@ -93,8 +139,9 @@ public partial class ChartMediaInfoValue
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<ChartMediaInfoValueSeries>? Series { get; set; }
-    
+
 #endregion
+
 
 #region Property Getters
 
@@ -107,8 +154,8 @@ public partial class ChartMediaInfoValue
         {
             return Colors;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -117,27 +164,28 @@ public partial class ChartMediaInfoValue
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Colors;
         }
 
         // get the property value
-        IReadOnlyList<MapColor>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<MapColor>?>(
-            IsServer, "GetProperty", nameof(ChartMediaInfoValue, View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<MapColor>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<MapColor>?>(
+            "getProperty",
             CancellationTokenSource.Token, "colors");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Colors = result;
+            Colors = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Colors)] = Colors;
+            ModifiedParameters[nameof(Colors)] = Colors;
         }
-         
+
         return Colors;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Fields property.
     /// </summary>
@@ -147,8 +195,8 @@ public partial class ChartMediaInfoValue
         {
             return Fields;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -157,27 +205,27 @@ public partial class ChartMediaInfoValue
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Fields;
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
-            IsServer, "GetProperty", nameof(ChartMediaInfoValue, View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, "fields");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Fields = result;
+            Fields = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Fields)] = Fields;
+            ModifiedParameters[nameof(Fields)] = Fields;
         }
-         
+
         return Fields;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NormalizeField property.
     /// </summary>
@@ -187,8 +235,8 @@ public partial class ChartMediaInfoValue
         {
             return NormalizeField;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -197,27 +245,27 @@ public partial class ChartMediaInfoValue
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return NormalizeField;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(ChartMediaInfoValue, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "normalizeField");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             NormalizeField = result;
+            NormalizeField = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(NormalizeField)] = NormalizeField;
+            ModifiedParameters[nameof(NormalizeField)] = NormalizeField;
         }
-         
+
         return NormalizeField;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Series property.
     /// </summary>
@@ -227,8 +275,8 @@ public partial class ChartMediaInfoValue
         {
             return Series;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -237,31 +285,27 @@ public partial class ChartMediaInfoValue
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return Series;
         }
 
-        IReadOnlyList<ChartMediaInfoValueSeries>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<ChartMediaInfoValueSeries>?>(
-            IsServer, nameof(GetSeries), nameof(ChartMediaInfoValue), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        IReadOnlyList<ChartMediaInfoValueSeries>? result =
+            await JsComponentReference.InvokeAsync<IReadOnlyList<ChartMediaInfoValueSeries>?>("getSeries",
+                CancellationTokenSource.Token);
+
         if (result is not null)
         {
-            foreach (ChartMediaInfoValueSeries item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             Series = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Series)] = Series;
         }
-        
+
         return Series;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TooltipField property.
     /// </summary>
@@ -271,8 +315,8 @@ public partial class ChartMediaInfoValue
         {
             return TooltipField;
         }
-        
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -281,28 +325,29 @@ public partial class ChartMediaInfoValue
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null)
         {
             return TooltipField;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, "GetProperty", nameof(ChartMediaInfoValue, View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "tooltipField");
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             TooltipField = result;
+            TooltipField = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TooltipField)] = TooltipField;
+            ModifiedParameters[nameof(TooltipField)] = TooltipField;
         }
-         
+
         return TooltipField;
     }
-    
+
 #endregion
+
 
 #region Property Setters
 
@@ -318,13 +363,13 @@ public partial class ChartMediaInfoValue
         Colors = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Colors)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -333,16 +378,16 @@ public partial class ChartMediaInfoValue
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "colors", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Fields property after render.
     /// </summary>
@@ -355,13 +400,13 @@ public partial class ChartMediaInfoValue
         Fields = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Fields)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -370,16 +415,16 @@ public partial class ChartMediaInfoValue
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fields", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the NormalizeField property after render.
     /// </summary>
@@ -392,13 +437,13 @@ public partial class ChartMediaInfoValue
         NormalizeField = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(NormalizeField)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -407,16 +452,16 @@ public partial class ChartMediaInfoValue
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "normalizeField", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Series property after render.
     /// </summary>
@@ -425,15 +470,6 @@ public partial class ChartMediaInfoValue
     /// </param>
     public async Task SetSeries(IReadOnlyList<ChartMediaInfoValueSeries>? value)
     {
-#pragma warning disable BL0005
-        Series = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Series)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
         if (value is not null)
         {
             foreach (ChartMediaInfoValueSeries item in value)
@@ -441,9 +477,18 @@ public partial class ChartMediaInfoValue
                 item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-        
-    
-        try 
+
+#pragma warning disable BL0005
+        Series = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Series)] = value;
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -452,16 +497,16 @@ public partial class ChartMediaInfoValue
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "series", value);
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TooltipField property after render.
     /// </summary>
@@ -474,13 +519,13 @@ public partial class ChartMediaInfoValue
         TooltipField = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(TooltipField)] = value;
-        
+
         if (CoreJsModule is null)
         {
             return;
         }
-    
-        try 
+
+        try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -489,17 +534,18 @@ public partial class ChartMediaInfoValue
         {
             // this is expected if the component is not yet built
         }
-    
+
         if (JsComponentReference is null)
         {
             return;
         }
-        
+
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "tooltipField", value);
     }
-    
+
 #endregion
+
 
 #region Add to Collection Methods
 
@@ -516,7 +562,7 @@ public partial class ChartMediaInfoValue
             : [..Colors, ..values];
         await SetColors(join);
     }
-    
+
     /// <summary>
     ///     Asynchronously adds elements to the Fields property.
     /// </summary>
@@ -530,7 +576,7 @@ public partial class ChartMediaInfoValue
             : [..Fields, ..values];
         await SetFields(join);
     }
-    
+
     /// <summary>
     ///     Asynchronously adds elements to the Series property.
     /// </summary>
@@ -544,12 +590,12 @@ public partial class ChartMediaInfoValue
             : [..Series, ..values];
         await SetSeries(join);
     }
-    
+
 #endregion
+
 
 #region Remove From Collection Methods
 
-    
     /// <summary>
     ///     Asynchronously remove an element from the Colors property.
     /// </summary>
@@ -562,10 +608,10 @@ public partial class ChartMediaInfoValue
         {
             return;
         }
+
         await SetColors(Colors.Except(values).ToArray());
     }
-    
-    
+
     /// <summary>
     ///     Asynchronously remove an element from the Fields property.
     /// </summary>
@@ -578,10 +624,10 @@ public partial class ChartMediaInfoValue
         {
             return;
         }
+
         await SetFields(Fields.Except(values).ToArray());
     }
-    
-    
+
     /// <summary>
     ///     Asynchronously remove an element from the Series property.
     /// </summary>
@@ -594,57 +640,9 @@ public partial class ChartMediaInfoValue
         {
             return;
         }
+
         await SetSeries(Series.Except(values).ToArray());
     }
-    
+
 #endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ChartMediaInfoValueSeries series:
-                Series ??= [];
-                if (!Series.Contains(series))
-                {
-                    Series = [..Series, series];
-                    ModifiedParameters[nameof(Series)] = Series;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ChartMediaInfoValueSeries series:
-                Series = Series?.Where(s => s != series).ToList();
-                ModifiedParameters[nameof(Series)] = Series;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        if (Series is not null)
-        {
-            foreach (ChartMediaInfoValueSeries child in Series)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }
