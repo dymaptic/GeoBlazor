@@ -36,7 +36,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
                 case UnitTestOutcome.Passed:
                     if (!TestConfig.SkippedTests.ContainsKey(fullTestName)
                         && !TestConfig.InconclusiveTests.ContainsKey(fullTestName)
-                        && TestConfig.FilteredTests!.Contains(fullTestName))
+                        && TestConfig.FilteredTests[ProcessName.WEB_TEST].Any(t => t.TestName == fullTestName))
                     {
                         TestConfig.PassedTests.TryAdd(fullTestName, 0);
                     }
@@ -51,12 +51,12 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
                     break;
                 case UnitTestOutcome.Inconclusive:
-                    TestConfig.FilteredTests!.Remove(fullTestName);
+                    TestConfig.FilteredTests[ProcessName.WEB_TEST].RemoveAll(t => t.TestName == fullTestName);
                     TestConfig.InconclusiveTests.TryAdd(fullTestName, 0);
 
                     break;
                 case UnitTestOutcome.Ignored:
-                    TestConfig.FilteredTests!.Remove(fullTestName);
+                    TestConfig.FilteredTests[ProcessName.WEB_TEST].RemoveAll(t => t.TestName == fullTestName);
                     TestConfig.SkippedTests.TryAdd(fullTestName, 0);
 
                     break;
@@ -102,13 +102,13 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         if (TestConfig.UnitOnly)
         {
             TestConfig.SkippedTests.TryAdd(testName, 0);
-            TestConfig.FilteredTests!.Remove(testName);
+            TestConfig.FilteredTests[ProcessName.WEB_TEST].RemoveAll(t => t.TestName == testName);
             Trace.WriteLine($"{testName} Skipped", ProcessName.WEB_TEST);
 
             return;
         }
 
-        if (!TestConfig.FilteredTests!.Contains(testName))
+        if (TestConfig.FilteredTests[ProcessName.WEB_TEST].All(t => t.TestName != testName))
         {
             TestConfig.SkippedTests.TryAdd(testName, 0);
             Trace.WriteLine($"{testName} Skipped", ProcessName.WEB_TEST);
@@ -186,7 +186,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
                     // Inconclusive we treat as passing for our automation purposes
                     Trace.WriteLine($"{testName} Inconclusive", ProcessName.WEB_TEST);
                     TestConfig.InconclusiveTests.TryAdd(testName, 0);
-                    TestConfig.FilteredTests.Remove(testName);
+                    TestConfig.FilteredTests[ProcessName.WEB_TEST].RemoveAll(t => t.TestName == testName);
                     Interlocked.Increment(ref TestConfig.WebInconclusiveTestCount);
                 }
                 else
