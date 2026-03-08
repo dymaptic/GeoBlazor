@@ -5,6 +5,10 @@
 // Atomically checks whether a time-based lock file is stale and acquires it
 // if so, using exclusive file access to prevent races in parallel MSBuild.
 //
+// When the lock is acquired, a companion ".running" marker file is also created
+// atomically. This allows other projects to wait for the build step to complete
+// by polling for the marker file's removal (see WaitForBuildComplete).
+//
 // Usage: dotnet AcquireBuildLock.cs <lock-file-path> [stale-minutes]
 //
 // Arguments:
@@ -26,6 +30,7 @@ if (args.Length < 1 || args[0] is "-h" or "--help")
 }
 
 string lockFilePath = args[0];
+string runningFilePath = lockFilePath + ".running";
 int staleMinutes = args.Length > 1 && int.TryParse(args[1], out int m) ? m : 5;
 
 try
@@ -56,6 +61,9 @@ try
     using var writer = new StreamWriter(fs);
     writer.Write(DateTime.Now.ToString("o"));
     writer.Flush();
+
+    // Create .running marker so other projects can wait for completion
+    File.WriteAllText(runningFilePath, DateTime.Now.ToString("o"));
 
     return 0;
 }
