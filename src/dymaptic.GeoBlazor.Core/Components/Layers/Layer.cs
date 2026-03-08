@@ -270,17 +270,14 @@ public abstract partial class Layer : MapComponent
 
         JsComponentReference ??=
             await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent", cancellationToken, Id);
-
-        IJSStreamReference streamRef = await JsComponentReference!.InvokeAsync<IJSStreamReference>("load",
+        
+        Layer? deserializedLayer = await JsComponentReference!.InvokeJsMethod<Layer?>(IsServer,
+            nameof(Load), nameof(Layer), View?.QueryResultsMaxSizeLimit, 
             cancellationToken, abortSignal);
-        Type type = GetType();
-
-        Layer? deserializedLayer = await streamRef.ReadJsStreamReferenceAsJSON(type,
-            cancellationToken: cancellationToken) as Layer;
 
         if (deserializedLayer is null)
         {
-            throw new InvalidOperationException($"Could not load layer of type {type.Name}");
+            throw new InvalidOperationException($"Could not load layer of type {GetType().Name}");
         }
 
         CopyProperties(deserializedLayer);

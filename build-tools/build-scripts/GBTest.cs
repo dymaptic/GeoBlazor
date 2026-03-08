@@ -129,7 +129,7 @@ List<string> buildArgs =
 
 if (filter != null)
 {
-    buildArgs = [..buildArgs, "--filter", filter];
+    buildArgs = [..buildArgs, "--", "--filter", filter];
 }
 
 // Set environment variables to toggle optional features

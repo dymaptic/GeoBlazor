@@ -277,11 +277,6 @@ export default class PortalGenerated extends BaseComponent {
         return this.component.isResolved();
     }
 
-    async load(signal: AbortSignal): Promise<any> {
-        let options = {signal: signal};
-        return await this.component.load(options);
-    }
-
     async queryGroups(queryParams: any,
                       signal: AbortSignal): Promise<any> {
         let options = {signal: signal};

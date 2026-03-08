@@ -8,6 +8,12 @@ export default class PortalWrapper extends PortalGenerated {
         super(component);
     }
 
+    async load(signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
+        let result = await this.component.load(options);
+        return await buildDotNetPortal(result, this.layerId, this.viewId);
+    }
+
 }
 
 export function buildJsPortal(dotNetObject: any, layerId: string | null, viewId: string | null): any {

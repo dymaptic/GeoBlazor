@@ -9,10 +9,10 @@ export default class VectorTileLayerWrapper extends VectorTileLayerGenerated {
         super(layer);
     }
 
-    async load(options: any): Promise<any> {
+    async load(signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetVectorTileLayer(result, this.layerId, this.viewId);
-        return buildEncodedJson(dotNetLayer);
+        return await buildDotNetVectorTileLayer(result, this.layerId, this.viewId);
     }
 }
 

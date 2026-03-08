@@ -9,10 +9,10 @@ export default class UnsupportedLayerWrapper extends UnsupportedLayerGenerated {
         super(layer);
     }
 
-    async load(options: any): Promise<any> {
+    async load(signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetUnsupportedLayer(result, this.viewId);
-        return buildEncodedJson(dotNetLayer);
+        return await buildDotNetUnsupportedLayer(result, this.layerId, this.viewId);
     }
 }
 

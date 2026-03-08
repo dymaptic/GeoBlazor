@@ -40,7 +40,8 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         return await buildDotNetQuery(jsQuery, this.viewId);
     }
 
-    async load(options: any): Promise<any> {
+    async load(signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         let result = await this.layer.load(options);
         return await buildDotNetFeatureLayer(result, this.layerId, this.viewId);
     }
