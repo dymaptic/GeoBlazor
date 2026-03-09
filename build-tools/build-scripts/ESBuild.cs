@@ -196,11 +196,6 @@ try
     await ProcessRunner.RunNpmCommand(sourceDir, buildCommand);
     Trace.WriteLine("-----");
 
-    // Invalidate static web asset caches so MSBuild regenerates manifests with the new JS filenames.
-    // Without this, consumer projects (test apps, Pro) read stale manifests from obj/ that reference
-    // old fingerprinted filenames that no longer exist after ESBuild's cleanPlugin runs.
-    InvalidateStaticWebAssetCache(sourceDir, pro ? "PRO" : "CORE");
-
     // Update build record on success
     SaveBuildRecord(recordFilePath, currentBranch);
 
@@ -570,66 +565,6 @@ static void HoldDialog(Process? dialog)
     if (dialog?.StandardInput is not null && !dialog.HasExited)
     {
         dialog.StandardInput.WriteLine("hold");
-    }
-}
-
-/// <summary>
-/// Deletes static web asset cache files from the project's obj/ directory.
-/// These files cache the list of files in wwwroot/ and their metadata. When ESBuild regenerates
-/// wwwroot/js/ with new fingerprinted filenames, these caches become stale and cause
-/// DefineStaticWebAssets to fail with "No file exists for the asset" errors.
-/// Deleting them forces MSBuild to re-scan wwwroot/ and rebuild the manifests.
-/// </summary>
-/// <param name="projectSourceDir">Path to the project's source directory (e.g., dymaptic.GeoBlazor.Core).</param>
-/// <param name="label">Label for log messages (e.g., "CORE" or "PRO").</param>
-static void InvalidateStaticWebAssetCache(string projectSourceDir, string label)
-{
-    string objDir = Path.Combine(projectSourceDir, "obj");
-    if (!Directory.Exists(objDir))
-    {
-        return;
-    }
-
-    int deletedCount = 0;
-
-    try
-    {
-        // Find and delete all staticwebassets* files across all configurations/TFMs
-        foreach (string file in Directory.GetFiles(objDir, "staticwebassets*", SearchOption.AllDirectories))
-        {
-            try
-            {
-                File.Delete(file);
-                deletedCount++;
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine($"ESBUILD {label}: Failed to delete {file}: {ex.Message}");
-            }
-        }
-
-        // Also delete the staticwebassets/ subdirectories (contain .props files with asset lists)
-        foreach (string dir in Directory.GetDirectories(objDir, "staticwebassets", SearchOption.AllDirectories))
-        {
-            try
-            {
-                Directory.Delete(dir, recursive: true);
-                deletedCount++;
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine($"ESBUILD {label}: Failed to delete {dir}: {ex.Message}");
-            }
-        }
-    }
-    catch (Exception ex)
-    {
-        Trace.WriteLine($"ESBUILD {label}: Error scanning obj/ for static web asset caches: {ex.Message}");
-    }
-
-    if (deletedCount > 0)
-    {
-        Trace.WriteLine($"ESBUILD {label}: Invalidated {deletedCount} static web asset cache file(s)");
     }
 }
 

@@ -35,6 +35,23 @@ if (!File.Exists(runningFilePath))
     return 0;
 }
 
+// Check immediately if the marker is stale (e.g., previous build crashed without cleanup)
+try
+{
+    var age = DateTime.UtcNow - File.GetLastWriteTimeUtc(runningFilePath);
+    if (age.TotalMinutes > 5)
+    {
+        Console.WriteLine($"Marker file {Path.GetFileName(runningFilePath)} is stale ({age.TotalMinutes:F0} min old). Removing it and proceeding.");
+        File.Delete(runningFilePath);
+        return 0;
+    }
+}
+catch
+{
+    // File may have been deleted between exists check and age check
+    return 0;
+}
+
 Console.WriteLine($"Waiting for build step to complete (marker: {Path.GetFileName(runningFilePath)})...");
 
 var deadline = DateTime.UtcNow.AddSeconds(timeoutSeconds);
@@ -45,25 +62,9 @@ while (File.Exists(runningFilePath))
     if (DateTime.UtcNow >= deadline)
     {
         Console.WriteLine($"Timed out after {timeoutSeconds}s waiting for {Path.GetFileName(runningFilePath)} to be removed.");
-
-        // Check if the marker is stale (e.g., previous build crashed without cleanup)
-        try
-        {
-            var age = DateTime.UtcNow - File.GetLastWriteTimeUtc(runningFilePath);
-            if (age.TotalMinutes > 5)
-            {
-                Console.WriteLine("Marker file appears stale (>5 min old). Removing it and proceeding.");
-                File.Delete(runningFilePath);
-                return 0;
-            }
-        }
-        catch
-        {
-            // File may have been deleted between exists check and age check
-            return 0;
-        }
-
-        return 1;
+        Console.WriteLine("Removing stale marker and proceeding.");
+        try { File.Delete(runningFilePath); } catch { }
+        return 0;
     }
 
     Thread.Sleep(pollMs);

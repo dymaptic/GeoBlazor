@@ -1,5 +1,4 @@
 import esbuild from 'esbuild';
-import {cleanPlugin} from 'esbuild-clean-plugin';
 import fs from 'fs';
 import path from 'path';
 import process from 'process';
@@ -26,8 +25,7 @@ let options = {
         ".woff2": "file"
     },
     metafile: true,
-    minify: isRelease,
-    plugins: [cleanPlugin()]
+    minify: isRelease
 }
 
 // check if output directory exists
@@ -39,13 +37,6 @@ if (!fs.existsSync(OUTPUT_DIR)) {
 try {
     await esbuild.build(options);
 } catch (err) {
-    console.log(`wwwroot file possibly locked. Attempting to build without clean plugin...`);
-    // try without clean plugin
-    options.plugins = [];
-    try {
-        await esbuild.build(options);
-    } catch (err) {
-        console.error(`ESBuild Failed: ${err}`);
-        process.exit(1);
-    }
+    console.error(`ESBuild Failed: ${err}`);
+    process.exit(1);
 }

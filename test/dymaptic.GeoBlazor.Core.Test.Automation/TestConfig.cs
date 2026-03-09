@@ -22,7 +22,30 @@ namespace dymaptic.GeoBlazor.Core.Test.Automation;
 [TestClass]
 public class TestConfig
 {
-    public static string TestAppUrl { get; private set; } = "";
+    public static IConfiguration Configuration = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json", true)
+#if DEBUG
+        .AddJsonFile("appsettings.Development.json", true)
+#else
+            .AddJsonFile("appsettings.Production.json", true)
+#endif
+        .AddUserSecrets<TestConfig>()
+        .AddEnvironmentVariables()
+        .AddDotEnvFile(true, false)
+        .AddCommandLine(Environment.GetCommandLineArgs())
+        .Build();
+    
+    public static readonly string ProjectFolder = Assembly.GetAssembly(typeof(TestConfig))!.Location.Contains("bin")
+        ? Assembly.GetAssembly(typeof(TestConfig))!.Location.Split("bin").First().TrimEnd(Path.PathSeparator)
+        : Assembly.GetAssembly(typeof(TestConfig))!.Location;
+
+    public static readonly bool ProAvailable =
+        File.Exists(Path.GetFullPath(Path.Combine(ProjectFolder, "..", "..", "..", "Dockerfile")));
+    
+    public static int HttpsPort = Configuration.GetValue("HTTPS_PORT", 9443);
+    public static int HttpPort = Configuration.GetValue("HTTP_PORT", 8080);
+
+    public static string TestAppUrl = Configuration.GetValue("WEB_APP_URL", $"https://localhost:{HttpsPort}");
     public static BlazorMode RenderMode { get; private set; }
     public static bool CoreOnly => FilteredTests[ProcessName.PRO_UNIT].Count == 0
         && FilteredTests[ProcessName.PRO_VALIDATION].Count == 0
@@ -60,35 +83,35 @@ public class TestConfig
         [ProcessName.PRO_VALIDATION] = []
     };
 
-    private static string ComposeFilePath => _proAvailable && !CoreOnly ? ProComposeFilePath : CoreComposeFilePath;
-    private static string CoreComposeFilePath => Path.Combine(_projectFolder, "docker-compose-core.yml");
-    private static string ProComposeFilePath => Path.Combine(_projectFolder, "docker-compose-pro.yml");
-    private static string CoreUnitTestComposeFilePath => Path.Combine(_projectFolder, "docker-compose-core-unit.yml");
-    private static string ProUnitTestComposeFilePath => Path.Combine(_projectFolder, "docker-compose-pro-unit.yml");
+    private static string ComposeFilePath => ProAvailable && !CoreOnly ? ProComposeFilePath : CoreComposeFilePath;
+    private static string CoreComposeFilePath => Path.Combine(ProjectFolder, "docker-compose-core.yml");
+    private static string ProComposeFilePath => Path.Combine(ProjectFolder, "docker-compose-pro.yml");
+    private static string CoreUnitTestComposeFilePath => Path.Combine(ProjectFolder, "docker-compose-core-unit.yml");
+    private static string ProUnitTestComposeFilePath => Path.Combine(ProjectFolder, "docker-compose-pro-unit.yml");
     private static string ProValidationTestComposeFilePath =>
-        Path.Combine(_projectFolder, "docker-compose-pro-validation.yml");
-    private static string TestAppPath => _proAvailable
-        ? Path.GetFullPath(Path.Combine(_projectFolder, "..", "..", "..", "test",
+        Path.Combine(ProjectFolder, "docker-compose-pro-validation.yml");
+    private static string TestAppPath => ProAvailable
+        ? Path.GetFullPath(Path.Combine(ProjectFolder, "..", "..", "..", "test",
             "dymaptic.GeoBlazor.Pro.Test.WebApp",
             "dymaptic.GeoBlazor.Pro.Test.WebApp",
             "dymaptic.GeoBlazor.Pro.Test.WebApp.csproj"))
-        : Path.GetFullPath(Path.Combine(_projectFolder, "..",
+        : Path.GetFullPath(Path.Combine(ProjectFolder, "..",
             "dymaptic.GeoBlazor.Core.Test.WebApp",
             "dymaptic.GeoBlazor.Core.Test.WebApp",
             "dymaptic.GeoBlazor.Core.Test.WebApp.csproj"));
-    private static string TestAppHttpUrl => $"http://localhost:{_httpPort}";
-    private static string CoverageFolderPath => Path.Combine(_projectFolder, "coverage");
+    private static string TestAppHttpUrl => $"http://localhost:{HttpPort}";
+    private static string CoverageFolderPath => Path.Combine(ProjectFolder, "coverage");
     private static string CoverageFilePath =>
         Path.Combine(CoverageFolderPath, $"coverage.{_coverageFileVersion}.{_coverageFormat}");
-    private static string UnitCoverageFolderPath => Path.Combine(_projectFolder, "unit-coverage");
+    private static string UnitCoverageFolderPath => Path.Combine(ProjectFolder, "unit-coverage");
     private static string CoreUnitCoverageFilePath => Path.Combine(UnitCoverageFolderPath,
         $"coverage.core.unit.{_coverageFileVersion}.{_coverageFormat}");
     private static string ProUnitCoverageFilePath => Path.Combine(UnitCoverageFolderPath,
         $"coverage.pro.unit.{_coverageFileVersion}.{_coverageFormat}");
     private static string ProValidationCoverageFilePath => Path.Combine(UnitCoverageFolderPath,
         $"coverage.pro.validation.{_coverageFileVersion}.{_coverageFormat}");
-    private static string CoreRepoRoot => Path.GetFullPath(Path.Combine(_projectFolder, "..", ".."));
-    private static string ProRepoRoot => Path.GetFullPath(Path.Combine(_projectFolder, "..", "..", ".."));
+    private static string CoreRepoRoot => Path.GetFullPath(Path.Combine(ProjectFolder, "..", ".."));
+    private static string ProRepoRoot => Path.GetFullPath(Path.Combine(ProjectFolder, "..", "..", ".."));
     private static string CoreProjectPath =>
         Path.GetFullPath(Path.Combine(CoreRepoRoot, "src", "dymaptic.GeoBlazor.Core"));
     private static string ProProjectPath =>
@@ -102,7 +125,7 @@ public class TestConfig
     private static string ProValidationTestPath => Path.Combine(ProRepoRoot, "test",
         "dymaptic.GeoBlazor.Pro.Test.Validation",
         "dymaptic.GeoBlazor.Pro.Test.Validation.csproj");
-    private static string LogFilePath => Path.Combine(_projectFolder, "test-run.log");
+    private static string LogFilePath => Path.Combine(ProjectFolder, "test-run.log");
     public static int WebFailedTestCount;
     public static int WebInconclusiveTestCount;
 
@@ -184,7 +207,7 @@ public class TestConfig
         Trace.WriteLine($"Using Render Mode: {RenderMode}", ProcessName.TEST_SETUP);
         Trace.WriteLine($"Using Container: {_useContainer}", ProcessName.TEST_SETUP);
         Trace.WriteLine($"Docker No-Cache: {_noCache}", ProcessName.TEST_SETUP);
-        Trace.WriteLine($"Using HTTPS Port: {_httpsPort}", ProcessName.TEST_SETUP);
+        Trace.WriteLine($"Using HTTPS Port: {HttpsPort}", ProcessName.TEST_SETUP);
 
         if (CoreOnly)
         {
@@ -309,13 +332,13 @@ public class TestConfig
                         ShutdownContainerCoverage(ProcessName.WEB_APP_SERVER, ComposeFilePath)
                     ];
 
-                    if (!ProOnly)
+                    if (!ProOnly && !WebOnly)
                     {
                         coverageShutdownTasks.Add(ShutdownContainerCoverage(ProcessName.CORE_UNIT,
                             CoreUnitTestComposeFilePath));
                     }
 
-                    if (!CoreOnly)
+                    if (!CoreOnly && !WebOnly)
                     {
                         coverageShutdownTasks.Add(ShutdownContainerCoverage(ProcessName.PRO_UNIT,
                             ProUnitTestComposeFilePath));
@@ -332,12 +355,12 @@ public class TestConfig
                     StopContainer(ComposeFilePath)
                 ];
 
-                if (!ProOnly)
+                if (!ProOnly && !WebOnly)
                 {
                     appShutdownTasks.Add(StopContainer(CoreUnitTestComposeFilePath));
                 }
 
-                if (!CoreOnly)
+                if (!CoreOnly && !WebOnly)
                 {
                     appShutdownTasks.Add(StopContainer(ProUnitTestComposeFilePath));
                     appShutdownTasks.Add(StopContainer(ProValidationTestComposeFilePath));
@@ -345,7 +368,7 @@ public class TestConfig
 
                 await Task.WhenAll(appShutdownTasks);
             }
-            else if (!CoreOnly)
+            else if (!CoreOnly && !WebOnly)
             {
                 // Pro Unit always runs in container
                 await ShutdownContainerCoverage(ProcessName.PRO_UNIT, ProUnitTestComposeFilePath);
@@ -380,13 +403,13 @@ public class TestConfig
 
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
 
-            if (!ProOnly)
+            if (!ProOnly && !WebOnly)
             {
                 AddTestProcessSummary(ProcessName.CORE_UNIT);
                 Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             }
 
-            if (!CoreOnly)
+            if (!CoreOnly && !WebOnly)
             {
                 AddTestProcessSummary(ProcessName.PRO_UNIT);
                 Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
@@ -394,21 +417,26 @@ public class TestConfig
                 Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             }
 
-            Trace.WriteLine($"{ProcessName.WEB_APP_SERVER} SUMMARY: {(WebFailedTestCount > 0 ? "FAILED!" : "PASSED")}",
-                ProcessName.FINAL_SUMMARY);
+            if (!UnitOnly)
+            {
+                Trace.WriteLine(
+                    $"{ProcessName.WEB_APP_SERVER} SUMMARY: {(WebFailedTestCount > 0 ? "FAILED!" : "PASSED")}",
+                    ProcessName.FINAL_SUMMARY);
 
-            int webTestTotalCount = FilteredTests[ProcessName.WEB_TEST].Count;
-            Trace.WriteLine($"  total: {webTestTotalCount}", ProcessName.FINAL_SUMMARY);
-            Trace.WriteLine($"  failed: {WebFailedTestCount}", ProcessName.FINAL_SUMMARY);
-            int succeeded = webTestTotalCount - WebFailedTestCount - WebInconclusiveTestCount;
-            Trace.WriteLine($"  succeeded: {succeeded}", ProcessName.FINAL_SUMMARY);
-            Trace.WriteLine($"  skipped: {WebInconclusiveTestCount}", ProcessName.FINAL_SUMMARY);
-            TimeSpan webTestDuration = webTestEndTime - _webTestStartTime;
+                int webTestTotalCount = FilteredTests[ProcessName.WEB_TEST].Count;
+                Trace.WriteLine($"  total: {webTestTotalCount}", ProcessName.FINAL_SUMMARY);
+                Trace.WriteLine($"  failed: {WebFailedTestCount}", ProcessName.FINAL_SUMMARY);
+                int succeeded = webTestTotalCount - WebFailedTestCount - WebInconclusiveTestCount;
+                Trace.WriteLine($"  succeeded: {succeeded}", ProcessName.FINAL_SUMMARY);
+                Trace.WriteLine($"  skipped: {WebInconclusiveTestCount}", ProcessName.FINAL_SUMMARY);
+                TimeSpan webTestDuration = webTestEndTime - _webTestStartTime;
 
-            Trace.WriteLine(
-                $"  duration: {webTestDuration.Minutes}m {webTestDuration.Seconds}s {webTestDuration.Milliseconds}ms",
-                ProcessName.FINAL_SUMMARY);
-            Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+                Trace.WriteLine(
+                    $"  duration: {webTestDuration.Minutes}m {webTestDuration.Seconds}s {webTestDuration.Milliseconds
+                    }ms",
+                    ProcessName.FINAL_SUMMARY);
+                Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
+            }
 
             Trace.WriteLine($"PASSED TESTS: {PassedTests.Count} / {FilteredTests.Values.Sum(v => v.Count)}", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
@@ -500,45 +528,8 @@ public class TestConfig
 
     private static void SetupConfiguration()
     {
-        _projectFolder = Assembly.GetAssembly(typeof(TestConfig))!.Location;
-
-        if (_projectFolder.Contains("bin"))
-        {
-            string[] parts = _projectFolder.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries);
-            _runConfig = parts[^3];
-            _targetFramework = parts[^2];
-        }
-
-        while (_projectFolder.Contains("bin"))
-        {
-            // get the test project folder
-            _projectFolder = Path.GetDirectoryName(_projectFolder)!;
-        }
-
-        // assemblyLocation = GeoBlazor.Pro/GeoBlazor/test/dymaptic.GeoBlazor.Core.Test.Automation
-        // this pulls us up to GeoBlazor.Pro then finds the Dockerfile
-        string proDockerPath = Path.GetFullPath(Path.Combine(_projectFolder, "..", "..", "..", "Dockerfile"));
-        _proAvailable = File.Exists(proDockerPath);
-
-        _configuration = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json", true)
-#if DEBUG
-            .AddJsonFile("appsettings.Development.json", true)
-#else
-            .AddJsonFile("appsettings.Production.json", true)
-#endif
-            .AddUserSecrets<TestConfig>()
-            .AddEnvironmentVariables()
-            .AddDotEnvFile(true, false)
-            .AddCommandLine(Environment.GetCommandLineArgs())
-            .Build();
-
-        _httpsPort = _configuration.GetValue("HTTPS_PORT", 9443);
-        _httpPort = _configuration.GetValue("HTTP_PORT", 8080);
-        TestAppUrl = _configuration.GetValue("WEB_APP_URL", $"https://localhost:{_httpsPort}");
-
         // Default to Server Mode for compatibility with Code Coverage Tools
-        string renderMode = _configuration.GetValue("RENDER_MODE", nameof(BlazorMode.Server));
+        string renderMode = Configuration.GetValue("RENDER_MODE", nameof(BlazorMode.Server));
 
         if (Enum.TryParse(renderMode, true, out BlazorMode blazorMode))
         {
@@ -547,23 +538,23 @@ public class TestConfig
 
         ParseFilters();
 
-        _useContainer = _configuration.GetValue("USE_CONTAINER", false);
-        _noCache = _configuration.GetValue("NO_CACHE", false);
+        _useContainer = Configuration.GetValue("USE_CONTAINER", false);
+        _noCache = Configuration.GetValue("NO_CACHE", false);
 
         // Configure browser pool size - larger pools improve parallelism
         IsCI = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("CI"));
         int defaultPoolSize = IsCI ? 4 : 8; // Doubled from 2/4 to 4/8 for better parallelization
-        BrowserPoolSize = _configuration.GetValue("BROWSER_POOL_SIZE", defaultPoolSize);
+        BrowserPoolSize = Configuration.GetValue("BROWSER_POOL_SIZE", defaultPoolSize);
         Trace.WriteLine($"Browser pool size set to: {BrowserPoolSize} (CI: {IsCI})", ProcessName.TEST_SETUP);
 
         if (_cover)
         {
-            _coverageFormat = _configuration.GetValue("COVERAGE_FORMAT", "xml");
+            _coverageFormat = Configuration.GetValue("COVERAGE_FORMAT", "xml");
             _coverageFileVersion = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
-            _reportGenLicenseKey = _configuration["REPORT_GEN_LICENSE_KEY"];
+            _reportGenLicenseKey = Configuration["REPORT_GEN_LICENSE_KEY"];
         }
 
-        string? config = _configuration["CONFIGURATION"];
+        string? config = Configuration["CONFIGURATION"];
 
         if (!string.IsNullOrEmpty(config))
         {
@@ -579,13 +570,14 @@ public class TestConfig
 #endif
         }
 
-        _targetFramework ??= _configuration.GetValue("TARGET_FRAMEWORK", "net10.0");
-        _showDialog = _configuration.GetValue("SHOW_DIALOG", true);
+        _targetFramework ??= Configuration.GetValue("TARGET_FRAMEWORK", "net10.0");
+        _showDialog = Configuration.GetValue("SHOW_DIALOG", true);
     }
 
     private static void ParseFilters()
     {
         string[] envArgs = Environment.GetCommandLineArgs();
+
         _filters = [];
 
         for (int i = 0; i < envArgs.Length; i++)
@@ -601,10 +593,6 @@ public class TestConfig
                 {
                     ParseFilter(filter); 
                 }
-
-                // Remove custom routing keywords that control TestConfig logic but aren't
-                // valid MSTest filter expressions (they'd be interpreted as FullyQualifiedName~keyword)
-                _filters.RemoveAll(f => f is "unit" or "web" or "core" or "core_" or "pro" or "pro_");
 
                 // Microsoft.Test.Platform only accepts a single filter argument
                 break;
@@ -624,20 +612,24 @@ public class TestConfig
             throw new InvalidOperationException("No tests found to run. Please check your filters.");
         }
 
-        if (!_proAvailable || _configuration!.GetValue("CORE_ONLY", false))
+        if (!ProAvailable || Configuration.GetValue("CORE_ONLY", false))
         {
             FilteredTests[ProcessName.PRO_UNIT].Clear();
             FilteredTests[ProcessName.PRO_VALIDATION].Clear();
             FilteredTests[ProcessName.WEB_TEST].RemoveAll(t => t.ClassName.StartsWith("PRO_"));
         }
-        else if (_configuration!.GetValue("PRO_ONLY", false))
+        else if (Configuration.GetValue("PRO_ONLY", false))
         {
             FilteredTests[ProcessName.CORE_UNIT].Clear();
             FilteredTests[ProcessName.WEB_TEST].RemoveAll(t => t.ClassName.StartsWith("CORE_"));
         }
 
+        // Remove custom routing keywords that control TestConfig logic but aren't
+        // valid MSTest filter expressions (they'd be interpreted as FullyQualifiedName~keyword)
+        _filters.RemoveAll(f => f is "unit" or "web" or "core" or "core_" or "pro" or "pro_");
+
         // only run coverage on a full test run, otherwise it overwrites the test coverage from previous runs
-        _cover = _configuration!.GetValue("COVER", false)
+        _cover = Configuration.GetValue("COVER", false)
             && _filters.Count == 0
             && !CoreOnly && !ProOnly
             && !WebOnly && !UnitOnly;
@@ -880,7 +872,7 @@ public class TestConfig
             .ExecuteAsync();
 
         // ensure output directory exists
-        Directory.CreateDirectory(Path.Combine(_projectFolder, "coverage"));
+        Directory.CreateDirectory(Path.Combine(ProjectFolder, "coverage"));
     }
 
     private static async Task EnsurePlaywrightBrowsersAreInstalled()
@@ -1046,7 +1038,7 @@ public class TestConfig
         }
 
         Trace.WriteLine($"Starting container with: docker {string.Join(" ", args)}", $"CONTAINER_BUILD: {processName}");
-        Trace.WriteLine($"Working directory: {_projectFolder}", $"CONTAINER_BUILD: {processName}");
+        Trace.WriteLine($"Working directory: {ProjectFolder}", $"CONTAINER_BUILD: {processName}");
 
         if (_cover)
         {
@@ -1088,8 +1080,8 @@ public class TestConfig
                 ["SESSION_ID"] = processName,
                 ["COVERAGE_FORMAT"] = _coverageFormat,
                 ["COVERAGE_FILE_VERSION"] = _coverageFileVersion,
-                ["GEOBLAZOR_CORE_LICENSE_KEY"] = _configuration!["GEOBLAZOR_CORE_LICENSE_KEY"],
-                ["GEOBLAZOR_PRO_LICENSE_KEY"] = _configuration["GEOBLAZOR_PRO_LICENSE_KEY"]
+                ["GEOBLAZOR_CORE_LICENSE_KEY"] = Configuration["GEOBLAZOR_CORE_LICENSE_KEY"],
+                ["GEOBLAZOR_PRO_LICENSE_KEY"] = Configuration["GEOBLAZOR_PRO_LICENSE_KEY"]
             })
             .WithStandardOutputPipe(PipeTarget.ToDelegate(output =>
                 TrackUnitTestOutput(output, processName, ref failedTests, ref inconclusiveTests,
@@ -1104,7 +1096,7 @@ public class TestConfig
                     waitTokenSource.Cancel();
                 }
             }))
-            .WithWorkingDirectory(_projectFolder)
+            .WithWorkingDirectory(ProjectFolder)
             .WithValidation(CommandResultValidation.None)
             .ExecuteAsync(linkedTokenSource.Token, gracefulCts.Token);
 
@@ -1220,8 +1212,8 @@ public class TestConfig
     private static async Task StartWebApp(CancellationToken token)
     {
         string? licenseKey = CoreOnly
-            ? _configuration!["GEOBLAZOR_CORE_LICENSE_KEY"]
-            : _configuration!["GEOBLAZOR_PRO_LICENSE_KEY"];
+            ? Configuration["GEOBLAZOR_CORE_LICENSE_KEY"]
+            : Configuration["GEOBLAZOR_PRO_LICENSE_KEY"];
 
         if (licenseKey is not null)
         {
@@ -1286,7 +1278,7 @@ public class TestConfig
             }))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
                 Trace.WriteLine(line, ProcessName.WEB_APP_ERROR)))
-            .WithWorkingDirectory(_projectFolder)
+            .WithWorkingDirectory(ProjectFolder)
             .ExecuteAsync(token, gracefulCts.Token);
 
         processIds.Add(commandTask.ProcessId);
@@ -1322,7 +1314,7 @@ public class TestConfig
         }
 
         Trace.WriteLine($"Starting container with: docker {string.Join(" ", args)}", ProcessName.WEB_APP_SERVER);
-        Trace.WriteLine($"Working directory: {_projectFolder}", ProcessName.WEB_APP_SERVER);
+        Trace.WriteLine($"Working directory: {ProjectFolder}", ProcessName.WEB_APP_SERVER);
 
         if (_cover)
         {
@@ -1351,14 +1343,14 @@ public class TestConfig
             .WithArguments(args)
             .WithEnvironmentVariables(new Dictionary<string, string?>
             {
-                ["HTTP_PORT"] = _httpPort.ToString(),
-                ["HTTPS_PORT"] = _httpsPort.ToString(),
+                ["HTTP_PORT"] = HttpPort.ToString(),
+                ["HTTPS_PORT"] = HttpsPort.ToString(),
                 ["COVER"] = _cover.ToString().ToLower(),
                 ["SESSION_ID"] = ProcessName.WEB_APP_SERVER,
                 ["COVERAGE_FORMAT"] = _coverageFormat,
                 ["COVERAGE_FILE_VERSION"] = _coverageFileVersion,
-                ["GEOBLAZOR_CORE_LICENSE_KEY"] = _configuration!["GEOBLAZOR_CORE_LICENSE_KEY"],
-                ["GEOBLAZOR_PRO_LICENSE_KEY"] = _configuration["GEOBLAZOR_PRO_LICENSE_KEY"]
+                ["GEOBLAZOR_CORE_LICENSE_KEY"] = Configuration["GEOBLAZOR_CORE_LICENSE_KEY"],
+                ["GEOBLAZOR_PRO_LICENSE_KEY"] = Configuration["GEOBLAZOR_PRO_LICENSE_KEY"]
             })
             .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, ProcessName.WEB_APP_SERVER)))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
@@ -1370,7 +1362,7 @@ public class TestConfig
                     waitTokenSource.Cancel();
                 }
             }))
-            .WithWorkingDirectory(_projectFolder)
+            .WithWorkingDirectory(ProjectFolder)
             .ExecuteAsync(linkedTokenSource.Token, gracefulCts.Token);
 
         processIds.Add(commandTask.ProcessId);
@@ -1395,7 +1387,7 @@ public class TestConfig
 
         Trace.WriteLine($"Re-building container with: docker {string.Join(" ", args)}",
             $"CONTAINER_BUILD: {processName}");
-        Trace.WriteLine($"Working directory: {_projectFolder}", $"CONTAINER_BUILD: {processName}");
+        Trace.WriteLine($"Working directory: {ProjectFolder}", $"CONTAINER_BUILD: {processName}");
 
         CancellationTokenSource waitTokenSource = new();
 
@@ -1409,14 +1401,14 @@ public class TestConfig
             .WithArguments(args)
             .WithEnvironmentVariables(new Dictionary<string, string?>
             {
-                ["HTTP_PORT"] = _httpPort.ToString(),
-                ["HTTPS_PORT"] = _httpsPort.ToString(),
+                ["HTTP_PORT"] = HttpPort.ToString(),
+                ["HTTPS_PORT"] = HttpsPort.ToString(),
                 ["COVER"] = _cover.ToString().ToLower(),
                 ["SESSION_ID"] = processName,
                 ["COVERAGE_FORMAT"] = _coverageFormat,
                 ["COVERAGE_FILE_VERSION"] = _coverageFileVersion,
-                ["GEOBLAZOR_CORE_LICENSE_KEY"] = _configuration!["GEOBLAZOR_CORE_LICENSE_KEY"],
-                ["GEOBLAZOR_PRO_LICENSE_KEY"] = _configuration["GEOBLAZOR_PRO_LICENSE_KEY"]
+                ["GEOBLAZOR_CORE_LICENSE_KEY"] = Configuration["GEOBLAZOR_CORE_LICENSE_KEY"],
+                ["GEOBLAZOR_PRO_LICENSE_KEY"] = Configuration["GEOBLAZOR_PRO_LICENSE_KEY"]
             })
             .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
                 Trace.WriteLine(line, $"CONTAINER_BUILD: {processName}")))
@@ -1429,7 +1421,7 @@ public class TestConfig
                     waitTokenSource.Cancel();
                 }
             }))
-            .WithWorkingDirectory(_projectFolder)
+            .WithWorkingDirectory(ProjectFolder)
             .WithValidation(CommandResultValidation.None)
             .ExecuteAsync(linkedTokenSource.Token, gracefulCts.Token);
 
@@ -1688,7 +1680,7 @@ public class TestConfig
     {
         try
         {
-            Trace.WriteLine($"Killing any remaining processes holding HTTPS port {_httpsPort}",
+            Trace.WriteLine($"Killing any remaining processes holding HTTPS port {HttpsPort}",
                 ProcessName.TEST_CLEANUP);
 
             if (OperatingSystem.IsWindows())
@@ -1697,7 +1689,7 @@ public class TestConfig
                 [
                     "-NoProfile", "-ExecutionPolicy", "ByPass", "-Command",
                     "{",
-                    "Get-NetTCPConnection", "-LocalPort", _httpsPort.ToString(), "-State", "Listen",
+                    "Get-NetTCPConnection", "-LocalPort", HttpsPort.ToString(), "-State", "Listen",
                     "|", "Select-Object", "-ExpandProperty", "OwningProcess",
                     "|", "ForEach-Object",
                     "{",
@@ -1719,7 +1711,7 @@ public class TestConfig
                 await Cli.Wrap("/bin/bash")
                     .WithArguments([
                         "-c",
-                        $"lsof -i:{_httpsPort} | awk '{{if(NR>1)print $2}}' | xargs -t -r kill -9"
+                        $"lsof -i:{HttpsPort} | awk '{{if(NR>1)print $2}}' | xargs -t -r kill -9"
                     ])
                     .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
                         Trace.WriteLine(line, ProcessName.TEST_CLEANUP)))
@@ -1735,8 +1727,8 @@ public class TestConfig
 
     private static async Task GenerateCoverageReport()
     {
-        string reportDir = Path.Combine(_projectFolder, "coverage-report");
-        string historyDir = Path.Combine(_projectFolder, "history");
+        string reportDir = Path.Combine(ProjectFolder, "coverage-report");
+        string historyDir = Path.Combine(ProjectFolder, "history");
 
         if (!File.Exists(CoverageFilePath))
         {
@@ -1962,17 +1954,18 @@ public class TestConfig
             SyntaxTree tree = CSharpSyntaxTree.ParseText(text);
             SyntaxNode root = tree.GetRoot();
 
-            BaseNamespaceDeclarationSyntax namespaceDeclarationSyntax = root
+            BaseNamespaceDeclarationSyntax? namespaceDeclarationSyntax = root
                 .DescendantNodes()
                 .OfType<BaseNamespaceDeclarationSyntax>()
-                .First();
+                .FirstOrDefault();
 
             ClassDeclarationSyntax? classDeclaration = root
                 .DescendantNodes()
                 .OfType<ClassDeclarationSyntax>()
                 .FirstOrDefault();
 
-            if (classDeclaration is null 
+            if (namespaceDeclarationSyntax is null 
+                || classDeclaration is null 
                 || classDeclaration.AttributeLists
                     .SelectMany(a => a.Attributes)
                     .All(a => a.Name.ToString() != "TestClass")) 
@@ -2063,13 +2056,8 @@ public class TestConfig
     private static readonly ResiliencePropertyKey<int> retryAttemptKey = new("RetryAttempt");
     private static readonly ResiliencePropertyKey<string?> exceptionKey = new("Exception");
 
-    private static IConfiguration? _configuration;
     private static string? _runConfig;
     private static string? _targetFramework;
-    private static bool _proAvailable;
-    private static int _httpsPort;
-    private static int _httpPort;
-    private static string _projectFolder = string.Empty;
     private static int? _webTestProcessId;
     private static DateTime _webTestStartTime;
     private static bool _useContainer;
