@@ -1992,7 +1992,10 @@ public class TestConfig
             tests.AddRange(classDeclaration
                 .DescendantNodes()
                 .OfType<MethodDeclarationSyntax>()
-                .Select(m => 
+                .Where(m => m.AttributeLists
+                    .SelectMany(a => a.Attributes)
+                    .Any(a => a.Name.ToString() is "TestMethod" or "DataTestMethod"))
+                .Select(m =>
                     new TestRecord($"{className}.{m.Identifier.Text}", nameSpace, className, m.Identifier.Text,
                         m.AttributeLists
                             .SelectMany(a => a.Attributes)
