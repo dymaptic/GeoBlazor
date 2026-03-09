@@ -1946,6 +1946,12 @@ public class TestConfig
     {
         List<TestRecord> tests = [];
         string directoryPath = Path.GetDirectoryName(projectPath)!;
+
+        if (!Directory.Exists(directoryPath))
+        {
+            return tests;
+        }
+
         string[] files = Directory.GetFiles(directoryPath, "*.cs", SearchOption.AllDirectories);
 
         foreach (string file in files)
