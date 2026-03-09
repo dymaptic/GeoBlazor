@@ -624,6 +624,13 @@ public class TestConfig
             FilteredTests[ProcessName.WEB_TEST].RemoveAll(t => t.ClassName.StartsWith("CORE_"));
         }
 
+        // Remove AutomationExclude tests from FilteredTests so the denominator matches
+        // what MSTest actually runs (the CLI filter TestCategory!~AutomationExclude excludes them)
+        foreach (List<TestRecord> tests in FilteredTests.Values)
+        {
+            tests.RemoveAll(t => t.Categories.Any(c => c.Contains("AutomationExclude")));
+        }
+
         // Remove custom routing keywords that control TestConfig logic but aren't
         // valid MSTest filter expressions (they'd be interpreted as FullyQualifiedName~keyword)
         _filters.RemoveAll(f => f is "unit" or "web" or "core" or "core_" or "pro" or "pro_");
