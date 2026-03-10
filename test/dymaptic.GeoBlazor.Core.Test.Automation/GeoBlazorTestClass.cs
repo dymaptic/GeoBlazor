@@ -28,6 +28,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
     public async Task TestCleanup()
     {
         var fullTestName = $"{GetType().Name.Split('_').Last()}.{TestContext.TestName}";
+        Trace.WriteLine($"Test {fullTestName}: {TestContext.CurrentTestOutcome}");
 
         try
         {
@@ -53,11 +54,13 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
                 case UnitTestOutcome.Inconclusive:
                     TestConfig.FilteredTests[ProcessName.WEB_TEST].RemoveAll(t => t.TestName == fullTestName);
                     TestConfig.InconclusiveTests.TryAdd(fullTestName, 0);
+                    TestConfig.PassedTests.TryRemove(fullTestName, out _);
 
                     break;
                 case UnitTestOutcome.Ignored:
                     TestConfig.FilteredTests[ProcessName.WEB_TEST].RemoveAll(t => t.TestName == fullTestName);
                     TestConfig.SkippedTests.TryAdd(fullTestName, 0);
+                    TestConfig.PassedTests.TryRemove(fullTestName, out _);
 
                     break;
             }

@@ -75,7 +75,7 @@ public class TestConfig
     public static ConcurrentDictionary<string, byte> InconclusiveTests { get; } = new();
     public static ConcurrentDictionary<string, byte> PassedTests { get; } = new();
     public static ConcurrentDictionary<string, byte> SkippedTests { get; } = new();
-    public static Dictionary<string, List<TestRecord>> FilteredTests { get; set; } = new()
+    public static ConcurrentDictionary<string, List<TestRecord>> FilteredTests { get; set; } = new()
     {
         [ProcessName.WEB_TEST] = [],
         [ProcessName.CORE_UNIT] = [],
