@@ -941,7 +941,8 @@ public class TestConfig
 
         List<string> filterArgs = [.._filters ?? [], "TestCategory!~AutomationExclude"];
         string filter = string.Join("&", filterArgs);
-        args.Add($"--filter {filter}");
+        args.Add("--filter");
+        args.Add(filter);
 
         if (_cover)
         {
@@ -1015,7 +1016,7 @@ public class TestConfig
 
         foreach (string test in passedTests)
         {
-            PassedTests.TryAdd(test, 0);
+            PassedTests.TryAdd($"{processName}:{test}", 0);
         }
     }
 
