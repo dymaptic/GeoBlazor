@@ -631,6 +631,16 @@ public class TestConfig
             tests.RemoveAll(t => t.Categories.Any(c => c.Contains("AutomationExclude")));
         }
 
+        // In CI, remove CICondition(ConditionMode.Exclude) tests — MSTest silently skips them
+        // so they never report as passed, failed, or inconclusive
+        if (IsCI)
+        {
+            foreach (List<TestRecord> tests in FilteredTests.Values)
+            {
+                tests.RemoveAll(t => t.Categories.Contains("CIExclude"));
+            }
+        }
+
         // Remove custom routing keywords that control TestConfig logic but aren't
         // valid MSTest filter expressions (they'd be interpreted as FullyQualifiedName~keyword)
         _filters.RemoveAll(f => f is "unit" or "web" or "core" or "core_" or "pro" or "pro_");
@@ -1178,7 +1188,7 @@ public class TestConfig
 
         foreach (string test in passedTests)
         {
-            PassedTests.TryAdd(test, 0);
+            PassedTests.TryAdd($"{processName}:{test}", 0);
         }
     }
 
@@ -2053,11 +2063,14 @@ public class TestConfig
     private static readonly List<TestRecord> webTests = testClasses
         .SelectMany(t => t.GetMethods(BindingFlags.Instance | BindingFlags.Public |
                 BindingFlags.DeclaredOnly)
-            .Select(m => new TestRecord(m.TestName(), t.Namespace!, t.Name, m.Name, 
+            .Where(m => m.GetCustomAttribute<TestMethodAttribute>() is not null)
+            .Select(m => new TestRecord(m.TestName(), t.Namespace!, t.Name, m.Name,
                 t.GetCustomAttributes<TestCategoryAttribute>()
                     .SelectMany(ca => ca.TestCategories)
                     .Concat(m.GetCustomAttributes<TestCategoryAttribute>()
-                        .SelectMany(ma => ma.TestCategories)).ToArray())))
+                        .SelectMany(ma => ma.TestCategories))
+                    .Concat(HasCIExclude(m) || HasCIExclude(t) ? ["CIExclude"] : [])
+                    .ToArray())))
         .ToList();
     private static readonly List<TestRecord> coreWebTests = webTests
         .Where(t => t.ClassName.StartsWith("CORE_"))
@@ -2069,6 +2082,12 @@ public class TestConfig
     private static readonly List<TestRecord> proUnitTests = AnalyzeUnitTests(ProUnitTestPath);
     private static readonly List<TestRecord> proValidationTests = AnalyzeUnitTests(ProValidationTestPath);
     private static readonly List<int> processIds = [];
+
+    private static bool HasCIExclude(MemberInfo member) =>
+        member.CustomAttributes.Any(a =>
+            a.AttributeType.Name == "CIConditionAttribute"
+            && a.ConstructorArguments.Any(arg =>
+                arg.Value is int val && Enum.GetName(arg.ArgumentType, val) == "Exclude"));
 
     private static readonly ResiliencePropertyKey<int> retryAttemptKey = new("RetryAttempt");
     private static readonly ResiliencePropertyKey<string?> exceptionKey = new("Exception");
