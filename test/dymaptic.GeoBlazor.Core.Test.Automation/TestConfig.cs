@@ -480,18 +480,6 @@ public class TestConfig
                 Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             }
 
-            if (SkippedTests.Values.Sum(v => v.Count) > 0)
-            {
-                Trace.WriteLine($"SKIPPED TESTS: {SkippedTests.Values.Sum(v => v.Count)}", ProcessName.FINAL_SUMMARY);
-
-                foreach (string skipped in SkippedTests.Values.SelectMany(v => v.Keys))
-                {
-                    Trace.WriteLine($"  {skipped}", ProcessName.FINAL_SUMMARY);
-                }
-
-                Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
-            }
-
             int failedCount = FailedTests.Values.Sum(d => d.Count);
 
             Trace.WriteLine($"FAILED TESTS: {failedCount}", ProcessName.FINAL_SUMMARY);
@@ -670,13 +658,16 @@ public class TestConfig
 
         // Remove custom routing keywords that control TestConfig logic but aren't
         // valid MSTest filter expressions (they'd be interpreted as FullyQualifiedName~keyword)
-        _filters.RemoveAll(f => f is "unit" or "web" or "core" or "core_" or "pro" or "pro_");
+        _filters.RemoveAll(f => f.ToLower() is "unit" or "web");
 
         // only run coverage on a full test run, otherwise it overwrites the test coverage from previous runs
         _cover = Configuration.GetValue("COVER", false)
             && _filters.Count == 0
             && !CoreOnly && !ProOnly
             && !WebOnly && !UnitOnly;
+
+        // remove web-only filters, these are already processed by the running application.
+        _filters.RemoveAll(f => f.ToLower() is "core" or "core_" or "pro" or "pro_");
     }
 
     private static void ParseFilter(string filter)

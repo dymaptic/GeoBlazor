@@ -44,11 +44,8 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
                     break;
                 case UnitTestOutcome.Failed:
-                    if (!TestConfig.FailedTests[ProcessName.WEB_TEST].ContainsKey(fullTestName))
-                    {
-                        throw new Exception($"Test {fullTestName
-                        } failed but was not added to FailedTests during the Exception handler");
-                    }
+                    TestConfig.FailedTests[ProcessName.WEB_TEST].TryAdd(fullTestName, "Test Failed");
+                    TestConfig.PassedTests[ProcessName.WEB_TEST].TryRemove(fullTestName, out _);
 
                     break;
                 case UnitTestOutcome.Inconclusive:
@@ -211,8 +208,15 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
                 }
             }, context);
         }
-        catch (Exception)
+        catch (Exception ex) when (ex is not OperationCanceledException)
         {
+            if (TestConfig.SkippedTests[ProcessName.WEB_TEST].ContainsKey(testName)
+                || TestConfig.InconclusiveTests[ProcessName.WEB_TEST].ContainsKey(testName))
+            {
+                // skip errors on skipped tests
+                return;
+            }
+            
             var (messages, errors) = CheckMessages(testName);
             Trace.WriteLine(messages, ProcessName.WEB_TEST);
             Trace.WriteLine(errors, ProcessName.WEB_TEST_ERROR);
