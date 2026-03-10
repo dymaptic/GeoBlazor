@@ -93,14 +93,6 @@ public class TestConfig
         [ProcessName.PRO_UNIT] = [],
         [ProcessName.PRO_VALIDATION] = []
     };
-    
-    public static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> SkippedTests { get; } = new()
-    {
-        [ProcessName.WEB_TEST] = [],
-        [ProcessName.CORE_UNIT] = [],
-        [ProcessName.PRO_UNIT] = [],
-        [ProcessName.PRO_VALIDATION] = []
-    };
 
     public static ConcurrentDictionary<string, List<TestRecord>> FilteredTests { get; set; } = new()
     {
@@ -442,6 +434,12 @@ public class TestConfig
                 Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             }
 
+            // verify that skipped and inconclusive tests were removed from filtered tests
+            foreach (KeyValuePair<string, List<TestRecord>> kvp in FilteredTests)
+            {
+                kvp.Value.RemoveAll(v => InconclusiveTests[kvp.Key].Any(s => s.Key == v.TestName));
+            }
+
             if (!UnitOnly)
             {
                 int webFailedTestCount = FailedTests[ProcessName.WEB_TEST].Count;
@@ -465,16 +463,19 @@ public class TestConfig
                 Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             }
 
-            Trace.WriteLine($"PASSED TESTS: {PassedTests.Values.Sum(v => v.Count)} / {FilteredTests.Values.Sum(v => v.Count)}", ProcessName.FINAL_SUMMARY);
+            int total = FilteredTests.Values.Sum(v => v.Count);
+            int inconclusive = InconclusiveTests.Values.Sum(v => v.Count);
+
+            Trace.WriteLine($"PASSED TESTS: {PassedTests.Values.Sum(v => v.Count)} / {total}", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
 
             if (InconclusiveTests.Values.Sum(v => v.Count) > 0)
             {
-                Trace.WriteLine($"INCONCLUSIVE TESTS: {InconclusiveTests.Values.Sum(v => v.Count)}", ProcessName.FINAL_SUMMARY);
+                Trace.WriteLine($"INCONCLUSIVE TESTS: {inconclusive}", ProcessName.FINAL_SUMMARY);
 
-                foreach (string inconclusive in InconclusiveTests.Values.SelectMany(v => v.Keys))
+                foreach (string inconclusiveTest in InconclusiveTests.Values.SelectMany(v => v.Keys))
                 {
-                    Trace.WriteLine($"  {inconclusive}", ProcessName.FINAL_SUMMARY);
+                    Trace.WriteLine($"  {inconclusiveTest}", ProcessName.FINAL_SUMMARY);
                 }
 
                 Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
@@ -1038,7 +1039,6 @@ public class TestConfig
         foreach (KeyValuePair<string, string> test in inconclusiveTests)
         {
             InconclusiveTests[processName].TryAdd(test.Key, test.Value);
-            FilteredTests[ProcessName.WEB_TEST].RemoveAll(t => t.TestName == test.Key);
         }
 
         Trace.WriteLine($"Adding {passedTests.Count} passed tests to total test count", processName);
@@ -1201,7 +1201,6 @@ public class TestConfig
         foreach (KeyValuePair<string, string> test in inconclusiveTests)
         {
             InconclusiveTests[processName].TryAdd(test.Key, test.Value);
-            FilteredTests[ProcessName.WEB_TEST].RemoveAll(t => t.TestName == test.Key);
         }
 
         Trace.WriteLine($"Adding {passedTests.Count} passed tests to total test count", processName);
