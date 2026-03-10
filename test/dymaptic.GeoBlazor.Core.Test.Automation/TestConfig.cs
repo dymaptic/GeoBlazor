@@ -70,11 +70,11 @@ public class TestConfig
     /// </summary>
     public static bool IsCI { get; private set; }
 
-    public static ConcurrentDictionary<string, Dictionary<string, string>> FailedTests { get; } = new();
+    public static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> FailedTests { get; } = new();
 
-    public static ConcurrentDictionary<string, byte> InconclusiveTests { get; } = new();
-    public static ConcurrentDictionary<string, byte> PassedTests { get; } = new();
-    public static ConcurrentDictionary<string, byte> SkippedTests { get; } = new();
+    public static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> InconclusiveTests { get; } = new();
+    public static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> PassedTests { get; } = new();
+    public static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> SkippedTests { get; } = new();
     public static ConcurrentDictionary<string, List<TestRecord>> FilteredTests { get; set; } = new()
     {
         [ProcessName.WEB_TEST] = [],
@@ -126,8 +126,6 @@ public class TestConfig
         "dymaptic.GeoBlazor.Pro.Test.Validation",
         "dymaptic.GeoBlazor.Pro.Test.Validation.csproj");
     private static string LogFilePath => Path.Combine(ProjectFolder, "test-run.log");
-    public static int WebFailedTestCount;
-    public static int WebInconclusiveTestCount;
 
     public static readonly CancellationTokenSource Cts = new();
 
@@ -419,16 +417,18 @@ public class TestConfig
 
             if (!UnitOnly)
             {
+                int webFailedTestCount = FailedTests[ProcessName.WEB_TEST].Count;
+                int webInconclusiveTestCount = InconclusiveTests[ProcessName.WEB_TEST].Count;
                 Trace.WriteLine(
-                    $"{ProcessName.WEB_APP_SERVER} SUMMARY: {(WebFailedTestCount > 0 ? "FAILED!" : "PASSED")}",
+                    $"{ProcessName.WEB_APP_SERVER} SUMMARY: {(webFailedTestCount > 0 ? "FAILED!" : "PASSED")}",
                     ProcessName.FINAL_SUMMARY);
 
                 int webTestTotalCount = FilteredTests[ProcessName.WEB_TEST].Count;
                 Trace.WriteLine($"  total: {webTestTotalCount}", ProcessName.FINAL_SUMMARY);
-                Trace.WriteLine($"  failed: {WebFailedTestCount}", ProcessName.FINAL_SUMMARY);
-                int succeeded = webTestTotalCount - WebFailedTestCount - WebInconclusiveTestCount;
+                Trace.WriteLine($"  failed: {webFailedTestCount}", ProcessName.FINAL_SUMMARY);
+                int succeeded = webTestTotalCount - webFailedTestCount - webInconclusiveTestCount;
                 Trace.WriteLine($"  succeeded: {succeeded}", ProcessName.FINAL_SUMMARY);
-                Trace.WriteLine($"  skipped: {WebInconclusiveTestCount}", ProcessName.FINAL_SUMMARY);
+                Trace.WriteLine($"  skipped: {webInconclusiveTestCount}", ProcessName.FINAL_SUMMARY);
                 TimeSpan webTestDuration = webTestEndTime - _webTestStartTime;
 
                 Trace.WriteLine(
@@ -438,7 +438,7 @@ public class TestConfig
                 Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             }
 
-            Trace.WriteLine($"PASSED TESTS: {PassedTests.Count} / {FilteredTests.Values.Sum(v => v.Count)}", ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine($"PASSED TESTS: {PassedTests.Values.Sum(v => v..Count} / {FilteredTests.Values.Sum(v => v.Count)}", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
 
             if (InconclusiveTests.Count > 0)
@@ -476,7 +476,7 @@ public class TestConfig
                 Trace.WriteLine("FAILED TEST DETAILS:", ProcessName.FINAL_SUMMARY);
                 Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
 
-                foreach (KeyValuePair<string, Dictionary<string, string>> kvp in FailedTests)
+                foreach (KeyValuePair<string, ConcurrentDictionary<string, string>> kvp in FailedTests)
                 {
                     string testCategory = kvp.Key.ToUpperInvariant();
 
@@ -977,8 +977,8 @@ public class TestConfig
         }
 
         Dictionary<string, string> failedTests = [];
-        List<string> inconclusiveTests = [];
-        List<string> passedTests = [];
+        Dictionary<string, string> inconclusiveTests = [];
+        Dictionary<string, string> passedTests = [];
 
         bool ioExceptionThrown = false;
         string? ioExceptionMessage = null;
@@ -1009,7 +1009,7 @@ public class TestConfig
 
         if (!FailedTests.ContainsKey(processName))
         {
-            FailedTests[processName] = new Dictionary<string, string>();
+            FailedTests[processName] = new ConcurrentDictionary<string, string>();
         }
 
         foreach (KeyValuePair<string, string> failedTest in failedTests)
@@ -1017,16 +1017,16 @@ public class TestConfig
             FailedTests[processName].TryAdd(failedTest.Key, failedTest.Value);
         }
 
-        foreach (string test in inconclusiveTests)
+        foreach (KeyValuePair<string, string> test in inconclusiveTests)
         {
-            InconclusiveTests.TryAdd(test, 0);
+            InconclusiveTests[processName].TryAdd(test.Key, test.Value);
         }
 
         Trace.WriteLine($"Adding {passedTests.Count} passed tests to total test count", processName);
 
-        foreach (string test in passedTests)
+        foreach (KeyValuePair<string, string> test in passedTests)
         {
-            PassedTests.TryAdd($"{processName}:{test}", 0);
+            PassedTests[processName].TryAdd(test.Key, test.Value);
         }
     }
 
@@ -1074,8 +1074,8 @@ public class TestConfig
         }
 
         Dictionary<string, string> failedTests = [];
-        List<string> inconclusiveTests = [];
-        List<string> passedTests = [];
+        Dictionary<string, string> inconclusiveTests = [];
+        Dictionary<string, string> passedTests = [];
 
         string? ioExceptionMessage = null;
         bool ioExceptionThrown = false;
@@ -1171,7 +1171,7 @@ public class TestConfig
 
         if (!FailedTests.ContainsKey(processName))
         {
-            FailedTests[processName] = new Dictionary<string, string>();
+            FailedTests[processName] = new ConcurrentDictionary<string, string>();
         }
 
         foreach (KeyValuePair<string, string> failedTest in failedTests)
@@ -1179,22 +1179,22 @@ public class TestConfig
             FailedTests[processName].TryAdd(failedTest.Key, failedTest.Value);
         }
 
-        foreach (string test in inconclusiveTests)
+        foreach (KeyValuePair<string, string> test in inconclusiveTests)
         {
-            InconclusiveTests.TryAdd(test, 0);
+            InconclusiveTests[processName].TryAdd(test.Key, test.Value);
         }
 
         Trace.WriteLine($"Adding {passedTests.Count} passed tests to total test count", processName);
 
-        foreach (string test in passedTests)
+        foreach (KeyValuePair<string, string> test in passedTests)
         {
-            PassedTests.TryAdd($"{processName}:{test}", 0);
+            PassedTests[processName].TryAdd(test.Key, test.Value);
         }
     }
 
     private static void TrackUnitTestOutput(string output, string processName,
-        ref Dictionary<string, string> failedTests, ref List<string> inconclusiveTests,
-        ref List<string> passedTests, ref string? ioExceptionMessage, 
+        ref Dictionary<string, string> failedTests, ref Dictionary<string, string> inconclusiveTests,
+        ref Dictionary<string, string> passedTests, ref string? ioExceptionMessage, 
         ref bool ioExceptionThrown, CancellationTokenSource? waitTokenSource = null)
     {
         string trimmedLine = output.Trim();
@@ -1216,12 +1216,12 @@ public class TestConfig
         else if (trimmedLine.StartsWith("inconclusive ", StringComparison.OrdinalIgnoreCase))
         {
             string testName = trimmedLine.Split(" ")[1];
-            inconclusiveTests.Add(testName);
+            inconclusiveTests.TryAdd(testName, output);
         }
         else if (trimmedLine.StartsWith("passed ", StringComparison.OrdinalIgnoreCase))
         {
             string testName = trimmedLine.Split(" ")[1];
-            passedTests.Add(testName);
+            passedTests.TryAdd(testName, output);
         }
 
         Trace.WriteLine(output, processName);

@@ -190,7 +190,6 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
                     Trace.WriteLine($"{testName} Inconclusive", ProcessName.WEB_TEST);
                     TestConfig.InconclusiveTests.TryAdd(testName, 0);
                     TestConfig.FilteredTests[ProcessName.WEB_TEST].RemoveAll(t => t.TestName == testName);
-                    Interlocked.Increment(ref TestConfig.WebInconclusiveTestCount);
                 }
                 else
                 {
@@ -218,13 +217,8 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
             Trace.WriteLine(messages, ProcessName.WEB_TEST);
             Trace.WriteLine(errors, ProcessName.WEB_TEST_ERROR);
 
-            if (!TestConfig.FailedTests.ContainsKey(ProcessName.WEB_TEST))
-            {
-                TestConfig.FailedTests[ProcessName.WEB_TEST] = new Dictionary<string, string>();
-            }
-
             TestConfig.FailedTests[ProcessName.WEB_TEST][testName] = $"{messages}{Environment.NewLine}{errors}";
-            Interlocked.Increment(ref TestConfig.WebFailedTestCount);
+            
             Assert.Fail($"{testName} Failed: {errors}");
         }
         finally
