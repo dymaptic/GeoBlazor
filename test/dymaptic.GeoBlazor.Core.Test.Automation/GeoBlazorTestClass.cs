@@ -111,6 +111,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
         if (TestConfig.FilteredTests[ProcessName.WEB_TEST].All(t => t.TestName != testName))
         {
             TestConfig.SkippedTests[ProcessName.WEB_TEST].TryAdd(testName, "Test Skipped");
+            TestConfig.FilteredTests[ProcessName.WEB_TEST].RemoveAll(t => t.TestName == testName);
             Trace.WriteLine($"{testName} Skipped", ProcessName.WEB_TEST);
 
             return;
@@ -213,10 +214,11 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
             if (TestConfig.SkippedTests[ProcessName.WEB_TEST].ContainsKey(testName)
                 || TestConfig.InconclusiveTests[ProcessName.WEB_TEST].ContainsKey(testName))
             {
+                TestConfig.FilteredTests[ProcessName.WEB_TEST].RemoveAll(t => t.TestName == testName);
                 // skip errors on skipped tests
                 return;
             }
-            
+
             var (messages, errors) = CheckMessages(testName);
             Trace.WriteLine(messages, ProcessName.WEB_TEST);
             Trace.WriteLine(errors, ProcessName.WEB_TEST_ERROR);

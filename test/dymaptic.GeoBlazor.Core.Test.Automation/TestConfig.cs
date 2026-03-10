@@ -453,7 +453,7 @@ public class TestConfig
                 int webTestTotalCount = FilteredTests[ProcessName.WEB_TEST].Count;
                 Trace.WriteLine($"  total: {webTestTotalCount}", ProcessName.FINAL_SUMMARY);
                 Trace.WriteLine($"  failed: {webFailedTestCount}", ProcessName.FINAL_SUMMARY);
-                int succeeded = webTestTotalCount - webFailedTestCount - webInconclusiveTestCount;
+                int succeeded = PassedTests[ProcessName.WEB_TEST].Count;
                 Trace.WriteLine($"  succeeded: {succeeded}", ProcessName.FINAL_SUMMARY);
                 Trace.WriteLine($"  skipped: {webInconclusiveTestCount}", ProcessName.FINAL_SUMMARY);
                 TimeSpan webTestDuration = webTestEndTime - _webTestStartTime;
@@ -1038,6 +1038,7 @@ public class TestConfig
         foreach (KeyValuePair<string, string> test in inconclusiveTests)
         {
             InconclusiveTests[processName].TryAdd(test.Key, test.Value);
+            FilteredTests[ProcessName.WEB_TEST].RemoveAll(t => t.TestName == test.Key);
         }
 
         Trace.WriteLine($"Adding {passedTests.Count} passed tests to total test count", processName);
@@ -1200,6 +1201,7 @@ public class TestConfig
         foreach (KeyValuePair<string, string> test in inconclusiveTests)
         {
             InconclusiveTests[processName].TryAdd(test.Key, test.Value);
+            FilteredTests[ProcessName.WEB_TEST].RemoveAll(t => t.TestName == test.Key);
         }
 
         Trace.WriteLine($"Adding {passedTests.Count} passed tests to total test count", processName);
