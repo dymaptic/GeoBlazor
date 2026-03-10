@@ -35,11 +35,11 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
             switch (TestContext.CurrentTestOutcome)
             {
                 case UnitTestOutcome.Passed:
-                    if (!TestConfig.SkippedTests.ContainsKey(fullTestName)
-                        && !TestConfig.InconclusiveTests.ContainsKey(fullTestName)
+                    if (!TestConfig.SkippedTests[ProcessName.WEB_TEST].ContainsKey(fullTestName)
+                        && !TestConfig.InconclusiveTests[ProcessName.WEB_TEST].ContainsKey(fullTestName)
                         && TestConfig.FilteredTests[ProcessName.WEB_TEST].Any(t => t.TestName == fullTestName))
                     {
-                        TestConfig.PassedTests.TryAdd(fullTestName, 0);
+                        TestConfig.PassedTests[ProcessName.WEB_TEST].TryAdd(fullTestName, 0);
                     }
 
                     break;
@@ -53,14 +53,14 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
                     break;
                 case UnitTestOutcome.Inconclusive:
                     TestConfig.FilteredTests[ProcessName.WEB_TEST].RemoveAll(t => t.TestName == fullTestName);
-                    TestConfig.InconclusiveTests.TryAdd(fullTestName, 0);
-                    TestConfig.PassedTests.TryRemove(fullTestName, out _);
+                    TestConfig.InconclusiveTests[ProcessName.WEB_TEST].TryAdd(fullTestName, 0);
+                    TestConfig.PassedTests[ProcessName.WEB_TEST].TryRemove(fullTestName, out _);
 
                     break;
                 case UnitTestOutcome.Ignored:
                     TestConfig.FilteredTests[ProcessName.WEB_TEST].RemoveAll(t => t.TestName == fullTestName);
-                    TestConfig.SkippedTests.TryAdd(fullTestName, 0);
-                    TestConfig.PassedTests.TryRemove(fullTestName, out _);
+                    TestConfig.SkippedTests[ProcessName.WEB_TEST].TryAdd(fullTestName, 0);
+                    TestConfig.PassedTests[ProcessName.WEB_TEST].TryRemove(fullTestName, out _);
 
                     break;
             }
@@ -104,7 +104,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
     {
         if (TestConfig.UnitOnly)
         {
-            TestConfig.SkippedTests.TryAdd(testName, 0);
+            TestConfig.SkippedTests[ProcessName.WEB_TEST].TryAdd(testName, 0);
             TestConfig.FilteredTests[ProcessName.WEB_TEST].RemoveAll(t => t.TestName == testName);
             Trace.WriteLine($"{testName} Skipped", ProcessName.WEB_TEST);
 
@@ -113,7 +113,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
         if (TestConfig.FilteredTests[ProcessName.WEB_TEST].All(t => t.TestName != testName))
         {
-            TestConfig.SkippedTests.TryAdd(testName, 0);
+            TestConfig.SkippedTests[ProcessName.WEB_TEST].TryAdd(testName, 0);
             Trace.WriteLine($"{testName} Skipped", ProcessName.WEB_TEST);
 
             return;
@@ -188,7 +188,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
                     // Inconclusive we treat as passing for our automation purposes
                     Trace.WriteLine($"{testName} Inconclusive", ProcessName.WEB_TEST);
-                    TestConfig.InconclusiveTests.TryAdd(testName, 0);
+                    TestConfig.InconclusiveTests[ProcessName.WEB_TEST].TryAdd(testName, 0);
                     TestConfig.FilteredTests[ProcessName.WEB_TEST].RemoveAll(t => t.TestName == testName);
                 }
                 else

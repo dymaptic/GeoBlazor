@@ -438,14 +438,14 @@ public class TestConfig
                 Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             }
 
-            Trace.WriteLine($"PASSED TESTS: {PassedTests.Values.Sum(v => v..Count} / {FilteredTests.Values.Sum(v => v.Count)}", ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine($"PASSED TESTS: {PassedTests.Values.Sum(v => v.Count)} / {FilteredTests.Values.Sum(v => v.Count)}", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
 
-            if (InconclusiveTests.Count > 0)
+            if (InconclusiveTests.Values.Sum(v => v.Count) > 0)
             {
-                Trace.WriteLine($"INCONCLUSIVE TESTS: {InconclusiveTests.Count}", ProcessName.FINAL_SUMMARY);
+                Trace.WriteLine($"INCONCLUSIVE TESTS: {InconclusiveTests.Values.Sum(v => v.Count)}", ProcessName.FINAL_SUMMARY);
 
-                foreach (string inconclusive in InconclusiveTests.Keys)
+                foreach (string inconclusive in InconclusiveTests.Values.SelectMany(v => v.Keys))
                 {
                     Trace.WriteLine($"  {inconclusive}", ProcessName.FINAL_SUMMARY);
                 }
@@ -453,11 +453,11 @@ public class TestConfig
                 Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             }
 
-            if (SkippedTests.Count > 0)
+            if (SkippedTests.Values.Sum(v => v.Count) > 0)
             {
-                Trace.WriteLine($"SKIPPED TESTS: {SkippedTests.Count}", ProcessName.FINAL_SUMMARY);
+                Trace.WriteLine($"SKIPPED TESTS: {SkippedTests.Values.Sum(v => v.Count)}", ProcessName.FINAL_SUMMARY);
 
-                foreach (string skipped in SkippedTests.Keys)
+                foreach (string skipped in SkippedTests.Values.SelectMany(v => v.Keys))
                 {
                     Trace.WriteLine($"  {skipped}", ProcessName.FINAL_SUMMARY);
                 }
@@ -471,7 +471,7 @@ public class TestConfig
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
 
-            if (FailedTests.Count > 0)
+            if (failedCount > 0)
             {
                 Trace.WriteLine("FAILED TEST DETAILS:", ProcessName.FINAL_SUMMARY);
                 Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
