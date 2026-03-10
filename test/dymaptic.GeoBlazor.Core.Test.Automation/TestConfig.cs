@@ -70,11 +70,38 @@ public class TestConfig
     /// </summary>
     public static bool IsCI { get; private set; }
 
-    public static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> FailedTests { get; } = new();
+    public static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> FailedTests { get; } = new()
+    {
+        [ProcessName.WEB_TEST] = [],
+        [ProcessName.CORE_UNIT] = [],
+        [ProcessName.PRO_UNIT] = [],
+        [ProcessName.PRO_VALIDATION] = []
+    };
 
-    public static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> InconclusiveTests { get; } = new();
-    public static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> PassedTests { get; } = new();
-    public static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> SkippedTests { get; } = new();
+    public static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> InconclusiveTests { get; } = new()
+    {
+        [ProcessName.WEB_TEST] = [],
+        [ProcessName.CORE_UNIT] = [],
+        [ProcessName.PRO_UNIT] = [],
+        [ProcessName.PRO_VALIDATION] = []
+    };
+    
+    public static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> PassedTests { get; } = new()
+    {
+        [ProcessName.WEB_TEST] = [],
+        [ProcessName.CORE_UNIT] = [],
+        [ProcessName.PRO_UNIT] = [],
+        [ProcessName.PRO_VALIDATION] = []
+    };
+    
+    public static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> SkippedTests { get; } = new()
+    {
+        [ProcessName.WEB_TEST] = [],
+        [ProcessName.CORE_UNIT] = [],
+        [ProcessName.PRO_UNIT] = [],
+        [ProcessName.PRO_VALIDATION] = []
+    };
+
     public static ConcurrentDictionary<string, List<TestRecord>> FilteredTests { get; set; } = new()
     {
         [ProcessName.WEB_TEST] = [],
