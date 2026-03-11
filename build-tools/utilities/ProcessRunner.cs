@@ -1,10 +1,11 @@
 using Polly;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 
 namespace Utilities;
 
-public static class ProcessRunner
+public static partial class ProcessRunner
 {
     /// <summary>
     ///     Runs an npm command using PowerShell 7 for cross-platform compatibility.
@@ -37,8 +38,9 @@ public static class ProcessRunner
         Dictionary<string, string>? environmentVariables = null,
         CancellationToken cancellationToken = default, params IEnumerable<string> args)
     {
+        // make sure there is a space after the word "Error" to avoid false positives on output like "0 Error(s)"
         return RunCommand(workingDirectory, "dotnet", command, environmentVariables, cancellationToken,
-            ["Build FAILED"], args);
+            ["Build FAILED", "Error "], args);
     }
 
     /// <summary>
@@ -55,87 +57,185 @@ public static class ProcessRunner
         Dictionary<string, string>? environmentVariables, CancellationToken cancellationToken,
         string[] failureTriggerWords, params IEnumerable<string> args)
     {
-        var arguments = $"{command} {string.Join(" ", args.Where(a => !string.IsNullOrWhiteSpace(a)))}";
+        Stopwatch sw = new();
+        sw.Start();
+        string arguments = $"{command} {string.Join(" ", args.Where(a => !string.IsNullOrWhiteSpace(a)))}";
 
-        var psi = new ProcessStartInfo
-        {
-            FileName = fileName,
-            Arguments = arguments,
-            WorkingDirectory = workingDirectory,
-            UseShellExecute = false,
-            CreateNoWindow = true,
-            RedirectStandardError = true,
-            RedirectStandardOutput = true
-        };
+        int windowWidth = GbCli.GetWindowWidth();
+        environmentVariables ??= [];
+        environmentVariables["CONSOLE_WIDTH"] = windowWidth.ToString();
 
-        if (environmentVariables != null)
+        try
         {
-            foreach (var kvp in environmentVariables)
+            ProcessStartInfo psi = new()
+            {
+                FileName = fileName,
+                Arguments = arguments,
+                WorkingDirectory = workingDirectory,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardError = true,
+                RedirectStandardOutput = true
+            };
+
+            foreach (KeyValuePair<string, string> kvp in environmentVariables)
             {
                 psi.Environment[kvp.Key] = kvp.Value;
             }
-        }
 
-        await LaunchResilientTask($"dotnet {arguments}", async context =>
-        {
-            using var process = Process.Start(psi);
-
-            if (process != null)
+            await LaunchResilientTask($"dotnet {arguments}", async _ =>
             {
-                process.OutputDataReceived += (_, e) =>
-                {
-                    if (e.Data != null)
-                    {
-                        Console.WriteLine(e.Data);
+                using Process? process = Process.Start(psi);
+                bool lineWasEmpty = false;
 
-                        foreach (var triggerWord in failureTriggerWords)
+                if (process != null)
+                {
+                    process.OutputDataReceived += (_, e) =>
+                    {
+                        if (e.Data != null)
                         {
-                            if (e.Data.Contains(triggerWord, StringComparison.OrdinalIgnoreCase))
+                            string line = e.Data;
+
+                            Console.Write("| ");
+                            int lineSpace = windowWidth - 3;
+
+                            if (stepHeaderRegex.Match(line) is { Success: true } headerMatch && lineWasEmpty)
                             {
-                                throw new Exception($"Detected failure word '{triggerWord}' in output of process {
-                                    psi.FileName} {psi.Arguments}.");
+                                string indents = headerMatch.Groups["indents"].Value;
+
+                                Console.BackgroundColor = (indents.Length == 0 ? 0 : indents.Length / 2) switch
+                                {
+                                    0 => ConsoleColor.DarkBlue,
+                                    1 => ConsoleColor.DarkGreen,
+                                    _ => ConsoleColor.DarkYellow
+                                };
+                                Console.ForegroundColor = ConsoleColor.White;
+                                string header = headerMatch.Groups["header"].Value;
+                                string timestamp = headerMatch.Groups["timestamp"].Value;
+                                int buffer = windowWidth - indents.Length - header.Length - timestamp.Length - 3;
+
+                                while (buffer < 0)
+                                {
+                                    buffer += windowWidth;
+                                }
+
+                                Console.Write($"{indents}{header}{new string(' ', buffer)}{timestamp}");
+                                Console.ResetColor();
+                                Console.WriteLine();
+                            }
+                            else if (stepFooterRegex.Match(line) is { Success: true } footerMatch)
+                            {
+                                string indents = footerMatch.Groups["indents"].Value;
+
+                                Console.BackgroundColor = (indents.Length == 0 ? 0 : indents.Length / 2) switch
+                                {
+                                    0 => ConsoleColor.Blue,
+                                    1 => ConsoleColor.Green,
+                                    _ => ConsoleColor.Yellow
+                                };
+                                Console.BackgroundColor = ConsoleColor.DarkGray;
+                                Console.ForegroundColor = ConsoleColor.White;
+                                string footer = footerMatch.Groups["footer"].Value;
+                                int buffer = windowWidth - indents.Length - footer.Length - 3;
+
+                                while (buffer < 0)
+                                {
+                                    buffer += windowWidth;
+                                }
+
+                                Console.Write($"{indents}{footer}{new string(' ', buffer)}");
+                                Console.ResetColor();
+                                Console.WriteLine();
+                            }
+                            else
+                            {
+                                while (line.Length > lineSpace)
+                                {
+                                    Console.WriteLine(line[..lineSpace]);
+                                    Console.Write("|  ");
+                                    line = line[lineSpace..];
+                                }
+
+                                Console.WriteLine(line);
+                            }
+
+                            lineWasEmpty = string.IsNullOrEmpty(line);
+
+                            foreach (string triggerWord in failureTriggerWords)
+                            {
+                                if (e.Data.Contains(triggerWord, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    throw new TaskFailureException($"Detected failure word '{triggerWord
+                                    }' in output of process {psi.FileName} {psi.Arguments}.");
+                                }
                             }
                         }
-                    }
-                };
+                    };
 
-                process.ErrorDataReceived += (_, e) =>
-                {
-                    if (e.Data != null)
+                    process.ErrorDataReceived += (_, e) =>
                     {
-                        Console.WriteLine(e.Data);
-
-                        foreach (var triggerWord in failureTriggerWords)
+                        if (e.Data != null)
                         {
-                            if (e.Data.Contains(triggerWord, StringComparison.OrdinalIgnoreCase))
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine($"| {e.Data}");
+                            Console.ResetColor();
+
+                            foreach (string triggerWord in failureTriggerWords)
                             {
-                                throw new Exception($"Detected failure word '{triggerWord}' in error output of process {
-                                    psi.FileName} {psi.Arguments}.");
+                                if (e.Data.Contains(triggerWord, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    throw new TaskFailureException($"Detected failure word '{triggerWord
+                                    }' in error output of process {psi.FileName} {psi.Arguments}.");
+                                }
                             }
                         }
+                    };
+
+                    process.BeginOutputReadLine();
+                    process.BeginErrorReadLine();
+
+                    await process.WaitForExitAsync(cancellationToken);
+
+                    if (!process.HasExited)
+                    {
+                        process.Kill(true);
                     }
-                };
 
-                process.BeginOutputReadLine();
-                process.BeginErrorReadLine();
-
-                await process.WaitForExitAsync(cancellationToken);
-
-                if (!process.HasExited)
-                {
-                    process.Kill(true);
+                    if (process.ExitCode != 0)
+                    {
+                        throw new Exception($"Error code {process.ExitCode} for process {psi.FileName} {psi.Arguments
+                        }");
+                    }
                 }
-            }
-        }, cancellationToken);
+            }, cancellationToken);
+        }
+        finally
+        {
+            sw.Stop();
+
+            Console.WriteLine($"Process {fileName} {arguments} completed in {sw.Elapsed.Minutes}m {sw.Elapsed.Seconds
+            }s.");
+        }
     }
 
     private static async Task LaunchResilientTask(string taskName, Func<ResilienceContext, ValueTask> task,
         CancellationToken cancellationToken)
     {
-        var context = ResilienceContextPool.Shared.Get(
+        ResilienceContext context = ResilienceContextPool.Shared.Get(
             new ResilienceContextCreationArguments(taskName, null, cancellationToken));
         await ResilienceSetup.AppRetryPipeline.ExecuteAsync(task, context);
 
         ResilienceContextPool.Shared.Return(context);
     }
+
+    [GeneratedRegex(@"^(?<indents>[|\s]*?)(?<header>\d+\.\s.*?)\s*(?<timestamp>[\d\:]+)", RegexOptions.Compiled)]
+    private static partial Regex StepHeaderRegex();
+
+    [GeneratedRegex(@"^(?<indents>[|\s]*?)(?<footer>Step \d+ completed in .*?)\s*$", RegexOptions.Compiled)]
+    private static partial Regex StepFooterRegex();
+
+    private static readonly Regex stepHeaderRegex = StepHeaderRegex();
+    private static readonly Regex stepFooterRegex = StepFooterRegex();
 }
+
+public class TaskFailureException(string message) : Exception(message);

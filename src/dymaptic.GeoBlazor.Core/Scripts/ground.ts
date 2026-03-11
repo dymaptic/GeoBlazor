@@ -8,6 +8,12 @@ export default class GroundWrapper extends GroundGenerated {
         super(component);
     }
 
+    async load(signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
+        let result = await this.component.load(options);
+        return await buildDotNetGround(result, this.layerId, this.viewId);
+    }
+
 }
 
 export async function buildJsGround(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {

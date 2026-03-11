@@ -371,7 +371,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
             addFeatureResults =
                 await SendEdits(addedFeatures.Skip(skip)
                         .Take(chunkSize)
-                        .Select(g => g.ToSerializationRecord(true))
+                        .Select(g => g.ToProtobuf())
                         .ToArray(), "add",
                     options, addFeatureResults, abortSignal, cancellationToken);
             editMoment ??= addFeatureResults?.EditMoment;
@@ -384,7 +384,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
             updateFeatureResults =
                 await SendEdits(updatedFeatures.Skip(skip)
                         .Take(chunkSize)
-                        .Select(g => g.ToSerializationRecord(true))
+                        .Select(g => g.ToProtobuf())
                         .ToArray(), "update",
                     options, updateFeatureResults, abortSignal, cancellationToken);
             editMoment ??= updateFeatureResults?.EditMoment;
@@ -397,7 +397,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
             deleteFeatureResults =
                 await SendEdits(deletedFeatures.Skip(skip)
                         .Take(chunkSize)
-                        .Select(g => g.ToSerializationRecord(true))
+                        .Select(g => g.ToProtobuf())
                         .ToArray(), "delete",
                     options, deleteFeatureResults, abortSignal, cancellationToken);
             editMoment ??= deleteFeatureResults?.EditMoment;
@@ -614,12 +614,12 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                 }
 
                 break;
-            case IFeatureReduction _:
+            case IFeatureReduction:
                 FeatureReduction = null;
 
                 break;
 
-            case IFormTemplate _:
+            case IFormTemplate:
                 FormTemplate = null;
 
                 break;
@@ -679,9 +679,14 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
             "getJsComponent", CancellationTokenSource.Token, Id);
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        ExtentQueryResult result = await JsComponentReference!.InvokeJsMethod<ExtentQueryResult>(IsServer, 
+            nameof(QueryExtent), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, 
+            cancellationToken, query, abortSignal);
 
-        ExtentQueryResult result = await JsComponentReference!.InvokeAsync<ExtentQueryResult>("queryExtent",
-            cancellationToken, query, new { signal = abortSignal });
+        if (result.Extent is not null)
+        {
+            result.Extent.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, null, this);
+        }
 
         await AbortManager.DisposeAbortController(cancellationToken);
 
@@ -709,8 +714,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
-        int result = await JsComponentReference!.InvokeAsync<int>("queryFeatureCount", cancellationToken,
-            query, new { signal = abortSignal });
+        int result = await JsComponentReference!.InvokeJsMethod<int>(IsServer,
+            nameof(QueryFeatureCount), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            cancellationToken, query, abortSignal);
 
         await AbortManager.DisposeAbortController(cancellationToken);
 
@@ -737,16 +743,10 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
 
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        Guid queryId = Guid.NewGuid();
 
-        FeatureSet result = (await JsComponentReference!.InvokeAsync<FeatureSet?>("queryFeatures", cancellationToken,
-            query, new { signal = abortSignal }, DotNetComponentReference, queryId))!;
-
-        if (_activeQueries.ContainsKey(queryId))
-        {
-            result = result with { Features = _activeQueries[queryId] };
-            _activeQueries.Remove(queryId);
-        }
+        FeatureSet result = await JsComponentReference!.InvokeJsMethod<FeatureSet>(IsServer, 
+            nameof(QueryFeatures), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            cancellationToken, query, abortSignal);
 
         foreach (Graphic graphic in result.Features!)
         {
@@ -756,30 +756,6 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         await AbortManager.DisposeAbortController(cancellationToken);
 
         return result;
-    }
-
-    /// <summary>
-    ///     Internal use callback from JavaScript
-    /// </summary>
-    [JSInvokable]
-    public async Task OnQueryFeaturesStreamCallback(IJSStreamReference streamReference, Guid queryId)
-    {
-        try
-        {
-            await using Stream stream = await streamReference
-                .OpenReadStreamAsync(View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
-            using var ms = new MemoryStream();
-            await stream.CopyToAsync(ms);
-            ms.Seek(0, SeekOrigin.Begin);
-            ProtoGraphicCollection collection = Serializer.Deserialize<ProtoGraphicCollection>(ms);
-            Graphic[] graphics = collection?.Graphics.Select(g => g.FromSerializationRecord()).ToArray()!;
-
-            _activeQueries[queryId] = graphics;
-        }
-        catch (Exception ex)
-        {
-            throw new SerializationException("Error deserializing graphics from stream.", ex);
-        }
     }
 
     /// <summary>
@@ -801,9 +777,11 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
 
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-
-        ObjectId[] queryResult = await JsComponentReference!.InvokeAsync<ObjectId[]>("queryObjectIds",
-            cancellationToken, query, new { signal = abortSignal });
+        
+        ObjectId[] queryResult = await JsComponentReference!.InvokeJsMethod<ObjectId[]>(IsServer, 
+            nameof(QueryObjectIds), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            cancellationToken, query, abortSignal);
+        
         await AbortManager.DisposeAbortController(cancellationToken);
 
         return queryResult;
@@ -829,31 +807,14 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
 
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        Guid queryId = Guid.NewGuid();
-
-        RelatedFeaturesQueryResult result = (await JsComponentReference!.InvokeAsync<RelatedFeaturesQueryResult?>(
-            "queryRelatedFeatures", cancellationToken, query, new { signal = abortSignal },
-            DotNetComponentReference, queryId))!;
-
-        if (_activeRelatedQueries.ContainsKey(queryId))
+        RelatedFeaturesQueryResult result = await JsComponentReference!
+            .InvokeJsMethod<RelatedFeaturesQueryResult>(IsServer, nameof(QueryRelatedFeatures), 
+                nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, cancellationToken, query, 
+                abortSignal);
+        
+        foreach (Graphic graphic in result.Values.SelectMany(fs => fs is null ? [] : fs.Features ?? []))
         {
-            Dictionary<long, Graphic[]> relatedGraphics = _activeRelatedQueries[queryId];
-
-            foreach (KeyValuePair<long, FeatureSet?> kvp in result)
-            {
-                if (kvp.Value is null || !relatedGraphics.TryGetValue(kvp.Key, out Graphic[]? relatedGraphic)) continue;
-
-                foreach (Graphic graphic in relatedGraphic)
-                {
-                    graphic.View = View;
-                    graphic.Parent = this;
-                    graphic.Layer = this;
-                }
-
-                result[kvp.Key] = kvp.Value with { Features = relatedGraphic };
-            }
-
-            _activeRelatedQueries.Remove(queryId);
+            graphic.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, this);
         }
 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -861,35 +822,6 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         return result;
     }
 
-    /// <summary>
-    ///     Internal use callback from JavaScript
-    /// </summary>
-    [JSInvokable]
-    public async Task OnQueryRelatedFeaturesStreamCallback(IJSStreamReference streamReference, Guid queryId,
-        string objectId)
-    {
-        try
-        {
-            await using Stream stream = await streamReference
-                .OpenReadStreamAsync(View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
-            using var ms = new MemoryStream();
-            await stream.CopyToAsync(ms);
-            ms.Seek(0, SeekOrigin.Begin);
-            ProtoGraphicCollection collection = Serializer.Deserialize<ProtoGraphicCollection>(ms);
-            Graphic[] graphics = collection?.Graphics.Select(g => g.FromSerializationRecord()).ToArray()!;
-
-            if (!_activeRelatedQueries.ContainsKey(queryId))
-            {
-                _activeRelatedQueries[queryId] = new Dictionary<long, Graphic[]>();
-            }
-
-            _activeRelatedQueries[queryId][int.Parse(objectId)] = graphics;
-        }
-        catch (Exception ex)
-        {
-            throw new SerializationException("Error deserializing graphics from stream.", ex);
-        }
-    }
 
     /// <summary>
     ///     Executes a RelationshipQuery against the feature service and when resolved, it returns an object containing key value pairs. Key in this case is the objectId of the feature and value is the number of related features associated with the feature.
@@ -912,9 +844,10 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
-        RelatedFeaturesCountQueryResult? result =
-            await JsComponentReference!.InvokeAsync<RelatedFeaturesCountQueryResult?>("queryRelatedFeaturesCount",
-                cancellationToken, query, new { signal = abortSignal });
+        RelatedFeaturesCountQueryResult? result = await JsComponentReference!
+            .InvokeJsMethod<RelatedFeaturesCountQueryResult?>(IsServer, nameof(QueryRelatedFeaturesCount), 
+                nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, cancellationToken, query, 
+                abortSignal);
 
         await AbortManager.DisposeAbortController(cancellationToken);
 
@@ -941,8 +874,8 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
-        int result = await JsComponentReference!.InvokeAsync<int>("queryTopFeatureCount", cancellationToken,
-            query, new { signal = abortSignal });
+        int result = await JsComponentReference!.InvokeJsMethod<int>(IsServer, nameof(QueryTopFeatureCount), 
+            nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, cancellationToken, query, abortSignal);
 
         await AbortManager.DisposeAbortController(cancellationToken);
 
@@ -972,22 +905,13 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
 
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        Guid queryId = Guid.NewGuid();
-
-        FeatureSet result = (await JsComponentReference!.InvokeAsync<FeatureSet?>("queryTopFeatures", cancellationToken,
-            query, new { signal = abortSignal }, DotNetComponentReference, queryId))!;
-
-        if (_activeQueries.ContainsKey(queryId))
-        {
-            result = result with { Features = _activeQueries[queryId] };
-            _activeQueries.Remove(queryId);
-        }
+        FeatureSet result = await JsComponentReference!.InvokeJsMethod<FeatureSet>(IsServer, 
+            nameof(QueryTopFeatures), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, 
+            cancellationToken, query, abortSignal);
 
         foreach (Graphic graphic in result.Features!)
         {
-            graphic.View = View;
-            graphic.Parent = this;
-            graphic.Layer = this;
+            graphic.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, this);
         }
 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -1019,9 +943,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
-        ObjectId[] queryResult = await JsComponentReference!.InvokeAsync<ObjectId[]>("queryTopObjectIds",
-            cancellationToken,
-            query, new { signal = abortSignal });
+        ObjectId[] queryResult = await JsComponentReference!.InvokeJsMethod<ObjectId[]>(IsServer,
+            nameof(QueryTopObjectIds), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            cancellationToken, query, abortSignal);
 
         await AbortManager.DisposeAbortController(cancellationToken);
 
@@ -1049,8 +973,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
-        ExtentQueryResult result = await JsComponentReference!.InvokeAsync<ExtentQueryResult>("queryExtent",
-            cancellationToken, query, new { signal = abortSignal });
+        ExtentQueryResult result = await JsComponentReference!.InvokeJsMethod<ExtentQueryResult>(IsServer,
+            nameof(QueryTopFeaturesExtent), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            cancellationToken, query, abortSignal);
 
         await AbortManager.DisposeAbortController(cancellationToken);
 
@@ -1067,7 +992,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
             return null;
         }
 
-        ProtoGraphicCollection collection = new(graphics);
+        GraphicCollectionSerializationRecord collection = new(graphics);
         MemoryStream ms = new();
         Serializer.Serialize(ms, collection);
 
@@ -1101,9 +1026,6 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
 
         return result.Concat(currentResults);
     }
-
-    private readonly Dictionary<Guid, Graphic[]> _activeQueries = new();
-    private readonly Dictionary<Guid, Dictionary<long, Graphic[]>> _activeRelatedQueries = new();
 }
 
 /// <summary>

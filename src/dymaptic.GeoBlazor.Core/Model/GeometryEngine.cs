@@ -716,9 +716,7 @@ public class GeometryEngine(
             // in Pro there is an extension method called GeodesicBufferMultipoint
             // we need to call it via reflection
             MethodInfo? multiPointMethodInfo = Assembly.Load("dymaptic.GeoBlazor.Pro")
-                ?
-                .GetType("dymaptic.GeoBlazor.Pro.Model.GeometryEngineProExtensions")
-                ?
+                .GetType("dymaptic.GeoBlazor.Pro.Model.GeometryEngineProExtensions")?
                 .GetMethod("GeodesicBufferMultipoint");
 
             if (multiPointMethodInfo is not null)

@@ -9,6 +9,7 @@ services:
         TEST_GROUP: PRO_VALIDATION
         TEST_FOLDER: "./test/dymaptic.GeoBlazor.Pro.Test.Validation"
         TEST_PROJECT: "./test/dymaptic.GeoBlazor.Pro.Test.Validation/dymaptic.GeoBlazor.Pro.Test.Validation.csproj"
+        ADDITIONAL_FILES: "./test/dymaptic.GeoBlazor.Pro.Test.WebApp/ ./test/dymaptic.GeoBlazor.Pro.Test.Blazor.Shared/ ./GeoBlazor/test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/"
         FILTER: ${FILTER}
     stop_grace_period: 30s
     environment:

@@ -2,7 +2,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Immutable;
 using System.Text;
-using System.Text.RegularExpressions;
 
 
 namespace dymaptic.GeoBlazor.Core.SourceGenerator.Shared;
@@ -29,24 +28,24 @@ public static class ProtobufDefinitionsGenerator
                                  `;
                                  """;
 
-        var encoded = escapeRegex.Replace(typescriptContent, match => match.Value switch
+        var destinationPath = Path.Combine(corePath, "Scripts", "geoblazorProto.ts");
+
+        if (File.Exists(destinationPath))
         {
-            "\"" => "\\\"",
-            "\r" => "\\r",
-            "\n" => "\\n",
-            _ => match.Value
-        });
+            var existingContent = File.ReadAllText(destinationPath, Encoding.UTF8);
 
-        var scriptPath = Path.Combine(corePath, "copyProtobuf.ps1");
+            if (existingContent == typescriptContent)
+            {
+                ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
+                    "Protobuf definitions up-to-date. Skipping write.",
+                    DiagnosticSeverity.Info,
+                    context, showDialog, sessionId);
 
-        // write protobuf definitions to geoblazorProto.ts
-        // must use GetAwaiter().GetResult(), since Source Generator is not Async
-        ProcessHelper.RunPowerShellScript("Copy Protobuf Definitions",
-                corePath, scriptPath,
-                ["-Content", encoded],
-                context, showDialog, sessionId)
-            .GetAwaiter()
-            .GetResult();
+                return _protoDefinitions ?? [];
+            }
+        }
+
+        File.WriteAllText(destinationPath, typescriptContent, Encoding.UTF8);
 
         ProcessHelper.Log(nameof(ProtobufDefinitionsGenerator),
             "Protobuf definitions updated successfully.",
@@ -358,7 +357,6 @@ public static class ProtobufDefinitionsGenerator
         return sb.ToString();
     }
 
-    private static readonly Regex escapeRegex = new(@"[""\r\n]", RegexOptions.Compiled);
     private static Dictionary<string, ProtoMessageDefinition>? _protoDefinitions;
 }
 

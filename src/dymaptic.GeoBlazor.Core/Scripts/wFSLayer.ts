@@ -9,10 +9,10 @@ export default class WFSLayerWrapper extends WFSLayerGenerated {
         super(layer);
     }
 
-    async load(options: any): Promise<any> {
+    async load(signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetWFSLayer(result, this.layerId, this.viewId);
-        return buildEncodedJson(dotNetLayer);
+        return await buildDotNetWFSLayer(result, this.layerId, this.viewId);
     }
 
     async getFeatureReduction(): Promise<any> {

@@ -57,17 +57,6 @@ export default class BasemapGenerated extends BaseComponent {
         return this.component.isResolved();
     }
 
-    async load(signal: AbortSignal): Promise<any> {
-        let options = {signal: signal};
-        return await this.component.load(options);
-    }
-
-    async loadAll(): Promise<any> {
-        let result = await this.component.loadAll();
-        let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(result, this.layerId, this.viewId);
-    }
-
     async when(callback: any,
         errback: any): Promise<any> {
         return await this.component.when(callback,

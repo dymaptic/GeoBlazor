@@ -127,11 +127,6 @@ export default class SublayerGenerated extends BaseComponent {
         return this.component.isResolved();
     }
 
-    async load(signal: AbortSignal): Promise<any> {
-        let options = {signal: signal};
-        return await this.component.load(options);
-    }
-
     async queryAttachments(attachmentQuery: any,
                            signal: AbortSignal): Promise<any> {
         let options = {signal: signal};

@@ -279,7 +279,7 @@ public abstract partial class Widget : MapComponent
 
         if (JsComponentReference is null) return;
 
-        await CoreJsModule.InvokeVoidAsync("setWidgetContainer", CancellationTokenSource.Token, 
+        await CoreJsModule.InvokeVoidAsync("setWidgetContainer", CancellationTokenSource.Token,
             JsComponentReference, Type, containerId, ViewId);
     }
 
@@ -363,7 +363,7 @@ public abstract partial class Widget : MapComponent
 
         if (JsComponentReference is null) return;
 
-        await CoreJsModule.InvokeVoidAsync("setWidgetPosition", CancellationTokenSource.Token, 
+        await CoreJsModule.InvokeVoidAsync("setWidgetPosition", CancellationTokenSource.Token,
             JsComponentReference, position, ViewId);
     }
 
@@ -530,11 +530,13 @@ public abstract partial class Widget : MapComponent
             // Widgets might be added in markup and registered after the call to MapView.RenderView, but before that is completed.
             // this loop allows a little time to let the map render before trying to register the widget.
             int tries = 10;
+
             while (!MapRendered && !IsDisposed && tries > 0)
             {
                 await Task.Delay(200);
                 tries--;
             }
+
             await MapView!.AddWidget(this);
             _externalWidgetRegistered = true;
         }
@@ -542,22 +544,6 @@ public abstract partial class Widget : MapComponent
         if (_delayedUpdate)
         {
             await UpdateWidget();
-        }
-    }
-
-    /// <inheritdoc />
-    protected internal override void UpdateGeoBlazorReferences(IJSObjectReference coreJsModule, IJSObjectReference? proJsModule,
-        MapView? view, MapComponent? parent, Layer? layer, int depth = 0, HashSet<object>? visited = null)
-    {
-        bool needsUpdate = false;
-        if (layer is not null && layer.Id != Layer?.Id)
-        {
-            needsUpdate = true;
-        }
-        base.UpdateGeoBlazorReferences(coreJsModule, proJsModule, view, parent, layer, depth, visited);
-        if (needsUpdate)
-        {
-            InvokeAsync(UpdateWidget);
         }
     }
 
@@ -574,9 +560,9 @@ public abstract partial class Widget : MapComponent
 
             return;
         }
-        
+
         _delayedUpdate = false;
-        
+
         if (CoreJsModule is null)
         {
             return;
@@ -591,7 +577,7 @@ public abstract partial class Widget : MapComponent
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null || !MapRendered || IsDisposed)
         {
             return;
@@ -600,7 +586,27 @@ public abstract partial class Widget : MapComponent
         // ReSharper disable once RedundantCast
         await JsComponentReference.InvokeVoidAsync("updateComponent", CancellationTokenSource.Token, (object)this);
     }
-    
+
+    /// <inheritdoc />
+    protected internal override void UpdateGeoBlazorReferences(IJSObjectReference coreJsModule,
+        IJSObjectReference? proJsModule,
+        MapView? view, MapComponent? parent, Layer? layer, int depth = 0, HashSet<object>? visited = null)
+    {
+        var needsUpdate = false;
+
+        if (layer is not null && (layer.Id != Layer?.Id))
+        {
+            needsUpdate = true;
+        }
+
+        base.UpdateGeoBlazorReferences(coreJsModule, proJsModule, view, parent, layer, depth, visited);
+
+        if (needsUpdate)
+        {
+            InvokeAsync(UpdateWidget);
+        }
+    }
+
     private bool _externalWidgetRegistered;
     private bool _delayedUpdate;
 }

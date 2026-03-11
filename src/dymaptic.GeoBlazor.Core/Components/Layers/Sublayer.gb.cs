@@ -2910,7 +2910,8 @@ public partial class Sublayer
 
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
-        int? result = await JsComponentReference!.InvokeAsync<int?>("queryFeatureCount",
+        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(QueryFeatureCount), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token,
             query,
             abortSignal);
@@ -2958,7 +2959,8 @@ public partial class Sublayer
 
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
-        FeatureSet? result = await JsComponentReference!.InvokeAsync<FeatureSet?>("queryFeatures",
+        FeatureSet? result = await JsComponentReference!.InvokeJsMethod<FeatureSet?>(
+            IsServer, nameof(QueryFeatures), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token,
             query,
             abortSignal);
@@ -3007,7 +3009,8 @@ public partial class Sublayer
 
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
-        ObjectId[]? result = await JsComponentReference!.InvokeAsync<ObjectId[]?>("queryObjectIds",
+        ObjectId[]? result = await JsComponentReference!.InvokeJsMethod<ObjectId[]?>(
+            IsServer, nameof(QueryObjectIds), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token,
             query,
             abortSignal);
@@ -3056,8 +3059,8 @@ public partial class Sublayer
 
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
-        RelatedFeaturesQueryResult? result = await JsComponentReference!.InvokeAsync<RelatedFeaturesQueryResult?>(
-            "queryRelatedFeatures",
+        RelatedFeaturesQueryResult? result = await JsComponentReference!.InvokeJsMethod<RelatedFeaturesQueryResult?>(
+            IsServer, nameof(QueryRelatedFeatures), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token,
             relationshipQuery,
             abortSignal);
@@ -3106,11 +3109,11 @@ public partial class Sublayer
 
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
-        RelatedFeaturesCountQueryResult? result =
-            await JsComponentReference!.InvokeAsync<RelatedFeaturesCountQueryResult?>("queryRelatedFeaturesCount",
-                CancellationTokenSource.Token,
-                relationshipQuery,
-                abortSignal);
+        RelatedFeaturesCountQueryResult? result = await JsComponentReference!.InvokeJsMethod<RelatedFeaturesCountQueryResult?>(
+            IsServer, nameof(QueryRelatedFeaturesCount), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token,
+            relationshipQuery,
+            abortSignal);
 
         await AbortManager.DisposeAbortController(cancellationToken);
 

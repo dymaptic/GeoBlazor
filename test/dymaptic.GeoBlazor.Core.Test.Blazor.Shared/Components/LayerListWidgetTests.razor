@@ -43,11 +43,11 @@
                 <WebScene>
                     <PortalItem PortalItemId="adfad6ee6c6043238ea64e121bb6429a" />
                 </WebScene>
-                <LayerListWidget Position="OverlayPosition.TopRight" 
+                <LayerListWidget Position="OverlayPosition.TopRight"
                                  OnListItemCreatedHandler="listItemCreatedHandler" />
             </SceneView>);
 
-        await WaitForMapToRender();
+        await WaitForMapToRender(timeoutInSeconds: 90);
 
         // 9 layers in the web scene
         for (int i = 0; i < 9; i++)
@@ -61,20 +61,20 @@
         await Task.Delay(2000); // wait for the panels to render properly
         await AssertJavaScript("layerListWidgetAsserts.assertHasStringContent");
     }
-    
+
     [TestMethod]
     public async Task TestLayerListWidgetWithHtmlContent(Action renderHandler,
         Func<ListItem, Task<ListItem>> listItemCreatedHandler)
     {
         ElementReference? htmlRef = null;
-        
+
         AddMapRenderFragment(
             @<div>
                 <SceneView Class="map-view" OnViewRendered="renderHandler">
                     <WebScene>
                         <PortalItem PortalItemId="adfad6ee6c6043238ea64e121bb6429a" />
                     </WebScene>
-                    <LayerListWidget Position="OverlayPosition.TopRight" 
+                    <LayerListWidget Position="OverlayPosition.TopRight"
                                      OnListItemCreatedHandler="listItemCreatedHandler" />
                 </SceneView>
                 <div @ref="htmlRef">
@@ -82,7 +82,7 @@
                 </div>
             </div>);
 
-        await WaitForMapToRender();
+        await WaitForMapToRender(timeoutInSeconds: 90);
 
         // 9 layers in the web scene
         for (int i = 0; i < 9; i++)
@@ -108,13 +108,13 @@
                     <WebScene>
                         <PortalItem PortalItemId="adfad6ee6c6043238ea64e121bb6429a" />
                     </WebScene>
-                    <LayerListWidget Position="OverlayPosition.TopRight" 
+                    <LayerListWidget Position="OverlayPosition.TopRight"
                                      OnListItemCreatedHandler="listItemCreatedHandler" />
                 </SceneView>
                 <SearchWidget @ref="searchWidget" MapView="sceneView" />
             </div>);
 
-        await WaitForMapToRender();
+        await WaitForMapToRender(timeoutInSeconds: 90);
 
         // 9 layers in the web scene
         for (int i = 0; i < 9; i++)

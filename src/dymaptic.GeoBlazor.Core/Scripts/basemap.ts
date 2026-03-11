@@ -10,6 +10,17 @@ export default class BasemapWrapper extends BasemapGenerated {
         super(component);
     }
 
+    async load(signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
+        let result = await this.component.load(options);
+        return await buildDotNetBasemap(result, this.layerId, this.viewId);
+    }
+
+    async loadAll(): Promise<any> {
+        let result = await this.component.loadAll();
+        return await buildDotNetBasemap(result, this.layerId, this.viewId);
+    }
+
     async setSpatialReference(spatialReference: any): Promise<void> {
         let {buildJsSpatialReference} = await import('./spatialReference');
         this.component.spatialReference = buildJsSpatialReference(spatialReference) as any;

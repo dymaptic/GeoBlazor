@@ -18,6 +18,8 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
     [TestInitialize]
     public async Task TestSetup()
     {
+        _testStopwatch.Start();
+
         // transient error on setup found, seems to be very rare, so we will just retry
         await _retryPipeline.ExecuteAsync(async _ => await Setup());
     }
@@ -26,63 +28,69 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
     public async Task TestCleanup()
     {
         var fullTestName = $"{GetType().Name.Split('_').Last()}.{TestContext.TestName}";
+        Trace.WriteLine($"Test {fullTestName}: {TestContext.CurrentTestOutcome}");
 
-        switch (TestContext.CurrentTestOutcome)
+        try
         {
-            case UnitTestOutcome.Passed:
-                if (!TestConfig.SkippedTests.ContainsKey(fullTestName))
+            switch (TestContext.CurrentTestOutcome)
+            {
+                case UnitTestOutcome.Passed:
+                    if (!TestConfig.InconclusiveTests[ProcessName.WEB_TEST].ContainsKey(fullTestName)
+                        && TestConfig.FilteredTests[ProcessName.WEB_TEST].Any(t => t.TestName == fullTestName))
+                    {
+                        TestConfig.PassedTests[ProcessName.WEB_TEST].TryAdd(fullTestName, "Test Passed!");
+                    }
+
+                    break;
+                case UnitTestOutcome.Failed:
+                    TestConfig.FailedTests[ProcessName.WEB_TEST].TryAdd(fullTestName, "Test Failed");
+                    TestConfig.PassedTests[ProcessName.WEB_TEST].TryRemove(fullTestName, out _);
+
+                    break;
+                case UnitTestOutcome.Inconclusive:
+                    TestConfig.InconclusiveTests[ProcessName.WEB_TEST].TryAdd(fullTestName, "Test Inconclusive");
+                    TestConfig.PassedTests[ProcessName.WEB_TEST].TryRemove(fullTestName, out _);
+
+                    break;
+                case UnitTestOutcome.Ignored:
+                    TestConfig.FilteredTests[ProcessName.WEB_TEST].RemoveAll(t => t.TestName == fullTestName);
+                    TestConfig.PassedTests[ProcessName.WEB_TEST].TryRemove(fullTestName, out _);
+
+                    break;
+            }
+
+            if (TestOK())
+            {
+                foreach (var context in _contexts)
                 {
-                    TestConfig.PassedTests.TryAdd(fullTestName, 0);
+                    await context.CloseAsync().ConfigureAwait(false);
                 }
+            }
 
-                break;
-            case UnitTestOutcome.Failed:
-                if (!TestConfig.FailedTests.ContainsKey(fullTestName))
+            _contexts.Clear();
+
+            // Return browser to pool instead of abandoning it
+            if (_pooledBrowser is not null)
+            {
+                try
                 {
-                    throw new Exception(
-                        $"Test {fullTestName} failed but was not added to FailedTests during the Exception handler");
+                    await BrowserPool.GetInstance(BrowserType, _launchOptions!, TestConfig.BrowserPoolSize)
+                        .ReturnAsync(_pooledBrowser)
+                        .ConfigureAwait(false);
                 }
-
-                break;
-            case UnitTestOutcome.Inconclusive:
-                TestConfig.FilteredTests!.Remove(fullTestName);
-                TestConfig.InconclusiveTests.TryAdd(fullTestName, 0);
-
-                break;
-            case UnitTestOutcome.Ignored:
-                TestConfig.FilteredTests!.Remove(fullTestName);
-                TestConfig.SkippedTests.TryAdd(fullTestName, 0);
-
-                break;
-        }
-
-        if (TestOK())
-        {
-            foreach (var context in _contexts)
-            {
-                await context.CloseAsync().ConfigureAwait(false);
+                catch (Exception ex)
+                {
+                    Trace.WriteLine($"Error returning browser to pool: {ex.Message}", ProcessName.WEB_TEST);
+                }
             }
         }
-
-        _contexts.Clear();
-
-        // Return browser to pool instead of abandoning it
-        if (_pooledBrowser is not null)
+        finally
         {
-            try
-            {
-                await BrowserPool.GetInstance(BrowserType, _launchOptions!, TestConfig.BrowserPoolSize)
-                    .ReturnAsync(_pooledBrowser)
-                    .ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine($"Error returning browser to pool: {ex.Message}", ProcessName.WEB_TEST);
-            }
-            finally
-            {
-                _pooledBrowser = null;
-            }
+            _pooledBrowser = null;
+
+            Trace.WriteLine($"Test {TestContext.TestName} completed in {_testStopwatch.Elapsed.Minutes}m {
+                _testStopwatch.Elapsed.Seconds}s. {TestContext.CurrentTestOutcome}", ProcessName.WEB_TEST);
+            _testStopwatch.Stop();
         }
     }
 
@@ -90,17 +98,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
     {
         if (TestConfig.UnitOnly)
         {
-            TestConfig.SkippedTests.TryAdd(testName, 0);
-            TestConfig.FilteredTests!.Remove(testName);
-            Trace.WriteLine($"{testName} Skipped", ProcessName.WEB_TEST);
-
-            return;
-        }
-
-        if (!TestConfig.FilteredTests!.Contains(testName))
-        {
-            TestConfig.SkippedTests.TryAdd(testName, 0);
-            Trace.WriteLine($"{testName} Skipped", ProcessName.WEB_TEST);
+            TestConfig.FilteredTests[ProcessName.WEB_TEST].RemoveAll(t => t.TestName == testName);
 
             return;
         }
@@ -116,7 +114,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
             string testUrl = BuildTestUrl(testName);
 
             using var testCts = CancellationTokenSource.CreateLinkedTokenSource(TestConfig.Cts.Token);
-            testCts.CancelAfter(TimeSpan.FromMinutes(3));
+            testCts.CancelAfter(TimeSpan.FromMinutes(2));
 
             var context = ResilienceContextPool.Shared.Get(
                 new ResilienceContextCreationArguments(testName, null, testCts.Token));
@@ -174,9 +172,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
                     // Inconclusive we treat as passing for our automation purposes
                     Trace.WriteLine($"{testName} Inconclusive", ProcessName.WEB_TEST);
-                    TestConfig.InconclusiveTests.TryAdd(testName, 0);
-                    TestConfig.FilteredTests.Remove(testName);
-                    Interlocked.Increment(ref TestConfig.WebInconclusiveTestCount);
+                    TestConfig.InconclusiveTests[ProcessName.WEB_TEST].TryAdd(testName, "Test Inconclusive");
                 }
                 else
                 {
@@ -198,14 +194,21 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
                 }
             }, context);
         }
-        catch (Exception)
+        catch (Exception ex) when (ex is not OperationCanceledException)
         {
+            if (TestConfig.InconclusiveTests[ProcessName.WEB_TEST].ContainsKey(testName)
+                || TestConfig.FilteredTests[ProcessName.WEB_TEST].All(t => t.TestName != testName))
+            {
+                // skip errors on inconclusive or filtered out tests
+                return;
+            }
+
             var (messages, errors) = CheckMessages(testName);
             Trace.WriteLine(messages, ProcessName.WEB_TEST);
             Trace.WriteLine(errors, ProcessName.WEB_TEST_ERROR);
 
-            TestConfig.FailedTests[testName] = $"{messages}{Environment.NewLine}{errors}";
-            Interlocked.Increment(ref TestConfig.WebFailedTestCount);
+            TestConfig.FailedTests[ProcessName.WEB_TEST][testName] = $"{messages}{Environment.NewLine}{errors}";
+            
             Assert.Fail($"{testName} Failed: {errors}");
         }
         finally
@@ -340,7 +343,7 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
     private static readonly RetryStrategyOptions retryStrategyOptions = new()
     {
         BackoffType = DelayBackoffType.Exponential,
-        MaxRetryAttempts = 2,
+        MaxRetryAttempts = 1,
         Delay = TimeSpan.FromSeconds(5),
         OnRetry = args =>
         {
@@ -351,6 +354,8 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
             return ValueTask.CompletedTask;
         }
     };
+
+    private readonly Stopwatch _testStopwatch = new();
 
     private readonly List<IBrowserContext> _contexts = new();
     private readonly BrowserTypeLaunchOptions? _launchOptions = new()

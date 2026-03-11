@@ -1,4 +1,4 @@
-export let protoTypeDefinitions: string = `
+﻿export let protoTypeDefinitions: string = `
 syntax = "proto3";
 package dymaptic.GeoBlazor.Core.Serialization;
 import "google/protobuf/empty.proto";
@@ -358,9 +358,6 @@ message PopupTemplate {
 message PopupTemplateCollection {
    repeated PopupTemplate items = 1;
    bool isNull = 1000;
-}
-message ProtoGraphicCollection {
-   repeated Graphic graphics = 1;
 }
 message RelatedRecordsInfoFieldOrder {
    bool isNull = 1000;

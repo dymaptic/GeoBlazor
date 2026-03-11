@@ -2611,11 +2611,11 @@ public partial class MapView : MapComponent
                 {
                     await CoreJsModule!.InvokeVoidAsync("addLayer", CancellationTokenSource.Token,
                         (object)newLayer, Map?.Id, Id, isBasemapLayer, isBasemapReferenceLayer);
-                    
+
                     // this updates widgets that were assigned a LayerId instead of a Layer
                     if (_widgets.Where(w => w.LayerId == newLayer.Id).ToList() is { Count: > 0 } widgetMatches)
                     {
-                        foreach (Widget widget in widgetMatches)
+                        foreach (var widget in widgetMatches)
                         {
                             // set layer to null forces widget to update and call JavaScript
                             widget.Layer = null;

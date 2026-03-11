@@ -2,11 +2,18 @@
 import GeoJSONLayerViewGenerated from './geoJSONLayerView.gb';
 import GeoJSONLayerView from '@arcgis/core/views/layers/GeoJSONLayerView';
 import {hasValue, lookupJsGraphicById, graphicsRefs} from './geoBlazorCore';
+import {DotNetQuery} from "./definitions";
+import {buildDotNetQuery} from "./query";
 
 export default class GeoJSONLayerViewWrapper extends GeoJSONLayerViewGenerated {
 
     constructor(component: GeoJSONLayerView) {
         super(component);
+    }
+
+    async createQuery(): Promise<DotNetQuery> {
+        let jsQuery = this.component.createQuery();
+        return await buildDotNetQuery(jsQuery, this.viewId);
     }
 
     highlightByGeoBlazorId(geoBlazorId: string): any {

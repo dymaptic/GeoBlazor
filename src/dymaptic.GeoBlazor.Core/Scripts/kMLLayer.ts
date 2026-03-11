@@ -9,10 +9,10 @@ export default class KMLLayerWrapper extends KMLLayerGenerated {
         super(layer);
     }
 
-    async load(options: any): Promise<any> {
+    async load(signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetKMLLayer(result, this.layerId, this.viewId);
-        return buildEncodedJson(dotNetLayer);
+        return await buildDotNetKMLLayer(result, this.layerId, this.viewId);
     }
 }
 

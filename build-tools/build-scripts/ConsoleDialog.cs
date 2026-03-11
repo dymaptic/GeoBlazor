@@ -36,7 +36,7 @@ string? _consoleTempFile = null;
 
 string? title = null;
 int wait = 3;
-int idleTimeout = 60;
+int idleTimeout = 300;
 
 for (int i = 0; i < args.Length; i++)
 {
@@ -104,8 +104,25 @@ void ShowOrUpdateConsole(string title, string message)
 }
 
 /// <summary>
+/// Detects if running under Windows Subsystem for Linux.
+/// </summary>
+bool IsWsl()
+{
+    try
+    {
+        if (File.Exists("/proc/version"))
+        {
+            string version = File.ReadAllText("/proc/version");
+            return version.Contains("microsoft", StringComparison.OrdinalIgnoreCase);
+        }
+    }
+    catch { }
+    return false;
+}
+
+/// <summary>
 /// Starts a platform-specific console window that tails the log file.
-/// Dispatches to Windows, macOS, or Linux-specific implementations.
+/// Dispatches to Windows, macOS, WSL, or Linux-specific implementations.
 /// </summary>
 /// <param name="title">The title for the console window.</param>
 void StartConsoleWindow(string title)
@@ -123,7 +140,14 @@ void StartConsoleWindow(string title)
         }
         else if (OperatingSystem.IsLinux())
         {
-            StartLinuxConsole(windowTitle);
+            if (IsWsl())
+            {
+                StartWslConsole(windowTitle);
+            }
+            else
+            {
+                StartLinuxConsole(windowTitle);
+            }
         }
     }
     catch
@@ -142,7 +166,7 @@ void StartWindowsConsole(string title)
     string escapedPath = _consoleTempFile!.Replace("'", "''");
     string command = $"$Host.UI.RawUI.WindowTitle = '{title}'; " +
                    $"Write-Host '{title}' -ForegroundColor Cyan; " +
-                   $"Write-Host ('=' * 50); " +
+                   $"Write-Host ('=' * 120); " +
                    $"Get-Content -Path '{escapedPath}' -Wait -Tail 100";
 
     _consoleProcess = new Process
@@ -170,7 +194,7 @@ void StartMacConsole(string title)
 
     // Build the shell command for the visible Terminal window
     // clear removes the login banner and echoed command that Terminal.app shows
-    string shellCommand = $"clear; echo '{shellTitle}'; echo '=================================================='; tail -f '{shellPath}'";
+    string shellCommand = $"clear; echo '{shellTitle}'; echo '{new string('=', 80)}'; tail -f '{shellPath}'";
 
     // Escape the shell command for embedding in an AppleScript double-quoted string
     string asCommand = shellCommand.Replace("\\", "\\\\").Replace("\"", "\\\"");
@@ -212,6 +236,72 @@ void StartMacConsole(string title)
 }
 
 /// <summary>
+/// Starts a console window from WSL by using Windows Terminal (wt.exe) to open
+/// a new tab that runs tail -f back inside WSL. Falls back to standard Linux
+/// terminals if Windows Terminal is not available.
+/// </summary>
+/// <remarks>
+/// Uses a temp script file instead of bash -c to avoid wt.exe interpreting
+/// semicolons as its own command delimiters.
+/// </remarks>
+void StartWslConsole(string title)
+{
+    // Write a helper bash script to avoid wt.exe's ';' delimiter parsing issues.
+    // wt.exe treats ';' as a separator for multiple tab/pane commands, so passing
+    // "echo '...'; tail -f '...'" via bash -c gets split into separate WT commands.
+    string scriptFile = _consoleTempFile + ".sh";
+    string shellTitle = title.Replace("'", "'\\''");
+    string shellPath = _consoleTempFile!.Replace("'", "'\\''");
+    File.WriteAllText(scriptFile,
+        $"#!/bin/bash\necho '{shellTitle}'\necho '{new string('=', 80)}'\ntail -f '{shellPath}'\n");
+
+    // Try Windows Terminal (wt.exe) - available on most modern Windows 10/11 + WSL setups
+    try
+    {
+        var startInfo = new ProcessStartInfo
+        {
+            FileName = "wt.exe",
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+        startInfo.ArgumentList.Add("new-tab");
+        startInfo.ArgumentList.Add("--title");
+        startInfo.ArgumentList.Add(title);
+        startInfo.ArgumentList.Add("--");
+        startInfo.ArgumentList.Add("wsl.exe");
+        startInfo.ArgumentList.Add("bash");
+        startInfo.ArgumentList.Add(scriptFile);
+
+        var wtProcess = new Process { StartInfo = startInfo };
+        wtProcess.Start();
+        wtProcess.WaitForExit(5000); // wt.exe exits immediately after dispatching
+
+        // wt.exe exits immediately (delegates to Windows Terminal server),
+        // so use a sentinel process for lifecycle tracking
+        _consoleProcess = new Process
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = "sleep",
+                Arguments = "86400",
+                UseShellExecute = false,
+                CreateNoWindow = true
+            }
+        };
+        _consoleProcess.Start();
+        return;
+    }
+    catch
+    {
+        // wt.exe not available, clean up script and fall through
+        try { File.Delete(scriptFile); } catch { }
+    }
+
+    // Fallback: try standard Linux terminal emulators (unlikely to work in WSL, but try anyway)
+    StartLinuxConsole(title);
+}
+
+/// <summary>
 /// Starts a terminal window on Linux by trying common terminal emulators
 /// (gnome-terminal, konsole, xfce4-terminal, xterm) until one succeeds.
 /// Uses tail -f for log following (no pwsh dependency required).
@@ -222,7 +312,7 @@ void StartLinuxConsole(string title)
     string shellPath = _consoleTempFile!.Replace("'", "'\\''");
 
     // Shell command to display title banner and follow the log file
-    string shellCommand = $"echo '{shellTitle}'; echo '=================================================='; tail -f '{shellPath}'";
+    string shellCommand = $"echo '{shellTitle}'; echo '{new string('=', 80)}'; tail -f '{shellPath}'";
 
     // Try common Linux terminal emulators in order of popularity
     // Use ArgumentList to pass args directly as argv, avoiding shell escaping issues
@@ -357,6 +447,8 @@ void CloseLinuxTerminalWindow(string tempFilePath)
     }
 }
 
+bool _cleanupComplete = false;
+
 /// <summary>
 /// Closes the console window gracefully, waiting for final messages to display
 /// before killing the process and cleaning up the temp file.
@@ -387,6 +479,15 @@ void CloseConsole(string title, int wait)
             {
                 CloseLinuxTerminalWindow(_consoleTempFile);
             }
+            
+            // delete the temp file and WSL helper script
+            if (_consoleTempFile is not null)
+            {
+                File.Delete(_consoleTempFile);
+                // Clean up the WSL helper script if it exists
+                string scriptFile = _consoleTempFile + ".sh";
+                if (File.Exists(scriptFile)) File.Delete(scriptFile);
+            }
         }
         catch
         {
@@ -412,64 +513,84 @@ void CloseConsole(string title, int wait)
         finally
         {
             _consoleTempFile = null;
+            _cleanupComplete = true;
         }
     }
 }
 
 ShowOrUpdateConsole(title, string.Empty);
 
-CancellationTokenSource cts = new();
-cts.CancelAfter(TimeSpan.FromSeconds(60));
-
 bool hold = false;
-bool messageReceived = false;
+long lastMessageTicks = DateTime.UtcNow.Ticks;
 
 _ = Task.Run(async () =>
 {
-    while ((!cts.IsCancellationRequested || hold)
-        && (_consoleProcess is null || !_consoleProcess.HasExited))
+    while (_consoleProcess is null || !_consoleProcess.HasExited)
     {
         await Task.Delay(1000);
 
-        if (messageReceived)
+        if (!hold && (DateTime.UtcNow.Ticks - Volatile.Read(ref lastMessageTicks)) > (long)idleTimeout * TimeSpan.TicksPerSecond)
         {
-            cts = new CancellationTokenSource();
-            cts.CancelAfter(TimeSpan.FromSeconds(idleTimeout));
-            messageReceived = false;
+            Console.WriteLine("Console dialog timed out. Closing...");
+            CloseConsole(title, wait);
+            Environment.Exit(0);
         }
     }
-    Console.WriteLine("Console dialog timed out. Closing...");
+    Console.WriteLine("Console window closed. Exiting...");
     CloseConsole(title, wait);
     Environment.Exit(0);
 });
 
-while (!cts.IsCancellationRequested)
+// Handle Ctrl-C gracefully
+Console.CancelKeyPress += (sender, e) =>
+{
+    e.Cancel = true; // Prevent immediate termination to allow cleanup
+
+    _ = Task.Run(() => CloseConsole(title, wait));
+
+    int timeoutSeconds = wait * 2;
+
+    while (!_cleanupComplete && (timeoutSeconds > 0))
+    {
+        Thread.Sleep(1000);
+        timeoutSeconds--;
+    }
+
+    if (_cleanupComplete)
+    {
+        Environment.Exit(1);
+        return;
+    }
+};
+
+while (true)
 {
     if (_consoleProcess?.HasExited == true)
     {
         break;
     }
-    
+
     if (Console.ReadLine() is not { } inputLine)
     {
+        Thread.Sleep(100);
         continue;
     }
+
+    Volatile.Write(ref lastMessageTicks, DateTime.UtcNow.Ticks);
 
     if (inputLine.Trim().Equals("hold", StringComparison.OrdinalIgnoreCase))
     {
         hold = true;
-
-        break;
+        continue;
     }
 
     if (inputLine.Trim().Equals("exit", StringComparison.OrdinalIgnoreCase))
     {
         CloseConsole(title, wait);
-        
+
         break;
     }
 
-    messageReceived = true;
     ShowOrUpdateConsole(title, inputLine);
 }
 

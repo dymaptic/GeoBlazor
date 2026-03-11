@@ -16,16 +16,17 @@
 //   -p, --percentage       Percentage of tests that must pass to be counted as successful (default 100%)
 //       --cover            Enable code coverage collection (sets COVER=true)
 //       --container        Run tests in a container (sets USE_CONTAINER=true)
+//       --no-cache         Force Docker to rebuild containers without cache
 
 using CliWrap;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using Utilities;
+
 
 // Default option values
 bool cover = false;
 bool container = false;
+bool noCache = false;
 string config = "Release";
 string? filter = null;
 int percentage = 100;
@@ -38,30 +39,39 @@ for (int i = 0; i < args.Length; i++)
         case "-h":
         case "--help":
             Console.WriteLine("""
-                GBTest - GeoBlazor Test Runner
+                              GBTest - GeoBlazor Test Runner
 
-                Usage: dotnet ./build-scripts/GBTest.cs [options]
+                              Usage: dotnet ./build-scripts/GBTest.cs [options]
 
-                Options:
-                  -h, --help             Show this help message and exit
-                  -c, --configuration    Build configuration (default: Release)
-                  -f, --filter           Test filter expression passed to dotnet test
-                  -p, --percentage       Percentage of tests that must pass to be counted as successful (default 100%)
-                      --cover            Enable code coverage collection (sets COVER=true)
-                      --container        Run tests in a container (sets USE_CONTAINER=true)
+                              Options:
+                                -h, --help             Show this help message and exit
+                                -c, --configuration    Build configuration (default: Release)
+                                -f, --filter           Test filter expression passed to dotnet test
+                                -p, --percentage       Percentage of tests that must pass to be counted as successful (default 100%)
+                                    --cover            Enable code coverage collection (sets COVER=true)
+                                    --container        Run tests in a container (sets USE_CONTAINER=true)
+                                    --no-cache         Force Docker to rebuild containers without cache
 
-                Examples:
-                  dotnet ./build-scripts/GBTest.cs
-                  dotnet ./build-scripts/GBTest.cs -c Debug
-                  dotnet ./build-scripts/GBTest.cs --filter "FullyQualifiedName~MapView"
-                  dotnet ./build-scripts/GBTest.cs --cover --container
-                """);
+                              Examples:
+                                dotnet ./build-scripts/GBTest.cs
+                                dotnet ./build-scripts/GBTest.cs -c Debug
+                                dotnet ./build-scripts/GBTest.cs --filter "FullyQualifiedName~MapView"
+                                dotnet ./build-scripts/GBTest.cs --cover --container
+                                dotnet ./build-scripts/GBTest.cs --cover --container --no-cache
+                              """);
+
             return 0;
         case "--cover":
             cover = true;
+
             break;
         case "--container":
             container = true;
+
+            break;
+        case "--no-cache":
+            noCache = true;
+
             break;
         case "-c":
         case "--configuration":
@@ -69,6 +79,7 @@ for (int i = 0; i < args.Length; i++)
             {
                 config = args[++i];
             }
+
             break;
         case "-f":
         case "--filter":
@@ -76,13 +87,15 @@ for (int i = 0; i < args.Length; i++)
             {
                 filter = args[++i];
             }
+
             break;
         case "-p":
         case "--percentage":
-            if (i + 1 < args.Length && int.TryParse(args[++i], out int p))
+            if ((i + 1 < args.Length) && int.TryParse(args[++i], out int p))
             {
                 percentage = p;
             }
+
             break;
     }
 }
@@ -110,16 +123,17 @@ List<string> buildArgs =
 [
     "--project", testProjectFilePath,
     "-c", config,
-    "--ignore-exit-code", "2"
+    "--ignore-exit-code", "2",
+    "-v:n"
 ];
 
 if (filter != null)
 {
-    buildArgs = [..buildArgs, "--filter", filter];
+    buildArgs = [..buildArgs, "--", "--filter", filter];
 }
 
 // Set environment variables to toggle optional features
-Dictionary<string, string?>? environmentVariables = [];
+Dictionary<string, string?> environmentVariables = [];
 
 if (cover)
 {
@@ -128,39 +142,85 @@ if (cover)
 
 if (container)
 {
-	environmentVariables["USE_CONTAINER"] = "true";
+    environmentVariables["USE_CONTAINER"] = "true";
+}
+
+if (noCache)
+{
+    environmentVariables["NO_CACHE"] = "true";
 }
 
 // Execute the test project
-await RunDotnetCommandWithOutputAsync(testProjectDir, "run", buildArgs, environmentVariables, cts.Token, forceCts.Token);
+TestProgress progress = new();
+
+await RunDotnetCommandWithOutputAsync(testProjectDir, "run", buildArgs, environmentVariables, cts.Token, forceCts.Token,
+    progress);
 
 Console.WriteLine("FINAL SUMMARY");
 Console.WriteLine("-------------------------------------------------------");
 
-// Read the test output log
-string testOutputLogPath = Path.Combine(testProjectDir, "test-run.log");
-
-Regex finalCountRegex = new(@"^.*FINAL_SUMMARY: PASSED TESTS: (?<passed>\d+) / (?<total>\d+)\s*$");
-
 bool failed = false;
-foreach (string line in await File.ReadAllLinesAsync(testOutputLogPath))
+
+if (progress.WasCancelled)
 {
-    if (line.Contains("FINAL_SUMMARY"))
+    int ran = progress.Passed + progress.Failed + progress.Skipped;
+    Console.WriteLine($"Test run was cancelled. {ran} tests completed before cancellation.");
+
+    if (ran > 0)
     {
-        string content = line.Substring(38); // 38 is the timestamp plus FINAL_SUMMARY:
-        Console.WriteLine(content);
-        if (finalCountRegex.Match(line) is { Success: true } match)
+        double passedPercentage = (double)progress.Passed / ran * 100;
+        Console.WriteLine($"PASSED TESTS: {progress.Passed} / {ran} TESTS RAN ({passedPercentage:F2}%).");
+        Console.WriteLine($"FAILED: {progress.Failed} / SKIPPED: {progress.Skipped}");
+
+        if (passedPercentage < percentage)
         {
-            int total = int.Parse(match.Groups["total"].Value);
-            int passed = int.Parse(match.Groups["passed"].Value);
-            double passedPercentage = (double)passed / total * 100;
-            Console.WriteLine($"TEST RESULTS: {passed} / {total} TESTS PASSED ({passedPercentage:F2}%).");
-            if (passedPercentage < percentage)
+            Console.WriteLine($"TEST RUN FAILED: Passed percentage {passedPercentage:F2}% is below the required {
+                percentage}%.");
+            failed = true;
+        }
+    }
+}
+else
+{
+    // Read the test output log
+    string testOutputLogPath = Path.Combine(testProjectDir, "test-run.log");
+
+    Regex finalCountRegex = new(@"^.*FINAL_SUMMARY: PASSED TESTS: (?<passed>\d+) / (?<total>\d+)\s*$");
+    Regex inconclusiveRegex = new(@"^.*FINAL_SUMMARY: INCONCLUSIVE TESTS: (?<inconclusive>\d+)\s\s*$");
+
+    int total = 0;
+    int passed = 0;
+    int inconclusive = 0;
+    foreach (string line in await File.ReadAllLinesAsync(testOutputLogPath))
+    {
+        if (line.Contains("FINAL_SUMMARY"))
+        {
+            string content = line.Substring(38); // 38 is the timestamp plus FINAL_SUMMARY:
+
+            if (finalCountRegex.Match(line) is { Success: true } match)
             {
-                Console.WriteLine($"TEST RUN FAILED: Passed percentage {passedPercentage:F2}% is below the required {percentage}%.");
-                failed = true;
+                total = int.Parse(match.Groups["total"].Value);
+                passed = int.Parse(match.Groups["passed"].Value);
+            }
+            else if (inconclusiveRegex.Match(line) is { Success: true } inconclusiveMatch)
+            {
+                inconclusive = int.Parse(inconclusiveMatch.Groups["inconclusive"].Value);
+            }
+            else
+            {
+                Console.WriteLine(content);
             }
         }
+    }
+
+    double passedPercentage = (double)passed / (total - inconclusive) * 100;
+    Console.WriteLine($"PASSED TESTS: {passed} / {total - inconclusive} TESTS PASSED ({passedPercentage:F2}%).");
+
+    if (passedPercentage < percentage)
+    {
+        Console.WriteLine($"TEST RUN FAILED: Passed percentage {passedPercentage
+            :F2}% is below the required {percentage}%.");
+        failed = true;
     }
 }
 
@@ -184,7 +244,7 @@ return 0;
 /// <returns>The exit code of the process.</returns>
 static async Task RunDotnetCommandWithOutputAsync(string workingDirectory,
     string command, IEnumerable<string> args, Dictionary<string, string?>? environmentVariables,
-    CancellationToken cancellationToken, CancellationToken forceCancellationToken)
+    CancellationToken cancellationToken, CancellationToken forceCancellationToken, TestProgress progress)
 {
     bool summaryStarted = false;
     bool testLineMatched = false;
@@ -195,80 +255,95 @@ static async Task RunDotnetCommandWithOutputAsync(string workingDirectory,
     try
     {
         await Cli.Wrap("dotnet")
-        .WithArguments($"{command} {string.Join(" ", args.Where(a => !string.IsNullOrWhiteSpace(a)))}")
-        .WithWorkingDirectory(workingDirectory)
-        .WithEnvironmentVariables(environmentVariables ?? [])
-        .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
-        {
-            if (!string.IsNullOrWhiteSpace(line) && !summaryStarted)
+            .WithArguments($"{command} {string.Join(" ", args.Where(a => !string.IsNullOrWhiteSpace(a)))}")
+            .WithWorkingDirectory(workingDirectory)
+            .WithEnvironmentVariables(environmentVariables ?? [])
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
             {
-                if (line.Contains("Test run summary"))
+                if (!string.IsNullOrWhiteSpace(line) && !summaryStarted)
                 {
-                    summaryStarted = true;
-
-                    return;
-                }
-                if (testLineRegex.Match(line) is { Success: true } match && !summaryStarted)
-                {
-                    if (testLineMatched && supportsCursorManipulation)
+                    if (line.Contains("Test run summary"))
                     {
-                        try
-                        {
-                            // Move cursor up and clear the previous line
-                            int cursorTop = Console.GetCursorPosition().Top;
-                            Console.SetCursorPosition(0, cursorTop - 1);
-                            Console.Write(new string(' ', Console.WindowWidth));
-                            Console.SetCursorPosition(0, cursorTop - 1);
-                        }
-                        catch (IOException)
-                        {
-                            supportsCursorManipulation = false;
-                            // In some environments (like certain CI systems), the console may not support cursor manipulation.
-                            // If that happens, we just won't clear the previous line and will print updates on new lines instead.
-                        }
+                        summaryStarted = true;
+
+                        return;
                     }
 
-                    int passed = int.Parse(match.Groups["passed"].Value);
-                    int failed = int.Parse(match.Groups["failed"].Value);
-                    int skipped = int.Parse(match.Groups["skipped"].Value);
-                    string content = match.Groups["content"].Value;
-                    Console.ForegroundColor = defaultColor;
-                    Console.Write("[");
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write($"√{passed}");
-                    Console.ForegroundColor = defaultColor;
-                    Console.Write("/");
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write($"x{failed}");
-                    Console.ForegroundColor = defaultColor;
-                    Console.Write("/");
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.Write($"?{skipped}");
-                    Console.ForegroundColor = defaultColor;
-                    Console.WriteLine($"] {content}");
-                    testLineMatched = true;
-                    return;
-                }
+                    if (testLineRegex.Match(line) is { Success: true } match && !summaryStarted)
+                    {
+                        if (testLineMatched && supportsCursorManipulation)
+                        {
+                            try
+                            {
+                                // Move cursor up and clear the previous line
+                                int cursorTop = Console.GetCursorPosition().Top;
+                                Console.SetCursorPosition(0, cursorTop - 1);
+                                Console.Write(new string(' ', Console.WindowWidth));
+                                Console.SetCursorPosition(0, cursorTop - 1);
+                            }
+                            catch (IOException)
+                            {
+                                supportsCursorManipulation = false;
 
-                testLineMatched = false;
-                Console.WriteLine(line);
-            }
-        }))
-        .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
-        {
-            // Suppress macOS malloc stack logging warning that appears on startup
-            if (!string.IsNullOrWhiteSpace(line) &&
-                !line.Contains("MallocStackLogging: can't turn off malloc stack logging"))
+                                // In some environments (like certain CI systems), the console may not support cursor manipulation.
+                                // If that happens, we just won't clear the previous line and will print updates on new lines instead.
+                            }
+                        }
+
+                        int passed = int.Parse(match.Groups["passed"].Value);
+                        int failed = int.Parse(match.Groups["failed"].Value);
+                        int skipped = int.Parse(match.Groups["skipped"].Value);
+                        string content = match.Groups["content"].Value;
+                        progress.Passed = passed;
+                        progress.Failed = failed;
+                        progress.Skipped = skipped;
+                        Console.ForegroundColor = defaultColor;
+                        Console.Write("[");
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.Write($"√{passed}");
+                        Console.ForegroundColor = defaultColor;
+                        Console.Write("/");
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write($"x{failed}");
+                        Console.ForegroundColor = defaultColor;
+                        Console.Write("/");
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.Write($"?{skipped}");
+                        Console.ForegroundColor = defaultColor;
+                        Console.WriteLine($"] {content}");
+                        testLineMatched = true;
+
+                        return;
+                    }
+
+                    testLineMatched = false;
+                    Console.WriteLine(line);
+                }
+            }))
+            .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(line);
-                Console.ForegroundColor = defaultColor;
-            }
-        }))
-        .ExecuteAsync(forceCancellationToken, cancellationToken);
+                // Suppress macOS malloc stack logging warning that appears on startup
+                if (!string.IsNullOrWhiteSpace(line) &&
+                    !line.Contains("MallocStackLogging: can't turn off malloc stack logging"))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(line);
+                    Console.ForegroundColor = defaultColor;
+                }
+            }))
+            .ExecuteAsync(forceCancellationToken, cancellationToken);
     }
     catch (OperationCanceledException)
     {
+        progress.WasCancelled = true;
         Console.WriteLine("Test run was canceled.");
     }
+}
+
+internal class TestProgress
+{
+    public int Passed { get; set; }
+    public int Failed { get; set; }
+    public int Skipped { get; set; }
+    public bool WasCancelled { get; set; }
 }

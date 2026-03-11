@@ -5,9 +5,15 @@
       "name": "Microsoft.NETCore.App",
       "version": "10.0.0"
     },
+    "runtimeOptions": {
+      "configProperties": {
+        "EntryPointFilePath": ".\\GBTest.cs",
+        "EntryPointFileDirectoryPath": "."
+      }
+    },
     "configProperties": {
-      "EntryPointFilePath": "D:\\dymaptic.GeoBlazor.CodeGen\\GeoBlazor.Pro\\build-tools\\build-scripts\\CopyValidationOutput.cs",
-      "EntryPointFileDirectoryPath": "D:\\dymaptic.GeoBlazor.CodeGen\\GeoBlazor.Pro\\build-tools\\build-scripts",
+      "EntryPointFilePath": "D:\\dymaptic.GeoBlazor.CodeGen\\GeoBlazor.Pro\\GeoBlazor\\build-tools\\build-scripts\\AcquireBuildLock.cs",
+      "EntryPointFileDirectoryPath": "D:\\dymaptic.GeoBlazor.CodeGen\\GeoBlazor.Pro\\GeoBlazor\\build-tools\\build-scripts",
       "Microsoft.Extensions.DependencyInjection.VerifyOpenGenericServiceTrimmability": true,
       "System.ComponentModel.DefaultValueAttribute.IsSupported": false,
       "System.ComponentModel.Design.IDesignerHost.IsSupported": false,
@@ -16,6 +22,7 @@
       "System.Data.DataSet.XmlSerializationIsSupported": false,
       "System.Diagnostics.Tracing.EventSource.IsSupported": false,
       "System.Linq.Enumerable.IsSizeOptimized": true,
+      "System.Net.Security.UseManagedNtlm": false,
       "System.Net.SocketsHttpHandler.Http3Support": false,
       "System.Reflection.Metadata.MetadataUpdater.IsSupported": false,
       "System.Resources.ResourceManager.AllowCustomResourceTypes": false,
@@ -30,7 +37,6 @@
       "System.Text.Encoding.EnableUnsafeUTF7Encoding": false,
       "System.Text.Json.JsonSerializer.IsReflectionEnabledByDefault": false,
       "System.Threading.Thread.EnableAutoreleasePool": false,
-      "System.Threading.ThreadPool.UseWindowsThreadPool": true,
       "System.Linq.Expressions.CanEmitObjectArrayDelegate": false
     }
   }

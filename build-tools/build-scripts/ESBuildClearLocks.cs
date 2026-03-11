@@ -62,6 +62,7 @@ DateTime staleFileThreshold = DateTime.UtcNow.AddMinutes(-5);
 
 foreach (string lockFile in lockFiles)
 {
+    // Clean up lock file
     if (File.Exists(lockFile))
     {
         try
@@ -79,11 +80,31 @@ foreach (string lockFile in lockFiles)
             Console.WriteLine($"Failed to delete {lockFile}: {ex.Message}");
         }
     }
+
+    // Also clean up companion .running marker file (created by AcquireBuildLock)
+    string runningFile = lockFile + ".running";
+    if (File.Exists(runningFile))
+    {
+        try
+        {
+            if (staleFilesOnly && File.GetLastWriteTimeUtc(runningFile) > staleFileThreshold)
+            {
+                continue;
+            }
+            File.Delete(runningFile);
+            Console.WriteLine($"Deleted: {runningFile}");
+            deletedCount++;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to delete {runningFile}: {ex.Message}");
+        }
+    }
 }
 
 if (deletedCount > 0)
 {
-    Console.WriteLine($"Cleared {deletedCount} esBuild lock file(s)");
+    Console.WriteLine($"Cleared {deletedCount} esBuild lock/running file(s)");
 }
 
 return 0;

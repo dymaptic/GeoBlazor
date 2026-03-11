@@ -26,6 +26,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Production
       - COVER=${COVER:-false}
       - COVERAGE_FORMAT=${COVERAGE_FORMAT:-xml}
+      - CONTAINER_CHECK=${CONTAINER_CHECK:-false}
     ports:
       - "${HTTP_PORT:-8080}:${HTTP_PORT:-8080}"
       - "${HTTPS_PORT:-9443}:${HTTPS_PORT:-9443}"

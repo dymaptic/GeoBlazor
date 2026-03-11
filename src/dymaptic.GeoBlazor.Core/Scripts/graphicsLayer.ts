@@ -9,10 +9,10 @@ export default class GraphicsLayerWrapper extends GraphicsLayerGenerated {
         super(layer);
     }
 
-    async load(options: any): Promise<any> {
+    async load(signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetGraphicsLayer(result, this.layerId, this.viewId);
-        return buildEncodedJson(dotNetLayer);
+        return await buildDotNetGraphicsLayer(result, this.layerId, this.viewId);
     }
     async remove(graphic: any): Promise<void> {
         let jsGraphic = lookupJsGraphicById(graphic.id, this.geoBlazorId, this.viewId);

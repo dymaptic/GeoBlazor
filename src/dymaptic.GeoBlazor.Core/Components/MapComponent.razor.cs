@@ -895,7 +895,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         ProJsModule ??= Parent?.ProJsModule;
     }
 
-
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -1099,7 +1098,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <param name="visited">
     ///     Previously updated parent components
     /// </param>
-    protected virtual internal void UpdateGeoBlazorReferences(IJSObjectReference coreJsModule, IJSObjectReference? proJsModule,
+    protected internal virtual void UpdateGeoBlazorReferences(IJSObjectReference coreJsModule,
+        IJSObjectReference? proJsModule,
         MapView? view, MapComponent? parent, Layer? layer, int depth = 0, HashSet<object>? visited = null)
     {
         visited ??= new HashSet<object>();

@@ -45,10 +45,6 @@ export default class GeoJSONLayerViewGenerated extends BaseComponent {
         return this.component.createAggregateQuery();
     }
 
-    async createQuery(): Promise<any> {
-        return this.component.createQuery();
-    }
-
     async highlight(target: any,
         options: any): Promise<any> {
         let { buildJsGraphic } = await import('./graphic');

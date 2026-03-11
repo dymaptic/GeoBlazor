@@ -1,16 +1,10 @@
 <Project Sdk="Microsoft.Build.NoTargets/3.7.134">
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFrameworks>net8.0;net10.0;netstandard2.0</TargetFrameworks>
     </PropertyGroup>
     <!-- ESBuild-Triggering "Project" to enforce that this only fires once per build, no matter what project we build from -->
-    <Target BeforeTargets="PrepareForRun" Name="ESBuild">
+    <Target BeforeTargets="DispatchToInnerBuilds" Name="ESBuild">
         <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration) --dialog" ContinueOnError="false" Condition="$(ShowScriptDialogs) == 'true'"/>
         <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration)" ContinueOnError="false" Condition="$(ShowScriptDialogs) != 'true'"/>
-    </Target>
-    <Target Name="ClearStaleLockFiles"
-            AfterTargets="Build"
-            Condition="'$(ESBuildLockFileExists)' == 'true'">
-        <Message Importance="low" Text="Clearing stale ESBuild lock files..."/>
-        <Exec Command="dotnet $(GBBuildToolsPath)/ESBuildClearLocks.dll -sf"/>
     </Target>
 </Project>

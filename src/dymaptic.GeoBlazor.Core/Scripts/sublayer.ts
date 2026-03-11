@@ -22,6 +22,12 @@ export default class SublayerWrapper extends SublayerGenerated {
         let {buildDotNetField} = await import('./field');
         return this.component.fields!.map(i => buildDotNetField(i));
     }
+
+    async load(signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
+        let result = await this.component.load(options);
+        return await buildDotNetSublayer(result, this.layerId, this.viewId);
+    }
 }
 
 export async function buildJsSublayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {

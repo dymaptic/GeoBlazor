@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <CoreVersion>5.0.0.85</CoreVersion>
+    <CoreVersion>5.0.0.142</CoreVersion>
     <Configurations>Debug;Release;SourceGen Highlighting</Configurations>
     <Platforms>AnyCPU</Platforms>
     <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
@@ -48,9 +48,6 @@
   <!-- ESBuild Project Trigger: Must happen before RESTORE -->
   <PropertyGroup>
     <ESBuildLockFilePath>$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core/esBuild.lock</ESBuildLockFilePath>
-    <ESBuildLockFileTimeStamp Condition="EXISTS($(ESBuildLockFilePath))">$([System.IO.File]::GetLastWriteTime(`$(ESBuildLockFilePath)`).Ticks)</ESBuildLockFileTimeStamp>
-    <ESBuildLockFileTimeStamp Condition="'$(ESBuildLockFileTimeStamp)' == ''">0</ESBuildLockFileTimeStamp>
-    <StaleFileThresholdTimeStamp>$([System.DateTime]::Now.AddMinutes(-5).Ticks)</StaleFileThresholdTimeStamp>
     <ESBuildRemoveProps>
             BuildProjectReferences;
             Configuration;
@@ -69,10 +66,25 @@
             TriggerESBuild;
             TriggerProESBuild
         </ESBuildRemoveProps>
+    <ESBuildNonTriggeringProjects>
+            ;dymaptic.GeoBlazor.Core.ESBuild;
+            ;dymaptic.GeoBlazor.Pro.ESBuild;
+            ;dymaptic.GeoBlazor.Pro.V;
+        </ESBuildNonTriggeringProjects>
   </PropertyGroup>
-  <Target Name="TriggerESBuild" BeforeTargets="Restore;BeforeBuild" Condition="'$(MSBuildProjectName)' != 'dymaptic.GeoBlazor.Core.ESBuild' AND (!EXISTS($(ESBuildLockFilePath)) OR $(ESBuildLockFileTimeStamp) &lt; $(StaleFileThresholdTimeStamp))">
-    <WriteLinesToFile File="$(ESBuildLockFilePath)" Lines="$([System.DateTime]::Now.ToString(`o`))" Overwrite="false" ContinueOnError="true" />
-    <Exec Command="dotnet restore $(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj" />
-    <MSBuild Projects="$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj" Properties="GBBuildToolsPath=$(GBBuildToolsPath);ShowScriptDialogs=$(ShowScriptDialogs)" RemoveProperties="$(ESBuildRemoveProps)" />
+  <Target Name="TriggerESBuild" BeforeTargets="Restore;BeforeBuild" Condition="!$(ESBuildNonTriggeringProjects.Contains(';$(MSBuildProjectName);'))">
+    <!-- Atomically check-and-acquire the lock file; exit code 0 = acquired.
+         AcquireBuildLock also creates a .running marker file when the lock is acquired,
+         so other projects can wait for ESBuild to complete. -->
+    <Exec Command="dotnet &quot;$(GBBuildToolsPath)/AcquireBuildLock.dll&quot; &quot;$(ESBuildLockFilePath)&quot; 5" IgnoreExitCode="true">
+      <Output TaskParameter="ExitCode" PropertyName="_AcquireLockExitCode" />
+    </Exec>
+    <!-- Lock acquired: run ESBuild, then remove the .running marker -->
+    <Message Importance="high" Text="Triggering Core ESBuild from $(MSBuildProjectName)" Condition="'$(_AcquireLockExitCode)' == '0'" />
+    <Exec Command="dotnet restore $(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj" Condition="'$(_AcquireLockExitCode)' == '0'" />
+    <MSBuild Projects="$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj" Properties="GBBuildToolsPath=$(GBBuildToolsPath);ShowScriptDialogs=$(ShowScriptDialogs)" RemoveProperties="$(ESBuildRemoveProps)" Condition="'$(_AcquireLockExitCode)' == '0'" />
+    <Delete Files="$(ESBuildLockFilePath).running" Condition="'$(_AcquireLockExitCode)' == '0'" />
+    <!-- Lock not acquired: another project is running ESBuild — wait for it to finish -->
+    <Exec Command="dotnet &quot;$(GBBuildToolsPath)/WaitForBuildComplete.dll&quot; &quot;$(ESBuildLockFilePath).running&quot; 120" Condition="'$(_AcquireLockExitCode)' != '0'" />
   </Target>
 </Project>

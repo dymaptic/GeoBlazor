@@ -10,10 +10,10 @@ export default class ImageryTileLayerWrapper extends ImageryTileLayerGenerated {
         super(layer);
     }
 
-    async load(options: any): Promise<any> {
+    async load(signal: AbortSignal): Promise<any> {
+        let options = {signal: signal};
         let result = await this.layer.load(options);
-        let dotNetLayer = await buildDotNetImageryTileLayer(result, this.layerId, this.viewId);
-        return buildEncodedJson(dotNetLayer);
+        return await buildDotNetImageryTileLayer(result, this.layerId, this.viewId);
     }
 
     async getServiceRasterInfo() {

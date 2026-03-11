@@ -101,7 +101,7 @@ public class MapColor : IEquatable<MapColor>, IEnumerable, IProtobufSerializable
             _rgbaValues = value;
             Color? color = ToSystemColor();
 
-            if (color is not null && (HexOrNameValue is null || HexOrNameValue.Length == 0))
+            if (color is not null && string.IsNullOrEmpty(HexOrNameValue))
             {
                 _hexOrNameValue = ToHex();
             }
