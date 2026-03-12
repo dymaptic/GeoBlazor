@@ -11,6 +11,60 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 public abstract partial class Geometry
 {
 
+    /// <summary>
+    ///     Implicit conversion between <see cref="(ExtentProperties & { type: "extent" })" /> and <see cref="Geometry" />.
+    /// </summary>
+    /// <param name="(ExtentProperties & { type: "extent" })Value">
+    ///     The (ExtentProperties & { type: "extent" }) to use as the value.
+    /// </param>
+    public static implicit operator Geometry((ExtentProperties & { type: "extent" }) (ExtentProperties & { type: "extent" })Value) =>
+        new((ExtentProperties & { type: "extent" })Value: (ExtentProperties & { type: "extent" })Value);
+
+    /// <summary>
+    ///     Implicit conversion between <see cref="(MultipointProperties & { type: "multipoint" })" /> and <see cref="Geometry" />.
+    /// </summary>
+    /// <param name="(MultipointProperties & { type: "multipoint" })Value">
+    ///     The (MultipointProperties & { type: "multipoint" }) to use as the value.
+    /// </param>
+    public static implicit operator Geometry((MultipointProperties & { type: "multipoint" }) (MultipointProperties & { type: "multipoint" })Value) =>
+        new((MultipointProperties & { type: "multipoint" })Value: (MultipointProperties & { type: "multipoint" })Value);
+
+    /// <summary>
+    ///     Implicit conversion between <see cref="(PointProperties & { type: "point" })" /> and <see cref="Geometry" />.
+    /// </summary>
+    /// <param name="(PointProperties & { type: "point" })Value">
+    ///     The (PointProperties & { type: "point" }) to use as the value.
+    /// </param>
+    public static implicit operator Geometry((PointProperties & { type: "point" }) (PointProperties & { type: "point" })Value) =>
+        new((PointProperties & { type: "point" })Value: (PointProperties & { type: "point" })Value);
+
+    /// <summary>
+    ///     Implicit conversion between <see cref="(PolygonProperties & { type: "polygon" })" /> and <see cref="Geometry" />.
+    /// </summary>
+    /// <param name="(PolygonProperties & { type: "polygon" })Value">
+    ///     The (PolygonProperties & { type: "polygon" }) to use as the value.
+    /// </param>
+    public static implicit operator Geometry((PolygonProperties & { type: "polygon" }) (PolygonProperties & { type: "polygon" })Value) =>
+        new((PolygonProperties & { type: "polygon" })Value: (PolygonProperties & { type: "polygon" })Value);
+
+    /// <summary>
+    ///     Implicit conversion between <see cref="(PolylineProperties & { type: "polyline" })" /> and <see cref="Geometry" />.
+    /// </summary>
+    /// <param name="(PolylineProperties & { type: "polyline" })Value">
+    ///     The (PolylineProperties & { type: "polyline" }) to use as the value.
+    /// </param>
+    public static implicit operator Geometry((PolylineProperties & { type: "polyline" }) (PolylineProperties & { type: "polyline" })Value) =>
+        new((PolylineProperties & { type: "polyline" })Value: (PolylineProperties & { type: "polyline" })Value);
+
+    /// <summary>
+    ///     Implicit conversion between <see cref="(MeshProperties & { type: "mesh" })" /> and <see cref="Geometry" />.
+    /// </summary>
+    /// <param name="(MeshProperties & { type: "mesh" })Value">
+    ///     The (MeshProperties & { type: "mesh" }) to use as the value.
+    /// </param>
+    public static implicit operator Geometry((MeshProperties & { type: "mesh" }) (MeshProperties & { type: "mesh" })Value) =>
+        new((MeshProperties & { type: "mesh" })Value: (MeshProperties & { type: "mesh" })Value);
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>

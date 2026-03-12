@@ -141,7 +141,7 @@ internal class UnionConverter<T> : JsonConverter<T>
                     break;
                 case JsonTokenType.StartArray:
                     inCollection = true;
-                    collectionVal = new();
+                    collectionVal = [];
                 
                     break;
                 case JsonTokenType.StartObject:

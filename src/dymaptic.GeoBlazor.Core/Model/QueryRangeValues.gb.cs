@@ -17,4 +17,4 @@ public partial record QueryRangeValues(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Name = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyCollection<double>? Value = null);
+    IReadOnlyCollection<NumberOrDate>? Value = null);

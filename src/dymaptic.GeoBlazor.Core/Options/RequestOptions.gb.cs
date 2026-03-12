@@ -57,7 +57,7 @@ public partial record RequestOptions(
     long? Timeout = null,
     bool? UseProxy = null,
     bool? WithCredentials = null,
-    BodyUnion? Body = null)
+    RequestOptionsBody? Body = null)
 {
     /// <summary>
     ///     Parameterless Constructor
@@ -124,6 +124,6 @@ public partial record RequestOptions(
     ///     If uploading a file, specify the form data or element used to submit the file here.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public BodyUnion? Body { get; set; } = Body;
+    public RequestOptionsBody? Body { get; set; } = Body;
     
 }

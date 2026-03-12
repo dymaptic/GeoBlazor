@@ -4,7 +4,7 @@
     </PropertyGroup>
     <!-- ESBuild-Triggering "Project" to enforce that this only fires once per build, no matter what project we build from -->
     <Target BeforeTargets="DispatchToInnerBuilds" Name="ESBuild">
-        <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration) --dialog" ContinueOnError="false" Condition="$(ShowScriptDialogs) == 'true'"/>
-        <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration)" ContinueOnError="false" Condition="$(ShowScriptDialogs) != 'true'"/>
+        <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration) --dialog" ContinueOnError="false" Condition="$(ShowScriptDialogs) == 'true'" StandardOutputImportance="high" StandardErrorImportance="high"/>
+        <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration)" ContinueOnError="false" Condition="$(ShowScriptDialogs) != 'true'" StandardOutputImportance="high" StandardErrorImportance="high"/>
     </Target>
 </Project>

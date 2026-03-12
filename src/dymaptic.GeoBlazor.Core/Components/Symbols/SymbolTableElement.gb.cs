@@ -38,7 +38,7 @@ public partial class SymbolTableElement : MapComponent,
     public SymbolTableElement(
         IReadOnlyList<ISymbolTableElementType>? infos = null,
         string? legendType = null,
-        TitleUnion? title = null)
+        SymbolTableElementTitle? title = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -79,7 +79,7 @@ public partial class SymbolTableElement : MapComponent,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public TitleUnion? Title { get; set; }
+    public SymbolTableElementTitle? Title { get; set; }
     
 #endregion
 
@@ -168,7 +168,7 @@ public partial class SymbolTableElement : MapComponent,
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
-    public async Task<TitleUnion?> GetTitle()
+    public async Task<SymbolTableElementTitle?> GetTitle()
     {
         if (CoreJsModule is null)
         {
@@ -190,7 +190,7 @@ public partial class SymbolTableElement : MapComponent,
             return Title;
         }
 
-        TitleUnion? result = await JsComponentReference.InvokeJsMethod<TitleUnion?>(
+        SymbolTableElementTitle? result = await JsComponentReference.InvokeJsMethod<SymbolTableElementTitle?>(
             IsServer, nameof(GetTitle), nameof(SymbolTableElement), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
         
@@ -289,7 +289,7 @@ public partial class SymbolTableElement : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(TitleUnion? value)
+    public async Task SetTitle(SymbolTableElementTitle? value)
     {
 #pragma warning disable BL0005
         Title = value;

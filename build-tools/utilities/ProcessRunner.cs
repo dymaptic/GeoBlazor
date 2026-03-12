@@ -22,7 +22,7 @@ public static partial class ProcessRunner
     {
         return RunCommand(workingDirectory, "pwsh", "-Command",
             environmentVariables, cancellationToken,
-            ["Error", "Warning"],
+            ["Error"],
             $"\"npm {command} {string.Join(" ", args.Where(a => !string.IsNullOrWhiteSpace(a)))}\"");
     }
 

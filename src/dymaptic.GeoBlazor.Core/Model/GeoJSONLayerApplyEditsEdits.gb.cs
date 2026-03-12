@@ -21,7 +21,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public partial record GeoJSONLayerApplyEditsEdits(
     IReadOnlyCollection<Graphic>? AddFeatures = null,
     IReadOnlyCollection<Graphic>? UpdateFeatures = null,
-    DeleteFeaturesUnion? DeleteFeatures = null)
+    GeoJSONLayerApplyEditsEditsDeleteFeatures? DeleteFeatures = null)
 {
     /// <summary>
     ///     Parameterless Constructor
@@ -46,6 +46,6 @@ public partial record GeoJSONLayerApplyEditsEdits(
     ///     An array or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">collection</a> of features, or objects to be deleted.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public DeleteFeaturesUnion? DeleteFeatures { get; set; } = DeleteFeatures;
+    public GeoJSONLayerApplyEditsEditsDeleteFeatures? DeleteFeatures { get; set; } = DeleteFeatures;
     
 }

@@ -88,7 +88,7 @@ public partial class PopupTemplate
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public TitleUnion? Title { get; set; }
+    public PopupTemplateTitle? Title { get; set; }
     
 #endregion
 
@@ -479,7 +479,7 @@ public partial class PopupTemplate
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
-    public async Task<TitleUnion?> GetTitle()
+    public async Task<PopupTemplateTitle?> GetTitle()
     {
         if (CoreJsModule is null)
         {
@@ -501,18 +501,18 @@ public partial class PopupTemplate
             return Title;
         }
 
-        TitleUnion? result = await JsComponentReference.InvokeJsMethod<TitleUnion?>(
-            IsServer, nameof(GetTitle), nameof(PopupTemplate), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
+        // get the property value
+        PopupTemplateTitle? result = await JsComponentReference!.InvokeJsMethod<PopupTemplateTitle?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupTemplate), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Title = result;
+                Title = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Title)] = Title;
+                ModifiedParameters[nameof(Title)] = Title;
         }
-        
+         
         return Title;
     }
     
@@ -896,7 +896,7 @@ public partial class PopupTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(TitleUnion? value)
+    public async Task SetTitle(PopupTemplateTitle? value)
     {
 #pragma warning disable BL0005
         Title = value;

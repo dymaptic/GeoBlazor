@@ -33,7 +33,7 @@ public partial class SizeRampElement : MapComponent,
     /// </param>
     public SizeRampElement(
         IReadOnlyList<SizeRampStop>? infos = null,
-        TitleUnion? title = null)
+        SizeRampElementTitle? title = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -63,7 +63,7 @@ public partial class SizeRampElement : MapComponent,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public TitleUnion? Title { get; set; }
+    public SizeRampElementTitle? Title { get; set; }
     
 #endregion
 
@@ -116,7 +116,7 @@ public partial class SizeRampElement : MapComponent,
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
-    public async Task<TitleUnion?> GetTitle()
+    public async Task<SizeRampElementTitle?> GetTitle()
     {
         if (CoreJsModule is null)
         {
@@ -138,7 +138,7 @@ public partial class SizeRampElement : MapComponent,
             return Title;
         }
 
-        TitleUnion? result = await JsComponentReference.InvokeJsMethod<TitleUnion?>(
+        SizeRampElementTitle? result = await JsComponentReference.InvokeJsMethod<SizeRampElementTitle?>(
             IsServer, nameof(GetTitle), nameof(SizeRampElement), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
         
@@ -208,7 +208,7 @@ public partial class SizeRampElement : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(TitleUnion? value)
+    public async Task SetTitle(SizeRampElementTitle? value)
     {
 #pragma warning disable BL0005
         Title = value;

@@ -24,7 +24,7 @@ public partial record SubtypeSublayerEdits(
     IReadOnlyCollection<string>? DeleteAttachments = null,
     IReadOnlyCollection<AttachmentEdit>? UpdateAttachments = null,
     IReadOnlyCollection<Graphic>? UpdateFeatures = null,
-    DeleteFeaturesUnion? DeleteFeatures = null)
+    SubtypeSublayerEditsDeleteFeatures? DeleteFeatures = null)
 {
     /// <summary>
     ///     Parameterless Constructor
@@ -61,6 +61,6 @@ public partial record SubtypeSublayerEdits(
     /// <summary>
     ///     
     /// </summary>
-    public DeleteFeaturesUnion? DeleteFeatures { get; set; } = DeleteFeatures;
+    public SubtypeSublayerEditsDeleteFeatures? DeleteFeatures { get; set; } = DeleteFeatures;
     
 }

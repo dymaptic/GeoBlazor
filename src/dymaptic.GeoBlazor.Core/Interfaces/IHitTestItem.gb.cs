@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IHitTestItem.html">GeoBlazor Docs</a>
-///     Interface for types AttributeBinsGraphic, BaseTileLayer, BingMapsLayer, CatalogDynamicGroupLayer, CatalogFootprintLayer, CatalogLayer, CSVLayer, ElevationLayer, FeatureLayer, GeoJSONLayer, GeoRSSLayer, Graphic, GraphicsLayer, GroupLayer, ImageryLayer, ImageryTileLayer, KMLLayer, MapImageLayer, OGCFeatureLayer, OpenStreetMapLayer, SceneLayer, SubtypeSublayer, TileLayer, UnknownLayer, UnsupportedLayer, VectorTileLayer, WCSLayer, WebTileLayer, WFSLayer, WMSLayer, WMTSLayer
+///     Implementation of parent property Exclude as HitTestItem.
 /// </summary>
 public partial interface IHitTestItem : IMapComponent
 {

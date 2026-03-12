@@ -11,6 +11,69 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 public abstract partial class Renderer
 {
 
+    /// <summary>
+    ///     Implicit conversion between <see cref="(ClassBreaksRendererProperties & { type: "class-breaks" })" /> and <see cref="Renderer" />.
+    /// </summary>
+    /// <param name="(ClassBreaksRendererProperties & { type: "class-breaks" })Value">
+    ///     The (ClassBreaksRendererProperties & { type: "class-breaks" }) to use as the value.
+    /// </param>
+    public static implicit operator Renderer((ClassBreaksRendererProperties & { type: "class-breaks" }) (ClassBreaksRendererProperties & { type: "class-breaks" })Value) =>
+        new((ClassBreaksRendererProperties & { type: "class-breaks" })Value: (ClassBreaksRendererProperties & { type: "class-breaks" })Value);
+
+    /// <summary>
+    ///     Implicit conversion between <see cref="(UniqueValueRendererProperties & { type: "unique-value" })" /> and <see cref="Renderer" />.
+    /// </summary>
+    /// <param name="(UniqueValueRendererProperties & { type: "unique-value" })Value">
+    ///     The (UniqueValueRendererProperties & { type: "unique-value" }) to use as the value.
+    /// </param>
+    public static implicit operator Renderer((UniqueValueRendererProperties & { type: "unique-value" }) (UniqueValueRendererProperties & { type: "unique-value" })Value) =>
+        new((UniqueValueRendererProperties & { type: "unique-value" })Value: (UniqueValueRendererProperties & { type: "unique-value" })Value);
+
+    /// <summary>
+    ///     Implicit conversion between <see cref="(RasterStretchRendererProperties & { type: "raster-stretch" })" /> and <see cref="Renderer" />.
+    /// </summary>
+    /// <param name="(RasterStretchRendererProperties & { type: "raster-stretch" })Value">
+    ///     The (RasterStretchRendererProperties & { type: "raster-stretch" }) to use as the value.
+    /// </param>
+    public static implicit operator Renderer((RasterStretchRendererProperties & { type: "raster-stretch" }) (RasterStretchRendererProperties & { type: "raster-stretch" })Value) =>
+        new((RasterStretchRendererProperties & { type: "raster-stretch" })Value: (RasterStretchRendererProperties & { type: "raster-stretch" })Value);
+
+    /// <summary>
+    ///     Implicit conversion between <see cref="(RasterShadedReliefRendererProperties & { type: "raster-shaded-relief" })" /> and <see cref="Renderer" />.
+    /// </summary>
+    /// <param name="(RasterShadedReliefRendererProperties & { type: "raster-shaded-relief" })Value">
+    ///     The (RasterShadedReliefRendererProperties & { type: "raster-shaded-relief" }) to use as the value.
+    /// </param>
+    public static implicit operator Renderer((RasterShadedReliefRendererProperties & { type: "raster-shaded-relief" }) (RasterShadedReliefRendererProperties & { type: "raster-shaded-relief" })Value) =>
+        new((RasterShadedReliefRendererProperties & { type: "raster-shaded-relief" })Value: (RasterShadedReliefRendererProperties & { type: "raster-shaded-relief" })Value);
+
+    /// <summary>
+    ///     Implicit conversion between <see cref="(RasterColormapRendererProperties & { type: "raster-colormap" })" /> and <see cref="Renderer" />.
+    /// </summary>
+    /// <param name="(RasterColormapRendererProperties & { type: "raster-colormap" })Value">
+    ///     The (RasterColormapRendererProperties & { type: "raster-colormap" }) to use as the value.
+    /// </param>
+    public static implicit operator Renderer((RasterColormapRendererProperties & { type: "raster-colormap" }) (RasterColormapRendererProperties & { type: "raster-colormap" })Value) =>
+        new((RasterColormapRendererProperties & { type: "raster-colormap" })Value: (RasterColormapRendererProperties & { type: "raster-colormap" })Value);
+
+    /// <summary>
+    ///     Implicit conversion between <see cref="(VectorFieldRendererProperties & { type: "vector-field" })" /> and <see cref="Renderer" />.
+    /// </summary>
+    /// <param name="(VectorFieldRendererProperties & { type: "vector-field" })Value">
+    ///     The (VectorFieldRendererProperties & { type: "vector-field" }) to use as the value.
+    /// </param>
+    public static implicit operator Renderer((VectorFieldRendererProperties & { type: "vector-field" }) (VectorFieldRendererProperties & { type: "vector-field" })Value) =>
+        new((VectorFieldRendererProperties & { type: "vector-field" })Value: (VectorFieldRendererProperties & { type: "vector-field" })Value);
+
+    /// <summary>
+    ///     Implicit conversion between <see cref="(FlowRendererProperties & { type: "flow" })" /> and <see cref="Renderer" />.
+    /// </summary>
+    /// <param name="(FlowRendererProperties & { type: "flow" })Value">
+    ///     The (FlowRendererProperties & { type: "flow" }) to use as the value.
+    /// </param>
+    public static implicit operator Renderer((FlowRendererProperties & { type: "flow" }) (FlowRendererProperties & { type: "flow" })Value) =>
+        new((FlowRendererProperties & { type: "flow" })Value: (FlowRendererProperties & { type: "flow" })Value);
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
