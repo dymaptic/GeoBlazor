@@ -94,14 +94,15 @@ public partial class AreaMeasurement2DViewModelMeasurementLabel : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AreaMeasurement2DViewModelMeasurementLabel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "area");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Area = result;
+                Area = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Area)] = Area;
+                ModifiedParameters[nameof(Area)] = Area;
         }
          
         return Area;
@@ -133,14 +134,15 @@ public partial class AreaMeasurement2DViewModelMeasurementLabel : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AreaMeasurement2DViewModelMeasurementLabel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "perimeter");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Perimeter = result;
+                Perimeter = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Perimeter)] = Perimeter;
+                ModifiedParameters[nameof(Perimeter)] = Perimeter;
         }
          
         return Perimeter;

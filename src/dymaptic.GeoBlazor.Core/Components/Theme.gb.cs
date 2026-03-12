@@ -95,14 +95,15 @@ public partial class Theme : MapComponent
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Theme), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "accentColor");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             AccentColor = result;
+                AccentColor = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AccentColor)] = AccentColor;
+                ModifiedParameters[nameof(AccentColor)] = AccentColor;
         }
          
         return AccentColor;
@@ -134,14 +135,15 @@ public partial class Theme : MapComponent
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Theme), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "textColor");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             TextColor = result;
+                TextColor = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TextColor)] = TextColor;
+                ModifiedParameters[nameof(TextColor)] = TextColor;
         }
          
         return TextColor;

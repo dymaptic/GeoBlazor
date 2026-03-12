@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendViewModelLayerInfos.html">GeoBlazor Docs</a>
 ///     Specifies a subset of the layers in the map to display in the legend.
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class LegendViewModelLayerInfos : MapComponent
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -28,17 +30,18 @@ public partial class LegendViewModelLayerInfos : MapComponent
     ///     Specify a title for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public LegendViewModelLayerInfos(Layer? layer = null,
+    public LegendViewModelLayerInfos(
+        Layer? layer = null,
         string? title = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Layer = layer;
         Title = title;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -50,9 +53,8 @@ public partial class LegendViewModelLayerInfos : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -65,8 +67,8 @@ public partial class LegendViewModelLayerInfos : MapComponent
         {
             return Layer;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -75,32 +77,33 @@ public partial class LegendViewModelLayerInfos : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Layer;
         }
 
-        Layer? result = await JsComponentReference.InvokeAsync<Layer?>("getLayer", CancellationTokenSource.Token);
-
+        Layer? result = await JsComponentReference.InvokeJsMethod<Layer?>(
+            IsServer, nameof(GetLayer), nameof(LegendViewModelLayerInfos), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
             if (Layer is not null)
             {
                 result.Id = Layer.Id;
             }
-
             result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-
+            
 #pragma warning disable BL0005
             Layer = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Layer)] = Layer;
         }
-
+        
         return Layer;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -110,8 +113,8 @@ public partial class LegendViewModelLayerInfos : MapComponent
         {
             return Title;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -120,29 +123,28 @@ public partial class LegendViewModelLayerInfos : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Title;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LegendViewModelLayerInfos), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Title = result;
+                Title = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Title)] = Title;
+                ModifiedParameters[nameof(Title)] = Title;
         }
-
+         
         return Title;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -154,22 +156,22 @@ public partial class LegendViewModelLayerInfos : MapComponent
     /// </param>
     public async Task SetLayer(Layer? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         Layer = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Layer)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -178,16 +180,16 @@ public partial class LegendViewModelLayerInfos : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layer", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -200,13 +202,13 @@ public partial class LegendViewModelLayerInfos : MapComponent
         Title = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Title)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -215,15 +217,16 @@ public partial class LegendViewModelLayerInfos : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
     }
-
+    
 #endregion
+
 }

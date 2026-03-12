@@ -99,14 +99,15 @@ public partial class LayerOptions : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "returnTopmostRaster");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerOptions), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "returnTopmostRaster");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ReturnTopmostRaster = result.Value.Value;
+                ReturnTopmostRaster = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ReturnTopmostRaster)] = ReturnTopmostRaster;
+                ModifiedParameters[nameof(ReturnTopmostRaster)] = ReturnTopmostRaster;
         }
          
         return ReturnTopmostRaster;
@@ -138,14 +139,15 @@ public partial class LayerOptions : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "showNoDataRecords");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerOptions), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "showNoDataRecords");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ShowNoDataRecords = result.Value.Value;
+                ShowNoDataRecords = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ShowNoDataRecords)] = ShowNoDataRecords;
+                ModifiedParameters[nameof(ShowNoDataRecords)] = ShowNoDataRecords;
         }
          
         return ShowNoDataRecords;

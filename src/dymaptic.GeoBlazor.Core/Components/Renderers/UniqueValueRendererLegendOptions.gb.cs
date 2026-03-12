@@ -64,14 +64,15 @@ public partial class UniqueValueRendererLegendOptions
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValueRendererLegendOptions), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Title = result;
+                Title = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Title)] = Title;
+                ModifiedParameters[nameof(Title)] = Title;
         }
          
         return Title;

@@ -94,14 +94,15 @@ public partial class WFSLayerElevationInfoFeatureExpressionInfo : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayerElevationInfoFeatureExpressionInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "expression");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Expression = result;
+                Expression = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Expression)] = Expression;
+                ModifiedParameters[nameof(Expression)] = Expression;
         }
          
         return Expression;
@@ -133,14 +134,15 @@ public partial class WFSLayerElevationInfoFeatureExpressionInfo : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayerElevationInfoFeatureExpressionInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Title = result;
+                Title = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Title)] = Title;
+                ModifiedParameters[nameof(Title)] = Title;
         }
          
         return Title;

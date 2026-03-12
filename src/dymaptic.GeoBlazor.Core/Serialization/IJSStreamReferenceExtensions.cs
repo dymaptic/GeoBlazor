@@ -45,7 +45,13 @@ public static class IJSStreamReferenceExtensions
 
         if (returnType == typeof(string))
         {
-            return json.Trim('"');
+            json = json.Trim('"');
+            return json == "null" ? null : json;
+        }
+
+        if (json == "null")
+        {
+            return null;
         }
 
         return JsonSerializer.Deserialize(json, returnType, jsStreamReference.GetJsonSerializerOptions());

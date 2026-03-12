@@ -40,45 +40,46 @@ public partial record BookmarkOptions(
     bool? TakeScreenshot = null)
 {
     /// <summary>
-    ///     Parameterless constructor
+    ///     Parameterless Constructor
     /// </summary>
-    public BookmarkOptions() : this(null, null)
+    public BookmarkOptions(): this(null, null)
     {
     }
-
+    
     /// <summary>
     ///     _Since 4.17_ Indicates whether the rotation of the current view will be saved in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-Bookmark.html#viewpoint">viewpoint</a> of a newly created or modified bookmark.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#BookmarkOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? CaptureRotation { get; set; } = CaptureRotation;
-
+    
     /// <summary>
     ///     _Since 4.17_ Indicates whether the scale of the current view will be saved in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-Bookmark.html#viewpoint">viewpoint</a> of a newly created or modified bookmark.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#BookmarkOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? CaptureScale { get; set; } = CaptureScale;
-
+    
     /// <summary>
     ///     _Since 4.22_ Indicates whether the time extent of the current view will be saved in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-Bookmark.html#timeExtent">timeExtent</a> of a newly created or modified bookmark.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#BookmarkOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? CaptureTimeExtent { get; set; } = CaptureTimeExtent;
-
+    
     /// <summary>
     ///     _Since 4.17_ Indicates whether the viewpoint of the current view will become the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-Bookmark.html#viewpoint">viewpoint</a> of a newly created or modified bookmark.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#BookmarkOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? CaptureViewpoint { get; set; } = CaptureViewpoint;
-
+    
     /// <summary>
     ///     An object that specifies the settings of the screenshot that will be used to create the bookmark's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-Bookmark.html#thumbnail">thumbnail</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#BookmarkOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public BookmarkOptionsScreenshotSettings? ScreenshotSettings { get; set; } = ScreenshotSettings;
-
+    
     /// <summary>
     ///     Indicates whether a screenshot is taken when a new bookmark is created.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#BookmarkOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? TakeScreenshot { get; set; } = TakeScreenshot;
+    
 }

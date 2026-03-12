@@ -80,14 +80,15 @@ public partial class SimpleFillSymbol : ISymbol2D,
         }
 
         // get the property value
-        JsNullableEnumWrapper<SimpleFillSymbolStyle>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SimpleFillSymbolStyle>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "style");
-        if (result is { Value: not null })
+        SimpleFillSymbolStyle? result = await JsComponentReference!.InvokeJsMethod<SimpleFillSymbolStyle?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SimpleFillSymbol), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "style");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Style = (SimpleFillSymbolStyle)result.Value.Value!;
+                Style = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Style)] = Style;
+                ModifiedParameters[nameof(Style)] = Style;
         }
          
         return Style;

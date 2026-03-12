@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchLayer.html">GeoBlazor Docs</a>
 ///     Represents a layer to be included in search.
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class SearchLayer : MapComponent
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -32,7 +34,8 @@ public partial class SearchLayer : MapComponent
     ///     The sub layer index.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-SearchLayer.html#subLayer">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public SearchLayer(SearchLayerField? field = null,
+    public SearchLayer(
+        SearchLayerField? field = null,
         string? searchLayerId = null,
         double? subLayer = null)
     {
@@ -41,50 +44,10 @@ public partial class SearchLayer : MapComponent
         Field = field;
         SearchLayerId = searchLayerId;
         SubLayer = subLayer;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        Field?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case SearchLayerField field:
-                if (field != Field)
-                {
-                    Field = field;
-                    ModifiedParameters[nameof(Field)] = Field;
-                }
-
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case SearchLayerField _:
-                Field = null;
-                ModifiedParameters[nameof(Field)] = Field;
-
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -96,7 +59,7 @@ public partial class SearchLayer : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public SearchLayerField? Field { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchLayer.html#searchlayersearchlayerid-property">GeoBlazor Docs</a>
     ///     The id of the layer.
@@ -106,7 +69,7 @@ public partial class SearchLayer : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? SearchLayerId { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchLayer.html#searchlayersublayer-property">GeoBlazor Docs</a>
     ///     The sub layer index.
@@ -116,9 +79,8 @@ public partial class SearchLayer : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? SubLayer { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -131,8 +93,8 @@ public partial class SearchLayer : MapComponent
         {
             return Field;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -141,26 +103,33 @@ public partial class SearchLayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Field;
         }
 
-        SearchLayerField? result =
-            await JsComponentReference.InvokeAsync<SearchLayerField?>("getField", CancellationTokenSource.Token);
-
+        SearchLayerField? result = await JsComponentReference.InvokeJsMethod<SearchLayerField?>(
+            IsServer, nameof(GetField), nameof(SearchLayer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (Field is not null)
+            {
+                result.Id = Field.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Field = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Field)] = Field;
         }
-
+        
         return Field;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SearchLayerId property.
     /// </summary>
@@ -170,8 +139,8 @@ public partial class SearchLayer : MapComponent
         {
             return SearchLayerId;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -180,27 +149,27 @@ public partial class SearchLayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SearchLayerId;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "id");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            SearchLayerId = result;
+                SearchLayerId = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SearchLayerId)] = SearchLayerId;
+                ModifiedParameters[nameof(SearchLayerId)] = SearchLayerId;
         }
-
+         
         return SearchLayerId;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SubLayer property.
     /// </summary>
@@ -210,8 +179,8 @@ public partial class SearchLayer : MapComponent
         {
             return SubLayer;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -220,30 +189,28 @@ public partial class SearchLayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SubLayer;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "subLayer");
-
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "subLayer");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            SubLayer = result.Value.Value;
+                SubLayer = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SubLayer)] = SubLayer;
+                ModifiedParameters[nameof(SubLayer)] = SubLayer;
         }
-
+         
         return SubLayer;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -255,22 +222,22 @@ public partial class SearchLayer : MapComponent
     /// </param>
     public async Task SetField(SearchLayerField? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         Field = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Field)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -279,16 +246,16 @@ public partial class SearchLayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SearchLayerId property after render.
     /// </summary>
@@ -301,13 +268,13 @@ public partial class SearchLayer : MapComponent
         SearchLayerId = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SearchLayerId)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -316,16 +283,16 @@ public partial class SearchLayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SubLayer property after render.
     /// </summary>
@@ -338,13 +305,13 @@ public partial class SearchLayer : MapComponent
         SubLayer = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SubLayer)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -353,15 +320,57 @@ public partial class SearchLayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "subLayer", value);
     }
-
+    
 #endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case SearchLayerField field:
+                if (field != Field)
+                {
+                    Field = field;
+                    ModifiedParameters[nameof(Field)] = Field;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case SearchLayerField:
+                Field = null;
+                ModifiedParameters[nameof(Field)] = Field;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        Field?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

@@ -40,14 +40,15 @@ public abstract partial class LineSymbol
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LineSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "width");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Width = result;
+                Width = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Width)] = Width;
+                ModifiedParameters[nameof(Width)] = Width;
         }
          
         return Width;

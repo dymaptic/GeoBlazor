@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BookmarksWidget.html">GeoBlazor Docs</a>
 ///     The Bookmarks widget allows end users to quickly navigate to a particular area of interest.
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 /// </summary>
 public partial class BookmarksWidget : IGoTo
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -23,9 +25,6 @@ public partial class BookmarksWidget : IGoTo
     /// <param name="bookmarks">
     ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-Bookmark.html">Bookmark</a>s.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#bookmarks">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="containerId">
-    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
     /// </param>
     /// <param name="defaultCreateOptions">
     ///     Specifies how new bookmarks will be created if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#VisibleElements">visibleElements.addBookmarkButton</a> is set to `true`.
@@ -74,12 +73,6 @@ public partial class BookmarksWidget : IGoTo
     ///     The widget's default label.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="mapView">
-    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
-    /// </param>
-    /// <param name="position">
-    ///     The position of the widget in relation to the map view.
-    /// </param>
     /// <param name="viewModel">
     ///     The view model for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
@@ -97,8 +90,8 @@ public partial class BookmarksWidget : IGoTo
     ///     The unique ID assigned to the widget when the widget is created.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public BookmarksWidget(IReadOnlyList<Bookmark>? bookmarks = null,
-        string? containerId = null,
+    public BookmarksWidget(
+        IReadOnlyList<Bookmark>? bookmarks = null,
         BookmarkOptions? defaultCreateOptions = null,
         BookmarkOptions? defaultEditOptions = null,
         bool? disabled = null,
@@ -109,8 +102,6 @@ public partial class BookmarksWidget : IGoTo
         int? headingLevel = null,
         string? icon = null,
         string? label = null,
-        MapView? mapView = null,
-        OverlayPosition? position = null,
         BookmarksViewModel? viewModel = null,
         bool? visible = null,
         BookmarksVisibleElements? visibleElements = null,
@@ -119,7 +110,6 @@ public partial class BookmarksWidget : IGoTo
         AllowRender = false;
 #pragma warning disable BL0005
         Bookmarks = bookmarks;
-        ContainerId = containerId;
         DefaultCreateOptions = defaultCreateOptions;
         DefaultEditOptions = defaultEditOptions;
         Disabled = disabled;
@@ -130,15 +120,915 @@ public partial class BookmarksWidget : IGoTo
         HeadingLevel = headingLevel;
         Icon = icon;
         Label = label;
-        MapView = mapView;
-        Position = position;
         ViewModel = viewModel;
         Visible = visible;
         VisibleElements = visibleElements;
         WidgetId = widgetId;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
+    
+    
+#region Public Properties / Blazor Parameters
 
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BookmarksWidget.html#bookmarkswidgetbookmarks-property">GeoBlazor Docs</a>
+    ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-Bookmark.html">Bookmark</a>s.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#bookmarks">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<Bookmark>? Bookmarks { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BookmarksWidget.html#bookmarkswidgetdefaultcreateoptions-property">GeoBlazor Docs</a>
+    ///     Specifies how new bookmarks will be created if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#VisibleElements">visibleElements.addBookmarkButton</a> is set to `true`.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#defaultCreateOptions">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public BookmarkOptions? DefaultCreateOptions { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BookmarksWidget.html#bookmarkswidgetdefaulteditoptions-property">GeoBlazor Docs</a>
+    ///     Specifies how bookmarks will be edited, if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#VisibleElements">visibleElements.editBookmarkButton</a> is set to `true`.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#defaultEditOptions">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public BookmarkOptions? DefaultEditOptions { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BookmarksWidget.html#bookmarkswidgetdragenabled-property">GeoBlazor Docs</a>
+    ///     Indicates if a Bookmark is able to be dragged in order to update its position in the list.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#dragEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? DragEnabled { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BookmarksWidget.html#bookmarkswidgetfilterplaceholder-property">GeoBlazor Docs</a>
+    ///     Defines the text used as a placeholder when visibleElements.filter is set to `true`.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#filterPlaceholder">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? FilterPlaceholder { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BookmarksWidget.html#bookmarkswidgetfiltertext-property">GeoBlazor Docs</a>
+    ///     Defines the text used to filter the bookmarks when visibleElements.filter is set to `true`.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#filterText">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? FilterText { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BookmarksWidget.html#bookmarkswidgetviewmodel-property">GeoBlazor Docs</a>
+    ///     The view model for this widget.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public BookmarksViewModel? ViewModel { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BookmarksWidget.html#bookmarkswidgetvisibleelements-property">GeoBlazor Docs</a>
+    ///     The visible elements that are displayed within the widget.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#visibleElements">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public BookmarksVisibleElements? VisibleElements { get; set; }
+    
+#endregion
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Bookmarks property.
+    /// </summary>
+    public async Task<IReadOnlyList<Bookmark>?> GetBookmarks()
+    {
+        if (CoreJsModule is null)
+        {
+            return Bookmarks;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Bookmarks;
+        }
+
+        IReadOnlyList<Bookmark>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Bookmark>?>(
+            IsServer, nameof(GetBookmarks), nameof(BookmarksWidget), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            foreach (Bookmark item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+#pragma warning disable BL0005
+            Bookmarks = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
+        }
+        
+        return Bookmarks;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the DefaultCreateOptions property.
+    /// </summary>
+    public async Task<BookmarkOptions?> GetDefaultCreateOptions()
+    {
+        if (CoreJsModule is null)
+        {
+            return DefaultCreateOptions;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return DefaultCreateOptions;
+        }
+
+        BookmarkOptions? result = await JsComponentReference.InvokeJsMethod<BookmarkOptions?>(
+            IsServer, nameof(GetDefaultCreateOptions), nameof(BookmarksWidget), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            DefaultCreateOptions = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(DefaultCreateOptions)] = DefaultCreateOptions;
+        }
+        
+        return DefaultCreateOptions;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the DefaultEditOptions property.
+    /// </summary>
+    public async Task<BookmarkOptions?> GetDefaultEditOptions()
+    {
+        if (CoreJsModule is null)
+        {
+            return DefaultEditOptions;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return DefaultEditOptions;
+        }
+
+        BookmarkOptions? result = await JsComponentReference.InvokeJsMethod<BookmarkOptions?>(
+            IsServer, nameof(GetDefaultEditOptions), nameof(BookmarksWidget), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            DefaultEditOptions = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(DefaultEditOptions)] = DefaultEditOptions;
+        }
+        
+        return DefaultEditOptions;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Disabled property.
+    /// </summary>
+    public async Task<bool?> GetDisabled()
+    {
+        if (CoreJsModule is null)
+        {
+            return Disabled;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Disabled;
+        }
+
+        // get the property value
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarksWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "disabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                Disabled = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(Disabled)] = Disabled;
+        }
+         
+        return Disabled;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the DragEnabled property.
+    /// </summary>
+    public async Task<bool?> GetDragEnabled()
+    {
+        if (CoreJsModule is null)
+        {
+            return DragEnabled;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return DragEnabled;
+        }
+
+        // get the property value
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarksWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "dragEnabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                DragEnabled = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(DragEnabled)] = DragEnabled;
+        }
+         
+        return DragEnabled;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the FilterPlaceholder property.
+    /// </summary>
+    public async Task<string?> GetFilterPlaceholder()
+    {
+        if (CoreJsModule is null)
+        {
+            return FilterPlaceholder;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return FilterPlaceholder;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarksWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "filterPlaceholder");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                FilterPlaceholder = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(FilterPlaceholder)] = FilterPlaceholder;
+        }
+         
+        return FilterPlaceholder;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the FilterText property.
+    /// </summary>
+    public async Task<string?> GetFilterText()
+    {
+        if (CoreJsModule is null)
+        {
+            return FilterText;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return FilterText;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarksWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "filterText");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                FilterText = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(FilterText)] = FilterText;
+        }
+         
+        return FilterText;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the HeadingLevel property.
+    /// </summary>
+    public async Task<int?> GetHeadingLevel()
+    {
+        if (CoreJsModule is null)
+        {
+            return HeadingLevel;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return HeadingLevel;
+        }
+
+        // get the property value
+        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarksWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "headingLevel");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                HeadingLevel = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(HeadingLevel)] = HeadingLevel;
+        }
+         
+        return HeadingLevel;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ViewModel property.
+    /// </summary>
+    public async Task<BookmarksViewModel?> GetViewModel()
+    {
+        if (CoreJsModule is null)
+        {
+            return ViewModel;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return ViewModel;
+        }
+
+        BookmarksViewModel? result = await JsComponentReference.InvokeJsMethod<BookmarksViewModel?>(
+            IsServer, nameof(GetViewModel), nameof(BookmarksWidget), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (ViewModel is not null)
+            {
+                result.Id = ViewModel.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            ViewModel = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ViewModel)] = ViewModel;
+        }
+        
+        return ViewModel;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the VisibleElements property.
+    /// </summary>
+    public async Task<BookmarksVisibleElements?> GetVisibleElements()
+    {
+        if (CoreJsModule is null)
+        {
+            return VisibleElements;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return VisibleElements;
+        }
+
+        BookmarksVisibleElements? result = await JsComponentReference.InvokeJsMethod<BookmarksVisibleElements?>(
+            IsServer, nameof(GetVisibleElements), nameof(BookmarksWidget), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (VisibleElements is not null)
+            {
+                result.Id = VisibleElements.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            VisibleElements = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+        }
+        
+        return VisibleElements;
+    }
+    
+#endregion
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the Bookmarks property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetBookmarks(IReadOnlyList<Bookmark>? value)
+    {
+#pragma warning disable BL0005
+        Bookmarks = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Bookmarks)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            foreach (Bookmark item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetBookmarks), nameof(BookmarksWidget), 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the DefaultCreateOptions property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetDefaultCreateOptions(BookmarkOptions? value)
+    {
+#pragma warning disable BL0005
+        DefaultCreateOptions = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(DefaultCreateOptions)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetDefaultCreateOptions), nameof(BookmarksWidget), 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the DefaultEditOptions property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetDefaultEditOptions(BookmarkOptions? value)
+    {
+#pragma warning disable BL0005
+        DefaultEditOptions = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(DefaultEditOptions)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetDefaultEditOptions), nameof(BookmarksWidget), 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Disabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetDisabled(bool? value)
+    {
+#pragma warning disable BL0005
+        Disabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Disabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "disabled", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the DragEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetDragEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        DragEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(DragEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "dragEnabled", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the FilterPlaceholder property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetFilterPlaceholder(string? value)
+    {
+#pragma warning disable BL0005
+        FilterPlaceholder = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(FilterPlaceholder)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "filterPlaceholder", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the FilterText property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetFilterText(string? value)
+    {
+#pragma warning disable BL0005
+        FilterText = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(FilterText)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "filterText", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the HeadingLevel property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetHeadingLevel(int? value)
+    {
+#pragma warning disable BL0005
+        HeadingLevel = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(HeadingLevel)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "headingLevel", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the ViewModel property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetViewModel(BookmarksViewModel? value)
+    {
+#pragma warning disable BL0005
+        ViewModel = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ViewModel)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetViewModel), nameof(BookmarksWidget), 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the VisibleElements property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetVisibleElements(BookmarksVisibleElements? value)
+    {
+#pragma warning disable BL0005
+        VisibleElements = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(VisibleElements)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetVisibleElements), nameof(BookmarksWidget), 
+            CancellationTokenSource.Token, value);
+    }
+    
+#endregion
 
 #region Add to Collection Methods
 
@@ -155,12 +1045,12 @@ public partial class BookmarksWidget : IGoTo
             : [..Bookmarks, ..values];
         await SetBookmarks(join);
     }
-
+    
 #endregion
-
 
 #region Remove From Collection Methods
 
+    
     /// <summary>
     ///     Asynchronously remove an element from the Bookmarks property.
     /// </summary>
@@ -173,12 +1063,10 @@ public partial class BookmarksWidget : IGoTo
         {
             return;
         }
-
         await SetBookmarks(Bookmarks.Except(values).ToArray());
     }
-
+    
 #endregion
-
 
 #region Public Methods
 
@@ -197,7 +1085,7 @@ public partial class BookmarksWidget : IGoTo
         {
             return null;
         }
-
+        
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -207,1002 +1095,19 @@ public partial class BookmarksWidget : IGoTo
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
-        return await JsComponentReference!.InvokeAsync<string?>("goTo",
+        
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GoTo), nameof(BookmarksWidget), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             bookmark);
     }
-
+    
 #endregion
-
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        if (Bookmarks is not null)
-        {
-            foreach (Bookmark child in Bookmarks)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-
-        ViewModel?.ValidateRequiredGeneratedChildren();
-        VisibleElements?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Bookmark bookmarks:
-                Bookmarks ??= [];
-
-                if (!Bookmarks.Contains(bookmarks))
-                {
-                    Bookmarks = [..Bookmarks, bookmarks];
-                    ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
-
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
-                }
-
-                return true;
-            case BookmarksViewModel viewModel:
-                if (viewModel != ViewModel)
-                {
-                    ViewModel = viewModel;
-                    ModifiedParameters[nameof(ViewModel)] = ViewModel;
-
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
-                }
-
-                return true;
-            case BookmarksVisibleElements visibleElements:
-                if (visibleElements != VisibleElements)
-                {
-                    VisibleElements = visibleElements;
-                    ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
-
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
-                }
-
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Bookmark bookmarks:
-                Bookmarks = Bookmarks?.Where(b => b != bookmarks).ToList();
-                ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
-
-                return true;
-            case BookmarksViewModel _:
-                ViewModel = null;
-                ModifiedParameters[nameof(ViewModel)] = ViewModel;
-
-                return true;
-            case BookmarksVisibleElements _:
-                VisibleElements = null;
-                ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
-
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-
-
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BookmarksWidget.html#bookmarkswidgetbookmarks-property">GeoBlazor Docs</a>
-    ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-Bookmark.html">Bookmark</a>s.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#bookmarks">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<Bookmark>? Bookmarks { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BookmarksWidget.html#bookmarkswidgetdefaultcreateoptions-property">GeoBlazor Docs</a>
-    ///     Specifies how new bookmarks will be created if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#VisibleElements">visibleElements.addBookmarkButton</a> is set to `true`.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#defaultCreateOptions">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public BookmarkOptions? DefaultCreateOptions { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BookmarksWidget.html#bookmarkswidgetdefaulteditoptions-property">GeoBlazor Docs</a>
-    ///     Specifies how bookmarks will be edited, if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#VisibleElements">visibleElements.editBookmarkButton</a> is set to `true`.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#defaultEditOptions">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public BookmarkOptions? DefaultEditOptions { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BookmarksWidget.html#bookmarkswidgetdragenabled-property">GeoBlazor Docs</a>
-    ///     Indicates if a Bookmark is able to be dragged in order to update its position in the list.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#dragEnabled">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? DragEnabled { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BookmarksWidget.html#bookmarkswidgetfilterplaceholder-property">GeoBlazor Docs</a>
-    ///     Defines the text used as a placeholder when visibleElements.filter is set to `true`.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#filterPlaceholder">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? FilterPlaceholder { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BookmarksWidget.html#bookmarkswidgetfiltertext-property">GeoBlazor Docs</a>
-    ///     Defines the text used to filter the bookmarks when visibleElements.filter is set to `true`.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#filterText">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? FilterText { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BookmarksWidget.html#bookmarkswidgetviewmodel-property">GeoBlazor Docs</a>
-    ///     The view model for this widget.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public BookmarksViewModel? ViewModel { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BookmarksWidget.html#bookmarkswidgetvisibleelements-property">GeoBlazor Docs</a>
-    ///     The visible elements that are displayed within the widget.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#visibleElements">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public BookmarksVisibleElements? VisibleElements { get; set; }
-
-#endregion
-
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Bookmarks property.
-    /// </summary>
-    public async Task<IReadOnlyList<Bookmark>?> GetBookmarks()
-    {
-        if (CoreJsModule is null)
-        {
-            return Bookmarks;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Bookmarks;
-        }
-
-        IReadOnlyList<Bookmark>? result =
-            await JsComponentReference.InvokeAsync<IReadOnlyList<Bookmark>?>("getBookmarks",
-                CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Bookmarks = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
-        }
-
-        return Bookmarks;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the DefaultCreateOptions property.
-    /// </summary>
-    public async Task<BookmarkOptions?> GetDefaultCreateOptions()
-    {
-        if (CoreJsModule is null)
-        {
-            return DefaultCreateOptions;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return DefaultCreateOptions;
-        }
-
-        BookmarkOptions? result = await JsComponentReference.InvokeAsync<BookmarkOptions?>(
-            "getDefaultCreateOptions", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            DefaultCreateOptions = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(DefaultCreateOptions)] = DefaultCreateOptions;
-        }
-
-        return DefaultCreateOptions;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the DefaultEditOptions property.
-    /// </summary>
-    public async Task<BookmarkOptions?> GetDefaultEditOptions()
-    {
-        if (CoreJsModule is null)
-        {
-            return DefaultEditOptions;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return DefaultEditOptions;
-        }
-
-        BookmarkOptions? result = await JsComponentReference.InvokeAsync<BookmarkOptions?>(
-            "getDefaultEditOptions", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            DefaultEditOptions = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(DefaultEditOptions)] = DefaultEditOptions;
-        }
-
-        return DefaultEditOptions;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Disabled property.
-    /// </summary>
-    public async Task<bool?> GetDisabled()
-    {
-        if (CoreJsModule is null)
-        {
-            return Disabled;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Disabled;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "disabled");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            Disabled = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Disabled)] = Disabled;
-        }
-
-        return Disabled;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the DragEnabled property.
-    /// </summary>
-    public async Task<bool?> GetDragEnabled()
-    {
-        if (CoreJsModule is null)
-        {
-            return DragEnabled;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return DragEnabled;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "dragEnabled");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            DragEnabled = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(DragEnabled)] = DragEnabled;
-        }
-
-        return DragEnabled;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the FilterPlaceholder property.
-    /// </summary>
-    public async Task<string?> GetFilterPlaceholder()
-    {
-        if (CoreJsModule is null)
-        {
-            return FilterPlaceholder;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return FilterPlaceholder;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "filterPlaceholder");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            FilterPlaceholder = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(FilterPlaceholder)] = FilterPlaceholder;
-        }
-
-        return FilterPlaceholder;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the FilterText property.
-    /// </summary>
-    public async Task<string?> GetFilterText()
-    {
-        if (CoreJsModule is null)
-        {
-            return FilterText;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return FilterText;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "filterText");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            FilterText = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(FilterText)] = FilterText;
-        }
-
-        return FilterText;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the HeadingLevel property.
-    /// </summary>
-    public async Task<int?> GetHeadingLevel()
-    {
-        if (CoreJsModule is null)
-        {
-            return HeadingLevel;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return HeadingLevel;
-        }
-
-        // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "headingLevel");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            HeadingLevel = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(HeadingLevel)] = HeadingLevel;
-        }
-
-        return HeadingLevel;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ViewModel property.
-    /// </summary>
-    public async Task<BookmarksViewModel?> GetViewModel()
-    {
-        if (CoreJsModule is null)
-        {
-            return ViewModel;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return ViewModel;
-        }
-
-        BookmarksViewModel? result =
-            await JsComponentReference.InvokeAsync<BookmarksViewModel?>("getViewModel", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-            if (ViewModel is not null)
-            {
-                result.Id = ViewModel.Id;
-            }
-
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-
-#pragma warning disable BL0005
-            ViewModel = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(ViewModel)] = ViewModel;
-        }
-
-        return ViewModel;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the VisibleElements property.
-    /// </summary>
-    public async Task<BookmarksVisibleElements?> GetVisibleElements()
-    {
-        if (CoreJsModule is null)
-        {
-            return VisibleElements;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return VisibleElements;
-        }
-
-        BookmarksVisibleElements? result = await JsComponentReference.InvokeAsync<BookmarksVisibleElements?>(
-            "getVisibleElements", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            VisibleElements = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
-        }
-
-        return VisibleElements;
-    }
-
-#endregion
-
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the Bookmarks property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetBookmarks(IReadOnlyList<Bookmark>? value)
-    {
-        if (value is not null)
-        {
-            foreach (Bookmark item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-
-#pragma warning disable BL0005
-        Bookmarks = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Bookmarks)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await JsComponentReference.InvokeVoidAsync("setBookmarks",
-            CancellationTokenSource.Token, value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the DefaultCreateOptions property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetDefaultCreateOptions(BookmarkOptions? value)
-    {
-#pragma warning disable BL0005
-        DefaultCreateOptions = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(DefaultCreateOptions)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await JsComponentReference.InvokeVoidAsync("setDefaultCreateOptions",
-            CancellationTokenSource.Token, value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the DefaultEditOptions property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetDefaultEditOptions(BookmarkOptions? value)
-    {
-#pragma warning disable BL0005
-        DefaultEditOptions = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(DefaultEditOptions)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await JsComponentReference.InvokeVoidAsync("setDefaultEditOptions",
-            CancellationTokenSource.Token, value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Disabled property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetDisabled(bool? value)
-    {
-#pragma warning disable BL0005
-        Disabled = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Disabled)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "disabled", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the DragEnabled property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetDragEnabled(bool? value)
-    {
-#pragma warning disable BL0005
-        DragEnabled = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(DragEnabled)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "dragEnabled", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the FilterPlaceholder property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetFilterPlaceholder(string? value)
-    {
-#pragma warning disable BL0005
-        FilterPlaceholder = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(FilterPlaceholder)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "filterPlaceholder", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the FilterText property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetFilterText(string? value)
-    {
-#pragma warning disable BL0005
-        FilterText = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(FilterText)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "filterText", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the HeadingLevel property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetHeadingLevel(int? value)
-    {
-#pragma warning disable BL0005
-        HeadingLevel = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(HeadingLevel)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "headingLevel", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the ViewModel property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetViewModel(BookmarksViewModel? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
-#pragma warning disable BL0005
-        ViewModel = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ViewModel)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await JsComponentReference.InvokeVoidAsync("setViewModel",
-            CancellationTokenSource.Token, value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the VisibleElements property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetVisibleElements(BookmarksVisibleElements? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
-#pragma warning disable BL0005
-        VisibleElements = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(VisibleElements)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await JsComponentReference.InvokeVoidAsync("setVisibleElements",
-            CancellationTokenSource.Token, value);
-    }
-
-#endregion
-
 
 #region Event Handlers
 
@@ -1217,16 +1122,14 @@ public partial class BookmarksWidget : IGoTo
             // cancel if the component is disposed
             return;
         }
-
-        BookmarksBookmarkEditEvent? bookmarkEditEvent =
-            await jsStreamRef.ReadJsStreamReferenceAsJSON<BookmarksBookmarkEditEvent>();
-
+    
+        BookmarksBookmarkEditEvent? bookmarkEditEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<BookmarksBookmarkEditEvent>();
         if (bookmarkEditEvent is not null)
         {
             await OnBookmarkEdit.InvokeAsync(bookmarkEditEvent);
         }
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BookmarksWidget.html#bookmarkswidgetonbookmarkedit-property">GeoBlazor Docs</a>
     ///     Event Listener for BookmarkEdit.
@@ -1234,11 +1137,98 @@ public partial class BookmarksWidget : IGoTo
     [Parameter]
     [JsonIgnore]
     public EventCallback<BookmarksBookmarkEditEvent> OnBookmarkEdit { get; set; }
-
+   
     /// <summary>
     ///     Used in JavaScript layer to determine if the event listener is registered.
     /// </summary>
     public bool HasBookmarkEditListener => OnBookmarkEdit.HasDelegate;
-
+    
 #endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Bookmark bookmarks:
+                Bookmarks ??= [];
+                if (!Bookmarks.Contains(bookmarks))
+                {
+                    Bookmarks = [..Bookmarks, bookmarks];
+                    ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
+                }
+                
+                return true;
+            case BookmarksViewModel viewModel:
+                if (viewModel != ViewModel)
+                {
+                    ViewModel = viewModel;
+                    ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
+                }
+                
+                return true;
+            case BookmarksVisibleElements visibleElements:
+                if (visibleElements != VisibleElements)
+                {
+                    VisibleElements = visibleElements;
+                    ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Bookmark bookmarks:
+                Bookmarks = Bookmarks?.Where(b => b != bookmarks).ToList();
+                ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
+                return true;
+            case BookmarksViewModel:
+                ViewModel = null;
+                ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                return true;
+            case BookmarksVisibleElements:
+                VisibleElements = null;
+                ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        if (Bookmarks is not null)
+        {
+            foreach (Bookmark child in Bookmarks)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+        ViewModel?.ValidateRequiredGeneratedChildren();
+        VisibleElements?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

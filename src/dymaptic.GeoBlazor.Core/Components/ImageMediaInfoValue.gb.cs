@@ -70,14 +70,15 @@ public partial class ImageMediaInfoValue
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageMediaInfoValue), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "linkURL");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LinkURL = result;
+                LinkURL = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LinkURL)] = LinkURL;
+                ModifiedParameters[nameof(LinkURL)] = LinkURL;
         }
          
         return LinkURL;
@@ -109,14 +110,15 @@ public partial class ImageMediaInfoValue
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageMediaInfoValue), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sourceURL");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SourceURL = result;
+                SourceURL = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SourceURL)] = SourceURL;
+                ModifiedParameters[nameof(SourceURL)] = SourceURL;
         }
          
         return SourceURL;

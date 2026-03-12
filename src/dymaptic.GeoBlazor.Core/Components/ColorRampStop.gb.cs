@@ -111,14 +111,15 @@ public partial class ColorRampStop : MapComponent
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ColorRampStop), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "color");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Color = result;
+                Color = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Color)] = Color;
+                ModifiedParameters[nameof(Color)] = Color;
         }
          
         return Color;
@@ -150,14 +151,15 @@ public partial class ColorRampStop : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ColorRampStop), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "label");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Label = result;
+                Label = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Label)] = Label;
+                ModifiedParameters[nameof(Label)] = Label;
         }
          
         return Label;
@@ -189,14 +191,15 @@ public partial class ColorRampStop : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ColorRampStop), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "value");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Value = result;
+                Value = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Value)] = Value;
+                ModifiedParameters[nameof(Value)] = Value;
         }
          
         return Value;

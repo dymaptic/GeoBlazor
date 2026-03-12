@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchSource.html">GeoBlazor Docs</a>
 ///     The following properties define generic <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#sources">sources</a> properties
@@ -10,100 +11,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public abstract partial class SearchSource
 {
-#region Add to Collection Methods
-
-    /// <summary>
-    ///     Asynchronously adds elements to the OutFields property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to add.
-    /// </param>
-    public async Task AddToOutFields(params string[] values)
-    {
-        string[] join = OutFields is null
-            ? values
-            : [..OutFields, ..values];
-        await SetOutFields(join);
-    }
-
-#endregion
-
-
-#region Remove From Collection Methods
-
-    /// <summary>
-    ///     Asynchronously remove an element from the OutFields property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to remove.
-    /// </param>
-    public async Task RemoveFromOutFields(params string[] values)
-    {
-        if (OutFields is null)
-        {
-            return;
-        }
-
-        await SetOutFields(OutFields.Except(values).ToArray());
-    }
-
-#endregion
-
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        PopupTemplate?.ValidateRequiredGeneratedChildren();
-        ResultSymbol?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case PopupTemplate popupTemplate:
-                if (popupTemplate != PopupTemplate)
-                {
-                    PopupTemplate = popupTemplate;
-                    ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
-                }
-
-                return true;
-            case Symbol resultSymbol:
-                if (resultSymbol != ResultSymbol)
-                {
-                    ResultSymbol = resultSymbol;
-                    ModifiedParameters[nameof(ResultSymbol)] = ResultSymbol;
-                }
-
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case PopupTemplate _:
-                PopupTemplate = null;
-                ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
-
-                return true;
-            case Symbol _:
-                ResultSymbol = null;
-                ModifiedParameters[nameof(ResultSymbol)] = ResultSymbol;
-
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-
 
 #region Public Properties / Blazor Parameters
 
@@ -116,7 +23,7 @@ public abstract partial class SearchSource
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public SearchSourceFilter? Filter { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchSource.html#searchsourcemaxsuggestions-property">GeoBlazor Docs</a>
     ///     Indicates the maximum number of suggestions
@@ -128,7 +35,7 @@ public abstract partial class SearchSource
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? MaxSuggestions { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchSource.html#searchsourceoutfields-property">GeoBlazor Docs</a>
     ///     Specifies the fields returned with the search results.
@@ -138,7 +45,7 @@ public abstract partial class SearchSource
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<string>? OutFields { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchSource.html#searchsourcepopuptemplate-property">GeoBlazor Docs</a>
     ///     The popup template used to display search results.
@@ -148,7 +55,7 @@ public abstract partial class SearchSource
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PopupTemplate? PopupTemplate { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchSource.html#searchsourceresultsymbol-property">GeoBlazor Docs</a>
     ///     The symbol used to display the result.
@@ -158,9 +65,8 @@ public abstract partial class SearchSource
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Symbol? ResultSymbol { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -173,8 +79,8 @@ public abstract partial class SearchSource
         {
             return AutoNavigate;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -183,28 +89,27 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return AutoNavigate;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "autoNavigate");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "autoNavigate");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            AutoNavigate = result.Value.Value;
+                AutoNavigate = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(AutoNavigate)] = AutoNavigate;
+                ModifiedParameters[nameof(AutoNavigate)] = AutoNavigate;
         }
-
+         
         return AutoNavigate;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Filter property.
     /// </summary>
@@ -214,8 +119,8 @@ public abstract partial class SearchSource
         {
             return Filter;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -224,15 +129,16 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Filter;
         }
 
-        SearchSourceFilter? result =
-            await JsComponentReference.InvokeAsync<SearchSourceFilter?>("getFilter", CancellationTokenSource.Token);
-
+        SearchSourceFilter? result = await JsComponentReference.InvokeJsMethod<SearchSourceFilter?>(
+            IsServer, nameof(GetFilter), nameof(SearchSource), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -240,10 +146,50 @@ public abstract partial class SearchSource
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Filter)] = Filter;
         }
-
+        
         return Filter;
     }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the GetSuggestionsHandler property.
+    /// </summary>
+    public async Task<GetSuggestionsHandler?> GetGetSuggestionsHandler()
+    {
+        if (CoreJsModule is null)
+        {
+            return GetSuggestionsHandler;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return GetSuggestionsHandler;
+        }
 
+        // get the property value
+        GetSuggestionsHandler? result = await JsComponentReference!.InvokeJsMethod<GetSuggestionsHandler?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "getSuggestions");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                GetSuggestionsHandler = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(GetSuggestionsHandler)] = GetSuggestionsHandler;
+        }
+         
+        return GetSuggestionsHandler;
+    }
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxResults property.
     /// </summary>
@@ -253,8 +199,8 @@ public abstract partial class SearchSource
         {
             return MaxResults;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -263,28 +209,27 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return MaxResults;
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "maxResults");
-
-        if (result is { Value: not null })
+        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "maxResults");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            MaxResults = result.Value.Value;
+                MaxResults = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(MaxResults)] = MaxResults;
+                ModifiedParameters[nameof(MaxResults)] = MaxResults;
         }
-
+         
         return MaxResults;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxSuggestions property.
     /// </summary>
@@ -294,8 +239,8 @@ public abstract partial class SearchSource
         {
             return MaxSuggestions;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -304,28 +249,27 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return MaxSuggestions;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "maxSuggestions");
-
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "maxSuggestions");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            MaxSuggestions = result.Value.Value;
+                MaxSuggestions = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(MaxSuggestions)] = MaxSuggestions;
+                ModifiedParameters[nameof(MaxSuggestions)] = MaxSuggestions;
         }
-
+         
         return MaxSuggestions;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinSuggestCharacters property.
     /// </summary>
@@ -335,8 +279,8 @@ public abstract partial class SearchSource
         {
             return MinSuggestCharacters;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -345,28 +289,27 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return MinSuggestCharacters;
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "minSuggestCharacters");
-
-        if (result is { Value: not null })
+        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "minSuggestCharacters");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            MinSuggestCharacters = result.Value.Value;
+                MinSuggestCharacters = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(MinSuggestCharacters)] = MinSuggestCharacters;
+                ModifiedParameters[nameof(MinSuggestCharacters)] = MinSuggestCharacters;
         }
-
+         
         return MinSuggestCharacters;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the OutFields property.
     /// </summary>
@@ -376,8 +319,8 @@ public abstract partial class SearchSource
         {
             return OutFields;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -386,27 +329,27 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return OutFields;
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "outFields");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            OutFields = result;
+                OutFields = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(OutFields)] = OutFields;
+                ModifiedParameters[nameof(OutFields)] = OutFields;
         }
-
+         
         return OutFields;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Placeholder property.
     /// </summary>
@@ -416,8 +359,8 @@ public abstract partial class SearchSource
         {
             return Placeholder;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -426,27 +369,27 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Placeholder;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "placeholder");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Placeholder = result;
+                Placeholder = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Placeholder)] = Placeholder;
+                ModifiedParameters[nameof(Placeholder)] = Placeholder;
         }
-
+         
         return Placeholder;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupEnabled property.
     /// </summary>
@@ -456,8 +399,8 @@ public abstract partial class SearchSource
         {
             return PopupEnabled;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -466,28 +409,27 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return PopupEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "popupEnabled");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "popupEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            PopupEnabled = result.Value.Value;
+                PopupEnabled = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
+                ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
         }
-
+         
         return PopupEnabled;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupTemplate property.
     /// </summary>
@@ -497,8 +439,8 @@ public abstract partial class SearchSource
         {
             return PopupTemplate;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -507,26 +449,33 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return PopupTemplate;
         }
 
-        PopupTemplate? result = await JsComponentReference.InvokeAsync<PopupTemplate?>(
-            "getPopupTemplate", CancellationTokenSource.Token);
-
+        PopupTemplate? result = await JsComponentReference.InvokeJsMethod<PopupTemplate?>(
+            IsServer, nameof(GetPopupTemplate), nameof(SearchSource), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (PopupTemplate is not null)
+            {
+                result.Id = PopupTemplate.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             PopupTemplate = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
         }
-
+        
         return PopupTemplate;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Prefix property.
     /// </summary>
@@ -536,8 +485,8 @@ public abstract partial class SearchSource
         {
             return Prefix;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -546,27 +495,27 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Prefix;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "prefix");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Prefix = result;
+                Prefix = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Prefix)] = Prefix;
+                ModifiedParameters[nameof(Prefix)] = Prefix;
         }
-
+         
         return Prefix;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ResultGraphicEnabled property.
     /// </summary>
@@ -576,8 +525,8 @@ public abstract partial class SearchSource
         {
             return ResultGraphicEnabled;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -586,28 +535,27 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ResultGraphicEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "resultGraphicEnabled");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "resultGraphicEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            ResultGraphicEnabled = result.Value.Value;
+                ResultGraphicEnabled = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ResultGraphicEnabled)] = ResultGraphicEnabled;
+                ModifiedParameters[nameof(ResultGraphicEnabled)] = ResultGraphicEnabled;
         }
-
+         
         return ResultGraphicEnabled;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ResultSymbol property.
     /// </summary>
@@ -617,8 +565,8 @@ public abstract partial class SearchSource
         {
             return ResultSymbol;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -627,26 +575,33 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ResultSymbol;
         }
 
-        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
-            "getResultSymbol", CancellationTokenSource.Token);
-
+        Symbol? result = await JsComponentReference.InvokeJsMethod<Symbol?>(
+            IsServer, nameof(GetResultSymbol), nameof(SearchSource), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (ResultSymbol is not null)
+            {
+                result.Id = ResultSymbol.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             ResultSymbol = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ResultSymbol)] = ResultSymbol;
         }
-
+        
         return ResultSymbol;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Suffix property.
     /// </summary>
@@ -656,8 +611,8 @@ public abstract partial class SearchSource
         {
             return Suffix;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -666,27 +621,27 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Suffix;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "suffix");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Suffix = result;
+                Suffix = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Suffix)] = Suffix;
+                ModifiedParameters[nameof(Suffix)] = Suffix;
         }
-
+         
         return Suffix;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SuggestionsEnabled property.
     /// </summary>
@@ -696,8 +651,8 @@ public abstract partial class SearchSource
         {
             return SuggestionsEnabled;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -706,28 +661,27 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SuggestionsEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "suggestionsEnabled");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "suggestionsEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            SuggestionsEnabled = result.Value.Value;
+                SuggestionsEnabled = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SuggestionsEnabled)] = SuggestionsEnabled;
+                ModifiedParameters[nameof(SuggestionsEnabled)] = SuggestionsEnabled;
         }
-
+         
         return SuggestionsEnabled;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the WithinViewEnabled property.
     /// </summary>
@@ -737,8 +691,8 @@ public abstract partial class SearchSource
         {
             return WithinViewEnabled;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -747,28 +701,27 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return WithinViewEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "withinViewEnabled");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "withinViewEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            WithinViewEnabled = result.Value.Value;
+                WithinViewEnabled = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(WithinViewEnabled)] = WithinViewEnabled;
+                ModifiedParameters[nameof(WithinViewEnabled)] = WithinViewEnabled;
         }
-
+         
         return WithinViewEnabled;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ZoomScale property.
     /// </summary>
@@ -778,8 +731,8 @@ public abstract partial class SearchSource
         {
             return ZoomScale;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -788,30 +741,28 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ZoomScale;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "zoomScale");
-
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "zoomScale");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            ZoomScale = result.Value.Value;
+                ZoomScale = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ZoomScale)] = ZoomScale;
+                ModifiedParameters[nameof(ZoomScale)] = ZoomScale;
         }
-
+         
         return ZoomScale;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -827,13 +778,13 @@ public abstract partial class SearchSource
         AutoNavigate = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(AutoNavigate)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -842,16 +793,16 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "autoNavigate", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Filter property after render.
     /// </summary>
@@ -864,13 +815,13 @@ public abstract partial class SearchSource
         Filter = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Filter)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -879,16 +830,53 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "filter", value);
     }
-
+    
+    /// <summary>
+    ///    Asynchronously set the value of the GetSuggestionsHandler property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetGetSuggestionsHandler(GetSuggestionsHandler? value)
+    {
+#pragma warning disable BL0005
+        GetSuggestionsHandler = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(GetSuggestionsHandler)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "getSuggestions", value);
+    }
+    
     /// <summary>
     ///    Asynchronously set the value of the MaxResults property after render.
     /// </summary>
@@ -901,13 +889,13 @@ public abstract partial class SearchSource
         MaxResults = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MaxResults)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -916,16 +904,16 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxResults", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MaxSuggestions property after render.
     /// </summary>
@@ -938,13 +926,13 @@ public abstract partial class SearchSource
         MaxSuggestions = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MaxSuggestions)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -953,16 +941,16 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxSuggestions", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MinSuggestCharacters property after render.
     /// </summary>
@@ -975,13 +963,13 @@ public abstract partial class SearchSource
         MinSuggestCharacters = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MinSuggestCharacters)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -990,16 +978,16 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minSuggestCharacters", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the OutFields property after render.
     /// </summary>
@@ -1012,13 +1000,13 @@ public abstract partial class SearchSource
         OutFields = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(OutFields)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1027,16 +1015,16 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outFields", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Placeholder property after render.
     /// </summary>
@@ -1049,13 +1037,13 @@ public abstract partial class SearchSource
         Placeholder = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Placeholder)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1064,16 +1052,16 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "placeholder", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
@@ -1086,13 +1074,13 @@ public abstract partial class SearchSource
         PopupEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(PopupEnabled)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1101,16 +1089,16 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupEnabled", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PopupTemplate property after render.
     /// </summary>
@@ -1119,22 +1107,22 @@ public abstract partial class SearchSource
     /// </param>
     public async Task SetPopupTemplate(PopupTemplate? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         PopupTemplate = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(PopupTemplate)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1143,16 +1131,16 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupTemplate", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Prefix property after render.
     /// </summary>
@@ -1165,13 +1153,13 @@ public abstract partial class SearchSource
         Prefix = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Prefix)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1180,16 +1168,16 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "prefix", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ResultGraphicEnabled property after render.
     /// </summary>
@@ -1202,13 +1190,13 @@ public abstract partial class SearchSource
         ResultGraphicEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ResultGraphicEnabled)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1217,16 +1205,16 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "resultGraphicEnabled", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ResultSymbol property after render.
     /// </summary>
@@ -1235,22 +1223,22 @@ public abstract partial class SearchSource
     /// </param>
     public async Task SetResultSymbol(Symbol? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         ResultSymbol = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ResultSymbol)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1259,16 +1247,16 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "resultSymbol", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Suffix property after render.
     /// </summary>
@@ -1281,13 +1269,13 @@ public abstract partial class SearchSource
         Suffix = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Suffix)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1296,16 +1284,16 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "suffix", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SuggestionsEnabled property after render.
     /// </summary>
@@ -1318,13 +1306,13 @@ public abstract partial class SearchSource
         SuggestionsEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SuggestionsEnabled)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1333,16 +1321,16 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "suggestionsEnabled", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the WithinViewEnabled property after render.
     /// </summary>
@@ -1355,13 +1343,13 @@ public abstract partial class SearchSource
         WithinViewEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(WithinViewEnabled)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1370,16 +1358,16 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "withinViewEnabled", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ZoomScale property after render.
     /// </summary>
@@ -1392,13 +1380,13 @@ public abstract partial class SearchSource
         ZoomScale = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ZoomScale)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1407,15 +1395,108 @@ public abstract partial class SearchSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "zoomScale", value);
     }
-
+    
 #endregion
+
+#region Add to Collection Methods
+
+    /// <summary>
+    ///     Asynchronously adds elements to the OutFields property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to add.
+    /// </param>
+    public async Task AddToOutFields(params string[] values)
+    {
+        string[] join = OutFields is null
+            ? values
+            : [..OutFields, ..values];
+        await SetOutFields(join);
+    }
+    
+#endregion
+
+#region Remove From Collection Methods
+
+    
+    /// <summary>
+    ///     Asynchronously remove an element from the OutFields property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to remove.
+    /// </param>
+    public async Task RemoveFromOutFields(params string[] values)
+    {
+        if (OutFields is null)
+        {
+            return;
+        }
+        await SetOutFields(OutFields.Except(values).ToArray());
+    }
+    
+#endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case PopupTemplate popupTemplate:
+                if (popupTemplate != PopupTemplate)
+                {
+                    PopupTemplate = popupTemplate;
+                    ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+                }
+                
+                return true;
+            case Symbol resultSymbol:
+                if (resultSymbol != ResultSymbol)
+                {
+                    ResultSymbol = resultSymbol;
+                    ModifiedParameters[nameof(ResultSymbol)] = ResultSymbol;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case PopupTemplate _:
+                PopupTemplate = null;
+                ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+                return true;
+            case Symbol:
+                ResultSymbol = null;
+                ModifiedParameters[nameof(ResultSymbol)] = ResultSymbol;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        PopupTemplate?.ValidateRequiredGeneratedChildren();
+        ResultSymbol?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

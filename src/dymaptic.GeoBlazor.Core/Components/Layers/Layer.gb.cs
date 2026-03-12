@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Layer.html">GeoBlazor Docs</a>
 ///     The layer is the most fundamental component of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html">Map</a>.
@@ -12,6 +13,7 @@ public abstract partial class Layer : IHitTestItem,
     ISliceAnalysisExcludedLayers,
     ISliceViewModelExcludedLayers
 {
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -23,9 +25,8 @@ public abstract partial class Layer : IHitTestItem,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ArcGISLayerId { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -38,8 +39,8 @@ public abstract partial class Layer : IHitTestItem,
         {
             return ArcGISLayerId;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -48,27 +49,27 @@ public abstract partial class Layer : IHitTestItem,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ArcGISLayerId;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Layer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "id");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            ArcGISLayerId = result;
+                ArcGISLayerId = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ArcGISLayerId)] = ArcGISLayerId;
+                ModifiedParameters[nameof(ArcGISLayerId)] = ArcGISLayerId;
         }
-
+         
         return ArcGISLayerId;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ListMode property.
     /// </summary>
@@ -78,8 +79,8 @@ public abstract partial class Layer : IHitTestItem,
         {
             return ListMode;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -88,28 +89,67 @@ public abstract partial class Layer : IHitTestItem,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ListMode;
         }
 
         // get the property value
-        JsNullableEnumWrapper<ListMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ListMode>?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "listMode");
-
-        if (result is { Value: not null })
+        ListMode? result = await JsComponentReference!.InvokeJsMethod<ListMode?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Layer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "listMode");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            ListMode = (ListMode)result.Value.Value!;
+                ListMode = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ListMode)] = ListMode;
+                ModifiedParameters[nameof(ListMode)] = ListMode;
         }
-
+         
         return ListMode;
     }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Loaded property.
+    /// </summary>
+    public async Task<bool?> GetLoaded()
+    {
+        if (CoreJsModule is null)
+        {
+            return Loaded;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Loaded;
+        }
 
+        // get the property value
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Layer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "loaded");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                Loaded = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(Loaded)] = Loaded;
+        }
+         
+        return Loaded;
+    }
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PersistenceEnabled property.
     /// </summary>
@@ -119,8 +159,8 @@ public abstract partial class Layer : IHitTestItem,
         {
             return PersistenceEnabled;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -129,28 +169,27 @@ public abstract partial class Layer : IHitTestItem,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return PersistenceEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "persistenceEnabled");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Layer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "persistenceEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            PersistenceEnabled = result.Value.Value;
+                PersistenceEnabled = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(PersistenceEnabled)] = PersistenceEnabled;
+                ModifiedParameters[nameof(PersistenceEnabled)] = PersistenceEnabled;
         }
-
+         
         return PersistenceEnabled;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -160,8 +199,8 @@ public abstract partial class Layer : IHitTestItem,
         {
             return Title;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -170,27 +209,27 @@ public abstract partial class Layer : IHitTestItem,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Title;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Layer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Title = result;
+                Title = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Title)] = Title;
+                ModifiedParameters[nameof(Title)] = Title;
         }
-
+         
         return Title;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibilityTimeExtent property.
     /// </summary>
@@ -200,8 +239,8 @@ public abstract partial class Layer : IHitTestItem,
         {
             return VisibilityTimeExtent;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -210,35 +249,34 @@ public abstract partial class Layer : IHitTestItem,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return VisibilityTimeExtent;
         }
 
-        TimeExtent? result = await JsComponentReference.InvokeAsync<TimeExtent?>(
-            "getVisibilityTimeExtent", CancellationTokenSource.Token);
-
+        TimeExtent? result = await JsComponentReference.InvokeJsMethod<TimeExtent?>(
+            IsServer, nameof(GetVisibilityTimeExtent), nameof(Layer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
             if (VisibilityTimeExtent is not null)
             {
                 result.Id = VisibilityTimeExtent.Id;
             }
-
             result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-
+            
 #pragma warning disable BL0005
             VisibilityTimeExtent = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(VisibilityTimeExtent)] = VisibilityTimeExtent;
         }
-
+        
         return VisibilityTimeExtent;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -254,13 +292,13 @@ public abstract partial class Layer : IHitTestItem,
         ArcGISLayerId = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ArcGISLayerId)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -269,16 +307,16 @@ public abstract partial class Layer : IHitTestItem,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ListMode property after render.
     /// </summary>
@@ -291,13 +329,13 @@ public abstract partial class Layer : IHitTestItem,
         ListMode = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ListMode)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -306,16 +344,16 @@ public abstract partial class Layer : IHitTestItem,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "listMode", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -328,13 +366,13 @@ public abstract partial class Layer : IHitTestItem,
         Title = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Title)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -343,16 +381,16 @@ public abstract partial class Layer : IHitTestItem,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the VisibilityTimeExtent property after render.
     /// </summary>
@@ -361,22 +399,22 @@ public abstract partial class Layer : IHitTestItem,
     /// </param>
     public async Task SetVisibilityTimeExtent(TimeExtent? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         VisibilityTimeExtent = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(VisibilityTimeExtent)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -385,23 +423,21 @@ public abstract partial class Layer : IHitTestItem,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "visibilityTimeExtent", value);
     }
-
+    
 #endregion
-
 
 #region Public Methods
 
 #endregion
-
 
 #region Event Handlers
 
@@ -416,15 +452,14 @@ public abstract partial class Layer : IHitTestItem,
             // cancel if the component is disposed
             return;
         }
-
+    
         LayerViewCreateEvent? createEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<LayerViewCreateEvent>();
-
         if (createEvent is not null)
         {
             await OnCreate.InvokeAsync(createEvent);
         }
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Layer.html#layeroncreate-property">GeoBlazor Docs</a>
     ///     Fires after the layer's <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a> is created and rendered in a view.
@@ -432,12 +467,12 @@ public abstract partial class Layer : IHitTestItem,
     [Parameter]
     [JsonIgnore]
     public EventCallback<LayerViewCreateEvent> OnCreate { get; set; }
-
+   
     /// <summary>
     ///     Used in JavaScript layer to determine if the event listener is registered.
     /// </summary>
     public bool HasCreateListener => OnCreate.HasDelegate;
-
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -449,16 +484,14 @@ public abstract partial class Layer : IHitTestItem,
             // cancel if the component is disposed
             return;
         }
-
-        LayerViewCreateErrorEvent? createErrorEvent =
-            await jsStreamRef.ReadJsStreamReferenceAsJSON<LayerViewCreateErrorEvent>();
-
+    
+        LayerViewCreateErrorEvent? createErrorEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<LayerViewCreateErrorEvent>();
         if (createErrorEvent is not null)
         {
             await OnCreateError.InvokeAsync(createErrorEvent);
         }
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Layer.html#layeroncreateerror-property">GeoBlazor Docs</a>
     ///     Fires when an error emits during the creation of a <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a>
@@ -467,12 +500,12 @@ public abstract partial class Layer : IHitTestItem,
     [Parameter]
     [JsonIgnore]
     public EventCallback<LayerViewCreateErrorEvent> OnCreateError { get; set; }
-
+   
     /// <summary>
     ///     Used in JavaScript layer to determine if the event listener is registered.
     /// </summary>
     public bool HasCreateErrorListener => OnCreateError.HasDelegate;
-
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -484,15 +517,14 @@ public abstract partial class Layer : IHitTestItem,
             // cancel if the component is disposed
             return;
         }
-
+    
         LayerViewDestroyEvent? destroyEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<LayerViewDestroyEvent>();
-
         if (destroyEvent is not null)
         {
             await OnDestroy.InvokeAsync(destroyEvent);
         }
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Layer.html#layerondestroy-property">GeoBlazor Docs</a>
     ///     Fires after the layer's <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a> is destroyed and no longer renders in a view.
@@ -500,11 +532,12 @@ public abstract partial class Layer : IHitTestItem,
     [Parameter]
     [JsonIgnore]
     public EventCallback<LayerViewDestroyEvent> OnDestroy { get; set; }
-
+   
     /// <summary>
     ///     Used in JavaScript layer to determine if the event listener is registered.
     /// </summary>
     public bool HasDestroyListener => OnDestroy.HasDelegate;
-
+    
 #endregion
+
 }

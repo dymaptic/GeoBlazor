@@ -74,14 +74,15 @@ public abstract partial class MediaInfo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MediaInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "altText");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             AltText = result;
+                AltText = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AltText)] = AltText;
+                ModifiedParameters[nameof(AltText)] = AltText;
         }
          
         return AltText;
@@ -113,14 +114,15 @@ public abstract partial class MediaInfo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MediaInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "caption");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Caption = result;
+                Caption = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Caption)] = Caption;
+                ModifiedParameters[nameof(Caption)] = Caption;
         }
          
         return Caption;
@@ -152,14 +154,15 @@ public abstract partial class MediaInfo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MediaInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Title = result;
+                Title = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Title)] = Title;
+                ModifiedParameters[nameof(Title)] = Title;
         }
          
         return Title;

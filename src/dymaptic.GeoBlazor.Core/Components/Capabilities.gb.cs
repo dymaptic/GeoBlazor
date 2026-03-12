@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Capabilities.html">GeoBlazor Docs</a>
 ///     Describes the layer's supported capabilities.
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class Capabilities : MapComponent
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -58,7 +60,8 @@ public partial class Capabilities : MapComponent
     ///     Describes <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html">top features query</a> operations that can be performed on features in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public Capabilities(CapabilitiesAnalytics? analytics = null,
+    public Capabilities(
+        CapabilitiesAnalytics? analytics = null,
         CapabilitiesAttachment? attachment = null,
         CapabilitiesData? data = null,
         CapabilitiesEditing? editing = null,
@@ -81,162 +84,10 @@ public partial class Capabilities : MapComponent
         QueryAttributeBins = queryAttributeBins;
         QueryRelated = queryRelated;
         QueryTopFeatures = queryTopFeatures;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        Analytics?.ValidateRequiredGeneratedChildren();
-        Attachment?.ValidateRequiredGeneratedChildren();
-        Data?.ValidateRequiredGeneratedChildren();
-        Editing?.ValidateRequiredGeneratedChildren();
-        Metadata?.ValidateRequiredGeneratedChildren();
-        Operations?.ValidateRequiredGeneratedChildren();
-        QueryAttributeBins?.ValidateRequiredGeneratedChildren();
-        QueryRelated?.ValidateRequiredGeneratedChildren();
-        QueryTopFeatures?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case CapabilitiesAnalytics analytics:
-                if (analytics != Analytics)
-                {
-                    Analytics = analytics;
-                    ModifiedParameters[nameof(Analytics)] = Analytics;
-                }
-
-                return true;
-            case CapabilitiesAttachment attachment:
-                if (attachment != Attachment)
-                {
-                    Attachment = attachment;
-                    ModifiedParameters[nameof(Attachment)] = Attachment;
-                }
-
-                return true;
-            case CapabilitiesData data:
-                if (data != Data)
-                {
-                    Data = data;
-                    ModifiedParameters[nameof(Data)] = Data;
-                }
-
-                return true;
-            case CapabilitiesEditing editing:
-                if (editing != Editing)
-                {
-                    Editing = editing;
-                    ModifiedParameters[nameof(Editing)] = Editing;
-                }
-
-                return true;
-            case CapabilitiesMetadata metadata:
-                if (metadata != Metadata)
-                {
-                    Metadata = metadata;
-                    ModifiedParameters[nameof(Metadata)] = Metadata;
-                }
-
-                return true;
-            case CapabilitiesOperations operations:
-                if (operations != Operations)
-                {
-                    Operations = operations;
-                    ModifiedParameters[nameof(Operations)] = Operations;
-                }
-
-                return true;
-            case CapabilitiesQueryAttributeBins queryAttributeBins:
-                if (queryAttributeBins != QueryAttributeBins)
-                {
-                    QueryAttributeBins = queryAttributeBins;
-                    ModifiedParameters[nameof(QueryAttributeBins)] = QueryAttributeBins;
-                }
-
-                return true;
-            case CapabilitiesQueryRelated queryRelated:
-                if (queryRelated != QueryRelated)
-                {
-                    QueryRelated = queryRelated;
-                    ModifiedParameters[nameof(QueryRelated)] = QueryRelated;
-                }
-
-                return true;
-            case CapabilitiesQueryTopFeatures queryTopFeatures:
-                if (queryTopFeatures != QueryTopFeatures)
-                {
-                    QueryTopFeatures = queryTopFeatures;
-                    ModifiedParameters[nameof(QueryTopFeatures)] = QueryTopFeatures;
-                }
-
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case CapabilitiesAnalytics _:
-                Analytics = null;
-                ModifiedParameters[nameof(Analytics)] = Analytics;
-
-                return true;
-            case CapabilitiesAttachment _:
-                Attachment = null;
-                ModifiedParameters[nameof(Attachment)] = Attachment;
-
-                return true;
-            case CapabilitiesData _:
-                Data = null;
-                ModifiedParameters[nameof(Data)] = Data;
-
-                return true;
-            case CapabilitiesEditing _:
-                Editing = null;
-                ModifiedParameters[nameof(Editing)] = Editing;
-
-                return true;
-            case CapabilitiesMetadata _:
-                Metadata = null;
-                ModifiedParameters[nameof(Metadata)] = Metadata;
-
-                return true;
-            case CapabilitiesOperations _:
-                Operations = null;
-                ModifiedParameters[nameof(Operations)] = Operations;
-
-                return true;
-            case CapabilitiesQueryAttributeBins _:
-                QueryAttributeBins = null;
-                ModifiedParameters[nameof(QueryAttributeBins)] = QueryAttributeBins;
-
-                return true;
-            case CapabilitiesQueryRelated _:
-                QueryRelated = null;
-                ModifiedParameters[nameof(QueryRelated)] = QueryRelated;
-
-                return true;
-            case CapabilitiesQueryTopFeatures _:
-                QueryTopFeatures = null;
-                ModifiedParameters[nameof(QueryTopFeatures)] = QueryTopFeatures;
-
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -248,7 +99,7 @@ public partial class Capabilities : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public CapabilitiesAnalytics? Analytics { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Capabilities.html#capabilitiesattachment-property">GeoBlazor Docs</a>
     ///     Describes what attachment capabilities are enabled on the layer.
@@ -258,7 +109,7 @@ public partial class Capabilities : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public CapabilitiesAttachment? Attachment { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Capabilities.html#capabilitiesdata-property">GeoBlazor Docs</a>
     ///     Describes characteristics of the data in the layer.
@@ -268,7 +119,7 @@ public partial class Capabilities : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public CapabilitiesData? Data { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Capabilities.html#capabilitiesediting-property">GeoBlazor Docs</a>
     ///     Describes editing capabilities that can be performed on the features in the layer via <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#applyEdits">applyEdits()</a>.
@@ -278,7 +129,7 @@ public partial class Capabilities : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public CapabilitiesEditing? Editing { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Capabilities.html#capabilitiesmetadata-property">GeoBlazor Docs</a>
     ///     Describes the metadata contained on features in the layer.
@@ -288,7 +139,7 @@ public partial class Capabilities : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public CapabilitiesMetadata? Metadata { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Capabilities.html#capabilitiesoperations-property">GeoBlazor Docs</a>
     ///     Describes operations that can be performed on features in the layer.
@@ -298,7 +149,7 @@ public partial class Capabilities : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public CapabilitiesOperations? Operations { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Capabilities.html#capabilitiesquery-property">GeoBlazor Docs</a>
     ///     Describes <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">query</a> operations that can be performed on features in the layer.
@@ -308,7 +159,7 @@ public partial class Capabilities : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public CapabilitiesQuery? Query { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Capabilities.html#capabilitiesqueryattributebins-property">GeoBlazor Docs</a>
     ///     
@@ -317,7 +168,7 @@ public partial class Capabilities : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public CapabilitiesQueryAttributeBins? QueryAttributeBins { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Capabilities.html#capabilitiesqueryrelated-property">GeoBlazor Docs</a>
     ///     Indicates if the layer's query operation supports querying features or records related to features in the layer.
@@ -327,7 +178,7 @@ public partial class Capabilities : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public CapabilitiesQueryRelated? QueryRelated { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Capabilities.html#capabilitiesquerytopfeatures-property">GeoBlazor Docs</a>
     ///     Describes <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html">top features query</a> operations that can be performed on features in the layer.
@@ -337,9 +188,8 @@ public partial class Capabilities : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public CapabilitiesQueryTopFeatures? QueryTopFeatures { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -352,8 +202,8 @@ public partial class Capabilities : MapComponent
         {
             return Analytics;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -362,16 +212,16 @@ public partial class Capabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Analytics;
         }
 
-        CapabilitiesAnalytics? result =
-            await JsComponentReference.InvokeAsync<CapabilitiesAnalytics?>("getAnalytics",
-                CancellationTokenSource.Token);
-
+        CapabilitiesAnalytics? result = await JsComponentReference.InvokeJsMethod<CapabilitiesAnalytics?>(
+            IsServer, nameof(GetAnalytics), nameof(Capabilities), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -379,10 +229,10 @@ public partial class Capabilities : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Analytics)] = Analytics;
         }
-
+        
         return Analytics;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Attachment property.
     /// </summary>
@@ -392,8 +242,8 @@ public partial class Capabilities : MapComponent
         {
             return Attachment;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -402,27 +252,33 @@ public partial class Capabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Attachment;
         }
 
-        CapabilitiesAttachment? result =
-            await JsComponentReference.InvokeAsync<CapabilitiesAttachment?>("getAttachment",
-                CancellationTokenSource.Token);
-
+        CapabilitiesAttachment? result = await JsComponentReference.InvokeJsMethod<CapabilitiesAttachment?>(
+            IsServer, nameof(GetAttachment), nameof(Capabilities), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (Attachment is not null)
+            {
+                result.Id = Attachment.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Attachment = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Attachment)] = Attachment;
         }
-
+        
         return Attachment;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Data property.
     /// </summary>
@@ -432,8 +288,8 @@ public partial class Capabilities : MapComponent
         {
             return Data;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -442,15 +298,16 @@ public partial class Capabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Data;
         }
 
-        CapabilitiesData? result =
-            await JsComponentReference.InvokeAsync<CapabilitiesData?>("getData", CancellationTokenSource.Token);
-
+        CapabilitiesData? result = await JsComponentReference.InvokeJsMethod<CapabilitiesData?>(
+            IsServer, nameof(GetData), nameof(Capabilities), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -458,10 +315,10 @@ public partial class Capabilities : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Data)] = Data;
         }
-
+        
         return Data;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Editing property.
     /// </summary>
@@ -471,8 +328,8 @@ public partial class Capabilities : MapComponent
         {
             return Editing;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -481,15 +338,16 @@ public partial class Capabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Editing;
         }
 
-        CapabilitiesEditing? result =
-            await JsComponentReference.InvokeAsync<CapabilitiesEditing?>("getEditing", CancellationTokenSource.Token);
-
+        CapabilitiesEditing? result = await JsComponentReference.InvokeJsMethod<CapabilitiesEditing?>(
+            IsServer, nameof(GetEditing), nameof(Capabilities), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -497,10 +355,10 @@ public partial class Capabilities : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Editing)] = Editing;
         }
-
+        
         return Editing;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Metadata property.
     /// </summary>
@@ -510,8 +368,8 @@ public partial class Capabilities : MapComponent
         {
             return Metadata;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -520,15 +378,16 @@ public partial class Capabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Metadata;
         }
 
-        CapabilitiesMetadata? result =
-            await JsComponentReference.InvokeAsync<CapabilitiesMetadata?>("getMetadata", CancellationTokenSource.Token);
-
+        CapabilitiesMetadata? result = await JsComponentReference.InvokeJsMethod<CapabilitiesMetadata?>(
+            IsServer, nameof(GetMetadata), nameof(Capabilities), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -536,10 +395,10 @@ public partial class Capabilities : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Metadata)] = Metadata;
         }
-
+        
         return Metadata;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Operations property.
     /// </summary>
@@ -549,8 +408,8 @@ public partial class Capabilities : MapComponent
         {
             return Operations;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -559,16 +418,16 @@ public partial class Capabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Operations;
         }
 
-        CapabilitiesOperations? result =
-            await JsComponentReference.InvokeAsync<CapabilitiesOperations?>("getOperations",
-                CancellationTokenSource.Token);
-
+        CapabilitiesOperations? result = await JsComponentReference.InvokeJsMethod<CapabilitiesOperations?>(
+            IsServer, nameof(GetOperations), nameof(Capabilities), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -576,10 +435,10 @@ public partial class Capabilities : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Operations)] = Operations;
         }
-
+        
         return Operations;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Query property.
     /// </summary>
@@ -589,8 +448,8 @@ public partial class Capabilities : MapComponent
         {
             return Query;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -599,27 +458,27 @@ public partial class Capabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Query;
         }
 
         // get the property value
-        CapabilitiesQuery? result = await JsComponentReference!.InvokeAsync<CapabilitiesQuery?>("getProperty",
+        CapabilitiesQuery? result = await JsComponentReference!.InvokeJsMethod<CapabilitiesQuery?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Capabilities), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "query");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Query = result;
+                Query = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Query)] = Query;
+                ModifiedParameters[nameof(Query)] = Query;
         }
-
+         
         return Query;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the QueryAttributeBins property.
     /// </summary>
@@ -629,8 +488,8 @@ public partial class Capabilities : MapComponent
         {
             return QueryAttributeBins;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -639,16 +498,16 @@ public partial class Capabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return QueryAttributeBins;
         }
 
-        CapabilitiesQueryAttributeBins? result =
-            await JsComponentReference.InvokeAsync<CapabilitiesQueryAttributeBins?>("getQueryAttributeBins",
-                CancellationTokenSource.Token);
-
+        CapabilitiesQueryAttributeBins? result = await JsComponentReference.InvokeJsMethod<CapabilitiesQueryAttributeBins?>(
+            IsServer, nameof(GetQueryAttributeBins), nameof(Capabilities), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -656,10 +515,10 @@ public partial class Capabilities : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(QueryAttributeBins)] = QueryAttributeBins;
         }
-
+        
         return QueryAttributeBins;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the QueryRelated property.
     /// </summary>
@@ -669,8 +528,8 @@ public partial class Capabilities : MapComponent
         {
             return QueryRelated;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -679,16 +538,16 @@ public partial class Capabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return QueryRelated;
         }
 
-        CapabilitiesQueryRelated? result =
-            await JsComponentReference.InvokeAsync<CapabilitiesQueryRelated?>("getQueryRelated",
-                CancellationTokenSource.Token);
-
+        CapabilitiesQueryRelated? result = await JsComponentReference.InvokeJsMethod<CapabilitiesQueryRelated?>(
+            IsServer, nameof(GetQueryRelated), nameof(Capabilities), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -696,10 +555,10 @@ public partial class Capabilities : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(QueryRelated)] = QueryRelated;
         }
-
+        
         return QueryRelated;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the QueryTopFeatures property.
     /// </summary>
@@ -709,8 +568,8 @@ public partial class Capabilities : MapComponent
         {
             return QueryTopFeatures;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -719,16 +578,16 @@ public partial class Capabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return QueryTopFeatures;
         }
 
-        CapabilitiesQueryTopFeatures? result =
-            await JsComponentReference.InvokeAsync<CapabilitiesQueryTopFeatures?>("getQueryTopFeatures",
-                CancellationTokenSource.Token);
-
+        CapabilitiesQueryTopFeatures? result = await JsComponentReference.InvokeJsMethod<CapabilitiesQueryTopFeatures?>(
+            IsServer, nameof(GetQueryTopFeatures), nameof(Capabilities), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -736,12 +595,11 @@ public partial class Capabilities : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(QueryTopFeatures)] = QueryTopFeatures;
         }
-
+        
         return QueryTopFeatures;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -753,22 +611,22 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetAnalytics(CapabilitiesAnalytics? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         Analytics = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Analytics)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -777,16 +635,16 @@ public partial class Capabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "analytics", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Attachment property after render.
     /// </summary>
@@ -795,22 +653,22 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetAttachment(CapabilitiesAttachment? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         Attachment = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Attachment)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -819,16 +677,16 @@ public partial class Capabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "attachment", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Data property after render.
     /// </summary>
@@ -837,22 +695,22 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetData(CapabilitiesData? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         Data = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Data)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -861,16 +719,16 @@ public partial class Capabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "data", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Editing property after render.
     /// </summary>
@@ -879,22 +737,22 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetEditing(CapabilitiesEditing? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         Editing = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Editing)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -903,16 +761,16 @@ public partial class Capabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "editing", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Metadata property after render.
     /// </summary>
@@ -921,22 +779,22 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetMetadata(CapabilitiesMetadata? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         Metadata = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Metadata)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -945,16 +803,16 @@ public partial class Capabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "metadata", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Operations property after render.
     /// </summary>
@@ -963,22 +821,22 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetOperations(CapabilitiesOperations? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         Operations = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Operations)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -987,16 +845,16 @@ public partial class Capabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "operations", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Query property after render.
     /// </summary>
@@ -1009,13 +867,13 @@ public partial class Capabilities : MapComponent
         Query = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Query)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1024,16 +882,16 @@ public partial class Capabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "query", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the QueryAttributeBins property after render.
     /// </summary>
@@ -1042,22 +900,22 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetQueryAttributeBins(CapabilitiesQueryAttributeBins? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         QueryAttributeBins = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(QueryAttributeBins)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1066,16 +924,16 @@ public partial class Capabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "queryAttributeBins", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the QueryRelated property after render.
     /// </summary>
@@ -1084,22 +942,22 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetQueryRelated(CapabilitiesQueryRelated? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         QueryRelated = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(QueryRelated)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1108,16 +966,16 @@ public partial class Capabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "queryRelated", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the QueryTopFeatures property after render.
     /// </summary>
@@ -1126,22 +984,22 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetQueryTopFeatures(CapabilitiesQueryTopFeatures? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         QueryTopFeatures = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(QueryTopFeatures)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1150,15 +1008,161 @@ public partial class Capabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "queryTopFeatures", value);
     }
-
+    
 #endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case CapabilitiesAnalytics analytics:
+                if (analytics != Analytics)
+                {
+                    Analytics = analytics;
+                    ModifiedParameters[nameof(Analytics)] = Analytics;
+                }
+                
+                return true;
+            case CapabilitiesAttachment attachment:
+                if (attachment != Attachment)
+                {
+                    Attachment = attachment;
+                    ModifiedParameters[nameof(Attachment)] = Attachment;
+                }
+                
+                return true;
+            case CapabilitiesData data:
+                if (data != Data)
+                {
+                    Data = data;
+                    ModifiedParameters[nameof(Data)] = Data;
+                }
+                
+                return true;
+            case CapabilitiesEditing editing:
+                if (editing != Editing)
+                {
+                    Editing = editing;
+                    ModifiedParameters[nameof(Editing)] = Editing;
+                }
+                
+                return true;
+            case CapabilitiesMetadata metadata:
+                if (metadata != Metadata)
+                {
+                    Metadata = metadata;
+                    ModifiedParameters[nameof(Metadata)] = Metadata;
+                }
+                
+                return true;
+            case CapabilitiesOperations operations:
+                if (operations != Operations)
+                {
+                    Operations = operations;
+                    ModifiedParameters[nameof(Operations)] = Operations;
+                }
+                
+                return true;
+            case CapabilitiesQueryAttributeBins queryAttributeBins:
+                if (queryAttributeBins != QueryAttributeBins)
+                {
+                    QueryAttributeBins = queryAttributeBins;
+                    ModifiedParameters[nameof(QueryAttributeBins)] = QueryAttributeBins;
+                }
+                
+                return true;
+            case CapabilitiesQueryRelated queryRelated:
+                if (queryRelated != QueryRelated)
+                {
+                    QueryRelated = queryRelated;
+                    ModifiedParameters[nameof(QueryRelated)] = QueryRelated;
+                }
+                
+                return true;
+            case CapabilitiesQueryTopFeatures queryTopFeatures:
+                if (queryTopFeatures != QueryTopFeatures)
+                {
+                    QueryTopFeatures = queryTopFeatures;
+                    ModifiedParameters[nameof(QueryTopFeatures)] = QueryTopFeatures;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case CapabilitiesAnalytics:
+                Analytics = null;
+                ModifiedParameters[nameof(Analytics)] = Analytics;
+                return true;
+            case CapabilitiesAttachment:
+                Attachment = null;
+                ModifiedParameters[nameof(Attachment)] = Attachment;
+                return true;
+            case CapabilitiesData:
+                Data = null;
+                ModifiedParameters[nameof(Data)] = Data;
+                return true;
+            case CapabilitiesEditing:
+                Editing = null;
+                ModifiedParameters[nameof(Editing)] = Editing;
+                return true;
+            case CapabilitiesMetadata:
+                Metadata = null;
+                ModifiedParameters[nameof(Metadata)] = Metadata;
+                return true;
+            case CapabilitiesOperations:
+                Operations = null;
+                ModifiedParameters[nameof(Operations)] = Operations;
+                return true;
+            case CapabilitiesQueryAttributeBins:
+                QueryAttributeBins = null;
+                ModifiedParameters[nameof(QueryAttributeBins)] = QueryAttributeBins;
+                return true;
+            case CapabilitiesQueryRelated:
+                QueryRelated = null;
+                ModifiedParameters[nameof(QueryRelated)] = QueryRelated;
+                return true;
+            case CapabilitiesQueryTopFeatures:
+                QueryTopFeatures = null;
+                ModifiedParameters[nameof(QueryTopFeatures)] = QueryTopFeatures;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        Analytics?.ValidateRequiredGeneratedChildren();
+        Attachment?.ValidateRequiredGeneratedChildren();
+        Data?.ValidateRequiredGeneratedChildren();
+        Editing?.ValidateRequiredGeneratedChildren();
+        Metadata?.ValidateRequiredGeneratedChildren();
+        Operations?.ValidateRequiredGeneratedChildren();
+        QueryAttributeBins?.ValidateRequiredGeneratedChildren();
+        QueryRelated?.ValidateRequiredGeneratedChildren();
+        QueryTopFeatures?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

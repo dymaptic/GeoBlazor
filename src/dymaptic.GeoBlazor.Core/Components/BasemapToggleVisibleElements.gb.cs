@@ -78,14 +78,15 @@ public partial class BasemapToggleVisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "title");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapToggleVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "title");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Title = result.Value.Value;
+                Title = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Title)] = Title;
+                ModifiedParameters[nameof(Title)] = Title;
         }
          
         return Title;

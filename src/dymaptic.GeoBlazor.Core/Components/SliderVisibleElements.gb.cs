@@ -70,14 +70,15 @@ public partial class SliderVisibleElements
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "labels");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "labels");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Labels = result.Value.Value;
+                Labels = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Labels)] = Labels;
+                ModifiedParameters[nameof(Labels)] = Labels;
         }
          
         return Labels;
@@ -109,14 +110,15 @@ public partial class SliderVisibleElements
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "rangeLabels");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "rangeLabels");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             RangeLabels = result.Value.Value;
+                RangeLabels = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RangeLabels)] = RangeLabels;
+                ModifiedParameters[nameof(RangeLabels)] = RangeLabels;
         }
          
         return RangeLabels;

@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLSublayer.html">GeoBlazor Docs</a>
 ///     Represents a sublayer in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-KMLLayer.html">KMLLayer</a>.
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class KMLSublayer : MapComponent
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -30,14 +32,15 @@ public partial class KMLSublayer : MapComponent
     /// </param>
     /// <param name="title">
     ///     The title of the KML sublayer used to identify it in places such as the
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-KMLSublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visible">
     ///     Indicates if the sublayer is visible in the view.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-KMLSublayer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public KMLSublayer(string? description = null,
+    public KMLSublayer(
+        string? description = null,
         long? kMLSublayerId = null,
         string? title = null,
         bool? visible = null)
@@ -48,59 +51,10 @@ public partial class KMLSublayer : MapComponent
         KMLSublayerId = kMLSublayerId;
         Title = title;
         Visible = visible;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        if (Sublayers is not null)
-        {
-            foreach (KMLSublayer child in Sublayers)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-
-        base.ValidateRequiredGeneratedChildren();
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case KMLSublayer sublayers:
-                Sublayers ??= [];
-
-                if (!Sublayers.Contains(sublayers))
-                {
-                    Sublayers = [..Sublayers, sublayers];
-                    ModifiedParameters[nameof(Sublayers)] = Sublayers;
-                }
-
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case KMLSublayer sublayers:
-                Sublayers = Sublayers?.Where(s => s != sublayers).ToList();
-                ModifiedParameters[nameof(Sublayers)] = Sublayers;
-
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -112,7 +66,7 @@ public partial class KMLSublayer : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Description { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLSublayer.html#kmlsublayerkmlsublayerid-property">GeoBlazor Docs</a>
     ///     The id for the KML sublayer.
@@ -122,7 +76,7 @@ public partial class KMLSublayer : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public long? KMLSublayerId { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLSublayer.html#kmlsublayernetworklink-property">GeoBlazor Docs</a>
     ///     Network link info for the current layer.
@@ -132,7 +86,7 @@ public partial class KMLSublayer : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public string? NetworkLink { get; protected set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLSublayer.html#kmlsublayersourcejson-property">GeoBlazor Docs</a>
     ///     The raw KML data for this sublayer, in JSON format, as returned by the
@@ -143,7 +97,7 @@ public partial class KMLSublayer : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public string? SourceJSON { get; protected set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLSublayer.html#kmlsublayersublayers-property">GeoBlazor Docs</a>
     ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-KMLSublayer.html">KMLSublayers</a>.
@@ -154,20 +108,19 @@ public partial class KMLSublayer : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<KMLSublayer>? Sublayers { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.KMLSublayer.html#kmlsublayertitle-property">GeoBlazor Docs</a>
     ///     The title of the KML sublayer used to identify it in places such as the
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-KMLSublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -180,8 +133,8 @@ public partial class KMLSublayer : MapComponent
         {
             return Description;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -190,27 +143,27 @@ public partial class KMLSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Description;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(KMLSublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "description");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Description = result;
+                Description = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Description)] = Description;
+                ModifiedParameters[nameof(Description)] = Description;
         }
-
+         
         return Description;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the KMLSublayerId property.
     /// </summary>
@@ -220,8 +173,8 @@ public partial class KMLSublayer : MapComponent
         {
             return KMLSublayerId;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -230,28 +183,27 @@ public partial class KMLSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return KMLSublayerId;
         }
 
         // get the property value
-        JsNullableLongWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableLongWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "kMLSublayerId");
-
-        if (result is { Value: not null })
+        long? result = await JsComponentReference!.InvokeJsMethod<long?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(KMLSublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "id");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            KMLSublayerId = result.Value.Value;
+                KMLSublayerId = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(KMLSublayerId)] = KMLSublayerId;
+                ModifiedParameters[nameof(KMLSublayerId)] = KMLSublayerId;
         }
-
+         
         return KMLSublayerId;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the NetworkLink property.
     /// </summary>
@@ -261,8 +213,8 @@ public partial class KMLSublayer : MapComponent
         {
             return NetworkLink;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -271,27 +223,27 @@ public partial class KMLSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return NetworkLink;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(KMLSublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "networkLink");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            NetworkLink = result;
+                NetworkLink = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(NetworkLink)] = NetworkLink;
+                ModifiedParameters[nameof(NetworkLink)] = NetworkLink;
         }
-
+         
         return NetworkLink;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
@@ -301,8 +253,8 @@ public partial class KMLSublayer : MapComponent
         {
             return SourceJSON;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -311,27 +263,27 @@ public partial class KMLSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SourceJSON;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(KMLSublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sourceJSON");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            SourceJSON = result;
+                SourceJSON = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
+                ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
         }
-
+         
         return SourceJSON;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -341,8 +293,8 @@ public partial class KMLSublayer : MapComponent
         {
             return Title;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -351,29 +303,28 @@ public partial class KMLSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Title;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(KMLSublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Title = result;
+                Title = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Title)] = Title;
+                ModifiedParameters[nameof(Title)] = Title;
         }
-
+         
         return Title;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -389,13 +340,13 @@ public partial class KMLSublayer : MapComponent
         Description = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Description)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -404,16 +355,16 @@ public partial class KMLSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "description", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the KMLSublayerId property after render.
     /// </summary>
@@ -426,13 +377,13 @@ public partial class KMLSublayer : MapComponent
         KMLSublayerId = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(KMLSublayerId)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -441,16 +392,16 @@ public partial class KMLSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -463,13 +414,13 @@ public partial class KMLSublayer : MapComponent
         Title = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Title)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -478,15 +429,64 @@ public partial class KMLSublayer : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
     }
-
+    
 #endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case KMLSublayer sublayers:
+                Sublayers ??= [];
+                if (!Sublayers.Contains(sublayers))
+                {
+                    Sublayers = [..Sublayers, sublayers];
+                    ModifiedParameters[nameof(Sublayers)] = Sublayers;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case KMLSublayer sublayers:
+                Sublayers = Sublayers?.Where(s => s != sublayers).ToList();
+                ModifiedParameters[nameof(Sublayers)] = Sublayers;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        if (Sublayers is not null)
+        {
+            foreach (KMLSublayer child in Sublayers)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

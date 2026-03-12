@@ -78,14 +78,15 @@ public partial class CapabilitiesAnalytics : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsCacheHint");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesAnalytics), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsCacheHint");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsCacheHint = result.Value.Value;
+                SupportsCacheHint = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsCacheHint)] = SupportsCacheHint;
+                ModifiedParameters[nameof(SupportsCacheHint)] = SupportsCacheHint;
         }
          
         return SupportsCacheHint;

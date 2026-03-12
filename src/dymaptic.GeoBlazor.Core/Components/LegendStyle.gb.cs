@@ -5,18 +5,12 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendStyle.html">GeoBlazor Docs</a>
-///     
+///     Indicates the style of the legend.
+///     default "classic"
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class LegendStyle
 {
-
-    /// <summary>
-    ///     Parameterless constructor for use as a Razor Component.
-    /// </summary>
-    [ActivatorUtilitiesConstructor]
-    public LegendStyle()
-    {
-    }
 
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
@@ -26,12 +20,18 @@ public partial class LegendStyle
     ///     default stack
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="type">
+    ///     Specifies the style of the legend.
+    ///     <a target="_blank" href="global.html#type">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public LegendStyle(
-        LegendStyleLayout? layout = null)
+        LegendStyleLayout? layout = null,
+        LegendStyleType? type = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Layout = layout;
+        Type = type;
 #pragma warning restore BL0005    
     }
     
@@ -64,14 +64,15 @@ public partial class LegendStyle
         }
 
         // get the property value
-        JsNullableEnumWrapper<LegendStyleLayout>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LegendStyleLayout>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "layout");
-        if (result is { Value: not null })
+        LegendStyleLayout? result = await JsComponentReference!.InvokeJsMethod<LegendStyleLayout?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LegendStyle), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "layout");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Layout = (LegendStyleLayout)result.Value.Value!;
+                Layout = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Layout)] = Layout;
+                ModifiedParameters[nameof(Layout)] = Layout;
         }
          
         return Layout;

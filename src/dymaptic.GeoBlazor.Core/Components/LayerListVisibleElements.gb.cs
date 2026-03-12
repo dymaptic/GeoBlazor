@@ -206,14 +206,15 @@ public partial class LayerListVisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "catalogLayerList");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "catalogLayerList");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             CatalogLayerList = result.Value.Value;
+                CatalogLayerList = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(CatalogLayerList)] = CatalogLayerList;
+                ModifiedParameters[nameof(CatalogLayerList)] = CatalogLayerList;
         }
          
         return CatalogLayerList;
@@ -245,14 +246,15 @@ public partial class LayerListVisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "closeButton");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "closeButton");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             CloseButton = result.Value.Value;
+                CloseButton = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(CloseButton)] = CloseButton;
+                ModifiedParameters[nameof(CloseButton)] = CloseButton;
         }
          
         return CloseButton;
@@ -284,14 +286,15 @@ public partial class LayerListVisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "collapseButton");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "collapseButton");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             CollapseButton = result.Value.Value;
+                CollapseButton = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(CollapseButton)] = CollapseButton;
+                ModifiedParameters[nameof(CollapseButton)] = CollapseButton;
         }
          
         return CollapseButton;
@@ -323,14 +326,15 @@ public partial class LayerListVisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "errors");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "errors");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Errors = result.Value.Value;
+                Errors = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Errors)] = Errors;
+                ModifiedParameters[nameof(Errors)] = Errors;
         }
          
         return Errors;
@@ -362,14 +366,15 @@ public partial class LayerListVisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "filter");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "filter");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Filter = result.Value.Value;
+                Filter = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Filter)] = Filter;
+                ModifiedParameters[nameof(Filter)] = Filter;
         }
          
         return Filter;
@@ -401,14 +406,15 @@ public partial class LayerListVisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "flow");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "flow");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Flow = result.Value.Value;
+                Flow = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Flow)] = Flow;
+                ModifiedParameters[nameof(Flow)] = Flow;
         }
          
         return Flow;
@@ -440,14 +446,15 @@ public partial class LayerListVisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "heading");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "heading");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Heading = result.Value.Value;
+                Heading = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Heading)] = Heading;
+                ModifiedParameters[nameof(Heading)] = Heading;
         }
          
         return Heading;
@@ -479,14 +486,15 @@ public partial class LayerListVisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "statusIndicators");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "statusIndicators");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             StatusIndicators = result.Value.Value;
+                StatusIndicators = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(StatusIndicators)] = StatusIndicators;
+                ModifiedParameters[nameof(StatusIndicators)] = StatusIndicators;
         }
          
         return StatusIndicators;
@@ -518,14 +526,15 @@ public partial class LayerListVisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "temporaryLayerIndicators");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "temporaryLayerIndicators");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             TemporaryLayerIndicators = result.Value.Value;
+                TemporaryLayerIndicators = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TemporaryLayerIndicators)] = TemporaryLayerIndicators;
+                ModifiedParameters[nameof(TemporaryLayerIndicators)] = TemporaryLayerIndicators;
         }
          
         return TemporaryLayerIndicators;

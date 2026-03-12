@@ -142,14 +142,15 @@ public partial class MeshVertexAttributes : MapComponent
         }
 
         // get the property value
-        double[]? result = await JsComponentReference!.InvokeAsync<double[]?>("getProperty",
+        double[]? result = await JsComponentReference!.InvokeJsMethod<double[]?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshVertexAttributes), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "normal");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Normal = result;
+                Normal = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Normal)] = Normal;
+                ModifiedParameters[nameof(Normal)] = Normal;
         }
          
         return Normal;
@@ -181,14 +182,15 @@ public partial class MeshVertexAttributes : MapComponent
         }
 
         // get the property value
-        double[]? result = await JsComponentReference!.InvokeAsync<double[]?>("getProperty",
+        double[]? result = await JsComponentReference!.InvokeJsMethod<double[]?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshVertexAttributes), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "position");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Position = result;
+                Position = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Position)] = Position;
+                ModifiedParameters[nameof(Position)] = Position;
         }
          
         return Position;
@@ -220,14 +222,15 @@ public partial class MeshVertexAttributes : MapComponent
         }
 
         // get the property value
-        double[]? result = await JsComponentReference!.InvokeAsync<double[]?>("getProperty",
+        double[]? result = await JsComponentReference!.InvokeJsMethod<double[]?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshVertexAttributes), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "tangent");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Tangent = result;
+                Tangent = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Tangent)] = Tangent;
+                ModifiedParameters[nameof(Tangent)] = Tangent;
         }
          
         return Tangent;
@@ -259,14 +262,15 @@ public partial class MeshVertexAttributes : MapComponent
         }
 
         // get the property value
-        double[]? result = await JsComponentReference!.InvokeAsync<double[]?>("getProperty",
+        double[]? result = await JsComponentReference!.InvokeJsMethod<double[]?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshVertexAttributes), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "uv");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Uv = result;
+                Uv = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Uv)] = Uv;
+                ModifiedParameters[nameof(Uv)] = Uv;
         }
          
         return Uv;

@@ -130,14 +130,15 @@ public partial class LayerListCatalogOptionsVisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "errors");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListCatalogOptionsVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "errors");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Errors = result.Value.Value;
+                Errors = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Errors)] = Errors;
+                ModifiedParameters[nameof(Errors)] = Errors;
         }
          
         return Errors;
@@ -169,14 +170,15 @@ public partial class LayerListCatalogOptionsVisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "filter");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListCatalogOptionsVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "filter");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Filter = result.Value.Value;
+                Filter = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Filter)] = Filter;
+                ModifiedParameters[nameof(Filter)] = Filter;
         }
          
         return Filter;
@@ -208,14 +210,15 @@ public partial class LayerListCatalogOptionsVisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "statusIndicators");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListCatalogOptionsVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "statusIndicators");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             StatusIndicators = result.Value.Value;
+                StatusIndicators = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(StatusIndicators)] = StatusIndicators;
+                ModifiedParameters[nameof(StatusIndicators)] = StatusIndicators;
         }
          
         return StatusIndicators;
@@ -247,14 +250,15 @@ public partial class LayerListCatalogOptionsVisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "temporaryLayerIndicators");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListCatalogOptionsVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "temporaryLayerIndicators");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             TemporaryLayerIndicators = result.Value.Value;
+                TemporaryLayerIndicators = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TemporaryLayerIndicators)] = TemporaryLayerIndicators;
+                ModifiedParameters[nameof(TemporaryLayerIndicators)] = TemporaryLayerIndicators;
         }
          
         return TemporaryLayerIndicators;

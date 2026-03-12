@@ -22,14 +22,16 @@ export default class FieldsIndexGenerated extends BaseComponent {
         }
 
     }
-
+    
     // region methods
     async get(fieldName: any): Promise<any> {
         return this.component.get(fieldName);
     }
 
     async getTimeZone(fieldOrFieldName: any): Promise<any> {
-        return this.component.getTimeZone(fieldOrFieldName);
+        let { buildJsField } = await import('./field');
+        let jsFieldOrFieldName = buildJsField(fieldOrFieldName) as any;
+        return this.component.getTimeZone(jsFieldOrFieldName);
     }
 
     async has(fieldName: any): Promise<any> {
@@ -117,7 +119,7 @@ export async function buildDotNetFieldsIndexGenerated(jsObject: any, layerId: st
 
     if (hasValue(dotNetFieldsIndex.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetFieldsIndex.id)) {
-            let {default: FieldsIndexWrapper} = await import('./fieldsIndex');
+            let { default: FieldsIndexWrapper } = await import('./fieldsIndex');
             let fieldsIndexWrapper = new FieldsIndexWrapper(jsObject);
             fieldsIndexWrapper.geoBlazorId = dotNetFieldsIndex.id;
             fieldsIndexWrapper.viewId = viewId;

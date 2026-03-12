@@ -206,14 +206,15 @@ public partial class CapabilitiesEditing : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsDeleteByAnonymous");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesEditing), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsDeleteByAnonymous");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsDeleteByAnonymous = result.Value.Value;
+                SupportsDeleteByAnonymous = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsDeleteByAnonymous)] = SupportsDeleteByAnonymous;
+                ModifiedParameters[nameof(SupportsDeleteByAnonymous)] = SupportsDeleteByAnonymous;
         }
          
         return SupportsDeleteByAnonymous;
@@ -245,14 +246,15 @@ public partial class CapabilitiesEditing : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsDeleteByOthers");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesEditing), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsDeleteByOthers");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsDeleteByOthers = result.Value.Value;
+                SupportsDeleteByOthers = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsDeleteByOthers)] = SupportsDeleteByOthers;
+                ModifiedParameters[nameof(SupportsDeleteByOthers)] = SupportsDeleteByOthers;
         }
          
         return SupportsDeleteByOthers;
@@ -284,14 +286,15 @@ public partial class CapabilitiesEditing : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsGeometryUpdate");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesEditing), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsGeometryUpdate");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsGeometryUpdate = result.Value.Value;
+                SupportsGeometryUpdate = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsGeometryUpdate)] = SupportsGeometryUpdate;
+                ModifiedParameters[nameof(SupportsGeometryUpdate)] = SupportsGeometryUpdate;
         }
          
         return SupportsGeometryUpdate;
@@ -323,14 +326,15 @@ public partial class CapabilitiesEditing : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsGlobalId");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesEditing), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsGlobalId");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsGlobalId = result.Value.Value;
+                SupportsGlobalId = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsGlobalId)] = SupportsGlobalId;
+                ModifiedParameters[nameof(SupportsGlobalId)] = SupportsGlobalId;
         }
          
         return SupportsGlobalId;
@@ -362,14 +366,15 @@ public partial class CapabilitiesEditing : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsRollbackOnFailure");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesEditing), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsRollbackOnFailure");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsRollbackOnFailure = result.Value.Value;
+                SupportsRollbackOnFailure = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsRollbackOnFailure)] = SupportsRollbackOnFailure;
+                ModifiedParameters[nameof(SupportsRollbackOnFailure)] = SupportsRollbackOnFailure;
         }
          
         return SupportsRollbackOnFailure;
@@ -401,14 +406,15 @@ public partial class CapabilitiesEditing : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsUpdateByAnonymous");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesEditing), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsUpdateByAnonymous");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsUpdateByAnonymous = result.Value.Value;
+                SupportsUpdateByAnonymous = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsUpdateByAnonymous)] = SupportsUpdateByAnonymous;
+                ModifiedParameters[nameof(SupportsUpdateByAnonymous)] = SupportsUpdateByAnonymous;
         }
          
         return SupportsUpdateByAnonymous;
@@ -440,14 +446,15 @@ public partial class CapabilitiesEditing : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsUpdateByOthers");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesEditing), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsUpdateByOthers");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsUpdateByOthers = result.Value.Value;
+                SupportsUpdateByOthers = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsUpdateByOthers)] = SupportsUpdateByOthers;
+                ModifiedParameters[nameof(SupportsUpdateByOthers)] = SupportsUpdateByOthers;
         }
          
         return SupportsUpdateByOthers;
@@ -479,14 +486,15 @@ public partial class CapabilitiesEditing : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsUpdateWithoutM");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesEditing), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsUpdateWithoutM");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsUpdateWithoutM = result.Value.Value;
+                SupportsUpdateWithoutM = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsUpdateWithoutM)] = SupportsUpdateWithoutM;
+                ModifiedParameters[nameof(SupportsUpdateWithoutM)] = SupportsUpdateWithoutM;
         }
          
         return SupportsUpdateWithoutM;
@@ -518,14 +526,15 @@ public partial class CapabilitiesEditing : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsUploadWithItemId");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesEditing), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsUploadWithItemId");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsUploadWithItemId = result.Value.Value;
+                SupportsUploadWithItemId = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsUploadWithItemId)] = SupportsUploadWithItemId;
+                ModifiedParameters[nameof(SupportsUploadWithItemId)] = SupportsUploadWithItemId;
         }
          
         return SupportsUploadWithItemId;

@@ -112,9 +112,15 @@ public static class JsSyncManager
 
         var parameterList = await GenerateSerializedParameters(methodRecord, parameters, isServer, js);
         var returnType = methodRecord.ReturnValue?.Type;
-        var returnTypeIsProtobuf = returnType is not null && ProtoContractTypes.ContainsKey(returnType);
+        bool returnTypeIsProtobuf = returnType is not null && ProtoContractTypes.ContainsKey(returnType);
 
-        if (isServer || returnTypeIsProtobuf || (returnType?.IsAssignableTo(typeof(Stream)) == true))
+        bool returnIsNullableValueType = returnType?.IsValueType == true 
+            && methodRecord.ReturnValue!.IsNullable;
+
+        if (isServer 
+            || returnIsNullableValueType
+            || returnTypeIsProtobuf 
+            || (returnType?.IsAssignableTo(typeof(Stream)) == true))
         {
             Type? protoReturnType = null;
             string? protoReturnTypeName = null;
@@ -275,7 +281,7 @@ public static class JsSyncManager
         // find record with potentially matching parameter types including nulls
         return matchedMethods.First(m =>
         {
-            for (var i = 0; i < m.Parameters.Length; i++)
+            for (int i = 0; i < m.Parameters.Length; i++)
             {
                 var providedParameterType = providedParameters[i]?.GetType();
 
@@ -315,9 +321,9 @@ public static class JsSyncManager
     {
         List<object?> serializedParameters = [];
 
-        for (var i = 0; i < parameters.Length; i++)
+        for (int i = 0; i < parameters.Length; i++)
         {
-            var parameterValue = parameters[i];
+            object? parameterValue = parameters[i];
             var parameterRecord = methodRecord.Parameters[i];
             serializedParameters.AddRange(await ProcessParameter(parameterValue, parameterRecord, isServer, js));
         }
@@ -388,7 +394,7 @@ public static class JsSyncManager
         if (paramType.IsGenericType && (paramType.GetGenericTypeDefinition() == typeof(Nullable<>)))
         {
             var underlyingType = Nullable.GetUnderlyingType(paramType)!;
-            var underlyingValue = Convert.ChangeType(parameterValue, underlyingType);
+            object underlyingValue = Convert.ChangeType(parameterValue, underlyingType);
 
             return await ProcessParameter(underlyingValue,
                 parameterRecord with { Type = underlyingType, IsNullable = true }, isServer, js);
@@ -399,7 +405,7 @@ public static class JsSyncManager
             var genericType = parameterRecord.SingleType ?? (paramType.IsArray
                 ? paramType.GetElementType()!
                 : paramType.GenericTypeArguments[0]);
-            var key = $"{GetKey(genericType)}Collection";
+            string key = $"{GetKey(genericType)}Collection";
 
             if (ProtoContractTypes.ContainsKey(genericType))
             {
@@ -431,7 +437,7 @@ public static class JsSyncManager
                 return [nameof(AttributesDictionary), new DotNetStreamReference(memoryStream)];
             }
 
-            var data = memoryStream.ToArray();
+            byte[] data = memoryStream.ToArray();
             await memoryStream.DisposeAsync();
 
             return [nameof(AttributesDictionary), data];
@@ -523,7 +529,7 @@ public static class JsSyncManager
                 typeof(AttributeSerializationRecord), false);
         }
 
-        var typeIsNullable = IsTypeNullable(paramType)
+        bool typeIsNullable = IsTypeNullable(paramType)
             || (parameterInfo is not null && IsParameterNullable(parameterInfo));
 
         // unwrap nullable types
@@ -532,7 +538,7 @@ public static class JsSyncManager
             paramType = Nullable.GetUnderlyingType(paramType)!;
         }
 
-        var isCollection = paramType.IsAssignableTo(typeof(IEnumerable))
+        bool isCollection = paramType.IsAssignableTo(typeof(IEnumerable))
             && !paramType.IsAssignableTo(typeof(IDictionary));
 
         var collectionType = isCollection
@@ -541,7 +547,7 @@ public static class JsSyncManager
                 : paramType.GenericTypeArguments[0]
             : null;
 
-        var collectionTypeIsNullable = IsTypeNullable(collectionType);
+        bool collectionTypeIsNullable = IsTypeNullable(collectionType);
 
         return new SerializableParameterRecord(paramType, typeIsNullable,
             collectionType, collectionTypeIsNullable);

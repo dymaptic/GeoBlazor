@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html">GeoBlazor Docs</a>
 ///     WebTileLayer provides a simple way to add non-ArcGIS Server map tiles as a layer to a map.
@@ -13,6 +14,7 @@ public partial class WebTileLayer : IBlendLayer,
     IRefreshableLayer,
     IScaleRangeLayer
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -43,11 +45,8 @@ public partial class WebTileLayer : IBlendLayer,
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="isBasemapReferenceLayer">
-    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
-    /// </param>
     /// <param name="listMode">
-    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
+    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
     ///     default "show"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -89,7 +88,7 @@ public partial class WebTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#tileInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
-    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
+    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="urlTemplate">
@@ -106,14 +105,11 @@ public partial class WebTileLayer : IBlendLayer,
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="excludeApiKey">
-    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
-    /// </param>
-    public WebTileLayer(string? arcGISLayerId = null,
+    public WebTileLayer(
+        string? arcGISLayerId = null,
         BlendMode? blendMode = null,
         string? copyright = null,
         Effect? effect = null,
-        bool? isBasemapReferenceLayer = null,
         ListMode? listMode = null,
         double? maxScale = null,
         double? minScale = null,
@@ -126,8 +122,7 @@ public partial class WebTileLayer : IBlendLayer,
         string? title = null,
         string? urlTemplate = null,
         TimeExtent? visibilityTimeExtent = null,
-        bool? visible = null,
-        bool? excludeApiKey = null)
+        bool? visible = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -135,7 +130,6 @@ public partial class WebTileLayer : IBlendLayer,
         BlendMode = blendMode;
         Copyright = copyright;
         Effect = effect;
-        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         ListMode = listMode;
         MaxScale = maxScale;
         MinScale = minScale;
@@ -149,37 +143,80 @@ public partial class WebTileLayer : IBlendLayer,
         UrlTemplate = urlTemplate;
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
-        ExcludeApiKey = excludeApiKey;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        PortalItem?.ValidateRequiredGeneratedChildren();
-        TileInfo?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-
-
-#region Public Methods
+    
+    
+#region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html#webtilelayerrefresh-method">GeoBlazor Docs</a>
-    ///     Fetches all the data for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html#webtilelayereffect-property">GeoBlazor Docs</a>
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
+    ///     how image filters work.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    [ArcGISMethod]
-    public override async ValueTask Refresh()
-    {
-        await base.Refresh();
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Effect? Effect { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html#webtilelayerportalitem-property">GeoBlazor Docs</a>
+    ///     The portal item from which the layer is loaded.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public PortalItem? PortalItem { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html#webtilelayerspatialreference-property">GeoBlazor Docs</a>
+    ///     The spatial reference of the layer.
+    ///     default SpatialReference.WebMercator // wkid: 3857
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public SpatialReference? SpatialReference { get; protected set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html#webtilelayertileinfo-property">GeoBlazor Docs</a>
+    ///     The tiling scheme information for the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#tileInfo">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public TileInfo? TileInfo { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html#webtilelayertileservers-property">GeoBlazor Docs</a>
+    ///     The list of tile server urls for the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#tileServers">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public IReadOnlyList<string>? TileServers { get; protected set; }
+    
+#endregion
 
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the BlendMode property.
+    /// </summary>
+    public async Task<BlendMode?> GetBlendMode()
+    {
         if (CoreJsModule is null)
         {
-            return;
+            return BlendMode;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -188,18 +225,904 @@ public partial class WebTileLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
+        
+        if (JsComponentReference is null)
+        {
+            return BlendMode;
+        }
 
+        // get the property value
+        BlendMode? result = await JsComponentReference!.InvokeJsMethod<BlendMode?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "blendMode");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                BlendMode = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(BlendMode)] = BlendMode;
+        }
+         
+        return BlendMode;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Copyright property.
+    /// </summary>
+    public async Task<string?> GetCopyright()
+    {
+        if (CoreJsModule is null)
+        {
+            return Copyright;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Copyright;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "copyright");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                Copyright = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(Copyright)] = Copyright;
+        }
+         
+        return Copyright;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Effect property.
+    /// </summary>
+    public async Task<Effect?> GetEffect()
+    {
+        if (CoreJsModule is null)
+        {
+            return Effect;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Effect;
+        }
+
+        Effect? result = await JsComponentReference.InvokeJsMethod<Effect?>(
+            IsServer, nameof(GetEffect), nameof(WebTileLayer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Effect = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Effect)] = Effect;
+        }
+        
+        return Effect;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the MaxScale property.
+    /// </summary>
+    public async Task<double?> GetMaxScale()
+    {
+        if (CoreJsModule is null)
+        {
+            return MaxScale;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return MaxScale;
+        }
+
+        // get the property value
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "maxScale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                MaxScale = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(MaxScale)] = MaxScale;
+        }
+         
+        return MaxScale;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the MinScale property.
+    /// </summary>
+    public async Task<double?> GetMinScale()
+    {
+        if (CoreJsModule is null)
+        {
+            return MinScale;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return MinScale;
+        }
+
+        // get the property value
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "minScale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                MinScale = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(MinScale)] = MinScale;
+        }
+         
+        return MinScale;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the PortalItem property.
+    /// </summary>
+    public async Task<PortalItem?> GetPortalItem()
+    {
+        if (CoreJsModule is null)
+        {
+            return PortalItem;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return PortalItem;
+        }
+
+        PortalItem? result = await JsComponentReference.InvokeJsMethod<PortalItem?>(
+            IsServer, nameof(GetPortalItem), nameof(WebTileLayer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (PortalItem is not null)
+            {
+                result.Id = PortalItem.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            PortalItem = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(PortalItem)] = PortalItem;
+        }
+        
+        return PortalItem;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the RefreshInterval property.
+    /// </summary>
+    public async Task<double?> GetRefreshInterval()
+    {
+        if (CoreJsModule is null)
+        {
+            return RefreshInterval;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return RefreshInterval;
+        }
+
+        // get the property value
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "refreshInterval");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                RefreshInterval = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
+        }
+         
+        return RefreshInterval;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the SpatialReference property.
+    /// </summary>
+    public async Task<SpatialReference?> GetSpatialReference()
+    {
+        if (CoreJsModule is null)
+        {
+            return SpatialReference;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return SpatialReference;
+        }
+
+        SpatialReference? result = await JsComponentReference.InvokeJsMethod<SpatialReference?>(
+            IsServer, nameof(GetSpatialReference), nameof(WebTileLayer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            SpatialReference = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+        }
+        
+        return SpatialReference;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the SubDomains property.
+    /// </summary>
+    public async Task<IReadOnlyList<string>?> GetSubDomains()
+    {
+        if (CoreJsModule is null)
+        {
+            return SubDomains;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return SubDomains;
+        }
+
+        // get the property value
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "subDomains");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                SubDomains = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(SubDomains)] = SubDomains;
+        }
+         
+        return SubDomains;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the TileInfo property.
+    /// </summary>
+    public async Task<TileInfo?> GetTileInfo()
+    {
+        if (CoreJsModule is null)
+        {
+            return TileInfo;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return TileInfo;
+        }
+
+        TileInfo? result = await JsComponentReference.InvokeJsMethod<TileInfo?>(
+            IsServer, nameof(GetTileInfo), nameof(WebTileLayer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (TileInfo is not null)
+            {
+                result.Id = TileInfo.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            TileInfo = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(TileInfo)] = TileInfo;
+        }
+        
+        return TileInfo;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the TileServers property.
+    /// </summary>
+    public async Task<IReadOnlyList<string>?> GetTileServers()
+    {
+        if (CoreJsModule is null)
+        {
+            return TileServers;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return TileServers;
+        }
+
+        // get the property value
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "tileServers");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                TileServers = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(TileServers)] = TileServers;
+        }
+         
+        return TileServers;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the UrlTemplate property.
+    /// </summary>
+    public async Task<string?> GetUrlTemplate()
+    {
+        if (CoreJsModule is null)
+        {
+            return UrlTemplate;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return UrlTemplate;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "urlTemplate");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                UrlTemplate = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(UrlTemplate)] = UrlTemplate;
+        }
+         
+        return UrlTemplate;
+    }
+    
+#endregion
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the BlendMode property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetBlendMode(BlendMode? value)
+    {
+#pragma warning disable BL0005
+        BlendMode = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(BlendMode)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference!.InvokeVoidAsync("refresh",
-            CancellationTokenSource.Token);
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "blendMode", value);
     }
-
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Copyright property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetCopyright(string? value)
+    {
+#pragma warning disable BL0005
+        Copyright = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Copyright)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "copyright", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Effect property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetEffect(Effect? value)
+    {
+#pragma warning disable BL0005
+        Effect = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Effect)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetEffect), nameof(WebTileLayer), 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the MaxScale property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetMaxScale(double? value)
+    {
+#pragma warning disable BL0005
+        MaxScale = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(MaxScale)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "maxScale", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the MinScale property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetMinScale(double? value)
+    {
+#pragma warning disable BL0005
+        MinScale = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(MinScale)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "minScale", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the PersistenceEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPersistenceEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        PersistenceEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(PersistenceEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "persistenceEnabled", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the PortalItem property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPortalItem(PortalItem? value)
+    {
+#pragma warning disable BL0005
+        PortalItem = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(PortalItem)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetPortalItem), nameof(WebTileLayer), 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the RefreshInterval property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetRefreshInterval(double? value)
+    {
+#pragma warning disable BL0005
+        RefreshInterval = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(RefreshInterval)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "refreshInterval", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the SubDomains property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetSubDomains(IReadOnlyList<string>? value)
+    {
+#pragma warning disable BL0005
+        SubDomains = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(SubDomains)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "subDomains", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the TileInfo property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetTileInfo(TileInfo? value)
+    {
+#pragma warning disable BL0005
+        TileInfo = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(TileInfo)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetTileInfo), nameof(WebTileLayer), 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the UrlTemplate property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetUrlTemplate(string? value)
+    {
+#pragma warning disable BL0005
+        UrlTemplate = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(UrlTemplate)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "urlTemplate", value);
+    }
+    
 #endregion
-
 
 #region Add to Collection Methods
 
@@ -216,12 +1139,12 @@ public partial class WebTileLayer : IBlendLayer,
             : [..SubDomains, ..values];
         await SetSubDomains(join);
     }
-
+    
 #endregion
-
 
 #region Remove From Collection Methods
 
+    
     /// <summary>
     ///     Asynchronously remove an element from the SubDomains property.
     /// </summary>
@@ -234,1047 +1157,54 @@ public partial class WebTileLayer : IBlendLayer,
         {
             return;
         }
-
         await SetSubDomains(SubDomains.Except(values).ToArray());
     }
-
+    
 #endregion
 
+#region Public Methods
 
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html#webtilelayerrefresh-method">GeoBlazor Docs</a>
+    ///     Fetches all the data for the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public override async ValueTask Refresh()
     {
-        switch (child)
+        await base.Refresh();
+        if (CoreJsModule is null)
         {
-            case PortalItem portalItem:
-                if (portalItem != PortalItem)
-                {
-                    PortalItem = portalItem;
-                    ModifiedParameters[nameof(PortalItem)] = PortalItem;
-
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-
-                return true;
-            case TileInfo tileInfo:
-                if (tileInfo != TileInfo)
-                {
-                    TileInfo = tileInfo;
-                    ModifiedParameters[nameof(TileInfo)] = TileInfo;
-
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
+            return;
         }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
+        
+        try 
         {
-            case PortalItem _:
-                PortalItem = null;
-                ModifiedParameters[nameof(PortalItem)] = PortalItem;
-
-                return true;
-            case TileInfo _:
-                TileInfo = null;
-                ModifiedParameters[nameof(TileInfo)] = TileInfo;
-
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
         }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(Refresh), nameof(WebTileLayer), 
+            CancellationTokenSource.Token);
     }
-
-
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html#webtilelayereffect-property">GeoBlazor Docs</a>
-    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
-    ///     how image filters work.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Effect? Effect { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html#webtilelayerportalitem-property">GeoBlazor Docs</a>
-    ///     The portal item from which the layer is loaded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public PortalItem? PortalItem { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html#webtilelayerspatialreference-property">GeoBlazor Docs</a>
-    ///     The spatial reference of the layer.
-    ///     default SpatialReference.WebMercator // wkid: 3857
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public SpatialReference? SpatialReference { get; protected set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html#webtilelayertileinfo-property">GeoBlazor Docs</a>
-    ///     The tiling scheme information for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#tileInfo">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public TileInfo? TileInfo { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html#webtilelayertileservers-property">GeoBlazor Docs</a>
-    ///     The list of tile server urls for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#tileServers">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public IReadOnlyList<string>? TileServers { get; protected set; }
-
+    
 #endregion
-
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the BlendMode property.
-    /// </summary>
-    public async Task<BlendMode?> GetBlendMode()
-    {
-        if (CoreJsModule is null)
-        {
-            return BlendMode;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return BlendMode;
-        }
-
-        // get the property value
-        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "blendMode");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            BlendMode = (BlendMode)result.Value.Value!;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(BlendMode)] = BlendMode;
-        }
-
-        return BlendMode;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Copyright property.
-    /// </summary>
-    public async Task<string?> GetCopyright()
-    {
-        if (CoreJsModule is null)
-        {
-            return Copyright;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Copyright;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "copyright");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Copyright = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Copyright)] = Copyright;
-        }
-
-        return Copyright;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Effect property.
-    /// </summary>
-    public async Task<Effect?> GetEffect()
-    {
-        if (CoreJsModule is null)
-        {
-            return Effect;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Effect;
-        }
-
-        Effect? result = await JsComponentReference.InvokeAsync<Effect?>("getEffect", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Effect = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Effect)] = Effect;
-        }
-
-        return Effect;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the MaxScale property.
-    /// </summary>
-    public async Task<double?> GetMaxScale()
-    {
-        if (CoreJsModule is null)
-        {
-            return MaxScale;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return MaxScale;
-        }
-
-        // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "maxScale");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            MaxScale = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(MaxScale)] = MaxScale;
-        }
-
-        return MaxScale;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the MinScale property.
-    /// </summary>
-    public async Task<double?> GetMinScale()
-    {
-        if (CoreJsModule is null)
-        {
-            return MinScale;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return MinScale;
-        }
-
-        // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "minScale");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            MinScale = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(MinScale)] = MinScale;
-        }
-
-        return MinScale;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the PortalItem property.
-    /// </summary>
-    public async Task<PortalItem?> GetPortalItem()
-    {
-        if (CoreJsModule is null)
-        {
-            return PortalItem;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return PortalItem;
-        }
-
-        PortalItem? result = await JsComponentReference.InvokeAsync<PortalItem?>(
-            "getPortalItem", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-            if (PortalItem is not null)
-            {
-                result.Id = PortalItem.Id;
-            }
-
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-
-#pragma warning disable BL0005
-            PortalItem = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(PortalItem)] = PortalItem;
-        }
-
-        return PortalItem;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the RefreshInterval property.
-    /// </summary>
-    public async Task<double?> GetRefreshInterval()
-    {
-        if (CoreJsModule is null)
-        {
-            return RefreshInterval;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return RefreshInterval;
-        }
-
-        // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "refreshInterval");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            RefreshInterval = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
-        }
-
-        return RefreshInterval;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the SpatialReference property.
-    /// </summary>
-    public async Task<SpatialReference?> GetSpatialReference()
-    {
-        if (CoreJsModule is null)
-        {
-            return SpatialReference;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return SpatialReference;
-        }
-
-        SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
-            "getSpatialReference", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            SpatialReference = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
-        }
-
-        return SpatialReference;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the SubDomains property.
-    /// </summary>
-    public async Task<IReadOnlyList<string>?> GetSubDomains()
-    {
-        if (CoreJsModule is null)
-        {
-            return SubDomains;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return SubDomains;
-        }
-
-        // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
-            CancellationTokenSource.Token, "subDomains");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            SubDomains = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(SubDomains)] = SubDomains;
-        }
-
-        return SubDomains;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the TileInfo property.
-    /// </summary>
-    public async Task<TileInfo?> GetTileInfo()
-    {
-        if (CoreJsModule is null)
-        {
-            return TileInfo;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return TileInfo;
-        }
-
-        TileInfo? result =
-            await JsComponentReference.InvokeAsync<TileInfo?>("getTileInfo", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-            if (TileInfo is not null)
-            {
-                result.Id = TileInfo.Id;
-            }
-
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-
-#pragma warning disable BL0005
-            TileInfo = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(TileInfo)] = TileInfo;
-        }
-
-        return TileInfo;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the TileServers property.
-    /// </summary>
-    public async Task<IReadOnlyList<string>?> GetTileServers()
-    {
-        if (CoreJsModule is null)
-        {
-            return TileServers;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return TileServers;
-        }
-
-        // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
-            CancellationTokenSource.Token, "tileServers");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            TileServers = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(TileServers)] = TileServers;
-        }
-
-        return TileServers;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the UrlTemplate property.
-    /// </summary>
-    public async Task<string?> GetUrlTemplate()
-    {
-        if (CoreJsModule is null)
-        {
-            return UrlTemplate;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return UrlTemplate;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "urlTemplate");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            UrlTemplate = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(UrlTemplate)] = UrlTemplate;
-        }
-
-        return UrlTemplate;
-    }
-
-#endregion
-
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the BlendMode property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetBlendMode(BlendMode? value)
-    {
-#pragma warning disable BL0005
-        BlendMode = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(BlendMode)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "blendMode", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Copyright property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetCopyright(string? value)
-    {
-#pragma warning disable BL0005
-        Copyright = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Copyright)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "copyright", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Effect property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetEffect(Effect? value)
-    {
-#pragma warning disable BL0005
-        Effect = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Effect)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await JsComponentReference.InvokeVoidAsync("setEffect",
-            CancellationTokenSource.Token, value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the MaxScale property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetMaxScale(double? value)
-    {
-#pragma warning disable BL0005
-        MaxScale = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(MaxScale)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "maxScale", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the MinScale property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetMinScale(double? value)
-    {
-#pragma warning disable BL0005
-        MinScale = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(MinScale)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "minScale", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the PersistenceEnabled property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetPersistenceEnabled(bool? value)
-    {
-#pragma warning disable BL0005
-        PersistenceEnabled = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(PersistenceEnabled)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "persistenceEnabled", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the PortalItem property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetPortalItem(PortalItem? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
-#pragma warning disable BL0005
-        PortalItem = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(PortalItem)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await JsComponentReference.InvokeVoidAsync("setPortalItem",
-            CancellationTokenSource.Token, value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the RefreshInterval property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetRefreshInterval(double? value)
-    {
-#pragma warning disable BL0005
-        RefreshInterval = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(RefreshInterval)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "refreshInterval", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the SubDomains property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetSubDomains(IReadOnlyList<string>? value)
-    {
-#pragma warning disable BL0005
-        SubDomains = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(SubDomains)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "subDomains", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the TileInfo property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetTileInfo(TileInfo? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
-#pragma warning disable BL0005
-        TileInfo = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(TileInfo)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await JsComponentReference.InvokeVoidAsync("setTileInfo",
-            CancellationTokenSource.Token, value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the UrlTemplate property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetUrlTemplate(string? value)
-    {
-#pragma warning disable BL0005
-        UrlTemplate = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(UrlTemplate)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "urlTemplate", value);
-    }
-
-#endregion
-
 
 #region Event Handlers
 
@@ -1289,15 +1219,14 @@ public partial class WebTileLayer : IBlendLayer,
             // cancel if the component is disposed
             return;
         }
-
+    
         RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<RefreshEvent>();
-
         if (refreshEvent is not null)
         {
             await OnRefresh.InvokeAsync(refreshEvent);
         }
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html#webtilelayeronrefresh-property">GeoBlazor Docs</a>
     ///     Fires if the layer has the <a href="#refreshInterval">refreshInterval</a> set or when <a href="#refresh">refresh()</a> method is called.
@@ -1306,11 +1235,74 @@ public partial class WebTileLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore]
     public EventCallback<RefreshEvent> OnRefresh { get; set; }
-
+   
     /// <summary>
     ///     Used in JavaScript layer to determine if the event listener is registered.
     /// </summary>
     public bool HasRefreshListener => OnRefresh.HasDelegate;
-
+    
 #endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case PortalItem portalItem:
+                if (portalItem != PortalItem)
+                {
+                    PortalItem = portalItem;
+                    ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+                
+                return true;
+            case TileInfo tileInfo:
+                if (tileInfo != TileInfo)
+                {
+                    TileInfo = tileInfo;
+                    ModifiedParameters[nameof(TileInfo)] = TileInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case PortalItem _:
+                PortalItem = null;
+                ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                return true;
+            case TileInfo _:
+                TileInfo = null;
+                ModifiedParameters[nameof(TileInfo)] = TileInfo;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        PortalItem?.ValidateRequiredGeneratedChildren();
+        TileInfo?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

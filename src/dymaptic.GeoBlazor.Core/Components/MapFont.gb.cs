@@ -97,14 +97,15 @@ public partial class MapFont
         }
 
         // get the property value
-        JsNullableEnumWrapper<TextDecoration>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<TextDecoration>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "decoration");
-        if (result is { Value: not null })
+        TextDecoration? result = await JsComponentReference!.InvokeJsMethod<TextDecoration?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapFont), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "decoration");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Decoration = (TextDecoration)result.Value.Value!;
+                Decoration = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Decoration)] = Decoration;
+                ModifiedParameters[nameof(Decoration)] = Decoration;
         }
          
         return Decoration;
@@ -136,14 +137,15 @@ public partial class MapFont
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapFont), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "family");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Family = result;
+                Family = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Family)] = Family;
+                ModifiedParameters[nameof(Family)] = Family;
         }
          
         return Family;
@@ -175,14 +177,15 @@ public partial class MapFont
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapFont), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "size");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Size = result;
+                Size = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Size)] = Size;
+                ModifiedParameters[nameof(Size)] = Size;
         }
          
         return Size;
@@ -214,14 +217,15 @@ public partial class MapFont
         }
 
         // get the property value
-        JsNullableEnumWrapper<MapFontStyle>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<MapFontStyle>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "style");
-        if (result is { Value: not null })
+        MapFontStyle? result = await JsComponentReference!.InvokeJsMethod<MapFontStyle?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapFont), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "style");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Style = (MapFontStyle)result.Value.Value!;
+                Style = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Style)] = Style;
+                ModifiedParameters[nameof(Style)] = Style;
         }
          
         return Style;
@@ -253,14 +257,15 @@ public partial class MapFont
         }
 
         // get the property value
-        JsNullableEnumWrapper<FontWeight>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<FontWeight>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "weight");
-        if (result is { Value: not null })
+        FontWeight? result = await JsComponentReference!.InvokeJsMethod<FontWeight?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapFont), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "weight");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Weight = (FontWeight)result.Value.Value!;
+                Weight = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Weight)] = Weight;
+                ModifiedParameters[nameof(Weight)] = Weight;
         }
          
         return Weight;

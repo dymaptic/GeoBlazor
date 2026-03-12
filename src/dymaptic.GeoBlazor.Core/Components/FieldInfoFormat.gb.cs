@@ -79,14 +79,15 @@ public partial class FieldInfoFormat
         }
 
         // get the property value
-        JsNullableEnumWrapper<DateFormat>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<DateFormat>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "dateFormat");
-        if (result is { Value: not null })
+        DateFormat? result = await JsComponentReference!.InvokeJsMethod<DateFormat?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FieldInfoFormat), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "dateFormat");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             DateFormat = (DateFormat)result.Value.Value!;
+                DateFormat = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DateFormat)] = DateFormat;
+                ModifiedParameters[nameof(DateFormat)] = DateFormat;
         }
          
         return DateFormat;
@@ -118,14 +119,15 @@ public partial class FieldInfoFormat
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "digitSeparator");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FieldInfoFormat), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "digitSeparator");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             DigitSeparator = result.Value.Value;
+                DigitSeparator = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DigitSeparator)] = DigitSeparator;
+                ModifiedParameters[nameof(DigitSeparator)] = DigitSeparator;
         }
          
         return DigitSeparator;
@@ -157,14 +159,15 @@ public partial class FieldInfoFormat
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "places");
-        if (result is { Value: not null })
+        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FieldInfoFormat), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "places");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Places = result.Value.Value;
+                Places = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Places)] = Places;
+                ModifiedParameters[nameof(Places)] = Places;
         }
          
         return Places;

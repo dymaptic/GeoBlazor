@@ -19,6 +19,24 @@ public partial class SpatialReference
     {
     }
 
+    /// <summary>
+    ///     Implicit conversion between <see cref="string" /> and <see cref="SpatialReference" />.
+    /// </summary>
+    /// <param name="imageCoordinateSystem">
+    ///     The string to use as the value.
+    /// </param>
+    public static implicit operator SpatialReference(string imageCoordinateSystem) =>
+        new(imageCoordinateSystem: imageCoordinateSystem);
+
+    /// <summary>
+    ///     Implicit conversion between <see cref="double" /> and <see cref="SpatialReference" />.
+    /// </summary>
+    /// <param name="metersPerUnit">
+    ///     The double to use as the value.
+    /// </param>
+    public static implicit operator SpatialReference(double metersPerUnit) =>
+        new(metersPerUnit: metersPerUnit);
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -83,17 +101,178 @@ public partial class SpatialReference
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "imageCoordinateSystem");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ImageCoordinateSystem = result;
+                ImageCoordinateSystem = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ImageCoordinateSystem)] = ImageCoordinateSystem;
+                ModifiedParameters[nameof(ImageCoordinateSystem)] = ImageCoordinateSystem;
         }
          
         return ImageCoordinateSystem;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the IsGeographic property.
+    /// </summary>
+    public async Task<bool?> GetIsGeographic()
+    {
+        if (CoreJsModule is null)
+        {
+            return IsGeographic;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return IsGeographic;
+        }
+
+        // get the property value
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "isGeographic");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                IsGeographic = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(IsGeographic)] = IsGeographic;
+        }
+         
+        return IsGeographic;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the IsWebMercator property.
+    /// </summary>
+    public async Task<bool?> GetIsWebMercator()
+    {
+        if (CoreJsModule is null)
+        {
+            return IsWebMercator;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return IsWebMercator;
+        }
+
+        // get the property value
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "isWebMercator");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                IsWebMercator = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(IsWebMercator)] = IsWebMercator;
+        }
+         
+        return IsWebMercator;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the IsWGS84 property.
+    /// </summary>
+    public async Task<bool?> GetIsWGS84()
+    {
+        if (CoreJsModule is null)
+        {
+            return IsWGS84;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return IsWGS84;
+        }
+
+        // get the property value
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "isWGS84");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                IsWGS84 = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(IsWGS84)] = IsWGS84;
+        }
+         
+        return IsWGS84;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the IsWrappable property.
+    /// </summary>
+    public async Task<bool?> GetIsWrappable()
+    {
+        if (CoreJsModule is null)
+        {
+            return IsWrappable;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return IsWrappable;
+        }
+
+        // get the property value
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "isWrappable");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                IsWrappable = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(IsWrappable)] = IsWrappable;
+        }
+         
+        return IsWrappable;
     }
     
     /// <summary>
@@ -122,14 +301,15 @@ public partial class SpatialReference
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "metersPerUnit");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "metersPerUnit");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             MetersPerUnit = result.Value.Value;
+                MetersPerUnit = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MetersPerUnit)] = MetersPerUnit;
+                ModifiedParameters[nameof(MetersPerUnit)] = MetersPerUnit;
         }
          
         return MetersPerUnit;
@@ -161,14 +341,15 @@ public partial class SpatialReference
         }
 
         // get the property value
-        JsNullableEnumWrapper<SpatialReferenceUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SpatialReferenceUnit>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "unit");
-        if (result is { Value: not null })
+        SpatialReferenceUnit? result = await JsComponentReference!.InvokeJsMethod<SpatialReferenceUnit?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "unit");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Unit = (SpatialReferenceUnit)result.Value.Value!;
+                Unit = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Unit)] = Unit;
+                ModifiedParameters[nameof(Unit)] = Unit;
         }
          
         return Unit;
@@ -200,14 +381,15 @@ public partial class SpatialReference
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "wkid");
-        if (result is { Value: not null })
+        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "wkid");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Wkid = result.Value.Value;
+                Wkid = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Wkid)] = Wkid;
+                ModifiedParameters[nameof(Wkid)] = Wkid;
         }
          
         return Wkid;
@@ -239,14 +421,15 @@ public partial class SpatialReference
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "wkt");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Wkt = result;
+                Wkt = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Wkt)] = Wkt;
+                ModifiedParameters[nameof(Wkt)] = Wkt;
         }
          
         return Wkt;
@@ -278,14 +461,15 @@ public partial class SpatialReference
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "wkt2");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Wkt2 = result;
+                Wkt2 = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Wkt2)] = Wkt2;
+                ModifiedParameters[nameof(Wkt2)] = Wkt2;
         }
          
         return Wkt2;

@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.Renderer.html">GeoBlazor Docs</a>
 ///     Renderers define how to visually represent each feature in one of the following layer types:.
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 /// </summary>
 public abstract partial class Renderer
 {
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -23,9 +25,8 @@ public abstract partial class Renderer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public AuthoringInfo? AuthoringInfo { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -38,8 +39,8 @@ public abstract partial class Renderer
         {
             return AuthoringInfo;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -48,28 +49,34 @@ public abstract partial class Renderer
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return AuthoringInfo;
         }
 
-        AuthoringInfo? result = await JsComponentReference.InvokeAsync<AuthoringInfo?>(
-            "getAuthoringInfo", CancellationTokenSource.Token);
-
+        AuthoringInfo? result = await JsComponentReference.InvokeJsMethod<AuthoringInfo?>(
+            IsServer, nameof(GetAuthoringInfo), nameof(Renderer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (AuthoringInfo is not null)
+            {
+                result.Id = AuthoringInfo.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             AuthoringInfo = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(AuthoringInfo)] = AuthoringInfo;
         }
-
+        
         return AuthoringInfo;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -81,22 +88,22 @@ public abstract partial class Renderer
     /// </param>
     public async Task SetAuthoringInfo(AuthoringInfo? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         AuthoringInfo = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(AuthoringInfo)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -105,25 +112,18 @@ public abstract partial class Renderer
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "authoringInfo", value);
     }
-
+    
 #endregion
 
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        AuthoringInfo?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -136,7 +136,7 @@ public abstract partial class Renderer
                     AuthoringInfo = authoringInfo;
                     ModifiedParameters[nameof(AuthoringInfo)] = AuthoringInfo;
                 }
-
+                
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -151,10 +151,18 @@ public abstract partial class Renderer
             case AuthoringInfo _:
                 AuthoringInfo = null;
                 ModifiedParameters[nameof(AuthoringInfo)] = AuthoringInfo;
-
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        AuthoringInfo?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

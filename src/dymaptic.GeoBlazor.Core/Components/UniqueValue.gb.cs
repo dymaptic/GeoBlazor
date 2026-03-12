@@ -126,14 +126,15 @@ public partial class UniqueValue : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValue), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "value");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Value = result;
+                Value = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Value)] = Value;
+                ModifiedParameters[nameof(Value)] = Value;
         }
          
         return Value;
@@ -165,14 +166,15 @@ public partial class UniqueValue : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValue), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "value2");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Value2 = result;
+                Value2 = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Value2)] = Value2;
+                ModifiedParameters[nameof(Value2)] = Value2;
         }
          
         return Value2;
@@ -204,14 +206,15 @@ public partial class UniqueValue : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValue), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "value3");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Value3 = result;
+                Value3 = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Value3)] = Value3;
+                ModifiedParameters[nameof(Value3)] = Value3;
         }
          
         return Value3;

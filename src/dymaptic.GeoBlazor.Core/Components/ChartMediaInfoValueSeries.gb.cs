@@ -12,43 +12,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 public partial class ChartMediaInfoValueSeries
 {
 
-    /// <summary>
-    ///     Parameterless constructor for use as a Razor Component.
-    /// </summary>
-    [ActivatorUtilitiesConstructor]
-    public ChartMediaInfoValueSeries()
-    {
-    }
-
-    /// <summary>
-    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
-    /// </summary>
-    /// <param name="fieldName">
-    ///     String value indicating the field's name for a series.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValueSeries.html#fieldName">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="tooltip">
-    ///     String value indicating the tooltip for a series.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValueSeries.html#tooltip">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="value">
-    ///     Numerical value for the chart series.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValueSeries.html#value">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    public ChartMediaInfoValueSeries(
-        string? fieldName = null,
-        string? tooltip = null,
-        double? value = null)
-    {
-        AllowRender = false;
-#pragma warning disable BL0005
-        FieldName = fieldName;
-        Tooltip = tooltip;
-        Value = value;
-#pragma warning restore BL0005    
-    }
-    
-    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -91,14 +54,15 @@ public partial class ChartMediaInfoValueSeries
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ChartMediaInfoValueSeries), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "color");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Color = result;
+                Color = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Color)] = Color;
+                ModifiedParameters[nameof(Color)] = Color;
         }
          
         return Color;
@@ -130,14 +94,15 @@ public partial class ChartMediaInfoValueSeries
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ChartMediaInfoValueSeries), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "fieldName");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FieldName = result;
+                FieldName = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FieldName)] = FieldName;
+                ModifiedParameters[nameof(FieldName)] = FieldName;
         }
          
         return FieldName;
@@ -169,14 +134,15 @@ public partial class ChartMediaInfoValueSeries
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ChartMediaInfoValueSeries), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "tooltip");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Tooltip = result;
+                Tooltip = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Tooltip)] = Tooltip;
+                ModifiedParameters[nameof(Tooltip)] = Tooltip;
         }
          
         return Tooltip;
@@ -208,14 +174,15 @@ public partial class ChartMediaInfoValueSeries
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "value");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ChartMediaInfoValueSeries), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "value");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Value = result.Value.Value;
+                Value = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Value)] = Value;
+                ModifiedParameters[nameof(Value)] = Value;
         }
          
         return Value;

@@ -65,14 +65,15 @@ public partial class TextPopupContent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TextPopupContent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "text");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Text = result;
+                Text = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Text)] = Text;
+                ModifiedParameters[nameof(Text)] = Text;
         }
          
         return Text;

@@ -1,3 +1,4 @@
+import PortalGenerated from './portal.gb';
 // override generated code in this file
 import PortalGenerated, {buildDotNetPortalGenerated, buildJsPortalGenerated} from './portal.gb';
 import Portal from '@arcgis/core/portal/Portal';

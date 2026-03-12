@@ -28,7 +28,7 @@ export default class AreaMeasurement2DViewModelGenerated extends BaseComponent {
             this.component.unitOptions = dotNetObject.unitOptions;
         }
     }
-
+    
     // region methods
     async clear(): Promise<void> {
         this.component.clear();
@@ -161,7 +161,7 @@ export async function buildDotNetAreaMeasurement2DViewModelGenerated(jsObject: a
 
     if (hasValue(dotNetAreaMeasurement2DViewModel.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetAreaMeasurement2DViewModel.id)) {
-            let {default: AreaMeasurement2DViewModelWrapper} = await import('./areaMeasurement2DViewModel');
+            let { default: AreaMeasurement2DViewModelWrapper } = await import('./areaMeasurement2DViewModel');
             let areaMeasurement2DViewModelWrapper = new AreaMeasurement2DViewModelWrapper(jsObject);
             areaMeasurement2DViewModelWrapper.geoBlazorId = dotNetAreaMeasurement2DViewModel.id;
             areaMeasurement2DViewModelWrapper.viewId = viewId;

@@ -78,14 +78,15 @@ public partial class CapabilitiesMetadata : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsAdvancedFieldProperties");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesMetadata), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsAdvancedFieldProperties");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsAdvancedFieldProperties = result.Value.Value;
+                SupportsAdvancedFieldProperties = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsAdvancedFieldProperties)] = SupportsAdvancedFieldProperties;
+                ModifiedParameters[nameof(SupportsAdvancedFieldProperties)] = SupportsAdvancedFieldProperties;
         }
          
         return SupportsAdvancedFieldProperties;

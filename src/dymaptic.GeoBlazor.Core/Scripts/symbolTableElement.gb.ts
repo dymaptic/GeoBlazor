@@ -41,7 +41,7 @@ export async function buildDotNetSymbolTableElementGenerated(jsObject: any, view
     }
     
     if (hasValue(jsObject.title)) {
-        dotNetSymbolTableElement.title = jsObject.title;
+        dotNetSymbolTableElement.title = removeCircularReferences(jsObject.title);
     }
     
     if (hasValue(jsObject.type)) {

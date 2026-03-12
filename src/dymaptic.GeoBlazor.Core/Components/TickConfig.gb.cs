@@ -154,14 +154,15 @@ public partial class TickConfig
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "labelsVisible");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TickConfig), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "labelsVisible");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             LabelsVisible = result.Value.Value;
+                LabelsVisible = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
+                ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
         }
          
         return LabelsVisible;
@@ -193,14 +194,15 @@ public partial class TickConfig
         }
 
         // get the property value
-        JsNullableEnumWrapper<TickConfigMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<TickConfigMode>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "mode");
-        if (result is { Value: not null })
+        TickConfigMode? result = await JsComponentReference!.InvokeJsMethod<TickConfigMode?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TickConfig), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "mode");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Mode = (TickConfigMode)result.Value.Value!;
+                Mode = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Mode)] = Mode;
+                ModifiedParameters[nameof(Mode)] = Mode;
         }
          
         return Mode;
@@ -232,14 +234,15 @@ public partial class TickConfig
         }
 
         // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TickConfig), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "values");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Values = result;
+                Values = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Values)] = Values;
+                ModifiedParameters[nameof(Values)] = Values;
         }
          
         return Values;

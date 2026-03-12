@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMapWidgets.html">GeoBlazor Docs</a>
 ///     The widgets object contains widgets that are exposed to the user.
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class WebMapWidgets : MapComponent
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -28,57 +30,18 @@ public partial class WebMapWidgets : MapComponent
     ///     Time animation is controlled by a configurable <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-TimeSlider.html">time slider</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#Widgets">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public WebMapWidgets(WebMapFloorFilter? floorFilter = null,
+    public WebMapWidgets(
+        WebMapFloorFilter? floorFilter = null,
         WebDocTimeSlider? timeSlider = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         FloorFilter = floorFilter;
         TimeSlider = timeSlider;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        FloorFilter?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case WebMapFloorFilter floorFilter:
-                if (floorFilter != FloorFilter)
-                {
-                    FloorFilter = floorFilter;
-                    ModifiedParameters[nameof(FloorFilter)] = FloorFilter;
-                }
-
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case WebMapFloorFilter _:
-                FloorFilter = null;
-                ModifiedParameters[nameof(FloorFilter)] = FloorFilter;
-
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -90,7 +53,7 @@ public partial class WebMapWidgets : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public WebMapFloorFilter? FloorFilter { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMapWidgets.html#webmapwidgetstimeslider-property">GeoBlazor Docs</a>
     ///     Time animation is controlled by a configurable <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-TimeSlider.html">time slider</a>.
@@ -100,9 +63,8 @@ public partial class WebMapWidgets : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public WebDocTimeSlider? TimeSlider { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -115,8 +77,8 @@ public partial class WebMapWidgets : MapComponent
         {
             return FloorFilter;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -125,26 +87,33 @@ public partial class WebMapWidgets : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return FloorFilter;
         }
 
-        WebMapFloorFilter? result = await JsComponentReference.InvokeAsync<WebMapFloorFilter?>(
-            "getFloorFilter", CancellationTokenSource.Token);
-
+        WebMapFloorFilter? result = await JsComponentReference.InvokeJsMethod<WebMapFloorFilter?>(
+            IsServer, nameof(GetFloorFilter), nameof(WebMapWidgets), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (FloorFilter is not null)
+            {
+                result.Id = FloorFilter.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             FloorFilter = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(FloorFilter)] = FloorFilter;
         }
-
+        
         return FloorFilter;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeSlider property.
     /// </summary>
@@ -154,8 +123,8 @@ public partial class WebMapWidgets : MapComponent
         {
             return TimeSlider;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -164,15 +133,16 @@ public partial class WebMapWidgets : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return TimeSlider;
         }
 
-        WebDocTimeSlider? result = await JsComponentReference.InvokeAsync<WebDocTimeSlider?>(
-            "getTimeSlider", CancellationTokenSource.Token);
-
+        WebDocTimeSlider? result = await JsComponentReference.InvokeJsMethod<WebDocTimeSlider?>(
+            IsServer, nameof(GetTimeSlider), nameof(WebMapWidgets), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -180,12 +150,11 @@ public partial class WebMapWidgets : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(TimeSlider)] = TimeSlider;
         }
-
+        
         return TimeSlider;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -197,22 +166,22 @@ public partial class WebMapWidgets : MapComponent
     /// </param>
     public async Task SetFloorFilter(WebMapFloorFilter? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         FloorFilter = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(FloorFilter)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -221,16 +190,16 @@ public partial class WebMapWidgets : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "floorFilter", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the TimeSlider property after render.
     /// </summary>
@@ -243,13 +212,13 @@ public partial class WebMapWidgets : MapComponent
         TimeSlider = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(TimeSlider)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -258,15 +227,57 @@ public partial class WebMapWidgets : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "timeSlider", value);
     }
-
+    
 #endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case WebMapFloorFilter floorFilter:
+                if (floorFilter != FloorFilter)
+                {
+                    FloorFilter = floorFilter;
+                    ModifiedParameters[nameof(FloorFilter)] = FloorFilter;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case WebMapFloorFilter:
+                FloorFilter = null;
+                ModifiedParameters[nameof(FloorFilter)] = FloorFilter;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        FloorFilter?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

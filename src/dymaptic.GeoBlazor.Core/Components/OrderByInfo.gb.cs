@@ -114,14 +114,15 @@ public partial class OrderByInfo : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(OrderByInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "field");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Field = result;
+                Field = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Field)] = Field;
+                ModifiedParameters[nameof(Field)] = Field;
         }
          
         return Field;
@@ -153,14 +154,15 @@ public partial class OrderByInfo : MapComponent
         }
 
         // get the property value
-        JsNullableEnumWrapper<SortOrder>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SortOrder>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "order");
-        if (result is { Value: not null })
+        SortOrder? result = await JsComponentReference!.InvokeJsMethod<SortOrder?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(OrderByInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "order");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Order = (SortOrder)result.Value.Value!;
+                Order = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Order)] = Order;
+                ModifiedParameters[nameof(Order)] = Order;
         }
          
         return Order;
@@ -192,14 +194,15 @@ public partial class OrderByInfo : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(OrderByInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "valueExpression");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ValueExpression = result;
+                ValueExpression = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ValueExpression)] = ValueExpression;
+                ModifiedParameters[nameof(ValueExpression)] = ValueExpression;
         }
          
         return ValueExpression;

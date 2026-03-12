@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html">GeoBlazor Docs</a>
 ///     Represents a sublayer in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html">WMSLayer</a>.
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class WMSSublayer : MapComponent
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -67,7 +69,7 @@ public partial class WMSSublayer : MapComponent
     /// </param>
     /// <param name="title">
     ///     The title of the WMS sublayer used to identify it in places such as the
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visible">
@@ -78,7 +80,8 @@ public partial class WMSSublayer : MapComponent
     ///     The id for the WMS sublayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public WMSSublayer(string? description = null,
+    public WMSSublayer(
+        string? description = null,
         Extent? fullExtent = null,
         bool? legendEnabled = null,
         string? legendUrl = null,
@@ -107,9 +110,1142 @@ public partial class WMSSublayer : MapComponent
         Title = title;
         Visible = visible;
         WMSSublayerId = wMSSublayerId;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
+    
+    
+#region Public Properties / Blazor Parameters
 
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerdescription-property">GeoBlazor Docs</a>
+    ///     Description for the WMS sublayer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#description">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Description { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerdimensions-property">GeoBlazor Docs</a>
+    ///     An array of time, elevation and other dimensions for the sublayer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#dimensions">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public IReadOnlyList<IWMSLayerDimension>? Dimensions { get; protected set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerfullextent-property">GeoBlazor Docs</a>
+    ///     The full extent of the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Extent? FullExtent { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerlegendenabled-property">GeoBlazor Docs</a>
+    ///     Indicates whether the layer will be included in the legend.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#legendEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? LegendEnabled { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerlegendurl-property">GeoBlazor Docs</a>
+    ///     A string url pointing to a legend image for the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#legendUrl">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? LegendUrl { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayermaxscale-property">GeoBlazor Docs</a>
+    ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
+    ///     default 0
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? MaxScale { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerminscale-property">GeoBlazor Docs</a>
+    ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
+    ///     default 0
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? MinScale { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayername-property">GeoBlazor Docs</a>
+    ///     Name of the WMS sublayer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#name">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Name { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerpopupenabled-property">GeoBlazor Docs</a>
+    ///     Indicates whether to display popups when features in the layer are clicked.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? PopupEnabled { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerqueryable-property">GeoBlazor Docs</a>
+    ///     Indicates if the layer can be queried, i.e.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#queryable">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? Queryable { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerspatialreferences-property">GeoBlazor Docs</a>
+    ///     List of spatialReferences (WKID) derived from the CRS elements of the first layer in the GetCapabilities request.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#spatialReferences">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<double>? SpatialReferences { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayersublayers-property">GeoBlazor Docs</a>
+    ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html">WMSSublayer</a>s.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#sublayers">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<WMSSublayer>? Sublayers { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayertitle-property">GeoBlazor Docs</a>
+    ///     The title of the WMS sublayer used to identify it in places such as the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Title { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerwmssublayerid-property">GeoBlazor Docs</a>
+    ///     The id for the WMS sublayer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#id">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public long? WMSSublayerId { get; set; }
+    
+#endregion
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Description property.
+    /// </summary>
+    public async Task<string?> GetDescription()
+    {
+        if (CoreJsModule is null)
+        {
+            return Description;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Description;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "description");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                Description = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(Description)] = Description;
+        }
+         
+        return Description;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Dimensions property.
+    /// </summary>
+    public async Task<IReadOnlyList<IWMSLayerDimension>?> GetDimensions()
+    {
+        if (CoreJsModule is null)
+        {
+            return Dimensions;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Dimensions;
+        }
+
+        // get the property value
+        IReadOnlyList<IWMSLayerDimension>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<IWMSLayerDimension>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "dimensions");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                Dimensions = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(Dimensions)] = Dimensions;
+        }
+         
+        return Dimensions;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the FullExtent property.
+    /// </summary>
+    public async Task<Extent?> GetFullExtent()
+    {
+        if (CoreJsModule is null)
+        {
+            return FullExtent;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return FullExtent;
+        }
+
+        Extent? result = await JsComponentReference.InvokeJsMethod<Extent?>(
+            IsServer, nameof(GetFullExtent), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (FullExtent is not null)
+            {
+                result.Id = FullExtent.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            FullExtent = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(FullExtent)] = FullExtent;
+        }
+        
+        return FullExtent;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the LegendEnabled property.
+    /// </summary>
+    public async Task<bool?> GetLegendEnabled()
+    {
+        if (CoreJsModule is null)
+        {
+            return LegendEnabled;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return LegendEnabled;
+        }
+
+        // get the property value
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "legendEnabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                LegendEnabled = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
+        }
+         
+        return LegendEnabled;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the LegendUrl property.
+    /// </summary>
+    public async Task<string?> GetLegendUrl()
+    {
+        if (CoreJsModule is null)
+        {
+            return LegendUrl;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return LegendUrl;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "legendUrl");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                LegendUrl = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(LegendUrl)] = LegendUrl;
+        }
+         
+        return LegendUrl;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the MaxScale property.
+    /// </summary>
+    public async Task<double?> GetMaxScale()
+    {
+        if (CoreJsModule is null)
+        {
+            return MaxScale;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return MaxScale;
+        }
+
+        // get the property value
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "maxScale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                MaxScale = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(MaxScale)] = MaxScale;
+        }
+         
+        return MaxScale;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the MinScale property.
+    /// </summary>
+    public async Task<double?> GetMinScale()
+    {
+        if (CoreJsModule is null)
+        {
+            return MinScale;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return MinScale;
+        }
+
+        // get the property value
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "minScale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                MinScale = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(MinScale)] = MinScale;
+        }
+         
+        return MinScale;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Name property.
+    /// </summary>
+    public async Task<string?> GetName()
+    {
+        if (CoreJsModule is null)
+        {
+            return Name;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Name;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "name");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                Name = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(Name)] = Name;
+        }
+         
+        return Name;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the PopupEnabled property.
+    /// </summary>
+    public async Task<bool?> GetPopupEnabled()
+    {
+        if (CoreJsModule is null)
+        {
+            return PopupEnabled;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return PopupEnabled;
+        }
+
+        // get the property value
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "popupEnabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                PopupEnabled = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
+        }
+         
+        return PopupEnabled;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Queryable property.
+    /// </summary>
+    public async Task<bool?> GetQueryable()
+    {
+        if (CoreJsModule is null)
+        {
+            return Queryable;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Queryable;
+        }
+
+        // get the property value
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "queryable");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                Queryable = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(Queryable)] = Queryable;
+        }
+         
+        return Queryable;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the SpatialReferences property.
+    /// </summary>
+    public async Task<IReadOnlyList<double>?> GetSpatialReferences()
+    {
+        if (CoreJsModule is null)
+        {
+            return SpatialReferences;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return SpatialReferences;
+        }
+
+        // get the property value
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "spatialReferences");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                SpatialReferences = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(SpatialReferences)] = SpatialReferences;
+        }
+         
+        return SpatialReferences;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Title property.
+    /// </summary>
+    public async Task<string?> GetTitle()
+    {
+        if (CoreJsModule is null)
+        {
+            return Title;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Title;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "title");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                Title = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(Title)] = Title;
+        }
+         
+        return Title;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the WMSSublayerId property.
+    /// </summary>
+    public async Task<long?> GetWMSSublayerId()
+    {
+        if (CoreJsModule is null)
+        {
+            return WMSSublayerId;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return WMSSublayerId;
+        }
+
+        // get the property value
+        long? result = await JsComponentReference!.InvokeJsMethod<long?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "id");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                WMSSublayerId = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(WMSSublayerId)] = WMSSublayerId;
+        }
+         
+        return WMSSublayerId;
+    }
+    
+#endregion
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the Description property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetDescription(string? value)
+    {
+#pragma warning disable BL0005
+        Description = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Description)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "description", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the FullExtent property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetFullExtent(Extent? value)
+    {
+#pragma warning disable BL0005
+        FullExtent = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(FullExtent)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "fullExtent", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the LegendEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetLegendEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        LegendEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(LegendEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "legendEnabled", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the LegendUrl property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetLegendUrl(string? value)
+    {
+#pragma warning disable BL0005
+        LegendUrl = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(LegendUrl)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "legendUrl", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the MaxScale property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetMaxScale(double? value)
+    {
+#pragma warning disable BL0005
+        MaxScale = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(MaxScale)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "maxScale", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the MinScale property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetMinScale(double? value)
+    {
+#pragma warning disable BL0005
+        MinScale = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(MinScale)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "minScale", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Name property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetName(string? value)
+    {
+#pragma warning disable BL0005
+        Name = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Name)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "name", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the PopupEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPopupEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        PopupEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(PopupEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "popupEnabled", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Queryable property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetQueryable(bool? value)
+    {
+#pragma warning disable BL0005
+        Queryable = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Queryable)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "queryable", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the SpatialReferences property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetSpatialReferences(IReadOnlyList<double>? value)
+    {
+#pragma warning disable BL0005
+        SpatialReferences = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(SpatialReferences)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "spatialReferences", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Title property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetTitle(string? value)
+    {
+#pragma warning disable BL0005
+        Title = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Title)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "title", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the WMSSublayerId property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetWMSSublayerId(long? value)
+    {
+#pragma warning disable BL0005
+        WMSSublayerId = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(WMSSublayerId)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "id", value);
+    }
+    
+#endregion
 
 #region Add to Collection Methods
 
@@ -126,12 +1262,12 @@ public partial class WMSSublayer : MapComponent
             : [..SpatialReferences, ..values];
         await SetSpatialReferences(join);
     }
-
+    
 #endregion
-
 
 #region Remove From Collection Methods
 
+    
     /// <summary>
     ///     Asynchronously remove an element from the SpatialReferences property.
     /// </summary>
@@ -144,28 +1280,11 @@ public partial class WMSSublayer : MapComponent
         {
             return;
         }
-
         await SetSpatialReferences(SpatialReferences.Except(values).ToArray());
     }
-
+    
 #endregion
 
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        FullExtent?.ValidateRequiredGeneratedChildren();
-
-        if (Sublayers is not null)
-        {
-            foreach (WMSSublayer child in Sublayers)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-
-        base.ValidateRequiredGeneratedChildren();
-    }
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -178,17 +1297,16 @@ public partial class WMSSublayer : MapComponent
                     FullExtent = fullExtent;
                     ModifiedParameters[nameof(FullExtent)] = FullExtent;
                 }
-
+                
                 return true;
             case WMSSublayer sublayers:
                 Sublayers ??= [];
-
                 if (!Sublayers.Contains(sublayers))
                 {
                     Sublayers = [..Sublayers, sublayers];
                     ModifiedParameters[nameof(Sublayers)] = Sublayers;
                 }
-
+                
                 return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
@@ -200,1161 +1318,32 @@ public partial class WMSSublayer : MapComponent
     {
         switch (child)
         {
-            case Extent _:
+            case Extent:
                 FullExtent = null;
                 ModifiedParameters[nameof(FullExtent)] = FullExtent;
-
                 return true;
             case WMSSublayer sublayers:
                 Sublayers = Sublayers?.Where(s => s != sublayers).ToList();
                 ModifiedParameters[nameof(Sublayers)] = Sublayers;
-
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
     }
-
-
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerdescription-property">GeoBlazor Docs</a>
-    ///     Description for the WMS sublayer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#description">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Description { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerdimensions-property">GeoBlazor Docs</a>
-    ///     An array of time, elevation and other dimensions for the sublayer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#dimensions">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public IReadOnlyList<IWMSLayerDimension>? Dimensions { get; protected set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerfullextent-property">GeoBlazor Docs</a>
-    ///     The full extent of the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Extent? FullExtent { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerlegendenabled-property">GeoBlazor Docs</a>
-    ///     Indicates whether the layer will be included in the legend.
-    ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#legendEnabled">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? LegendEnabled { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerlegendurl-property">GeoBlazor Docs</a>
-    ///     A string url pointing to a legend image for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#legendUrl">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? LegendUrl { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayermaxscale-property">GeoBlazor Docs</a>
-    ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
-    ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? MaxScale { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerminscale-property">GeoBlazor Docs</a>
-    ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
-    ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? MinScale { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayername-property">GeoBlazor Docs</a>
-    ///     Name of the WMS sublayer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#name">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Name { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerpopupenabled-property">GeoBlazor Docs</a>
-    ///     Indicates whether to display popups when features in the layer are clicked.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? PopupEnabled { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerqueryable-property">GeoBlazor Docs</a>
-    ///     Indicates if the layer can be queried, i.e.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#queryable">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? Queryable { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerspatialreferences-property">GeoBlazor Docs</a>
-    ///     List of spatialReferences (WKID) derived from the CRS elements of the first layer in the GetCapabilities request.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#spatialReferences">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<double>? SpatialReferences { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayersublayers-property">GeoBlazor Docs</a>
-    ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html">WMSSublayer</a>s.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#sublayers">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<WMSSublayer>? Sublayers { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayertitle-property">GeoBlazor Docs</a>
-    ///     The title of the WMS sublayer used to identify it in places such as the
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Title { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerwmssublayerid-property">GeoBlazor Docs</a>
-    ///     The id for the WMS sublayer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#id">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public long? WMSSublayerId { get; set; }
-
-#endregion
-
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Description property.
-    /// </summary>
-    public async Task<string?> GetDescription()
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
     {
-        if (CoreJsModule is null)
+    
+        FullExtent?.ValidateRequiredGeneratedChildren();
+        if (Sublayers is not null)
         {
-            return Description;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Description;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "description");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Description = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Description)] = Description;
-        }
-
-        return Description;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Dimensions property.
-    /// </summary>
-    public async Task<IReadOnlyList<IWMSLayerDimension>?> GetDimensions()
-    {
-        if (CoreJsModule is null)
-        {
-            return Dimensions;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Dimensions;
-        }
-
-        // get the property value
-        IReadOnlyList<IWMSLayerDimension>? result =
-            await JsComponentReference!.InvokeAsync<IReadOnlyList<IWMSLayerDimension>?>("getProperty",
-                CancellationTokenSource.Token, "dimensions");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Dimensions = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Dimensions)] = Dimensions;
-        }
-
-        return Dimensions;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the FullExtent property.
-    /// </summary>
-    public async Task<Extent?> GetFullExtent()
-    {
-        if (CoreJsModule is null)
-        {
-            return FullExtent;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return FullExtent;
-        }
-
-        Extent? result =
-            await JsComponentReference.InvokeAsync<Extent?>("getFullExtent", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-            if (FullExtent is not null)
+            foreach (WMSSublayer child in Sublayers)
             {
-                result.Id = FullExtent.Id;
+                child.ValidateRequiredGeneratedChildren();
             }
-
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-
-#pragma warning disable BL0005
-            FullExtent = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(FullExtent)] = FullExtent;
         }
-
-        return FullExtent;
+        base.ValidateRequiredGeneratedChildren();
     }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the LegendEnabled property.
-    /// </summary>
-    public async Task<bool?> GetLegendEnabled()
-    {
-        if (CoreJsModule is null)
-        {
-            return LegendEnabled;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return LegendEnabled;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "legendEnabled");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            LegendEnabled = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
-        }
-
-        return LegendEnabled;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the LegendUrl property.
-    /// </summary>
-    public async Task<string?> GetLegendUrl()
-    {
-        if (CoreJsModule is null)
-        {
-            return LegendUrl;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return LegendUrl;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "legendUrl");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            LegendUrl = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(LegendUrl)] = LegendUrl;
-        }
-
-        return LegendUrl;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the MaxScale property.
-    /// </summary>
-    public async Task<double?> GetMaxScale()
-    {
-        if (CoreJsModule is null)
-        {
-            return MaxScale;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return MaxScale;
-        }
-
-        // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "maxScale");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            MaxScale = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(MaxScale)] = MaxScale;
-        }
-
-        return MaxScale;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the MinScale property.
-    /// </summary>
-    public async Task<double?> GetMinScale()
-    {
-        if (CoreJsModule is null)
-        {
-            return MinScale;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return MinScale;
-        }
-
-        // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "minScale");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            MinScale = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(MinScale)] = MinScale;
-        }
-
-        return MinScale;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Name property.
-    /// </summary>
-    public async Task<string?> GetName()
-    {
-        if (CoreJsModule is null)
-        {
-            return Name;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Name;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "name");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Name = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Name)] = Name;
-        }
-
-        return Name;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the PopupEnabled property.
-    /// </summary>
-    public async Task<bool?> GetPopupEnabled()
-    {
-        if (CoreJsModule is null)
-        {
-            return PopupEnabled;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return PopupEnabled;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "popupEnabled");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            PopupEnabled = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
-        }
-
-        return PopupEnabled;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Queryable property.
-    /// </summary>
-    public async Task<bool?> GetQueryable()
-    {
-        if (CoreJsModule is null)
-        {
-            return Queryable;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Queryable;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "queryable");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            Queryable = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Queryable)] = Queryable;
-        }
-
-        return Queryable;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the SpatialReferences property.
-    /// </summary>
-    public async Task<IReadOnlyList<double>?> GetSpatialReferences()
-    {
-        if (CoreJsModule is null)
-        {
-            return SpatialReferences;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return SpatialReferences;
-        }
-
-        // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
-            CancellationTokenSource.Token, "spatialReferences");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            SpatialReferences = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(SpatialReferences)] = SpatialReferences;
-        }
-
-        return SpatialReferences;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Title property.
-    /// </summary>
-    public async Task<string?> GetTitle()
-    {
-        if (CoreJsModule is null)
-        {
-            return Title;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Title;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "title");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Title = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Title)] = Title;
-        }
-
-        return Title;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the WMSSublayerId property.
-    /// </summary>
-    public async Task<long?> GetWMSSublayerId()
-    {
-        if (CoreJsModule is null)
-        {
-            return WMSSublayerId;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return WMSSublayerId;
-        }
-
-        // get the property value
-        JsNullableLongWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableLongWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "wMSSublayerId");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            WMSSublayerId = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(WMSSublayerId)] = WMSSublayerId;
-        }
-
-        return WMSSublayerId;
-    }
-
-#endregion
-
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the Description property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetDescription(string? value)
-    {
-#pragma warning disable BL0005
-        Description = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Description)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "description", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the FullExtent property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetFullExtent(Extent? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
-#pragma warning disable BL0005
-        FullExtent = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(FullExtent)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "fullExtent", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the LegendEnabled property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetLegendEnabled(bool? value)
-    {
-#pragma warning disable BL0005
-        LegendEnabled = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(LegendEnabled)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "legendEnabled", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the LegendUrl property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetLegendUrl(string? value)
-    {
-#pragma warning disable BL0005
-        LegendUrl = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(LegendUrl)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "legendUrl", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the MaxScale property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetMaxScale(double? value)
-    {
-#pragma warning disable BL0005
-        MaxScale = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(MaxScale)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "maxScale", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the MinScale property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetMinScale(double? value)
-    {
-#pragma warning disable BL0005
-        MinScale = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(MinScale)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "minScale", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Name property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetName(string? value)
-    {
-#pragma warning disable BL0005
-        Name = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Name)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "name", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the PopupEnabled property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetPopupEnabled(bool? value)
-    {
-#pragma warning disable BL0005
-        PopupEnabled = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(PopupEnabled)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "popupEnabled", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Queryable property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetQueryable(bool? value)
-    {
-#pragma warning disable BL0005
-        Queryable = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Queryable)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "queryable", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the SpatialReferences property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetSpatialReferences(IReadOnlyList<double>? value)
-    {
-#pragma warning disable BL0005
-        SpatialReferences = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(SpatialReferences)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "spatialReferences", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Title property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetTitle(string? value)
-    {
-#pragma warning disable BL0005
-        Title = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Title)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "title", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the WMSSublayerId property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetWMSSublayerId(long? value)
-    {
-#pragma warning disable BL0005
-        WMSSublayerId = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(WMSSublayerId)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "id", value);
-    }
-
-#endregion
+      
 }

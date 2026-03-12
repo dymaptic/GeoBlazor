@@ -90,14 +90,15 @@ public partial class UniqueValueInfo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValueInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "label");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Label = result;
+                Label = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Label)] = Label;
+                ModifiedParameters[nameof(Label)] = Label;
         }
          
         return Label;
@@ -129,14 +130,15 @@ public partial class UniqueValueInfo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValueInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "value");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Value = result;
+                Value = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Value)] = Value;
+                ModifiedParameters[nameof(Value)] = Value;
         }
          
         return Value;

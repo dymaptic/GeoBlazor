@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilities.html">GeoBlazor Docs</a>
 ///     Describes the layer's supported capabilities.
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class ArcGISImageServiceCapabilities : MapComponent
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -32,7 +34,8 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
     ///     Describes <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">query</a> operations supported by the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public ArcGISImageServiceCapabilities(ArcGISImageServiceCapabilitiesMensuration? mensuration = null,
+    public ArcGISImageServiceCapabilities(
+        ArcGISImageServiceCapabilitiesMensuration? mensuration = null,
         ArcGISImageServiceCapabilitiesOperations? operations = null,
         ArcGISImageServiceCapabilitiesQuery? query = null)
     {
@@ -41,64 +44,10 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         Mensuration = mensuration;
         Operations = operations;
         Query = query;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        Mensuration?.ValidateRequiredGeneratedChildren();
-        Operations?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ArcGISImageServiceCapabilitiesMensuration mensuration:
-                if (mensuration != Mensuration)
-                {
-                    Mensuration = mensuration;
-                    ModifiedParameters[nameof(Mensuration)] = Mensuration;
-                }
-
-                return true;
-            case ArcGISImageServiceCapabilitiesOperations operations:
-                if (operations != Operations)
-                {
-                    Operations = operations;
-                    ModifiedParameters[nameof(Operations)] = Operations;
-                }
-
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ArcGISImageServiceCapabilitiesMensuration _:
-                Mensuration = null;
-                ModifiedParameters[nameof(Mensuration)] = Mensuration;
-
-                return true;
-            case ArcGISImageServiceCapabilitiesOperations _:
-                Operations = null;
-                ModifiedParameters[nameof(Operations)] = Operations;
-
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -110,7 +59,7 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ArcGISImageServiceCapabilitiesMensuration? Mensuration { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilities.html#arcgisimageservicecapabilitiesoperations-property">GeoBlazor Docs</a>
     ///     Describes operations supported by the ImageryLayer.
@@ -120,7 +69,7 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ArcGISImageServiceCapabilitiesOperations? Operations { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilities.html#arcgisimageservicecapabilitiesquery-property">GeoBlazor Docs</a>
     ///     Describes <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">query</a> operations supported by the layer.
@@ -130,9 +79,8 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ArcGISImageServiceCapabilitiesQuery? Query { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -145,8 +93,8 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         {
             return Mensuration;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -155,27 +103,33 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Mensuration;
         }
 
-        ArcGISImageServiceCapabilitiesMensuration? result =
-            await JsComponentReference.InvokeAsync<ArcGISImageServiceCapabilitiesMensuration?>("getMensuration",
-                CancellationTokenSource.Token);
-
+        ArcGISImageServiceCapabilitiesMensuration? result = await JsComponentReference.InvokeJsMethod<ArcGISImageServiceCapabilitiesMensuration?>(
+            IsServer, nameof(GetMensuration), nameof(ArcGISImageServiceCapabilities), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (Mensuration is not null)
+            {
+                result.Id = Mensuration.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Mensuration = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Mensuration)] = Mensuration;
         }
-
+        
         return Mensuration;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Operations property.
     /// </summary>
@@ -185,8 +139,8 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         {
             return Operations;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -195,27 +149,33 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Operations;
         }
 
-        ArcGISImageServiceCapabilitiesOperations? result =
-            await JsComponentReference.InvokeAsync<ArcGISImageServiceCapabilitiesOperations?>("getOperations",
-                CancellationTokenSource.Token);
-
+        ArcGISImageServiceCapabilitiesOperations? result = await JsComponentReference.InvokeJsMethod<ArcGISImageServiceCapabilitiesOperations?>(
+            IsServer, nameof(GetOperations), nameof(ArcGISImageServiceCapabilities), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (Operations is not null)
+            {
+                result.Id = Operations.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Operations = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Operations)] = Operations;
         }
-
+        
         return Operations;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Query property.
     /// </summary>
@@ -225,8 +185,8 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         {
             return Query;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -235,30 +195,28 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Query;
         }
 
         // get the property value
-        ArcGISImageServiceCapabilitiesQuery? result =
-            await JsComponentReference!.InvokeAsync<ArcGISImageServiceCapabilitiesQuery?>("getProperty",
-                CancellationTokenSource.Token, "query");
-
+        ArcGISImageServiceCapabilitiesQuery? result = await JsComponentReference!.InvokeJsMethod<ArcGISImageServiceCapabilitiesQuery?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilities), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "query");
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Query = result;
+                Query = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Query)] = Query;
+                ModifiedParameters[nameof(Query)] = Query;
         }
-
+         
         return Query;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -270,22 +228,22 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
     /// </param>
     public async Task SetMensuration(ArcGISImageServiceCapabilitiesMensuration? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         Mensuration = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Mensuration)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -294,16 +252,16 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mensuration", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Operations property after render.
     /// </summary>
@@ -312,22 +270,22 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
     /// </param>
     public async Task SetOperations(ArcGISImageServiceCapabilitiesOperations? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         Operations = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Operations)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -336,16 +294,16 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "operations", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Query property after render.
     /// </summary>
@@ -358,13 +316,13 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         Query = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Query)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -373,15 +331,70 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "query", value);
     }
-
+    
 #endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ArcGISImageServiceCapabilitiesMensuration mensuration:
+                if (mensuration != Mensuration)
+                {
+                    Mensuration = mensuration;
+                    ModifiedParameters[nameof(Mensuration)] = Mensuration;
+                }
+                
+                return true;
+            case ArcGISImageServiceCapabilitiesOperations operations:
+                if (operations != Operations)
+                {
+                    Operations = operations;
+                    ModifiedParameters[nameof(Operations)] = Operations;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ArcGISImageServiceCapabilitiesMensuration:
+                Mensuration = null;
+                ModifiedParameters[nameof(Mensuration)] = Mensuration;
+                return true;
+            case ArcGISImageServiceCapabilitiesOperations:
+                Operations = null;
+                ModifiedParameters[nameof(Operations)] = Operations;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        Mensuration?.ValidateRequiredGeneratedChildren();
+        Operations?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

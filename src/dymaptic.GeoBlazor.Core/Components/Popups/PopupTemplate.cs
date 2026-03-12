@@ -87,11 +87,6 @@ public partial class PopupTemplate : MapComponent, IProtobufSerializable<PopupTe
     [RequiredProperty(nameof(Content), nameof(ContentFunction))]
     public string? StringContent { get; set; }
 
-    /// <summary>
-    ///     The template for defining how to format the title used in a popup.
-    /// </summary>
-    [Parameter]
-    public string? Title { get; set; }
 
 
     /// <summary>

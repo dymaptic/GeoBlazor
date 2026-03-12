@@ -69,6 +69,18 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     Raster width (column count) in pixels.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#width">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="BandInfos">
+///     This property provides additional information for each band in the raster.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#bandInfos">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="DataType">
+///     Raster data type controls how the data is rendered by default.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#dataType">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="SensorInfo">
+///     The sensor information associated with an image service referenced by a layer.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#sensorInfo">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 public partial record RasterInfo(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     FeatureSet? AttributeTable = null,
@@ -99,4 +111,10 @@ public partial record RasterInfo(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<RasterInfoStatistics>? Statistics = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    int? Width = null);
+    int? Width = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    IReadOnlyCollection<RasterBandInfo>? BandInfos = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    RasterDataType? DataType = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    RasterSensorInfo? SensorInfo = null);

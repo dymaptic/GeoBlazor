@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html">GeoBlazor Docs</a>
 ///     The GeoJSONLayer class is used to create a layer based on <a target="_blank" href="http://geojson.org/">GeoJSON</a>.
@@ -11,7 +12,6 @@ public partial class GeoJSONLayer : IBlendLayer,
     IDisplayFilteredLayer,
     IFeatureEffectLayer,
     IFeatureSetLayer,
-    IFeatureTableWidgetLayer,
     IFeatureTemplatesViewModelLayers,
     IFeatureTemplatesWidgetLayers,
     IInputBaseLayers,
@@ -20,6 +20,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     IScaleRangeLayer,
     ITrackableLayer
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -40,7 +41,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#copyright">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
-    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
+    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="opacity">
@@ -54,7 +55,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="listMode">
-    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
+    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
     ///     default "show"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -109,7 +110,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="featureEffect">
-    ///     The featureEffect can be used to draw attention to features of interest.
+    ///     The featureEffect can be used to draw attention features of interest.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="featureReduction">
@@ -127,9 +128,6 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// <param name="geometryType">
     ///     The geometry type of features in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#geometryType">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="isBasemapReferenceLayer">
-    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
     /// <param name="labelingInfo">
     ///     The label definition for this layer, specified as an array of
@@ -198,7 +196,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#renderer">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="screenSizePerspectiveEnabled">
-    ///     Apply perspective scaling to screen-size symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
+    ///     Apply perspective scaling to screen-size point symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#screenSizePerspectiveEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -243,10 +241,8 @@ public partial class GeoJSONLayer : IBlendLayer,
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="excludeApiKey">
-    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
-    /// </param>
-    public GeoJSONLayer(string url,
+    public GeoJSONLayer(
+        string url,
         string? copyright = null,
         string? title = null,
         double? opacity = null,
@@ -262,13 +258,12 @@ public partial class GeoJSONLayer : IBlendLayer,
         DisplayFilterInfo? displayFilterInfo = null,
         bool? editingEnabled = null,
         Effect? effect = null,
-        ElevationInfo? elevationInfo = null,
+        GeoJSONLayerElevationInfo? elevationInfo = null,
         FeatureEffect? featureEffect = null,
         IFeatureReduction? featureReduction = null,
         IReadOnlyList<Field>? fields = null,
         Extent? fullExtent = null,
         SimpleGeometryType? geometryType = null,
-        bool? isBasemapReferenceLayer = null,
         IReadOnlyList<Label>? labelingInfo = null,
         bool? labelsVisible = null,
         bool? legendEnabled = null,
@@ -291,8 +286,7 @@ public partial class GeoJSONLayer : IBlendLayer,
         TimeInterval? timeOffset = null,
         TrackInfo? trackInfo = null,
         bool? useViewTime = null,
-        TimeExtent? visibilityTimeExtent = null,
-        bool? excludeApiKey = null)
+        TimeExtent? visibilityTimeExtent = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -318,7 +312,6 @@ public partial class GeoJSONLayer : IBlendLayer,
         Fields = fields;
         FullExtent = fullExtent;
         GeometryType = geometryType;
-        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         LabelingInfo = labelingInfo;
         LabelsVisible = labelsVisible;
         LegendEnabled = legendEnabled;
@@ -342,376 +335,10 @@ public partial class GeoJSONLayer : IBlendLayer,
         TrackInfo = trackInfo;
         UseViewTime = useViewTime;
         VisibilityTimeExtent = visibilityTimeExtent;
-        ExcludeApiKey = excludeApiKey;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        if (Url is null)
-        {
-            throw new MissingRequiredChildElementException(nameof(GeoJSONLayer), nameof(Url));
-        }
-
-        DisplayFilterInfo?.ValidateRequiredGeneratedChildren();
-        ElevationInfo?.ValidateRequiredGeneratedChildren();
-        FeatureEffect?.ValidateRequiredGeneratedChildren();
-
-        if (Fields is not null)
-        {
-            foreach (Field child in Fields)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-
-        if (LabelingInfo is not null)
-        {
-            foreach (Label child in LabelingInfo)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-
-        if (OrderBy is not null)
-        {
-            foreach (OrderByInfo child in OrderBy)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-
-        PopupTemplate?.ValidateRequiredGeneratedChildren();
-        PortalItem?.ValidateRequiredGeneratedChildren();
-        Renderer?.ValidateRequiredGeneratedChildren();
-        SpatialReference?.ValidateRequiredGeneratedChildren();
-        TimeExtent?.ValidateRequiredGeneratedChildren();
-        TimeInfo?.ValidateRequiredGeneratedChildren();
-        TimeOffset?.ValidateRequiredGeneratedChildren();
-        TrackInfo?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-
-
-#region Public Methods
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerrefresh-method">GeoBlazor Docs</a>
-    ///     Fetches all the data for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISMethod]
-    public override async ValueTask Refresh()
-    {
-        await base.Refresh();
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await JsComponentReference!.InvokeVoidAsync("refresh",
-            CancellationTokenSource.Token);
-    }
-
-#endregion
-
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case DisplayFilterInfo displayFilterInfo:
-                if (displayFilterInfo != DisplayFilterInfo)
-                {
-                    DisplayFilterInfo = displayFilterInfo;
-                    ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
-
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-
-                return true;
-            case ElevationInfo elevationInfo:
-                if (elevationInfo != ElevationInfo)
-                {
-                    ElevationInfo = elevationInfo;
-                    ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
-
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-
-                return true;
-            case FeatureEffect featureEffect:
-                if (featureEffect != FeatureEffect)
-                {
-                    FeatureEffect = featureEffect;
-                    ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
-
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-
-                return true;
-            case Field fields:
-                Fields ??= [];
-
-                if (!Fields.Contains(fields))
-                {
-                    Fields = [..Fields, fields];
-                    ModifiedParameters[nameof(Fields)] = Fields;
-
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-
-                return true;
-            case Label labelingInfo:
-                LabelingInfo ??= [];
-
-                if (!LabelingInfo.Contains(labelingInfo))
-                {
-                    LabelingInfo = [..LabelingInfo, labelingInfo];
-                    ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
-
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-
-                return true;
-            case OrderByInfo orderBy:
-                OrderBy ??= [];
-
-                if (!OrderBy.Contains(orderBy))
-                {
-                    OrderBy = [..OrderBy, orderBy];
-                    ModifiedParameters[nameof(OrderBy)] = OrderBy;
-
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-
-                return true;
-            case PopupTemplate popupTemplate:
-                if (popupTemplate != PopupTemplate)
-                {
-                    PopupTemplate = popupTemplate;
-                    ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
-
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-
-                return true;
-            case PortalItem portalItem:
-                if (portalItem != PortalItem)
-                {
-                    PortalItem = portalItem;
-                    ModifiedParameters[nameof(PortalItem)] = PortalItem;
-
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-
-                return true;
-            case Renderer renderer:
-                if (renderer != Renderer)
-                {
-                    Renderer = renderer;
-                    ModifiedParameters[nameof(Renderer)] = Renderer;
-
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-
-                return true;
-            case SpatialReference spatialReference:
-                if (spatialReference != SpatialReference)
-                {
-                    SpatialReference = spatialReference;
-                    ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
-
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-
-                return true;
-            case TimeExtent timeExtent:
-                if (timeExtent != TimeExtent)
-                {
-                    TimeExtent = timeExtent;
-                    ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
-
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-
-                return true;
-            case TimeInfo timeInfo:
-                if (timeInfo != TimeInfo)
-                {
-                    TimeInfo = timeInfo;
-                    ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
-
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-
-                return true;
-            case TimeInterval timeOffset:
-                if (timeOffset != TimeOffset)
-                {
-                    TimeOffset = timeOffset;
-                    ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
-
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-
-                return true;
-            case TrackInfo trackInfo:
-                if (trackInfo != TrackInfo)
-                {
-                    TrackInfo = trackInfo;
-                    ModifiedParameters[nameof(TrackInfo)] = TrackInfo;
-
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case DisplayFilterInfo _:
-                DisplayFilterInfo = null;
-                ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
-
-                return true;
-            case ElevationInfo _:
-                ElevationInfo = null;
-                ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
-
-                return true;
-            case FeatureEffect _:
-                FeatureEffect = null;
-                ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
-
-                return true;
-            case Field fields:
-                Fields = Fields?.Where(f => f != fields).ToList();
-                ModifiedParameters[nameof(Fields)] = Fields;
-
-                return true;
-            case Label labelingInfo:
-                LabelingInfo = LabelingInfo?.Where(l => l != labelingInfo).ToList();
-                ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
-
-                return true;
-            case OrderByInfo orderBy:
-                OrderBy = OrderBy?.Where(o => o != orderBy).ToList();
-                ModifiedParameters[nameof(OrderBy)] = OrderBy;
-
-                return true;
-            case PopupTemplate _:
-                PopupTemplate = null;
-                ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
-
-                return true;
-            case PortalItem _:
-                PortalItem = null;
-                ModifiedParameters[nameof(PortalItem)] = PortalItem;
-
-                return true;
-            case Renderer _:
-                Renderer = null;
-                ModifiedParameters[nameof(Renderer)] = Renderer;
-
-                return true;
-            case SpatialReference _:
-                SpatialReference = null;
-                ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
-
-                return true;
-            case TimeExtent _:
-                TimeExtent = null;
-                ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
-
-                return true;
-            case TimeInfo _:
-                TimeInfo = null;
-                ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
-
-                return true;
-            case TimeInterval _:
-                TimeOffset = null;
-                ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
-
-                return true;
-            case TrackInfo _:
-                TrackInfo = null;
-                ModifiedParameters[nameof(TrackInfo)] = TrackInfo;
-
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -723,7 +350,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IAttributeTableTemplate? AttributeTableTemplate { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerblendmode-property">GeoBlazor Docs</a>
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
@@ -734,7 +361,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public BlendMode? BlendMode { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayercapabilities-property">GeoBlazor Docs</a>
     ///     Describes the layer's supported capabilities.
@@ -744,7 +371,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public Capabilities? Capabilities { get; protected set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayercustomparameters-property">GeoBlazor Docs</a>
     ///     A list of custom parameters appended to the URL of all resources fetched by the layer.
@@ -754,7 +381,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Dictionary<string, object>? CustomParameters { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerdatefieldstimezone-property">GeoBlazor Docs</a>
     ///     The time zone that dates are stored in.
@@ -764,7 +391,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public string? DateFieldsTimeZone { get; protected set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerdefinitionexpression-property">GeoBlazor Docs</a>
     ///     The SQL where clause used to filter features on the client.
@@ -774,7 +401,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? DefinitionExpression { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerdisplayfield-property">GeoBlazor Docs</a>
     ///     The name of the layer's primary display field.
@@ -784,7 +411,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? DisplayField { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerdisplayfilterenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#displayFilterInfo">displayFilterInfo</a> is applied when rendering the layer in the view.
@@ -795,7 +422,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? DisplayFilterEnabled { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerdisplayfilterinfo-property">GeoBlazor Docs</a>
     ///     Information related to a display filter associated with a layer.
@@ -806,7 +433,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public DisplayFilterInfo? DisplayFilterInfo { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayereditingenabled-property">GeoBlazor Docs</a>
     ///     Indicates if the layer is editable.
@@ -817,7 +444,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? EditingEnabled { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayereffect-property">GeoBlazor Docs</a>
     ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
@@ -829,7 +456,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Effect? Effect { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerelevationinfo-property">GeoBlazor Docs</a>
     ///     Specifies how features are placed on the vertical axis (z).
@@ -838,18 +465,18 @@ public partial class GeoJSONLayer : IBlendLayer,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ElevationInfo? ElevationInfo { get; set; }
-
+    public GeoJSONLayerElevationInfo? ElevationInfo { get; set; }
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerfeatureeffect-property">GeoBlazor Docs</a>
-    ///     The featureEffect can be used to draw attention to features of interest.
+    ///     The featureEffect can be used to draw attention features of interest.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public FeatureEffect? FeatureEffect { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerfields-property">GeoBlazor Docs</a>
     ///     An array of fields in the layer.
@@ -859,7 +486,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<Field>? Fields { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerfieldsindex-property">GeoBlazor Docs</a>
     ///     A convenient property that can be used to make case-insensitive lookups for a field by name.
@@ -869,7 +496,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public FieldsIndex? FieldsIndex { get; protected set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayergeometrytype-property">GeoBlazor Docs</a>
     ///     The geometry type of features in the layer.
@@ -879,7 +506,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public SimpleGeometryType? GeometryType { get; protected set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerhasz-property">GeoBlazor Docs</a>
     ///     Indicates whether the client-side features in the layer have `Z` (elevation) values.
@@ -890,7 +517,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? HasZ { get; protected set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayeristable-property">GeoBlazor Docs</a>
     ///     Returns `true` if the layer is loaded from a non-spatial table in a service.
@@ -901,7 +528,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? IsTable { get; protected set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerlabelinginfo-property">GeoBlazor Docs</a>
     ///     The label definition for this layer, specified as an array of
@@ -912,7 +539,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<Label>? LabelingInfo { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerlabelsvisible-property">GeoBlazor Docs</a>
     ///     Indicates whether to display labels for this layer.
@@ -923,7 +550,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? LabelsVisible { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerlegendenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer will be included in the legend.
@@ -934,7 +561,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? LegendEnabled { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayermaxscale-property">GeoBlazor Docs</a>
     ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
@@ -945,7 +572,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? MaxScale { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerminscale-property">GeoBlazor Docs</a>
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
@@ -956,7 +583,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? MinScale { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerobjectidfield-property">GeoBlazor Docs</a>
     ///     The name of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#fields">field</a> containing a unique value or identifier for each feature in the layer.
@@ -966,7 +593,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public string? ObjectIdField { get; protected set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerorderby-property">GeoBlazor Docs</a>
     ///     Determines the order in which features are drawn in the view.
@@ -977,7 +604,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<OrderByInfo>? OrderBy { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayeroutfields-property">GeoBlazor Docs</a>
     ///     An array of field names from the geoJSON file to include with each feature.
@@ -988,7 +615,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<string>? OutFields { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerpopupenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether to display popups when features in the layer are clicked.
@@ -999,7 +626,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? PopupEnabled { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerpopuptemplate-property">GeoBlazor Docs</a>
     ///     The popup template for the layer.
@@ -1009,7 +636,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PopupTemplate? PopupTemplate { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerportalitem-property">GeoBlazor Docs</a>
     ///     The portal item referencing the geojson file from which the GeoJSONLayer is loaded.
@@ -1019,7 +646,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PortalItem? PortalItem { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerrefreshinterval-property">GeoBlazor Docs</a>
     ///     Refresh interval of the layer in minutes.
@@ -1030,7 +657,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? RefreshInterval { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerrenderer-property">GeoBlazor Docs</a>
     ///     The renderer assigned to the layer.
@@ -1040,10 +667,10 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Renderer? Renderer { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerscreensizeperspectiveenabled-property">GeoBlazor Docs</a>
-    ///     Apply perspective scaling to screen-size symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
+    ///     Apply perspective scaling to screen-size point symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#screenSizePerspectiveEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -1051,7 +678,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ScreenSizePerspectiveEnabled { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerspatialreference-property">GeoBlazor Docs</a>
     ///     The spatial reference of the layer.
@@ -1062,7 +689,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public SpatialReference? SpatialReference { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayertemplates-property">GeoBlazor Docs</a>
     ///     An array of feature templates defined in the layer.
@@ -1072,7 +699,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<IFeatureTemplate>? Templates { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayertimeextent-property">GeoBlazor Docs</a>
     ///     The layer's time extent.
@@ -1082,7 +709,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public TimeExtent? TimeExtent { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayertimeinfo-property">GeoBlazor Docs</a>
     ///     TimeInfo provides information such as date fields that store <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">start</a>
@@ -1096,7 +723,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public TimeInfo? TimeInfo { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayertimeoffset-property">GeoBlazor Docs</a>
     ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeInterval.html">TimeInterval</a>.
@@ -1107,7 +734,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public TimeInterval? TimeOffset { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayertrackinfo-property">GeoBlazor Docs</a>
     ///     Allows you to render track data for a layer, including a track line, previous observations, and latest observations.
@@ -1117,7 +744,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public TrackInfo? TrackInfo { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayeruseviewtime-property">GeoBlazor Docs</a>
     ///     Determines if the layer will update its temporal data based on the view's
@@ -1129,9 +756,8 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? UseViewTime { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -1144,8 +770,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return AttributeTableTemplate;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1154,28 +780,27 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return AttributeTableTemplate;
         }
 
         // get the property value
-        IAttributeTableTemplate? result = await JsComponentReference!.InvokeAsync<IAttributeTableTemplate?>(
-            "getProperty",
+        IAttributeTableTemplate? result = await JsComponentReference!.InvokeJsMethod<IAttributeTableTemplate?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "attributeTableTemplate");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            AttributeTableTemplate = result;
+                AttributeTableTemplate = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
+                ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
         }
-
+         
         return AttributeTableTemplate;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the BlendMode property.
     /// </summary>
@@ -1185,8 +810,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return BlendMode;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1195,28 +820,27 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return BlendMode;
         }
 
         // get the property value
-        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "blendMode");
-
-        if (result is { Value: not null })
+        BlendMode? result = await JsComponentReference!.InvokeJsMethod<BlendMode?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "blendMode");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            BlendMode = (BlendMode)result.Value.Value!;
+                BlendMode = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(BlendMode)] = BlendMode;
+                ModifiedParameters[nameof(BlendMode)] = BlendMode;
         }
-
+         
         return BlendMode;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Capabilities property.
     /// </summary>
@@ -1226,8 +850,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return Capabilities;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1236,26 +860,33 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Capabilities;
         }
 
-        Capabilities? result = await JsComponentReference.InvokeAsync<Capabilities?>(
-            "getCapabilities", CancellationTokenSource.Token);
-
+        Capabilities? result = await JsComponentReference.InvokeJsMethod<Capabilities?>(
+            IsServer, nameof(GetCapabilities), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (Capabilities is not null)
+            {
+                result.Id = Capabilities.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Capabilities = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Capabilities)] = Capabilities;
         }
-
+        
         return Capabilities;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Copyright property.
     /// </summary>
@@ -1265,8 +896,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return Copyright;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1275,27 +906,27 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Copyright;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "copyright");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Copyright = result;
+                Copyright = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Copyright)] = Copyright;
+                ModifiedParameters[nameof(Copyright)] = Copyright;
         }
-
+         
         return Copyright;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomParameters property.
     /// </summary>
@@ -1305,8 +936,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return CustomParameters;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1315,28 +946,27 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return CustomParameters;
         }
 
         // get the property value
-        Dictionary<string, object>? result = await JsComponentReference!.InvokeAsync<Dictionary<string, object>?>(
-            "getProperty",
+        Dictionary<string, object>? result = await JsComponentReference!.InvokeJsMethod<Dictionary<string, object>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "customParameters");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            CustomParameters = result;
+                CustomParameters = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
+                ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
         }
-
+         
         return CustomParameters;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DateFieldsTimeZone property.
     /// </summary>
@@ -1346,8 +976,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return DateFieldsTimeZone;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1356,27 +986,27 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return DateFieldsTimeZone;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "dateFieldsTimeZone");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            DateFieldsTimeZone = result;
+                DateFieldsTimeZone = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(DateFieldsTimeZone)] = DateFieldsTimeZone;
+                ModifiedParameters[nameof(DateFieldsTimeZone)] = DateFieldsTimeZone;
         }
-
+         
         return DateFieldsTimeZone;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefinitionExpression property.
     /// </summary>
@@ -1386,8 +1016,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return DefinitionExpression;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1396,27 +1026,27 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return DefinitionExpression;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "definitionExpression");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            DefinitionExpression = result;
+                DefinitionExpression = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(DefinitionExpression)] = DefinitionExpression;
+                ModifiedParameters[nameof(DefinitionExpression)] = DefinitionExpression;
         }
-
+         
         return DefinitionExpression;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DisplayField property.
     /// </summary>
@@ -1426,8 +1056,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return DisplayField;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1436,27 +1066,27 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return DisplayField;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "displayField");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            DisplayField = result;
+                DisplayField = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(DisplayField)] = DisplayField;
+                ModifiedParameters[nameof(DisplayField)] = DisplayField;
         }
-
+         
         return DisplayField;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DisplayFilterEnabled property.
     /// </summary>
@@ -1466,8 +1096,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return DisplayFilterEnabled;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1476,28 +1106,27 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return DisplayFilterEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "displayFilterEnabled");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "displayFilterEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            DisplayFilterEnabled = result.Value.Value;
+                DisplayFilterEnabled = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(DisplayFilterEnabled)] = DisplayFilterEnabled;
+                ModifiedParameters[nameof(DisplayFilterEnabled)] = DisplayFilterEnabled;
         }
-
+         
         return DisplayFilterEnabled;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DisplayFilterInfo property.
     /// </summary>
@@ -1507,8 +1136,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return DisplayFilterInfo;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1517,26 +1146,33 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return DisplayFilterInfo;
         }
 
-        DisplayFilterInfo? result = await JsComponentReference.InvokeAsync<DisplayFilterInfo?>(
-            "getDisplayFilterInfo", CancellationTokenSource.Token);
-
+        DisplayFilterInfo? result = await JsComponentReference.InvokeJsMethod<DisplayFilterInfo?>(
+            IsServer, nameof(GetDisplayFilterInfo), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (DisplayFilterInfo is not null)
+            {
+                result.Id = DisplayFilterInfo.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             DisplayFilterInfo = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
         }
-
+        
         return DisplayFilterInfo;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the EditingEnabled property.
     /// </summary>
@@ -1546,8 +1182,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return EditingEnabled;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1556,28 +1192,27 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return EditingEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "editingEnabled");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "editingEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            EditingEnabled = result.Value.Value;
+                EditingEnabled = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(EditingEnabled)] = EditingEnabled;
+                ModifiedParameters[nameof(EditingEnabled)] = EditingEnabled;
         }
-
+         
         return EditingEnabled;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Effect property.
     /// </summary>
@@ -1587,8 +1222,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return Effect;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1597,14 +1232,16 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Effect;
         }
 
-        Effect? result = await JsComponentReference.InvokeAsync<Effect?>("getEffect", CancellationTokenSource.Token);
-
+        Effect? result = await JsComponentReference.InvokeJsMethod<Effect?>(
+            IsServer, nameof(GetEffect), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1612,21 +1249,21 @@ public partial class GeoJSONLayer : IBlendLayer,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Effect)] = Effect;
         }
-
+        
         return Effect;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ElevationInfo property.
     /// </summary>
-    public async Task<ElevationInfo?> GetElevationInfo()
+    public async Task<GeoJSONLayerElevationInfo?> GetElevationInfo()
     {
         if (CoreJsModule is null)
         {
             return ElevationInfo;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1635,26 +1272,33 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ElevationInfo;
         }
 
-        ElevationInfo? result = await JsComponentReference.InvokeAsync<ElevationInfo?>(
-            "getElevationInfo", CancellationTokenSource.Token);
-
+        GeoJSONLayerElevationInfo? result = await JsComponentReference.InvokeJsMethod<GeoJSONLayerElevationInfo?>(
+            IsServer, nameof(GetElevationInfo), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (ElevationInfo is not null)
+            {
+                result.Id = ElevationInfo.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             ElevationInfo = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
         }
-
+        
         return ElevationInfo;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureEffect property.
     /// </summary>
@@ -1664,8 +1308,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return FeatureEffect;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1674,26 +1318,33 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return FeatureEffect;
         }
 
-        FeatureEffect? result = await JsComponentReference.InvokeAsync<FeatureEffect?>(
-            "getFeatureEffect", CancellationTokenSource.Token);
-
+        FeatureEffect? result = await JsComponentReference.InvokeJsMethod<FeatureEffect?>(
+            IsServer, nameof(GetFeatureEffect), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (FeatureEffect is not null)
+            {
+                result.Id = FeatureEffect.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             FeatureEffect = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
         }
-
+        
         return FeatureEffect;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureReduction property.
     /// </summary>
@@ -1703,8 +1354,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return FeatureReduction;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1713,27 +1364,27 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return FeatureReduction;
         }
 
         // get the property value
-        IFeatureReduction? result = await JsComponentReference!.InvokeAsync<IFeatureReduction?>("getProperty",
+        IFeatureReduction? result = await JsComponentReference!.InvokeJsMethod<IFeatureReduction?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "featureReduction");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            FeatureReduction = result;
+                FeatureReduction = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(FeatureReduction)] = FeatureReduction;
+                ModifiedParameters[nameof(FeatureReduction)] = FeatureReduction;
         }
-
+         
         return FeatureReduction;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Fields property.
     /// </summary>
@@ -1743,8 +1394,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return Fields;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1753,26 +1404,31 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Fields;
         }
 
-        IReadOnlyList<Field>? result =
-            await JsComponentReference.InvokeAsync<IReadOnlyList<Field>?>("getFields", CancellationTokenSource.Token);
-
+        IReadOnlyList<Field>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Field>?>(
+            IsServer, nameof(GetFields), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            foreach (Field item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             Fields = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Fields)] = Fields;
         }
-
+        
         return Fields;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FieldsIndex property.
     /// </summary>
@@ -1782,8 +1438,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return FieldsIndex;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1792,15 +1448,16 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return FieldsIndex;
         }
 
-        FieldsIndex? result = await JsComponentReference.InvokeAsync<FieldsIndex?>(
-            "getFieldsIndex", CancellationTokenSource.Token);
-
+        FieldsIndex? result = await JsComponentReference.InvokeJsMethod<FieldsIndex?>(
+            IsServer, nameof(GetFieldsIndex), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1808,10 +1465,10 @@ public partial class GeoJSONLayer : IBlendLayer,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
         }
-
+        
         return FieldsIndex;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the GeometryType property.
     /// </summary>
@@ -1821,8 +1478,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return GeometryType;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1831,28 +1488,27 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return GeometryType;
         }
 
         // get the property value
-        JsNullableEnumWrapper<SimpleGeometryType>? result =
-            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SimpleGeometryType>?>("getNullableValueTypedProperty",
-                CancellationTokenSource.Token, JsComponentReference, "geometryType");
-
-        if (result is { Value: not null })
+        SimpleGeometryType? result = await JsComponentReference!.InvokeJsMethod<SimpleGeometryType?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "geometryType");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            GeometryType = (SimpleGeometryType)result.Value.Value!;
+                GeometryType = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(GeometryType)] = GeometryType;
+                ModifiedParameters[nameof(GeometryType)] = GeometryType;
         }
-
+         
         return GeometryType;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the HasZ property.
     /// </summary>
@@ -1862,8 +1518,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return HasZ;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1872,28 +1528,27 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return HasZ;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "hasZ");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "hasZ");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            HasZ = result.Value.Value;
+                HasZ = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(HasZ)] = HasZ;
+                ModifiedParameters[nameof(HasZ)] = HasZ;
         }
-
+         
         return HasZ;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsTable property.
     /// </summary>
@@ -1903,8 +1558,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return IsTable;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1913,28 +1568,27 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return IsTable;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "isTable");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "isTable");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            IsTable = result.Value.Value;
+                IsTable = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(IsTable)] = IsTable;
+                ModifiedParameters[nameof(IsTable)] = IsTable;
         }
-
+         
         return IsTable;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelingInfo property.
     /// </summary>
@@ -1944,8 +1598,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return LabelingInfo;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1954,27 +1608,31 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return LabelingInfo;
         }
 
-        IReadOnlyList<Label>? result =
-            await JsComponentReference.InvokeAsync<IReadOnlyList<Label>?>("getLabelingInfo",
-                CancellationTokenSource.Token);
-
+        IReadOnlyList<Label>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Label>?>(
+            IsServer, nameof(GetLabelingInfo), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            foreach (Label item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             LabelingInfo = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
         }
-
+        
         return LabelingInfo;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelsVisible property.
     /// </summary>
@@ -1984,8 +1642,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return LabelsVisible;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1994,28 +1652,27 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return LabelsVisible;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "labelsVisible");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "labelsVisible");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            LabelsVisible = result.Value.Value;
+                LabelsVisible = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
+                ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
         }
-
+         
         return LabelsVisible;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendEnabled property.
     /// </summary>
@@ -2025,8 +1682,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return LegendEnabled;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2035,28 +1692,27 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return LegendEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "legendEnabled");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "legendEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            LegendEnabled = result.Value.Value;
+                LegendEnabled = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
+                ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
         }
-
+         
         return LegendEnabled;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -2066,8 +1722,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return MaxScale;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2076,28 +1732,27 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return MaxScale;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "maxScale");
-
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "maxScale");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            MaxScale = result.Value.Value;
+                MaxScale = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(MaxScale)] = MaxScale;
+                ModifiedParameters[nameof(MaxScale)] = MaxScale;
         }
-
+         
         return MaxScale;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -2107,8 +1762,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return MinScale;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2117,28 +1772,27 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return MinScale;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "minScale");
-
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "minScale");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            MinScale = result.Value.Value;
+                MinScale = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(MinScale)] = MinScale;
+                ModifiedParameters[nameof(MinScale)] = MinScale;
         }
-
+         
         return MinScale;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ObjectIdField property.
     /// </summary>
@@ -2148,8 +1802,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return ObjectIdField;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2158,27 +1812,27 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ObjectIdField;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "objectIdField");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            ObjectIdField = result;
+                ObjectIdField = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ObjectIdField)] = ObjectIdField;
+                ModifiedParameters[nameof(ObjectIdField)] = ObjectIdField;
         }
-
+         
         return ObjectIdField;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the OrderBy property.
     /// </summary>
@@ -2188,8 +1842,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return OrderBy;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2198,27 +1852,31 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return OrderBy;
         }
 
-        IReadOnlyList<OrderByInfo>? result =
-            await JsComponentReference.InvokeAsync<IReadOnlyList<OrderByInfo>?>("getOrderBy",
-                CancellationTokenSource.Token);
-
+        IReadOnlyList<OrderByInfo>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<OrderByInfo>?>(
+            IsServer, nameof(GetOrderBy), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            foreach (OrderByInfo item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             OrderBy = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(OrderBy)] = OrderBy;
         }
-
+        
         return OrderBy;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the OutFields property.
     /// </summary>
@@ -2228,8 +1886,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return OutFields;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2238,27 +1896,27 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return OutFields;
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "outFields");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            OutFields = result;
+                OutFields = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(OutFields)] = OutFields;
+                ModifiedParameters[nameof(OutFields)] = OutFields;
         }
-
+         
         return OutFields;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupEnabled property.
     /// </summary>
@@ -2268,8 +1926,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return PopupEnabled;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2278,28 +1936,27 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return PopupEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "popupEnabled");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "popupEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            PopupEnabled = result.Value.Value;
+                PopupEnabled = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
+                ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
         }
-
+         
         return PopupEnabled;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupTemplate property.
     /// </summary>
@@ -2309,8 +1966,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return PopupTemplate;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2319,26 +1976,33 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return PopupTemplate;
         }
 
-        PopupTemplate? result = await JsComponentReference.InvokeAsync<PopupTemplate?>(
-            "getPopupTemplate", CancellationTokenSource.Token);
-
+        PopupTemplate? result = await JsComponentReference.InvokeJsMethod<PopupTemplate?>(
+            IsServer, nameof(GetPopupTemplate), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (PopupTemplate is not null)
+            {
+                result.Id = PopupTemplate.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             PopupTemplate = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
         }
-
+        
         return PopupTemplate;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalItem property.
     /// </summary>
@@ -2348,8 +2012,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return PortalItem;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2358,33 +2022,33 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return PortalItem;
         }
 
-        PortalItem? result = await JsComponentReference.InvokeAsync<PortalItem?>(
-            "getPortalItem", CancellationTokenSource.Token);
-
+        PortalItem? result = await JsComponentReference.InvokeJsMethod<PortalItem?>(
+            IsServer, nameof(GetPortalItem), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
             if (PortalItem is not null)
             {
                 result.Id = PortalItem.Id;
             }
-
             result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-
+            
 #pragma warning disable BL0005
             PortalItem = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(PortalItem)] = PortalItem;
         }
-
+        
         return PortalItem;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the RefreshInterval property.
     /// </summary>
@@ -2394,8 +2058,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return RefreshInterval;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2404,28 +2068,27 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return RefreshInterval;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "refreshInterval");
-
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "refreshInterval");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            RefreshInterval = result.Value.Value;
+                RefreshInterval = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
+                ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
         }
-
+         
         return RefreshInterval;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Renderer property.
     /// </summary>
@@ -2435,8 +2098,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return Renderer;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2445,26 +2108,33 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Renderer;
         }
 
-        Renderer? result =
-            await JsComponentReference.InvokeAsync<Renderer?>("getRenderer", CancellationTokenSource.Token);
-
+        Renderer? result = await JsComponentReference.InvokeJsMethod<Renderer?>(
+            IsServer, nameof(GetRenderer), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (Renderer is not null)
+            {
+                result.Id = Renderer.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Renderer = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Renderer)] = Renderer;
         }
-
+        
         return Renderer;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ScreenSizePerspectiveEnabled property.
     /// </summary>
@@ -2474,8 +2144,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return ScreenSizePerspectiveEnabled;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2484,28 +2154,27 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ScreenSizePerspectiveEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "screenSizePerspectiveEnabled");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "screenSizePerspectiveEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            ScreenSizePerspectiveEnabled = result.Value.Value;
+                ScreenSizePerspectiveEnabled = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ScreenSizePerspectiveEnabled)] = ScreenSizePerspectiveEnabled;
+                ModifiedParameters[nameof(ScreenSizePerspectiveEnabled)] = ScreenSizePerspectiveEnabled;
         }
-
+         
         return ScreenSizePerspectiveEnabled;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -2515,8 +2184,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return SpatialReference;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2525,15 +2194,16 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SpatialReference;
         }
 
-        SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
-            "getSpatialReference", CancellationTokenSource.Token);
-
+        SpatialReference? result = await JsComponentReference.InvokeJsMethod<SpatialReference?>(
+            IsServer, nameof(GetSpatialReference), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2541,10 +2211,10 @@ public partial class GeoJSONLayer : IBlendLayer,
 #pragma warning restore BL0005
             ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
         }
-
+        
         return SpatialReference;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Templates property.
     /// </summary>
@@ -2554,8 +2224,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return Templates;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2564,28 +2234,27 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Templates;
         }
 
         // get the property value
-        IReadOnlyList<IFeatureTemplate>? result =
-            await JsComponentReference!.InvokeAsync<IReadOnlyList<IFeatureTemplate>?>("getProperty",
-                CancellationTokenSource.Token, "templates");
-
+        IReadOnlyList<IFeatureTemplate>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<IFeatureTemplate>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "templates");
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Templates = result;
+                Templates = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Templates)] = Templates;
+                ModifiedParameters[nameof(Templates)] = Templates;
         }
-
+         
         return Templates;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeExtent property.
     /// </summary>
@@ -2595,8 +2264,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return TimeExtent;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2605,33 +2274,33 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return TimeExtent;
         }
 
-        TimeExtent? result = await JsComponentReference.InvokeAsync<TimeExtent?>(
-            "getTimeExtent", CancellationTokenSource.Token);
-
+        TimeExtent? result = await JsComponentReference.InvokeJsMethod<TimeExtent?>(
+            IsServer, nameof(GetTimeExtent), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
             if (TimeExtent is not null)
             {
                 result.Id = TimeExtent.Id;
             }
-
             result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-
+            
 #pragma warning disable BL0005
             TimeExtent = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
         }
-
+        
         return TimeExtent;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeInfo property.
     /// </summary>
@@ -2641,8 +2310,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return TimeInfo;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2651,26 +2320,33 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return TimeInfo;
         }
 
-        TimeInfo? result =
-            await JsComponentReference.InvokeAsync<TimeInfo?>("getTimeInfo", CancellationTokenSource.Token);
-
+        TimeInfo? result = await JsComponentReference.InvokeJsMethod<TimeInfo?>(
+            IsServer, nameof(GetTimeInfo), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (TimeInfo is not null)
+            {
+                result.Id = TimeInfo.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             TimeInfo = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
         }
-
+        
         return TimeInfo;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeOffset property.
     /// </summary>
@@ -2680,8 +2356,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return TimeOffset;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2690,26 +2366,33 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return TimeOffset;
         }
 
-        TimeInterval? result = await JsComponentReference.InvokeAsync<TimeInterval?>(
-            "getTimeOffset", CancellationTokenSource.Token);
-
+        TimeInterval? result = await JsComponentReference.InvokeJsMethod<TimeInterval?>(
+            IsServer, nameof(GetTimeOffset), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (TimeOffset is not null)
+            {
+                result.Id = TimeOffset.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             TimeOffset = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
         }
-
+        
         return TimeOffset;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the TrackInfo property.
     /// </summary>
@@ -2719,8 +2402,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return TrackInfo;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2729,26 +2412,73 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return TrackInfo;
         }
 
-        TrackInfo? result = await JsComponentReference.InvokeAsync<TrackInfo?>(
-            "getTrackInfo", CancellationTokenSource.Token);
-
+        TrackInfo? result = await JsComponentReference.InvokeJsMethod<TrackInfo?>(
+            IsServer, nameof(GetTrackInfo), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (TrackInfo is not null)
+            {
+                result.Id = TrackInfo.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             TrackInfo = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(TrackInfo)] = TrackInfo;
         }
-
+        
         return TrackInfo;
     }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Url property.
+    /// </summary>
+    public async Task<string?> GetUrl()
+    {
+        if (CoreJsModule is null)
+        {
+            return Url;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Url;
+        }
 
+        // get the property value
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "url");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                Url = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(Url)] = Url;
+        }
+         
+        return Url;
+    }
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the UseViewTime property.
     /// </summary>
@@ -2758,8 +2488,8 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return UseViewTime;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2768,30 +2498,28 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return UseViewTime;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "useViewTime");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "useViewTime");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            UseViewTime = result.Value.Value;
+                UseViewTime = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(UseViewTime)] = UseViewTime;
+                ModifiedParameters[nameof(UseViewTime)] = UseViewTime;
         }
-
+         
         return UseViewTime;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -2807,13 +2535,13 @@ public partial class GeoJSONLayer : IBlendLayer,
         AttributeTableTemplate = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(AttributeTableTemplate)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2822,16 +2550,16 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "attributeTableTemplate", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the BlendMode property after render.
     /// </summary>
@@ -2844,13 +2572,13 @@ public partial class GeoJSONLayer : IBlendLayer,
         BlendMode = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(BlendMode)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2859,16 +2587,16 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "blendMode", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Copyright property after render.
     /// </summary>
@@ -2881,13 +2609,13 @@ public partial class GeoJSONLayer : IBlendLayer,
         Copyright = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Copyright)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2896,16 +2624,16 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "copyright", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the CustomParameters property after render.
     /// </summary>
@@ -2918,13 +2646,13 @@ public partial class GeoJSONLayer : IBlendLayer,
         CustomParameters = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(CustomParameters)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2933,16 +2661,16 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "customParameters", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DefinitionExpression property after render.
     /// </summary>
@@ -2955,13 +2683,13 @@ public partial class GeoJSONLayer : IBlendLayer,
         DefinitionExpression = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(DefinitionExpression)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2970,16 +2698,16 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "definitionExpression", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DisplayField property after render.
     /// </summary>
@@ -2992,13 +2720,13 @@ public partial class GeoJSONLayer : IBlendLayer,
         DisplayField = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(DisplayField)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3007,16 +2735,16 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "displayField", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DisplayFilterEnabled property after render.
     /// </summary>
@@ -3029,13 +2757,13 @@ public partial class GeoJSONLayer : IBlendLayer,
         DisplayFilterEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(DisplayFilterEnabled)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3044,16 +2772,16 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "displayFilterEnabled", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DisplayFilterInfo property after render.
     /// </summary>
@@ -3062,22 +2790,22 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// </param>
     public async Task SetDisplayFilterInfo(DisplayFilterInfo? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         DisplayFilterInfo = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(DisplayFilterInfo)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3086,16 +2814,17 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setDisplayFilterInfo",
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetDisplayFilterInfo), nameof(GeoJSONLayer), 
             CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the EditingEnabled property after render.
     /// </summary>
@@ -3108,13 +2837,13 @@ public partial class GeoJSONLayer : IBlendLayer,
         EditingEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(EditingEnabled)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3123,16 +2852,16 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "editingEnabled", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Effect property after render.
     /// </summary>
@@ -3145,13 +2874,13 @@ public partial class GeoJSONLayer : IBlendLayer,
         Effect = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Effect)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3160,40 +2889,41 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setEffect",
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetEffect), nameof(GeoJSONLayer), 
             CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ElevationInfo property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetElevationInfo(ElevationInfo? value)
+    public async Task SetElevationInfo(GeoJSONLayerElevationInfo? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         ElevationInfo = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ElevationInfo)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3202,16 +2932,17 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setElevationInfo",
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetElevationInfo), nameof(GeoJSONLayer), 
             CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the FeatureEffect property after render.
     /// </summary>
@@ -3220,22 +2951,22 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// </param>
     public async Task SetFeatureEffect(FeatureEffect? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         FeatureEffect = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(FeatureEffect)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3244,16 +2975,17 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setFeatureEffect",
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetFeatureEffect), nameof(GeoJSONLayer), 
             CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Fields property after render.
     /// </summary>
@@ -3262,6 +2994,15 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// </param>
     public async Task SetFields(IReadOnlyList<Field>? value)
     {
+#pragma warning disable BL0005
+        Fields = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Fields)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
         if (value is not null)
         {
             foreach (Field item in value)
@@ -3269,18 +3010,9 @@ public partial class GeoJSONLayer : IBlendLayer,
                 item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-
-#pragma warning disable BL0005
-        Fields = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Fields)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3289,16 +3021,17 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setFields",
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetFields), nameof(GeoJSONLayer), 
             CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LabelingInfo property after render.
     /// </summary>
@@ -3307,6 +3040,15 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// </param>
     public async Task SetLabelingInfo(IReadOnlyList<Label>? value)
     {
+#pragma warning disable BL0005
+        LabelingInfo = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(LabelingInfo)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
         if (value is not null)
         {
             foreach (Label item in value)
@@ -3314,18 +3056,9 @@ public partial class GeoJSONLayer : IBlendLayer,
                 item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-
-#pragma warning disable BL0005
-        LabelingInfo = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(LabelingInfo)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3334,16 +3067,17 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setLabelingInfo",
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetLabelingInfo), nameof(GeoJSONLayer), 
             CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LabelsVisible property after render.
     /// </summary>
@@ -3356,13 +3090,13 @@ public partial class GeoJSONLayer : IBlendLayer,
         LabelsVisible = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LabelsVisible)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3371,16 +3105,16 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelsVisible", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
@@ -3393,13 +3127,13 @@ public partial class GeoJSONLayer : IBlendLayer,
         LegendEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LegendEnabled)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3408,16 +3142,16 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendEnabled", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -3430,13 +3164,13 @@ public partial class GeoJSONLayer : IBlendLayer,
         MaxScale = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MaxScale)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3445,16 +3179,16 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -3467,13 +3201,13 @@ public partial class GeoJSONLayer : IBlendLayer,
         MinScale = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MinScale)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3482,16 +3216,16 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the OrderBy property after render.
     /// </summary>
@@ -3500,6 +3234,15 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// </param>
     public async Task SetOrderBy(IReadOnlyList<OrderByInfo>? value)
     {
+#pragma warning disable BL0005
+        OrderBy = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(OrderBy)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
         if (value is not null)
         {
             foreach (OrderByInfo item in value)
@@ -3507,18 +3250,9 @@ public partial class GeoJSONLayer : IBlendLayer,
                 item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             }
         }
-
-#pragma warning disable BL0005
-        OrderBy = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(OrderBy)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3527,16 +3261,17 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setOrderBy",
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetOrderBy), nameof(GeoJSONLayer), 
             CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the OutFields property after render.
     /// </summary>
@@ -3549,13 +3284,13 @@ public partial class GeoJSONLayer : IBlendLayer,
         OutFields = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(OutFields)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3564,16 +3299,16 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outFields", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PersistenceEnabled property after render.
     /// </summary>
@@ -3586,13 +3321,13 @@ public partial class GeoJSONLayer : IBlendLayer,
         PersistenceEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(PersistenceEnabled)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3601,16 +3336,16 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "persistenceEnabled", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
@@ -3623,13 +3358,13 @@ public partial class GeoJSONLayer : IBlendLayer,
         PopupEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(PopupEnabled)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3638,16 +3373,16 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupEnabled", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PopupTemplate property after render.
     /// </summary>
@@ -3656,22 +3391,22 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// </param>
     public async Task SetPopupTemplate(PopupTemplate? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         PopupTemplate = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(PopupTemplate)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3680,16 +3415,17 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setPopupTemplate",
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetPopupTemplate), nameof(GeoJSONLayer), 
             CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
@@ -3698,22 +3434,22 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// </param>
     public async Task SetPortalItem(PortalItem? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         PortalItem = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(PortalItem)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3722,16 +3458,17 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setPortalItem",
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetPortalItem), nameof(GeoJSONLayer), 
             CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the RefreshInterval property after render.
     /// </summary>
@@ -3744,13 +3481,13 @@ public partial class GeoJSONLayer : IBlendLayer,
         RefreshInterval = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(RefreshInterval)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3759,16 +3496,16 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "refreshInterval", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Renderer property after render.
     /// </summary>
@@ -3777,22 +3514,22 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// </param>
     public async Task SetRenderer(Renderer? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         Renderer = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Renderer)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3801,16 +3538,17 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setRenderer",
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetRenderer), nameof(GeoJSONLayer), 
             CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ScreenSizePerspectiveEnabled property after render.
     /// </summary>
@@ -3823,13 +3561,13 @@ public partial class GeoJSONLayer : IBlendLayer,
         ScreenSizePerspectiveEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ScreenSizePerspectiveEnabled)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3838,16 +3576,16 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "screenSizePerspectiveEnabled", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SpatialReference property after render.
     /// </summary>
@@ -3856,22 +3594,22 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// </param>
     public async Task SetSpatialReference(SpatialReference? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         SpatialReference = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SpatialReference)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3880,16 +3618,17 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setSpatialReference",
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetSpatialReference), nameof(GeoJSONLayer), 
             CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Templates property after render.
     /// </summary>
@@ -3902,13 +3641,13 @@ public partial class GeoJSONLayer : IBlendLayer,
         Templates = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Templates)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3917,16 +3656,16 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "templates", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the TimeExtent property after render.
     /// </summary>
@@ -3935,22 +3674,22 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// </param>
     public async Task SetTimeExtent(TimeExtent? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         TimeExtent = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(TimeExtent)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3959,16 +3698,17 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setTimeExtent",
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetTimeExtent), nameof(GeoJSONLayer), 
             CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the TimeInfo property after render.
     /// </summary>
@@ -3977,22 +3717,22 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// </param>
     public async Task SetTimeInfo(TimeInfo? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         TimeInfo = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(TimeInfo)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -4001,16 +3741,17 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setTimeInfo",
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetTimeInfo), nameof(GeoJSONLayer), 
             CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the TimeOffset property after render.
     /// </summary>
@@ -4019,22 +3760,22 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// </param>
     public async Task SetTimeOffset(TimeInterval? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         TimeOffset = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(TimeOffset)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -4043,16 +3784,17 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setTimeOffset",
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetTimeOffset), nameof(GeoJSONLayer), 
             CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the TrackInfo property after render.
     /// </summary>
@@ -4061,22 +3803,22 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// </param>
     public async Task SetTrackInfo(TrackInfo? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         TrackInfo = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(TrackInfo)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -4085,16 +3827,54 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setTrackInfo",
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetTrackInfo), nameof(GeoJSONLayer), 
             CancellationTokenSource.Token, value);
     }
-
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Url property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetUrl(string value)
+    {
+#pragma warning disable BL0005
+        Url = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Url)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "url", value);
+    }
+    
     /// <summary>
     ///    Asynchronously set the value of the UseViewTime property after render.
     /// </summary>
@@ -4107,13 +3887,13 @@ public partial class GeoJSONLayer : IBlendLayer,
         UseViewTime = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(UseViewTime)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -4122,18 +3902,17 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "useViewTime", value);
     }
-
+    
 #endregion
-
 
 #region Add to Collection Methods
 
@@ -4150,7 +3929,7 @@ public partial class GeoJSONLayer : IBlendLayer,
             : [..Fields, ..values];
         await SetFields(join);
     }
-
+    
     /// <summary>
     ///     Asynchronously adds elements to the LabelingInfo property.
     /// </summary>
@@ -4164,7 +3943,7 @@ public partial class GeoJSONLayer : IBlendLayer,
             : [..LabelingInfo, ..values];
         await SetLabelingInfo(join);
     }
-
+    
     /// <summary>
     ///     Asynchronously adds elements to the OrderBy property.
     /// </summary>
@@ -4178,7 +3957,7 @@ public partial class GeoJSONLayer : IBlendLayer,
             : [..OrderBy, ..values];
         await SetOrderBy(join);
     }
-
+    
     /// <summary>
     ///     Asynchronously adds elements to the OutFields property.
     /// </summary>
@@ -4192,7 +3971,7 @@ public partial class GeoJSONLayer : IBlendLayer,
             : [..OutFields, ..values];
         await SetOutFields(join);
     }
-
+    
     /// <summary>
     ///     Asynchronously adds elements to the Templates property.
     /// </summary>
@@ -4206,12 +3985,12 @@ public partial class GeoJSONLayer : IBlendLayer,
             : [..Templates, ..values];
         await SetTemplates(join);
     }
-
+    
 #endregion
-
 
 #region Remove From Collection Methods
 
+    
     /// <summary>
     ///     Asynchronously remove an element from the Fields property.
     /// </summary>
@@ -4224,10 +4003,10 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return;
         }
-
         await SetFields(Fields.Except(values).ToArray());
     }
-
+    
+    
     /// <summary>
     ///     Asynchronously remove an element from the LabelingInfo property.
     /// </summary>
@@ -4240,10 +4019,10 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return;
         }
-
         await SetLabelingInfo(LabelingInfo.Except(values).ToArray());
     }
-
+    
+    
     /// <summary>
     ///     Asynchronously remove an element from the OrderBy property.
     /// </summary>
@@ -4256,10 +4035,10 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return;
         }
-
         await SetOrderBy(OrderBy.Except(values).ToArray());
     }
-
+    
+    
     /// <summary>
     ///     Asynchronously remove an element from the OutFields property.
     /// </summary>
@@ -4272,10 +4051,10 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return;
         }
-
         await SetOutFields(OutFields.Except(values).ToArray());
     }
-
+    
+    
     /// <summary>
     ///     Asynchronously remove an element from the Templates property.
     /// </summary>
@@ -4288,12 +4067,54 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             return;
         }
-
         await SetTemplates(Templates.Except(values).ToArray());
     }
-
+    
 #endregion
 
+#region Public Methods
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerrefresh-method">GeoBlazor Docs</a>
+    ///     Fetches all the data for the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public override async ValueTask Refresh()
+    {
+        await base.Refresh();
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(Refresh), nameof(GeoJSONLayer), 
+            CancellationTokenSource.Token);
+    }
+    
+#endregion
 
 #region Event Handlers
 
@@ -4308,15 +4129,14 @@ public partial class GeoJSONLayer : IBlendLayer,
             // cancel if the component is disposed
             return;
         }
-
+    
         GeoJSONLayerEditsEvent? editsEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<GeoJSONLayerEditsEvent>();
-
         if (editsEvent is not null)
         {
             await OnEdits.InvokeAsync(editsEvent);
         }
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayeronedits-property">GeoBlazor Docs</a>
     ///     Fires after <a href="#applyEdits">applyEdits()</a> is completed successfully.
@@ -4325,12 +4145,12 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore]
     public EventCallback<GeoJSONLayerEditsEvent> OnEdits { get; set; }
-
+   
     /// <summary>
     ///     Used in JavaScript layer to determine if the event listener is registered.
     /// </summary>
     public bool HasEditsListener => OnEdits.HasDelegate;
-
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -4342,15 +4162,14 @@ public partial class GeoJSONLayer : IBlendLayer,
             // cancel if the component is disposed
             return;
         }
-
+    
         RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<RefreshEvent>();
-
         if (refreshEvent is not null)
         {
             await OnRefresh.InvokeAsync(refreshEvent);
         }
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayeronrefresh-property">GeoBlazor Docs</a>
     ///     Fires if the layer has the <a href="#refreshInterval">refreshInterval</a> set or when <a href="#refresh">refresh()</a> method is called.
@@ -4359,11 +4178,303 @@ public partial class GeoJSONLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore]
     public EventCallback<RefreshEvent> OnRefresh { get; set; }
-
+   
     /// <summary>
     ///     Used in JavaScript layer to determine if the event listener is registered.
     /// </summary>
     public bool HasRefreshListener => OnRefresh.HasDelegate;
-
+    
 #endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case DisplayFilterInfo displayFilterInfo:
+                if (displayFilterInfo != DisplayFilterInfo)
+                {
+                    DisplayFilterInfo = displayFilterInfo;
+                    ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+                
+                return true;
+            case GeoJSONLayerElevationInfo elevationInfo:
+                if (elevationInfo != ElevationInfo)
+                {
+                    ElevationInfo = elevationInfo;
+                    ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+                
+                return true;
+            case FeatureEffect featureEffect:
+                if (featureEffect != FeatureEffect)
+                {
+                    FeatureEffect = featureEffect;
+                    ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+                
+                return true;
+            case Field fields:
+                Fields ??= [];
+                if (!Fields.Contains(fields))
+                {
+                    Fields = [..Fields, fields];
+                    ModifiedParameters[nameof(Fields)] = Fields;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+                
+                return true;
+            case Label labelingInfo:
+                LabelingInfo ??= [];
+                if (!LabelingInfo.Contains(labelingInfo))
+                {
+                    LabelingInfo = [..LabelingInfo, labelingInfo];
+                    ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+                
+                return true;
+            case OrderByInfo orderBy:
+                OrderBy ??= [];
+                if (!OrderBy.Contains(orderBy))
+                {
+                    OrderBy = [..OrderBy, orderBy];
+                    ModifiedParameters[nameof(OrderBy)] = OrderBy;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+                
+                return true;
+            case PopupTemplate popupTemplate:
+                if (popupTemplate != PopupTemplate)
+                {
+                    PopupTemplate = popupTemplate;
+                    ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+                
+                return true;
+            case PortalItem portalItem:
+                if (portalItem != PortalItem)
+                {
+                    PortalItem = portalItem;
+                    ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+                
+                return true;
+            case Renderer renderer:
+                if (renderer != Renderer)
+                {
+                    Renderer = renderer;
+                    ModifiedParameters[nameof(Renderer)] = Renderer;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+                
+                return true;
+            case SpatialReference spatialReference:
+                if (spatialReference != SpatialReference)
+                {
+                    SpatialReference = spatialReference;
+                    ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+                
+                return true;
+            case TimeExtent timeExtent:
+                if (timeExtent != TimeExtent)
+                {
+                    TimeExtent = timeExtent;
+                    ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+                
+                return true;
+            case TimeInfo timeInfo:
+                if (timeInfo != TimeInfo)
+                {
+                    TimeInfo = timeInfo;
+                    ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+                
+                return true;
+            case TimeInterval timeOffset:
+                if (timeOffset != TimeOffset)
+                {
+                    TimeOffset = timeOffset;
+                    ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+                
+                return true;
+            case TrackInfo trackInfo:
+                if (trackInfo != TrackInfo)
+                {
+                    TrackInfo = trackInfo;
+                    ModifiedParameters[nameof(TrackInfo)] = TrackInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case DisplayFilterInfo _:
+                DisplayFilterInfo = null;
+                ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
+                return true;
+            case GeoJSONLayerElevationInfo:
+                ElevationInfo = null;
+                ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
+                return true;
+            case FeatureEffect _:
+                FeatureEffect = null;
+                ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
+                return true;
+            case Field fields:
+                Fields = Fields?.Where(f => f != fields).ToList();
+                ModifiedParameters[nameof(Fields)] = Fields;
+                return true;
+            case Label labelingInfo:
+                LabelingInfo = LabelingInfo?.Where(l => l != labelingInfo).ToList();
+                ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
+                return true;
+            case OrderByInfo orderBy:
+                OrderBy = OrderBy?.Where(o => o != orderBy).ToList();
+                ModifiedParameters[nameof(OrderBy)] = OrderBy;
+                return true;
+            case PopupTemplate _:
+                PopupTemplate = null;
+                ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+                return true;
+            case PortalItem _:
+                PortalItem = null;
+                ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                return true;
+            case Renderer _:
+                Renderer = null;
+                ModifiedParameters[nameof(Renderer)] = Renderer;
+                return true;
+            case SpatialReference _:
+                SpatialReference = null;
+                ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                return true;
+            case TimeExtent _:
+                TimeExtent = null;
+                ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
+                return true;
+            case TimeInfo _:
+                TimeInfo = null;
+                ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
+                return true;
+            case TimeInterval:
+                TimeOffset = null;
+                ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+                return true;
+            case TrackInfo _:
+                TrackInfo = null;
+                ModifiedParameters[nameof(TrackInfo)] = TrackInfo;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        if (Url is null)
+        {
+            throw new MissingRequiredChildElementException(nameof(GeoJSONLayer), nameof(Url));
+        }
+        DisplayFilterInfo?.ValidateRequiredGeneratedChildren();
+        ElevationInfo?.ValidateRequiredGeneratedChildren();
+        FeatureEffect?.ValidateRequiredGeneratedChildren();
+        if (Fields is not null)
+        {
+            foreach (Field child in Fields)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+        if (LabelingInfo is not null)
+        {
+            foreach (Label child in LabelingInfo)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+        if (OrderBy is not null)
+        {
+            foreach (OrderByInfo child in OrderBy)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+        PopupTemplate?.ValidateRequiredGeneratedChildren();
+        PortalItem?.ValidateRequiredGeneratedChildren();
+        Renderer?.ValidateRequiredGeneratedChildren();
+        SpatialReference?.ValidateRequiredGeneratedChildren();
+        TimeExtent?.ValidateRequiredGeneratedChildren();
+        TimeInfo?.ValidateRequiredGeneratedChildren();
+        TimeOffset?.ValidateRequiredGeneratedChildren();
+        TrackInfo?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

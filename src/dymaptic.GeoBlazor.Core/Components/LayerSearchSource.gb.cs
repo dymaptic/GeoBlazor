@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerSearchSource.html">GeoBlazor Docs</a>
 ///     The following properties define a
@@ -11,6 +12,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class LayerSearchSource
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -70,6 +72,7 @@ public partial class LayerSearchSource
     /// <param name="minSuggestCharacters">
     ///     Indicates the minimum number of characters
     ///     required before querying for a suggestion.
+    ///     default 1
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#minSuggestCharacters">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="name">
@@ -147,7 +150,8 @@ public partial class LayerSearchSource
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#zoomScale">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public LayerSearchSource(bool? autoNavigate = null,
+    public LayerSearchSource(
+        bool? autoNavigate = null,
         string? displayField = null,
         bool? exactMatch = null,
         SearchSourceFilter? filter = null,
@@ -202,22 +206,10 @@ public partial class LayerSearchSource
         SuggestionTemplate = suggestionTemplate;
         WithinViewEnabled = withinViewEnabled;
         ZoomScale = zoomScale;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        if (Layer is null && LayerId is null)
-        {
-            throw new MissingRequiredOptionsChildElementException(nameof(LayerSearchSource),
-                [nameof(Layer), nameof(LayerId)]);
-        }
-
-        base.ValidateRequiredGeneratedChildren();
-    }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -229,7 +221,7 @@ public partial class LayerSearchSource
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Name { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerSearchSource.html#layersearchsourceorderbyfields-property">GeoBlazor Docs</a>
     ///     One or more field names used to order the query results.
@@ -239,7 +231,7 @@ public partial class LayerSearchSource
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<string>? OrderByFields { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerSearchSource.html#layersearchsourcesearchfields-property">GeoBlazor Docs</a>
     ///     An array of string values representing the
@@ -250,7 +242,7 @@ public partial class LayerSearchSource
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<string>? SearchFields { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerSearchSource.html#layersearchsourcesearchtemplate-property">GeoBlazor Docs</a>
     ///     A template string used to display multiple
@@ -261,9 +253,8 @@ public partial class LayerSearchSource
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? SearchTemplate { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -276,8 +267,8 @@ public partial class LayerSearchSource
         {
             return DisplayField;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -286,27 +277,27 @@ public partial class LayerSearchSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return DisplayField;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerSearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "displayField");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            DisplayField = result;
+                DisplayField = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(DisplayField)] = DisplayField;
+                ModifiedParameters[nameof(DisplayField)] = DisplayField;
         }
-
+         
         return DisplayField;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ExactMatch property.
     /// </summary>
@@ -316,8 +307,8 @@ public partial class LayerSearchSource
         {
             return ExactMatch;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -326,28 +317,27 @@ public partial class LayerSearchSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ExactMatch;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "exactMatch");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerSearchSource), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "exactMatch");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            ExactMatch = result.Value.Value;
+                ExactMatch = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ExactMatch)] = ExactMatch;
+                ModifiedParameters[nameof(ExactMatch)] = ExactMatch;
         }
-
+         
         return ExactMatch;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Layer property.
     /// </summary>
@@ -357,8 +347,8 @@ public partial class LayerSearchSource
         {
             return Layer;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -367,32 +357,33 @@ public partial class LayerSearchSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Layer;
         }
 
-        Layer? result = await JsComponentReference.InvokeAsync<Layer?>("getLayer", CancellationTokenSource.Token);
-
+        Layer? result = await JsComponentReference.InvokeJsMethod<Layer?>(
+            IsServer, nameof(GetLayer), nameof(LayerSearchSource), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
             if (Layer is not null)
             {
                 result.Id = Layer.Id;
             }
-
             result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-
+            
 #pragma warning disable BL0005
             Layer = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Layer)] = Layer;
         }
-
+        
         return Layer;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -402,8 +393,8 @@ public partial class LayerSearchSource
         {
             return Name;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -412,27 +403,27 @@ public partial class LayerSearchSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Name;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerSearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "name");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Name = result;
+                Name = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Name)] = Name;
+                ModifiedParameters[nameof(Name)] = Name;
         }
-
+         
         return Name;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the OrderByFields property.
     /// </summary>
@@ -442,8 +433,8 @@ public partial class LayerSearchSource
         {
             return OrderByFields;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -452,27 +443,27 @@ public partial class LayerSearchSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return OrderByFields;
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerSearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "orderByFields");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            OrderByFields = result;
+                OrderByFields = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(OrderByFields)] = OrderByFields;
+                ModifiedParameters[nameof(OrderByFields)] = OrderByFields;
         }
-
+         
         return OrderByFields;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SearchFields property.
     /// </summary>
@@ -482,8 +473,8 @@ public partial class LayerSearchSource
         {
             return SearchFields;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -492,27 +483,27 @@ public partial class LayerSearchSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SearchFields;
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerSearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "searchFields");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            SearchFields = result;
+                SearchFields = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SearchFields)] = SearchFields;
+                ModifiedParameters[nameof(SearchFields)] = SearchFields;
         }
-
+         
         return SearchFields;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SearchTemplate property.
     /// </summary>
@@ -522,8 +513,8 @@ public partial class LayerSearchSource
         {
             return SearchTemplate;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -532,27 +523,27 @@ public partial class LayerSearchSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SearchTemplate;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerSearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "searchTemplate");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            SearchTemplate = result;
+                SearchTemplate = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SearchTemplate)] = SearchTemplate;
+                ModifiedParameters[nameof(SearchTemplate)] = SearchTemplate;
         }
-
+         
         return SearchTemplate;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SuggestionTemplate property.
     /// </summary>
@@ -562,8 +553,8 @@ public partial class LayerSearchSource
         {
             return SuggestionTemplate;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -572,29 +563,28 @@ public partial class LayerSearchSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SuggestionTemplate;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerSearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "suggestionTemplate");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            SuggestionTemplate = result;
+                SuggestionTemplate = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SuggestionTemplate)] = SuggestionTemplate;
+                ModifiedParameters[nameof(SuggestionTemplate)] = SuggestionTemplate;
         }
-
+         
         return SuggestionTemplate;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -610,13 +600,13 @@ public partial class LayerSearchSource
         DisplayField = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(DisplayField)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -625,16 +615,16 @@ public partial class LayerSearchSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "displayField", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ExactMatch property after render.
     /// </summary>
@@ -647,13 +637,13 @@ public partial class LayerSearchSource
         ExactMatch = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ExactMatch)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -662,16 +652,16 @@ public partial class LayerSearchSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "exactMatch", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Layer property after render.
     /// </summary>
@@ -680,22 +670,22 @@ public partial class LayerSearchSource
     /// </param>
     public async Task SetLayer(Layer? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         Layer = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Layer)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -704,16 +694,16 @@ public partial class LayerSearchSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layer", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
@@ -726,13 +716,13 @@ public partial class LayerSearchSource
         Name = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Name)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -741,16 +731,16 @@ public partial class LayerSearchSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the OrderByFields property after render.
     /// </summary>
@@ -763,13 +753,13 @@ public partial class LayerSearchSource
         OrderByFields = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(OrderByFields)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -778,16 +768,16 @@ public partial class LayerSearchSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "orderByFields", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SearchFields property after render.
     /// </summary>
@@ -800,13 +790,13 @@ public partial class LayerSearchSource
         SearchFields = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SearchFields)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -815,16 +805,16 @@ public partial class LayerSearchSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "searchFields", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SearchTemplate property after render.
     /// </summary>
@@ -837,13 +827,13 @@ public partial class LayerSearchSource
         SearchTemplate = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SearchTemplate)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -852,16 +842,16 @@ public partial class LayerSearchSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "searchTemplate", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SuggestionTemplate property after render.
     /// </summary>
@@ -874,13 +864,13 @@ public partial class LayerSearchSource
         SuggestionTemplate = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SuggestionTemplate)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -889,18 +879,17 @@ public partial class LayerSearchSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "suggestionTemplate", value);
     }
-
+    
 #endregion
-
 
 #region Add to Collection Methods
 
@@ -917,7 +906,7 @@ public partial class LayerSearchSource
             : [..OrderByFields, ..values];
         await SetOrderByFields(join);
     }
-
+    
     /// <summary>
     ///     Asynchronously adds elements to the SearchFields property.
     /// </summary>
@@ -931,12 +920,12 @@ public partial class LayerSearchSource
             : [..SearchFields, ..values];
         await SetSearchFields(join);
     }
-
+    
 #endregion
-
 
 #region Remove From Collection Methods
 
+    
     /// <summary>
     ///     Asynchronously remove an element from the OrderByFields property.
     /// </summary>
@@ -949,10 +938,10 @@ public partial class LayerSearchSource
         {
             return;
         }
-
         await SetOrderByFields(OrderByFields.Except(values).ToArray());
     }
-
+    
+    
     /// <summary>
     ///     Asynchronously remove an element from the SearchFields property.
     /// </summary>
@@ -965,9 +954,20 @@ public partial class LayerSearchSource
         {
             return;
         }
-
         await SetSearchFields(SearchFields.Except(values).ToArray());
     }
-
+    
 #endregion
+
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        if (Layer is null && LayerId is null)
+        {
+            throw new MissingRequiredOptionsChildElementException(nameof(LayerSearchSource), [nameof(Layer), nameof(LayerId)]);
+        }
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

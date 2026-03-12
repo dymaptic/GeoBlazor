@@ -21,4 +21,7 @@ internal static class GeoBlazorSerialization
     }
 
     public static JsonSerializerOptions JsonSerializerOptions { get; private set; }
+
+    public const string GET_PROPERTY = "GetProperty";
+    public const string SET_PROPERTY = "SetProperty";
 }

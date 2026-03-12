@@ -112,14 +112,15 @@ public partial class DisplayFilterInfo : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DisplayFilterInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "activeFilterId");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ActiveFilterId = result;
+                ActiveFilterId = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ActiveFilterId)] = ActiveFilterId;
+                ModifiedParameters[nameof(ActiveFilterId)] = ActiveFilterId;
         }
          
         return ActiveFilterId;
@@ -151,14 +152,15 @@ public partial class DisplayFilterInfo : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<DisplayFilter>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<DisplayFilter>?>("getProperty",
+        IReadOnlyList<DisplayFilter>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<DisplayFilter>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DisplayFilterInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "filters");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Filters = result;
+                Filters = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Filters)] = Filters;
+                ModifiedParameters[nameof(Filters)] = Filters;
         }
          
         return Filters;
@@ -190,14 +192,15 @@ public partial class DisplayFilterInfo : MapComponent
         }
 
         // get the property value
-        JsNullableEnumWrapper<DisplayFilterInfoMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<DisplayFilterInfoMode>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "mode");
-        if (result is { Value: not null })
+        DisplayFilterInfoMode? result = await JsComponentReference!.InvokeJsMethod<DisplayFilterInfoMode?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DisplayFilterInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "mode");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Mode = (DisplayFilterInfoMode)result.Value.Value!;
+                Mode = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Mode)] = Mode;
+                ModifiedParameters[nameof(Mode)] = Mode;
         }
          
         return Mode;

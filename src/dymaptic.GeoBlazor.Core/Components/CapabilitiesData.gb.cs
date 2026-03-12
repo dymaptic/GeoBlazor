@@ -139,14 +139,15 @@ public partial class CapabilitiesData : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "isBranchVersioned");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesData), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "isBranchVersioned");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             IsBranchVersioned = result.Value.Value;
+                IsBranchVersioned = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(IsBranchVersioned)] = IsBranchVersioned;
+                ModifiedParameters[nameof(IsBranchVersioned)] = IsBranchVersioned;
         }
          
         return IsBranchVersioned;
@@ -178,14 +179,15 @@ public partial class CapabilitiesData : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "isVersioned");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesData), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "isVersioned");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             IsVersioned = result.Value.Value;
+                IsVersioned = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(IsVersioned)] = IsVersioned;
+                ModifiedParameters[nameof(IsVersioned)] = IsVersioned;
         }
          
         return IsVersioned;
@@ -217,14 +219,15 @@ public partial class CapabilitiesData : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsAttachment");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesData), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsAttachment");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsAttachment = result.Value.Value;
+                SupportsAttachment = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsAttachment)] = SupportsAttachment;
+                ModifiedParameters[nameof(SupportsAttachment)] = SupportsAttachment;
         }
          
         return SupportsAttachment;
@@ -256,14 +259,15 @@ public partial class CapabilitiesData : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsM");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesData), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsM");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsM = result.Value.Value;
+                SupportsM = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsM)] = SupportsM;
+                ModifiedParameters[nameof(SupportsM)] = SupportsM;
         }
          
         return SupportsM;
@@ -295,14 +299,15 @@ public partial class CapabilitiesData : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsZ");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesData), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsZ");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsZ = result.Value.Value;
+                SupportsZ = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsZ)] = SupportsZ;
+                ModifiedParameters[nameof(SupportsZ)] = SupportsZ;
         }
          
         return SupportsZ;

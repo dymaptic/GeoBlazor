@@ -105,14 +105,15 @@ public partial class ZoomViewModel : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "canZoomIn");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ZoomViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "canZoomIn");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             CanZoomIn = result.Value.Value;
+                CanZoomIn = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(CanZoomIn)] = CanZoomIn;
+                ModifiedParameters[nameof(CanZoomIn)] = CanZoomIn;
         }
          
         return CanZoomIn;
@@ -144,14 +145,15 @@ public partial class ZoomViewModel : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "canZoomOut");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ZoomViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "canZoomOut");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             CanZoomOut = result.Value.Value;
+                CanZoomOut = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(CanZoomOut)] = CanZoomOut;
+                ModifiedParameters[nameof(CanZoomOut)] = CanZoomOut;
         }
          
         return CanZoomOut;
@@ -183,14 +185,15 @@ public partial class ZoomViewModel : MapComponent
         }
 
         // get the property value
-        JsNullableEnumWrapper<ZoomViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ZoomViewModelState>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "state");
-        if (result is { Value: not null })
+        ZoomViewModelState? result = await JsComponentReference!.InvokeJsMethod<ZoomViewModelState?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ZoomViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "state");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             State = (ZoomViewModelState)result.Value.Value!;
+                State = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(State)] = State;
+                ModifiedParameters[nameof(State)] = State;
         }
          
         return State;
@@ -306,8 +309,14 @@ public partial class ZoomViewModel : MapComponent
             return;
         }
         
-        await JsComponentReference!.InvokeVoidAsync(
-            "zoomIn", 
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(ZoomIn), nameof(ZoomViewModel), 
             CancellationTokenSource.Token);
     }
     
@@ -339,8 +348,14 @@ public partial class ZoomViewModel : MapComponent
             return;
         }
         
-        await JsComponentReference!.InvokeVoidAsync(
-            "zoomOut", 
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(ZoomOut), nameof(ZoomViewModel), 
             CancellationTokenSource.Token);
     }
     

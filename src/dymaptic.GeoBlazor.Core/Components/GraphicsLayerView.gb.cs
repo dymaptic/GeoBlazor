@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.GraphicsLayerView.html">GeoBlazor Docs</a>
 ///     Represents the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a> of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html">GraphicsLayer</a>
@@ -12,6 +13,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 public partial class GraphicsLayerView : LayerView,
     IHighlightLayerViewMixin
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -32,20 +34,119 @@ public partial class GraphicsLayerView : LayerView,
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public GraphicsLayerView(HighlightOptions? highlightOptions = null,
+    public GraphicsLayerView(
+        HighlightOptions? highlightOptions = null,
         bool? visible = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
-#pragma warning disable CS0618 // Type or member is obsolete
         HighlightOptions = highlightOptions;
-#pragma warning restore CS0618 // Type or member is obsolete
         Visible = visible;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
+    
+    
+#region Property Getters
 
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the HighlightOptions property.
+    /// </summary>
+    [Obsolete("$Deprecated since GeoBlazor version 4.4.0. Use the {nameof(MapView.Highlights)} property instead.")]
+    public async Task<HighlightOptions?> GetHighlightOptions()
+    {
+        if (CoreJsModule is null)
+        {
+            return HighlightOptions;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return HighlightOptions;
+        }
+
+        HighlightOptions? result = await JsComponentReference.InvokeJsMethod<HighlightOptions?>(
+            IsServer, nameof(GetHighlightOptions), nameof(GraphicsLayerView), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (HighlightOptions is not null)
+            {
+                result.Id = HighlightOptions.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            HighlightOptions = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
+        }
+        
+        return HighlightOptions;
+    }
+    
+#endregion
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the HighlightOptions property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    [Obsolete("$Deprecated since GeoBlazor version 4.4.0. Use the {nameof(MapView.Highlights)} property instead.")]
+    public async Task SetHighlightOptions(HighlightOptions? value)
+    {
+#pragma warning disable BL0005
+        HighlightOptions = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(HighlightOptions)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetHighlightOptions), nameof(GraphicsLayerView), 
+            CancellationTokenSource.Token, value);
+    }
+    
+#endregion
 
 #region Public Methods
 
 #endregion
+
 }

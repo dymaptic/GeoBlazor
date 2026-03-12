@@ -131,14 +131,15 @@ public partial class PopupExpressionInfo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupExpressionInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "expression");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Expression = result;
+                Expression = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Expression)] = Expression;
+                ModifiedParameters[nameof(Expression)] = Expression;
         }
          
         return Expression;
@@ -170,14 +171,15 @@ public partial class PopupExpressionInfo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupExpressionInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Name = result;
+                Name = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Name)] = Name;
+                ModifiedParameters[nameof(Name)] = Name;
         }
          
         return Name;
@@ -209,14 +211,15 @@ public partial class PopupExpressionInfo
         }
 
         // get the property value
-        JsNullableEnumWrapper<PopupExpressionInfoReturnType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PopupExpressionInfoReturnType>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "returnType");
-        if (result is { Value: not null })
+        PopupExpressionInfoReturnType? result = await JsComponentReference!.InvokeJsMethod<PopupExpressionInfoReturnType?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupExpressionInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "returnType");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ReturnType = (PopupExpressionInfoReturnType)result.Value.Value!;
+                ReturnType = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ReturnType)] = ReturnType;
+                ModifiedParameters[nameof(ReturnType)] = ReturnType;
         }
          
         return ReturnType;
@@ -248,14 +251,15 @@ public partial class PopupExpressionInfo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupExpressionInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Title = result;
+                Title = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Title)] = Title;
+                ModifiedParameters[nameof(Title)] = Title;
         }
          
         return Title;

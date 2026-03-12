@@ -26,7 +26,7 @@ export default class HomeViewModelGenerated extends BaseComponent {
         }
 
     }
-
+    
     // region methods
     async cancelGo(): Promise<void> {
         this.component.cancelGo();
@@ -143,7 +143,7 @@ export async function buildDotNetHomeViewModelGenerated(jsObject: any, layerId: 
 
     if (hasValue(dotNetHomeViewModel.id)) {
         if (!jsObjectRefs.hasOwnProperty(dotNetHomeViewModel.id)) {
-            let {default: HomeViewModelWrapper} = await import('./homeViewModel');
+            let { default: HomeViewModelWrapper } = await import('./homeViewModel');
             let homeViewModelWrapper = new HomeViewModelWrapper(jsObject);
             homeViewModelWrapper.geoBlazorId = dotNetHomeViewModel.id;
             homeViewModelWrapper.viewId = viewId;

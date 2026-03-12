@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html">GeoBlazor Docs</a>
 ///     The Popup widget allows users to view content from feature attributes.
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 /// </summary>
 public partial class PopupWidget : IGoTo
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -33,9 +35,6 @@ public partial class PopupWidget : IGoTo
     ///     This closes the popup when the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a> camera or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">Viewpoint</a> changes.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#autoCloseEnabled">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="containerId">
-    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
     /// </param>
     /// <param name="defaultPopupTemplateEnabled">
     ///     Enables automatic creation of a popup template for layers that have popups enabled but no
@@ -75,10 +74,6 @@ public partial class PopupWidget : IGoTo
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#highlightEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="htmlContent">
-    ///     The content of the popup.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="icon">
     ///     Icon displayed in the widget's button.
     ///     default "popup"
@@ -97,12 +92,6 @@ public partial class PopupWidget : IGoTo
     ///     Point used to position the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#location">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="mapView">
-    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
-    /// </param>
-    /// <param name="position">
-    ///     The position of the widget in relation to the map view.
-    /// </param>
     /// <param name="promises">
     ///     An array of pending Promises that have not yet been fulfilled.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#promises">ArcGIS Maps SDK for JavaScript</a>
@@ -110,10 +99,6 @@ public partial class PopupWidget : IGoTo
     /// <param name="selectedFeatureIndex">
     ///     Index of the feature that is <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedFeature">selected</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedFeatureIndex">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="stringContent">
-    ///     The content of the popup.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
     ///     The title of the popup.
@@ -133,18 +118,18 @@ public partial class PopupWidget : IGoTo
     ///     The visible elements that are displayed within the widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#visibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="widgetContent">
-    ///     The content of the popup.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="widgetId">
     ///     The unique ID assigned to the widget when the widget is created.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public PopupWidget(IReadOnlyList<ActionBase>? actions = null,
+    /// <param name="content">
+    ///     The content of the popup.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    public PopupWidget(
+        IReadOnlyList<ActionBase>? actions = null,
         PopupAlignment? alignment = null,
         bool? autoCloseEnabled = null,
-        string? containerId = null,
         bool? defaultPopupTemplateEnabled = null,
         bool? dockEnabled = null,
         PopupDockOptions? dockOptions = null,
@@ -152,29 +137,24 @@ public partial class PopupWidget : IGoTo
         GoToOverride? goToOverride = null,
         int? headingLevel = null,
         bool? highlightEnabled = null,
-        ElementReference? htmlContent = null,
         string? icon = null,
         InitialDisplayMode? initialDisplayMode = null,
         string? label = null,
         Point? location = null,
-        MapView? mapView = null,
-        OverlayPosition? position = null,
         string? promises = null,
         int? selectedFeatureIndex = null,
-        string? stringContent = null,
         string? title = null,
         PopupViewModel? viewModel = null,
         bool? visible = null,
         PopupVisibleElements? visibleElements = null,
-        Widget? widgetContent = null,
-        string? widgetId = null)
+        string? widgetId = null,
+        Widget? content = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Actions = actions;
         Alignment = alignment;
         AutoCloseEnabled = autoCloseEnabled;
-        ContainerId = containerId;
         DefaultPopupTemplateEnabled = defaultPopupTemplateEnabled;
         DockEnabled = dockEnabled;
         DockOptions = dockOptions;
@@ -182,28 +162,1723 @@ public partial class PopupWidget : IGoTo
         GoToOverride = goToOverride;
         HeadingLevel = headingLevel;
         HighlightEnabled = highlightEnabled;
-        HtmlContent = htmlContent;
         Icon = icon;
         InitialDisplayMode = initialDisplayMode;
         Label = label;
         Location = location;
-        MapView = mapView;
-        Position = position;
         Promises = promises;
         SelectedFeatureIndex = selectedFeatureIndex;
-        StringContent = stringContent;
         Title = title;
         ViewModel = viewModel;
         Visible = visible;
         VisibleElements = visibleElements;
-        WidgetContent = widgetContent;
         WidgetId = widgetId;
-#pragma warning restore BL0005
+        Content = content;
+#pragma warning restore BL0005    
     }
+    
+    
+#region Public Properties / Blazor Parameters
 
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetactive-property">GeoBlazor Docs</a>
+    ///     Indicates if the widget is active when it is visible and is not <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup-PopupViewModel.html#waitingForResult">waiting for results</a>.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#active">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public bool? Active { get; protected set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetcontent-property">GeoBlazor Docs</a>
+    ///     The content of the popup.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Widget? Content { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetcurrentdockposition-property">GeoBlazor Docs</a>
+    ///     Dock position in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#currentDockPosition">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public CurrentDockPosition? CurrentDockPosition { get; protected set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetdockoptions-property">GeoBlazor Docs</a>
+    ///     Docking the popup allows for a better user experience, particularly when opening
+    ///     popups in apps on mobile devices.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#dockOptions">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public PopupDockOptions? DockOptions { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetfeaturecount-property">GeoBlazor Docs</a>
+    ///     The number of selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#features">features</a> available to the popup.
+    ///     default 0
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#featureCount">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public int? FeatureCount { get; protected set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetfeatures-property">GeoBlazor Docs</a>
+    ///     An array of features associated with the popup.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#features">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<Graphic>? Features { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetinitialdisplaymode-property">GeoBlazor Docs</a>
+    ///     Indicates whether to initially display a list of features, or the content for one feature.
+    ///     default "feature"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#initialDisplayMode">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public InitialDisplayMode? InitialDisplayMode { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetlocation-property">GeoBlazor Docs</a>
+    ///     Point used to position the popup.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#location">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Point? Location { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetpromises-property">GeoBlazor Docs</a>
+    ///     An array of pending Promises that have not yet been fulfilled.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#promises">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Promises { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetselecteddrillinfeature-property">GeoBlazor Docs</a>
+    ///     The feature that the widget has drilled into.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedDrillInFeature">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public Graphic? SelectedDrillInFeature { get; protected set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetselectedfeature-property">GeoBlazor Docs</a>
+    ///     The selected feature accessed by the popup.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedFeature">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public Graphic? SelectedFeature { get; protected set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetselectedfeatureindex-property">GeoBlazor Docs</a>
+    ///     Index of the feature that is <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedFeature">selected</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedFeatureIndex">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public int? SelectedFeatureIndex { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetselectedfeaturewidget-property">GeoBlazor Docs</a>
+    ///     Returns a reference to the current <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature.html">Feature</a> that the Popup is using.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedFeatureWidget">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public IFeatureWidget? SelectedFeatureWidget { get; protected set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetviewmodel-property">GeoBlazor Docs</a>
+    ///     This is a class that contains all the logic
+    ///     (properties and methods) that controls this widget's behavior.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public PopupViewModel? ViewModel { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetvisibleelements-property">GeoBlazor Docs</a>
+    ///     The visible elements that are displayed within the widget.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#visibleElements">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public PopupVisibleElements? VisibleElements { get; set; }
+    
+#endregion
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Actions property.
+    /// </summary>
+    public async Task<IReadOnlyList<ActionBase>?> GetActions()
+    {
+        if (CoreJsModule is null)
+        {
+            return Actions;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Actions;
+        }
+
+        IReadOnlyList<ActionBase>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<ActionBase>?>(
+            IsServer, nameof(GetActions), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            foreach (ActionBase item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+#pragma warning disable BL0005
+            Actions = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Actions)] = Actions;
+        }
+        
+        return Actions;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Active property.
+    /// </summary>
+    public async Task<bool?> GetActive()
+    {
+        if (CoreJsModule is null)
+        {
+            return Active;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Active;
+        }
+
+        // get the property value
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "active");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                Active = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(Active)] = Active;
+        }
+         
+        return Active;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Alignment property.
+    /// </summary>
+    public async Task<PopupAlignment?> GetAlignment()
+    {
+        if (CoreJsModule is null)
+        {
+            return Alignment;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Alignment;
+        }
+
+        // get the property value
+        PopupAlignment? result = await JsComponentReference!.InvokeJsMethod<PopupAlignment?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "alignment");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                Alignment = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(Alignment)] = Alignment;
+        }
+         
+        return Alignment;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the AutoCloseEnabled property.
+    /// </summary>
+    public async Task<bool?> GetAutoCloseEnabled()
+    {
+        if (CoreJsModule is null)
+        {
+            return AutoCloseEnabled;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return AutoCloseEnabled;
+        }
+
+        // get the property value
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "autoCloseEnabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                AutoCloseEnabled = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(AutoCloseEnabled)] = AutoCloseEnabled;
+        }
+         
+        return AutoCloseEnabled;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Collapsed property.
+    /// </summary>
+    public async Task<bool?> GetCollapsed()
+    {
+        if (CoreJsModule is null)
+        {
+            return Collapsed;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Collapsed;
+        }
+
+        // get the property value
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "collapsed");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                Collapsed = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(Collapsed)] = Collapsed;
+        }
+         
+        return Collapsed;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Content property.
+    /// </summary>
+    public async Task<Widget?> GetContent()
+    {
+        if (CoreJsModule is null)
+        {
+            return Content;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Content;
+        }
+
+        Widget? result = await JsComponentReference.InvokeJsMethod<Widget?>(
+            IsServer, nameof(GetContent), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (Content is not null)
+            {
+                result.Id = Content.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            Content = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Content)] = Content;
+        }
+        
+        return Content;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the CurrentDockPosition property.
+    /// </summary>
+    public async Task<CurrentDockPosition?> GetCurrentDockPosition()
+    {
+        if (CoreJsModule is null)
+        {
+            return CurrentDockPosition;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return CurrentDockPosition;
+        }
+
+        // get the property value
+        CurrentDockPosition? result = await JsComponentReference!.InvokeJsMethod<CurrentDockPosition?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "currentDockPosition");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                CurrentDockPosition = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(CurrentDockPosition)] = CurrentDockPosition;
+        }
+         
+        return CurrentDockPosition;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the DefaultPopupTemplateEnabled property.
+    /// </summary>
+    public async Task<bool?> GetDefaultPopupTemplateEnabled()
+    {
+        if (CoreJsModule is null)
+        {
+            return DefaultPopupTemplateEnabled;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return DefaultPopupTemplateEnabled;
+        }
+
+        // get the property value
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "defaultPopupTemplateEnabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                DefaultPopupTemplateEnabled = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(DefaultPopupTemplateEnabled)] = DefaultPopupTemplateEnabled;
+        }
+         
+        return DefaultPopupTemplateEnabled;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the DockEnabled property.
+    /// </summary>
+    public async Task<bool?> GetDockEnabled()
+    {
+        if (CoreJsModule is null)
+        {
+            return DockEnabled;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return DockEnabled;
+        }
+
+        // get the property value
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "dockEnabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                DockEnabled = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(DockEnabled)] = DockEnabled;
+        }
+         
+        return DockEnabled;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the DockOptions property.
+    /// </summary>
+    public async Task<PopupDockOptions?> GetDockOptions()
+    {
+        if (CoreJsModule is null)
+        {
+            return DockOptions;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return DockOptions;
+        }
+
+        PopupDockOptions? result = await JsComponentReference.InvokeJsMethod<PopupDockOptions?>(
+            IsServer, nameof(GetDockOptions), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (DockOptions is not null)
+            {
+                result.Id = DockOptions.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            DockOptions = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(DockOptions)] = DockOptions;
+        }
+        
+        return DockOptions;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Features property.
+    /// </summary>
+    public async Task<IReadOnlyList<Graphic>?> GetFeatures()
+    {
+        if (CoreJsModule is null)
+        {
+            return Features;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Features;
+        }
+
+        IReadOnlyList<Graphic>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Graphic>?>(
+            IsServer, nameof(GetFeatures), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            foreach (Graphic item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+#pragma warning disable BL0005
+            Features = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Features)] = Features;
+        }
+        
+        return Features;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the HeadingLevel property.
+    /// </summary>
+    public async Task<int?> GetHeadingLevel()
+    {
+        if (CoreJsModule is null)
+        {
+            return HeadingLevel;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return HeadingLevel;
+        }
+
+        // get the property value
+        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "headingLevel");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                HeadingLevel = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(HeadingLevel)] = HeadingLevel;
+        }
+         
+        return HeadingLevel;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the HighlightEnabled property.
+    /// </summary>
+    public async Task<bool?> GetHighlightEnabled()
+    {
+        if (CoreJsModule is null)
+        {
+            return HighlightEnabled;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return HighlightEnabled;
+        }
+
+        // get the property value
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "highlightEnabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                HighlightEnabled = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(HighlightEnabled)] = HighlightEnabled;
+        }
+         
+        return HighlightEnabled;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the InitialDisplayMode property.
+    /// </summary>
+    public async Task<InitialDisplayMode?> GetInitialDisplayMode()
+    {
+        if (CoreJsModule is null)
+        {
+            return InitialDisplayMode;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return InitialDisplayMode;
+        }
+
+        // get the property value
+        InitialDisplayMode? result = await JsComponentReference!.InvokeJsMethod<InitialDisplayMode?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "initialDisplayMode");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                InitialDisplayMode = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(InitialDisplayMode)] = InitialDisplayMode;
+        }
+         
+        return InitialDisplayMode;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Location property.
+    /// </summary>
+    public async Task<Point?> GetLocation()
+    {
+        if (CoreJsModule is null)
+        {
+            return Location;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Location;
+        }
+
+        Point? result = await JsComponentReference.InvokeJsMethod<Point?>(
+            IsServer, nameof(GetLocation), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (Location is not null)
+            {
+                result.Id = Location.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            Location = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Location)] = Location;
+        }
+        
+        return Location;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Promises property.
+    /// </summary>
+    public async Task<string?> GetPromises()
+    {
+        if (CoreJsModule is null)
+        {
+            return Promises;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Promises;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "promises");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                Promises = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(Promises)] = Promises;
+        }
+         
+        return Promises;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the SelectedDrillInFeature property.
+    /// </summary>
+    public async Task<Graphic?> GetSelectedDrillInFeature()
+    {
+        if (CoreJsModule is null)
+        {
+            return SelectedDrillInFeature;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return SelectedDrillInFeature;
+        }
+
+        Graphic? result = await JsComponentReference.InvokeJsMethod<Graphic?>(
+            IsServer, nameof(GetSelectedDrillInFeature), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (SelectedDrillInFeature is not null)
+            {
+                result.Id = SelectedDrillInFeature.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            SelectedDrillInFeature = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(SelectedDrillInFeature)] = SelectedDrillInFeature;
+        }
+        
+        return SelectedDrillInFeature;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the SelectedFeatureWidget property.
+    /// </summary>
+    public async Task<IFeatureWidget?> GetSelectedFeatureWidget()
+    {
+        if (CoreJsModule is null)
+        {
+            return SelectedFeatureWidget;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return SelectedFeatureWidget;
+        }
+
+        // get the property value
+        IFeatureWidget? result = await JsComponentReference!.InvokeJsMethod<IFeatureWidget?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "selectedFeatureWidget");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                SelectedFeatureWidget = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(SelectedFeatureWidget)] = SelectedFeatureWidget;
+        }
+         
+        return SelectedFeatureWidget;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Title property.
+    /// </summary>
+    public async Task<string?> GetTitle()
+    {
+        if (CoreJsModule is null)
+        {
+            return Title;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Title;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "title");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                Title = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(Title)] = Title;
+        }
+         
+        return Title;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ViewModel property.
+    /// </summary>
+    public async Task<PopupViewModel?> GetViewModel()
+    {
+        if (CoreJsModule is null)
+        {
+            return ViewModel;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return ViewModel;
+        }
+
+        PopupViewModel? result = await JsComponentReference.InvokeJsMethod<PopupViewModel?>(
+            IsServer, nameof(GetViewModel), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (ViewModel is not null)
+            {
+                result.Id = ViewModel.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            ViewModel = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ViewModel)] = ViewModel;
+        }
+        
+        return ViewModel;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the VisibleElements property.
+    /// </summary>
+    public async Task<PopupVisibleElements?> GetVisibleElements()
+    {
+        if (CoreJsModule is null)
+        {
+            return VisibleElements;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return VisibleElements;
+        }
+
+        PopupVisibleElements? result = await JsComponentReference.InvokeJsMethod<PopupVisibleElements?>(
+            IsServer, nameof(GetVisibleElements), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (VisibleElements is not null)
+            {
+                result.Id = VisibleElements.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            VisibleElements = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+        }
+        
+        return VisibleElements;
+    }
+    
+#endregion
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the Actions property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetActions(IReadOnlyList<ActionBase>? value)
+    {
+#pragma warning disable BL0005
+        Actions = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Actions)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            foreach (ActionBase item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetActions), nameof(PopupWidget), 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Alignment property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetAlignment(PopupAlignment? value)
+    {
+#pragma warning disable BL0005
+        Alignment = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Alignment)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "alignment", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the AutoCloseEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetAutoCloseEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        AutoCloseEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(AutoCloseEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "autoCloseEnabled", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the DefaultPopupTemplateEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetDefaultPopupTemplateEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        DefaultPopupTemplateEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(DefaultPopupTemplateEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "defaultPopupTemplateEnabled", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the DockEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetDockEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        DockEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(DockEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "dockEnabled", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the DockOptions property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetDockOptions(PopupDockOptions? value)
+    {
+#pragma warning disable BL0005
+        DockOptions = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(DockOptions)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetDockOptions), nameof(PopupWidget), 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Features property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetFeatures(IReadOnlyList<Graphic>? value)
+    {
+#pragma warning disable BL0005
+        Features = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Features)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            foreach (Graphic item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetFeatures), nameof(PopupWidget), 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the HeadingLevel property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetHeadingLevel(int? value)
+    {
+#pragma warning disable BL0005
+        HeadingLevel = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(HeadingLevel)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "headingLevel", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the HighlightEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetHighlightEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        HighlightEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(HighlightEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "highlightEnabled", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the InitialDisplayMode property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetInitialDisplayMode(InitialDisplayMode? value)
+    {
+#pragma warning disable BL0005
+        InitialDisplayMode = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(InitialDisplayMode)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "initialDisplayMode", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Location property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetLocation(Point? value)
+    {
+#pragma warning disable BL0005
+        Location = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Location)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetLocation), nameof(PopupWidget), 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Promises property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPromises(string? value)
+    {
+#pragma warning disable BL0005
+        Promises = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Promises)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "promises", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the SelectedFeatureIndex property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetSelectedFeatureIndex(int? value)
+    {
+#pragma warning disable BL0005
+        SelectedFeatureIndex = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(SelectedFeatureIndex)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "selectedFeatureIndex", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Title property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetTitle(string? value)
+    {
+#pragma warning disable BL0005
+        Title = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Title)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "title", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the ViewModel property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetViewModel(PopupViewModel? value)
+    {
+#pragma warning disable BL0005
+        ViewModel = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ViewModel)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetViewModel), nameof(PopupWidget), 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the VisibleElements property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetVisibleElements(PopupVisibleElements? value)
+    {
+#pragma warning disable BL0005
+        VisibleElements = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(VisibleElements)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetVisibleElements), nameof(PopupWidget), 
+            CancellationTokenSource.Token, value);
+    }
+    
+#endregion
 
 #region Add to Collection Methods
 
+    /// <summary>
+    ///     Asynchronously adds elements to the Actions property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to add.
+    /// </param>
+    public async Task AddToActions(params ActionBase[] values)
+    {
+        ActionBase[] join = Actions is null
+            ? values
+            : [..Actions, ..values];
+        await SetActions(join);
+    }
+    
     /// <summary>
     ///     Asynchronously adds elements to the Features property.
     /// </summary>
@@ -217,12 +1892,28 @@ public partial class PopupWidget : IGoTo
             : [..Features, ..values];
         await SetFeatures(join);
     }
-
+    
 #endregion
-
 
 #region Remove From Collection Methods
 
+    
+    /// <summary>
+    ///     Asynchronously remove an element from the Actions property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to remove.
+    /// </param>
+    public async Task RemoveFromActions(params ActionBase[] values)
+    {
+        if (Actions is null)
+        {
+            return;
+        }
+        await SetActions(Actions.Except(values).ToArray());
+    }
+    
+    
     /// <summary>
     ///     Asynchronously remove an element from the Features property.
     /// </summary>
@@ -235,1959 +1926,10 @@ public partial class PopupWidget : IGoTo
         {
             return;
         }
-
         await SetFeatures(Features.Except(values).ToArray());
     }
-
+    
 #endregion
-
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        DockOptions?.ValidateRequiredGeneratedChildren();
-
-        if (Features is not null)
-        {
-            foreach (Graphic child in Features)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-
-        Location?.ValidateRequiredGeneratedChildren();
-        ViewModel?.ValidateRequiredGeneratedChildren();
-        VisibleElements?.ValidateRequiredGeneratedChildren();
-        WidgetContent?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case PopupDockOptions dockOptions:
-                if (dockOptions != DockOptions)
-                {
-                    DockOptions = dockOptions;
-                    ModifiedParameters[nameof(DockOptions)] = DockOptions;
-
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
-                }
-
-                return true;
-            case Graphic features:
-                Features ??= [];
-
-                if (!Features.Contains(features))
-                {
-                    Features = [..Features, features];
-                    ModifiedParameters[nameof(Features)] = Features;
-
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
-                }
-
-                return true;
-            case Point location:
-                if (location != Location)
-                {
-                    Location = location;
-                    ModifiedParameters[nameof(Location)] = Location;
-
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
-                }
-
-                return true;
-            case PopupViewModel viewModel:
-                if (viewModel != ViewModel)
-                {
-                    ViewModel = viewModel;
-                    ModifiedParameters[nameof(ViewModel)] = ViewModel;
-
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
-                }
-
-                return true;
-            case PopupVisibleElements visibleElements:
-                if (visibleElements != VisibleElements)
-                {
-                    VisibleElements = visibleElements;
-                    ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
-
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
-                }
-
-                return true;
-            case Widget widgetContent:
-                if (widgetContent != WidgetContent)
-                {
-                    WidgetContent = widgetContent;
-                    ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
-
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
-                }
-
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case PopupDockOptions _:
-                DockOptions = null;
-                ModifiedParameters[nameof(DockOptions)] = DockOptions;
-
-                return true;
-            case Graphic features:
-                Features = Features?.Where(f => f != features).ToList();
-                ModifiedParameters[nameof(Features)] = Features;
-
-                return true;
-            case Point _:
-                Location = null;
-                ModifiedParameters[nameof(Location)] = Location;
-
-                return true;
-            case PopupViewModel _:
-                ViewModel = null;
-                ModifiedParameters[nameof(ViewModel)] = ViewModel;
-
-                return true;
-            case PopupVisibleElements _:
-                VisibleElements = null;
-                ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
-
-                return true;
-            case Widget _:
-                WidgetContent = null;
-                ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
-
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-
-
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetactive-property">GeoBlazor Docs</a>
-    ///     Indicates if the widget is active when it is visible and is not <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup-PopupViewModel.html#waitingForResult">waiting for results</a>.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#active">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public bool? Active { get; protected set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetcurrentdockposition-property">GeoBlazor Docs</a>
-    ///     Dock position in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#currentDockPosition">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public CurrentDockPosition? CurrentDockPosition { get; protected set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetdockoptions-property">GeoBlazor Docs</a>
-    ///     Docking the popup allows for a better user experience, particularly when opening
-    ///     popups in apps on mobile devices.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#dockOptions">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public PopupDockOptions? DockOptions { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetfeaturecount-property">GeoBlazor Docs</a>
-    ///     The number of selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#features">features</a> available to the popup.
-    ///     default 0
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#featureCount">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public int? FeatureCount { get; protected set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetfeatures-property">GeoBlazor Docs</a>
-    ///     An array of features associated with the popup.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#features">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<Graphic>? Features { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgethtmlcontent-property">GeoBlazor Docs</a>
-    ///     The content of the popup.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ElementReference? HtmlContent { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetinitialdisplaymode-property">GeoBlazor Docs</a>
-    ///     Indicates whether to initially display a list of features, or the content for one feature.
-    ///     default "feature"
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#initialDisplayMode">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public InitialDisplayMode? InitialDisplayMode { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetlocation-property">GeoBlazor Docs</a>
-    ///     Point used to position the popup.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#location">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Point? Location { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetpromises-property">GeoBlazor Docs</a>
-    ///     An array of pending Promises that have not yet been fulfilled.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#promises">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Promises { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetselecteddrillinfeature-property">GeoBlazor Docs</a>
-    ///     The feature that the widget has drilled into.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedDrillInFeature">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public Graphic? SelectedDrillInFeature { get; protected set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetselectedfeature-property">GeoBlazor Docs</a>
-    ///     The selected feature accessed by the popup.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedFeature">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public Graphic? SelectedFeature { get; protected set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetselectedfeatureindex-property">GeoBlazor Docs</a>
-    ///     Index of the feature that is <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedFeature">selected</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedFeatureIndex">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? SelectedFeatureIndex { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetselectedfeaturewidget-property">GeoBlazor Docs</a>
-    ///     Returns a reference to the current <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature.html">Feature</a> that the Popup is using.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedFeatureWidget">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public IFeatureWidget? SelectedFeatureWidget { get; protected set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetviewmodel-property">GeoBlazor Docs</a>
-    ///     This is a class that contains all the logic
-    ///     (properties and methods) that controls this widget's behavior.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public PopupViewModel? ViewModel { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetvisibleelements-property">GeoBlazor Docs</a>
-    ///     The visible elements that are displayed within the widget.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#visibleElements">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public PopupVisibleElements? VisibleElements { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetwidgetcontent-property">GeoBlazor Docs</a>
-    ///     The content of the popup.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Widget? WidgetContent { get; set; }
-
-#endregion
-
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Active property.
-    /// </summary>
-    public async Task<bool?> GetActive()
-    {
-        if (CoreJsModule is null)
-        {
-            return Active;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Active;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "active");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            Active = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Active)] = Active;
-        }
-
-        return Active;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Alignment property.
-    /// </summary>
-    public async Task<PopupAlignment?> GetAlignment()
-    {
-        if (CoreJsModule is null)
-        {
-            return Alignment;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Alignment;
-        }
-
-        // get the property value
-        JsNullableEnumWrapper<PopupAlignment>? result =
-            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PopupAlignment>?>("getNullableValueTypedProperty",
-                CancellationTokenSource.Token, JsComponentReference, "alignment");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            Alignment = (PopupAlignment)result.Value.Value!;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Alignment)] = Alignment;
-        }
-
-        return Alignment;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the AutoCloseEnabled property.
-    /// </summary>
-    public async Task<bool?> GetAutoCloseEnabled()
-    {
-        if (CoreJsModule is null)
-        {
-            return AutoCloseEnabled;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return AutoCloseEnabled;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "autoCloseEnabled");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            AutoCloseEnabled = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(AutoCloseEnabled)] = AutoCloseEnabled;
-        }
-
-        return AutoCloseEnabled;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Collapsed property.
-    /// </summary>
-    public async Task<bool?> GetCollapsed()
-    {
-        if (CoreJsModule is null)
-        {
-            return Collapsed;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Collapsed;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "collapsed");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            Collapsed = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Collapsed)] = Collapsed;
-        }
-
-        return Collapsed;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the CurrentDockPosition property.
-    /// </summary>
-    public async Task<CurrentDockPosition?> GetCurrentDockPosition()
-    {
-        if (CoreJsModule is null)
-        {
-            return CurrentDockPosition;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return CurrentDockPosition;
-        }
-
-        // get the property value
-        JsNullableEnumWrapper<CurrentDockPosition>? result =
-            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<CurrentDockPosition>?>(
-                "getNullableValueTypedProperty",
-                CancellationTokenSource.Token, JsComponentReference, "currentDockPosition");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            CurrentDockPosition = (CurrentDockPosition)result.Value.Value!;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(CurrentDockPosition)] = CurrentDockPosition;
-        }
-
-        return CurrentDockPosition;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the DefaultPopupTemplateEnabled property.
-    /// </summary>
-    public async Task<bool?> GetDefaultPopupTemplateEnabled()
-    {
-        if (CoreJsModule is null)
-        {
-            return DefaultPopupTemplateEnabled;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return DefaultPopupTemplateEnabled;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "defaultPopupTemplateEnabled");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            DefaultPopupTemplateEnabled = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(DefaultPopupTemplateEnabled)] = DefaultPopupTemplateEnabled;
-        }
-
-        return DefaultPopupTemplateEnabled;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the DockEnabled property.
-    /// </summary>
-    public async Task<bool?> GetDockEnabled()
-    {
-        if (CoreJsModule is null)
-        {
-            return DockEnabled;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return DockEnabled;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "dockEnabled");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            DockEnabled = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(DockEnabled)] = DockEnabled;
-        }
-
-        return DockEnabled;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the DockOptions property.
-    /// </summary>
-    public async Task<PopupDockOptions?> GetDockOptions()
-    {
-        if (CoreJsModule is null)
-        {
-            return DockOptions;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return DockOptions;
-        }
-
-        PopupDockOptions? result = await JsComponentReference.InvokeAsync<PopupDockOptions?>(
-            "getDockOptions", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            DockOptions = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(DockOptions)] = DockOptions;
-        }
-
-        return DockOptions;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Features property.
-    /// </summary>
-    public async Task<IReadOnlyList<Graphic>?> GetFeatures()
-    {
-        if (CoreJsModule is null)
-        {
-            return Features;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Features;
-        }
-
-        IReadOnlyList<Graphic>? result =
-            await JsComponentReference.InvokeAsync<IReadOnlyList<Graphic>?>("getFeatures",
-                CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-            foreach (Graphic item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-#pragma warning disable BL0005
-            Features = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Features)] = Features;
-        }
-
-        return Features;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the HeadingLevel property.
-    /// </summary>
-    public async Task<int?> GetHeadingLevel()
-    {
-        if (CoreJsModule is null)
-        {
-            return HeadingLevel;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return HeadingLevel;
-        }
-
-        // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "headingLevel");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            HeadingLevel = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(HeadingLevel)] = HeadingLevel;
-        }
-
-        return HeadingLevel;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the HighlightEnabled property.
-    /// </summary>
-    public async Task<bool?> GetHighlightEnabled()
-    {
-        if (CoreJsModule is null)
-        {
-            return HighlightEnabled;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return HighlightEnabled;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "highlightEnabled");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            HighlightEnabled = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(HighlightEnabled)] = HighlightEnabled;
-        }
-
-        return HighlightEnabled;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the HtmlContent property.
-    /// </summary>
-    public async Task<ElementReference?> GetHtmlContent()
-    {
-        if (CoreJsModule is null)
-        {
-            return HtmlContent;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return HtmlContent;
-        }
-
-        // get the property value
-        JsNullableElementReferenceWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableElementReferenceWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "htmlContent");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            HtmlContent = result.Value.Value;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(HtmlContent)] = HtmlContent;
-        }
-
-        return HtmlContent;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the InitialDisplayMode property.
-    /// </summary>
-    public async Task<InitialDisplayMode?> GetInitialDisplayMode()
-    {
-        if (CoreJsModule is null)
-        {
-            return InitialDisplayMode;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return InitialDisplayMode;
-        }
-
-        // get the property value
-        JsNullableEnumWrapper<InitialDisplayMode>? result =
-            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<InitialDisplayMode>?>("getNullableValueTypedProperty",
-                CancellationTokenSource.Token, JsComponentReference, "initialDisplayMode");
-
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-            InitialDisplayMode = (InitialDisplayMode)result.Value.Value!;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(InitialDisplayMode)] = InitialDisplayMode;
-        }
-
-        return InitialDisplayMode;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Location property.
-    /// </summary>
-    public async Task<Point?> GetLocation()
-    {
-        if (CoreJsModule is null)
-        {
-            return Location;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Location;
-        }
-
-        Point? result = await JsComponentReference.InvokeAsync<Point?>("getLocation", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-            if (Location is not null)
-            {
-                result.Id = Location.Id;
-            }
-
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-
-#pragma warning disable BL0005
-            Location = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Location)] = Location;
-        }
-
-        return Location;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Promises property.
-    /// </summary>
-    public async Task<string?> GetPromises()
-    {
-        if (CoreJsModule is null)
-        {
-            return Promises;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Promises;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "promises");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Promises = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Promises)] = Promises;
-        }
-
-        return Promises;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the SelectedDrillInFeature property.
-    /// </summary>
-    public async Task<Graphic?> GetSelectedDrillInFeature()
-    {
-        if (CoreJsModule is null)
-        {
-            return SelectedDrillInFeature;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return SelectedDrillInFeature;
-        }
-
-        Graphic? result = await JsComponentReference.InvokeAsync<Graphic?>(
-            "getSelectedDrillInFeature", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-            if (SelectedDrillInFeature is not null)
-            {
-                result.Id = SelectedDrillInFeature.Id;
-            }
-
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-
-#pragma warning disable BL0005
-            SelectedDrillInFeature = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(SelectedDrillInFeature)] = SelectedDrillInFeature;
-        }
-
-        return SelectedDrillInFeature;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the SelectedFeatureWidget property.
-    /// </summary>
-    public async Task<IFeatureWidget?> GetSelectedFeatureWidget()
-    {
-        if (CoreJsModule is null)
-        {
-            return SelectedFeatureWidget;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return SelectedFeatureWidget;
-        }
-
-        // get the property value
-        IFeatureWidget? result = await JsComponentReference!.InvokeAsync<IFeatureWidget?>("getProperty",
-            CancellationTokenSource.Token, "selectedFeatureWidget");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            SelectedFeatureWidget = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(SelectedFeatureWidget)] = SelectedFeatureWidget;
-        }
-
-        return SelectedFeatureWidget;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the StringContent property.
-    /// </summary>
-    public async Task<string?> GetStringContent()
-    {
-        if (CoreJsModule is null)
-        {
-            return StringContent;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return StringContent;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "content");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            StringContent = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(StringContent)] = StringContent;
-        }
-
-        return StringContent;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Title property.
-    /// </summary>
-    public async Task<string?> GetTitle()
-    {
-        if (CoreJsModule is null)
-        {
-            return Title;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Title;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "title");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Title = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Title)] = Title;
-        }
-
-        return Title;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ViewModel property.
-    /// </summary>
-    public async Task<PopupViewModel?> GetViewModel()
-    {
-        if (CoreJsModule is null)
-        {
-            return ViewModel;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return ViewModel;
-        }
-
-        PopupViewModel? result = await JsComponentReference.InvokeAsync<PopupViewModel?>(
-            "getViewModel", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-            if (ViewModel is not null)
-            {
-                result.Id = ViewModel.Id;
-            }
-
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-
-#pragma warning disable BL0005
-            ViewModel = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(ViewModel)] = ViewModel;
-        }
-
-        return ViewModel;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the VisibleElements property.
-    /// </summary>
-    public async Task<PopupVisibleElements?> GetVisibleElements()
-    {
-        if (CoreJsModule is null)
-        {
-            return VisibleElements;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return VisibleElements;
-        }
-
-        PopupVisibleElements? result = await JsComponentReference.InvokeAsync<PopupVisibleElements?>(
-            "getVisibleElements", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            VisibleElements = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
-        }
-
-        return VisibleElements;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the WidgetContent property.
-    /// </summary>
-    public async Task<Widget?> GetWidgetContent()
-    {
-        if (CoreJsModule is null)
-        {
-            return WidgetContent;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return WidgetContent;
-        }
-
-        Widget? result = await JsComponentReference.InvokeAsync<Widget?>(
-            "getWidgetContent", CancellationTokenSource.Token);
-
-        if (result is not null)
-        {
-            if (WidgetContent is not null)
-            {
-                result.Id = WidgetContent.Id;
-            }
-
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-
-#pragma warning disable BL0005
-            WidgetContent = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
-        }
-
-        return WidgetContent;
-    }
-
-#endregion
-
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the Alignment property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetAlignment(PopupAlignment? value)
-    {
-#pragma warning disable BL0005
-        Alignment = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Alignment)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "alignment", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the AutoCloseEnabled property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetAutoCloseEnabled(bool? value)
-    {
-#pragma warning disable BL0005
-        AutoCloseEnabled = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(AutoCloseEnabled)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "autoCloseEnabled", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the DefaultPopupTemplateEnabled property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetDefaultPopupTemplateEnabled(bool? value)
-    {
-#pragma warning disable BL0005
-        DefaultPopupTemplateEnabled = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(DefaultPopupTemplateEnabled)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "defaultPopupTemplateEnabled", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the DockEnabled property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetDockEnabled(bool? value)
-    {
-#pragma warning disable BL0005
-        DockEnabled = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(DockEnabled)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "dockEnabled", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the DockOptions property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetDockOptions(PopupDockOptions? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
-#pragma warning disable BL0005
-        DockOptions = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(DockOptions)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await JsComponentReference.InvokeVoidAsync("setDockOptions",
-            CancellationTokenSource.Token, value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Features property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetFeatures(IReadOnlyList<Graphic>? value)
-    {
-        if (value is not null)
-        {
-            foreach (Graphic item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-
-#pragma warning disable BL0005
-        Features = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Features)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await JsComponentReference.InvokeVoidAsync("setFeatures",
-            CancellationTokenSource.Token, value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the HeadingLevel property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetHeadingLevel(int? value)
-    {
-#pragma warning disable BL0005
-        HeadingLevel = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(HeadingLevel)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "headingLevel", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the HighlightEnabled property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetHighlightEnabled(bool? value)
-    {
-#pragma warning disable BL0005
-        HighlightEnabled = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(HighlightEnabled)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "highlightEnabled", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the HtmlContent property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetHtmlContent(ElementReference? value)
-    {
-#pragma warning disable BL0005
-        HtmlContent = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(HtmlContent)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "content", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the InitialDisplayMode property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetInitialDisplayMode(InitialDisplayMode? value)
-    {
-#pragma warning disable BL0005
-        InitialDisplayMode = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(InitialDisplayMode)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "initialDisplayMode", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Location property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetLocation(Point? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
-#pragma warning disable BL0005
-        Location = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Location)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await JsComponentReference.InvokeVoidAsync("setLocation",
-            CancellationTokenSource.Token, value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Promises property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetPromises(string? value)
-    {
-#pragma warning disable BL0005
-        Promises = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Promises)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "promises", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the SelectedFeatureIndex property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetSelectedFeatureIndex(int? value)
-    {
-#pragma warning disable BL0005
-        SelectedFeatureIndex = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(SelectedFeatureIndex)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "selectedFeatureIndex", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the StringContent property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetStringContent(string? value)
-    {
-#pragma warning disable BL0005
-        StringContent = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(StringContent)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "content", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Title property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetTitle(string? value)
-    {
-#pragma warning disable BL0005
-        Title = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Title)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "title", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the ViewModel property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetViewModel(PopupViewModel? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
-#pragma warning disable BL0005
-        ViewModel = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ViewModel)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await JsComponentReference.InvokeVoidAsync("setViewModel",
-            CancellationTokenSource.Token, value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the VisibleElements property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetVisibleElements(PopupVisibleElements? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
-#pragma warning disable BL0005
-        VisibleElements = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(VisibleElements)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await JsComponentReference.InvokeVoidAsync("setVisibleElements",
-            CancellationTokenSource.Token, value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the WidgetContent property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetWidgetContent(Widget? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
-#pragma warning disable BL0005
-        WidgetContent = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(WidgetContent)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await JsComponentReference.InvokeVoidAsync("setWidgetContent",
-            CancellationTokenSource.Token, value);
-    }
-
-#endregion
-
 
 #region Public Methods
 
@@ -2203,8 +1945,8 @@ public partial class PopupWidget : IGoTo
         {
             return;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2213,16 +1955,23 @@ public partial class PopupWidget : IGoTo
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference!.InvokeVoidAsync("blur",
+        
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(Blur), nameof(PopupWidget), 
             CancellationTokenSource.Token);
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetfocus-method">GeoBlazor Docs</a>
     ///     Use this method to give focus to the Widget if the widget is able to be focused.
@@ -2235,8 +1984,8 @@ public partial class PopupWidget : IGoTo
         {
             return;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2245,16 +1994,23 @@ public partial class PopupWidget : IGoTo
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference!.InvokeVoidAsync("focus",
+        
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(Focus), nameof(PopupWidget), 
             CancellationTokenSource.Token);
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetnext-method">GeoBlazor Docs</a>
     ///     Selects the feature at the next index in relation to the selected feature.
@@ -2267,7 +2023,7 @@ public partial class PopupWidget : IGoTo
         {
             return null;
         }
-
+        
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -2277,16 +2033,17 @@ public partial class PopupWidget : IGoTo
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
-        return await JsComponentReference!.InvokeAsync<PopupViewModel?>("next",
+        
+        return await JsComponentReference!.InvokeJsMethod<PopupViewModel?>(
+            IsServer, nameof(Next), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetopen-method">GeoBlazor Docs</a>
     ///     Opens the popup at the given location with content defined either explicitly with `content`
@@ -2303,8 +2060,8 @@ public partial class PopupWidget : IGoTo
         {
             return;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2313,17 +2070,24 @@ public partial class PopupWidget : IGoTo
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference!.InvokeVoidAsync("open",
+        
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(Open), nameof(PopupWidget), 
             CancellationTokenSource.Token,
             options);
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetprevious-method">GeoBlazor Docs</a>
     ///     Selects the feature at the previous index in relation to the selected feature.
@@ -2336,7 +2100,7 @@ public partial class PopupWidget : IGoTo
         {
             return null;
         }
-
+        
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -2346,16 +2110,17 @@ public partial class PopupWidget : IGoTo
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
-        return await JsComponentReference!.InvokeAsync<PopupViewModel?>("previous",
+        
+        return await JsComponentReference!.InvokeJsMethod<PopupViewModel?>(
+            IsServer, nameof(Previous), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetreposition-method">GeoBlazor Docs</a>
     ///     Positions the popup on the view.
@@ -2368,8 +2133,8 @@ public partial class PopupWidget : IGoTo
         {
             return;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2378,16 +2143,23 @@ public partial class PopupWidget : IGoTo
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference!.InvokeVoidAsync("reposition",
+        
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(Reposition), nameof(PopupWidget), 
             CancellationTokenSource.Token);
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgettriggeraction-method">GeoBlazor Docs</a>
     ///     Triggers the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#event-trigger-action">trigger-action</a> event and executes the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#actions">action</a>
@@ -2404,8 +2176,8 @@ public partial class PopupWidget : IGoTo
         {
             return;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2414,21 +2186,165 @@ public partial class PopupWidget : IGoTo
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference!.InvokeVoidAsync("triggerAction",
+        
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(TriggerAction), nameof(PopupWidget), 
             CancellationTokenSource.Token,
             actionIndex);
     }
-
+    
 #endregion
-
 
 #region Event Handlers
 
 #endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Widget content:
+                if (content != Content)
+                {
+                    Content = content;
+                    ModifiedParameters[nameof(Content)] = Content;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
+                }
+                
+                return true;
+            case PopupDockOptions dockOptions:
+                if (dockOptions != DockOptions)
+                {
+                    DockOptions = dockOptions;
+                    ModifiedParameters[nameof(DockOptions)] = DockOptions;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
+                }
+                
+                return true;
+            case Graphic features:
+                Features ??= [];
+                if (!Features.Contains(features))
+                {
+                    Features = [..Features, features];
+                    ModifiedParameters[nameof(Features)] = Features;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
+                }
+                
+                return true;
+            case Point location:
+                if (location != Location)
+                {
+                    Location = location;
+                    ModifiedParameters[nameof(Location)] = Location;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
+                }
+                
+                return true;
+            case PopupViewModel viewModel:
+                if (viewModel != ViewModel)
+                {
+                    ViewModel = viewModel;
+                    ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
+                }
+                
+                return true;
+            case PopupVisibleElements visibleElements:
+                if (visibleElements != VisibleElements)
+                {
+                    VisibleElements = visibleElements;
+                    ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Widget:
+                Content = null;
+                ModifiedParameters[nameof(Content)] = Content;
+                return true;
+            case PopupDockOptions:
+                DockOptions = null;
+                ModifiedParameters[nameof(DockOptions)] = DockOptions;
+                return true;
+            case Graphic features:
+                Features = Features?.Where(f => f != features).ToList();
+                ModifiedParameters[nameof(Features)] = Features;
+                return true;
+            case Point:
+                Location = null;
+                ModifiedParameters[nameof(Location)] = Location;
+                return true;
+            case PopupViewModel:
+                ViewModel = null;
+                ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                return true;
+            case PopupVisibleElements:
+                VisibleElements = null;
+                ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        Content?.ValidateRequiredGeneratedChildren();
+        DockOptions?.ValidateRequiredGeneratedChildren();
+        if (Features is not null)
+        {
+            foreach (Graphic child in Features)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+        Location?.ValidateRequiredGeneratedChildren();
+        ViewModel?.ValidateRequiredGeneratedChildren();
+        VisibleElements?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

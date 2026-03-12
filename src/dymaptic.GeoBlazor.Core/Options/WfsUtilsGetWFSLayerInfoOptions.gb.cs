@@ -19,21 +19,22 @@ public partial record WfsUtilsGetWFSLayerInfoOptions(
     string? SpatialReference = null)
 {
     /// <summary>
-    ///     Parameterless constructor
+    ///     Parameterless Constructor
     /// </summary>
-    public WfsUtilsGetWFSLayerInfoOptions() : this(null, null)
+    public WfsUtilsGetWFSLayerInfoOptions(): this(null, null)
     {
     }
-
+    
     /// <summary>
     ///     A list of key-value pairs of parameters to append to the url.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#getWFSLayerInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? CustomParameters { get; set; } = CustomParameters;
-
+    
     /// <summary>
     ///     The desired spatial reference for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#getWFSLayerInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? SpatialReference { get; set; } = SpatialReference;
+    
 }

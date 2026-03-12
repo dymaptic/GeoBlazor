@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html">GeoBlazor Docs</a>
 ///     An item (a unit of content) in the Portal.
@@ -9,65 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class PortalItem
 {
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        if (PortalItemId is null)
-        {
-            throw new MissingRequiredChildElementException(nameof(PortalItem), nameof(PortalItemId));
-        }
-
-        Extent?.ValidateRequiredGeneratedChildren();
-        Portal?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Extent extent:
-                if (extent != Extent)
-                {
-                    Extent = extent;
-                    ModifiedParameters[nameof(Extent)] = Extent;
-                }
-
-                return true;
-            case Portal portal:
-                if (portal != Portal)
-                {
-                    Portal = portal;
-                    ModifiedParameters[nameof(Portal)] = Portal;
-                }
-
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Extent _:
-                Extent = null;
-                ModifiedParameters[nameof(Extent)] = Extent;
-
-                return true;
-            case Portal _:
-                Portal = null;
-                ModifiedParameters[nameof(Portal)] = Portal;
-
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-
 
 #region Public Properties / Blazor Parameters
 
@@ -80,7 +22,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PortalItemAccess? Access { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemaccessinformation-property">GeoBlazor Docs</a>
     ///     Information on the source of the item and its copyright status.
@@ -90,7 +32,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? AccessInformation { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemapplicationproxies-property">GeoBlazor Docs</a>
     ///     Contains an array of objects containing proxy information for premium platform services.
@@ -100,7 +42,7 @@ public partial class PortalItem
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public IReadOnlyList<PortalItemApplicationProxies>? ApplicationProxies { get; protected set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemavgrating-property">GeoBlazor Docs</a>
     ///     Average rating.
@@ -110,7 +52,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? AvgRating { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemcategories-property">GeoBlazor Docs</a>
     ///     An array of organization categories that are set on the item.
@@ -120,7 +62,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<string>? Categories { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemclassification-property">GeoBlazor Docs</a>
     ///     The classification information for the item.
@@ -130,7 +72,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Dictionary<string, string?>? Classification { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemcreated-property">GeoBlazor Docs</a>
     ///     The date the item was created.
@@ -140,7 +82,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public DateTime? Created { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemculture-property">GeoBlazor Docs</a>
     ///     The item's locale information (language and country).
@@ -150,7 +92,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Culture { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemdescription-property">GeoBlazor Docs</a>
     ///     The detailed description of the item.
@@ -160,7 +102,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Description { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemextent-property">GeoBlazor Docs</a>
     ///     The geographic extent, or bounding rectangle, of the item.
@@ -170,7 +112,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Extent? Extent { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemgroupcategories-property">GeoBlazor Docs</a>
     ///     An array of group categories set on the item.
@@ -180,7 +122,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<string>? GroupCategories { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemislayer-property">GeoBlazor Docs</a>
     ///     Indicates whether a layer can be created from this item using <a target="_blank" href="esri-layers-Layer.html#fromPortalItem">Layer.fromPortalItem()</a>.
@@ -190,7 +132,7 @@ public partial class PortalItem
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? IsLayer { get; protected set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemisorgitem-property">GeoBlazor Docs</a>
     ///     Indicates whether this item and the user whose credential was used to fetch this item belong
@@ -201,7 +143,7 @@ public partial class PortalItem
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? IsOrgItem { get; protected set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemitemcontrol-property">GeoBlazor Docs</a>
     ///     Indicates whether an item can be updated and deleted.
@@ -211,7 +153,7 @@ public partial class PortalItem
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public ItemControl? ItemControl { get; protected set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemitempageurl-property">GeoBlazor Docs</a>
     ///     The URL to the <a target="_blank" href="https://doc.arcgis.com/en/arcgis-online/manage-data/item-details.htm">Item page</a> on the portal.
@@ -221,7 +163,7 @@ public partial class PortalItem
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public string? ItemPageUrl { get; protected set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemitemurl-property">GeoBlazor Docs</a>
     ///     The URL to the item.
@@ -231,7 +173,7 @@ public partial class PortalItem
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public string? ItemUrl { get; protected set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemlicenseinfo-property">GeoBlazor Docs</a>
     ///     Information on license or restrictions related to the item.
@@ -241,7 +183,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? LicenseInfo { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemloaded-property">GeoBlazor Docs</a>
     ///     Indicates whether the item's resources have loaded from the portal.
@@ -252,7 +194,7 @@ public partial class PortalItem
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? Loaded { get; protected set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemmodified-property">GeoBlazor Docs</a>
     ///     The date the item was last modified.
@@ -262,7 +204,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public DateTime? Modified { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemname-property">GeoBlazor Docs</a>
     ///     The name of the item.
@@ -272,7 +214,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Name { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemnumcomments-property">GeoBlazor Docs</a>
     ///     Number of comments on the item.
@@ -282,7 +224,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? NumComments { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemnumratings-property">GeoBlazor Docs</a>
     ///     Number of ratings on the item.
@@ -292,7 +234,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? NumRatings { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemnumviews-property">GeoBlazor Docs</a>
     ///     Number of views on the item.
@@ -302,7 +244,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? NumViews { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemowner-property">GeoBlazor Docs</a>
     ///     The username of the user who owns this item.
@@ -312,7 +254,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Owner { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemownerfolder-property">GeoBlazor Docs</a>
     ///     The ID of the folder in which the owner has stored the item.
@@ -322,7 +264,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? OwnerFolder { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemportal-property">GeoBlazor Docs</a>
     ///     The portal that contains the item.
@@ -332,7 +274,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Portal? Portal { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemportalitemid-property">GeoBlazor Docs</a>
     ///     The unique id for the item.
@@ -343,7 +285,7 @@ public partial class PortalItem
     [RequiredProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string PortalItemId { get; set; } = null!;
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemscreenshots-property">GeoBlazor Docs</a>
     ///     An array of string URLs.
@@ -354,7 +296,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<string>? Screenshots { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemsize-property">GeoBlazor Docs</a>
     ///     The size of the item (in bytes).
@@ -364,7 +306,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public long? Size { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemsnippet-property">GeoBlazor Docs</a>
     ///     A summary description of the item.
@@ -374,7 +316,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Snippet { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemsourcejson-property">GeoBlazor Docs</a>
     ///     The JSON used to create the property values when the `PortalItem` is loaded.
@@ -384,7 +326,7 @@ public partial class PortalItem
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public string? SourceJSON { get; protected set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemtags-property">GeoBlazor Docs</a>
     ///     User defined tags that describe the item.
@@ -394,7 +336,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<string>? Tags { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemthumbnailurl-property">GeoBlazor Docs</a>
     ///     The URL to the thumbnail used for the item.
@@ -404,7 +346,7 @@ public partial class PortalItem
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public string? ThumbnailUrl { get; protected set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemtitle-property">GeoBlazor Docs</a>
     ///     The title for the item.
@@ -414,7 +356,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemtypekeywords-property">GeoBlazor Docs</a>
     ///     Type keywords that describe the type of content of this item.
@@ -424,7 +366,7 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<string>? TypeKeywords { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemurl-property">GeoBlazor Docs</a>
     ///     The service URL of this item.
@@ -434,9 +376,8 @@ public partial class PortalItem
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Url { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -449,8 +390,8 @@ public partial class PortalItem
         {
             return Access;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -459,28 +400,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Access;
         }
 
         // get the property value
-        JsNullableEnumWrapper<PortalItemAccess>? result =
-            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PortalItemAccess>?>("getNullableValueTypedProperty",
-                CancellationTokenSource.Token, JsComponentReference, "access");
-
-        if (result is { Value: not null })
+        PortalItemAccess? result = await JsComponentReference!.InvokeJsMethod<PortalItemAccess?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "access");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            Access = (PortalItemAccess)result.Value.Value!;
+                Access = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Access)] = Access;
+                ModifiedParameters[nameof(Access)] = Access;
         }
-
+         
         return Access;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the AccessInformation property.
     /// </summary>
@@ -490,8 +430,8 @@ public partial class PortalItem
         {
             return AccessInformation;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -500,27 +440,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return AccessInformation;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "accessInformation");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            AccessInformation = result;
+                AccessInformation = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(AccessInformation)] = AccessInformation;
+                ModifiedParameters[nameof(AccessInformation)] = AccessInformation;
         }
-
+         
         return AccessInformation;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ApiKey property.
     /// </summary>
@@ -530,8 +470,8 @@ public partial class PortalItem
         {
             return ApiKey;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -540,27 +480,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ApiKey;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "apiKey");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            ApiKey = result;
+                ApiKey = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ApiKey)] = ApiKey;
+                ModifiedParameters[nameof(ApiKey)] = ApiKey;
         }
-
+         
         return ApiKey;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ApplicationProxies property.
     /// </summary>
@@ -570,8 +510,8 @@ public partial class PortalItem
         {
             return ApplicationProxies;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -580,28 +520,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ApplicationProxies;
         }
 
         // get the property value
-        IReadOnlyList<PortalItemApplicationProxies>? result =
-            await JsComponentReference!.InvokeAsync<IReadOnlyList<PortalItemApplicationProxies>?>("getProperty",
-                CancellationTokenSource.Token, "applicationProxies");
-
+        IReadOnlyList<PortalItemApplicationProxies>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<PortalItemApplicationProxies>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "applicationProxies");
         if (result is not null)
         {
 #pragma warning disable BL0005
-            ApplicationProxies = result;
+                ApplicationProxies = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ApplicationProxies)] = ApplicationProxies;
+                ModifiedParameters[nameof(ApplicationProxies)] = ApplicationProxies;
         }
-
+         
         return ApplicationProxies;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the AvgRating property.
     /// </summary>
@@ -611,8 +550,8 @@ public partial class PortalItem
         {
             return AvgRating;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -621,28 +560,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return AvgRating;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "avgRating");
-
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "avgRating");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            AvgRating = result.Value.Value;
+                AvgRating = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(AvgRating)] = AvgRating;
+                ModifiedParameters[nameof(AvgRating)] = AvgRating;
         }
-
+         
         return AvgRating;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Categories property.
     /// </summary>
@@ -652,8 +590,8 @@ public partial class PortalItem
         {
             return Categories;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -662,27 +600,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Categories;
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "categories");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Categories = result;
+                Categories = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Categories)] = Categories;
+                ModifiedParameters[nameof(Categories)] = Categories;
         }
-
+         
         return Categories;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Classification property.
     /// </summary>
@@ -692,8 +630,8 @@ public partial class PortalItem
         {
             return Classification;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -702,28 +640,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Classification;
         }
 
         // get the property value
-        Dictionary<string, string?>? result = await JsComponentReference!.InvokeAsync<Dictionary<string, string?>?>(
-            "getProperty",
+        Dictionary<string, string?>? result = await JsComponentReference!.InvokeJsMethod<Dictionary<string, string?>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "classification");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Classification = result;
+                Classification = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Classification)] = Classification;
+                ModifiedParameters[nameof(Classification)] = Classification;
         }
-
+         
         return Classification;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Created property.
     /// </summary>
@@ -733,8 +670,8 @@ public partial class PortalItem
         {
             return Created;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -743,28 +680,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Created;
         }
 
         // get the property value
-        JsNullableDateTimeWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDateTimeWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "created");
-
-        if (result is { Value: not null })
+        DateTime? result = await JsComponentReference!.InvokeJsMethod<DateTime?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "created");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            Created = result.Value.Value;
+                Created = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Created)] = Created;
+                ModifiedParameters[nameof(Created)] = Created;
         }
-
+         
         return Created;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Culture property.
     /// </summary>
@@ -774,8 +710,8 @@ public partial class PortalItem
         {
             return Culture;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -784,27 +720,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Culture;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "culture");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Culture = result;
+                Culture = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Culture)] = Culture;
+                ModifiedParameters[nameof(Culture)] = Culture;
         }
-
+         
         return Culture;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Description property.
     /// </summary>
@@ -814,8 +750,8 @@ public partial class PortalItem
         {
             return Description;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -824,27 +760,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Description;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "description");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Description = result;
+                Description = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Description)] = Description;
+                ModifiedParameters[nameof(Description)] = Description;
         }
-
+         
         return Description;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Extent property.
     /// </summary>
@@ -854,8 +790,8 @@ public partial class PortalItem
         {
             return Extent;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -864,32 +800,33 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Extent;
         }
 
-        Extent? result = await JsComponentReference.InvokeAsync<Extent?>("getExtent", CancellationTokenSource.Token);
-
+        Extent? result = await JsComponentReference.InvokeJsMethod<Extent?>(
+            IsServer, nameof(GetExtent), nameof(PortalItem), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
             if (Extent is not null)
             {
                 result.Id = Extent.Id;
             }
-
             result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-
+            
 #pragma warning disable BL0005
             Extent = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Extent)] = Extent;
         }
-
+        
         return Extent;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the GroupCategories property.
     /// </summary>
@@ -899,8 +836,8 @@ public partial class PortalItem
         {
             return GroupCategories;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -909,27 +846,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return GroupCategories;
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "groupCategories");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            GroupCategories = result;
+                GroupCategories = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(GroupCategories)] = GroupCategories;
+                ModifiedParameters[nameof(GroupCategories)] = GroupCategories;
         }
-
+         
         return GroupCategories;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsLayer property.
     /// </summary>
@@ -939,8 +876,8 @@ public partial class PortalItem
         {
             return IsLayer;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -949,28 +886,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return IsLayer;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "isLayer");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "isLayer");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            IsLayer = result.Value.Value;
+                IsLayer = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(IsLayer)] = IsLayer;
+                ModifiedParameters[nameof(IsLayer)] = IsLayer;
         }
-
+         
         return IsLayer;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsOrgItem property.
     /// </summary>
@@ -980,8 +916,8 @@ public partial class PortalItem
         {
             return IsOrgItem;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -990,28 +926,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return IsOrgItem;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "isOrgItem");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "isOrgItem");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            IsOrgItem = result.Value.Value;
+                IsOrgItem = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(IsOrgItem)] = IsOrgItem;
+                ModifiedParameters[nameof(IsOrgItem)] = IsOrgItem;
         }
-
+         
         return IsOrgItem;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ItemControl property.
     /// </summary>
@@ -1021,8 +956,8 @@ public partial class PortalItem
         {
             return ItemControl;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1031,28 +966,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ItemControl;
         }
 
         // get the property value
-        JsNullableEnumWrapper<ItemControl>? result =
-            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ItemControl>?>("getNullableValueTypedProperty",
-                CancellationTokenSource.Token, JsComponentReference, "itemControl");
-
-        if (result is { Value: not null })
+        ItemControl? result = await JsComponentReference!.InvokeJsMethod<ItemControl?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "itemControl");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            ItemControl = (ItemControl)result.Value.Value!;
+                ItemControl = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ItemControl)] = ItemControl;
+                ModifiedParameters[nameof(ItemControl)] = ItemControl;
         }
-
+         
         return ItemControl;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ItemPageUrl property.
     /// </summary>
@@ -1062,8 +996,8 @@ public partial class PortalItem
         {
             return ItemPageUrl;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1072,27 +1006,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ItemPageUrl;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "itemPageUrl");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            ItemPageUrl = result;
+                ItemPageUrl = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ItemPageUrl)] = ItemPageUrl;
+                ModifiedParameters[nameof(ItemPageUrl)] = ItemPageUrl;
         }
-
+         
         return ItemPageUrl;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ItemUrl property.
     /// </summary>
@@ -1102,8 +1036,8 @@ public partial class PortalItem
         {
             return ItemUrl;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1112,27 +1046,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ItemUrl;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "itemUrl");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            ItemUrl = result;
+                ItemUrl = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ItemUrl)] = ItemUrl;
+                ModifiedParameters[nameof(ItemUrl)] = ItemUrl;
         }
-
+         
         return ItemUrl;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LicenseInfo property.
     /// </summary>
@@ -1142,8 +1076,8 @@ public partial class PortalItem
         {
             return LicenseInfo;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1152,27 +1086,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return LicenseInfo;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "licenseInfo");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            LicenseInfo = result;
+                LicenseInfo = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(LicenseInfo)] = LicenseInfo;
+                ModifiedParameters[nameof(LicenseInfo)] = LicenseInfo;
         }
-
+         
         return LicenseInfo;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Loaded property.
     /// </summary>
@@ -1182,8 +1116,8 @@ public partial class PortalItem
         {
             return Loaded;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1192,28 +1126,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Loaded;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "loaded");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "loaded");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            Loaded = result.Value.Value;
+                Loaded = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Loaded)] = Loaded;
+                ModifiedParameters[nameof(Loaded)] = Loaded;
         }
-
+         
         return Loaded;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Modified property.
     /// </summary>
@@ -1223,8 +1156,8 @@ public partial class PortalItem
         {
             return Modified;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1233,28 +1166,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Modified;
         }
 
         // get the property value
-        JsNullableDateTimeWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDateTimeWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "modified");
-
-        if (result is { Value: not null })
+        DateTime? result = await JsComponentReference!.InvokeJsMethod<DateTime?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "modified");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            Modified = result.Value.Value;
+                Modified = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Modified)] = Modified;
+                ModifiedParameters[nameof(Modified)] = Modified;
         }
-
+         
         return Modified;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -1264,8 +1196,8 @@ public partial class PortalItem
         {
             return Name;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1274,27 +1206,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Name;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "name");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Name = result;
+                Name = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Name)] = Name;
+                ModifiedParameters[nameof(Name)] = Name;
         }
-
+         
         return Name;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the NumComments property.
     /// </summary>
@@ -1304,8 +1236,8 @@ public partial class PortalItem
         {
             return NumComments;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1314,28 +1246,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return NumComments;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "numComments");
-
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "numComments");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            NumComments = result.Value.Value;
+                NumComments = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(NumComments)] = NumComments;
+                ModifiedParameters[nameof(NumComments)] = NumComments;
         }
-
+         
         return NumComments;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the NumRatings property.
     /// </summary>
@@ -1345,8 +1276,8 @@ public partial class PortalItem
         {
             return NumRatings;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1355,28 +1286,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return NumRatings;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "numRatings");
-
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "numRatings");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            NumRatings = result.Value.Value;
+                NumRatings = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(NumRatings)] = NumRatings;
+                ModifiedParameters[nameof(NumRatings)] = NumRatings;
         }
-
+         
         return NumRatings;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the NumViews property.
     /// </summary>
@@ -1386,8 +1316,8 @@ public partial class PortalItem
         {
             return NumViews;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1396,28 +1326,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return NumViews;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "numViews");
-
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "numViews");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            NumViews = result.Value.Value;
+                NumViews = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(NumViews)] = NumViews;
+                ModifiedParameters[nameof(NumViews)] = NumViews;
         }
-
+         
         return NumViews;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Owner property.
     /// </summary>
@@ -1427,8 +1356,8 @@ public partial class PortalItem
         {
             return Owner;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1437,27 +1366,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Owner;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "owner");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Owner = result;
+                Owner = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Owner)] = Owner;
+                ModifiedParameters[nameof(Owner)] = Owner;
         }
-
+         
         return Owner;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the OwnerFolder property.
     /// </summary>
@@ -1467,8 +1396,8 @@ public partial class PortalItem
         {
             return OwnerFolder;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1477,27 +1406,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return OwnerFolder;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "ownerFolder");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            OwnerFolder = result;
+                OwnerFolder = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(OwnerFolder)] = OwnerFolder;
+                ModifiedParameters[nameof(OwnerFolder)] = OwnerFolder;
         }
-
+         
         return OwnerFolder;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Portal property.
     /// </summary>
@@ -1507,8 +1436,8 @@ public partial class PortalItem
         {
             return Portal;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1517,32 +1446,33 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Portal;
         }
 
-        Portal? result = await JsComponentReference.InvokeAsync<Portal?>("getPortal", CancellationTokenSource.Token);
-
+        Portal? result = await JsComponentReference.InvokeJsMethod<Portal?>(
+            IsServer, nameof(GetPortal), nameof(PortalItem), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
             if (Portal is not null)
             {
                 result.Id = Portal.Id;
             }
-
             result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-
+            
 #pragma warning disable BL0005
             Portal = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Portal)] = Portal;
         }
-
+        
         return Portal;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalItemId property.
     /// </summary>
@@ -1552,8 +1482,8 @@ public partial class PortalItem
         {
             return PortalItemId;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1562,27 +1492,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return PortalItemId;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "id");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            PortalItemId = result;
+                PortalItemId = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(PortalItemId)] = PortalItemId;
+                ModifiedParameters[nameof(PortalItemId)] = PortalItemId;
         }
-
+         
         return PortalItemId;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Screenshots property.
     /// </summary>
@@ -1592,8 +1522,8 @@ public partial class PortalItem
         {
             return Screenshots;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1602,27 +1532,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Screenshots;
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "screenshots");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Screenshots = result;
+                Screenshots = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Screenshots)] = Screenshots;
+                ModifiedParameters[nameof(Screenshots)] = Screenshots;
         }
-
+         
         return Screenshots;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Size property.
     /// </summary>
@@ -1632,8 +1562,8 @@ public partial class PortalItem
         {
             return Size;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1642,28 +1572,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Size;
         }
 
         // get the property value
-        JsNullableLongWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableLongWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "size");
-
-        if (result is { Value: not null })
+        long? result = await JsComponentReference!.InvokeJsMethod<long?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "size");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            Size = result.Value.Value;
+                Size = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Size)] = Size;
+                ModifiedParameters[nameof(Size)] = Size;
         }
-
+         
         return Size;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Snippet property.
     /// </summary>
@@ -1673,8 +1602,8 @@ public partial class PortalItem
         {
             return Snippet;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1683,27 +1612,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Snippet;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "snippet");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Snippet = result;
+                Snippet = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Snippet)] = Snippet;
+                ModifiedParameters[nameof(Snippet)] = Snippet;
         }
-
+         
         return Snippet;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
@@ -1713,8 +1642,8 @@ public partial class PortalItem
         {
             return SourceJSON;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1723,27 +1652,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SourceJSON;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sourceJSON");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            SourceJSON = result;
+                SourceJSON = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
+                ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
         }
-
+         
         return SourceJSON;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Tags property.
     /// </summary>
@@ -1753,8 +1682,8 @@ public partial class PortalItem
         {
             return Tags;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1763,27 +1692,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Tags;
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "tags");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Tags = result;
+                Tags = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Tags)] = Tags;
+                ModifiedParameters[nameof(Tags)] = Tags;
         }
-
+         
         return Tags;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -1793,8 +1722,8 @@ public partial class PortalItem
         {
             return Title;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1803,27 +1732,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Title;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Title = result;
+                Title = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Title)] = Title;
+                ModifiedParameters[nameof(Title)] = Title;
         }
-
+         
         return Title;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the TypeKeywords property.
     /// </summary>
@@ -1833,8 +1762,8 @@ public partial class PortalItem
         {
             return TypeKeywords;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1843,27 +1772,27 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return TypeKeywords;
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "typeKeywords");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            TypeKeywords = result;
+                TypeKeywords = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(TypeKeywords)] = TypeKeywords;
+                ModifiedParameters[nameof(TypeKeywords)] = TypeKeywords;
         }
-
+         
         return TypeKeywords;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -1873,8 +1802,8 @@ public partial class PortalItem
         {
             return Url;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1883,29 +1812,28 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Url;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "url");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Url = result;
+                Url = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Url)] = Url;
+                ModifiedParameters[nameof(Url)] = Url;
         }
-
+         
         return Url;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -1921,13 +1849,13 @@ public partial class PortalItem
         Access = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Access)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1936,16 +1864,16 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "access", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the AccessInformation property after render.
     /// </summary>
@@ -1958,13 +1886,13 @@ public partial class PortalItem
         AccessInformation = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(AccessInformation)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1973,16 +1901,16 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "accessInformation", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ApiKey property after render.
     /// </summary>
@@ -1995,13 +1923,13 @@ public partial class PortalItem
         ApiKey = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ApiKey)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2010,16 +1938,16 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "apiKey", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the AvgRating property after render.
     /// </summary>
@@ -2032,13 +1960,13 @@ public partial class PortalItem
         AvgRating = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(AvgRating)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2047,16 +1975,16 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "avgRating", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Categories property after render.
     /// </summary>
@@ -2069,13 +1997,13 @@ public partial class PortalItem
         Categories = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Categories)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2084,16 +2012,16 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "categories", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Classification property after render.
     /// </summary>
@@ -2106,13 +2034,13 @@ public partial class PortalItem
         Classification = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Classification)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2121,16 +2049,16 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "classification", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Created property after render.
     /// </summary>
@@ -2143,13 +2071,13 @@ public partial class PortalItem
         Created = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Created)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2158,16 +2086,16 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "created", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Culture property after render.
     /// </summary>
@@ -2180,13 +2108,13 @@ public partial class PortalItem
         Culture = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Culture)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2195,16 +2123,16 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "culture", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Description property after render.
     /// </summary>
@@ -2217,13 +2145,13 @@ public partial class PortalItem
         Description = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Description)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2232,16 +2160,16 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "description", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Extent property after render.
     /// </summary>
@@ -2250,22 +2178,22 @@ public partial class PortalItem
     /// </param>
     public async Task SetExtent(Extent? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         Extent = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Extent)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2274,16 +2202,17 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setExtent",
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetExtent), nameof(PortalItem), 
             CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the GroupCategories property after render.
     /// </summary>
@@ -2296,13 +2225,13 @@ public partial class PortalItem
         GroupCategories = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(GroupCategories)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2311,16 +2240,16 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "groupCategories", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LicenseInfo property after render.
     /// </summary>
@@ -2333,13 +2262,13 @@ public partial class PortalItem
         LicenseInfo = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LicenseInfo)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2348,16 +2277,16 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "licenseInfo", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Modified property after render.
     /// </summary>
@@ -2370,13 +2299,13 @@ public partial class PortalItem
         Modified = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Modified)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2385,16 +2314,16 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "modified", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
@@ -2407,13 +2336,13 @@ public partial class PortalItem
         Name = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Name)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2422,16 +2351,16 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the NumComments property after render.
     /// </summary>
@@ -2444,13 +2373,13 @@ public partial class PortalItem
         NumComments = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(NumComments)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2459,16 +2388,16 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "numComments", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the NumRatings property after render.
     /// </summary>
@@ -2481,13 +2410,13 @@ public partial class PortalItem
         NumRatings = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(NumRatings)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2496,16 +2425,16 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "numRatings", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the NumViews property after render.
     /// </summary>
@@ -2518,13 +2447,13 @@ public partial class PortalItem
         NumViews = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(NumViews)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2533,16 +2462,16 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "numViews", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Owner property after render.
     /// </summary>
@@ -2555,13 +2484,13 @@ public partial class PortalItem
         Owner = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Owner)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2570,16 +2499,16 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "owner", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the OwnerFolder property after render.
     /// </summary>
@@ -2592,13 +2521,13 @@ public partial class PortalItem
         OwnerFolder = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(OwnerFolder)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2607,16 +2536,16 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "ownerFolder", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Portal property after render.
     /// </summary>
@@ -2625,22 +2554,22 @@ public partial class PortalItem
     /// </param>
     public async Task SetPortal(Portal? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         Portal = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Portal)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2649,16 +2578,17 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setPortal",
+        
+        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
+            nameof(SetPortal), nameof(PortalItem), 
             CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Screenshots property after render.
     /// </summary>
@@ -2671,13 +2601,13 @@ public partial class PortalItem
         Screenshots = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Screenshots)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2686,16 +2616,16 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "screenshots", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Size property after render.
     /// </summary>
@@ -2708,13 +2638,13 @@ public partial class PortalItem
         Size = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Size)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2723,16 +2653,16 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "size", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Snippet property after render.
     /// </summary>
@@ -2745,13 +2675,13 @@ public partial class PortalItem
         Snippet = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Snippet)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2760,16 +2690,16 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "snippet", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Tags property after render.
     /// </summary>
@@ -2782,13 +2712,13 @@ public partial class PortalItem
         Tags = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Tags)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2797,16 +2727,16 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "tags", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -2819,13 +2749,13 @@ public partial class PortalItem
         Title = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Title)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2834,16 +2764,16 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the TypeKeywords property after render.
     /// </summary>
@@ -2856,13 +2786,13 @@ public partial class PortalItem
         TypeKeywords = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(TypeKeywords)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2871,16 +2801,16 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "typeKeywords", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -2893,13 +2823,13 @@ public partial class PortalItem
         Url = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Url)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2908,18 +2838,17 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
     }
-
+    
 #endregion
-
 
 #region Add to Collection Methods
 
@@ -2936,7 +2865,7 @@ public partial class PortalItem
             : [..Categories, ..values];
         await SetCategories(join);
     }
-
+    
     /// <summary>
     ///     Asynchronously adds elements to the GroupCategories property.
     /// </summary>
@@ -2950,7 +2879,7 @@ public partial class PortalItem
             : [..GroupCategories, ..values];
         await SetGroupCategories(join);
     }
-
+    
     /// <summary>
     ///     Asynchronously adds elements to the Screenshots property.
     /// </summary>
@@ -2964,7 +2893,7 @@ public partial class PortalItem
             : [..Screenshots, ..values];
         await SetScreenshots(join);
     }
-
+    
     /// <summary>
     ///     Asynchronously adds elements to the Tags property.
     /// </summary>
@@ -2978,7 +2907,7 @@ public partial class PortalItem
             : [..Tags, ..values];
         await SetTags(join);
     }
-
+    
     /// <summary>
     ///     Asynchronously adds elements to the TypeKeywords property.
     /// </summary>
@@ -2992,12 +2921,12 @@ public partial class PortalItem
             : [..TypeKeywords, ..values];
         await SetTypeKeywords(join);
     }
-
+    
 #endregion
-
 
 #region Remove From Collection Methods
 
+    
     /// <summary>
     ///     Asynchronously remove an element from the Categories property.
     /// </summary>
@@ -3010,10 +2939,10 @@ public partial class PortalItem
         {
             return;
         }
-
         await SetCategories(Categories.Except(values).ToArray());
     }
-
+    
+    
     /// <summary>
     ///     Asynchronously remove an element from the GroupCategories property.
     /// </summary>
@@ -3026,10 +2955,10 @@ public partial class PortalItem
         {
             return;
         }
-
         await SetGroupCategories(GroupCategories.Except(values).ToArray());
     }
-
+    
+    
     /// <summary>
     ///     Asynchronously remove an element from the Screenshots property.
     /// </summary>
@@ -3042,10 +2971,10 @@ public partial class PortalItem
         {
             return;
         }
-
         await SetScreenshots(Screenshots.Except(values).ToArray());
     }
-
+    
+    
     /// <summary>
     ///     Asynchronously remove an element from the Tags property.
     /// </summary>
@@ -3058,10 +2987,10 @@ public partial class PortalItem
         {
             return;
         }
-
         await SetTags(Tags.Except(values).ToArray());
     }
-
+    
+    
     /// <summary>
     ///     Asynchronously remove an element from the TypeKeywords property.
     /// </summary>
@@ -3074,12 +3003,10 @@ public partial class PortalItem
         {
             return;
         }
-
         await SetTypeKeywords(TypeKeywords.Except(values).ToArray());
     }
-
+    
 #endregion
-
 
 #region Public Methods
 
@@ -3092,13 +3019,13 @@ public partial class PortalItem
     ///     Rating to set for the item. Rating must be a number between 1.0 and 5.0.
     /// </param>
     [ArcGISMethod]
-    public async Task<PortalRating?> AddRating(double rating)
+    public async Task<PortalRating?> AddRating(PortalRating rating)
     {
         if (CoreJsModule is null)
         {
             return null;
         }
-
+        
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -3108,17 +3035,18 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
-        return await JsComponentReference!.InvokeAsync<PortalRating?>("addRating",
+        
+        return await JsComponentReference!.InvokeJsMethod<PortalRating?>(
+            IsServer, nameof(AddRating), nameof(PortalItem), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             rating);
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemaddresource-method">GeoBlazor Docs</a>
     ///     Adds a new <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html">resource</a> to the portal item.
@@ -3147,8 +3075,8 @@ public partial class PortalItem
         {
             return null;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3157,26 +3085,31 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
+        
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-
-        string? result = await JsComponentReference!.InvokeAsync<string?>("addResource",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(AddResource), nameof(PortalItem), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             resource,
             content,
             options,
             abortSignal);
-
+                
         await AbortManager.DisposeAbortController(cancellationToken);
-
+        
         return result;
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemcancelload-method">GeoBlazor Docs</a>
     ///     Cancels a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#load">load()</a> operation if it is already in progress.
@@ -3189,8 +3122,8 @@ public partial class PortalItem
         {
             return;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3199,16 +3132,23 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference!.InvokeVoidAsync("cancelLoad",
+        
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(CancelLoad), nameof(PortalItem), 
             CancellationTokenSource.Token);
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemdeleterating-method">GeoBlazor Docs</a>
     ///     Deletes a rating for the specified item.
@@ -3221,7 +3161,7 @@ public partial class PortalItem
         {
             return null;
         }
-
+        
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -3231,16 +3171,17 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
-        return await JsComponentReference!.InvokeAsync<string?>("deleteRating",
+        
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(DeleteRating), nameof(PortalItem), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemfetchdata-method">GeoBlazor Docs</a>
     ///     Requests a PortalItem in the format specified in `responseType`.
@@ -3261,8 +3202,8 @@ public partial class PortalItem
         {
             return null;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3271,24 +3212,29 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
+        
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-
-        string? result = await JsComponentReference!.InvokeAsync<string?>("fetchData",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(FetchData), nameof(PortalItem), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             responseType,
             abortSignal);
-
+                
         await AbortManager.DisposeAbortController(cancellationToken);
-
+        
         return result;
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemfetchrating-method">GeoBlazor Docs</a>
     ///     Returns the rating (if any) given to the item.
@@ -3304,8 +3250,8 @@ public partial class PortalItem
         {
             return null;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3314,23 +3260,28 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
+        
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-
-        PortalRating? result = await JsComponentReference!.InvokeAsync<PortalRating?>("fetchRating",
+        PortalRating? result = await JsComponentReference!.InvokeJsMethod<PortalRating?>(
+            IsServer, nameof(FetchRating), nameof(PortalItem), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             abortSignal);
-
+                
         await AbortManager.DisposeAbortController(cancellationToken);
-
+        
         return result;
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemfetchrelateditems-method">GeoBlazor Docs</a>
     ///     Gets all the related items of a certain relationship type for the portal item.
@@ -3357,8 +3308,8 @@ public partial class PortalItem
         {
             return null;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3367,24 +3318,29 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
+        
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-
-        PortalItem[]? result = await JsComponentReference!.InvokeAsync<PortalItem[]?>("fetchRelatedItems",
+        PortalItem[]? result = await JsComponentReference!.InvokeJsMethod<PortalItem[]?>(
+            IsServer, nameof(FetchRelatedItems), nameof(PortalItem), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             new { relationshipType, direction },
             abortSignal);
-
+                
         await AbortManager.DisposeAbortController(cancellationToken);
-
+        
         return result;
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemfetchresources-method">GeoBlazor Docs</a>
     ///     Retrieves references to all the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html">portal item resources</a>.
@@ -3421,8 +3377,8 @@ public partial class PortalItem
         {
             return null;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3431,24 +3387,29 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
+        
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-
-        FetchResourcesResult? result = await JsComponentReference!.InvokeAsync<FetchResourcesResult?>("fetchResources",
+        FetchResourcesResult? result = await JsComponentReference!.InvokeJsMethod<FetchResourcesResult?>(
+            IsServer, nameof(FetchResources), nameof(PortalItem), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             new { num, start, sortOrder, sortField },
             abortSignal);
-
+                
         await AbortManager.DisposeAbortController(cancellationToken);
-
+        
         return result;
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemgetthumbnailurl-method">GeoBlazor Docs</a>
     ///     Get the URL to the thumbnail image for the item.
@@ -3464,7 +3425,7 @@ public partial class PortalItem
         {
             return null;
         }
-
+        
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -3474,17 +3435,18 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
-        return await JsComponentReference!.InvokeAsync<string?>("getThumbnailUrl",
+        
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GetThumbnailUrl), nameof(PortalItem), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             width);
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemisfulfilled-method">GeoBlazor Docs</a>
     ///     `isFulfilled()` may be used to verify if creating an instance of the class is fulfilled (either resolved or rejected).
@@ -3497,7 +3459,7 @@ public partial class PortalItem
         {
             return null;
         }
-
+        
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -3507,16 +3469,17 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
-        return await JsComponentReference!.InvokeAsync<bool?>("isFulfilled",
+        
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsFulfilled), nameof(PortalItem), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemisrejected-method">GeoBlazor Docs</a>
     ///     `isRejected()` may be used to verify if creating an instance of the class is rejected.
@@ -3529,7 +3492,7 @@ public partial class PortalItem
         {
             return null;
         }
-
+        
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -3539,16 +3502,17 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
-        return await JsComponentReference!.InvokeAsync<bool?>("isRejected",
+        
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsRejected), nameof(PortalItem), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemisresolved-method">GeoBlazor Docs</a>
     ///     `isResolved()` may be used to verify if creating an instance of the class is resolved.
@@ -3561,7 +3525,7 @@ public partial class PortalItem
         {
             return null;
         }
-
+        
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -3571,16 +3535,17 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
-        return await JsComponentReference!.InvokeAsync<bool?>("isResolved",
+        
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsResolved), nameof(PortalItem), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemload-method">GeoBlazor Docs</a>
     ///     Loads the resources referenced by this class.
@@ -3596,8 +3561,8 @@ public partial class PortalItem
         {
             return null;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3606,23 +3571,28 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
+        
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-
-        string? result = await JsComponentReference!.InvokeAsync<string?>("load",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(Load), nameof(PortalItem), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             abortSignal);
-
+                
         await AbortManager.DisposeAbortController(cancellationToken);
-
+        
         return result;
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemreload-method">GeoBlazor Docs</a>
     ///     Reloads a loaded item's properties from the portal.
@@ -3635,7 +3605,7 @@ public partial class PortalItem
         {
             return null;
         }
-
+        
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -3645,16 +3615,17 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
-        return await JsComponentReference!.InvokeAsync<PortalItem?>("reload",
+        
+        return await JsComponentReference!.InvokeJsMethod<PortalItem?>(
+            IsServer, nameof(Reload), nameof(PortalItem), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemremoveallresources-method">GeoBlazor Docs</a>
     ///     Removes all the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html">resources</a> from the portal item.
@@ -3670,8 +3641,8 @@ public partial class PortalItem
         {
             return null;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3680,23 +3651,28 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
+        
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-
-        string? result = await JsComponentReference!.InvokeAsync<string?>("removeAllResources",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(RemoveAllResources), nameof(PortalItem), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             abortSignal);
-
+                
         await AbortManager.DisposeAbortController(cancellationToken);
-
+        
         return result;
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemremoveresource-method">GeoBlazor Docs</a>
     ///     Removes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html">resource</a> from the portal item.
@@ -3717,8 +3693,8 @@ public partial class PortalItem
         {
             return null;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -3727,24 +3703,29 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
+        
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-
-        string? result = await JsComponentReference!.InvokeAsync<string?>("removeResource",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(RemoveResource), nameof(PortalItem), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             resource,
             abortSignal);
-
+                
         await AbortManager.DisposeAbortController(cancellationToken);
-
+        
         return result;
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemupdate-method">GeoBlazor Docs</a>
     ///     Updates the item's properties to the portal, and optionally its data.
@@ -3761,7 +3742,7 @@ public partial class PortalItem
         {
             return null;
         }
-
+        
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -3771,17 +3752,18 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
-        return await JsComponentReference!.InvokeAsync<PortalItem?>("update",
+        
+        return await JsComponentReference!.InvokeJsMethod<PortalItem?>(
+            IsServer, nameof(Update), nameof(PortalItem), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             new { data });
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemupdatethumbnail-method">GeoBlazor Docs</a>
     ///     Updates the item's thumbnail on the portal.
@@ -3796,14 +3778,14 @@ public partial class PortalItem
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#updateThumbnail">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     [ArcGISMethod]
-    public async Task<PortalItem?> UpdateThumbnail(Stream? thumbnail,
+    public async Task<PortalItem?> UpdateThumbnail(ThumbnailUnion? thumbnail,
         string? filename)
     {
         if (CoreJsModule is null)
         {
             return null;
         }
-
+        
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -3813,37 +3795,39 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
-        return await JsComponentReference!.InvokeAsync<PortalItem?>("updateThumbnail",
+        
+        return await JsComponentReference!.InvokeJsMethod<PortalItem?>(
+            IsServer, nameof(UpdateThumbnail), nameof(PortalItem), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             new { thumbnail, filename });
     }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemwhen-method">GeoBlazor Docs</a>
     ///     `when()` may be leveraged once an instance of the class is created.
-    ///     param onRejected The function to execute when the promise fails.
+    ///     param errback The function to execute when the promise fails.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#when">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    /// <param name="onFulfilled">
+    /// <param name="callback">
     ///     The function to call when the promise resolves.
     /// </param>
-    /// <param name="onRejected">
+    /// <param name="errback">
+    ///     The function to execute when the promise fails.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> When(Func<Task> onFulfilled,
-        Func<Task> onRejected)
+    public async Task<string?> When(Func<Task> callback,
+        Func<Task> errback)
     {
         if (CoreJsModule is null)
         {
             return null;
         }
-
+        
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -3853,17 +3837,77 @@ public partial class PortalItem
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
-        return await JsComponentReference!.InvokeAsync<string?>("when",
+        
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(When), nameof(PortalItem), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
-            onFulfilled,
-            onRejected);
+            callback,
+            errback);
+    }
+    
+#endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Extent extent:
+                if (extent != Extent)
+                {
+                    Extent = extent;
+                    ModifiedParameters[nameof(Extent)] = Extent;
+                }
+                
+                return true;
+            case Portal portal:
+                if (portal != Portal)
+                {
+                    Portal = portal;
+                    ModifiedParameters[nameof(Portal)] = Portal;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
     }
 
-#endregion
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Extent _:
+                Extent = null;
+                ModifiedParameters[nameof(Extent)] = Extent;
+                return true;
+            case Portal _:
+                Portal = null;
+                ModifiedParameters[nameof(Portal)] = Portal;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        if (PortalItemId is null)
+        {
+            throw new MissingRequiredChildElementException(nameof(PortalItem), nameof(PortalItemId));
+        }
+        Extent?.ValidateRequiredGeneratedChildren();
+        Portal?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

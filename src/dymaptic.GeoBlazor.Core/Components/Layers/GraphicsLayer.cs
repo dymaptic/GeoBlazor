@@ -104,7 +104,7 @@ public partial class GraphicsLayer : Layer
         BlendMode? blendMode = null,
         string? arcGISLayerId = null,
         Effect? effect = null,
-        ElevationInfo? elevationInfo = null,
+        GraphicsLayerElevationInfo? elevationInfo = null,
         Extent? fullExtent = null,
         bool? isBasemapReferenceLayer = null,
         TimeExtent? visibilityTimeExtent = null,

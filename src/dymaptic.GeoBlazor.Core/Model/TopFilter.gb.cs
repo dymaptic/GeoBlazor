@@ -26,28 +26,29 @@ public partial record TopFilter(
     int? TopCount = null)
 {
     /// <summary>
-    ///     Parameterless constructor
+    ///     Parameterless Constructor
     /// </summary>
-    public TopFilter() : this(null, null)
+    public TopFilter(): this(null, null)
     {
     }
-
+    
     /// <summary>
     ///     When one or more field names are provided in this property, the output
     ///     result will be grouped based on unique values from those fields.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#groupByFields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyCollection<string>? GroupByFields { get; set; } = GroupByFields;
-
+    
     /// <summary>
     ///     One or more field names used to order the query results.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#orderByFields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyCollection<string>? OrderByFields { get; set; } = OrderByFields;
-
+    
     /// <summary>
     ///     Defines the number of features to be returned from the top features query.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#topCount">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public int? TopCount { get; set; } = TopCount;
+    
 }

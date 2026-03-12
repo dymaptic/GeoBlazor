@@ -174,14 +174,15 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supports3D");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supports3D");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Supports3D = result.Value.Value;
+                Supports3D = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Supports3D)] = Supports3D;
+                ModifiedParameters[nameof(Supports3D)] = Supports3D;
         }
          
         return Supports3D;
@@ -213,14 +214,15 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsAreaAndPerimeter");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsAreaAndPerimeter");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsAreaAndPerimeter = result.Value.Value;
+                SupportsAreaAndPerimeter = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsAreaAndPerimeter)] = SupportsAreaAndPerimeter;
+                ModifiedParameters[nameof(SupportsAreaAndPerimeter)] = SupportsAreaAndPerimeter;
         }
          
         return SupportsAreaAndPerimeter;
@@ -252,14 +254,15 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsDistanceAndAngle");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsDistanceAndAngle");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsDistanceAndAngle = result.Value.Value;
+                SupportsDistanceAndAngle = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsDistanceAndAngle)] = SupportsDistanceAndAngle;
+                ModifiedParameters[nameof(SupportsDistanceAndAngle)] = SupportsDistanceAndAngle;
         }
          
         return SupportsDistanceAndAngle;
@@ -291,14 +294,15 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsHeightFromBaseAndTop");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsHeightFromBaseAndTop");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsHeightFromBaseAndTop = result.Value.Value;
+                SupportsHeightFromBaseAndTop = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsHeightFromBaseAndTop)] = SupportsHeightFromBaseAndTop;
+                ModifiedParameters[nameof(SupportsHeightFromBaseAndTop)] = SupportsHeightFromBaseAndTop;
         }
          
         return SupportsHeightFromBaseAndTop;
@@ -330,14 +334,15 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsHeightFromBaseAndTopShadow");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsHeightFromBaseAndTopShadow");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsHeightFromBaseAndTopShadow = result.Value.Value;
+                SupportsHeightFromBaseAndTopShadow = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsHeightFromBaseAndTopShadow)] = SupportsHeightFromBaseAndTopShadow;
+                ModifiedParameters[nameof(SupportsHeightFromBaseAndTopShadow)] = SupportsHeightFromBaseAndTopShadow;
         }
          
         return SupportsHeightFromBaseAndTopShadow;
@@ -369,14 +374,15 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsHeightFromTopAndTopShadow");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsHeightFromTopAndTopShadow");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsHeightFromTopAndTopShadow = result.Value.Value;
+                SupportsHeightFromTopAndTopShadow = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsHeightFromTopAndTopShadow)] = SupportsHeightFromTopAndTopShadow;
+                ModifiedParameters[nameof(SupportsHeightFromTopAndTopShadow)] = SupportsHeightFromTopAndTopShadow;
         }
          
         return SupportsHeightFromTopAndTopShadow;
@@ -408,14 +414,15 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsPointOrCentroid");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsPointOrCentroid");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsPointOrCentroid = result.Value.Value;
+                SupportsPointOrCentroid = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsPointOrCentroid)] = SupportsPointOrCentroid;
+                ModifiedParameters[nameof(SupportsPointOrCentroid)] = SupportsPointOrCentroid;
         }
          
         return SupportsPointOrCentroid;

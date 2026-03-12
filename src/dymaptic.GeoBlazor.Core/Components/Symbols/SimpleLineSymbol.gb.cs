@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.SimpleLineSymbol.html">GeoBlazor Docs</a>
 ///     SimpleLineSymbol is used for rendering 2D <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">polyline geometries</a>
@@ -10,6 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 /// </summary>
 public partial class SimpleLineSymbol : ISymbol2D
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -55,7 +57,8 @@ public partial class SimpleLineSymbol : ISymbol2D
     ///     default 2
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html#miterLimit">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public SimpleLineSymbol(MapColor? color = null,
+    public SimpleLineSymbol(
+        MapColor? color = null,
         Dimension? width = null,
         SimpleLineSymbolStyle? style = null,
         Cap? cap = null,
@@ -72,10 +75,10 @@ public partial class SimpleLineSymbol : ISymbol2D
         Join = join;
         Marker = marker;
         MiterLimit = miterLimit;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-
+    
+    
 #region Property Getters
 
     /// <summary>
@@ -87,8 +90,8 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             return Cap;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -97,28 +100,27 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Cap;
         }
 
         // get the property value
-        JsNullableEnumWrapper<Cap>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Cap>?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "cap");
-
-        if (result is { Value: not null })
+        Cap? result = await JsComponentReference!.InvokeJsMethod<Cap?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SimpleLineSymbol), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "cap");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            Cap = (Cap)result.Value.Value!;
+                Cap = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Cap)] = Cap;
+                ModifiedParameters[nameof(Cap)] = Cap;
         }
-
+         
         return Cap;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Join property.
     /// </summary>
@@ -128,8 +130,8 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             return Join;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -138,28 +140,27 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Join;
         }
 
         // get the property value
-        JsNullableEnumWrapper<Join>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Join>?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "join");
-
-        if (result is { Value: not null })
+        Join? result = await JsComponentReference!.InvokeJsMethod<Join?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SimpleLineSymbol), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "join");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            Join = (Join)result.Value.Value!;
+                Join = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Join)] = Join;
+                ModifiedParameters[nameof(Join)] = Join;
         }
-
+         
         return Join;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Marker property.
     /// </summary>
@@ -169,8 +170,8 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             return Marker;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -179,26 +180,33 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Marker;
         }
 
-        LineSymbolMarker? result =
-            await JsComponentReference.InvokeAsync<LineSymbolMarker?>("getMarker", CancellationTokenSource.Token);
-
+        LineSymbolMarker? result = await JsComponentReference.InvokeJsMethod<LineSymbolMarker?>(
+            IsServer, nameof(GetMarker), nameof(SimpleLineSymbol), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (Marker is not null)
+            {
+                result.Id = Marker.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Marker = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Marker)] = Marker;
         }
-
+        
         return Marker;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MiterLimit property.
     /// </summary>
@@ -208,8 +216,8 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             return MiterLimit;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -218,28 +226,27 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return MiterLimit;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "miterLimit");
-
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SimpleLineSymbol), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "miterLimit");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            MiterLimit = result.Value.Value;
+                MiterLimit = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(MiterLimit)] = MiterLimit;
+                ModifiedParameters[nameof(MiterLimit)] = MiterLimit;
         }
-
+         
         return MiterLimit;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Style property.
     /// </summary>
@@ -249,8 +256,8 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             return Style;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -259,31 +266,28 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Style;
         }
 
         // get the property value
-        JsNullableEnumWrapper<SimpleLineSymbolStyle>? result =
-            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SimpleLineSymbolStyle>?>(
-                "getNullableValueTypedProperty",
-                CancellationTokenSource.Token, JsComponentReference, "style");
-
-        if (result is { Value: not null })
+        SimpleLineSymbolStyle? result = await JsComponentReference!.InvokeJsMethod<SimpleLineSymbolStyle?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SimpleLineSymbol), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "style");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            Style = (SimpleLineSymbolStyle)result.Value.Value!;
+                Style = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Style)] = Style;
+                ModifiedParameters[nameof(Style)] = Style;
         }
-
+         
         return Style;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -299,13 +303,13 @@ public partial class SimpleLineSymbol : ISymbol2D
         Cap = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Cap)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -314,16 +318,16 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "cap", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Join property after render.
     /// </summary>
@@ -336,13 +340,13 @@ public partial class SimpleLineSymbol : ISymbol2D
         Join = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Join)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -351,16 +355,16 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "join", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Marker property after render.
     /// </summary>
@@ -369,22 +373,22 @@ public partial class SimpleLineSymbol : ISymbol2D
     /// </param>
     public async Task SetMarker(LineSymbolMarker? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         Marker = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Marker)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -393,16 +397,16 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "marker", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MiterLimit property after render.
     /// </summary>
@@ -415,13 +419,13 @@ public partial class SimpleLineSymbol : ISymbol2D
         MiterLimit = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(MiterLimit)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -430,16 +434,16 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "miterLimit", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Style property after render.
     /// </summary>
@@ -452,13 +456,13 @@ public partial class SimpleLineSymbol : ISymbol2D
         Style = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Style)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -467,15 +471,16 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "style", value);
     }
-
+    
 #endregion
+
 }

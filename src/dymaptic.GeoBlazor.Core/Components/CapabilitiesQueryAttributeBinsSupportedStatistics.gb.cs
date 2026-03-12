@@ -178,14 +178,15 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "avg");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "avg");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Avg = result.Value.Value;
+                Avg = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Avg)] = Avg;
+                ModifiedParameters[nameof(Avg)] = Avg;
         }
          
         return Avg;
@@ -217,14 +218,15 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "count");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "count");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Count = result.Value.Value;
+                Count = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Count)] = Count;
+                ModifiedParameters[nameof(Count)] = Count;
         }
          
         return Count;
@@ -256,14 +258,15 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "max");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "max");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Max = result.Value.Value;
+                Max = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Max)] = Max;
+                ModifiedParameters[nameof(Max)] = Max;
         }
          
         return Max;
@@ -295,14 +298,15 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "min");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "min");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Min = result.Value.Value;
+                Min = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Min)] = Min;
+                ModifiedParameters[nameof(Min)] = Min;
         }
          
         return Min;
@@ -334,14 +338,15 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "percentileContinuous");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "percentileContinuous");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             PercentileContinuous = result.Value.Value;
+                PercentileContinuous = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PercentileContinuous)] = PercentileContinuous;
+                ModifiedParameters[nameof(PercentileContinuous)] = PercentileContinuous;
         }
          
         return PercentileContinuous;
@@ -373,14 +378,15 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "percentileDiscrete");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "percentileDiscrete");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             PercentileDiscrete = result.Value.Value;
+                PercentileDiscrete = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PercentileDiscrete)] = PercentileDiscrete;
+                ModifiedParameters[nameof(PercentileDiscrete)] = PercentileDiscrete;
         }
          
         return PercentileDiscrete;
@@ -412,14 +418,15 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "stddev");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "stddev");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Stddev = result.Value.Value;
+                Stddev = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Stddev)] = Stddev;
+                ModifiedParameters[nameof(Stddev)] = Stddev;
         }
          
         return Stddev;
@@ -451,14 +458,15 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "sum");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "sum");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Sum = result.Value.Value;
+                Sum = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Sum)] = Sum;
+                ModifiedParameters[nameof(Sum)] = Sum;
         }
          
         return Sum;
@@ -490,14 +498,15 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "var");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "var");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Var = result.Value.Value;
+                Var = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Var)] = Var;
+                ModifiedParameters[nameof(Var)] = Var;
         }
          
         return Var;

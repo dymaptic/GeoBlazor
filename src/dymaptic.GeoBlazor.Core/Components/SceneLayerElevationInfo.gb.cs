@@ -110,14 +110,15 @@ public partial class SceneLayerElevationInfo : MapComponent
         }
 
         // get the property value
-        JsNullableEnumWrapper<ElevationInfoMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ElevationInfoMode>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "mode");
-        if (result is { Value: not null })
+        ElevationInfoMode? result = await JsComponentReference!.InvokeJsMethod<ElevationInfoMode?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SceneLayerElevationInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "mode");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Mode = (ElevationInfoMode)result.Value.Value!;
+                Mode = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Mode)] = Mode;
+                ModifiedParameters[nameof(Mode)] = Mode;
         }
          
         return Mode;
@@ -149,14 +150,15 @@ public partial class SceneLayerElevationInfo : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "offset");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SceneLayerElevationInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "offset");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Offset = result.Value.Value;
+                Offset = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Offset)] = Offset;
+                ModifiedParameters[nameof(Offset)] = Offset;
         }
          
         return Offset;
@@ -188,14 +190,15 @@ public partial class SceneLayerElevationInfo : MapComponent
         }
 
         // get the property value
-        JsNullableEnumWrapper<ElevationUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ElevationUnit>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "unit");
-        if (result is { Value: not null })
+        ElevationUnit? result = await JsComponentReference!.InvokeJsMethod<ElevationUnit?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SceneLayerElevationInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "unit");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Unit = (ElevationUnit)result.Value.Value!;
+                Unit = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Unit)] = Unit;
+                ModifiedParameters[nameof(Unit)] = Unit;
         }
          
         return Unit;

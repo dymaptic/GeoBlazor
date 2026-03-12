@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchTable.html">GeoBlazor Docs</a>
 ///     Represents a table to be included in search.
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class SearchTable : MapComponent
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -28,57 +30,18 @@ public partial class SearchTable : MapComponent
     ///     The id of the table.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-SearchTable.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public SearchTable(SearchTableField? field = null,
+    public SearchTable(
+        SearchTableField? field = null,
         string? searchTableId = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Field = field;
         SearchTableId = searchTableId;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        Field?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case SearchTableField field:
-                if (field != Field)
-                {
-                    Field = field;
-                    ModifiedParameters[nameof(Field)] = Field;
-                }
-
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case SearchTableField _:
-                Field = null;
-                ModifiedParameters[nameof(Field)] = Field;
-
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -90,7 +53,7 @@ public partial class SearchTable : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public SearchTableField? Field { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchTable.html#searchtablesearchtableid-property">GeoBlazor Docs</a>
     ///     The id of the table.
@@ -100,9 +63,8 @@ public partial class SearchTable : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? SearchTableId { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -115,8 +77,8 @@ public partial class SearchTable : MapComponent
         {
             return Field;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -125,26 +87,33 @@ public partial class SearchTable : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Field;
         }
 
-        SearchTableField? result =
-            await JsComponentReference.InvokeAsync<SearchTableField?>("getField", CancellationTokenSource.Token);
-
+        SearchTableField? result = await JsComponentReference.InvokeJsMethod<SearchTableField?>(
+            IsServer, nameof(GetField), nameof(SearchTable), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (Field is not null)
+            {
+                result.Id = Field.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Field = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Field)] = Field;
         }
-
+        
         return Field;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SearchTableId property.
     /// </summary>
@@ -154,8 +123,8 @@ public partial class SearchTable : MapComponent
         {
             return SearchTableId;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -164,29 +133,28 @@ public partial class SearchTable : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SearchTableId;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchTable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "id");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            SearchTableId = result;
+                SearchTableId = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SearchTableId)] = SearchTableId;
+                ModifiedParameters[nameof(SearchTableId)] = SearchTableId;
         }
-
+         
         return SearchTableId;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -198,22 +166,22 @@ public partial class SearchTable : MapComponent
     /// </param>
     public async Task SetField(SearchTableField? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         Field = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Field)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -222,16 +190,16 @@ public partial class SearchTable : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SearchTableId property after render.
     /// </summary>
@@ -244,13 +212,13 @@ public partial class SearchTable : MapComponent
         SearchTableId = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SearchTableId)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -259,15 +227,57 @@ public partial class SearchTable : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
     }
-
+    
 #endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case SearchTableField field:
+                if (field != Field)
+                {
+                    Field = field;
+                    ModifiedParameters[nameof(Field)] = Field;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case SearchTableField:
+                Field = null;
+                ModifiedParameters[nameof(Field)] = Field;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        Field?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

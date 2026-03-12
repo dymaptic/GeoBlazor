@@ -192,14 +192,15 @@ public partial class RasterSensorInfo : MapComponent
         }
 
         // get the property value
-        JsNullableDateTimeWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDateTimeWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "acquisitionDate");
-        if (result is { Value: not null })
+        DateTime? result = await JsComponentReference!.InvokeJsMethod<DateTime?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterSensorInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "acquisitionDate");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             AcquisitionDate = result.Value.Value;
+                AcquisitionDate = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AcquisitionDate)] = AcquisitionDate;
+                ModifiedParameters[nameof(AcquisitionDate)] = AcquisitionDate;
         }
          
         return AcquisitionDate;
@@ -231,14 +232,15 @@ public partial class RasterSensorInfo : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "cloudCover");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterSensorInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "cloudCover");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             CloudCover = result.Value.Value;
+                CloudCover = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(CloudCover)] = CloudCover;
+                ModifiedParameters[nameof(CloudCover)] = CloudCover;
         }
          
         return CloudCover;
@@ -270,14 +272,15 @@ public partial class RasterSensorInfo : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterSensorInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "productName");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ProductName = result;
+                ProductName = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ProductName)] = ProductName;
+                ModifiedParameters[nameof(ProductName)] = ProductName;
         }
          
         return ProductName;
@@ -309,14 +312,15 @@ public partial class RasterSensorInfo : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "sensorAzimuth");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterSensorInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "sensorAzimuth");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SensorAzimuth = result.Value.Value;
+                SensorAzimuth = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SensorAzimuth)] = SensorAzimuth;
+                ModifiedParameters[nameof(SensorAzimuth)] = SensorAzimuth;
         }
          
         return SensorAzimuth;
@@ -348,14 +352,15 @@ public partial class RasterSensorInfo : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "sensorElevation");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterSensorInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "sensorElevation");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SensorElevation = result.Value.Value;
+                SensorElevation = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SensorElevation)] = SensorElevation;
+                ModifiedParameters[nameof(SensorElevation)] = SensorElevation;
         }
          
         return SensorElevation;
@@ -387,14 +392,15 @@ public partial class RasterSensorInfo : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterSensorInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sensorName");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SensorName = result;
+                SensorName = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SensorName)] = SensorName;
+                ModifiedParameters[nameof(SensorName)] = SensorName;
         }
          
         return SensorName;
@@ -426,14 +432,15 @@ public partial class RasterSensorInfo : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "sunAzimuth");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterSensorInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "sunAzimuth");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SunAzimuth = result.Value.Value;
+                SunAzimuth = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SunAzimuth)] = SunAzimuth;
+                ModifiedParameters[nameof(SunAzimuth)] = SunAzimuth;
         }
          
         return SunAzimuth;
@@ -465,14 +472,15 @@ public partial class RasterSensorInfo : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "sunElevation");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterSensorInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "sunElevation");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SunElevation = result.Value.Value;
+                SunElevation = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SunElevation)] = SunElevation;
+                ModifiedParameters[nameof(SunElevation)] = SunElevation;
         }
          
         return SunElevation;

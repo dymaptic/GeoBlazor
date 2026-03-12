@@ -187,14 +187,15 @@ public partial class VisibleElementsMenuItems : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "clearSelection");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElementsMenuItems), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "clearSelection");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ClearSelection = result.Value.Value;
+                ClearSelection = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ClearSelection)] = ClearSelection;
+                ModifiedParameters[nameof(ClearSelection)] = ClearSelection;
         }
          
         return ClearSelection;
@@ -226,14 +227,15 @@ public partial class VisibleElementsMenuItems : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "deleteSelection");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElementsMenuItems), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "deleteSelection");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             DeleteSelection = result.Value.Value;
+                DeleteSelection = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DeleteSelection)] = DeleteSelection;
+                ModifiedParameters[nameof(DeleteSelection)] = DeleteSelection;
         }
          
         return DeleteSelection;
@@ -265,14 +267,15 @@ public partial class VisibleElementsMenuItems : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "exportSelectionToCSV");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElementsMenuItems), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "exportSelectionToCSV");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ExportSelectionToCSV = result.Value.Value;
+                ExportSelectionToCSV = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ExportSelectionToCSV)] = ExportSelectionToCSV;
+                ModifiedParameters[nameof(ExportSelectionToCSV)] = ExportSelectionToCSV;
         }
          
         return ExportSelectionToCSV;
@@ -304,14 +307,15 @@ public partial class VisibleElementsMenuItems : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "refreshData");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElementsMenuItems), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "refreshData");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             RefreshData = result.Value.Value;
+                RefreshData = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RefreshData)] = RefreshData;
+                ModifiedParameters[nameof(RefreshData)] = RefreshData;
         }
          
         return RefreshData;
@@ -343,14 +347,15 @@ public partial class VisibleElementsMenuItems : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "selectedRecordsShowAllToggle");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElementsMenuItems), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "selectedRecordsShowAllToggle");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SelectedRecordsShowAllToggle = result.Value.Value;
+                SelectedRecordsShowAllToggle = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SelectedRecordsShowAllToggle)] = SelectedRecordsShowAllToggle;
+                ModifiedParameters[nameof(SelectedRecordsShowAllToggle)] = SelectedRecordsShowAllToggle;
         }
          
         return SelectedRecordsShowAllToggle;
@@ -382,14 +387,15 @@ public partial class VisibleElementsMenuItems : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "selectedRecordsShowSelectedToggle");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElementsMenuItems), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "selectedRecordsShowSelectedToggle");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SelectedRecordsShowSelectedToggle = result.Value.Value;
+                SelectedRecordsShowSelectedToggle = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SelectedRecordsShowSelectedToggle)] = SelectedRecordsShowSelectedToggle;
+                ModifiedParameters[nameof(SelectedRecordsShowSelectedToggle)] = SelectedRecordsShowSelectedToggle;
         }
          
         return SelectedRecordsShowSelectedToggle;
@@ -421,14 +427,15 @@ public partial class VisibleElementsMenuItems : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "toggleColumns");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElementsMenuItems), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "toggleColumns");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ToggleColumns = result.Value.Value;
+                ToggleColumns = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ToggleColumns)] = ToggleColumns;
+                ModifiedParameters[nameof(ToggleColumns)] = ToggleColumns;
         }
          
         return ToggleColumns;
@@ -460,14 +467,15 @@ public partial class VisibleElementsMenuItems : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "zoomToSelection");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElementsMenuItems), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "zoomToSelection");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ZoomToSelection = result.Value.Value;
+                ZoomToSelection = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ZoomToSelection)] = ZoomToSelection;
+                ModifiedParameters[nameof(ZoomToSelection)] = ZoomToSelection;
         }
          
         return ZoomToSelection;

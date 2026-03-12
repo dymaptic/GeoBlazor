@@ -78,14 +78,15 @@ public partial class BookmarksCapabilities : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "time");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarksCapabilities), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "time");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Time = result.Value.Value;
+                Time = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Time)] = Time;
+                ModifiedParameters[nameof(Time)] = Time;
         }
          
         return Time;

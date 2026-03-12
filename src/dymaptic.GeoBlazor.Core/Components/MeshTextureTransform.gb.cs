@@ -117,14 +117,15 @@ public partial class MeshTextureTransform : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshTextureTransform), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "offset");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Offset = result;
+                Offset = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Offset)] = Offset;
+                ModifiedParameters[nameof(Offset)] = Offset;
         }
          
         return Offset;
@@ -156,14 +157,15 @@ public partial class MeshTextureTransform : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "rotation");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshTextureTransform), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "rotation");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Rotation = result.Value.Value;
+                Rotation = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Rotation)] = Rotation;
+                ModifiedParameters[nameof(Rotation)] = Rotation;
         }
          
         return Rotation;
@@ -195,14 +197,15 @@ public partial class MeshTextureTransform : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshTextureTransform), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "scale");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Scale = result;
+                Scale = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Scale)] = Scale;
+                ModifiedParameters[nameof(Scale)] = Scale;
         }
          
         return Scale;

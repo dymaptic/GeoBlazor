@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DynamicDataLayerFields.html">GeoBlazor Docs</a>
 ///     Controls field visibility in the layer.
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class DynamicDataLayerFields : MapComponent
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -28,17 +30,18 @@ public partial class DynamicDataLayerFields : MapComponent
     ///     The name of the field.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#DynamicDataLayer">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public DynamicDataLayerFields(string? alias = null,
+    public DynamicDataLayerFields(
+        string? alias = null,
         string? name = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Alias = alias;
         Name = name;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -50,7 +53,7 @@ public partial class DynamicDataLayerFields : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Alias { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DynamicDataLayerFields.html#dynamicdatalayerfieldsname-property">GeoBlazor Docs</a>
     ///     The name of the field.
@@ -60,9 +63,8 @@ public partial class DynamicDataLayerFields : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Name { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -75,8 +77,8 @@ public partial class DynamicDataLayerFields : MapComponent
         {
             return Alias;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -85,27 +87,27 @@ public partial class DynamicDataLayerFields : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Alias;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DynamicDataLayerFields), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "alias");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Alias = result;
+                Alias = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Alias)] = Alias;
+                ModifiedParameters[nameof(Alias)] = Alias;
         }
-
+         
         return Alias;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -115,8 +117,8 @@ public partial class DynamicDataLayerFields : MapComponent
         {
             return Name;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -125,29 +127,28 @@ public partial class DynamicDataLayerFields : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Name;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DynamicDataLayerFields), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "name");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Name = result;
+                Name = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Name)] = Name;
+                ModifiedParameters[nameof(Name)] = Name;
         }
-
+         
         return Name;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -163,13 +164,13 @@ public partial class DynamicDataLayerFields : MapComponent
         Alias = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Alias)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -178,16 +179,16 @@ public partial class DynamicDataLayerFields : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "alias", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
@@ -200,13 +201,13 @@ public partial class DynamicDataLayerFields : MapComponent
         Name = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Name)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -215,15 +216,16 @@ public partial class DynamicDataLayerFields : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
     }
-
+    
 #endregion
+
 }

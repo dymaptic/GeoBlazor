@@ -54,30 +54,30 @@ public partial record PortalQueryParams(
     double? Start = null)
 {
     /// <summary>
-    ///     Parameterless constructor
+    ///     Parameterless Constructor
     /// </summary>
-    public PortalQueryParams() : this(null, null)
+    public PortalQueryParams(): this(null, null)
     {
     }
-
+    
     /// <summary>
     ///     An array of categories stored within the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html#categories">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyCollection<string[]>? Categories { get; set; } = Categories;
-
+    
     /// <summary>
     ///     Only relevant when querying for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">PortalItems</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html#extent">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public Extent? Extent { get; set; } = Extent;
-
+    
     /// <summary>
     ///     Structured filter to use instead of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html#query">query</a> property.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html#filter">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? Filter { get; set; } = Filter;
-
+    
     /// <summary>
     ///     The maximum number of results to be included in the
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryResult.html#results">result</a> set response.
@@ -85,30 +85,31 @@ public partial record PortalQueryParams(
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html#num">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public double? Num { get; set; } = Num;
-
+    
     /// <summary>
     ///     The query string used for the search.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html#query">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? Query { get; set; } = Query;
-
+    
     /// <summary>
     ///     A comma-delimited list of fields to sort.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html#sortField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public SortField? SortField { get; set; } = SortField;
-
+    
     /// <summary>
     ///     The order in which to sort the results.
     ///     default "asc"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html#sortOrder">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public PortalQuerySortOrder? SortOrder { get; set; } = SortOrder;
-
+    
     /// <summary>
     ///     The index of the first entry in the result set response.
     ///     default 1
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html#start">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public double? Start { get; set; } = Start;
+    
 }

@@ -101,6 +101,15 @@ public partial class Field
     }
     
     
+    /// <summary>
+    ///     Implicit conversion between <see cref="string" /> and <see cref="Field" />.
+    /// </summary>
+    /// <param name="alias">
+    ///     The string to use as the value.
+    /// </param>
+    public static implicit operator Field(string alias) =>
+        new(alias: alias);
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -155,14 +164,15 @@ public partial class Field
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Field), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "alias");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Alias = result;
+                Alias = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Alias)] = Alias;
+                ModifiedParameters[nameof(Alias)] = Alias;
         }
          
         return Alias;
@@ -194,14 +204,15 @@ public partial class Field
         }
 
         // get the property value
-        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
+        object? result = await JsComponentReference!.InvokeJsMethod<object?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Field), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "defaultValue");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             DefaultValue = result;
+                DefaultValue = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DefaultValue)] = DefaultValue;
+                ModifiedParameters[nameof(DefaultValue)] = DefaultValue;
         }
          
         return DefaultValue;
@@ -233,14 +244,15 @@ public partial class Field
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Field), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "description");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Description = result;
+                Description = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Description)] = Description;
+                ModifiedParameters[nameof(Description)] = Description;
         }
          
         return Description;
@@ -271,8 +283,9 @@ public partial class Field
             return Domain;
         }
 
-        Domain? result = await JsComponentReference.InvokeAsync<Domain?>(
-            "getDomain", CancellationTokenSource.Token);
+        Domain? result = await JsComponentReference.InvokeJsMethod<Domain?>(
+            IsServer, nameof(GetDomain), nameof(Field), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -311,14 +324,15 @@ public partial class Field
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "editable");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Field), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "editable");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Editable = result.Value.Value;
+                Editable = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Editable)] = Editable;
+                ModifiedParameters[nameof(Editable)] = Editable;
         }
          
         return Editable;
@@ -350,14 +364,15 @@ public partial class Field
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "length");
-        if (result is { Value: not null })
+        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Field), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "length");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Length = result.Value.Value;
+                Length = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Length)] = Length;
+                ModifiedParameters[nameof(Length)] = Length;
         }
          
         return Length;
@@ -389,14 +404,15 @@ public partial class Field
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Field), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Name = result;
+                Name = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Name)] = Name;
+                ModifiedParameters[nameof(Name)] = Name;
         }
          
         return Name;
@@ -428,14 +444,15 @@ public partial class Field
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "nullable");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Field), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "nullable");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Nullable = result.Value.Value;
+                Nullable = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Nullable)] = Nullable;
+                ModifiedParameters[nameof(Nullable)] = Nullable;
         }
          
         return Nullable;
@@ -467,14 +484,15 @@ public partial class Field
         }
 
         // get the property value
-        JsNullableEnumWrapper<FieldValueType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<FieldValueType>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "valueType");
-        if (result is { Value: not null })
+        FieldValueType? result = await JsComponentReference!.InvokeJsMethod<FieldValueType?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Field), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "valueType");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ValueType = (FieldValueType)result.Value.Value!;
+                ValueType = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ValueType)] = ValueType;
+                ModifiedParameters[nameof(ValueType)] = ValueType;
         }
          
         return ValueType;

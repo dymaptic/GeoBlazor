@@ -88,14 +88,15 @@ public partial class FeaturesViewModelScreenPoint : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "x");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModelScreenPoint), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "x");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             X = result.Value.Value;
+                X = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(X)] = X;
+                ModifiedParameters[nameof(X)] = X;
         }
          
         return X;
@@ -127,14 +128,15 @@ public partial class FeaturesViewModelScreenPoint : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "y");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModelScreenPoint), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "y");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Y = result.Value.Value;
+                Y = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Y)] = Y;
+                ModifiedParameters[nameof(Y)] = Y;
         }
          
         return Y;

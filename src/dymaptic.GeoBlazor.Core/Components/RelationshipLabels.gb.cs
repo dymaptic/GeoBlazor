@@ -126,14 +126,15 @@ public partial class RelationshipLabels : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RelationshipLabels), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "bottom");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Bottom = result;
+                Bottom = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Bottom)] = Bottom;
+                ModifiedParameters[nameof(Bottom)] = Bottom;
         }
          
         return Bottom;
@@ -165,14 +166,15 @@ public partial class RelationshipLabels : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RelationshipLabels), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "left");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Left = result;
+                Left = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Left)] = Left;
+                ModifiedParameters[nameof(Left)] = Left;
         }
          
         return Left;
@@ -204,14 +206,15 @@ public partial class RelationshipLabels : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RelationshipLabels), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "right");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Right = result;
+                Right = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Right)] = Right;
+                ModifiedParameters[nameof(Right)] = Right;
         }
          
         return Right;
@@ -243,14 +246,15 @@ public partial class RelationshipLabels : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RelationshipLabels), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "top");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Top = result;
+                Top = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Top)] = Top;
+                ModifiedParameters[nameof(Top)] = Top;
         }
          
         return Top;

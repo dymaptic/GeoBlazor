@@ -7,6 +7,10 @@ export async function buildJsPopupOpenOptionsGenerated(dotNetObject: any, layerI
     }
 
     let jsPopupOpenOptions: any = {};
+    if (hasValue(dotNetObject.content)) {
+        let { buildJsWidget } = await import('./widget');
+        jsPopupOpenOptions.content = await buildJsWidget(dotNetObject.content, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.features) && dotNetObject.features.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
         jsPopupOpenOptions.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
@@ -18,9 +22,6 @@ export async function buildJsPopupOpenOptionsGenerated(dotNetObject: any, layerI
 
     if (hasValue(dotNetObject.collapsed)) {
         jsPopupOpenOptions.collapsed = dotNetObject.collapsed;
-    }
-    if (hasValue(dotNetObject.content)) {
-        jsPopupOpenOptions.content = dotNetObject.content;
     }
     if (hasValue(dotNetObject.featureMenuOpen)) {
         jsPopupOpenOptions.featureMenuOpen = dotNetObject.featureMenuOpen;
@@ -55,6 +56,11 @@ export async function buildDotNetPopupOpenOptionsGenerated(jsObject: any, layerI
     
     let dotNetPopupOpenOptions: any = {};
     
+    if (hasValue(jsObject.content)) {
+        let { buildDotNetWidget } = await import('./widget');
+        dotNetPopupOpenOptions.content = await buildDotNetWidget(jsObject.content);
+    }
+    
     if (hasValue(jsObject.features)) {
         let { buildDotNetGraphic } = await import('./graphic');
         dotNetPopupOpenOptions.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
@@ -67,10 +73,6 @@ export async function buildDotNetPopupOpenOptionsGenerated(jsObject: any, layerI
     
     if (hasValue(jsObject.collapsed)) {
         dotNetPopupOpenOptions.collapsed = jsObject.collapsed;
-    }
-    
-    if (hasValue(jsObject.content)) {
-        dotNetPopupOpenOptions.content = jsObject.content;
     }
     
     if (hasValue(jsObject.featureMenuOpen)) {

@@ -98,14 +98,15 @@ public partial class TimeExtent
         }
 
         // get the property value
-        JsNullableDateTimeWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDateTimeWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "end");
-        if (result is { Value: not null })
+        DateTime? result = await JsComponentReference!.InvokeJsMethod<DateTime?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TimeExtent), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "end");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             End = result.Value.Value;
+                End = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(End)] = End;
+                ModifiedParameters[nameof(End)] = End;
         }
          
         return End;
@@ -137,14 +138,15 @@ public partial class TimeExtent
         }
 
         // get the property value
-        JsNullableDateTimeWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDateTimeWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "start");
-        if (result is { Value: not null })
+        DateTime? result = await JsComponentReference!.InvokeJsMethod<DateTime?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TimeExtent), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "start");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Start = result.Value.Value;
+                Start = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Start)] = Start;
+                ModifiedParameters[nameof(Start)] = Start;
         }
          
         return Start;

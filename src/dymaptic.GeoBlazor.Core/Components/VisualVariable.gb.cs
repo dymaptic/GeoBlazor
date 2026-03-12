@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisualVariable.html">GeoBlazor Docs</a>
 ///     The visual variable base class.
@@ -9,46 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public abstract partial class VisualVariable
 {
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        LegendOptions?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case VisualVariableLegendOptions legendOptions:
-                if (legendOptions != LegendOptions)
-                {
-                    LegendOptions = legendOptions;
-                    ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
-                }
-
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case VisualVariableLegendOptions _:
-                LegendOptions = null;
-                ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
-
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-
 
 #region Public Properties / Blazor Parameters
 
@@ -62,20 +23,19 @@ public abstract partial class VisualVariable
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Field { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisualVariable.html#visualvariablelegendoptions-property">GeoBlazor Docs</a>
     ///     An object providing options for displaying the visual variable in
-    ///     the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
+    ///     the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#legendOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public VisualVariableLegendOptions? LegendOptions { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -88,8 +48,8 @@ public abstract partial class VisualVariable
         {
             return Field;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -98,27 +58,27 @@ public abstract partial class VisualVariable
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Field;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisualVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "field");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Field = result;
+                Field = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Field)] = Field;
+                ModifiedParameters[nameof(Field)] = Field;
         }
-
+         
         return Field;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendOptions property.
     /// </summary>
@@ -128,8 +88,8 @@ public abstract partial class VisualVariable
         {
             return LegendOptions;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -138,27 +98,33 @@ public abstract partial class VisualVariable
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return LegendOptions;
         }
 
-        VisualVariableLegendOptions? result =
-            await JsComponentReference.InvokeAsync<VisualVariableLegendOptions?>("getLegendOptions",
-                CancellationTokenSource.Token);
-
+        VisualVariableLegendOptions? result = await JsComponentReference.InvokeJsMethod<VisualVariableLegendOptions?>(
+            IsServer, nameof(GetLegendOptions), nameof(VisualVariable), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (LegendOptions is not null)
+            {
+                result.Id = LegendOptions.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             LegendOptions = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
         }
-
+        
         return LegendOptions;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ValueExpression property.
     /// </summary>
@@ -168,8 +134,8 @@ public abstract partial class VisualVariable
         {
             return ValueExpression;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -178,27 +144,27 @@ public abstract partial class VisualVariable
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ValueExpression;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisualVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "valueExpression");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            ValueExpression = result;
+                ValueExpression = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ValueExpression)] = ValueExpression;
+                ModifiedParameters[nameof(ValueExpression)] = ValueExpression;
         }
-
+         
         return ValueExpression;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ValueExpressionTitle property.
     /// </summary>
@@ -208,8 +174,8 @@ public abstract partial class VisualVariable
         {
             return ValueExpressionTitle;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -218,29 +184,28 @@ public abstract partial class VisualVariable
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ValueExpressionTitle;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisualVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "valueExpressionTitle");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            ValueExpressionTitle = result;
+                ValueExpressionTitle = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ValueExpressionTitle)] = ValueExpressionTitle;
+                ModifiedParameters[nameof(ValueExpressionTitle)] = ValueExpressionTitle;
         }
-
+         
         return ValueExpressionTitle;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -250,19 +215,19 @@ public abstract partial class VisualVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetField(string value)
+    public async Task SetField(string? value)
     {
 #pragma warning disable BL0005
         Field = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Field)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -271,16 +236,16 @@ public abstract partial class VisualVariable
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LegendOptions property after render.
     /// </summary>
@@ -289,22 +254,22 @@ public abstract partial class VisualVariable
     /// </param>
     public async Task SetLegendOptions(VisualVariableLegendOptions? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         LegendOptions = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(LegendOptions)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -313,16 +278,16 @@ public abstract partial class VisualVariable
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendOptions", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ValueExpression property after render.
     /// </summary>
@@ -335,13 +300,13 @@ public abstract partial class VisualVariable
         ValueExpression = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ValueExpression)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -350,16 +315,16 @@ public abstract partial class VisualVariable
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "valueExpression", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ValueExpressionTitle property after render.
     /// </summary>
@@ -372,13 +337,13 @@ public abstract partial class VisualVariable
         ValueExpressionTitle = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ValueExpressionTitle)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -387,15 +352,57 @@ public abstract partial class VisualVariable
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "valueExpressionTitle", value);
     }
-
+    
 #endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case VisualVariableLegendOptions legendOptions:
+                if (legendOptions != LegendOptions)
+                {
+                    LegendOptions = legendOptions;
+                    ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case VisualVariableLegendOptions:
+                LegendOptions = null;
+                ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        LegendOptions?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

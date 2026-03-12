@@ -71,6 +71,46 @@ public partial class ListItemPanelWidget
 #region Property Getters
 
     /// <summary>
+    ///     Asynchronously retrieve the current value of the Content property.
+    /// </summary>
+    public async Task<IReadOnlyList<ListItemPanelContent>?> GetContent()
+    {
+        if (CoreJsModule is null)
+        {
+            return Content;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Content;
+        }
+
+        // get the property value
+        IReadOnlyList<ListItemPanelContent>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<ListItemPanelContent>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItemPanelWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "content");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                Content = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(Content)] = Content;
+        }
+         
+        return Content;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the Disabled property.
     /// </summary>
     public async Task<bool?> GetDisabled()
@@ -96,14 +136,15 @@ public partial class ListItemPanelWidget
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "disabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItemPanelWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "disabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Disabled = result.Value.Value;
+                Disabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Disabled)] = Disabled;
+                ModifiedParameters[nameof(Disabled)] = Disabled;
         }
          
         return Disabled;
@@ -135,14 +176,15 @@ public partial class ListItemPanelWidget
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "flowEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItemPanelWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "flowEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             FlowEnabled = result.Value.Value;
+                FlowEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FlowEnabled)] = FlowEnabled;
+                ModifiedParameters[nameof(FlowEnabled)] = FlowEnabled;
         }
          
         return FlowEnabled;
@@ -174,14 +216,15 @@ public partial class ListItemPanelWidget
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItemPanelWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "image");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Image = result;
+                Image = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Image)] = Image;
+                ModifiedParameters[nameof(Image)] = Image;
         }
          
         return Image;
@@ -213,14 +256,15 @@ public partial class ListItemPanelWidget
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "open");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItemPanelWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "open");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Open = result.Value.Value;
+                Open = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Open)] = Open;
+                ModifiedParameters[nameof(Open)] = Open;
         }
          
         return Open;
@@ -252,14 +296,15 @@ public partial class ListItemPanelWidget
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItemPanelWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Title = result;
+                Title = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Title)] = Title;
+                ModifiedParameters[nameof(Title)] = Title;
         }
          
         return Title;
@@ -269,6 +314,43 @@ public partial class ListItemPanelWidget
 
 #region Property Setters
 
+    /// <summary>
+    ///    Asynchronously set the value of the Content property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetContent(IReadOnlyList<ListItemPanelContent> value)
+    {
+#pragma warning disable BL0005
+        Content = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Content)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "content", value);
+    }
+    
     /// <summary>
     ///    Asynchronously set the value of the Disabled property after render.
     /// </summary>
@@ -452,6 +534,44 @@ public partial class ListItemPanelWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+    }
+    
+#endregion
+
+#region Add to Collection Methods
+
+    /// <summary>
+    ///     Asynchronously adds elements to the Content property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to add.
+    /// </param>
+    public async Task AddToContent(params ListItemPanelContent[] values)
+    {
+        ListItemPanelContent[] join = Content is null
+            ? values
+            : [..Content, ..values];
+        await SetContent(join);
+    }
+    
+#endregion
+
+#region Remove From Collection Methods
+
+    
+    /// <summary>
+    ///     Asynchronously remove an element from the Content property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to remove.
+    /// </param>
+    public async Task RemoveFromContent(params ListItemPanelContent[] values)
+    {
+        if (Content is null)
+        {
+            return;
+        }
+        await SetContent(Content.Except(values).ToArray());
     }
     
 #endregion

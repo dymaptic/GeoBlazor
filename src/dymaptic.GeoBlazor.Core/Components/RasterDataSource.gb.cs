@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RasterDataSource.html">GeoBlazor Docs</a>
 ///     A file-based raster that resides in a registered raster workspace.
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class RasterDataSource
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -28,17 +30,18 @@ public partial class RasterDataSource
     ///     The name of the raster in the registered workspace.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#RasterDataSource">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public RasterDataSource(string workspaceId,
+    public RasterDataSource(
+        string workspaceId,
         string dataSourceName)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         WorkspaceId = workspaceId;
         DataSourceName = dataSourceName;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-
+    
+    
 #region Property Getters
 
     /// <summary>
@@ -50,8 +53,8 @@ public partial class RasterDataSource
         {
             return DataSourceName;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -60,27 +63,27 @@ public partial class RasterDataSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return DataSourceName;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "dataSourceName");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            DataSourceName = result;
+                DataSourceName = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(DataSourceName)] = DataSourceName;
+                ModifiedParameters[nameof(DataSourceName)] = DataSourceName;
         }
-
+         
         return DataSourceName;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the WorkspaceId property.
     /// </summary>
@@ -90,8 +93,8 @@ public partial class RasterDataSource
         {
             return WorkspaceId;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -100,29 +103,28 @@ public partial class RasterDataSource
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return WorkspaceId;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "workspaceId");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            WorkspaceId = result;
+                WorkspaceId = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(WorkspaceId)] = WorkspaceId;
+                ModifiedParameters[nameof(WorkspaceId)] = WorkspaceId;
         }
-
+         
         return WorkspaceId;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -138,13 +140,13 @@ public partial class RasterDataSource
         DataSourceName = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(DataSourceName)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -153,16 +155,16 @@ public partial class RasterDataSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "dataSourceName", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the WorkspaceId property after render.
     /// </summary>
@@ -175,13 +177,13 @@ public partial class RasterDataSource
         WorkspaceId = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(WorkspaceId)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -190,15 +192,16 @@ public partial class RasterDataSource
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "workspaceId", value);
     }
-
+    
 #endregion
+
 }

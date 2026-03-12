@@ -2,12 +2,14 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesQueryAttributeBins.html">GeoBlazor Docs</a>
 ///     
 /// </summary>
 public partial class CapabilitiesQueryAttributeBins : MapComponent
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -71,64 +73,10 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         SupportsSnapToData = supportsSnapToData;
         SupportsSplitBy = supportsSplitBy;
         SupportsStackBy = supportsStackBy;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        SupportedNormalizationTypes?.ValidateRequiredGeneratedChildren();
-        SupportedStatistics?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case CapabilitiesQueryAttributeBinsSupportedNormalizationTypes supportedNormalizationTypes:
-                if (supportedNormalizationTypes != SupportedNormalizationTypes)
-                {
-                    SupportedNormalizationTypes = supportedNormalizationTypes;
-                    ModifiedParameters[nameof(SupportedNormalizationTypes)] = SupportedNormalizationTypes;
-                }
-
-                return true;
-            case CapabilitiesQueryAttributeBinsSupportedStatistics supportedStatistics:
-                if (supportedStatistics != SupportedStatistics)
-                {
-                    SupportedStatistics = supportedStatistics;
-                    ModifiedParameters[nameof(SupportedStatistics)] = SupportedStatistics;
-                }
-
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case CapabilitiesQueryAttributeBinsSupportedNormalizationTypes _:
-                SupportedNormalizationTypes = null;
-                ModifiedParameters[nameof(SupportedNormalizationTypes)] = SupportedNormalizationTypes;
-
-                return true;
-            case CapabilitiesQueryAttributeBinsSupportedStatistics _:
-                SupportedStatistics = null;
-                ModifiedParameters[nameof(SupportedStatistics)] = SupportedStatistics;
-
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -139,7 +87,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public CapabilitiesQueryAttributeBinsSupportedNormalizationTypes? SupportedNormalizationTypes { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesQueryAttributeBins.html#capabilitiesqueryattributebinssupportedstatistics-property">GeoBlazor Docs</a>
     ///     
@@ -148,7 +96,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public CapabilitiesQueryAttributeBinsSupportedStatistics? SupportedStatistics { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesQueryAttributeBins.html#capabilitiesqueryattributebinssupportsautointerval-property">GeoBlazor Docs</a>
     ///     
@@ -157,7 +105,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? SupportsAutoInterval { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesQueryAttributeBins.html#capabilitiesqueryattributebinssupportsdate-property">GeoBlazor Docs</a>
     ///     
@@ -166,7 +114,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? SupportsDate { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesQueryAttributeBins.html#capabilitiesqueryattributebinssupportsfirstdayofweek-property">GeoBlazor Docs</a>
     ///     
@@ -175,7 +123,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? SupportsFirstDayOfWeek { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesQueryAttributeBins.html#capabilitiesqueryattributebinssupportsfixedboundaries-property">GeoBlazor Docs</a>
     ///     
@@ -184,7 +132,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? SupportsFixedBoundaries { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesQueryAttributeBins.html#capabilitiesqueryattributebinssupportsfixedinterval-property">GeoBlazor Docs</a>
     ///     
@@ -193,7 +141,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? SupportsFixedInterval { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesQueryAttributeBins.html#capabilitiesqueryattributebinssupportsnormalization-property">GeoBlazor Docs</a>
     ///     
@@ -202,7 +150,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? SupportsNormalization { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesQueryAttributeBins.html#capabilitiesqueryattributebinssupportsreturnfullintervalbin-property">GeoBlazor Docs</a>
     ///     
@@ -211,7 +159,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? SupportsReturnFullIntervalBin { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesQueryAttributeBins.html#capabilitiesqueryattributebinssupportssnaptodata-property">GeoBlazor Docs</a>
     ///     
@@ -220,7 +168,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? SupportsSnapToData { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesQueryAttributeBins.html#capabilitiesqueryattributebinssupportssplitby-property">GeoBlazor Docs</a>
     ///     
@@ -229,7 +177,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? SupportsSplitBy { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesQueryAttributeBins.html#capabilitiesqueryattributebinssupportsstackby-property">GeoBlazor Docs</a>
     ///     
@@ -238,9 +186,8 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? SupportsStackBy { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -253,8 +200,8 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             return SupportedNormalizationTypes;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -263,16 +210,16 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SupportedNormalizationTypes;
         }
 
-        CapabilitiesQueryAttributeBinsSupportedNormalizationTypes? result =
-            await JsComponentReference.InvokeAsync<CapabilitiesQueryAttributeBinsSupportedNormalizationTypes?>(
-                "getSupportedNormalizationTypes", CancellationTokenSource.Token);
-
+        CapabilitiesQueryAttributeBinsSupportedNormalizationTypes? result = await JsComponentReference.InvokeJsMethod<CapabilitiesQueryAttributeBinsSupportedNormalizationTypes?>(
+            IsServer, nameof(GetSupportedNormalizationTypes), nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -280,10 +227,10 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(SupportedNormalizationTypes)] = SupportedNormalizationTypes;
         }
-
+        
         return SupportedNormalizationTypes;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportedStatistics property.
     /// </summary>
@@ -293,8 +240,8 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             return SupportedStatistics;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -303,16 +250,16 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SupportedStatistics;
         }
 
-        CapabilitiesQueryAttributeBinsSupportedStatistics? result =
-            await JsComponentReference.InvokeAsync<CapabilitiesQueryAttributeBinsSupportedStatistics?>(
-                "getSupportedStatistics", CancellationTokenSource.Token);
-
+        CapabilitiesQueryAttributeBinsSupportedStatistics? result = await JsComponentReference.InvokeJsMethod<CapabilitiesQueryAttributeBinsSupportedStatistics?>(
+            IsServer, nameof(GetSupportedStatistics), nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -320,10 +267,10 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(SupportedStatistics)] = SupportedStatistics;
         }
-
+        
         return SupportedStatistics;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsAutoInterval property.
     /// </summary>
@@ -333,8 +280,8 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             return SupportsAutoInterval;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -343,28 +290,27 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SupportsAutoInterval;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsAutoInterval");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsAutoInterval");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            SupportsAutoInterval = result.Value.Value;
+                SupportsAutoInterval = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SupportsAutoInterval)] = SupportsAutoInterval;
+                ModifiedParameters[nameof(SupportsAutoInterval)] = SupportsAutoInterval;
         }
-
+         
         return SupportsAutoInterval;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsDate property.
     /// </summary>
@@ -374,8 +320,8 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             return SupportsDate;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -384,28 +330,27 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SupportsDate;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsDate");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsDate");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            SupportsDate = result.Value.Value;
+                SupportsDate = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SupportsDate)] = SupportsDate;
+                ModifiedParameters[nameof(SupportsDate)] = SupportsDate;
         }
-
+         
         return SupportsDate;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsFirstDayOfWeek property.
     /// </summary>
@@ -415,8 +360,8 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             return SupportsFirstDayOfWeek;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -425,28 +370,27 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SupportsFirstDayOfWeek;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsFirstDayOfWeek");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsFirstDayOfWeek");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            SupportsFirstDayOfWeek = result.Value.Value;
+                SupportsFirstDayOfWeek = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SupportsFirstDayOfWeek)] = SupportsFirstDayOfWeek;
+                ModifiedParameters[nameof(SupportsFirstDayOfWeek)] = SupportsFirstDayOfWeek;
         }
-
+         
         return SupportsFirstDayOfWeek;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsFixedBoundaries property.
     /// </summary>
@@ -456,8 +400,8 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             return SupportsFixedBoundaries;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -466,28 +410,27 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SupportsFixedBoundaries;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsFixedBoundaries");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsFixedBoundaries");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            SupportsFixedBoundaries = result.Value.Value;
+                SupportsFixedBoundaries = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SupportsFixedBoundaries)] = SupportsFixedBoundaries;
+                ModifiedParameters[nameof(SupportsFixedBoundaries)] = SupportsFixedBoundaries;
         }
-
+         
         return SupportsFixedBoundaries;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsFixedInterval property.
     /// </summary>
@@ -497,8 +440,8 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             return SupportsFixedInterval;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -507,28 +450,27 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SupportsFixedInterval;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsFixedInterval");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsFixedInterval");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            SupportsFixedInterval = result.Value.Value;
+                SupportsFixedInterval = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SupportsFixedInterval)] = SupportsFixedInterval;
+                ModifiedParameters[nameof(SupportsFixedInterval)] = SupportsFixedInterval;
         }
-
+         
         return SupportsFixedInterval;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsNormalization property.
     /// </summary>
@@ -538,8 +480,8 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             return SupportsNormalization;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -548,28 +490,27 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SupportsNormalization;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsNormalization");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsNormalization");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            SupportsNormalization = result.Value.Value;
+                SupportsNormalization = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SupportsNormalization)] = SupportsNormalization;
+                ModifiedParameters[nameof(SupportsNormalization)] = SupportsNormalization;
         }
-
+         
         return SupportsNormalization;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsReturnFullIntervalBin property.
     /// </summary>
@@ -579,8 +520,8 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             return SupportsReturnFullIntervalBin;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -589,28 +530,27 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SupportsReturnFullIntervalBin;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsReturnFullIntervalBin");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsReturnFullIntervalBin");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            SupportsReturnFullIntervalBin = result.Value.Value;
+                SupportsReturnFullIntervalBin = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SupportsReturnFullIntervalBin)] = SupportsReturnFullIntervalBin;
+                ModifiedParameters[nameof(SupportsReturnFullIntervalBin)] = SupportsReturnFullIntervalBin;
         }
-
+         
         return SupportsReturnFullIntervalBin;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsSnapToData property.
     /// </summary>
@@ -620,8 +560,8 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             return SupportsSnapToData;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -630,28 +570,27 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SupportsSnapToData;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsSnapToData");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsSnapToData");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            SupportsSnapToData = result.Value.Value;
+                SupportsSnapToData = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SupportsSnapToData)] = SupportsSnapToData;
+                ModifiedParameters[nameof(SupportsSnapToData)] = SupportsSnapToData;
         }
-
+         
         return SupportsSnapToData;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsSplitBy property.
     /// </summary>
@@ -661,8 +600,8 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             return SupportsSplitBy;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -671,28 +610,27 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SupportsSplitBy;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsSplitBy");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsSplitBy");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            SupportsSplitBy = result.Value.Value;
+                SupportsSplitBy = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SupportsSplitBy)] = SupportsSplitBy;
+                ModifiedParameters[nameof(SupportsSplitBy)] = SupportsSplitBy;
         }
-
+         
         return SupportsSplitBy;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsStackBy property.
     /// </summary>
@@ -702,8 +640,8 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             return SupportsStackBy;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -712,30 +650,28 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SupportsStackBy;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsStackBy");
-
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsStackBy");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            SupportsStackBy = result.Value.Value;
+                SupportsStackBy = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SupportsStackBy)] = SupportsStackBy;
+                ModifiedParameters[nameof(SupportsStackBy)] = SupportsStackBy;
         }
-
+         
         return SupportsStackBy;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -747,22 +683,22 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
     /// </param>
     public async Task SetSupportedNormalizationTypes(CapabilitiesQueryAttributeBinsSupportedNormalizationTypes? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         SupportedNormalizationTypes = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SupportedNormalizationTypes)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -771,16 +707,16 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportedNormalizationTypes", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportedStatistics property after render.
     /// </summary>
@@ -789,22 +725,22 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
     /// </param>
     public async Task SetSupportedStatistics(CapabilitiesQueryAttributeBinsSupportedStatistics? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
 #pragma warning disable BL0005
         SupportedStatistics = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SupportedStatistics)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -813,16 +749,16 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportedStatistics", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsAutoInterval property after render.
     /// </summary>
@@ -835,13 +771,13 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         SupportsAutoInterval = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SupportsAutoInterval)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -850,16 +786,16 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsAutoInterval", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsDate property after render.
     /// </summary>
@@ -872,13 +808,13 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         SupportsDate = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SupportsDate)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -887,16 +823,16 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsDate", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsFirstDayOfWeek property after render.
     /// </summary>
@@ -909,13 +845,13 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         SupportsFirstDayOfWeek = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SupportsFirstDayOfWeek)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -924,16 +860,16 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsFirstDayOfWeek", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsFixedBoundaries property after render.
     /// </summary>
@@ -946,13 +882,13 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         SupportsFixedBoundaries = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SupportsFixedBoundaries)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -961,16 +897,16 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsFixedBoundaries", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsFixedInterval property after render.
     /// </summary>
@@ -983,13 +919,13 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         SupportsFixedInterval = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SupportsFixedInterval)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -998,16 +934,16 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsFixedInterval", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsNormalization property after render.
     /// </summary>
@@ -1020,13 +956,13 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         SupportsNormalization = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SupportsNormalization)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1035,16 +971,16 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsNormalization", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsReturnFullIntervalBin property after render.
     /// </summary>
@@ -1057,13 +993,13 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         SupportsReturnFullIntervalBin = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SupportsReturnFullIntervalBin)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1072,16 +1008,16 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsReturnFullIntervalBin", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsSnapToData property after render.
     /// </summary>
@@ -1094,13 +1030,13 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         SupportsSnapToData = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SupportsSnapToData)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1109,16 +1045,16 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsSnapToData", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsSplitBy property after render.
     /// </summary>
@@ -1131,13 +1067,13 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         SupportsSplitBy = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SupportsSplitBy)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1146,16 +1082,16 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsSplitBy", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsStackBy property after render.
     /// </summary>
@@ -1168,13 +1104,13 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         SupportsStackBy = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(SupportsStackBy)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1183,15 +1119,70 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsStackBy", value);
     }
-
+    
 #endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case CapabilitiesQueryAttributeBinsSupportedNormalizationTypes supportedNormalizationTypes:
+                if (supportedNormalizationTypes != SupportedNormalizationTypes)
+                {
+                    SupportedNormalizationTypes = supportedNormalizationTypes;
+                    ModifiedParameters[nameof(SupportedNormalizationTypes)] = SupportedNormalizationTypes;
+                }
+                
+                return true;
+            case CapabilitiesQueryAttributeBinsSupportedStatistics supportedStatistics:
+                if (supportedStatistics != SupportedStatistics)
+                {
+                    SupportedStatistics = supportedStatistics;
+                    ModifiedParameters[nameof(SupportedStatistics)] = SupportedStatistics;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case CapabilitiesQueryAttributeBinsSupportedNormalizationTypes:
+                SupportedNormalizationTypes = null;
+                ModifiedParameters[nameof(SupportedNormalizationTypes)] = SupportedNormalizationTypes;
+                return true;
+            case CapabilitiesQueryAttributeBinsSupportedStatistics:
+                SupportedStatistics = null;
+                ModifiedParameters[nameof(SupportedStatistics)] = SupportedStatistics;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        SupportedNormalizationTypes?.ValidateRequiredGeneratedChildren();
+        SupportedStatistics?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

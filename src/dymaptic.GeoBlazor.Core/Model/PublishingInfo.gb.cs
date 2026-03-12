@@ -18,7 +18,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PublishingInfo.html#updating">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record PublishingInfo(
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Status? Status = null,
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? Updating = null);

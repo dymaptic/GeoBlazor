@@ -94,14 +94,15 @@ public partial class VisibleElementsColumnMenuItems : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "sortAscending");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElementsColumnMenuItems), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "sortAscending");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SortAscending = result.Value.Value;
+                SortAscending = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SortAscending)] = SortAscending;
+                ModifiedParameters[nameof(SortAscending)] = SortAscending;
         }
          
         return SortAscending;
@@ -133,14 +134,15 @@ public partial class VisibleElementsColumnMenuItems : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "sortDescending");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElementsColumnMenuItems), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "sortDescending");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SortDescending = result.Value.Value;
+                SortDescending = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SortDescending)] = SortDescending;
+                ModifiedParameters[nameof(SortDescending)] = SortDescending;
         }
          
         return SortDescending;

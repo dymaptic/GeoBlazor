@@ -270,14 +270,15 @@ public partial class VisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "area");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "area");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Area = result.Value.Value;
+                Area = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Area)] = Area;
+                ModifiedParameters[nameof(Area)] = Area;
         }
          
         return Area;
@@ -309,14 +310,15 @@ public partial class VisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "coordinates");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "coordinates");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Coordinates = result.Value.Value;
+                Coordinates = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Coordinates)] = Coordinates;
+                ModifiedParameters[nameof(Coordinates)] = Coordinates;
         }
          
         return Coordinates;
@@ -348,14 +350,15 @@ public partial class VisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "direction");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "direction");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Direction = result.Value.Value;
+                Direction = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Direction)] = Direction;
+                ModifiedParameters[nameof(Direction)] = Direction;
         }
          
         return Direction;
@@ -387,14 +390,15 @@ public partial class VisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "distance");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "distance");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Distance = result.Value.Value;
+                Distance = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Distance)] = Distance;
+                ModifiedParameters[nameof(Distance)] = Distance;
         }
          
         return Distance;
@@ -426,14 +430,15 @@ public partial class VisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "elevation");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "elevation");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Elevation = result.Value.Value;
+                Elevation = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Elevation)] = Elevation;
+                ModifiedParameters[nameof(Elevation)] = Elevation;
         }
          
         return Elevation;
@@ -465,14 +470,15 @@ public partial class VisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "header");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "header");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Header = result.Value.Value;
+                Header = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Header)] = Header;
+                ModifiedParameters[nameof(Header)] = Header;
         }
          
         return Header;
@@ -504,14 +510,15 @@ public partial class VisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "helpMessage");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "helpMessage");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             HelpMessage = result.Value.Value;
+                HelpMessage = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(HelpMessage)] = HelpMessage;
+                ModifiedParameters[nameof(HelpMessage)] = HelpMessage;
         }
          
         return HelpMessage;
@@ -543,14 +550,15 @@ public partial class VisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "orientation");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "orientation");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Orientation = result.Value.Value;
+                Orientation = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Orientation)] = Orientation;
+                ModifiedParameters[nameof(Orientation)] = Orientation;
         }
          
         return Orientation;
@@ -582,14 +590,15 @@ public partial class VisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "radius");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "radius");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Radius = result.Value.Value;
+                Radius = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Radius)] = Radius;
+                ModifiedParameters[nameof(Radius)] = Radius;
         }
          
         return Radius;
@@ -621,14 +630,15 @@ public partial class VisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "rotation");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "rotation");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Rotation = result.Value.Value;
+                Rotation = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Rotation)] = Rotation;
+                ModifiedParameters[nameof(Rotation)] = Rotation;
         }
          
         return Rotation;
@@ -660,14 +670,15 @@ public partial class VisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "scale");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "scale");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Scale = result.Value.Value;
+                Scale = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Scale)] = Scale;
+                ModifiedParameters[nameof(Scale)] = Scale;
         }
          
         return Scale;
@@ -699,14 +710,15 @@ public partial class VisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "size");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "size");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Size = result.Value.Value;
+                Size = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Size)] = Size;
+                ModifiedParameters[nameof(Size)] = Size;
         }
          
         return Size;
@@ -738,14 +750,15 @@ public partial class VisibleElements : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "totalLength");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "totalLength");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             TotalLength = result.Value.Value;
+                TotalLength = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TotalLength)] = TotalLength;
+                ModifiedParameters[nameof(TotalLength)] = TotalLength;
         }
          
         return TotalLength;

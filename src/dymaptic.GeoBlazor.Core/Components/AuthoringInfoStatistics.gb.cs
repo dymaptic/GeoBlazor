@@ -94,14 +94,15 @@ public partial class AuthoringInfoStatistics
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "max");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfoStatistics), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "max");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Max = result.Value.Value;
+                Max = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Max)] = Max;
+                ModifiedParameters[nameof(Max)] = Max;
         }
          
         return Max;
@@ -133,14 +134,15 @@ public partial class AuthoringInfoStatistics
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "min");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfoStatistics), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "min");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Min = result.Value.Value;
+                Min = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Min)] = Min;
+                ModifiedParameters[nameof(Min)] = Min;
         }
          
         return Min;

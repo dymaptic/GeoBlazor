@@ -38,8 +38,9 @@ public partial class Polygon
             return Centroid;
         }
 
-        Point? result = await JsComponentReference.InvokeAsync<Point?>(
-            "getCentroid", CancellationTokenSource.Token);
+        Point? result = await JsComponentReference.InvokeJsMethod<Point?>(
+            IsServer, nameof(GetCentroid), nameof(Polygon), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -47,6 +48,7 @@ public partial class Polygon
             {
                 result.Id = Centroid.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             Centroid = result;
@@ -55,6 +57,125 @@ public partial class Polygon
         }
         
         return Centroid;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Rings property.
+    /// </summary>
+    public async Task<IReadOnlyList<MapPath>?> GetRings()
+    {
+        if (CoreJsModule is null)
+        {
+            return Rings;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Rings;
+        }
+
+        // get the property value
+        IReadOnlyList<MapPath>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<MapPath>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Polygon), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "rings");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                Rings = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(Rings)] = Rings;
+        }
+         
+        return Rings;
+    }
+    
+#endregion
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the Rings property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetRings(IReadOnlyList<MapPath> value)
+    {
+#pragma warning disable BL0005
+        Rings = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Rings)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "rings", value);
+    }
+    
+#endregion
+
+#region Add to Collection Methods
+
+    /// <summary>
+    ///     Asynchronously adds elements to the Rings property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to add.
+    /// </param>
+    public async Task AddToRings(params MapPath[] values)
+    {
+        MapPath[] join = Rings is null
+            ? values
+            : [..Rings, ..values];
+        await SetRings(join);
+    }
+    
+#endregion
+
+#region Remove From Collection Methods
+
+    
+    /// <summary>
+    ///     Asynchronously remove an element from the Rings property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to remove.
+    /// </param>
+    public async Task RemoveFromRings(params MapPath[] values)
+    {
+        if (Rings is null)
+        {
+            return;
+        }
+        await SetRings(Rings.Except(values).ToArray());
     }
     
 #endregion
@@ -70,7 +191,7 @@ public partial class Polygon
     ///     A polygon ring. The first and last coordinates/points in the ring must be the same. This can either be defined as an array of Point geometries or an array of XY coordinates.
     /// </param>
     [ArcGISMethod]
-    public async Task<Polygon?> AddRing(IReadOnlyCollection<Point> points)
+    public async Task<Polygon?> AddRing(Point[] points)
     {
         if (CoreJsModule is null)
         {
@@ -92,8 +213,8 @@ public partial class Polygon
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Polygon?>(
-            "addRing", 
+        return await JsComponentReference!.InvokeJsMethod<Polygon?>(
+            IsServer, nameof(AddRing), nameof(Polygon), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             points);
     }
@@ -129,8 +250,8 @@ public partial class Polygon
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "contains", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(Contains), nameof(Polygon), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             point);
     }
@@ -171,8 +292,8 @@ public partial class Polygon
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Point?>(
-            "getPoint", 
+        return await JsComponentReference!.InvokeJsMethod<Point?>(
+            IsServer, nameof(GetPoint), nameof(Polygon), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             ringIndex,
             pointIndex);
@@ -218,8 +339,8 @@ public partial class Polygon
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Polygon?>(
-            "insertPoint", 
+        return await JsComponentReference!.InvokeJsMethod<Polygon?>(
+            IsServer, nameof(InsertPoint), nameof(Polygon), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             ringIndex,
             pointIndex,
@@ -235,7 +356,7 @@ public partial class Polygon
     ///     A polygon ring. It can either be defined as an array of Point geometries or an array of XY coordinates.
     /// </param>
     [ArcGISMethod]
-    public async Task<bool?> IsClockwise(IReadOnlyCollection<Point> ring)
+    public async Task<bool?> IsClockwise(Point[] ring)
     {
         if (CoreJsModule is null)
         {
@@ -257,8 +378,8 @@ public partial class Polygon
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isClockwise", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsClockwise), nameof(Polygon), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             ring);
     }
@@ -299,8 +420,8 @@ public partial class Polygon
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Point?>(
-            "removePoint", 
+        return await JsComponentReference!.InvokeJsMethod<Point?>(
+            IsServer, nameof(RemovePoint), nameof(Polygon), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             ringIndex,
             pointIndex);
@@ -337,8 +458,8 @@ public partial class Polygon
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Point[]?>(
-            "removeRing", 
+        return await JsComponentReference!.InvokeJsMethod<Point[]?>(
+            IsServer, nameof(RemoveRing), nameof(Polygon), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             index);
     }
@@ -383,8 +504,8 @@ public partial class Polygon
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Polygon?>(
-            "setPoint", 
+        return await JsComponentReference!.InvokeJsMethod<Polygon?>(
+            IsServer, nameof(SetPoint), nameof(Polygon), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             ringIndex,
             pointIndex,
