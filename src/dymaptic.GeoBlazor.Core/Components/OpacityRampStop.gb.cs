@@ -44,7 +44,7 @@ public partial class OpacityRampStop : MapComponent
         Color = color;
         Label = label;
         Value = value;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

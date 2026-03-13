@@ -45,7 +45,7 @@ public partial class DisplayFilterInfo : MapComponent
         ActiveFilterId = activeFilterId;
         Filters = filters;
         Mode = mode;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

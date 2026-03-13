@@ -84,7 +84,7 @@ public partial class Capabilities : MapComponent
         QueryAttributeBins = queryAttributeBins;
         QueryRelated = queryRelated;
         QueryTopFeatures = queryTopFeatures;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

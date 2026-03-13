@@ -54,7 +54,7 @@ public partial class CameraLayout : MapComponent
         Columns = columns;
         Row = row;
         Rows = rows;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

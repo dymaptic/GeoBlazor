@@ -32,7 +32,7 @@ public partial class LegendStyle
 #pragma warning disable BL0005
         Layout = layout;
         Type = type;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

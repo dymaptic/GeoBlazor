@@ -56,7 +56,7 @@ public partial class JoinTableDataSource
         JoinType = joinType;
         LeftTableSource = leftTableSource;
         RightTableSource = rightTableSource;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

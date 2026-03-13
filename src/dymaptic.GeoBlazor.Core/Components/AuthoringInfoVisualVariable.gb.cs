@@ -109,7 +109,7 @@ public partial class AuthoringInfoVisualVariable
         Theme = theme;
         Units = units;
         SpikeSymbolStyle = spikeSymbolStyle;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

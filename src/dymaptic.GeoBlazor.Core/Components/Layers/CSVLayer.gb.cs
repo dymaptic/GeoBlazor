@@ -332,7 +332,7 @@ public partial class CSVLayer : IBlendLayer,
         TrackInfo = trackInfo;
         UseViewTime = useViewTime;
         VisibilityTimeExtent = visibilityTimeExtent;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

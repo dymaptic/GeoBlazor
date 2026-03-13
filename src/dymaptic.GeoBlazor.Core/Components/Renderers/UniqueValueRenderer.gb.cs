@@ -132,7 +132,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         ValueExpression = valueExpression;
         ValueExpressionTitle = valueExpressionTitle;
         VisualVariables = visualVariables;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

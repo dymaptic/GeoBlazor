@@ -41,7 +41,7 @@ public partial class TimeInterval
 #pragma warning disable BL0005
         Unit = unit;
         Value = value;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

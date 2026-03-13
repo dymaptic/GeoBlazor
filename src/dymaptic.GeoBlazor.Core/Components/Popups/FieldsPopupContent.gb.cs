@@ -45,7 +45,7 @@ public partial class FieldsPopupContent
         FieldInfos = fieldInfos;
         Description = description;
         Title = title;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

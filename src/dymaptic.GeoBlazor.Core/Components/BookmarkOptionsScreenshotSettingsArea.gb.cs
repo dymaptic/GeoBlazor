@@ -50,7 +50,7 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
         Width = width;
         X = x;
         Y = y;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

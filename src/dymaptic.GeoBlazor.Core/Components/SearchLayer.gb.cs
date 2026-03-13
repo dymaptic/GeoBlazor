@@ -44,7 +44,7 @@ public partial class SearchLayer : MapComponent
         Field = field;
         SearchLayerId = searchLayerId;
         SubLayer = subLayer;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

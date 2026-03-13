@@ -64,7 +64,7 @@ public partial class LegendViewModel : MapComponent
         HideLayersNotInCurrentView = hideLayersNotInCurrentView;
         LayerInfos = layerInfos;
         RespectLayerVisibility = respectLayerVisibility;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

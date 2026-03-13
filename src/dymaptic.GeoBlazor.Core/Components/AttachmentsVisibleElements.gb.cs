@@ -74,7 +74,7 @@ public partial class AttachmentsVisibleElements : MapComponent
         ErrorMessage = errorMessage;
         ProgressBar = progressBar;
         UpdateButton = updateButton;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

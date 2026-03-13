@@ -56,7 +56,7 @@ public partial class MeshVertexAttributes : MapComponent
         Position = position;
         Tangent = tangent;
         Uv = uv;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

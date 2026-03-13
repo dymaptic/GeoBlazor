@@ -51,7 +51,7 @@ public partial class AuthoringInfoField
         Field = field;
         Label = label;
         NormalizationField = normalizationField;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

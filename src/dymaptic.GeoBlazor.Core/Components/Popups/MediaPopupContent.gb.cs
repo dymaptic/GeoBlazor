@@ -52,7 +52,7 @@ public partial class MediaPopupContent
         Description = description;
         MediaInfos = mediaInfos;
         ActiveMediaInfoIndex = activeMediaInfoIndex;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

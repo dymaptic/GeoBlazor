@@ -38,7 +38,7 @@ public partial class MultidimensionalSubset
 #pragma warning disable BL0005
         AreaOfInterest = areaOfInterest;
         SubsetDefinitions = subsetDefinitions;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

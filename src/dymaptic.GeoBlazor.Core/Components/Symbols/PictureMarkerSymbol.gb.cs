@@ -76,7 +76,7 @@ public partial class PictureMarkerSymbol : ISymbol2D,
         Xoffset = xoffset;
         Yoffset = yoffset;
         Color = color;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

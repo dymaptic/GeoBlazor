@@ -83,7 +83,7 @@ public partial class FieldInfo
         IsEditable = isEditable;
         Visible = visible;
         StatisticType = statisticType;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

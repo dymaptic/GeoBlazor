@@ -72,7 +72,7 @@ public partial class PopupVisibleElements
         FeatureMenuHeading = featureMenuHeading;
         Heading = heading;
         Spinner = spinner;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

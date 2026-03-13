@@ -70,7 +70,7 @@ public partial class AggregateField
         OnStatisticExpression = onStatisticExpression;
         OnStatisticField = onStatisticField;
         StatisticType = statisticType;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

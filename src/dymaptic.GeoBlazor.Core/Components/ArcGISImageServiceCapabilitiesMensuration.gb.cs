@@ -68,7 +68,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         SupportsHeightFromBaseAndTopShadow = supportsHeightFromBaseAndTopShadow;
         SupportsHeightFromTopAndTopShadow = supportsHeightFromTopAndTopShadow;
         SupportsPointOrCentroid = supportsPointOrCentroid;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

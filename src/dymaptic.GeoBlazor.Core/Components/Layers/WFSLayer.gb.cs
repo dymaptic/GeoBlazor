@@ -313,7 +313,7 @@ public partial class WFSLayer : Layer,
         Url = url;
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

@@ -50,7 +50,7 @@ public partial class LOD
         LevelValue = levelValue;
         Resolution = resolution;
         Scale = scale;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

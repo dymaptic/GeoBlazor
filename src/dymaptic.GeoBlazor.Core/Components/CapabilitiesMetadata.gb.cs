@@ -32,7 +32,7 @@ public partial class CapabilitiesMetadata : MapComponent
         AllowRender = false;
 #pragma warning disable BL0005
         SupportsAdvancedFieldProperties = supportsAdvancedFieldProperties;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

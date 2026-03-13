@@ -50,7 +50,7 @@ public partial class CapabilitiesQueryRelated : MapComponent
         SupportsCount = supportsCount;
         SupportsOrderBy = supportsOrderBy;
         SupportsPagination = supportsPagination;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

@@ -38,7 +38,7 @@ public partial class AuthoringInfoStatistics
 #pragma warning disable BL0005
         Max = max;
         Min = min;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

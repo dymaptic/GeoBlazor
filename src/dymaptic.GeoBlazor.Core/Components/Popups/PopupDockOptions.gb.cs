@@ -40,7 +40,7 @@ public partial class PopupDockOptions
 #pragma warning disable BL0005
         Position = position;
         ButtonEnabled = buttonEnabled;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

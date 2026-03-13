@@ -196,7 +196,7 @@ public partial class FeaturesViewModel : MapComponent,
         UpdateLocationEnabled = updateLocationEnabled;
         Visible = visible;
         Content = content;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

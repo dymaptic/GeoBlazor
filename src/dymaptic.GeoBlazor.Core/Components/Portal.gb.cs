@@ -423,7 +423,7 @@ public partial class Portal
         UseStandardizedQuery = useStandardizedQuery;
         UseVectorBasemaps = useVectorBasemaps;
         VectorBasemapGalleryGroupQuery = vectorBasemapGalleryGroupQuery;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

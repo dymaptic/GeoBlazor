@@ -56,7 +56,7 @@ public partial class Search : MapComponent
         HintText = hintText;
         Layers = layers;
         Tables = tables;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

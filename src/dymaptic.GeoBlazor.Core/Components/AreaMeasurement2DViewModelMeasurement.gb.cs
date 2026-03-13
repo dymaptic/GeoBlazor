@@ -44,7 +44,7 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
         Area = area;
         Geometry = geometry;
         Perimeter = perimeter;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

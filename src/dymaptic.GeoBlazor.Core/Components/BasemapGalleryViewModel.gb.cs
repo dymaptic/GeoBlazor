@@ -38,7 +38,7 @@ public partial class BasemapGalleryViewModel : MapComponent
 #pragma warning disable BL0005
         ActiveBasemap = activeBasemap;
         Source = source;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

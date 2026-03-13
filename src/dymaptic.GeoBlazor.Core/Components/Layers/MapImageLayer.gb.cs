@@ -244,7 +244,7 @@ public partial class MapImageLayer : IArcGISMapService,
         TimeOffset = timeOffset;
         Title = title;
         VisibilityTimeExtent = visibilityTimeExtent;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

@@ -65,7 +65,7 @@ public partial class MapFont
         Style = style;
         Weight = weight;
         Decoration = decoration;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

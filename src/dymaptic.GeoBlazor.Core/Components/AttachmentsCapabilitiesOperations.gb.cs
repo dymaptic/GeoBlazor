@@ -44,7 +44,7 @@ public partial class AttachmentsCapabilitiesOperations : MapComponent
         Add = add;
         Delete = delete;
         Update = update;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

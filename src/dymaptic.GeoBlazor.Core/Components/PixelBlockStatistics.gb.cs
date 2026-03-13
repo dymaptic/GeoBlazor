@@ -44,7 +44,7 @@ public partial class PixelBlockStatistics : MapComponent
         MaxValue = maxValue;
         MinValue = minValue;
         NoDataValue = noDataValue;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

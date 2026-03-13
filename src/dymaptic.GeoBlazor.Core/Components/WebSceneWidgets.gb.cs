@@ -32,7 +32,7 @@ public partial class WebSceneWidgets : MapComponent
         AllowRender = false;
 #pragma warning disable BL0005
         TimeSlider = timeSlider;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

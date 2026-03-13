@@ -53,7 +53,7 @@ public partial class TrackPartInfo : MapComponent
         LabelsVisible = labelsVisible;
         Renderer = renderer;
         Visible = visible;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

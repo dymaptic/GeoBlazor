@@ -148,7 +148,7 @@ public partial class GeoRSSLayer : IBlendLayer,
         PolygonSymbol = polygonSymbol;
         RefreshInterval = refreshInterval;
         VisibilityTimeExtent = visibilityTimeExtent;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

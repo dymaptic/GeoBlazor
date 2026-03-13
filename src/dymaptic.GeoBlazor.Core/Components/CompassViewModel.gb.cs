@@ -35,7 +35,7 @@ public partial class CompassViewModel : MapComponent,
         AllowRender = false;
 #pragma warning disable BL0005
         GoToOverride = goToOverride;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

@@ -51,7 +51,7 @@ public partial class Viewpoint
         Scale = scale;
         Rotation = rotation;
         Camera = camera;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

@@ -44,7 +44,7 @@ public partial class UniqueValueInfo
         Label = label;
         Symbol = symbol;
         Value = value;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

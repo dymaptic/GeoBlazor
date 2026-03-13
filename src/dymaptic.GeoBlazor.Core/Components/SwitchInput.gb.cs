@@ -38,7 +38,7 @@ public partial class SwitchInput
 #pragma warning disable BL0005
         OffValue = offValue;
         OnValue = onValue;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

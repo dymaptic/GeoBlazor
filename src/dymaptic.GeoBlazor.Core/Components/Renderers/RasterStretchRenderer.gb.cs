@@ -110,7 +110,7 @@ public partial class RasterStretchRenderer
         MaxPercent = maxPercent;
         MinPercent = minPercent;
         SigmoidStrengthLevel = sigmoidStrengthLevel;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

@@ -79,7 +79,7 @@ public partial class MeshMaterial
         DoubleSided = doubleSided;
         NormalTexture = normalTexture;
         NormalTextureTransform = normalTextureTransform;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

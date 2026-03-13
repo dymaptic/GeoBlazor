@@ -45,7 +45,7 @@ public partial class UniqueValueClass : MapComponent
         Label = label;
         Symbol = symbol;
         Values = values;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

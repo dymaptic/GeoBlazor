@@ -34,7 +34,7 @@ public partial class FeatureSnappingLayerSource
         AllowRender = false;
 #pragma warning disable BL0005
         Enabled = enabled;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

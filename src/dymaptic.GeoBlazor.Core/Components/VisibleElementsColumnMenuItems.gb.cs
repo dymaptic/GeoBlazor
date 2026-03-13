@@ -38,7 +38,7 @@ public partial class VisibleElementsColumnMenuItems : MapComponent
 #pragma warning disable BL0005
         SortAscending = sortAscending;
         SortDescending = sortDescending;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

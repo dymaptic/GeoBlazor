@@ -80,7 +80,7 @@ public partial class LayerListVisibleElements : MapComponent
         Heading = heading;
         StatusIndicators = statusIndicators;
         TemporaryLayerIndicators = temporaryLayerIndicators;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

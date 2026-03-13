@@ -39,7 +39,7 @@ public partial class AttachmentsOrderByInfo : MapComponent
 #pragma warning disable BL0005
         Field = field;
         Order = order;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

@@ -45,7 +45,7 @@ public partial class MeasurementViewModel : MapComponent
         ActiveTool = activeTool;
         AreaUnit = areaUnit;
         LinearUnit = linearUnit;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

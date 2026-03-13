@@ -32,7 +32,7 @@ public partial class BasemapToggleVisibleElements : MapComponent
         AllowRender = false;
 #pragma warning disable BL0005
         Title = title;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

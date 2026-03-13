@@ -38,7 +38,7 @@ public partial class WebMapWidgets : MapComponent
 #pragma warning disable BL0005
         FloorFilter = floorFilter;
         TimeSlider = timeSlider;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

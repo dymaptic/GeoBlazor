@@ -39,7 +39,7 @@ public partial class ComboBoxInput
 #pragma warning disable BL0005
         NoValueOptionLabel = noValueOptionLabel;
         ShowNoValueOption = showNoValueOption;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

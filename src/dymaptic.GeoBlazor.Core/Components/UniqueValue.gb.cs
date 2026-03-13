@@ -51,7 +51,7 @@ public partial class UniqueValue : MapComponent
         Value = value;
         Value2 = value2;
         Value3 = value3;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

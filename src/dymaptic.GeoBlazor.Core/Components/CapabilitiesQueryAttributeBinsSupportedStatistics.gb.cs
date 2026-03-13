@@ -61,7 +61,7 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         Stddev = stddev;
         Sum = sum;
         Var = var;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

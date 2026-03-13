@@ -30,7 +30,7 @@ public partial class ClusterTitle : MapComponent
         AllowRender = false;
 #pragma warning disable BL0005
         ShowCount = showCount;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

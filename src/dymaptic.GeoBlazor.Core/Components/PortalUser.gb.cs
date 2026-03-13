@@ -123,7 +123,7 @@ public partial class PortalUser : MapComponent
         Units = units;
         Username = username;
         PortalUserId = portalUserId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

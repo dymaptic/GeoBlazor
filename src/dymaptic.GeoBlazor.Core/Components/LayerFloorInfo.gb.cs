@@ -32,7 +32,7 @@ public partial class LayerFloorInfo
         AllowRender = false;
 #pragma warning disable BL0005
         FloorField = floorField;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

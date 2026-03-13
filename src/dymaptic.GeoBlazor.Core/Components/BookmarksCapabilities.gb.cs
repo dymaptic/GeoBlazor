@@ -32,7 +32,7 @@ public partial class BookmarksCapabilities : MapComponent
         AllowRender = false;
 #pragma warning disable BL0005
         Time = time;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

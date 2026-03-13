@@ -57,7 +57,7 @@ public partial class PortalBasemapsSource
         Portal = portal;
         Query = query;
         UpdateBasemapsCallback = updateBasemapsCallback;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

@@ -223,7 +223,7 @@ public partial class LocatorSearchSource
         SuggestionsEnabled = suggestionsEnabled;
         WithinViewEnabled = withinViewEnabled;
         ZoomScale = zoomScale;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

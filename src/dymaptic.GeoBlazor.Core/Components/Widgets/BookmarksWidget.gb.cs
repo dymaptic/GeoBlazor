@@ -124,7 +124,7 @@ public partial class BookmarksWidget : IGoTo
         Visible = visible;
         VisibleElements = visibleElements;
         WidgetId = widgetId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

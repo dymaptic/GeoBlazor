@@ -44,7 +44,7 @@ public partial class TileMatrixSet : MapComponent
         FullExtent = fullExtent;
         TileInfo = tileInfo;
         TileMatrixSetId = tileMatrixSetId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

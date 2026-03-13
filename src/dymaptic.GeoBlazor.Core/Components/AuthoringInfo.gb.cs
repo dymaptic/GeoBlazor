@@ -143,7 +143,7 @@ public partial class AuthoringInfo
         UnivariateSymbolStyle = univariateSymbolStyle;
         UnivariateTheme = univariateTheme;
         VisualVariables = visualVariables;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

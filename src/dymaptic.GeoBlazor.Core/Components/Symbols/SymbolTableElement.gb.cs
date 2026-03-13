@@ -45,7 +45,7 @@ public partial class SymbolTableElement : MapComponent,
         Infos = infos;
         LegendType = legendType;
         Title = title;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

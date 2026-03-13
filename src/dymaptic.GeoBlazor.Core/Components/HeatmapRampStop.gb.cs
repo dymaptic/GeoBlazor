@@ -44,7 +44,7 @@ public partial class HeatmapRampStop : MapComponent
         Color = color;
         Label = label;
         Ratio = ratio;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

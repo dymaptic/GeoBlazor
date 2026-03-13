@@ -80,7 +80,7 @@ public partial class HomeWidget : IGoTo
         Viewpoint = viewpoint;
         Visible = visible;
         WidgetId = widgetId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

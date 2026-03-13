@@ -326,7 +326,7 @@ public partial class ImageryLayer : IBlendLayer,
         RasterFunction = rasterFunction;
         SourceJSON = sourceJSON;
         VisibilityTimeExtent = visibilityTimeExtent;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

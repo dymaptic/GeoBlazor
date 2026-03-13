@@ -48,7 +48,7 @@ public partial class ExpandViewModel : MapComponent
         AutoCollapse = autoCollapse;
         Expanded = expanded;
         Group = group;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

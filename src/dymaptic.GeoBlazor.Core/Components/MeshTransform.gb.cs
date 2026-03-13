@@ -54,7 +54,7 @@ public partial class MeshTransform : MapComponent
         RotationAxis = rotationAxis;
         Scale = scale;
         Translation = translation;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

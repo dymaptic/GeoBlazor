@@ -251,7 +251,7 @@ public partial class ImageryTileLayer : IBlendLayer,
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
         Source = source;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

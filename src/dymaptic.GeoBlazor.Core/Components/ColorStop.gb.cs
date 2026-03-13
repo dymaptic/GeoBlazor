@@ -45,7 +45,7 @@ public partial class ColorStop
         Value = value;
         Color = color;
         Label = label;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

@@ -117,7 +117,7 @@ public partial class LegendWidget
         Visible = visible;
         WidgetId = widgetId;
         Style = style;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

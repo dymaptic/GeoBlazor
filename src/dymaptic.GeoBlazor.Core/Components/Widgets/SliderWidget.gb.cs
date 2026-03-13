@@ -209,7 +209,7 @@ public partial class SliderWidget
         Icon = icon;
         ViewModel = viewModel;
         WidgetId = widgetId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

@@ -104,7 +104,7 @@ public partial class VisibleElements : MapComponent
         Scale = scale;
         Size = size;
         TotalLength = totalLength;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

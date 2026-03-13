@@ -32,7 +32,7 @@ public partial class CapabilitiesQueryTopFeatures : MapComponent
         AllowRender = false;
 #pragma warning disable BL0005
         SupportsCacheHint = supportsCacheHint;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

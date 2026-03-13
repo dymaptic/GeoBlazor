@@ -44,7 +44,7 @@ public partial class AlgorithmicColorRamp
         Algorithm = algorithm;
         FromColor = fromColor;
         ToColor = toColor;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

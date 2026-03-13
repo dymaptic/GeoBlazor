@@ -38,7 +38,7 @@ public partial class SearchTableField : MapComponent
 #pragma warning disable BL0005
         ExactMatch = exactMatch;
         Name = name;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

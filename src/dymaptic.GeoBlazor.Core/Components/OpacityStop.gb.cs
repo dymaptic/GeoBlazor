@@ -45,7 +45,7 @@ public partial class OpacityStop
         Value = value;
         Opacity = opacity;
         Label = label;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

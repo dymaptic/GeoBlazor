@@ -194,7 +194,7 @@ public partial class SearchViewModel : IGoTo
         SuggestionDelay = suggestionDelay;
         SuggestionsEnabled = suggestionsEnabled;
         IncludeDefaultSources = includeDefaultSources;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

@@ -140,7 +140,7 @@ public partial class TextSymbol : ISymbol2D
         VerticalAlignment = verticalAlignment;
         Xoffset = xoffset;
         Yoffset = yoffset;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

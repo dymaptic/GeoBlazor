@@ -50,7 +50,7 @@ public partial class RelationshipLabels : MapComponent
         Left = left;
         Right = right;
         Top = top;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

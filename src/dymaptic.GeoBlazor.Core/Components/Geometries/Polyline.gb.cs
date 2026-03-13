@@ -51,7 +51,7 @@ public partial class Polyline
         SpatialReference = spatialReference;
         HasM = hasM;
         HasZ = hasZ;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

@@ -33,7 +33,7 @@ public partial class LocalBasemapsSource : MapComponent
         AllowRender = false;
 #pragma warning disable BL0005
         Basemaps = basemaps;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

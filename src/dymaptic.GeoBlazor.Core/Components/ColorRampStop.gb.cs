@@ -44,7 +44,7 @@ public partial class ColorRampStop : MapComponent
         Color = color;
         Label = label;
         Value = value;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

@@ -44,7 +44,7 @@ public partial class HomeViewModel : IGoTo
 #pragma warning disable BL0005
         GoToOverride = goToOverride;
         Viewpoint = viewpoint;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

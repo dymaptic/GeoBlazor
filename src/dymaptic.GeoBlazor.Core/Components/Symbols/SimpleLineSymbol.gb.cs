@@ -75,7 +75,7 @@ public partial class SimpleLineSymbol : ISymbol2D
         Join = join;
         Marker = marker;
         MiterLimit = miterLimit;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

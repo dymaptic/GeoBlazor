@@ -132,7 +132,7 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         OcclusionTexture = occlusionTexture;
         OcclusionTextureTransform = occlusionTextureTransform;
         Roughness = roughness;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

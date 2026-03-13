@@ -54,7 +54,7 @@ public partial class CapabilitiesData : MapComponent
         SupportsAttachment = supportsAttachment;
         SupportsM = supportsM;
         SupportsZ = supportsZ;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

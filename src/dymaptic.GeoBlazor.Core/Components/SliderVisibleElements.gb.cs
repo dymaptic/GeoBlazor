@@ -38,7 +38,7 @@ public partial class SliderVisibleElements
 #pragma warning disable BL0005
         Labels = labels;
         RangeLabels = rangeLabels;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

@@ -72,7 +72,7 @@ public partial class UnsupportedLayer : Layer
         Title = title;
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

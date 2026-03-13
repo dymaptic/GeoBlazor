@@ -53,7 +53,7 @@ public partial class MeshComponent : MapComponent
         Material = material;
         Name = name;
         Shading = shading;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

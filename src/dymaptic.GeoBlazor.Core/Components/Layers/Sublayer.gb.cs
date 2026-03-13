@@ -166,7 +166,7 @@ public partial class Sublayer
         Url = url;
         AttributeTableTemplate = attributeTableTemplate;
         ObjectIdField = objectIdField;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

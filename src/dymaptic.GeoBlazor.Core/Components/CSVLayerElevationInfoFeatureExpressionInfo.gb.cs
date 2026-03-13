@@ -38,7 +38,7 @@ public partial class CSVLayerElevationInfoFeatureExpressionInfo : MapComponent
 #pragma warning disable BL0005
         Expression = expression;
         Title = title;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

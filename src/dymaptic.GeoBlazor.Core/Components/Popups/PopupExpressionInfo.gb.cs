@@ -53,7 +53,7 @@ public partial class PopupExpressionInfo
         Name = name;
         ReturnType = returnType;
         Title = title;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

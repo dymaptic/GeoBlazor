@@ -175,7 +175,7 @@ public partial class WMTSLayer : Layer,
         Version = version;
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

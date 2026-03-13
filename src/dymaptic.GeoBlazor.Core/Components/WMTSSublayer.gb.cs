@@ -87,7 +87,7 @@ public partial class WMTSSublayer : MapComponent
         TileMatrixSets = tileMatrixSets;
         Title = title;
         WMTSSublayerId = wMTSSublayerId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

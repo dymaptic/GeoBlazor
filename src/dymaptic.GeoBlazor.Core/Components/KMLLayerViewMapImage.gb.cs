@@ -50,7 +50,7 @@ public partial class KMLLayerViewMapImage : MapComponent
         Href = href;
         KMLLayerViewMapImageId = kMLLayerViewMapImageId;
         Rotation = rotation;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

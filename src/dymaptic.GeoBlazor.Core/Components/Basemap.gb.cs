@@ -74,7 +74,7 @@ public partial class Basemap : ILayerParent
         Style = style;
         ThumbnailUrl = thumbnailUrl;
         Title = title;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

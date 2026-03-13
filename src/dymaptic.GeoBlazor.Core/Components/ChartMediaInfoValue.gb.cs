@@ -57,7 +57,7 @@ public partial class ChartMediaInfoValue
         TooltipField = tooltipField;
         Series = series;
         Colors = colors;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

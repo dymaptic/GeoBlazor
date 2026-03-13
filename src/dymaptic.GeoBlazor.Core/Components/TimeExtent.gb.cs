@@ -40,7 +40,7 @@ public partial class TimeExtent
 #pragma warning disable BL0005
         Start = start;
         End = end;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

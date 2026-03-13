@@ -62,7 +62,7 @@ public partial class SizeRampStop : MapComponent
         Size = size;
         Symbol = symbol;
         Value = value;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

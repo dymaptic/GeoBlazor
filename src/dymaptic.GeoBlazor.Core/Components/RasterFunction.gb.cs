@@ -57,7 +57,7 @@ public partial class RasterFunction : MapComponent
         OutputPixelType = outputPixelType;
         RasterFunctionDefinition = rasterFunctionDefinition;
         VariableName = variableName;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

@@ -45,7 +45,7 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
         NaturalLog = naturalLog;
         PercentOfTotal = percentOfTotal;
         SquareRoot = squareRoot;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

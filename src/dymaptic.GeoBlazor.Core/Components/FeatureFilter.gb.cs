@@ -72,7 +72,7 @@ public partial class FeatureFilter
         TimeExtent = timeExtent;
         Units = units;
         Where = where;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

@@ -71,7 +71,7 @@ public partial class BasemapToggleWidget
         Visible = visible;
         VisibleElements = visibleElements;
         WidgetId = widgetId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

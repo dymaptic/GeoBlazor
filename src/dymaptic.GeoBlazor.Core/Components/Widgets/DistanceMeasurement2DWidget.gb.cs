@@ -77,7 +77,7 @@ public partial class DistanceMeasurement2DWidget : Widget
         ViewModel = viewModel;
         Visible = visible;
         WidgetId = widgetId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

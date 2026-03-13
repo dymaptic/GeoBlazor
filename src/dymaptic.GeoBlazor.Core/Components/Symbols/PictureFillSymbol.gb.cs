@@ -75,7 +75,7 @@ public partial class PictureFillSymbol : ISymbol2D,
         Yoffset = yoffset;
         Outline = outline;
         Color = color;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

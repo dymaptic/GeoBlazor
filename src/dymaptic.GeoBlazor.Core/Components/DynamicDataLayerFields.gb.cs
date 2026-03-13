@@ -38,7 +38,7 @@ public partial class DynamicDataLayerFields : MapComponent
 #pragma warning disable BL0005
         Alias = alias;
         Name = name;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

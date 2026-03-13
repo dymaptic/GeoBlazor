@@ -33,7 +33,7 @@ public partial class BasemapGalleryItem : MapComponent
         AllowRender = false;
 #pragma warning disable BL0005
         Basemap = basemap;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

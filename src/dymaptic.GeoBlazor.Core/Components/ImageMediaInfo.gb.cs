@@ -56,7 +56,7 @@ public partial class ImageMediaInfo
         AltText = altText;
         Value = value;
         RefreshInterval = refreshInterval;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

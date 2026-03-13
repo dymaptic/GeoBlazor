@@ -45,7 +45,7 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
         SnappingOptions = snappingOptions;
         Unit = unit;
         UnitOptions = unitOptions;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

@@ -72,7 +72,7 @@ public partial class CapabilitiesAttachment : MapComponent
         SupportsOrderByFields = supportsOrderByFields;
         SupportsResize = supportsResize;
         SupportsSize = supportsSize;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

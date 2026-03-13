@@ -174,7 +174,7 @@ public partial class PopupWidget : IGoTo
         VisibleElements = visibleElements;
         WidgetId = widgetId;
         Content = content;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

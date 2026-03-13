@@ -206,7 +206,7 @@ public partial class LayerSearchSource
         SuggestionTemplate = suggestionTemplate;
         WithinViewEnabled = withinViewEnabled;
         ZoomScale = zoomScale;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

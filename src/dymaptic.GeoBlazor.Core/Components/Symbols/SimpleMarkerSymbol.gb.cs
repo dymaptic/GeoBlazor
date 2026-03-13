@@ -83,7 +83,7 @@ public partial class SimpleMarkerSymbol : ISymbol2D,
         Xoffset = xoffset;
         Yoffset = yoffset;
         Path = path;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

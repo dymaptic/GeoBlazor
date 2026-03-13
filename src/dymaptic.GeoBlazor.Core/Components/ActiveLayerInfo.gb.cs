@@ -74,7 +74,7 @@ public partial class ActiveLayerInfo : MapComponent
         RespectLayerVisibility = respectLayerVisibility;
         SublayerIds = sublayerIds;
         Title = title;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

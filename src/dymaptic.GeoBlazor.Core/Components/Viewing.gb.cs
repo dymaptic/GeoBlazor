@@ -32,7 +32,7 @@ public partial class Viewing : MapComponent
         AllowRender = false;
 #pragma warning disable BL0005
         Search = search;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

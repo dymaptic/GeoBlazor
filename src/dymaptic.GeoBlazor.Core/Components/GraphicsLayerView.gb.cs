@@ -42,7 +42,7 @@ public partial class GraphicsLayerView : LayerView,
 #pragma warning disable BL0005
         HighlightOptions = highlightOptions;
         Visible = visible;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

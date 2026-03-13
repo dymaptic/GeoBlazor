@@ -44,7 +44,7 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         Mensuration = mensuration;
         Operations = operations;
         Query = query;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

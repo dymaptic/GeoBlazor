@@ -52,7 +52,7 @@ public partial class DimensionalDefinition
         IsSlice = isSlice;
         VariableName = variableName;
         Values = values;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

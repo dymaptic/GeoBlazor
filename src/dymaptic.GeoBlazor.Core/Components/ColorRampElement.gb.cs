@@ -39,7 +39,7 @@ public partial class ColorRampElement : MapComponent,
 #pragma warning disable BL0005
         Infos = infos;
         Title = title;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

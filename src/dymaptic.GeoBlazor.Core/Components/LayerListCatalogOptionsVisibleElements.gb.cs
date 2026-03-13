@@ -52,7 +52,7 @@ public partial class LayerListCatalogOptionsVisibleElements : MapComponent
         Filter = filter;
         StatusIndicators = statusIndicators;
         TemporaryLayerIndicators = temporaryLayerIndicators;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

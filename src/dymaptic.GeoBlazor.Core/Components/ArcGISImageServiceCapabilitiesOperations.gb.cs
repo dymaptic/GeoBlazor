@@ -134,7 +134,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         SupportsQuery = supportsQuery;
         SupportsQueryBoundary = supportsQueryBoundary;
         SupportsQueryGPSInfo = supportsQueryGPSInfo;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

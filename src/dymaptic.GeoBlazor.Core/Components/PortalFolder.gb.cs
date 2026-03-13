@@ -44,7 +44,7 @@ public partial class PortalFolder : MapComponent
         Created = created;
         PortalFolderId = portalFolderId;
         Title = title;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

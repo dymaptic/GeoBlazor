@@ -56,7 +56,7 @@ public partial class TickConfig
         LabelsVisible = labelsVisible;
         TickCreatedFunction = tickCreatedFunction;
         Values = values;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

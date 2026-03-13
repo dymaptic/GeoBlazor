@@ -72,7 +72,7 @@ public partial class VisibleElementsMenuItems : MapComponent
         SelectedRecordsShowSelectedToggle = selectedRecordsShowSelectedToggle;
         ToggleColumns = toggleColumns;
         ZoomToSelection = zoomToSelection;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

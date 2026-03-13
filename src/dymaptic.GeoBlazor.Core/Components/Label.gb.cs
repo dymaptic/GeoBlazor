@@ -119,7 +119,7 @@ public partial class Label
         RepeatLabelDistance = repeatLabelDistance;
         UseCodedValues = useCodedValues;
         Where = where;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

@@ -201,7 +201,7 @@ public partial class SearchWidget : IGoTo
         SuggestionsEnabled = suggestionsEnabled;
         Visible = visible;
         WidgetId = widgetId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

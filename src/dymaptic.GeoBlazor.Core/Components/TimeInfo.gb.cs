@@ -72,7 +72,7 @@ public partial class TimeInfo
         Stops = stops;
         TimeZone = timeZone;
         TrackIdField = trackIdField;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

@@ -81,7 +81,7 @@ public partial class HighlightOptions
         ShadowOpacity = shadowOpacity;
         ShadowDifference = shadowDifference;
         Name = name;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

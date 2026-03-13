@@ -45,7 +45,7 @@ public partial class SizeStop
         Value = value;
         Size = size;
         Label = label;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

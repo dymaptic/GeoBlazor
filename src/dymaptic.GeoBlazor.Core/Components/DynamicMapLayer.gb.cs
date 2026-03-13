@@ -39,7 +39,7 @@ public partial class DynamicMapLayer
 #pragma warning disable BL0005
         MapLayerId = mapLayerId;
         GdbVersion = gdbVersion;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

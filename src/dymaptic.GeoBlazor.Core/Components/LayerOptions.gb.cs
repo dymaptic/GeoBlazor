@@ -41,7 +41,7 @@ public partial class LayerOptions : MapComponent
 #pragma warning disable BL0005
         ReturnTopmostRaster = returnTopmostRaster;
         ShowNoDataRecords = showNoDataRecords;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

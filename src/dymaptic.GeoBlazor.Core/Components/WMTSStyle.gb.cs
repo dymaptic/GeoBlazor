@@ -50,7 +50,7 @@ public partial class WMTSStyle : MapComponent
         LegendUrl = legendUrl;
         Title = title;
         WMTSStyleId = wMTSStyleId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

@@ -48,7 +48,7 @@ public partial class MeshTextureTransform : MapComponent
         Offset = offset;
         Rotation = rotation;
         Scale = scale;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

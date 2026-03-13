@@ -80,7 +80,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
         Graphic = graphic;
         PopupEnabled = popupEnabled;
         Scale = scale;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

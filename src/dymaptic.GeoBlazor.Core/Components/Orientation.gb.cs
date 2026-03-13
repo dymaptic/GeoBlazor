@@ -32,7 +32,7 @@ public partial class Orientation : MapComponent
         AllowRender = false;
 #pragma warning disable BL0005
         Z = z;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

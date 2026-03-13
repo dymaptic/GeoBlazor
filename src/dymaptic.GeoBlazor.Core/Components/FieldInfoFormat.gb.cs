@@ -47,7 +47,7 @@ public partial class FieldInfoFormat
         Places = places;
         DigitSeparator = digitSeparator;
         DateFormat = dateFormat;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

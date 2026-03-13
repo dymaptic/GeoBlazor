@@ -50,7 +50,7 @@ public partial class FeatureLayerBaseElevationInfo : MapComponent
         Mode = mode;
         Offset = offset;
         Unit = unit;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

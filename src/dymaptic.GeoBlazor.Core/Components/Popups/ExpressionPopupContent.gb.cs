@@ -35,7 +35,7 @@ public partial class ExpressionPopupContent
         {
             ExpressionInfo = expressionInfo;
         }
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

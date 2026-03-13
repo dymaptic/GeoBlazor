@@ -46,7 +46,7 @@ public partial class LayerListKnowledgeGraphOptionsVisibleElements : MapComponen
         Errors = errors;
         Filter = filter;
         StatusIndicators = statusIndicators;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

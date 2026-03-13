@@ -68,7 +68,7 @@ public partial class WebMapFloorFilter : MapComponent
         Minimized = minimized;
         PinnedLevels = pinnedLevels;
         Site = site;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

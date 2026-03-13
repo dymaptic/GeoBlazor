@@ -38,7 +38,7 @@ public partial class ImageMediaInfoValue
 #pragma warning disable BL0005
         LinkURL = linkURL;
         SourceURL = sourceURL;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

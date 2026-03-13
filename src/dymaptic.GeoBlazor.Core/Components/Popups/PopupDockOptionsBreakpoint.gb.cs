@@ -39,7 +39,7 @@ public partial class PopupDockOptionsBreakpoint : MapComponent
 #pragma warning disable BL0005
         Height = height;
         Width = width;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

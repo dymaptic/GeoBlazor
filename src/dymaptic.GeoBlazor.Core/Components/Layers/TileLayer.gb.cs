@@ -188,7 +188,7 @@ public partial class TileLayer : IAPIKeyMixin,
         Url = url;
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

@@ -38,7 +38,7 @@ public partial class AuthoringInfoField1ClassBreakInfos : MapComponent
 #pragma warning disable BL0005
         MaxValue = maxValue;
         MinValue = minValue;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

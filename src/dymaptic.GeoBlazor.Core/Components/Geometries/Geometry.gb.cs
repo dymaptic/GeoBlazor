@@ -11,60 +11,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 public abstract partial class Geometry
 {
 
-    /// <summary>
-    ///     Implicit conversion between <see cref="(Extent" /> and <see cref="Geometry" />.
-    /// </summary>
-    /// <param name="(ExtentValue">
-    ///     The (Extent to use as the value.
-    /// </param>
-    public static implicit operator Geometry((Extent (ExtentValue) =>
-        new((ExtentValue: (ExtentValue);
-
-    /// <summary>
-    ///     Implicit conversion between <see cref="(Multipoint" /> and <see cref="Geometry" />.
-    /// </summary>
-    /// <param name="(MultipointValue">
-    ///     The (Multipoint to use as the value.
-    /// </param>
-    public static implicit operator Geometry((Multipoint (MultipointValue) =>
-        new((MultipointValue: (MultipointValue);
-
-    /// <summary>
-    ///     Implicit conversion between <see cref="(Point" /> and <see cref="Geometry" />.
-    /// </summary>
-    /// <param name="(PointValue">
-    ///     The (Point to use as the value.
-    /// </param>
-    public static implicit operator Geometry((Point (PointValue) =>
-        new((PointValue: (PointValue);
-
-    /// <summary>
-    ///     Implicit conversion between <see cref="(Polygon" /> and <see cref="Geometry" />.
-    /// </summary>
-    /// <param name="(PolygonValue">
-    ///     The (Polygon to use as the value.
-    /// </param>
-    public static implicit operator Geometry((Polygon (PolygonValue) =>
-        new((PolygonValue: (PolygonValue);
-
-    /// <summary>
-    ///     Implicit conversion between <see cref="(Polyline" /> and <see cref="Geometry" />.
-    /// </summary>
-    /// <param name="(PolylineValue">
-    ///     The (Polyline to use as the value.
-    /// </param>
-    public static implicit operator Geometry((Polyline (PolylineValue) =>
-        new((PolylineValue: (PolylineValue);
-
-    /// <summary>
-    ///     Implicit conversion between <see cref="(Mesh" /> and <see cref="Geometry" />.
-    /// </summary>
-    /// <param name="(MeshValue">
-    ///     The (Mesh to use as the value.
-    /// </param>
-    public static implicit operator Geometry((Mesh (MeshValue) =>
-        new((MeshValue: (MeshValue);
-
 #region Public Properties / Blazor Parameters
 
     /// <summary>

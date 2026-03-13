@@ -39,7 +39,7 @@ public partial class UniqueValueGroup : MapComponent
 #pragma warning disable BL0005
         Classes = classes;
         Heading = heading;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

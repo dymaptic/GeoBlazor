@@ -55,7 +55,7 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
         Label = label;
         VisualVariables = visualVariables;
         AuthoringInfo = authoringInfo;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

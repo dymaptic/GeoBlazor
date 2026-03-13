@@ -65,7 +65,7 @@ public partial class TileInfo
         Origin = origin;
         Size = size;
         SpatialReference = spatialReference;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

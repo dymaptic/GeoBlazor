@@ -53,7 +53,7 @@ public partial class FeatureEffect
         ExcludedLabelsVisible = excludedLabelsVisible;
         Filter = filter;
         IncludedEffect = includedEffect;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

@@ -38,7 +38,7 @@ public partial class Position : MapComponent
 #pragma warning disable BL0005
         Coordinate = coordinate;
         Location = location;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

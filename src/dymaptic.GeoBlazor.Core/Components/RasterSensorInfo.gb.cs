@@ -76,7 +76,7 @@ public partial class RasterSensorInfo : MapComponent
         SensorName = sensorName;
         SunAzimuth = sunAzimuth;
         SunElevation = sunElevation;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

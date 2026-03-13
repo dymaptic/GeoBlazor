@@ -39,7 +39,7 @@ public partial class Theme : MapComponent
 #pragma warning disable BL0005
         AccentColor = accentColor;
         TextColor = textColor;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

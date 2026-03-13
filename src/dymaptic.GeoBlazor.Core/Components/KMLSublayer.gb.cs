@@ -51,7 +51,7 @@ public partial class KMLSublayer : MapComponent
         KMLSublayerId = kMLSublayerId;
         Title = title;
         Visible = visible;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

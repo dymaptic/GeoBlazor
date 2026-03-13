@@ -139,7 +139,7 @@ public partial class OpenStreetMapLayer
         PersistenceEnabled = persistenceEnabled;
         UrlTemplate = urlTemplate;
         VisibilityTimeExtent = visibilityTimeExtent;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

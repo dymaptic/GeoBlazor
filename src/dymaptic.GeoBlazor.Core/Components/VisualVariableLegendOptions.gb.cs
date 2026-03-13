@@ -39,7 +39,7 @@ public partial class VisualVariableLegendOptions
 #pragma warning disable BL0005
         ShowLegend = showLegend;
         Title = title;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

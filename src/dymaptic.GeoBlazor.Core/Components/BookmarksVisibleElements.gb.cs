@@ -80,7 +80,7 @@ public partial class BookmarksVisibleElements : MapComponent
         Heading = heading;
         Thumbnail = thumbnail;
         Time = time;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

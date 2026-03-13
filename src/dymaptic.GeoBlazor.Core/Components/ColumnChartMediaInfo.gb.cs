@@ -51,7 +51,7 @@ public partial class ColumnChartMediaInfo : IChartMediaInfo
         Caption = caption;
         AltText = altText;
         Value = value;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

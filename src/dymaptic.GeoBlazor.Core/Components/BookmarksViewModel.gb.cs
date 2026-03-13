@@ -58,7 +58,7 @@ public partial class BookmarksViewModel : IGoTo
         DefaultCreateOptions = defaultCreateOptions;
         DefaultEditOptions = defaultEditOptions;
         GoToOverride = goToOverride;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

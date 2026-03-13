@@ -38,7 +38,7 @@ public partial class SearchTable : MapComponent
 #pragma warning disable BL0005
         Field = field;
         SearchTableId = searchTableId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

@@ -85,7 +85,7 @@ public partial class CapabilitiesOperations : MapComponent
         SupportsResizeAttachments = supportsResizeAttachments;
         SupportsUpdate = supportsUpdate;
         SupportsValidateSql = supportsValidateSql;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

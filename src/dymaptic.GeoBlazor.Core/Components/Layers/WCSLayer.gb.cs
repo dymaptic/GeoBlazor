@@ -243,7 +243,7 @@ public partial class WCSLayer : IBlendLayer,
         Version = version;
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

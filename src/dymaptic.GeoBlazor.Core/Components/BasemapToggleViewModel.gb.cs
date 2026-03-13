@@ -32,7 +32,7 @@ public partial class BasemapToggleViewModel : MapComponent
         AllowRender = false;
 #pragma warning disable BL0005
         NextBasemap = nextBasemap;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

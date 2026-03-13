@@ -48,7 +48,7 @@ public partial class SimpleFillSymbol : ISymbol2D,
         Outline = outline;
         Color = color;
         Style = style;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

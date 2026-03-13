@@ -38,7 +38,7 @@ public partial class RasterDataSource
 #pragma warning disable BL0005
         WorkspaceId = workspaceId;
         DataSourceName = dataSourceName;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

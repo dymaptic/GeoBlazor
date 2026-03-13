@@ -93,7 +93,7 @@ public partial class TrackInfo : MapComponent
         PreviousObservations = previousObservations;
         TimeField = timeField;
         TrackLines = trackLines;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

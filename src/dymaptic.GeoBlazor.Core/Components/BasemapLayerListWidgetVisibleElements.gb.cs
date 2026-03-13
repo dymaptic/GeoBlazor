@@ -92,7 +92,7 @@ public partial class BasemapLayerListWidgetVisibleElements
         ReferenceLayers = referenceLayers;
         StatusIndicators = statusIndicators;
         TemporaryLayerIndicators = temporaryLayerIndicators;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

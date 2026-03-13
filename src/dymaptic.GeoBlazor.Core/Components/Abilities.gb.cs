@@ -74,7 +74,7 @@ public partial class Abilities : MapComponent
         TextContent = textContent;
         RelationshipContent = relationshipContent;
         UtilityNetworkAssociationsContent = utilityNetworkAssociationsContent;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

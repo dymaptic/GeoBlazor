@@ -110,7 +110,7 @@ public partial class WMSSublayer : MapComponent
         Title = title;
         Visible = visible;
         WMSSublayerId = wMSSublayerId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

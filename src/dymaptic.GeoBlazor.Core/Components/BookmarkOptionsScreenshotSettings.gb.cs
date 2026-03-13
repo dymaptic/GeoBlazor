@@ -50,7 +50,7 @@ public partial class BookmarkOptionsScreenshotSettings
         Height = height;
         Layers = layers;
         Width = width;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

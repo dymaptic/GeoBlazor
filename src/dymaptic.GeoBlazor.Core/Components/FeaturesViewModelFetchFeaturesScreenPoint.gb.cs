@@ -37,7 +37,7 @@ public partial class FeaturesViewModelFetchFeaturesScreenPoint : MapComponent
 #pragma warning disable BL0005
         X = x;
         Y = y;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

@@ -38,7 +38,7 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
 #pragma warning disable BL0005
         Geometry = geometry;
         Length = length;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

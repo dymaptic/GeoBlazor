@@ -38,7 +38,7 @@ public partial class ZoomViewModel : MapComponent
 #pragma warning disable BL0005
         CanZoomIn = canZoomIn;
         CanZoomOut = canZoomOut;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

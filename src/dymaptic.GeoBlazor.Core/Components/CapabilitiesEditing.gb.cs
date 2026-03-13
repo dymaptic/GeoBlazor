@@ -80,7 +80,7 @@ public partial class CapabilitiesEditing : MapComponent
         SupportsUpdateByOthers = supportsUpdateByOthers;
         SupportsUpdateWithoutM = supportsUpdateWithoutM;
         SupportsUploadWithItemId = supportsUploadWithItemId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

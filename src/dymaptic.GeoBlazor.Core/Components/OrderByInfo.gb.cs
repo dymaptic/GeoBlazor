@@ -46,7 +46,7 @@ public partial class OrderByInfo : MapComponent
         Field = field;
         Order = order;
         ValueExpression = valueExpression;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

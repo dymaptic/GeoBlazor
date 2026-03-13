@@ -69,7 +69,7 @@ public partial class GeoJSONLayerView : LayerView,
         MaximumNumberOfFeatures = maximumNumberOfFeatures;
         MaximumNumberOfFeaturesExceeded = maximumNumberOfFeaturesExceeded;
         Visible = visible;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

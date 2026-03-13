@@ -56,7 +56,7 @@ public partial class QueryTableDataSource
         OidFields = oidFields;
         GeometryType = geometryType;
         SpatialReference = spatialReference;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

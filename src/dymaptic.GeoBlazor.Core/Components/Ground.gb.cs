@@ -59,7 +59,7 @@ public partial class Ground : MapComponent,
         NavigationConstraint = navigationConstraint;
         Opacity = opacity;
         SurfaceColor = surfaceColor;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

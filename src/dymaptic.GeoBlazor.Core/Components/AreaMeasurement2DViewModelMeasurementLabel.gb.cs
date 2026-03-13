@@ -38,7 +38,7 @@ public partial class AreaMeasurement2DViewModelMeasurementLabel : MapComponent
 #pragma warning disable BL0005
         Area = area;
         Perimeter = perimeter;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
