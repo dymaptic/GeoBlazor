@@ -9,9 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public abstract partial class Layer : IHitTestItem,
-    IIntersectItem,
-    ISliceAnalysisExcludedLayers,
-    ISliceViewModelExcludedLayers
+    IIntersectItem
 {
 
 #region Public Properties / Blazor Parameters

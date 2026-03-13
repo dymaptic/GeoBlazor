@@ -11,33 +11,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 public abstract partial class Symbol
 {
 
-    /// <summary>
-    ///     Implicit conversion between <see cref="(SimpleLineSymbolProperties & { type: "simple-line" })" /> and <see cref="Symbol" />.
-    /// </summary>
-    /// <param name="(SimpleLineSymbolProperties & { type: "simple-line" })Value">
-    ///     The (SimpleLineSymbolProperties & { type: "simple-line" }) to use as the value.
-    /// </param>
-    public static implicit operator Symbol((SimpleLineSymbolProperties & { type: "simple-line" }) (SimpleLineSymbolProperties & { type: "simple-line" })Value) =>
-        new((SimpleLineSymbolProperties & { type: "simple-line" })Value: (SimpleLineSymbolProperties & { type: "simple-line" })Value);
-
-    /// <summary>
-    ///     Implicit conversion between <see cref="(LineSymbol3DProperties & { type: "line-3d" })" /> and <see cref="Symbol" />.
-    /// </summary>
-    /// <param name="(LineSymbol3DProperties & { type: "line-3d" })Value">
-    ///     The (LineSymbol3DProperties & { type: "line-3d" }) to use as the value.
-    /// </param>
-    public static implicit operator Symbol((LineSymbol3DProperties & { type: "line-3d" }) (LineSymbol3DProperties & { type: "line-3d" })Value) =>
-        new((LineSymbol3DProperties & { type: "line-3d" })Value: (LineSymbol3DProperties & { type: "line-3d" })Value);
-
-    /// <summary>
-    ///     Implicit conversion between <see cref="(CIMSymbolProperties & { type: "cim" })" /> and <see cref="Symbol" />.
-    /// </summary>
-    /// <param name="(CIMSymbolProperties & { type: "cim" })Value">
-    ///     The (CIMSymbolProperties & { type: "cim" }) to use as the value.
-    /// </param>
-    public static implicit operator Symbol((CIMSymbolProperties & { type: "cim" }) (CIMSymbolProperties & { type: "cim" })Value) =>
-        new((CIMSymbolProperties & { type: "cim" })Value: (CIMSymbolProperties & { type: "cim" })Value);
-
 #region Property Getters
 
     /// <summary>

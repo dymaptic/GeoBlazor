@@ -17,9 +17,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
     IDisplayFilteredLayer,
     IFeatureEffectLayer,
     IFeatureSetLayer,
-    IFeatureTemplatesViewModelLayers,
-    IFeatureTemplatesWidgetLayers,
-    IInputBaseLayers,
     IOperationalLayer,
     IOrderedLayer,
     IPortalLayer,
@@ -332,15 +329,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
     ///     feature in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#globalIdField">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="inputFeatureLayerCollection">
-    ///     Implementation of parent property Input as IReadOnlyCollection<FeatureLayer>.
-    /// </param>
-    /// <param name="inputNetworkCollection">
-    ///     Implementation of parent property Input as IReadOnlyCollection<Network>.
-    /// </param>
-    /// <param name="inputSubtypeGroupLayerCollection">
-    ///     Implementation of parent property Input as IReadOnlyCollection<SubtypeGroupLayer>.
-    /// </param>
     public FeatureLayer(
         string? url = null,
         PortalItem? portalItem = null,
@@ -404,10 +392,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
         IReadOnlyList<FeatureType>? types = null,
         bool? useViewTime = null,
         TimeExtent? visibilityTimeExtent = null,
-        string? globalIdField = null,
-        IReadOnlyCollection<FeatureLayer>? inputFeatureLayerCollection = null,
-        IReadOnlyCollection<Network>? inputNetworkCollection = null,
-        IReadOnlyCollection<SubtypeGroupLayer>? inputSubtypeGroupLayerCollection = null)
+        string? globalIdField = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -474,9 +459,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         UseViewTime = useViewTime;
         VisibilityTimeExtent = visibilityTimeExtent;
         GlobalIdField = globalIdField;
-        InputFeatureLayerCollection = inputFeatureLayerCollection;
-        InputNetworkCollection = inputNetworkCollection;
-        InputSubtypeGroupLayerCollection = inputSubtypeGroupLayerCollection;
 #pragma warning restore BL0005    
     }
     
@@ -772,33 +754,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public DateTime? HistoricMoment { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerinputfeaturelayercollection-property">GeoBlazor Docs</a>
-    ///     Implementation of parent property Input as IReadOnlyCollection<FeatureLayer>.
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyCollection<FeatureLayer>? InputFeatureLayerCollection { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerinputnetworkcollection-property">GeoBlazor Docs</a>
-    ///     Implementation of parent property Input as IReadOnlyCollection<Network>.
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyCollection<Network>? InputNetworkCollection { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerinputsubtypegrouplayercollection-property">GeoBlazor Docs</a>
-    ///     Implementation of parent property Input as IReadOnlyCollection<SubtypeGroupLayer>.
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyCollection<SubtypeGroupLayer>? InputSubtypeGroupLayerCollection { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayeristable-property">GeoBlazor Docs</a>
@@ -2512,134 +2467,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
          
         return HistoricMoment;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the InputFeatureLayerCollection property.
-    /// </summary>
-    public async Task<IReadOnlyCollection<FeatureLayer>?> GetInputFeatureLayerCollection()
-    {
-        if (CoreJsModule is null)
-        {
-            return InputFeatureLayerCollection;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return InputFeatureLayerCollection;
-        }
-
-        IReadOnlyCollection<FeatureLayer>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyCollection<FeatureLayer>?>(
-            IsServer, nameof(GetInputFeatureLayerCollection), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            foreach (FeatureLayer item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-#pragma warning disable BL0005
-            InputFeatureLayerCollection = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(InputFeatureLayerCollection)] = InputFeatureLayerCollection;
-        }
-        
-        return InputFeatureLayerCollection;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the InputNetworkCollection property.
-    /// </summary>
-    public async Task<IReadOnlyCollection<Network>?> GetInputNetworkCollection()
-    {
-        if (CoreJsModule is null)
-        {
-            return InputNetworkCollection;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return InputNetworkCollection;
-        }
-
-        IReadOnlyCollection<Network>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyCollection<Network>?>(
-            IsServer, nameof(GetInputNetworkCollection), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            InputNetworkCollection = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(InputNetworkCollection)] = InputNetworkCollection;
-        }
-        
-        return InputNetworkCollection;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the InputSubtypeGroupLayerCollection property.
-    /// </summary>
-    public async Task<IReadOnlyCollection<SubtypeGroupLayer>?> GetInputSubtypeGroupLayerCollection()
-    {
-        if (CoreJsModule is null)
-        {
-            return InputSubtypeGroupLayerCollection;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return InputSubtypeGroupLayerCollection;
-        }
-
-        IReadOnlyCollection<SubtypeGroupLayer>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyCollection<SubtypeGroupLayer>?>(
-            IsServer, nameof(GetInputSubtypeGroupLayerCollection), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            foreach (SubtypeGroupLayer item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-#pragma warning disable BL0005
-            InputSubtypeGroupLayerCollection = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(InputSubtypeGroupLayerCollection)] = InputSubtypeGroupLayerCollection;
-        }
-        
-        return InputSubtypeGroupLayerCollection;
     }
     
     /// <summary>
@@ -5095,136 +4922,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the InputFeatureLayerCollection property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetInputFeatureLayerCollection(IReadOnlyCollection<FeatureLayer>? value)
-    {
-#pragma warning disable BL0005
-        InputFeatureLayerCollection = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(InputFeatureLayerCollection)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-        if (value is not null)
-        {
-            foreach (FeatureLayer item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetInputFeatureLayerCollection), nameof(FeatureLayer), 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the InputNetworkCollection property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetInputNetworkCollection(IReadOnlyCollection<Network>? value)
-    {
-#pragma warning disable BL0005
-        InputNetworkCollection = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(InputNetworkCollection)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetInputNetworkCollection), nameof(FeatureLayer), 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the InputSubtypeGroupLayerCollection property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetInputSubtypeGroupLayerCollection(IReadOnlyCollection<SubtypeGroupLayer>? value)
-    {
-#pragma warning disable BL0005
-        InputSubtypeGroupLayerCollection = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(InputSubtypeGroupLayerCollection)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-        if (value is not null)
-        {
-            foreach (SubtypeGroupLayer item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetInputSubtypeGroupLayerCollection), nameof(FeatureLayer), 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the LabelingInfo property after render.
     /// </summary>
     /// <param name="value">
@@ -6406,48 +6103,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
     }
     
     /// <summary>
-    ///     Asynchronously adds elements to the InputFeatureLayerCollection property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to add.
-    /// </param>
-    public async Task AddToInputFeatureLayerCollection(params FeatureLayer[] values)
-    {
-        FeatureLayer[] join = InputFeatureLayerCollection is null
-            ? values
-            : [..InputFeatureLayerCollection, ..values];
-        await SetInputFeatureLayerCollection(join);
-    }
-    
-    /// <summary>
-    ///     Asynchronously adds elements to the InputNetworkCollection property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to add.
-    /// </param>
-    public async Task AddToInputNetworkCollection(params Network[] values)
-    {
-        Network[] join = InputNetworkCollection is null
-            ? values
-            : [..InputNetworkCollection, ..values];
-        await SetInputNetworkCollection(join);
-    }
-    
-    /// <summary>
-    ///     Asynchronously adds elements to the InputSubtypeGroupLayerCollection property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to add.
-    /// </param>
-    public async Task AddToInputSubtypeGroupLayerCollection(params SubtypeGroupLayer[] values)
-    {
-        SubtypeGroupLayer[] join = InputSubtypeGroupLayerCollection is null
-            ? values
-            : [..InputSubtypeGroupLayerCollection, ..values];
-        await SetInputSubtypeGroupLayerCollection(join);
-    }
-    
-    /// <summary>
     ///     Asynchronously adds elements to the LabelingInfo property.
     /// </summary>
     /// <param name="values">
@@ -6565,54 +6220,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         await SetFields(Fields.Except(values).ToArray());
-    }
-    
-    
-    /// <summary>
-    ///     Asynchronously remove an element from the InputFeatureLayerCollection property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to remove.
-    /// </param>
-    public async Task RemoveFromInputFeatureLayerCollection(params FeatureLayer[] values)
-    {
-        if (InputFeatureLayerCollection is null)
-        {
-            return;
-        }
-        await SetInputFeatureLayerCollection(InputFeatureLayerCollection.Except(values).ToArray());
-    }
-    
-    
-    /// <summary>
-    ///     Asynchronously remove an element from the InputNetworkCollection property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to remove.
-    /// </param>
-    public async Task RemoveFromInputNetworkCollection(params Network[] values)
-    {
-        if (InputNetworkCollection is null)
-        {
-            return;
-        }
-        await SetInputNetworkCollection(InputNetworkCollection.Except(values).ToArray());
-    }
-    
-    
-    /// <summary>
-    ///     Asynchronously remove an element from the InputSubtypeGroupLayerCollection property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to remove.
-    /// </param>
-    public async Task RemoveFromInputSubtypeGroupLayerCollection(params SubtypeGroupLayer[] values)
-    {
-        if (InputSubtypeGroupLayerCollection is null)
-        {
-            return;
-        }
-        await SetInputSubtypeGroupLayerCollection(InputSubtypeGroupLayerCollection.Except(values).ToArray());
     }
     
     
@@ -6867,32 +6474,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 }
                 
                 return true;
-            case FeatureLayer inputFeatureLayerCollection:
-                InputFeatureLayerCollection ??= [];
-                if (!InputFeatureLayerCollection.Contains(inputFeatureLayerCollection))
-                {
-                    InputFeatureLayerCollection = [..InputFeatureLayerCollection, inputFeatureLayerCollection];
-                    ModifiedParameters[nameof(InputFeatureLayerCollection)] = InputFeatureLayerCollection;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-                
-                return true;
-            case SubtypeGroupLayer inputSubtypeGroupLayerCollection:
-                InputSubtypeGroupLayerCollection ??= [];
-                if (!InputSubtypeGroupLayerCollection.Contains(inputSubtypeGroupLayerCollection))
-                {
-                    InputSubtypeGroupLayerCollection = [..InputSubtypeGroupLayerCollection, inputSubtypeGroupLayerCollection];
-                    ModifiedParameters[nameof(InputSubtypeGroupLayerCollection)] = InputSubtypeGroupLayerCollection;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-                
-                return true;
             case Label labelingInfo:
                 LabelingInfo ??= [];
                 if (!LabelingInfo.Contains(labelingInfo))
@@ -7062,14 +6643,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 FloorInfo = null;
                 ModifiedParameters[nameof(FloorInfo)] = FloorInfo;
                 return true;
-            case FeatureLayer inputFeatureLayerCollection:
-                InputFeatureLayerCollection = InputFeatureLayerCollection?.Where(i => i != inputFeatureLayerCollection).ToList();
-                ModifiedParameters[nameof(InputFeatureLayerCollection)] = InputFeatureLayerCollection;
-                return true;
-            case SubtypeGroupLayer inputSubtypeGroupLayerCollection:
-                InputSubtypeGroupLayerCollection = InputSubtypeGroupLayerCollection?.Where(i => i != inputSubtypeGroupLayerCollection).ToList();
-                ModifiedParameters[nameof(InputSubtypeGroupLayerCollection)] = InputSubtypeGroupLayerCollection;
-                return true;
             case Label labelingInfo:
                 LabelingInfo = LabelingInfo?.Where(l => l != labelingInfo).ToList();
                 ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
@@ -7139,20 +6712,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
             }
         }
         FloorInfo?.ValidateRequiredGeneratedChildren();
-        if (InputFeatureLayerCollection is not null)
-        {
-            foreach (FeatureLayer child in InputFeatureLayerCollection)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        if (InputSubtypeGroupLayerCollection is not null)
-        {
-            foreach (SubtypeGroupLayer child in InputSubtypeGroupLayerCollection)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
         if (LabelingInfo is not null)
         {
             foreach (Label child in LabelingInfo)

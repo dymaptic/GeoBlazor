@@ -28,17 +28,17 @@ public partial record RequestOptionsBody
     /// <param name="bodystring">
     ///     Implementation of parent property Body as string.
     /// </param>
-    /// <param name="bodyobject?">
+    /// <param name="bodyobject">
     ///     Implementation of parent property Body as Dictionary<string, object?>.
     /// </param>
     public RequestOptionsBody(
         ElementReference? bodyElementReference = null,
         string? bodystring = null,
-        Dictionary<string, object?>? bodyobject? = null)
+        Dictionary<string, object?>? bodyobject = null)
     {
         BodyElementReference = bodyElementReference;
         Bodystring = bodystring;
-        Bodyobject? = bodyobject?;
+        Bodyobject = bodyobject;
     }
     
     
@@ -55,11 +55,11 @@ public partial record RequestOptionsBody
     /// <summary>
     ///     Implicit conversion between <see cref="Dictionary<string, object?>" /> and <see cref="RequestOptionsBody" />.
     /// </summary>
-    /// <param name="bodyobject?">
+    /// <param name="bodyobject">
     ///     The Dictionary<string, object?> to use as the value.
     /// </param>
-    public static implicit operator RequestOptionsBody(Dictionary<string, object?> bodyobject?) =>
-        new(bodyobject?: bodyobject?);
+    public static implicit operator RequestOptionsBody(Dictionary<string, object?> bodyobject) =>
+        new(bodyobject: bodyobject);
 
     /// <summary>
     ///     Implicit conversion between <see cref="string" /> and <see cref="RequestOptionsBody" />.
@@ -83,13 +83,13 @@ public partial record RequestOptionsBody
     public ElementReference? BodyElementReference { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.RequestOptionsBody.html#requestoptionsbodybodyobject?-property">GeoBlazor Docs</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.RequestOptionsBody.html#requestoptionsbodybodyobject-property">GeoBlazor Docs</a>
     ///     Implementation of parent property Body as Dictionary<string, object?>.
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Dictionary<string, object?>? Bodyobject? { get; set; }
+    public Dictionary<string, object?>? Bodyobject { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.RequestOptionsBody.html#requestoptionsbodybodystring-property">GeoBlazor Docs</a>

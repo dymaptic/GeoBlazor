@@ -58,14 +58,6 @@ export default class FeatureLayerGenerated extends BaseComponent {
             let { buildJsExtent } = await import('./extent');
             this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
         }
-        if (hasValue(dotNetObject.inputFeatureLayerCollection) && dotNetObject.inputFeatureLayerCollection.length > 0) {
-            let { buildJsFeatureLayer } = await import('./featureLayer');
-            this.layer.inputFeatureLayerCollection = await Promise.all(dotNetObject.inputFeatureLayerCollection.map(async i => await buildJsFeatureLayer(i, this.layerId, this.viewId))) as any;
-        }
-        if (hasValue(dotNetObject.inputSubtypeGroupLayerCollection) && dotNetObject.inputSubtypeGroupLayerCollection.length > 0) {
-            let { buildJsSubtypeGroupLayer } = await import('./subtypeGroupLayer');
-            this.layer.inputSubtypeGroupLayerCollection = await Promise.all(dotNetObject.inputSubtypeGroupLayerCollection.map(async i => await buildJsSubtypeGroupLayer(i, this.layerId, this.viewId))) as any;
-        }
         if (hasValue(dotNetObject.labelingInfo) && dotNetObject.labelingInfo.length > 0) {
             let { buildJsLabel } = await import('./label');
             this.layer.labelingInfo = await Promise.all(dotNetObject.labelingInfo.map(async i => await buildJsLabel(i, this.layerId, this.viewId))) as any;
@@ -166,9 +158,6 @@ export default class FeatureLayerGenerated extends BaseComponent {
         }
         if (hasValue(dotNetObject.historicMoment)) {
             this.layer.historicMoment = dotNetObject.historicMoment;
-        }
-        if (hasValue(dotNetObject.inputNetworkCollection) && dotNetObject.inputNetworkCollection.length > 0) {
-            this.layer.inputNetworkCollection = dotNetObject.inputNetworkCollection;
         }
         if (hasValue(dotNetObject.labelsVisible)) {
             this.layer.labelsVisible = dotNetObject.labelsVisible;
@@ -556,40 +545,6 @@ export default class FeatureLayerGenerated extends BaseComponent {
         this.layer.globalIdField = value;
     }
     
-    async getInputFeatureLayerCollection(): Promise<any> {
-        if (!hasValue(this.layer.inputFeatureLayerCollection)) {
-            return null;
-        }
-        
-        let { buildDotNetFeatureLayer } = await import('./featureLayer');
-        return await Promise.all(this.layer.inputFeatureLayerCollection!.map(async i => await buildDotNetFeatureLayer(i, this.layerId, this.viewId)));
-    }
-    
-    async setInputFeatureLayerCollection(value: any): Promise<void> {
-        if (!hasValue(value)) {
-            this.layer.inputFeatureLayerCollection.removeAll();
-        }
-        let { buildJsFeatureLayer } = await import('./featureLayer');
-        this.layer.inputFeatureLayerCollection = await Promise.all(value.map(async i => await buildJsFeatureLayer(i, this.layerId, this.viewId))) as any;
-    }
-    
-    async getInputSubtypeGroupLayerCollection(): Promise<any> {
-        if (!hasValue(this.layer.inputSubtypeGroupLayerCollection)) {
-            return null;
-        }
-        
-        let { buildDotNetSubtypeGroupLayer } = await import('./subtypeGroupLayer');
-        return await Promise.all(this.layer.inputSubtypeGroupLayerCollection!.map(async i => await buildDotNetSubtypeGroupLayer(i, this.layerId, this.viewId)));
-    }
-    
-    async setInputSubtypeGroupLayerCollection(value: any): Promise<void> {
-        if (!hasValue(value)) {
-            this.layer.inputSubtypeGroupLayerCollection.removeAll();
-        }
-        let { buildJsSubtypeGroupLayer } = await import('./subtypeGroupLayer');
-        this.layer.inputSubtypeGroupLayerCollection = await Promise.all(value.map(async i => await buildJsSubtypeGroupLayer(i, this.layerId, this.viewId))) as any;
-    }
-    
     async getLabelingInfo(): Promise<any> {
         if (!hasValue(this.layer.labelingInfo)) {
             return null;
@@ -927,14 +882,6 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
-    if (hasValue(dotNetObject.inputFeatureLayerCollection) && dotNetObject.inputFeatureLayerCollection.length > 0) {
-        let { buildJsFeatureLayer } = await import('./featureLayer');
-        properties.inputFeatureLayerCollection = await Promise.all(dotNetObject.inputFeatureLayerCollection.map(async i => await buildJsFeatureLayer(i, layerId, viewId))) as any;
-    }
-    if (hasValue(dotNetObject.inputSubtypeGroupLayerCollection) && dotNetObject.inputSubtypeGroupLayerCollection.length > 0) {
-        let { buildJsSubtypeGroupLayer } = await import('./subtypeGroupLayer');
-        properties.inputSubtypeGroupLayerCollection = await Promise.all(dotNetObject.inputSubtypeGroupLayerCollection.map(async i => await buildJsSubtypeGroupLayer(i, layerId, viewId))) as any;
-    }
     if (hasValue(dotNetObject.labelingInfo) && dotNetObject.labelingInfo.length > 0) {
         let { buildJsLabel } = await import('./label');
         properties.labelingInfo = await Promise.all(dotNetObject.labelingInfo.map(async i => await buildJsLabel(i, layerId, viewId))) as any;
@@ -1038,9 +985,6 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.historicMoment)) {
         properties.historicMoment = dotNetObject.historicMoment;
-    }
-    if (hasValue(dotNetObject.inputNetworkCollection) && dotNetObject.inputNetworkCollection.length > 0) {
-        properties.inputNetworkCollection = dotNetObject.inputNetworkCollection;
     }
     if (hasValue(dotNetObject.labelsVisible)) {
         properties.labelsVisible = dotNetObject.labelsVisible;
@@ -1410,10 +1354,6 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.historicMoment)) {
         dotNetFeatureLayer.historicMoment = jsObject.historicMoment;
-    }
-    
-    if (hasValue(jsObject.inputNetworkCollection)) {
-        dotNetFeatureLayer.inputNetworkCollection = removeCircularReferences(jsObject.inputNetworkCollection);
     }
     
     if (hasValue(jsObject.isTable)) {

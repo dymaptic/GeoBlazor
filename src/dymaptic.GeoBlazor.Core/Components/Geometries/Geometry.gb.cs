@@ -12,58 +12,58 @@ public abstract partial class Geometry
 {
 
     /// <summary>
-    ///     Implicit conversion between <see cref="(ExtentProperties & { type: "extent" })" /> and <see cref="Geometry" />.
+    ///     Implicit conversion between <see cref="(Extent" /> and <see cref="Geometry" />.
     /// </summary>
-    /// <param name="(ExtentProperties & { type: "extent" })Value">
-    ///     The (ExtentProperties & { type: "extent" }) to use as the value.
+    /// <param name="(ExtentValue">
+    ///     The (Extent to use as the value.
     /// </param>
-    public static implicit operator Geometry((ExtentProperties & { type: "extent" }) (ExtentProperties & { type: "extent" })Value) =>
-        new((ExtentProperties & { type: "extent" })Value: (ExtentProperties & { type: "extent" })Value);
+    public static implicit operator Geometry((Extent (ExtentValue) =>
+        new((ExtentValue: (ExtentValue);
 
     /// <summary>
-    ///     Implicit conversion between <see cref="(MultipointProperties & { type: "multipoint" })" /> and <see cref="Geometry" />.
+    ///     Implicit conversion between <see cref="(Multipoint" /> and <see cref="Geometry" />.
     /// </summary>
-    /// <param name="(MultipointProperties & { type: "multipoint" })Value">
-    ///     The (MultipointProperties & { type: "multipoint" }) to use as the value.
+    /// <param name="(MultipointValue">
+    ///     The (Multipoint to use as the value.
     /// </param>
-    public static implicit operator Geometry((MultipointProperties & { type: "multipoint" }) (MultipointProperties & { type: "multipoint" })Value) =>
-        new((MultipointProperties & { type: "multipoint" })Value: (MultipointProperties & { type: "multipoint" })Value);
+    public static implicit operator Geometry((Multipoint (MultipointValue) =>
+        new((MultipointValue: (MultipointValue);
 
     /// <summary>
-    ///     Implicit conversion between <see cref="(PointProperties & { type: "point" })" /> and <see cref="Geometry" />.
+    ///     Implicit conversion between <see cref="(Point" /> and <see cref="Geometry" />.
     /// </summary>
-    /// <param name="(PointProperties & { type: "point" })Value">
-    ///     The (PointProperties & { type: "point" }) to use as the value.
+    /// <param name="(PointValue">
+    ///     The (Point to use as the value.
     /// </param>
-    public static implicit operator Geometry((PointProperties & { type: "point" }) (PointProperties & { type: "point" })Value) =>
-        new((PointProperties & { type: "point" })Value: (PointProperties & { type: "point" })Value);
+    public static implicit operator Geometry((Point (PointValue) =>
+        new((PointValue: (PointValue);
 
     /// <summary>
-    ///     Implicit conversion between <see cref="(PolygonProperties & { type: "polygon" })" /> and <see cref="Geometry" />.
+    ///     Implicit conversion between <see cref="(Polygon" /> and <see cref="Geometry" />.
     /// </summary>
-    /// <param name="(PolygonProperties & { type: "polygon" })Value">
-    ///     The (PolygonProperties & { type: "polygon" }) to use as the value.
+    /// <param name="(PolygonValue">
+    ///     The (Polygon to use as the value.
     /// </param>
-    public static implicit operator Geometry((PolygonProperties & { type: "polygon" }) (PolygonProperties & { type: "polygon" })Value) =>
-        new((PolygonProperties & { type: "polygon" })Value: (PolygonProperties & { type: "polygon" })Value);
+    public static implicit operator Geometry((Polygon (PolygonValue) =>
+        new((PolygonValue: (PolygonValue);
 
     /// <summary>
-    ///     Implicit conversion between <see cref="(PolylineProperties & { type: "polyline" })" /> and <see cref="Geometry" />.
+    ///     Implicit conversion between <see cref="(Polyline" /> and <see cref="Geometry" />.
     /// </summary>
-    /// <param name="(PolylineProperties & { type: "polyline" })Value">
-    ///     The (PolylineProperties & { type: "polyline" }) to use as the value.
+    /// <param name="(PolylineValue">
+    ///     The (Polyline to use as the value.
     /// </param>
-    public static implicit operator Geometry((PolylineProperties & { type: "polyline" }) (PolylineProperties & { type: "polyline" })Value) =>
-        new((PolylineProperties & { type: "polyline" })Value: (PolylineProperties & { type: "polyline" })Value);
+    public static implicit operator Geometry((Polyline (PolylineValue) =>
+        new((PolylineValue: (PolylineValue);
 
     /// <summary>
-    ///     Implicit conversion between <see cref="(MeshProperties & { type: "mesh" })" /> and <see cref="Geometry" />.
+    ///     Implicit conversion between <see cref="(Mesh" /> and <see cref="Geometry" />.
     /// </summary>
-    /// <param name="(MeshProperties & { type: "mesh" })Value">
-    ///     The (MeshProperties & { type: "mesh" }) to use as the value.
+    /// <param name="(MeshValue">
+    ///     The (Mesh to use as the value.
     /// </param>
-    public static implicit operator Geometry((MeshProperties & { type: "mesh" }) (MeshProperties & { type: "mesh" })Value) =>
-        new((MeshProperties & { type: "mesh" })Value: (MeshProperties & { type: "mesh" })Value);
+    public static implicit operator Geometry((Mesh (MeshValue) =>
+        new((MeshValue: (MeshValue);
 
 #region Public Properties / Blazor Parameters
 

@@ -25,15 +25,15 @@ public partial record SubtypeGroupLayerAttachment
     /// <param name="attachmentElementReference">
     ///     Implementation of parent property Attachment as ElementReference.
     /// </param>
-    /// <param name="attachmentobject?">
+    /// <param name="attachmentobject">
     ///     Implementation of parent property Attachment as Dictionary<string, object?>.
     /// </param>
     public SubtypeGroupLayerAttachment(
         ElementReference? attachmentElementReference = null,
-        Dictionary<string, object?>? attachmentobject? = null)
+        Dictionary<string, object?>? attachmentobject = null)
     {
         AttachmentElementReference = attachmentElementReference;
-        Attachmentobject? = attachmentobject?;
+        Attachmentobject = attachmentobject;
     }
     
     
@@ -50,11 +50,11 @@ public partial record SubtypeGroupLayerAttachment
     /// <summary>
     ///     Implicit conversion between <see cref="Dictionary<string, object?>" /> and <see cref="SubtypeGroupLayerAttachment" />.
     /// </summary>
-    /// <param name="attachmentobject?">
+    /// <param name="attachmentobject">
     ///     The Dictionary<string, object?> to use as the value.
     /// </param>
-    public static implicit operator SubtypeGroupLayerAttachment(Dictionary<string, object?> attachmentobject?) =>
-        new(attachmentobject?: attachmentobject?);
+    public static implicit operator SubtypeGroupLayerAttachment(Dictionary<string, object?> attachmentobject) =>
+        new(attachmentobject: attachmentobject);
 
 #endregion
 #region Public Properties / Blazor Parameters
@@ -69,13 +69,13 @@ public partial record SubtypeGroupLayerAttachment
     public ElementReference? AttachmentElementReference { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SubtypeGroupLayerAttachment.html#subtypegrouplayerattachmentattachmentobject?-property">GeoBlazor Docs</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SubtypeGroupLayerAttachment.html#subtypegrouplayerattachmentattachmentobject-property">GeoBlazor Docs</a>
     ///     Implementation of parent property Attachment as Dictionary<string, object?>.
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Dictionary<string, object?>? Attachmentobject? { get; set; }
+    public Dictionary<string, object?>? Attachmentobject { get; set; }
     
 #endregion
 
