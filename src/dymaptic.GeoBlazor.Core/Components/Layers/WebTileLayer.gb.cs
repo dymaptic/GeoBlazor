@@ -244,8 +244,9 @@ public partial class WebTileLayer : IBlendLayer,
         }
          
         return BlendMode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Copyright property.
     /// </summary>
@@ -284,8 +285,9 @@ public partial class WebTileLayer : IBlendLayer,
         }
          
         return Copyright;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Effect property.
     /// </summary>
@@ -324,8 +326,9 @@ public partial class WebTileLayer : IBlendLayer,
         }
         
         return Effect;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -364,8 +367,9 @@ public partial class WebTileLayer : IBlendLayer,
         }
          
         return MaxScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -404,8 +408,9 @@ public partial class WebTileLayer : IBlendLayer,
         }
          
         return MinScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalItem property.
     /// </summary>
@@ -450,8 +455,9 @@ public partial class WebTileLayer : IBlendLayer,
         }
         
         return PortalItem;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RefreshInterval property.
     /// </summary>
@@ -490,8 +496,9 @@ public partial class WebTileLayer : IBlendLayer,
         }
          
         return RefreshInterval;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -530,8 +537,9 @@ public partial class WebTileLayer : IBlendLayer,
         }
         
         return SpatialReference;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SubDomains property.
     /// </summary>
@@ -570,8 +578,9 @@ public partial class WebTileLayer : IBlendLayer,
         }
          
         return SubDomains;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TileInfo property.
     /// </summary>
@@ -616,8 +625,9 @@ public partial class WebTileLayer : IBlendLayer,
         }
         
         return TileInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TileServers property.
     /// </summary>
@@ -656,8 +666,9 @@ public partial class WebTileLayer : IBlendLayer,
         }
          
         return TileServers;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UrlTemplate property.
     /// </summary>
@@ -696,8 +707,9 @@ public partial class WebTileLayer : IBlendLayer,
         }
          
         return UrlTemplate;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -737,8 +749,9 @@ public partial class WebTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "blendMode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Copyright property after render.
     /// </summary>
@@ -774,8 +787,9 @@ public partial class WebTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "copyright", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Effect property after render.
     /// </summary>
@@ -809,11 +823,12 @@ public partial class WebTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetEffect), nameof(WebTileLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetEffect), nameof(WebTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -849,8 +864,9 @@ public partial class WebTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -886,8 +902,9 @@ public partial class WebTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PersistenceEnabled property after render.
     /// </summary>
@@ -923,8 +940,9 @@ public partial class WebTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "persistenceEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
@@ -963,11 +981,12 @@ public partial class WebTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPortalItem), nameof(WebTileLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPortalItem), nameof(WebTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RefreshInterval property after render.
     /// </summary>
@@ -1003,8 +1022,9 @@ public partial class WebTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "refreshInterval", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SubDomains property after render.
     /// </summary>
@@ -1040,8 +1060,9 @@ public partial class WebTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "subDomains", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TileInfo property after render.
     /// </summary>
@@ -1080,11 +1101,12 @@ public partial class WebTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetTileInfo), nameof(WebTileLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTileInfo), nameof(WebTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UrlTemplate property after render.
     /// </summary>
@@ -1120,8 +1142,9 @@ public partial class WebTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "urlTemplate", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -1138,6 +1161,7 @@ public partial class WebTileLayer : IBlendLayer,
             ? values
             : [..SubDomains, ..values];
         await SetSubDomains(join);
+
     }
     
 #endregion
@@ -1158,6 +1182,7 @@ public partial class WebTileLayer : IBlendLayer,
             return;
         }
         await SetSubDomains(SubDomains.Except(values).ToArray());
+
     }
     
 #endregion

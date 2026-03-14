@@ -212,8 +212,9 @@ public partial class MeshMaterial
         }
          
         return AlphaCutoff;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AlphaMode property.
     /// </summary>
@@ -252,8 +253,9 @@ public partial class MeshMaterial
         }
          
         return AlphaMode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Color property.
     /// </summary>
@@ -292,8 +294,9 @@ public partial class MeshMaterial
         }
          
         return Color;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ColorTexture property.
     /// </summary>
@@ -338,8 +341,9 @@ public partial class MeshMaterial
         }
         
         return ColorTexture;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ColorTextureTransform property.
     /// </summary>
@@ -384,8 +388,9 @@ public partial class MeshMaterial
         }
         
         return ColorTextureTransform;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DoubleSided property.
     /// </summary>
@@ -424,8 +429,9 @@ public partial class MeshMaterial
         }
          
         return DoubleSided;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NormalTexture property.
     /// </summary>
@@ -470,8 +476,9 @@ public partial class MeshMaterial
         }
         
         return NormalTexture;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NormalTextureTransform property.
     /// </summary>
@@ -516,8 +523,9 @@ public partial class MeshMaterial
         }
         
         return NormalTextureTransform;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -557,8 +565,9 @@ public partial class MeshMaterial
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "alphaCutoff", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the AlphaMode property after render.
     /// </summary>
@@ -594,8 +603,9 @@ public partial class MeshMaterial
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "alphaMode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Color property after render.
     /// </summary>
@@ -631,8 +641,9 @@ public partial class MeshMaterial
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "color", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ColorTexture property after render.
     /// </summary>
@@ -673,8 +684,9 @@ public partial class MeshMaterial
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "colorTexture", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ColorTextureTransform property after render.
     /// </summary>
@@ -715,8 +727,9 @@ public partial class MeshMaterial
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "colorTextureTransform", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DoubleSided property after render.
     /// </summary>
@@ -752,8 +765,9 @@ public partial class MeshMaterial
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "doubleSided", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the NormalTexture property after render.
     /// </summary>
@@ -794,8 +808,9 @@ public partial class MeshMaterial
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "normalTexture", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the NormalTextureTransform property after render.
     /// </summary>
@@ -836,8 +851,9 @@ public partial class MeshMaterial
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "normalTextureTransform", value);
+
     }
-    
+
 #endregion
 
 }

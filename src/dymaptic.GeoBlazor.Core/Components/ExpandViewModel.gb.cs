@@ -141,8 +141,9 @@ public partial class ExpandViewModel : MapComponent
         }
          
         return AutoCollapse;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Expanded property.
     /// </summary>
@@ -181,8 +182,9 @@ public partial class ExpandViewModel : MapComponent
         }
          
         return Expanded;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Group property.
     /// </summary>
@@ -221,8 +223,9 @@ public partial class ExpandViewModel : MapComponent
         }
          
         return Group;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -261,8 +264,9 @@ public partial class ExpandViewModel : MapComponent
         }
          
         return State;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -302,8 +306,9 @@ public partial class ExpandViewModel : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "autoCollapse", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Expanded property after render.
     /// </summary>
@@ -339,8 +344,9 @@ public partial class ExpandViewModel : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "expanded", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Group property after render.
     /// </summary>
@@ -376,8 +382,9 @@ public partial class ExpandViewModel : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "group", value);
+
     }
-    
+
 #endregion
 
 }

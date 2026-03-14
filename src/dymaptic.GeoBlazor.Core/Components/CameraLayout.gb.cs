@@ -146,8 +146,9 @@ public partial class CameraLayout : MapComponent
         }
          
         return Column;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Columns property.
     /// </summary>
@@ -186,8 +187,9 @@ public partial class CameraLayout : MapComponent
         }
          
         return Columns;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Row property.
     /// </summary>
@@ -226,8 +228,9 @@ public partial class CameraLayout : MapComponent
         }
          
         return Row;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Rows property.
     /// </summary>
@@ -266,8 +269,9 @@ public partial class CameraLayout : MapComponent
         }
          
         return Rows;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -307,8 +311,9 @@ public partial class CameraLayout : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "column", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Columns property after render.
     /// </summary>
@@ -344,8 +349,9 @@ public partial class CameraLayout : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "columns", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Row property after render.
     /// </summary>
@@ -381,8 +387,9 @@ public partial class CameraLayout : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "row", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Rows property after render.
     /// </summary>
@@ -418,8 +425,9 @@ public partial class CameraLayout : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rows", value);
+
     }
-    
+
 #endregion
 
 }

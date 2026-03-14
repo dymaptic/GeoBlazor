@@ -128,8 +128,9 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         }
         
         return Mensuration;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Operations property.
     /// </summary>
@@ -174,8 +175,9 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         }
         
         return Operations;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Query property.
     /// </summary>
@@ -214,8 +216,9 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         }
          
         return Query;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -260,8 +263,9 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mensuration", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Operations property after render.
     /// </summary>
@@ -302,8 +306,9 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "operations", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Query property after render.
     /// </summary>
@@ -339,8 +344,9 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "query", value);
+
     }
-    
+
 #endregion
 
 

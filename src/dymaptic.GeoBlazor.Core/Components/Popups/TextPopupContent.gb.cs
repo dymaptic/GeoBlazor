@@ -77,8 +77,9 @@ public partial class TextPopupContent
         }
          
         return Text;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -118,8 +119,9 @@ public partial class TextPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "text", value);
+
     }
-    
+
 #endregion
 
 }

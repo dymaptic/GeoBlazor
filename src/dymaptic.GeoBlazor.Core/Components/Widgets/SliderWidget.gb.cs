@@ -510,8 +510,9 @@ public partial class SliderWidget
         }
          
         return Disabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DraggableSegmentsEnabled property.
     /// </summary>
@@ -550,8 +551,9 @@ public partial class SliderWidget
         }
          
         return DraggableSegmentsEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the EffectiveMax property.
     /// </summary>
@@ -590,8 +592,9 @@ public partial class SliderWidget
         }
          
         return EffectiveMax;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the EffectiveMin property.
     /// </summary>
@@ -630,8 +633,9 @@ public partial class SliderWidget
         }
          
         return EffectiveMin;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the EffectiveSegmentElements property.
     /// </summary>
@@ -670,8 +674,9 @@ public partial class SliderWidget
         }
          
         return EffectiveSegmentElements;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelElements property.
     /// </summary>
@@ -710,8 +715,9 @@ public partial class SliderWidget
         }
          
         return LabelElements;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelInputsEnabled property.
     /// </summary>
@@ -750,8 +756,9 @@ public partial class SliderWidget
         }
          
         return LabelInputsEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Labels property.
     /// </summary>
@@ -790,8 +797,9 @@ public partial class SliderWidget
         }
          
         return Labels;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Layout property.
     /// </summary>
@@ -830,8 +838,9 @@ public partial class SliderWidget
         }
          
         return Layout;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Max property.
     /// </summary>
@@ -870,8 +879,9 @@ public partial class SliderWidget
         }
          
         return Max;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxLabelElement property.
     /// </summary>
@@ -910,8 +920,9 @@ public partial class SliderWidget
         }
          
         return MaxLabelElement;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Min property.
     /// </summary>
@@ -950,8 +961,9 @@ public partial class SliderWidget
         }
          
         return Min;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinLabelElement property.
     /// </summary>
@@ -990,8 +1002,9 @@ public partial class SliderWidget
         }
          
         return MinLabelElement;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Precision property.
     /// </summary>
@@ -1030,8 +1043,9 @@ public partial class SliderWidget
         }
          
         return Precision;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RangeLabelInputsEnabled property.
     /// </summary>
@@ -1070,8 +1084,9 @@ public partial class SliderWidget
         }
          
         return RangeLabelInputsEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SegmentElements property.
     /// </summary>
@@ -1110,8 +1125,9 @@ public partial class SliderWidget
         }
          
         return SegmentElements;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SnapOnClickEnabled property.
     /// </summary>
@@ -1150,8 +1166,9 @@ public partial class SliderWidget
         }
          
         return SnapOnClickEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -1190,8 +1207,9 @@ public partial class SliderWidget
         }
          
         return State;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Steps property.
     /// </summary>
@@ -1230,8 +1248,9 @@ public partial class SliderWidget
         }
          
         return Steps;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SyncedSegmentsEnabled property.
     /// </summary>
@@ -1270,8 +1289,9 @@ public partial class SliderWidget
         }
          
         return SyncedSegmentsEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ThumbElements property.
     /// </summary>
@@ -1310,8 +1330,9 @@ public partial class SliderWidget
         }
          
         return ThumbElements;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ThumbsConstrained property.
     /// </summary>
@@ -1350,8 +1371,9 @@ public partial class SliderWidget
         }
          
         return ThumbsConstrained;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TickConfigs property.
     /// </summary>
@@ -1394,8 +1416,9 @@ public partial class SliderWidget
         }
         
         return TickConfigs;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TickElements property.
     /// </summary>
@@ -1434,8 +1457,9 @@ public partial class SliderWidget
         }
          
         return TickElements;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TrackElement property.
     /// </summary>
@@ -1474,8 +1498,9 @@ public partial class SliderWidget
         }
          
         return TrackElement;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Values property.
     /// </summary>
@@ -1514,8 +1539,9 @@ public partial class SliderWidget
         }
          
         return Values;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -1560,8 +1586,9 @@ public partial class SliderWidget
         }
         
         return ViewModel;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibleElements property.
     /// </summary>
@@ -1606,8 +1633,9 @@ public partial class SliderWidget
         }
         
         return VisibleElements;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -1647,8 +1675,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "disabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DraggableSegmentsEnabled property after render.
     /// </summary>
@@ -1684,8 +1713,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "draggableSegmentsEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the EffectiveMax property after render.
     /// </summary>
@@ -1721,8 +1751,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "effectiveMax", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the EffectiveMin property after render.
     /// </summary>
@@ -1758,8 +1789,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "effectiveMin", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelInputsEnabled property after render.
     /// </summary>
@@ -1795,8 +1827,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelInputsEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Layout property after render.
     /// </summary>
@@ -1832,8 +1865,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layout", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Max property after render.
     /// </summary>
@@ -1869,8 +1903,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "max", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Min property after render.
     /// </summary>
@@ -1906,8 +1941,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "min", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Precision property after render.
     /// </summary>
@@ -1943,8 +1979,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "precision", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RangeLabelInputsEnabled property after render.
     /// </summary>
@@ -1980,8 +2017,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rangeLabelInputsEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SnapOnClickEnabled property after render.
     /// </summary>
@@ -2017,8 +2055,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "snapOnClickEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Steps property after render.
     /// </summary>
@@ -2054,8 +2093,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "steps", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SyncedSegmentsEnabled property after render.
     /// </summary>
@@ -2091,8 +2131,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "syncedSegmentsEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ThumbsConstrained property after render.
     /// </summary>
@@ -2128,8 +2169,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "thumbsConstrained", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TickConfigs property after render.
     /// </summary>
@@ -2171,11 +2213,12 @@ public partial class SliderWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetTickConfigs), nameof(SliderWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTickConfigs), nameof(SliderWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Values property after render.
     /// </summary>
@@ -2211,8 +2254,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "values", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -2251,11 +2295,12 @@ public partial class SliderWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetViewModel), nameof(SliderWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetViewModel), nameof(SliderWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the VisibleElements property after render.
     /// </summary>
@@ -2294,11 +2339,12 @@ public partial class SliderWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetVisibleElements), nameof(SliderWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetVisibleElements), nameof(SliderWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -2315,6 +2361,7 @@ public partial class SliderWidget
             ? values
             : [..Steps, ..values];
         await SetSteps(join);
+
     }
     
     /// <summary>
@@ -2329,6 +2376,7 @@ public partial class SliderWidget
             ? values
             : [..TickConfigs, ..values];
         await SetTickConfigs(join);
+
     }
     
     /// <summary>
@@ -2343,6 +2391,7 @@ public partial class SliderWidget
             ? values
             : [..Values, ..values];
         await SetValues(join);
+
     }
     
 #endregion
@@ -2363,6 +2412,7 @@ public partial class SliderWidget
             return;
         }
         await SetSteps(Steps.Except(values).ToArray());
+
     }
     
     
@@ -2379,6 +2429,7 @@ public partial class SliderWidget
             return;
         }
         await SetTickConfigs(TickConfigs.Except(values).ToArray());
+
     }
     
     
@@ -2395,6 +2446,7 @@ public partial class SliderWidget
             return;
         }
         await SetValues(Values.Except(values).ToArray());
+
     }
     
 #endregion

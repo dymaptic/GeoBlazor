@@ -128,8 +128,9 @@ public partial class TileMatrixSet : MapComponent
         }
         
         return FullExtent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TileInfo property.
     /// </summary>
@@ -174,8 +175,9 @@ public partial class TileMatrixSet : MapComponent
         }
         
         return TileInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TileMatrixSetId property.
     /// </summary>
@@ -214,8 +216,9 @@ public partial class TileMatrixSet : MapComponent
         }
          
         return TileMatrixSetId;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -260,8 +263,9 @@ public partial class TileMatrixSet : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fullExtent", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TileInfo property after render.
     /// </summary>
@@ -302,8 +306,9 @@ public partial class TileMatrixSet : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "tileInfo", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TileMatrixSetId property after render.
     /// </summary>
@@ -339,8 +344,9 @@ public partial class TileMatrixSet : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
+
     }
-    
+
 #endregion
 
 

@@ -138,8 +138,9 @@ public partial class CapabilitiesQueryRelated : MapComponent
         }
          
         return SupportsCacheHint;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsCount property.
     /// </summary>
@@ -178,8 +179,9 @@ public partial class CapabilitiesQueryRelated : MapComponent
         }
          
         return SupportsCount;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsOrderBy property.
     /// </summary>
@@ -218,8 +220,9 @@ public partial class CapabilitiesQueryRelated : MapComponent
         }
          
         return SupportsOrderBy;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsPagination property.
     /// </summary>
@@ -258,8 +261,9 @@ public partial class CapabilitiesQueryRelated : MapComponent
         }
          
         return SupportsPagination;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -299,8 +303,9 @@ public partial class CapabilitiesQueryRelated : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsCacheHint", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsCount property after render.
     /// </summary>
@@ -336,8 +341,9 @@ public partial class CapabilitiesQueryRelated : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsCount", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsOrderBy property after render.
     /// </summary>
@@ -373,8 +379,9 @@ public partial class CapabilitiesQueryRelated : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsOrderBy", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsPagination property after render.
     /// </summary>
@@ -410,8 +417,9 @@ public partial class CapabilitiesQueryRelated : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsPagination", value);
+
     }
-    
+
 #endregion
 
 }

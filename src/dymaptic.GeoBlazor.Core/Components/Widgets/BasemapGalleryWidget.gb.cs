@@ -193,8 +193,9 @@ public partial class BasemapGalleryWidget
         }
         
         return ActiveBasemap;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Disabled property.
     /// </summary>
@@ -233,8 +234,9 @@ public partial class BasemapGalleryWidget
         }
          
         return Disabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HeadingLevel property.
     /// </summary>
@@ -273,8 +275,9 @@ public partial class BasemapGalleryWidget
         }
          
         return HeadingLevel;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Source property.
     /// </summary>
@@ -313,8 +316,9 @@ public partial class BasemapGalleryWidget
         }
          
         return Source;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -359,8 +363,9 @@ public partial class BasemapGalleryWidget
         }
         
         return ViewModel;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -403,11 +408,12 @@ public partial class BasemapGalleryWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetActiveBasemap), nameof(BasemapGalleryWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetActiveBasemap), nameof(BasemapGalleryWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Disabled property after render.
     /// </summary>
@@ -443,8 +449,9 @@ public partial class BasemapGalleryWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "disabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HeadingLevel property after render.
     /// </summary>
@@ -480,8 +487,9 @@ public partial class BasemapGalleryWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "headingLevel", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Source property after render.
     /// </summary>
@@ -517,8 +525,9 @@ public partial class BasemapGalleryWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "source", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -557,11 +566,12 @@ public partial class BasemapGalleryWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetViewModel), nameof(BasemapGalleryWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetViewModel), nameof(BasemapGalleryWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 

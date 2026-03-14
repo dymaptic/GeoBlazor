@@ -106,8 +106,9 @@ public partial class WFSLayerElevationInfoFeatureExpressionInfo : MapComponent
         }
          
         return Expression;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -146,8 +147,9 @@ public partial class WFSLayerElevationInfoFeatureExpressionInfo : MapComponent
         }
          
         return Title;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -187,8 +189,9 @@ public partial class WFSLayerElevationInfoFeatureExpressionInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "expression", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -224,8 +227,9 @@ public partial class WFSLayerElevationInfoFeatureExpressionInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 }

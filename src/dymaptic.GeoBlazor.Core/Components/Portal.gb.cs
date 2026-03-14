@@ -1179,8 +1179,9 @@ public partial class Portal
         }
          
         return Access;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AllSSL property.
     /// </summary>
@@ -1219,8 +1220,9 @@ public partial class Portal
         }
          
         return AllSSL;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AuthMode property.
     /// </summary>
@@ -1259,8 +1261,9 @@ public partial class Portal
         }
          
         return AuthMode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AuthorizedCrossOriginDomains property.
     /// </summary>
@@ -1299,8 +1302,9 @@ public partial class Portal
         }
          
         return AuthorizedCrossOriginDomains;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BasemapGalleryGroupQuery property.
     /// </summary>
@@ -1339,8 +1343,9 @@ public partial class Portal
         }
          
         return BasemapGalleryGroupQuery;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BasemapGalleryGroupQuery3D property.
     /// </summary>
@@ -1379,8 +1384,9 @@ public partial class Portal
         }
          
         return BasemapGalleryGroupQuery3D;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BingKey property.
     /// </summary>
@@ -1419,8 +1425,9 @@ public partial class Portal
         }
          
         return BingKey;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CanListApps property.
     /// </summary>
@@ -1459,8 +1466,9 @@ public partial class Portal
         }
          
         return CanListApps;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CanListData property.
     /// </summary>
@@ -1499,8 +1507,9 @@ public partial class Portal
         }
          
         return CanListData;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CanListPreProvisionedItems property.
     /// </summary>
@@ -1539,8 +1548,9 @@ public partial class Portal
         }
          
         return CanListPreProvisionedItems;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CanProvisionDirectPurchase property.
     /// </summary>
@@ -1579,8 +1589,9 @@ public partial class Portal
         }
          
         return CanProvisionDirectPurchase;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CanSearchPublic property.
     /// </summary>
@@ -1619,8 +1630,9 @@ public partial class Portal
         }
          
         return CanSearchPublic;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CanShareBingPublic property.
     /// </summary>
@@ -1659,8 +1671,9 @@ public partial class Portal
         }
          
         return CanShareBingPublic;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CanSharePublic property.
     /// </summary>
@@ -1699,8 +1712,9 @@ public partial class Portal
         }
          
         return CanSharePublic;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CanSignInArcGIS property.
     /// </summary>
@@ -1739,8 +1753,9 @@ public partial class Portal
         }
          
         return CanSignInArcGIS;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CanSignInIDP property.
     /// </summary>
@@ -1779,8 +1794,9 @@ public partial class Portal
         }
          
         return CanSignInIDP;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ColorSetsGroupQuery property.
     /// </summary>
@@ -1819,8 +1835,9 @@ public partial class Portal
         }
          
         return ColorSetsGroupQuery;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CommentsEnabled property.
     /// </summary>
@@ -1859,8 +1876,9 @@ public partial class Portal
         }
          
         return CommentsEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Created property.
     /// </summary>
@@ -1899,8 +1917,9 @@ public partial class Portal
         }
          
         return Created;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Culture property.
     /// </summary>
@@ -1939,8 +1958,9 @@ public partial class Portal
         }
          
         return Culture;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomBaseUrl property.
     /// </summary>
@@ -1979,8 +1999,9 @@ public partial class Portal
         }
          
         return CustomBaseUrl;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Default3DBasemapQuery property.
     /// </summary>
@@ -2019,8 +2040,9 @@ public partial class Portal
         }
          
         return Default3DBasemapQuery;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultExtent property.
     /// </summary>
@@ -2065,8 +2087,9 @@ public partial class Portal
         }
         
         return DefaultExtent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Description property.
     /// </summary>
@@ -2105,8 +2128,9 @@ public partial class Portal
         }
          
         return Description;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DevBasemapGalleryGroupQuery property.
     /// </summary>
@@ -2145,8 +2169,9 @@ public partial class Portal
         }
          
         return DevBasemapGalleryGroupQuery;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the EueiEnabled property.
     /// </summary>
@@ -2185,8 +2210,9 @@ public partial class Portal
         }
          
         return EueiEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeaturedGroups property.
     /// </summary>
@@ -2225,8 +2251,9 @@ public partial class Portal
         }
          
         return FeaturedGroups;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeaturedItemsGroupQuery property.
     /// </summary>
@@ -2265,8 +2292,9 @@ public partial class Portal
         }
          
         return FeaturedItemsGroupQuery;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the GalleryTemplatesGroupQuery property.
     /// </summary>
@@ -2305,8 +2333,9 @@ public partial class Portal
         }
          
         return GalleryTemplatesGroupQuery;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HasCategorySchema property.
     /// </summary>
@@ -2345,8 +2374,9 @@ public partial class Portal
         }
          
         return HasCategorySchema;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HasClassificationSchema property.
     /// </summary>
@@ -2385,8 +2415,9 @@ public partial class Portal
         }
          
         return HasClassificationSchema;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HelperServices property.
     /// </summary>
@@ -2425,8 +2456,9 @@ public partial class Portal
         }
          
         return HelperServices;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HomePageFeaturedContent property.
     /// </summary>
@@ -2465,8 +2497,9 @@ public partial class Portal
         }
          
         return HomePageFeaturedContent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HomePageFeaturedContentCount property.
     /// </summary>
@@ -2505,8 +2538,9 @@ public partial class Portal
         }
          
         return HomePageFeaturedContentCount;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HttpPort property.
     /// </summary>
@@ -2545,8 +2579,9 @@ public partial class Portal
         }
          
         return HttpPort;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HttpsPort property.
     /// </summary>
@@ -2585,8 +2620,9 @@ public partial class Portal
         }
          
         return HttpsPort;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IpCntryCode property.
     /// </summary>
@@ -2625,8 +2661,9 @@ public partial class Portal
         }
          
         return IpCntryCode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsOrganization property.
     /// </summary>
@@ -2665,8 +2702,9 @@ public partial class Portal
         }
          
         return IsOrganization;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsPortal property.
     /// </summary>
@@ -2705,8 +2743,9 @@ public partial class Portal
         }
          
         return IsPortal;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsReadOnly property.
     /// </summary>
@@ -2745,8 +2784,9 @@ public partial class Portal
         }
          
         return IsReadOnly;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LayerTemplatesGroupQuery property.
     /// </summary>
@@ -2785,8 +2825,9 @@ public partial class Portal
         }
          
         return LayerTemplatesGroupQuery;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Loaded property.
     /// </summary>
@@ -2825,8 +2866,9 @@ public partial class Portal
         }
          
         return Loaded;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxTokenExpirationMinutes property.
     /// </summary>
@@ -2865,8 +2907,9 @@ public partial class Portal
         }
          
         return MaxTokenExpirationMinutes;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Modified property.
     /// </summary>
@@ -2905,8 +2948,9 @@ public partial class Portal
         }
          
         return Modified;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -2945,8 +2989,9 @@ public partial class Portal
         }
          
         return Name;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalHostname property.
     /// </summary>
@@ -2985,8 +3030,9 @@ public partial class Portal
         }
          
         return PortalHostname;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalId property.
     /// </summary>
@@ -3025,8 +3071,9 @@ public partial class Portal
         }
          
         return PortalId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalMode property.
     /// </summary>
@@ -3065,8 +3112,9 @@ public partial class Portal
         }
          
         return PortalMode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalProperties property.
     /// </summary>
@@ -3105,8 +3153,9 @@ public partial class Portal
         }
         
         return PortalProperties;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RecycleBinEnabled property.
     /// </summary>
@@ -3145,8 +3194,9 @@ public partial class Portal
         }
          
         return RecycleBinEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Region property.
     /// </summary>
@@ -3185,8 +3235,9 @@ public partial class Portal
         }
          
         return Region;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RestUrl property.
     /// </summary>
@@ -3225,8 +3276,9 @@ public partial class Portal
         }
          
         return RestUrl;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RotatorPanels property.
     /// </summary>
@@ -3265,8 +3317,9 @@ public partial class Portal
         }
          
         return RotatorPanels;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ShowHomePageDescription property.
     /// </summary>
@@ -3305,8 +3358,9 @@ public partial class Portal
         }
          
         return ShowHomePageDescription;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
@@ -3345,8 +3399,9 @@ public partial class Portal
         }
          
         return SourceJSON;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsHostedServices property.
     /// </summary>
@@ -3385,8 +3440,9 @@ public partial class Portal
         }
          
         return SupportsHostedServices;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SymbolSetsGroupQuery property.
     /// </summary>
@@ -3425,8 +3481,9 @@ public partial class Portal
         }
          
         return SymbolSetsGroupQuery;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TemplatesGroupQuery property.
     /// </summary>
@@ -3465,8 +3522,9 @@ public partial class Portal
         }
          
         return TemplatesGroupQuery;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ThumbnailUrl property.
     /// </summary>
@@ -3505,8 +3563,9 @@ public partial class Portal
         }
          
         return ThumbnailUrl;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Units property.
     /// </summary>
@@ -3545,8 +3604,9 @@ public partial class Portal
         }
          
         return Units;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -3585,8 +3645,9 @@ public partial class Portal
         }
          
         return Url;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UrlKey property.
     /// </summary>
@@ -3625,8 +3686,9 @@ public partial class Portal
         }
          
         return UrlKey;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Use3dBasemaps property.
     /// </summary>
@@ -3665,8 +3727,9 @@ public partial class Portal
         }
          
         return Use3dBasemaps;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UseDefault3dBasemap property.
     /// </summary>
@@ -3705,8 +3768,9 @@ public partial class Portal
         }
          
         return UseDefault3dBasemap;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UseStandardizedQuery property.
     /// </summary>
@@ -3745,8 +3809,9 @@ public partial class Portal
         }
          
         return UseStandardizedQuery;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UseVectorBasemaps property.
     /// </summary>
@@ -3785,8 +3850,9 @@ public partial class Portal
         }
          
         return UseVectorBasemaps;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VectorBasemapGalleryGroupQuery property.
     /// </summary>
@@ -3825,8 +3891,9 @@ public partial class Portal
         }
          
         return VectorBasemapGalleryGroupQuery;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -3866,8 +3933,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "access", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the AllSSL property after render.
     /// </summary>
@@ -3903,8 +3971,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "allSSL", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the AuthMode property after render.
     /// </summary>
@@ -3940,8 +4009,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "authMode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the AuthorizedCrossOriginDomains property after render.
     /// </summary>
@@ -3977,8 +4047,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "authorizedCrossOriginDomains", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BasemapGalleryGroupQuery property after render.
     /// </summary>
@@ -4014,8 +4085,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "basemapGalleryGroupQuery", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BasemapGalleryGroupQuery3D property after render.
     /// </summary>
@@ -4051,8 +4123,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "basemapGalleryGroupQuery3D", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BingKey property after render.
     /// </summary>
@@ -4088,8 +4161,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "bingKey", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CanListApps property after render.
     /// </summary>
@@ -4125,8 +4199,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "canListApps", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CanListData property after render.
     /// </summary>
@@ -4162,8 +4237,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "canListData", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CanListPreProvisionedItems property after render.
     /// </summary>
@@ -4199,8 +4275,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "canListPreProvisionedItems", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CanProvisionDirectPurchase property after render.
     /// </summary>
@@ -4236,8 +4313,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "canProvisionDirectPurchase", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CanSearchPublic property after render.
     /// </summary>
@@ -4273,8 +4351,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "canSearchPublic", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CanShareBingPublic property after render.
     /// </summary>
@@ -4310,8 +4389,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "canShareBingPublic", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CanSharePublic property after render.
     /// </summary>
@@ -4347,8 +4427,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "canSharePublic", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CanSignInArcGIS property after render.
     /// </summary>
@@ -4384,8 +4465,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "canSignInArcGIS", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CanSignInIDP property after render.
     /// </summary>
@@ -4421,8 +4503,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "canSignInIDP", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ColorSetsGroupQuery property after render.
     /// </summary>
@@ -4458,8 +4541,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "colorSetsGroupQuery", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CommentsEnabled property after render.
     /// </summary>
@@ -4495,8 +4579,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "commentsEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Created property after render.
     /// </summary>
@@ -4532,8 +4617,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "created", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Culture property after render.
     /// </summary>
@@ -4569,8 +4655,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "culture", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CustomBaseUrl property after render.
     /// </summary>
@@ -4606,8 +4693,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "customBaseUrl", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Default3DBasemapQuery property after render.
     /// </summary>
@@ -4643,8 +4731,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "default3DBasemapQuery", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DefaultExtent property after render.
     /// </summary>
@@ -4683,11 +4772,12 @@ public partial class Portal
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetDefaultExtent), nameof(Portal), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetDefaultExtent), nameof(Portal),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Description property after render.
     /// </summary>
@@ -4723,8 +4813,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "description", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DevBasemapGalleryGroupQuery property after render.
     /// </summary>
@@ -4760,8 +4851,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "devBasemapGalleryGroupQuery", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the EueiEnabled property after render.
     /// </summary>
@@ -4797,8 +4889,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "eueiEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeaturedGroups property after render.
     /// </summary>
@@ -4834,8 +4927,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featuredGroups", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeaturedItemsGroupQuery property after render.
     /// </summary>
@@ -4871,8 +4965,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featuredItemsGroupQuery", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the GalleryTemplatesGroupQuery property after render.
     /// </summary>
@@ -4908,8 +5003,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "galleryTemplatesGroupQuery", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HasCategorySchema property after render.
     /// </summary>
@@ -4945,8 +5041,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "hasCategorySchema", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HasClassificationSchema property after render.
     /// </summary>
@@ -4982,8 +5079,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "hasClassificationSchema", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HelperServices property after render.
     /// </summary>
@@ -5019,8 +5117,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "helperServices", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HomePageFeaturedContent property after render.
     /// </summary>
@@ -5056,8 +5155,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "homePageFeaturedContent", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HomePageFeaturedContentCount property after render.
     /// </summary>
@@ -5093,8 +5193,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "homePageFeaturedContentCount", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HttpPort property after render.
     /// </summary>
@@ -5130,8 +5231,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "httpPort", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HttpsPort property after render.
     /// </summary>
@@ -5167,8 +5269,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "httpsPort", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the IpCntryCode property after render.
     /// </summary>
@@ -5204,8 +5307,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "ipCntryCode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the IsPortal property after render.
     /// </summary>
@@ -5241,8 +5345,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "isPortal", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the IsReadOnly property after render.
     /// </summary>
@@ -5278,8 +5383,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "isReadOnly", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LayerTemplatesGroupQuery property after render.
     /// </summary>
@@ -5315,8 +5421,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layerTemplatesGroupQuery", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxTokenExpirationMinutes property after render.
     /// </summary>
@@ -5352,8 +5459,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxTokenExpirationMinutes", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Modified property after render.
     /// </summary>
@@ -5389,8 +5497,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "modified", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
@@ -5426,8 +5535,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PortalHostname property after render.
     /// </summary>
@@ -5463,8 +5573,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "portalHostname", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PortalId property after render.
     /// </summary>
@@ -5500,8 +5611,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PortalMode property after render.
     /// </summary>
@@ -5537,8 +5649,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "portalMode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PortalProperties property after render.
     /// </summary>
@@ -5572,11 +5685,12 @@ public partial class Portal
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPortalProperties), nameof(Portal), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPortalProperties), nameof(Portal),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RecycleBinEnabled property after render.
     /// </summary>
@@ -5612,8 +5726,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "recycleBinEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Region property after render.
     /// </summary>
@@ -5649,8 +5764,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "region", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RotatorPanels property after render.
     /// </summary>
@@ -5686,8 +5802,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rotatorPanels", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ShowHomePageDescription property after render.
     /// </summary>
@@ -5723,8 +5840,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "showHomePageDescription", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsHostedServices property after render.
     /// </summary>
@@ -5760,8 +5878,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsHostedServices", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SymbolSetsGroupQuery property after render.
     /// </summary>
@@ -5797,8 +5916,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "symbolSetsGroupQuery", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TemplatesGroupQuery property after render.
     /// </summary>
@@ -5834,8 +5954,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "templatesGroupQuery", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Units property after render.
     /// </summary>
@@ -5871,8 +5992,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "units", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -5908,8 +6030,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UrlKey property after render.
     /// </summary>
@@ -5945,8 +6068,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "urlKey", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Use3dBasemaps property after render.
     /// </summary>
@@ -5982,8 +6106,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "use3dBasemaps", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UseDefault3dBasemap property after render.
     /// </summary>
@@ -6019,8 +6144,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "useDefault3dBasemap", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UseStandardizedQuery property after render.
     /// </summary>
@@ -6056,8 +6182,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "useStandardizedQuery", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UseVectorBasemaps property after render.
     /// </summary>
@@ -6093,8 +6220,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "useVectorBasemaps", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the VectorBasemapGalleryGroupQuery property after render.
     /// </summary>
@@ -6130,8 +6258,9 @@ public partial class Portal
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "vectorBasemapGalleryGroupQuery", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -6148,6 +6277,7 @@ public partial class Portal
             ? values
             : [..AuthorizedCrossOriginDomains, ..values];
         await SetAuthorizedCrossOriginDomains(join);
+
     }
     
     /// <summary>
@@ -6162,6 +6292,7 @@ public partial class Portal
             ? values
             : [..FeaturedGroups, ..values];
         await SetFeaturedGroups(join);
+
     }
     
     /// <summary>
@@ -6176,6 +6307,7 @@ public partial class Portal
             ? values
             : [..RotatorPanels, ..values];
         await SetRotatorPanels(join);
+
     }
     
 #endregion
@@ -6196,6 +6328,7 @@ public partial class Portal
             return;
         }
         await SetAuthorizedCrossOriginDomains(AuthorizedCrossOriginDomains.Except(values).ToArray());
+
     }
     
     
@@ -6212,6 +6345,7 @@ public partial class Portal
             return;
         }
         await SetFeaturedGroups(FeaturedGroups.Except(values).ToArray());
+
     }
     
     
@@ -6228,6 +6362,7 @@ public partial class Portal
             return;
         }
         await SetRotatorPanels(RotatorPanels.Except(values).ToArray());
+
     }
     
 #endregion

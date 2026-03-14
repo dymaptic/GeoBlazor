@@ -108,8 +108,9 @@ public partial class AttachmentsOrderByInfo : MapComponent
         }
          
         return Field;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Order property.
     /// </summary>
@@ -148,8 +149,9 @@ public partial class AttachmentsOrderByInfo : MapComponent
         }
          
         return Order;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -189,8 +191,9 @@ public partial class AttachmentsOrderByInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Order property after render.
     /// </summary>
@@ -226,8 +229,9 @@ public partial class AttachmentsOrderByInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "order", value);
+
     }
-    
+
 #endregion
 
 }

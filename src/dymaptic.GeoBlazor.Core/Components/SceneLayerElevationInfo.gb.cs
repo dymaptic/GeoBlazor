@@ -122,8 +122,9 @@ public partial class SceneLayerElevationInfo : MapComponent
         }
          
         return Mode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Offset property.
     /// </summary>
@@ -162,8 +163,9 @@ public partial class SceneLayerElevationInfo : MapComponent
         }
          
         return Offset;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Unit property.
     /// </summary>
@@ -202,8 +204,9 @@ public partial class SceneLayerElevationInfo : MapComponent
         }
          
         return Unit;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -243,8 +246,9 @@ public partial class SceneLayerElevationInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Offset property after render.
     /// </summary>
@@ -280,8 +284,9 @@ public partial class SceneLayerElevationInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "offset", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Unit property after render.
     /// </summary>
@@ -317,8 +322,9 @@ public partial class SceneLayerElevationInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "unit", value);
+
     }
-    
+
 #endregion
 
 }

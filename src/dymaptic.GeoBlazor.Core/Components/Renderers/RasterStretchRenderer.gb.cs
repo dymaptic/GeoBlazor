@@ -224,8 +224,9 @@ public partial class RasterStretchRenderer
         }
         
         return ColorRamp;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ComputeGamma property.
     /// </summary>
@@ -264,8 +265,9 @@ public partial class RasterStretchRenderer
         }
          
         return ComputeGamma;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomStatistics property.
     /// </summary>
@@ -304,8 +306,9 @@ public partial class RasterStretchRenderer
         }
          
         return CustomStatistics;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DynamicRangeAdjustment property.
     /// </summary>
@@ -344,8 +347,9 @@ public partial class RasterStretchRenderer
         }
          
         return DynamicRangeAdjustment;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Gamma property.
     /// </summary>
@@ -384,8 +388,9 @@ public partial class RasterStretchRenderer
         }
          
         return Gamma;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxPercent property.
     /// </summary>
@@ -424,8 +429,9 @@ public partial class RasterStretchRenderer
         }
          
         return MaxPercent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinPercent property.
     /// </summary>
@@ -464,8 +470,9 @@ public partial class RasterStretchRenderer
         }
          
         return MinPercent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NumberOfStandardDeviations property.
     /// </summary>
@@ -504,8 +511,9 @@ public partial class RasterStretchRenderer
         }
          
         return NumberOfStandardDeviations;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OutputMax property.
     /// </summary>
@@ -544,8 +552,9 @@ public partial class RasterStretchRenderer
         }
          
         return OutputMax;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OutputMin property.
     /// </summary>
@@ -584,8 +593,9 @@ public partial class RasterStretchRenderer
         }
          
         return OutputMin;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SigmoidStrengthLevel property.
     /// </summary>
@@ -624,8 +634,9 @@ public partial class RasterStretchRenderer
         }
          
         return SigmoidStrengthLevel;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the StretchType property.
     /// </summary>
@@ -664,8 +675,9 @@ public partial class RasterStretchRenderer
         }
          
         return StretchType;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UseGamma property.
     /// </summary>
@@ -704,8 +716,9 @@ public partial class RasterStretchRenderer
         }
          
         return UseGamma;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -750,8 +763,9 @@ public partial class RasterStretchRenderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "colorRamp", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ComputeGamma property after render.
     /// </summary>
@@ -787,8 +801,9 @@ public partial class RasterStretchRenderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "computeGamma", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CustomStatistics property after render.
     /// </summary>
@@ -824,8 +839,9 @@ public partial class RasterStretchRenderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "customStatistics", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DynamicRangeAdjustment property after render.
     /// </summary>
@@ -861,8 +877,9 @@ public partial class RasterStretchRenderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "dynamicRangeAdjustment", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Gamma property after render.
     /// </summary>
@@ -898,8 +915,9 @@ public partial class RasterStretchRenderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "gamma", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxPercent property after render.
     /// </summary>
@@ -935,8 +953,9 @@ public partial class RasterStretchRenderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxPercent", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinPercent property after render.
     /// </summary>
@@ -972,8 +991,9 @@ public partial class RasterStretchRenderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minPercent", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the NumberOfStandardDeviations property after render.
     /// </summary>
@@ -1009,8 +1029,9 @@ public partial class RasterStretchRenderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "numberOfStandardDeviations", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OutputMax property after render.
     /// </summary>
@@ -1046,8 +1067,9 @@ public partial class RasterStretchRenderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outputMax", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OutputMin property after render.
     /// </summary>
@@ -1083,8 +1105,9 @@ public partial class RasterStretchRenderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outputMin", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SigmoidStrengthLevel property after render.
     /// </summary>
@@ -1120,8 +1143,9 @@ public partial class RasterStretchRenderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sigmoidStrengthLevel", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UseGamma property after render.
     /// </summary>
@@ -1157,8 +1181,9 @@ public partial class RasterStretchRenderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "useGamma", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -1175,6 +1200,7 @@ public partial class RasterStretchRenderer
             ? values
             : [..CustomStatistics, ..values];
         await SetCustomStatistics(join);
+
     }
     
     /// <summary>
@@ -1189,6 +1215,7 @@ public partial class RasterStretchRenderer
             ? values
             : [..Gamma, ..values];
         await SetGamma(join);
+
     }
     
 #endregion
@@ -1209,6 +1236,7 @@ public partial class RasterStretchRenderer
             return;
         }
         await SetCustomStatistics(CustomStatistics.Except(values).ToArray());
+
     }
     
     
@@ -1225,6 +1253,7 @@ public partial class RasterStretchRenderer
             return;
         }
         await SetGamma(Gamma.Except(values).ToArray());
+
     }
     
 #endregion

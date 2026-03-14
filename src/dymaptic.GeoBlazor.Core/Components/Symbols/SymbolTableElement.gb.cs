@@ -123,8 +123,9 @@ public partial class SymbolTableElement : MapComponent,
         }
          
         return Infos;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendType property.
     /// </summary>
@@ -163,8 +164,9 @@ public partial class SymbolTableElement : MapComponent,
         }
          
         return LegendType;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -203,8 +205,9 @@ public partial class SymbolTableElement : MapComponent,
         }
         
         return Title;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -244,8 +247,9 @@ public partial class SymbolTableElement : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "infos", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendType property after render.
     /// </summary>
@@ -281,8 +285,9 @@ public partial class SymbolTableElement : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendType", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -318,8 +323,9 @@ public partial class SymbolTableElement : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -336,6 +342,7 @@ public partial class SymbolTableElement : MapComponent,
             ? values
             : [..Infos, ..values];
         await SetInfos(join);
+
     }
     
 #endregion
@@ -356,6 +363,7 @@ public partial class SymbolTableElement : MapComponent,
             return;
         }
         await SetInfos(Infos.Except(values).ToArray());
+
     }
     
 #endregion

@@ -232,8 +232,9 @@ public partial class CapabilitiesOperations : MapComponent
         }
          
         return SupportsAdd;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsCalculate property.
     /// </summary>
@@ -272,8 +273,9 @@ public partial class CapabilitiesOperations : MapComponent
         }
          
         return SupportsCalculate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsDelete property.
     /// </summary>
@@ -312,8 +314,9 @@ public partial class CapabilitiesOperations : MapComponent
         }
          
         return SupportsDelete;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsEditing property.
     /// </summary>
@@ -352,8 +355,9 @@ public partial class CapabilitiesOperations : MapComponent
         }
          
         return SupportsEditing;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsQuery property.
     /// </summary>
@@ -392,8 +396,9 @@ public partial class CapabilitiesOperations : MapComponent
         }
          
         return SupportsQuery;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsQueryAttachments property.
     /// </summary>
@@ -432,8 +437,9 @@ public partial class CapabilitiesOperations : MapComponent
         }
          
         return SupportsQueryAttachments;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsQueryTopFeatures property.
     /// </summary>
@@ -472,8 +478,9 @@ public partial class CapabilitiesOperations : MapComponent
         }
          
         return SupportsQueryTopFeatures;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsResizeAttachments property.
     /// </summary>
@@ -512,8 +519,9 @@ public partial class CapabilitiesOperations : MapComponent
         }
          
         return SupportsResizeAttachments;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsUpdate property.
     /// </summary>
@@ -552,8 +560,9 @@ public partial class CapabilitiesOperations : MapComponent
         }
          
         return SupportsUpdate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsValidateSql property.
     /// </summary>
@@ -592,8 +601,9 @@ public partial class CapabilitiesOperations : MapComponent
         }
          
         return SupportsValidateSql;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -633,8 +643,9 @@ public partial class CapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsAdd", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsCalculate property after render.
     /// </summary>
@@ -670,8 +681,9 @@ public partial class CapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsCalculate", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsDelete property after render.
     /// </summary>
@@ -707,8 +719,9 @@ public partial class CapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsDelete", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsEditing property after render.
     /// </summary>
@@ -744,8 +757,9 @@ public partial class CapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsEditing", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsQuery property after render.
     /// </summary>
@@ -781,8 +795,9 @@ public partial class CapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsQuery", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsQueryAttachments property after render.
     /// </summary>
@@ -818,8 +833,9 @@ public partial class CapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsQueryAttachments", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsQueryTopFeatures property after render.
     /// </summary>
@@ -855,8 +871,9 @@ public partial class CapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsQueryTopFeatures", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsResizeAttachments property after render.
     /// </summary>
@@ -892,8 +909,9 @@ public partial class CapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsResizeAttachments", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsUpdate property after render.
     /// </summary>
@@ -929,8 +947,9 @@ public partial class CapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsUpdate", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsValidateSql property after render.
     /// </summary>
@@ -966,8 +985,9 @@ public partial class CapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsValidateSql", value);
+
     }
-    
+
 #endregion
 
 }

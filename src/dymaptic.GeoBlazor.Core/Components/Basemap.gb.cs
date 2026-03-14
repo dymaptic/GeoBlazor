@@ -202,8 +202,9 @@ public partial class Basemap : ILayerParent
         }
          
         return BasemapId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Loaded property.
     /// </summary>
@@ -242,8 +243,9 @@ public partial class Basemap : ILayerParent
         }
          
         return Loaded;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalItem property.
     /// </summary>
@@ -288,8 +290,9 @@ public partial class Basemap : ILayerParent
         }
         
         return PortalItem;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -328,8 +331,9 @@ public partial class Basemap : ILayerParent
         }
         
         return SpatialReference;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Style property.
     /// </summary>
@@ -374,8 +378,9 @@ public partial class Basemap : ILayerParent
         }
         
         return Style;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ThumbnailUrl property.
     /// </summary>
@@ -414,8 +419,9 @@ public partial class Basemap : ILayerParent
         }
          
         return ThumbnailUrl;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -454,8 +460,9 @@ public partial class Basemap : ILayerParent
         }
          
         return Title;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -495,8 +502,9 @@ public partial class Basemap : ILayerParent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
@@ -535,11 +543,12 @@ public partial class Basemap : ILayerParent
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPortalItem), nameof(Basemap), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPortalItem), nameof(Basemap),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SpatialReference property after render.
     /// </summary>
@@ -578,11 +587,12 @@ public partial class Basemap : ILayerParent
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetSpatialReference), nameof(Basemap), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetSpatialReference), nameof(Basemap),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Style property after render.
     /// </summary>
@@ -621,11 +631,12 @@ public partial class Basemap : ILayerParent
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetStyle), nameof(Basemap), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetStyle), nameof(Basemap),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ThumbnailUrl property after render.
     /// </summary>
@@ -661,8 +672,9 @@ public partial class Basemap : ILayerParent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "thumbnailUrl", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -698,8 +710,9 @@ public partial class Basemap : ILayerParent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 #region Public Methods

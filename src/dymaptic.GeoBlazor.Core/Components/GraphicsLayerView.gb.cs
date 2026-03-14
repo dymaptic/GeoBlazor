@@ -40,9 +40,11 @@ public partial class GraphicsLayerView : LayerView,
     {
         AllowRender = false;
 #pragma warning disable BL0005
+#pragma warning disable CS0618
         HighlightOptions = highlightOptions;
         Visible = visible;
 #pragma warning restore BL0005
+#pragma warning restore CS0618
     }
     
     
@@ -54,6 +56,7 @@ public partial class GraphicsLayerView : LayerView,
     [Obsolete("$Deprecated since GeoBlazor version 4.4.0. Use the {nameof(MapView.Highlights)} property instead.")]
     public async Task<HighlightOptions?> GetHighlightOptions()
     {
+#pragma warning disable CS0618
         if (CoreJsModule is null)
         {
             return HighlightOptions;
@@ -93,8 +96,9 @@ public partial class GraphicsLayerView : LayerView,
         }
         
         return HighlightOptions;
+#pragma warning restore CS0618
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -108,6 +112,7 @@ public partial class GraphicsLayerView : LayerView,
     [Obsolete("$Deprecated since GeoBlazor version 4.4.0. Use the {nameof(MapView.Highlights)} property instead.")]
     public async Task SetHighlightOptions(HighlightOptions? value)
     {
+#pragma warning disable CS0618
 #pragma warning disable BL0005
         HighlightOptions = value;
 #pragma warning restore BL0005
@@ -138,11 +143,12 @@ public partial class GraphicsLayerView : LayerView,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetHighlightOptions), nameof(GraphicsLayerView), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetHighlightOptions), nameof(GraphicsLayerView),
             CancellationTokenSource.Token, value);
+ #pragma warning restore CS0618
     }
-    
+
 #endregion
 
 #region Public Methods

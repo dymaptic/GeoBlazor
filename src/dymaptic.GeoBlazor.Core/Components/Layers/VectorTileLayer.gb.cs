@@ -310,8 +310,9 @@ public partial class VectorTileLayer : IBlendLayer,
         }
          
         return ApiKey;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AttributionDataUrl property.
     /// </summary>
@@ -350,8 +351,9 @@ public partial class VectorTileLayer : IBlendLayer,
         }
          
         return AttributionDataUrl;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BlendMode property.
     /// </summary>
@@ -390,8 +392,9 @@ public partial class VectorTileLayer : IBlendLayer,
         }
          
         return BlendMode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Capabilities property.
     /// </summary>
@@ -430,8 +433,9 @@ public partial class VectorTileLayer : IBlendLayer,
         }
          
         return Capabilities;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CurrentStyleInfo property.
     /// </summary>
@@ -470,8 +474,9 @@ public partial class VectorTileLayer : IBlendLayer,
         }
         
         return CurrentStyleInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomParameters property.
     /// </summary>
@@ -510,8 +515,9 @@ public partial class VectorTileLayer : IBlendLayer,
         }
          
         return CustomParameters;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Effect property.
     /// </summary>
@@ -550,8 +556,9 @@ public partial class VectorTileLayer : IBlendLayer,
         }
         
         return Effect;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the InitialExtent property.
     /// </summary>
@@ -596,8 +603,9 @@ public partial class VectorTileLayer : IBlendLayer,
         }
         
         return InitialExtent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -636,8 +644,9 @@ public partial class VectorTileLayer : IBlendLayer,
         }
          
         return MaxScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -676,8 +685,9 @@ public partial class VectorTileLayer : IBlendLayer,
         }
          
         return MinScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalItem property.
     /// </summary>
@@ -722,8 +732,9 @@ public partial class VectorTileLayer : IBlendLayer,
         }
         
         return PortalItem;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RefreshInterval property.
     /// </summary>
@@ -762,8 +773,9 @@ public partial class VectorTileLayer : IBlendLayer,
         }
          
         return RefreshInterval;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -802,8 +814,9 @@ public partial class VectorTileLayer : IBlendLayer,
         }
         
         return SpatialReference;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Style property.
     /// </summary>
@@ -842,8 +855,9 @@ public partial class VectorTileLayer : IBlendLayer,
         }
          
         return Style;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TileInfo property.
     /// </summary>
@@ -888,8 +902,9 @@ public partial class VectorTileLayer : IBlendLayer,
         }
         
         return TileInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -928,8 +943,9 @@ public partial class VectorTileLayer : IBlendLayer,
         }
          
         return Url;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -969,8 +985,9 @@ public partial class VectorTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "apiKey", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BlendMode property after render.
     /// </summary>
@@ -1006,8 +1023,9 @@ public partial class VectorTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "blendMode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CustomParameters property after render.
     /// </summary>
@@ -1043,8 +1061,9 @@ public partial class VectorTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "customParameters", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Effect property after render.
     /// </summary>
@@ -1078,11 +1097,12 @@ public partial class VectorTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetEffect), nameof(VectorTileLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetEffect), nameof(VectorTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -1118,8 +1138,9 @@ public partial class VectorTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -1155,8 +1176,9 @@ public partial class VectorTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PersistenceEnabled property after render.
     /// </summary>
@@ -1192,8 +1214,9 @@ public partial class VectorTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "persistenceEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
@@ -1232,11 +1255,12 @@ public partial class VectorTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPortalItem), nameof(VectorTileLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPortalItem), nameof(VectorTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RefreshInterval property after render.
     /// </summary>
@@ -1272,8 +1296,9 @@ public partial class VectorTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "refreshInterval", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Style property after render.
     /// </summary>
@@ -1309,8 +1334,9 @@ public partial class VectorTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "style", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -1346,8 +1372,9 @@ public partial class VectorTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
+
     }
-    
+
 #endregion
 
 #region Public Methods

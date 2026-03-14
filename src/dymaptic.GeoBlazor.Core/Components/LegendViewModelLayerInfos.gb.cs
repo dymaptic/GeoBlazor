@@ -102,8 +102,9 @@ public partial class LegendViewModelLayerInfos : MapComponent
         }
         
         return Layer;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -142,8 +143,9 @@ public partial class LegendViewModelLayerInfos : MapComponent
         }
          
         return Title;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -188,8 +190,9 @@ public partial class LegendViewModelLayerInfos : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layer", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -225,8 +228,9 @@ public partial class LegendViewModelLayerInfos : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 }

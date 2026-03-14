@@ -155,8 +155,9 @@ public partial class SnappingOptions
         }
          
         return AttributeRulesEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Distance property.
     /// </summary>
@@ -195,8 +196,9 @@ public partial class SnappingOptions
         }
          
         return Distance;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Enabled property.
     /// </summary>
@@ -235,8 +237,9 @@ public partial class SnappingOptions
         }
          
         return Enabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureEnabled property.
     /// </summary>
@@ -275,8 +278,9 @@ public partial class SnappingOptions
         }
          
         return FeatureEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureSources property.
     /// </summary>
@@ -319,8 +323,9 @@ public partial class SnappingOptions
         }
         
         return FeatureSources;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the GridEnabled property.
     /// </summary>
@@ -359,8 +364,9 @@ public partial class SnappingOptions
         }
          
         return GridEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SelfEnabled property.
     /// </summary>
@@ -399,8 +405,9 @@ public partial class SnappingOptions
         }
          
         return SelfEnabled;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -440,8 +447,9 @@ public partial class SnappingOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "attributeRulesEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Distance property after render.
     /// </summary>
@@ -477,8 +485,9 @@ public partial class SnappingOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "distance", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Enabled property after render.
     /// </summary>
@@ -514,8 +523,9 @@ public partial class SnappingOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "enabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeatureEnabled property after render.
     /// </summary>
@@ -551,8 +561,9 @@ public partial class SnappingOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featureEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeatureSources property after render.
     /// </summary>
@@ -596,8 +607,9 @@ public partial class SnappingOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featureSources", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the GridEnabled property after render.
     /// </summary>
@@ -633,8 +645,9 @@ public partial class SnappingOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "gridEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SelfEnabled property after render.
     /// </summary>
@@ -670,8 +683,9 @@ public partial class SnappingOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "selfEnabled", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -688,6 +702,7 @@ public partial class SnappingOptions
             ? values
             : [..FeatureSources, ..values];
         await SetFeatureSources(join);
+
     }
     
 #endregion
@@ -708,6 +723,7 @@ public partial class SnappingOptions
             return;
         }
         await SetFeatureSources(FeatureSources.Except(values).ToArray());
+
     }
     
 #endregion

@@ -171,8 +171,9 @@ public partial class AreaMeasurement2DWidget
         }
         
         return SnappingOptions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Unit property.
     /// </summary>
@@ -211,8 +212,9 @@ public partial class AreaMeasurement2DWidget
         }
          
         return Unit;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UnitOptions property.
     /// </summary>
@@ -251,8 +253,9 @@ public partial class AreaMeasurement2DWidget
         }
          
         return UnitOptions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -297,8 +300,9 @@ public partial class AreaMeasurement2DWidget
         }
         
         return ViewModel;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -341,11 +345,12 @@ public partial class AreaMeasurement2DWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetSnappingOptions), nameof(AreaMeasurement2DWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetSnappingOptions), nameof(AreaMeasurement2DWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Unit property after render.
     /// </summary>
@@ -381,8 +386,9 @@ public partial class AreaMeasurement2DWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "unit", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UnitOptions property after render.
     /// </summary>
@@ -418,8 +424,9 @@ public partial class AreaMeasurement2DWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "unitOptions", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -458,11 +465,12 @@ public partial class AreaMeasurement2DWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetViewModel), nameof(AreaMeasurement2DWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetViewModel), nameof(AreaMeasurement2DWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -479,6 +487,7 @@ public partial class AreaMeasurement2DWidget
             ? values
             : [..UnitOptions, ..values];
         await SetUnitOptions(join);
+
     }
     
 #endregion
@@ -499,6 +508,7 @@ public partial class AreaMeasurement2DWidget
             return;
         }
         await SetUnitOptions(UnitOptions.Except(values).ToArray());
+
     }
     
 #endregion

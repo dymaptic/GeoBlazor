@@ -141,8 +141,9 @@ public partial class FeatureFilter
         }
          
         return Distance;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Geometry property.
     /// </summary>
@@ -187,8 +188,9 @@ public partial class FeatureFilter
         }
         
         return Geometry;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ObjectIds property.
     /// </summary>
@@ -227,8 +229,9 @@ public partial class FeatureFilter
         }
          
         return ObjectIds;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialRelationship property.
     /// </summary>
@@ -267,8 +270,9 @@ public partial class FeatureFilter
         }
          
         return SpatialRelationship;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeExtent property.
     /// </summary>
@@ -313,8 +317,9 @@ public partial class FeatureFilter
         }
         
         return TimeExtent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Units property.
     /// </summary>
@@ -353,8 +358,9 @@ public partial class FeatureFilter
         }
          
         return Units;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Where property.
     /// </summary>
@@ -393,8 +399,9 @@ public partial class FeatureFilter
         }
          
         return Where;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -434,8 +441,9 @@ public partial class FeatureFilter
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "distance", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Geometry property after render.
     /// </summary>
@@ -474,11 +482,12 @@ public partial class FeatureFilter
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetGeometry), nameof(FeatureFilter), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetGeometry), nameof(FeatureFilter),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ObjectIds property after render.
     /// </summary>
@@ -514,8 +523,9 @@ public partial class FeatureFilter
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "objectIds", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SpatialRelationship property after render.
     /// </summary>
@@ -551,8 +561,9 @@ public partial class FeatureFilter
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "spatialRelationship", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeExtent property after render.
     /// </summary>
@@ -591,11 +602,12 @@ public partial class FeatureFilter
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetTimeExtent), nameof(FeatureFilter), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTimeExtent), nameof(FeatureFilter),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Units property after render.
     /// </summary>
@@ -631,8 +643,9 @@ public partial class FeatureFilter
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "units", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Where property after render.
     /// </summary>
@@ -668,8 +681,9 @@ public partial class FeatureFilter
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "where", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -686,6 +700,7 @@ public partial class FeatureFilter
             ? values
             : [..ObjectIds, ..values];
         await SetObjectIds(join);
+
     }
     
 #endregion
@@ -706,6 +721,7 @@ public partial class FeatureFilter
             return;
         }
         await SetObjectIds(ObjectIds.Except(values).ToArray());
+
     }
     
 #endregion

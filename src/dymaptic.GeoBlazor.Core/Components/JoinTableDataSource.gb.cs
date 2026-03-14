@@ -124,8 +124,9 @@ public partial class JoinTableDataSource
         }
          
         return JoinType;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LeftTableKey property.
     /// </summary>
@@ -164,8 +165,9 @@ public partial class JoinTableDataSource
         }
          
         return LeftTableKey;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LeftTableSource property.
     /// </summary>
@@ -204,8 +206,9 @@ public partial class JoinTableDataSource
         }
          
         return LeftTableSource;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RightTableKey property.
     /// </summary>
@@ -244,8 +247,9 @@ public partial class JoinTableDataSource
         }
          
         return RightTableKey;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RightTableSource property.
     /// </summary>
@@ -284,8 +288,9 @@ public partial class JoinTableDataSource
         }
          
         return RightTableSource;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -325,8 +330,9 @@ public partial class JoinTableDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "joinType", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LeftTableKey property after render.
     /// </summary>
@@ -362,8 +368,9 @@ public partial class JoinTableDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "leftTableKey", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LeftTableSource property after render.
     /// </summary>
@@ -399,8 +406,9 @@ public partial class JoinTableDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "leftTableSource", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RightTableKey property after render.
     /// </summary>
@@ -436,8 +444,9 @@ public partial class JoinTableDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rightTableKey", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RightTableSource property after render.
     /// </summary>
@@ -473,8 +482,9 @@ public partial class JoinTableDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rightTableSource", value);
+
     }
-    
+
 #endregion
 
 }

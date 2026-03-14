@@ -143,8 +143,9 @@ public partial class PopupExpressionInfo
         }
          
         return Expression;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -183,8 +184,9 @@ public partial class PopupExpressionInfo
         }
          
         return Name;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ReturnType property.
     /// </summary>
@@ -223,8 +225,9 @@ public partial class PopupExpressionInfo
         }
          
         return ReturnType;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -263,8 +266,9 @@ public partial class PopupExpressionInfo
         }
          
         return Title;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -304,8 +308,9 @@ public partial class PopupExpressionInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "expression", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
@@ -341,8 +346,9 @@ public partial class PopupExpressionInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ReturnType property after render.
     /// </summary>
@@ -378,8 +384,9 @@ public partial class PopupExpressionInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "returnType", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -415,8 +422,9 @@ public partial class PopupExpressionInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 }

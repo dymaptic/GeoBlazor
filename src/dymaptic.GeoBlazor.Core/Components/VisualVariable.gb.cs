@@ -77,8 +77,9 @@ public abstract partial class VisualVariable
         }
          
         return Field;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendOptions property.
     /// </summary>
@@ -123,8 +124,9 @@ public abstract partial class VisualVariable
         }
         
         return LegendOptions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ValueExpression property.
     /// </summary>
@@ -163,8 +165,9 @@ public abstract partial class VisualVariable
         }
          
         return ValueExpression;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ValueExpressionTitle property.
     /// </summary>
@@ -203,8 +206,9 @@ public abstract partial class VisualVariable
         }
          
         return ValueExpressionTitle;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -244,8 +248,9 @@ public abstract partial class VisualVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendOptions property after render.
     /// </summary>
@@ -286,8 +291,9 @@ public abstract partial class VisualVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendOptions", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ValueExpression property after render.
     /// </summary>
@@ -323,8 +329,9 @@ public abstract partial class VisualVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "valueExpression", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ValueExpressionTitle property after render.
     /// </summary>
@@ -360,8 +367,9 @@ public abstract partial class VisualVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "valueExpressionTitle", value);
+
     }
-    
+
 #endregion
 
 

@@ -282,8 +282,9 @@ public partial class VisibleElements : MapComponent
         }
          
         return Area;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Coordinates property.
     /// </summary>
@@ -322,8 +323,9 @@ public partial class VisibleElements : MapComponent
         }
          
         return Coordinates;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Direction property.
     /// </summary>
@@ -362,8 +364,9 @@ public partial class VisibleElements : MapComponent
         }
          
         return Direction;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Distance property.
     /// </summary>
@@ -402,8 +405,9 @@ public partial class VisibleElements : MapComponent
         }
          
         return Distance;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Elevation property.
     /// </summary>
@@ -442,8 +446,9 @@ public partial class VisibleElements : MapComponent
         }
          
         return Elevation;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Header property.
     /// </summary>
@@ -482,8 +487,9 @@ public partial class VisibleElements : MapComponent
         }
          
         return Header;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HelpMessage property.
     /// </summary>
@@ -522,8 +528,9 @@ public partial class VisibleElements : MapComponent
         }
          
         return HelpMessage;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Orientation property.
     /// </summary>
@@ -562,8 +569,9 @@ public partial class VisibleElements : MapComponent
         }
          
         return Orientation;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Radius property.
     /// </summary>
@@ -602,8 +610,9 @@ public partial class VisibleElements : MapComponent
         }
          
         return Radius;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Rotation property.
     /// </summary>
@@ -642,8 +651,9 @@ public partial class VisibleElements : MapComponent
         }
          
         return Rotation;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Scale property.
     /// </summary>
@@ -682,8 +692,9 @@ public partial class VisibleElements : MapComponent
         }
          
         return Scale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Size property.
     /// </summary>
@@ -722,8 +733,9 @@ public partial class VisibleElements : MapComponent
         }
          
         return Size;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TotalLength property.
     /// </summary>
@@ -762,8 +774,9 @@ public partial class VisibleElements : MapComponent
         }
          
         return TotalLength;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -803,8 +816,9 @@ public partial class VisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "area", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Coordinates property after render.
     /// </summary>
@@ -840,8 +854,9 @@ public partial class VisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "coordinates", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Direction property after render.
     /// </summary>
@@ -877,8 +892,9 @@ public partial class VisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "direction", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Distance property after render.
     /// </summary>
@@ -914,8 +930,9 @@ public partial class VisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "distance", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Elevation property after render.
     /// </summary>
@@ -951,8 +968,9 @@ public partial class VisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "elevation", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Header property after render.
     /// </summary>
@@ -988,8 +1006,9 @@ public partial class VisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "header", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HelpMessage property after render.
     /// </summary>
@@ -1025,8 +1044,9 @@ public partial class VisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "helpMessage", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Orientation property after render.
     /// </summary>
@@ -1062,8 +1082,9 @@ public partial class VisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "orientation", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Radius property after render.
     /// </summary>
@@ -1099,8 +1120,9 @@ public partial class VisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "radius", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Rotation property after render.
     /// </summary>
@@ -1136,8 +1158,9 @@ public partial class VisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rotation", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Scale property after render.
     /// </summary>
@@ -1173,8 +1196,9 @@ public partial class VisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "scale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Size property after render.
     /// </summary>
@@ -1210,8 +1234,9 @@ public partial class VisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "size", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TotalLength property after render.
     /// </summary>
@@ -1247,8 +1272,9 @@ public partial class VisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "totalLength", value);
+
     }
-    
+
 #endregion
 
 }

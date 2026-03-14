@@ -122,8 +122,9 @@ public partial class PixelBlockStatistics : MapComponent
         }
          
         return MaxValue;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinValue property.
     /// </summary>
@@ -162,8 +163,9 @@ public partial class PixelBlockStatistics : MapComponent
         }
          
         return MinValue;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NoDataValue property.
     /// </summary>
@@ -202,8 +204,9 @@ public partial class PixelBlockStatistics : MapComponent
         }
          
         return NoDataValue;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -243,8 +246,9 @@ public partial class PixelBlockStatistics : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxValue", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinValue property after render.
     /// </summary>
@@ -280,8 +284,9 @@ public partial class PixelBlockStatistics : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minValue", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the NoDataValue property after render.
     /// </summary>
@@ -317,8 +322,9 @@ public partial class PixelBlockStatistics : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "noDataValue", value);
+
     }
-    
+
 #endregion
 
 }

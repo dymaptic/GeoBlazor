@@ -204,8 +204,9 @@ public partial class PixelBlock : MapComponent
         }
          
         return Height;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Mask property.
     /// </summary>
@@ -244,8 +245,9 @@ public partial class PixelBlock : MapComponent
         }
          
         return Mask;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaskIsAlpha property.
     /// </summary>
@@ -284,8 +286,9 @@ public partial class PixelBlock : MapComponent
         }
          
         return MaskIsAlpha;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Pixels property.
     /// </summary>
@@ -324,8 +327,9 @@ public partial class PixelBlock : MapComponent
         }
          
         return Pixels;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PixelType property.
     /// </summary>
@@ -364,8 +368,9 @@ public partial class PixelBlock : MapComponent
         }
          
         return PixelType;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Statistics property.
     /// </summary>
@@ -408,8 +413,9 @@ public partial class PixelBlock : MapComponent
         }
         
         return Statistics;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ValidPixelCount property.
     /// </summary>
@@ -448,8 +454,9 @@ public partial class PixelBlock : MapComponent
         }
          
         return ValidPixelCount;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Width property.
     /// </summary>
@@ -488,8 +495,9 @@ public partial class PixelBlock : MapComponent
         }
          
         return Width;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -529,8 +537,9 @@ public partial class PixelBlock : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "height", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Mask property after render.
     /// </summary>
@@ -566,8 +575,9 @@ public partial class PixelBlock : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mask", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaskIsAlpha property after render.
     /// </summary>
@@ -603,8 +613,9 @@ public partial class PixelBlock : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maskIsAlpha", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Pixels property after render.
     /// </summary>
@@ -640,8 +651,9 @@ public partial class PixelBlock : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "pixels", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PixelType property after render.
     /// </summary>
@@ -677,8 +689,9 @@ public partial class PixelBlock : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "pixelType", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Statistics property after render.
     /// </summary>
@@ -720,11 +733,12 @@ public partial class PixelBlock : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetStatistics), nameof(PixelBlock), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetStatistics), nameof(PixelBlock),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ValidPixelCount property after render.
     /// </summary>
@@ -760,8 +774,9 @@ public partial class PixelBlock : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "validPixelCount", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Width property after render.
     /// </summary>
@@ -797,8 +812,9 @@ public partial class PixelBlock : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "width", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -815,6 +831,7 @@ public partial class PixelBlock : MapComponent
             ? values
             : [..Statistics, ..values];
         await SetStatistics(join);
+
     }
     
 #endregion
@@ -835,6 +852,7 @@ public partial class PixelBlock : MapComponent
             return;
         }
         await SetStatistics(Statistics.Except(values).ToArray());
+
     }
     
 #endregion

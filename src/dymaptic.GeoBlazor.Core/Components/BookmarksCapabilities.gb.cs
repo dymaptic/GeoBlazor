@@ -90,8 +90,9 @@ public partial class BookmarksCapabilities : MapComponent
         }
          
         return Time;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -131,8 +132,9 @@ public partial class BookmarksCapabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "time", value);
+
     }
-    
+
 #endregion
 
 }

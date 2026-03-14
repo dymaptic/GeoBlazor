@@ -111,8 +111,9 @@ public partial class SizeRampElement : MapComponent,
         }
         
         return Infos;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -151,8 +152,9 @@ public partial class SizeRampElement : MapComponent,
         }
         
         return Title;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -200,8 +202,9 @@ public partial class SizeRampElement : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "infos", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -237,8 +240,9 @@ public partial class SizeRampElement : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -255,6 +259,7 @@ public partial class SizeRampElement : MapComponent,
             ? values
             : [..Infos, ..values];
         await SetInfos(join);
+
     }
     
 #endregion
@@ -275,6 +280,7 @@ public partial class SizeRampElement : MapComponent,
             return;
         }
         await SetInfos(Infos.Except(values).ToArray());
+
     }
     
 #endregion

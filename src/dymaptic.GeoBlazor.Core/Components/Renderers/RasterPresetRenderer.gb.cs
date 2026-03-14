@@ -154,8 +154,9 @@ public partial class RasterPresetRenderer : MapComponent
         }
          
         return BandIds;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Method property.
     /// </summary>
@@ -194,8 +195,9 @@ public partial class RasterPresetRenderer : MapComponent
         }
          
         return Method;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -234,8 +236,9 @@ public partial class RasterPresetRenderer : MapComponent
         }
          
         return Name;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Renderer property.
     /// </summary>
@@ -280,8 +283,9 @@ public partial class RasterPresetRenderer : MapComponent
         }
         
         return Renderer;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Value property.
     /// </summary>
@@ -320,8 +324,9 @@ public partial class RasterPresetRenderer : MapComponent
         }
          
         return Value;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -361,8 +366,9 @@ public partial class RasterPresetRenderer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "bandIds", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Method property after render.
     /// </summary>
@@ -398,8 +404,9 @@ public partial class RasterPresetRenderer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "method", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
@@ -435,8 +442,9 @@ public partial class RasterPresetRenderer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Renderer property after render.
     /// </summary>
@@ -477,8 +485,9 @@ public partial class RasterPresetRenderer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "renderer", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Value property after render.
     /// </summary>
@@ -514,8 +523,9 @@ public partial class RasterPresetRenderer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -532,6 +542,7 @@ public partial class RasterPresetRenderer : MapComponent
             ? values
             : [..BandIds, ..values];
         await SetBandIds(join);
+
     }
     
 #endregion
@@ -552,6 +563,7 @@ public partial class RasterPresetRenderer : MapComponent
             return;
         }
         await SetBandIds(BandIds.Except(values).ToArray());
+
     }
     
 #endregion

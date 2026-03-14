@@ -106,8 +106,9 @@ public partial class AuthoringInfoStatistics
         }
          
         return Max;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Min property.
     /// </summary>
@@ -146,8 +147,9 @@ public partial class AuthoringInfoStatistics
         }
          
         return Min;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -187,8 +189,9 @@ public partial class AuthoringInfoStatistics
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "max", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Min property after render.
     /// </summary>
@@ -224,8 +227,9 @@ public partial class AuthoringInfoStatistics
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "min", value);
+
     }
-    
+
 #endregion
 
 }

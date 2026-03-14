@@ -93,8 +93,9 @@ public partial class VectorTileLayerView : LayerView
         }
          
         return HasVisibleFeatures;
+
     }
-    
+
 #endregion
 
 }

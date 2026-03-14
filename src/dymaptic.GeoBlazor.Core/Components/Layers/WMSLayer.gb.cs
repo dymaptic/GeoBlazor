@@ -683,8 +683,9 @@ public partial class WMSLayer : Layer,
         }
         
         return AllSublayers;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BlendMode property.
     /// </summary>
@@ -723,8 +724,9 @@ public partial class WMSLayer : Layer,
         }
          
         return BlendMode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Copyright property.
     /// </summary>
@@ -763,8 +765,9 @@ public partial class WMSLayer : Layer,
         }
          
         return Copyright;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomLayerParameters property.
     /// </summary>
@@ -803,8 +806,9 @@ public partial class WMSLayer : Layer,
         }
          
         return CustomLayerParameters;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomParameters property.
     /// </summary>
@@ -843,8 +847,9 @@ public partial class WMSLayer : Layer,
         }
          
         return CustomParameters;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Description property.
     /// </summary>
@@ -883,8 +888,9 @@ public partial class WMSLayer : Layer,
         }
          
         return Description;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Dimensions property.
     /// </summary>
@@ -923,8 +929,9 @@ public partial class WMSLayer : Layer,
         }
          
         return Dimensions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Effect property.
     /// </summary>
@@ -963,8 +970,9 @@ public partial class WMSLayer : Layer,
         }
         
         return Effect;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureInfoFormat property.
     /// </summary>
@@ -1003,8 +1011,9 @@ public partial class WMSLayer : Layer,
         }
          
         return FeatureInfoFormat;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureInfoFormats property.
     /// </summary>
@@ -1043,8 +1052,9 @@ public partial class WMSLayer : Layer,
         }
          
         return FeatureInfoFormats;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureInfoUrl property.
     /// </summary>
@@ -1083,8 +1093,9 @@ public partial class WMSLayer : Layer,
         }
          
         return FeatureInfoUrl;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FullExtents property.
     /// </summary>
@@ -1127,8 +1138,9 @@ public partial class WMSLayer : Layer,
         }
         
         return FullExtents;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ImageFormat property.
     /// </summary>
@@ -1167,8 +1179,9 @@ public partial class WMSLayer : Layer,
         }
          
         return ImageFormat;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ImageMaxHeight property.
     /// </summary>
@@ -1207,8 +1220,9 @@ public partial class WMSLayer : Layer,
         }
          
         return ImageMaxHeight;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ImageMaxWidth property.
     /// </summary>
@@ -1247,8 +1261,9 @@ public partial class WMSLayer : Layer,
         }
          
         return ImageMaxWidth;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ImageTransparency property.
     /// </summary>
@@ -1287,8 +1302,9 @@ public partial class WMSLayer : Layer,
         }
          
         return ImageTransparency;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendEnabled property.
     /// </summary>
@@ -1327,8 +1343,9 @@ public partial class WMSLayer : Layer,
         }
          
         return LegendEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -1367,8 +1384,9 @@ public partial class WMSLayer : Layer,
         }
          
         return MaxScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -1407,8 +1425,9 @@ public partial class WMSLayer : Layer,
         }
          
         return MinScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalItem property.
     /// </summary>
@@ -1453,8 +1472,9 @@ public partial class WMSLayer : Layer,
         }
         
         return PortalItem;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RefreshInterval property.
     /// </summary>
@@ -1493,8 +1513,9 @@ public partial class WMSLayer : Layer,
         }
          
         return RefreshInterval;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -1533,8 +1554,9 @@ public partial class WMSLayer : Layer,
         }
         
         return SpatialReference;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReferences property.
     /// </summary>
@@ -1573,8 +1595,9 @@ public partial class WMSLayer : Layer,
         }
          
         return SpatialReferences;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Sublayers property.
     /// </summary>
@@ -1617,8 +1640,9 @@ public partial class WMSLayer : Layer,
         }
         
         return Sublayers;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeExtent property.
     /// </summary>
@@ -1663,8 +1687,9 @@ public partial class WMSLayer : Layer,
         }
         
         return TimeExtent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeInfo property.
     /// </summary>
@@ -1709,8 +1734,9 @@ public partial class WMSLayer : Layer,
         }
         
         return TimeInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeOffset property.
     /// </summary>
@@ -1755,8 +1781,9 @@ public partial class WMSLayer : Layer,
         }
         
         return TimeOffset;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -1795,8 +1822,9 @@ public partial class WMSLayer : Layer,
         }
          
         return Url;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UseViewTime property.
     /// </summary>
@@ -1835,8 +1863,9 @@ public partial class WMSLayer : Layer,
         }
          
         return UseViewTime;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Version property.
     /// </summary>
@@ -1875,8 +1904,9 @@ public partial class WMSLayer : Layer,
         }
          
         return Version;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -1916,8 +1946,9 @@ public partial class WMSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "blendMode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Copyright property after render.
     /// </summary>
@@ -1953,8 +1984,9 @@ public partial class WMSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "copyright", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CustomLayerParameters property after render.
     /// </summary>
@@ -1990,8 +2022,9 @@ public partial class WMSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "customLayerParameters", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CustomParameters property after render.
     /// </summary>
@@ -2027,8 +2060,9 @@ public partial class WMSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "customParameters", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Description property after render.
     /// </summary>
@@ -2064,8 +2098,9 @@ public partial class WMSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "description", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Effect property after render.
     /// </summary>
@@ -2099,11 +2134,12 @@ public partial class WMSLayer : Layer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetEffect), nameof(WMSLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetEffect), nameof(WMSLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeatureInfoFormat property after render.
     /// </summary>
@@ -2139,8 +2175,9 @@ public partial class WMSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featureInfoFormat", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeatureInfoUrl property after render.
     /// </summary>
@@ -2176,8 +2213,9 @@ public partial class WMSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featureInfoUrl", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FullExtents property after render.
     /// </summary>
@@ -2219,11 +2257,12 @@ public partial class WMSLayer : Layer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetFullExtents), nameof(WMSLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetFullExtents), nameof(WMSLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ImageFormat property after render.
     /// </summary>
@@ -2259,8 +2298,9 @@ public partial class WMSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "imageFormat", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ImageMaxHeight property after render.
     /// </summary>
@@ -2296,8 +2336,9 @@ public partial class WMSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "imageMaxHeight", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ImageMaxWidth property after render.
     /// </summary>
@@ -2333,8 +2374,9 @@ public partial class WMSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "imageMaxWidth", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ImageTransparency property after render.
     /// </summary>
@@ -2370,8 +2412,9 @@ public partial class WMSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "imageTransparency", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
@@ -2407,8 +2450,9 @@ public partial class WMSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -2444,8 +2488,9 @@ public partial class WMSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -2481,8 +2526,9 @@ public partial class WMSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PersistenceEnabled property after render.
     /// </summary>
@@ -2518,8 +2564,9 @@ public partial class WMSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "persistenceEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
@@ -2558,11 +2605,12 @@ public partial class WMSLayer : Layer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPortalItem), nameof(WMSLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPortalItem), nameof(WMSLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RefreshInterval property after render.
     /// </summary>
@@ -2598,8 +2646,9 @@ public partial class WMSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "refreshInterval", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SpatialReference property after render.
     /// </summary>
@@ -2638,11 +2687,12 @@ public partial class WMSLayer : Layer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetSpatialReference), nameof(WMSLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetSpatialReference), nameof(WMSLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SpatialReferences property after render.
     /// </summary>
@@ -2678,8 +2728,9 @@ public partial class WMSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "spatialReferences", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Sublayers property after render.
     /// </summary>
@@ -2721,11 +2772,12 @@ public partial class WMSLayer : Layer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetSublayers), nameof(WMSLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetSublayers), nameof(WMSLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeExtent property after render.
     /// </summary>
@@ -2764,11 +2816,12 @@ public partial class WMSLayer : Layer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetTimeExtent), nameof(WMSLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTimeExtent), nameof(WMSLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeInfo property after render.
     /// </summary>
@@ -2807,11 +2860,12 @@ public partial class WMSLayer : Layer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetTimeInfo), nameof(WMSLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTimeInfo), nameof(WMSLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeOffset property after render.
     /// </summary>
@@ -2850,11 +2904,12 @@ public partial class WMSLayer : Layer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetTimeOffset), nameof(WMSLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTimeOffset), nameof(WMSLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -2890,8 +2945,9 @@ public partial class WMSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UseViewTime property after render.
     /// </summary>
@@ -2927,8 +2983,9 @@ public partial class WMSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "useViewTime", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Version property after render.
     /// </summary>
@@ -2964,8 +3021,9 @@ public partial class WMSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "version", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -2982,6 +3040,7 @@ public partial class WMSLayer : Layer,
             ? values
             : [..FullExtents, ..values];
         await SetFullExtents(join);
+
     }
     
     /// <summary>
@@ -2996,6 +3055,7 @@ public partial class WMSLayer : Layer,
             ? values
             : [..SpatialReferences, ..values];
         await SetSpatialReferences(join);
+
     }
     
     /// <summary>
@@ -3010,6 +3070,7 @@ public partial class WMSLayer : Layer,
             ? values
             : [..Sublayers, ..values];
         await SetSublayers(join);
+
     }
     
 #endregion
@@ -3030,6 +3091,7 @@ public partial class WMSLayer : Layer,
             return;
         }
         await SetFullExtents(FullExtents.Except(values).ToArray());
+
     }
     
     
@@ -3046,6 +3108,7 @@ public partial class WMSLayer : Layer,
             return;
         }
         await SetSpatialReferences(SpatialReferences.Except(values).ToArray());
+
     }
     
     
@@ -3062,6 +3125,7 @@ public partial class WMSLayer : Layer,
             return;
         }
         await SetSublayers(Sublayers.Except(values).ToArray());
+
     }
     
 #endregion

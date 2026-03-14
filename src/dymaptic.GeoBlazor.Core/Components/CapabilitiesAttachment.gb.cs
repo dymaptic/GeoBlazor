@@ -199,8 +199,9 @@ public partial class CapabilitiesAttachment : MapComponent
         }
          
         return SupportsCacheHint;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsContentType property.
     /// </summary>
@@ -239,8 +240,9 @@ public partial class CapabilitiesAttachment : MapComponent
         }
          
         return SupportsContentType;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsExifInfo property.
     /// </summary>
@@ -279,8 +281,9 @@ public partial class CapabilitiesAttachment : MapComponent
         }
          
         return SupportsExifInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsKeywords property.
     /// </summary>
@@ -319,8 +322,9 @@ public partial class CapabilitiesAttachment : MapComponent
         }
          
         return SupportsKeywords;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsName property.
     /// </summary>
@@ -359,8 +363,9 @@ public partial class CapabilitiesAttachment : MapComponent
         }
          
         return SupportsName;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsOrderByFields property.
     /// </summary>
@@ -399,8 +404,9 @@ public partial class CapabilitiesAttachment : MapComponent
         }
          
         return SupportsOrderByFields;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsResize property.
     /// </summary>
@@ -439,8 +445,9 @@ public partial class CapabilitiesAttachment : MapComponent
         }
          
         return SupportsResize;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsSize property.
     /// </summary>
@@ -479,8 +486,9 @@ public partial class CapabilitiesAttachment : MapComponent
         }
          
         return SupportsSize;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -520,8 +528,9 @@ public partial class CapabilitiesAttachment : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsCacheHint", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsContentType property after render.
     /// </summary>
@@ -557,8 +566,9 @@ public partial class CapabilitiesAttachment : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsContentType", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsExifInfo property after render.
     /// </summary>
@@ -594,8 +604,9 @@ public partial class CapabilitiesAttachment : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsExifInfo", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsKeywords property after render.
     /// </summary>
@@ -631,8 +642,9 @@ public partial class CapabilitiesAttachment : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsKeywords", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsName property after render.
     /// </summary>
@@ -668,8 +680,9 @@ public partial class CapabilitiesAttachment : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsName", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsOrderByFields property after render.
     /// </summary>
@@ -705,8 +718,9 @@ public partial class CapabilitiesAttachment : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsOrderByFields", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsResize property after render.
     /// </summary>
@@ -742,8 +756,9 @@ public partial class CapabilitiesAttachment : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsResize", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsSize property after render.
     /// </summary>
@@ -779,8 +794,9 @@ public partial class CapabilitiesAttachment : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsSize", value);
+
     }
-    
+
 #endregion
 
 }

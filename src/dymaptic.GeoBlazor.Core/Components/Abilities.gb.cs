@@ -202,8 +202,9 @@ public partial class Abilities : MapComponent
         }
          
         return AttachmentsContent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ChartAnimation property.
     /// </summary>
@@ -242,8 +243,9 @@ public partial class Abilities : MapComponent
         }
          
         return ChartAnimation;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomContent property.
     /// </summary>
@@ -282,8 +284,9 @@ public partial class Abilities : MapComponent
         }
          
         return CustomContent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FieldsContent property.
     /// </summary>
@@ -322,8 +325,9 @@ public partial class Abilities : MapComponent
         }
          
         return FieldsContent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MediaContent property.
     /// </summary>
@@ -362,8 +366,9 @@ public partial class Abilities : MapComponent
         }
          
         return MediaContent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RelationshipContent property.
     /// </summary>
@@ -402,8 +407,9 @@ public partial class Abilities : MapComponent
         }
          
         return RelationshipContent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TextContent property.
     /// </summary>
@@ -442,8 +448,9 @@ public partial class Abilities : MapComponent
         }
          
         return TextContent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UtilityNetworkAssociationsContent property.
     /// </summary>
@@ -482,8 +489,9 @@ public partial class Abilities : MapComponent
         }
          
         return UtilityNetworkAssociationsContent;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -523,8 +531,9 @@ public partial class Abilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "attachmentsContent", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ChartAnimation property after render.
     /// </summary>
@@ -560,8 +569,9 @@ public partial class Abilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "chartAnimation", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CustomContent property after render.
     /// </summary>
@@ -597,8 +607,9 @@ public partial class Abilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "customContent", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FieldsContent property after render.
     /// </summary>
@@ -634,8 +645,9 @@ public partial class Abilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fieldsContent", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MediaContent property after render.
     /// </summary>
@@ -671,8 +683,9 @@ public partial class Abilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mediaContent", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RelationshipContent property after render.
     /// </summary>
@@ -708,8 +721,9 @@ public partial class Abilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "relationshipContent", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TextContent property after render.
     /// </summary>
@@ -745,8 +759,9 @@ public partial class Abilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "textContent", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UtilityNetworkAssociationsContent property after render.
     /// </summary>
@@ -782,8 +797,9 @@ public partial class Abilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "utilityNetworkAssociationsContent", value);
+
     }
-    
+
 #endregion
 
 }

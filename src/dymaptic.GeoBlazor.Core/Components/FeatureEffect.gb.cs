@@ -122,8 +122,9 @@ public partial class FeatureEffect
         }
         
         return ExcludedEffect;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ExcludedLabelsVisible property.
     /// </summary>
@@ -162,8 +163,9 @@ public partial class FeatureEffect
         }
          
         return ExcludedLabelsVisible;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Filter property.
     /// </summary>
@@ -208,8 +210,9 @@ public partial class FeatureEffect
         }
         
         return Filter;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IncludedEffect property.
     /// </summary>
@@ -248,8 +251,9 @@ public partial class FeatureEffect
         }
         
         return IncludedEffect;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -289,8 +293,9 @@ public partial class FeatureEffect
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "excludedEffect", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ExcludedLabelsVisible property after render.
     /// </summary>
@@ -326,8 +331,9 @@ public partial class FeatureEffect
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "excludedLabelsVisible", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Filter property after render.
     /// </summary>
@@ -368,8 +374,9 @@ public partial class FeatureEffect
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "filter", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the IncludedEffect property after render.
     /// </summary>
@@ -405,8 +412,9 @@ public partial class FeatureEffect
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "includedEffect", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -423,6 +431,7 @@ public partial class FeatureEffect
             ? values
             : [..ExcludedEffect, ..values];
         await SetExcludedEffect(join);
+
     }
     
     /// <summary>
@@ -437,6 +446,7 @@ public partial class FeatureEffect
             ? values
             : [..IncludedEffect, ..values];
         await SetIncludedEffect(join);
+
     }
     
 #endregion
@@ -457,6 +467,7 @@ public partial class FeatureEffect
             return;
         }
         await SetExcludedEffect(ExcludedEffect.Except(values).ToArray());
+
     }
     
     
@@ -473,6 +484,7 @@ public partial class FeatureEffect
             return;
         }
         await SetIncludedEffect(IncludedEffect.Except(values).ToArray());
+
     }
     
 #endregion

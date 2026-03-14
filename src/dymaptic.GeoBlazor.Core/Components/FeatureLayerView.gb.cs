@@ -132,8 +132,9 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         }
          
         return AvailableFields;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DataUpdating property.
     /// </summary>
@@ -172,8 +173,9 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         }
          
         return DataUpdating;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureEffect property.
     /// </summary>
@@ -218,8 +220,9 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         }
         
         return FeatureEffect;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Filter property.
     /// </summary>
@@ -264,8 +267,9 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         }
         
         return Filter;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HasAllFeatures property.
     /// </summary>
@@ -304,8 +308,9 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         }
          
         return HasAllFeatures;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HasAllFeaturesInView property.
     /// </summary>
@@ -344,8 +349,9 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         }
          
         return HasAllFeaturesInView;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HasFullGeometries property.
     /// </summary>
@@ -384,14 +390,16 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         }
          
         return HasFullGeometries;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HighlightOptions property.
     /// </summary>
     [Obsolete("$Deprecated since GeoBlazor version 4.4.0. Use the {nameof(MapView.Highlights)} property instead.")]
     public async Task<HighlightOptions?> GetHighlightOptions()
     {
+#pragma warning disable CS0618
         if (CoreJsModule is null)
         {
             return HighlightOptions;
@@ -431,8 +439,9 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         }
         
         return HighlightOptions;
+#pragma warning restore CS0618
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaximumNumberOfFeatures property.
     /// </summary>
@@ -471,8 +480,9 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         }
          
         return MaximumNumberOfFeatures;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaximumNumberOfFeaturesExceeded property.
     /// </summary>
@@ -511,8 +521,9 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         }
          
         return MaximumNumberOfFeaturesExceeded;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -526,6 +537,7 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
     [Obsolete("$Deprecated since GeoBlazor version 4.4.0. Use the {nameof(MapView.Highlights)} property instead.")]
     public async Task SetHighlightOptions(HighlightOptions? value)
     {
+#pragma warning disable CS0618
 #pragma warning disable BL0005
         HighlightOptions = value;
 #pragma warning restore BL0005
@@ -556,11 +568,12 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetHighlightOptions), nameof(FeatureLayerView), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetHighlightOptions), nameof(FeatureLayerView),
             CancellationTokenSource.Token, value);
+ #pragma warning restore CS0618
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaximumNumberOfFeatures property after render.
     /// </summary>
@@ -596,8 +609,9 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maximumNumberOfFeatures", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaximumNumberOfFeaturesExceeded property after render.
     /// </summary>
@@ -633,8 +647,9 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maximumNumberOfFeaturesExceeded", value);
+
     }
-    
+
 #endregion
 
 #region Public Methods

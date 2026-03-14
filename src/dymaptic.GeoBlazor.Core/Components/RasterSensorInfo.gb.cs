@@ -204,8 +204,9 @@ public partial class RasterSensorInfo : MapComponent
         }
          
         return AcquisitionDate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CloudCover property.
     /// </summary>
@@ -244,8 +245,9 @@ public partial class RasterSensorInfo : MapComponent
         }
          
         return CloudCover;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ProductName property.
     /// </summary>
@@ -284,8 +286,9 @@ public partial class RasterSensorInfo : MapComponent
         }
          
         return ProductName;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SensorAzimuth property.
     /// </summary>
@@ -324,8 +327,9 @@ public partial class RasterSensorInfo : MapComponent
         }
          
         return SensorAzimuth;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SensorElevation property.
     /// </summary>
@@ -364,8 +368,9 @@ public partial class RasterSensorInfo : MapComponent
         }
          
         return SensorElevation;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SensorName property.
     /// </summary>
@@ -404,8 +409,9 @@ public partial class RasterSensorInfo : MapComponent
         }
          
         return SensorName;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SunAzimuth property.
     /// </summary>
@@ -444,8 +450,9 @@ public partial class RasterSensorInfo : MapComponent
         }
          
         return SunAzimuth;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SunElevation property.
     /// </summary>
@@ -484,8 +491,9 @@ public partial class RasterSensorInfo : MapComponent
         }
          
         return SunElevation;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -525,8 +533,9 @@ public partial class RasterSensorInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "acquisitionDate", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CloudCover property after render.
     /// </summary>
@@ -562,8 +571,9 @@ public partial class RasterSensorInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "cloudCover", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ProductName property after render.
     /// </summary>
@@ -599,8 +609,9 @@ public partial class RasterSensorInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "productName", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SensorAzimuth property after render.
     /// </summary>
@@ -636,8 +647,9 @@ public partial class RasterSensorInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sensorAzimuth", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SensorElevation property after render.
     /// </summary>
@@ -673,8 +685,9 @@ public partial class RasterSensorInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sensorElevation", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SensorName property after render.
     /// </summary>
@@ -710,8 +723,9 @@ public partial class RasterSensorInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sensorName", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SunAzimuth property after render.
     /// </summary>
@@ -747,8 +761,9 @@ public partial class RasterSensorInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sunAzimuth", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SunElevation property after render.
     /// </summary>
@@ -784,8 +799,9 @@ public partial class RasterSensorInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sunElevation", value);
+
     }
-    
+
 #endregion
 
 }

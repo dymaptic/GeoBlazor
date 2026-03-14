@@ -248,8 +248,9 @@ public partial class TrackInfo : MapComponent
         }
          
         return Enabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Fields property.
     /// </summary>
@@ -292,8 +293,9 @@ public partial class TrackInfo : MapComponent
         }
         
         return Fields;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LatestObservations property.
     /// </summary>
@@ -338,8 +340,9 @@ public partial class TrackInfo : MapComponent
         }
         
         return LatestObservations;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxDisplayDuration property.
     /// </summary>
@@ -384,8 +387,9 @@ public partial class TrackInfo : MapComponent
         }
         
         return MaxDisplayDuration;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxDisplayObservationsPerTrack property.
     /// </summary>
@@ -424,8 +428,9 @@ public partial class TrackInfo : MapComponent
         }
          
         return MaxDisplayObservationsPerTrack;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupEnabled property.
     /// </summary>
@@ -464,8 +469,9 @@ public partial class TrackInfo : MapComponent
         }
          
         return PopupEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupTemplate property.
     /// </summary>
@@ -510,8 +516,9 @@ public partial class TrackInfo : MapComponent
         }
         
         return PopupTemplate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PreviousObservations property.
     /// </summary>
@@ -556,8 +563,9 @@ public partial class TrackInfo : MapComponent
         }
         
         return PreviousObservations;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeField property.
     /// </summary>
@@ -596,8 +604,9 @@ public partial class TrackInfo : MapComponent
         }
          
         return TimeField;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TrackLines property.
     /// </summary>
@@ -642,8 +651,9 @@ public partial class TrackInfo : MapComponent
         }
         
         return TrackLines;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -683,8 +693,9 @@ public partial class TrackInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "enabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Fields property after render.
     /// </summary>
@@ -728,8 +739,9 @@ public partial class TrackInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fields", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LatestObservations property after render.
     /// </summary>
@@ -770,8 +782,9 @@ public partial class TrackInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "latestObservations", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxDisplayDuration property after render.
     /// </summary>
@@ -812,8 +825,9 @@ public partial class TrackInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxDisplayDuration", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxDisplayObservationsPerTrack property after render.
     /// </summary>
@@ -849,8 +863,9 @@ public partial class TrackInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxDisplayObservationsPerTrack", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
@@ -886,8 +901,9 @@ public partial class TrackInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupTemplate property after render.
     /// </summary>
@@ -928,8 +944,9 @@ public partial class TrackInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupTemplate", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PreviousObservations property after render.
     /// </summary>
@@ -970,8 +987,9 @@ public partial class TrackInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "previousObservations", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeField property after render.
     /// </summary>
@@ -1007,8 +1025,9 @@ public partial class TrackInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "timeField", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TrackLines property after render.
     /// </summary>
@@ -1049,8 +1068,9 @@ public partial class TrackInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "trackLines", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -1067,6 +1087,7 @@ public partial class TrackInfo : MapComponent
             ? values
             : [..Fields, ..values];
         await SetFields(join);
+
     }
     
 #endregion
@@ -1087,6 +1108,7 @@ public partial class TrackInfo : MapComponent
             return;
         }
         await SetFields(Fields.Except(values).ToArray());
+
     }
     
 #endregion

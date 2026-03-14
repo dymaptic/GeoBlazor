@@ -296,8 +296,9 @@ public partial class LayerSearchSource
         }
          
         return DisplayField;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ExactMatch property.
     /// </summary>
@@ -336,8 +337,9 @@ public partial class LayerSearchSource
         }
          
         return ExactMatch;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Layer property.
     /// </summary>
@@ -382,8 +384,9 @@ public partial class LayerSearchSource
         }
         
         return Layer;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -422,8 +425,9 @@ public partial class LayerSearchSource
         }
          
         return Name;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OrderByFields property.
     /// </summary>
@@ -462,8 +466,9 @@ public partial class LayerSearchSource
         }
          
         return OrderByFields;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SearchFields property.
     /// </summary>
@@ -502,8 +507,9 @@ public partial class LayerSearchSource
         }
          
         return SearchFields;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SearchTemplate property.
     /// </summary>
@@ -542,8 +548,9 @@ public partial class LayerSearchSource
         }
          
         return SearchTemplate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SuggestionTemplate property.
     /// </summary>
@@ -582,8 +589,9 @@ public partial class LayerSearchSource
         }
          
         return SuggestionTemplate;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -623,8 +631,9 @@ public partial class LayerSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "displayField", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ExactMatch property after render.
     /// </summary>
@@ -660,8 +669,9 @@ public partial class LayerSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "exactMatch", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Layer property after render.
     /// </summary>
@@ -702,8 +712,9 @@ public partial class LayerSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layer", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
@@ -739,8 +750,9 @@ public partial class LayerSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OrderByFields property after render.
     /// </summary>
@@ -776,8 +788,9 @@ public partial class LayerSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "orderByFields", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SearchFields property after render.
     /// </summary>
@@ -813,8 +826,9 @@ public partial class LayerSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "searchFields", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SearchTemplate property after render.
     /// </summary>
@@ -850,8 +864,9 @@ public partial class LayerSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "searchTemplate", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SuggestionTemplate property after render.
     /// </summary>
@@ -887,8 +902,9 @@ public partial class LayerSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "suggestionTemplate", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -905,6 +921,7 @@ public partial class LayerSearchSource
             ? values
             : [..OrderByFields, ..values];
         await SetOrderByFields(join);
+
     }
     
     /// <summary>
@@ -919,6 +936,7 @@ public partial class LayerSearchSource
             ? values
             : [..SearchFields, ..values];
         await SetSearchFields(join);
+
     }
     
 #endregion
@@ -939,6 +957,7 @@ public partial class LayerSearchSource
             return;
         }
         await SetOrderByFields(OrderByFields.Except(values).ToArray());
+
     }
     
     
@@ -955,6 +974,7 @@ public partial class LayerSearchSource
             return;
         }
         await SetSearchFields(SearchFields.Except(values).ToArray());
+
     }
     
 #endregion

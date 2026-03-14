@@ -117,8 +117,9 @@ public partial class ZoomViewModel : MapComponent
         }
          
         return CanZoomIn;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CanZoomOut property.
     /// </summary>
@@ -157,8 +158,9 @@ public partial class ZoomViewModel : MapComponent
         }
          
         return CanZoomOut;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -197,8 +199,9 @@ public partial class ZoomViewModel : MapComponent
         }
          
         return State;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -238,8 +241,9 @@ public partial class ZoomViewModel : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "canZoomIn", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CanZoomOut property after render.
     /// </summary>
@@ -275,8 +279,9 @@ public partial class ZoomViewModel : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "canZoomOut", value);
+
     }
-    
+
 #endregion
 
 #region Public Methods

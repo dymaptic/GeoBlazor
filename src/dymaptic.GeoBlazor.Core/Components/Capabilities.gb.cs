@@ -231,8 +231,9 @@ public partial class Capabilities : MapComponent
         }
         
         return Analytics;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Attachment property.
     /// </summary>
@@ -277,8 +278,9 @@ public partial class Capabilities : MapComponent
         }
         
         return Attachment;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Data property.
     /// </summary>
@@ -317,8 +319,9 @@ public partial class Capabilities : MapComponent
         }
         
         return Data;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Editing property.
     /// </summary>
@@ -357,8 +360,9 @@ public partial class Capabilities : MapComponent
         }
         
         return Editing;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Metadata property.
     /// </summary>
@@ -397,8 +401,9 @@ public partial class Capabilities : MapComponent
         }
         
         return Metadata;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Operations property.
     /// </summary>
@@ -437,8 +442,9 @@ public partial class Capabilities : MapComponent
         }
         
         return Operations;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Query property.
     /// </summary>
@@ -477,8 +483,9 @@ public partial class Capabilities : MapComponent
         }
          
         return Query;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the QueryAttributeBins property.
     /// </summary>
@@ -517,8 +524,9 @@ public partial class Capabilities : MapComponent
         }
         
         return QueryAttributeBins;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the QueryRelated property.
     /// </summary>
@@ -557,8 +565,9 @@ public partial class Capabilities : MapComponent
         }
         
         return QueryRelated;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the QueryTopFeatures property.
     /// </summary>
@@ -597,8 +606,9 @@ public partial class Capabilities : MapComponent
         }
         
         return QueryTopFeatures;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -643,8 +653,9 @@ public partial class Capabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "analytics", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Attachment property after render.
     /// </summary>
@@ -685,8 +696,9 @@ public partial class Capabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "attachment", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Data property after render.
     /// </summary>
@@ -727,8 +739,9 @@ public partial class Capabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "data", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Editing property after render.
     /// </summary>
@@ -769,8 +782,9 @@ public partial class Capabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "editing", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Metadata property after render.
     /// </summary>
@@ -811,8 +825,9 @@ public partial class Capabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "metadata", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Operations property after render.
     /// </summary>
@@ -853,8 +868,9 @@ public partial class Capabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "operations", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Query property after render.
     /// </summary>
@@ -890,8 +906,9 @@ public partial class Capabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "query", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the QueryAttributeBins property after render.
     /// </summary>
@@ -932,8 +949,9 @@ public partial class Capabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "queryAttributeBins", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the QueryRelated property after render.
     /// </summary>
@@ -974,8 +992,9 @@ public partial class Capabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "queryRelated", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the QueryTopFeatures property after render.
     /// </summary>
@@ -1016,8 +1035,9 @@ public partial class Capabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "queryTopFeatures", value);
+
     }
-    
+
 #endregion
 
 

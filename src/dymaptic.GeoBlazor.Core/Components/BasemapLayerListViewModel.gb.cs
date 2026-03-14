@@ -19,6 +19,50 @@ public partial class BasemapLayerListViewModel
     {
     }
 
+    /// <summary>
+    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
+    /// </summary>
+    /// <param name="baseListItemCreatedFunction">
+    ///     Specifies a function that accesses each <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html#baseListItemCreatedFunction">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="basemapTitle">
+    ///     The current basemap's title.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html#basemapTitle">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="checkPublishStatusEnabled">
+    ///     Whether to provide an indication if a layer is being published in the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html">BasemapLayerList</a>.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html#checkPublishStatusEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="listModeDisabled">
+    ///     Specifies whether to ignore the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">listMode</a> property of the layers to display all layers.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html#listModeDisabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="referenceListItemCreatedFunction">
+    ///     Specifies a function that accesses each <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a> representing reference layers.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html#referenceListItemCreatedFunction">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    public BasemapLayerListViewModel(
+        ListItemCreatedHandler? baseListItemCreatedFunction = null,
+        string? basemapTitle = null,
+        bool? checkPublishStatusEnabled = null,
+        bool? listModeDisabled = null,
+        ListItemCreatedHandler? referenceListItemCreatedFunction = null)
+    {
+        AllowRender = false;
+#pragma warning disable BL0005
+        BaseListItemCreatedFunction = baseListItemCreatedFunction;
+        BasemapTitle = basemapTitle;
+        CheckPublishStatusEnabled = checkPublishStatusEnabled;
+        ListModeDisabled = listModeDisabled;
+        ReferenceListItemCreatedFunction = referenceListItemCreatedFunction;
+#pragma warning restore BL0005
+    }
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -131,8 +175,9 @@ public partial class BasemapLayerListViewModel
         }
         
         return BaseItems;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BasemapTitle property.
     /// </summary>
@@ -171,8 +216,9 @@ public partial class BasemapLayerListViewModel
         }
          
         return BasemapTitle;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CheckPublishStatusEnabled property.
     /// </summary>
@@ -211,8 +257,9 @@ public partial class BasemapLayerListViewModel
         }
          
         return CheckPublishStatusEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ListModeDisabled property.
     /// </summary>
@@ -251,8 +298,9 @@ public partial class BasemapLayerListViewModel
         }
          
         return ListModeDisabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ReferenceItems property.
     /// </summary>
@@ -295,8 +343,9 @@ public partial class BasemapLayerListViewModel
         }
         
         return ReferenceItems;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -335,8 +384,9 @@ public partial class BasemapLayerListViewModel
         }
          
         return State;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -376,8 +426,9 @@ public partial class BasemapLayerListViewModel
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "basemapTitle", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CheckPublishStatusEnabled property after render.
     /// </summary>
@@ -413,8 +464,9 @@ public partial class BasemapLayerListViewModel
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "checkPublishStatusEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ListModeDisabled property after render.
     /// </summary>
@@ -450,8 +502,9 @@ public partial class BasemapLayerListViewModel
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "listModeDisabled", value);
+
     }
-    
+
 #endregion
 
 #region Public Methods

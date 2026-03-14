@@ -163,8 +163,9 @@ public partial class TileInfo
         }
          
         return Dpi;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Format property.
     /// </summary>
@@ -203,8 +204,9 @@ public partial class TileInfo
         }
          
         return Format;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsWrappable property.
     /// </summary>
@@ -243,8 +245,9 @@ public partial class TileInfo
         }
          
         return IsWrappable;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Lods property.
     /// </summary>
@@ -287,8 +290,9 @@ public partial class TileInfo
         }
         
         return Lods;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Origin property.
     /// </summary>
@@ -333,8 +337,9 @@ public partial class TileInfo
         }
         
         return Origin;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Size property.
     /// </summary>
@@ -373,8 +378,9 @@ public partial class TileInfo
         }
          
         return Size;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -413,8 +419,9 @@ public partial class TileInfo
         }
         
         return SpatialReference;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -454,8 +461,9 @@ public partial class TileInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "dpi", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Format property after render.
     /// </summary>
@@ -491,8 +499,9 @@ public partial class TileInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "format", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Lods property after render.
     /// </summary>
@@ -534,11 +543,12 @@ public partial class TileInfo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetLods), nameof(TileInfo), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetLods), nameof(TileInfo),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Origin property after render.
     /// </summary>
@@ -577,11 +587,12 @@ public partial class TileInfo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetOrigin), nameof(TileInfo), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetOrigin), nameof(TileInfo),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Size property after render.
     /// </summary>
@@ -617,8 +628,9 @@ public partial class TileInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "size", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SpatialReference property after render.
     /// </summary>
@@ -657,11 +669,12 @@ public partial class TileInfo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetSpatialReference), nameof(TileInfo), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetSpatialReference), nameof(TileInfo),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -678,6 +691,7 @@ public partial class TileInfo
             ? values
             : [..Lods, ..values];
         await SetLods(join);
+
     }
     
     /// <summary>
@@ -692,6 +706,7 @@ public partial class TileInfo
             ? values
             : [..Size, ..values];
         await SetSize(join);
+
     }
     
 #endregion
@@ -712,6 +727,7 @@ public partial class TileInfo
             return;
         }
         await SetLods(Lods.Except(values).ToArray());
+
     }
     
     
@@ -728,6 +744,7 @@ public partial class TileInfo
             return;
         }
         await SetSize(Size.Except(values).ToArray());
+
     }
     
 #endregion

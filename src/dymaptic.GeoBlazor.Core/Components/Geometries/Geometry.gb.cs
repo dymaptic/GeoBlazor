@@ -65,8 +65,9 @@ public abstract partial class Geometry
         }
          
         return Cache;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HasM property.
     /// </summary>
@@ -105,8 +106,9 @@ public abstract partial class Geometry
         }
          
         return HasM;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HasZ property.
     /// </summary>
@@ -145,8 +147,9 @@ public abstract partial class Geometry
         }
          
         return HasZ;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -185,8 +188,9 @@ public abstract partial class Geometry
         }
         
         return SpatialReference;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -226,8 +230,9 @@ public abstract partial class Geometry
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "hasM", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HasZ property after render.
     /// </summary>
@@ -263,8 +268,9 @@ public abstract partial class Geometry
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "hasZ", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SpatialReference property after render.
     /// </summary>
@@ -305,8 +311,9 @@ public abstract partial class Geometry
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "spatialReference", value);
+
     }
-    
+
 #endregion
 
 }

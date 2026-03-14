@@ -109,8 +109,9 @@ public partial class PopupDockOptionsBreakpoint : MapComponent
         }
          
         return Height;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Width property.
     /// </summary>
@@ -149,8 +150,9 @@ public partial class PopupDockOptionsBreakpoint : MapComponent
         }
          
         return Width;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -190,8 +192,9 @@ public partial class PopupDockOptionsBreakpoint : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "height", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Width property after render.
     /// </summary>
@@ -227,8 +230,9 @@ public partial class PopupDockOptionsBreakpoint : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "width", value);
+
     }
-    
+
 #endregion
 
 }

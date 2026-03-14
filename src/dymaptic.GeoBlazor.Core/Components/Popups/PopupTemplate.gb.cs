@@ -136,8 +136,9 @@ public partial class PopupTemplate
         }
         
         return Actions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Content property.
     /// </summary>
@@ -180,8 +181,9 @@ public partial class PopupTemplate
         }
         
         return Content;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ExpressionInfos property.
     /// </summary>
@@ -224,8 +226,9 @@ public partial class PopupTemplate
         }
         
         return ExpressionInfos;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FieldInfos property.
     /// </summary>
@@ -268,8 +271,9 @@ public partial class PopupTemplate
         }
         
         return FieldInfos;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LastEditInfoEnabled property.
     /// </summary>
@@ -308,8 +312,9 @@ public partial class PopupTemplate
         }
          
         return LastEditInfoEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LayerOptions property.
     /// </summary>
@@ -354,8 +359,9 @@ public partial class PopupTemplate
         }
         
         return LayerOptions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OutFields property.
     /// </summary>
@@ -394,8 +400,9 @@ public partial class PopupTemplate
         }
          
         return OutFields;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OverwriteActions property.
     /// </summary>
@@ -434,8 +441,9 @@ public partial class PopupTemplate
         }
          
         return OverwriteActions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ReturnGeometry property.
     /// </summary>
@@ -474,8 +482,9 @@ public partial class PopupTemplate
         }
          
         return ReturnGeometry;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -514,8 +523,9 @@ public partial class PopupTemplate
         }
          
         return Title;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -563,8 +573,9 @@ public partial class PopupTemplate
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "actions", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Content property after render.
     /// </summary>
@@ -608,8 +619,9 @@ public partial class PopupTemplate
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "content", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ExpressionInfos property after render.
     /// </summary>
@@ -653,8 +665,9 @@ public partial class PopupTemplate
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "expressionInfos", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FieldInfos property after render.
     /// </summary>
@@ -698,8 +711,9 @@ public partial class PopupTemplate
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fieldInfos", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LastEditInfoEnabled property after render.
     /// </summary>
@@ -735,8 +749,9 @@ public partial class PopupTemplate
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "lastEditInfoEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LayerOptions property after render.
     /// </summary>
@@ -777,8 +792,9 @@ public partial class PopupTemplate
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layerOptions", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OutFields property after render.
     /// </summary>
@@ -814,8 +830,9 @@ public partial class PopupTemplate
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outFields", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OverwriteActions property after render.
     /// </summary>
@@ -851,8 +868,9 @@ public partial class PopupTemplate
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "overwriteActions", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ReturnGeometry property after render.
     /// </summary>
@@ -888,8 +906,9 @@ public partial class PopupTemplate
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "returnGeometry", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -925,8 +944,9 @@ public partial class PopupTemplate
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -943,6 +963,7 @@ public partial class PopupTemplate
             ? values
             : [..Actions, ..values];
         await SetActions(join);
+
     }
     
     /// <summary>
@@ -957,6 +978,7 @@ public partial class PopupTemplate
             ? values
             : [..Content, ..values];
         await SetContent(join);
+
     }
     
     /// <summary>
@@ -971,6 +993,7 @@ public partial class PopupTemplate
             ? values
             : [..ExpressionInfos, ..values];
         await SetExpressionInfos(join);
+
     }
     
     /// <summary>
@@ -985,6 +1008,7 @@ public partial class PopupTemplate
             ? values
             : [..FieldInfos, ..values];
         await SetFieldInfos(join);
+
     }
     
     /// <summary>
@@ -999,6 +1023,7 @@ public partial class PopupTemplate
             ? values
             : [..OutFields, ..values];
         await SetOutFields(join);
+
     }
     
 #endregion
@@ -1019,6 +1044,7 @@ public partial class PopupTemplate
             return;
         }
         await SetActions(Actions.Except(values).ToArray());
+
     }
     
     
@@ -1035,6 +1061,7 @@ public partial class PopupTemplate
             return;
         }
         await SetContent(Content.Except(values).ToArray());
+
     }
     
     
@@ -1051,6 +1078,7 @@ public partial class PopupTemplate
             return;
         }
         await SetExpressionInfos(ExpressionInfos.Except(values).ToArray());
+
     }
     
     
@@ -1067,6 +1095,7 @@ public partial class PopupTemplate
             return;
         }
         await SetFieldInfos(FieldInfos.Except(values).ToArray());
+
     }
     
     
@@ -1083,6 +1112,7 @@ public partial class PopupTemplate
             return;
         }
         await SetOutFields(OutFields.Except(values).ToArray());
+
     }
     
 #endregion

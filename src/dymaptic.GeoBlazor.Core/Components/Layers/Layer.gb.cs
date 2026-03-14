@@ -66,8 +66,9 @@ public abstract partial class Layer : IHitTestItem,
         }
          
         return ArcGISLayerId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ListMode property.
     /// </summary>
@@ -106,8 +107,9 @@ public abstract partial class Layer : IHitTestItem,
         }
          
         return ListMode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Loaded property.
     /// </summary>
@@ -146,8 +148,9 @@ public abstract partial class Layer : IHitTestItem,
         }
          
         return Loaded;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PersistenceEnabled property.
     /// </summary>
@@ -186,8 +189,9 @@ public abstract partial class Layer : IHitTestItem,
         }
          
         return PersistenceEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -226,8 +230,9 @@ public abstract partial class Layer : IHitTestItem,
         }
          
         return Title;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibilityTimeExtent property.
     /// </summary>
@@ -272,8 +277,9 @@ public abstract partial class Layer : IHitTestItem,
         }
         
         return VisibilityTimeExtent;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -313,8 +319,9 @@ public abstract partial class Layer : IHitTestItem,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ListMode property after render.
     /// </summary>
@@ -350,8 +357,9 @@ public abstract partial class Layer : IHitTestItem,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "listMode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -387,8 +395,9 @@ public abstract partial class Layer : IHitTestItem,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the VisibilityTimeExtent property after render.
     /// </summary>
@@ -429,8 +438,9 @@ public abstract partial class Layer : IHitTestItem,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "visibilityTimeExtent", value);
+
     }
-    
+
 #endregion
 
 #region Public Methods

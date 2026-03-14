@@ -132,8 +132,9 @@ public partial class MultidimensionalSubset
         }
         
         return AreaOfInterest;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Dimensions property.
     /// </summary>
@@ -172,8 +173,9 @@ public partial class MultidimensionalSubset
         }
          
         return Dimensions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SubsetDefinitions property.
     /// </summary>
@@ -216,8 +218,9 @@ public partial class MultidimensionalSubset
         }
         
         return SubsetDefinitions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Variables property.
     /// </summary>
@@ -256,8 +259,9 @@ public partial class MultidimensionalSubset
         }
          
         return Variables;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -302,8 +306,9 @@ public partial class MultidimensionalSubset
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "areaOfInterest", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SubsetDefinitions property after render.
     /// </summary>
@@ -347,8 +352,9 @@ public partial class MultidimensionalSubset
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "subsetDefinitions", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -365,6 +371,7 @@ public partial class MultidimensionalSubset
             ? values
             : [..SubsetDefinitions, ..values];
         await SetSubsetDefinitions(join);
+
     }
     
 #endregion
@@ -385,6 +392,7 @@ public partial class MultidimensionalSubset
             return;
         }
         await SetSubsetDefinitions(SubsetDefinitions.Except(values).ToArray());
+
     }
     
 #endregion

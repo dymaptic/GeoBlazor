@@ -105,8 +105,9 @@ public partial class LocalBasemapsSource : MapComponent
         }
         
         return Basemaps;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -145,8 +146,9 @@ public partial class LocalBasemapsSource : MapComponent
         }
          
         return State;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -194,8 +196,9 @@ public partial class LocalBasemapsSource : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "basemaps", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -212,6 +215,7 @@ public partial class LocalBasemapsSource : MapComponent
             ? values
             : [..Basemaps, ..values];
         await SetBasemaps(join);
+
     }
     
 #endregion
@@ -232,6 +236,7 @@ public partial class LocalBasemapsSource : MapComponent
             return;
         }
         await SetBasemaps(Basemaps.Except(values).ToArray());
+
     }
     
 #endregion

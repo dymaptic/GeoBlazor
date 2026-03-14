@@ -83,8 +83,9 @@ public partial class VisualVariableLegendOptions
         }
          
         return ShowLegend;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -123,8 +124,9 @@ public partial class VisualVariableLegendOptions
         }
          
         return Title;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -164,8 +166,9 @@ public partial class VisualVariableLegendOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "showLegend", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -201,8 +204,9 @@ public partial class VisualVariableLegendOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 }

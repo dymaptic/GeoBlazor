@@ -123,8 +123,9 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
         }
          
         return Label;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisualVariables property.
     /// </summary>
@@ -167,8 +168,9 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
         }
         
         return VisualVariables;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -208,8 +210,9 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "label", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the VisualVariables property after render.
     /// </summary>
@@ -253,8 +256,9 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "visualVariables", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -271,6 +275,7 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
             ? values
             : [..VisualVariables, ..values];
         await SetVisualVariables(join);
+
     }
     
 #endregion
@@ -291,6 +296,7 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
             return;
         }
         await SetVisualVariables(VisualVariables.Except(values).ToArray());
+
     }
     
 #endregion

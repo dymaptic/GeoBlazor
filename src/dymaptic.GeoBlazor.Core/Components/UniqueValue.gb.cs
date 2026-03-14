@@ -138,8 +138,9 @@ public partial class UniqueValue : MapComponent
         }
          
         return Value;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Value2 property.
     /// </summary>
@@ -178,8 +179,9 @@ public partial class UniqueValue : MapComponent
         }
          
         return Value2;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Value3 property.
     /// </summary>
@@ -218,8 +220,9 @@ public partial class UniqueValue : MapComponent
         }
          
         return Value3;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -259,8 +262,9 @@ public partial class UniqueValue : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Value2 property after render.
     /// </summary>
@@ -296,8 +300,9 @@ public partial class UniqueValue : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value2", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Value3 property after render.
     /// </summary>
@@ -333,8 +338,9 @@ public partial class UniqueValue : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value3", value);
+
     }
-    
+
 #endregion
 
 }

@@ -154,8 +154,9 @@ public partial class MeshVertexAttributes : MapComponent
         }
          
         return Normal;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Position property.
     /// </summary>
@@ -194,8 +195,9 @@ public partial class MeshVertexAttributes : MapComponent
         }
          
         return Position;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Tangent property.
     /// </summary>
@@ -234,8 +236,9 @@ public partial class MeshVertexAttributes : MapComponent
         }
          
         return Tangent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Uv property.
     /// </summary>
@@ -274,8 +277,9 @@ public partial class MeshVertexAttributes : MapComponent
         }
          
         return Uv;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -315,8 +319,9 @@ public partial class MeshVertexAttributes : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "color", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Normal property after render.
     /// </summary>
@@ -352,8 +357,9 @@ public partial class MeshVertexAttributes : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "normal", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Position property after render.
     /// </summary>
@@ -389,8 +395,9 @@ public partial class MeshVertexAttributes : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "position", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Tangent property after render.
     /// </summary>
@@ -426,8 +433,9 @@ public partial class MeshVertexAttributes : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "tangent", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Uv property after render.
     /// </summary>
@@ -463,8 +471,9 @@ public partial class MeshVertexAttributes : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "uv", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -481,6 +490,7 @@ public partial class MeshVertexAttributes : MapComponent
             ? values
             : [..Color, ..values];
         await SetColor(join);
+
     }
     
     /// <summary>
@@ -495,6 +505,7 @@ public partial class MeshVertexAttributes : MapComponent
             ? values
             : [..Normal, ..values];
         await SetNormal(join);
+
     }
     
     /// <summary>
@@ -509,6 +520,7 @@ public partial class MeshVertexAttributes : MapComponent
             ? values
             : [..Position, ..values];
         await SetPosition(join);
+
     }
     
     /// <summary>
@@ -523,6 +535,7 @@ public partial class MeshVertexAttributes : MapComponent
             ? values
             : [..Tangent, ..values];
         await SetTangent(join);
+
     }
     
     /// <summary>
@@ -537,6 +550,7 @@ public partial class MeshVertexAttributes : MapComponent
             ? values
             : [..Uv, ..values];
         await SetUv(join);
+
     }
     
 #endregion
@@ -557,6 +571,7 @@ public partial class MeshVertexAttributes : MapComponent
             return;
         }
         await SetColor(Color.Except(values).ToArray());
+
     }
     
     
@@ -573,6 +588,7 @@ public partial class MeshVertexAttributes : MapComponent
             return;
         }
         await SetNormal(Normal.Except(values).ToArray());
+
     }
     
     
@@ -589,6 +605,7 @@ public partial class MeshVertexAttributes : MapComponent
             return;
         }
         await SetPosition(Position.Except(values).ToArray());
+
     }
     
     
@@ -605,6 +622,7 @@ public partial class MeshVertexAttributes : MapComponent
             return;
         }
         await SetTangent(Tangent.Except(values).ToArray());
+
     }
     
     
@@ -621,6 +639,7 @@ public partial class MeshVertexAttributes : MapComponent
             return;
         }
         await SetUv(Uv.Except(values).ToArray());
+
     }
     
 #endregion

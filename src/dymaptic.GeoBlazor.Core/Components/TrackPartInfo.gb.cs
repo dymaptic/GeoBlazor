@@ -137,8 +137,9 @@ public partial class TrackPartInfo : MapComponent
         }
         
         return LabelingInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelsVisible property.
     /// </summary>
@@ -177,8 +178,9 @@ public partial class TrackPartInfo : MapComponent
         }
          
         return LabelsVisible;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Renderer property.
     /// </summary>
@@ -223,8 +225,9 @@ public partial class TrackPartInfo : MapComponent
         }
         
         return Renderer;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -272,8 +275,9 @@ public partial class TrackPartInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelingInfo", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelsVisible property after render.
     /// </summary>
@@ -309,8 +313,9 @@ public partial class TrackPartInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelsVisible", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Renderer property after render.
     /// </summary>
@@ -351,8 +356,9 @@ public partial class TrackPartInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "renderer", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -369,6 +375,7 @@ public partial class TrackPartInfo : MapComponent
             ? values
             : [..LabelingInfo, ..values];
         await SetLabelingInfo(join);
+
     }
     
 #endregion
@@ -389,6 +396,7 @@ public partial class TrackPartInfo : MapComponent
             return;
         }
         await SetLabelingInfo(LabelingInfo.Except(values).ToArray());
+
     }
     
 #endregion

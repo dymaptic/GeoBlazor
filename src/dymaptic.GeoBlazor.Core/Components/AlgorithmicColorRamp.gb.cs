@@ -88,8 +88,9 @@ public partial class AlgorithmicColorRamp
         }
          
         return Algorithm;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FromColor property.
     /// </summary>
@@ -128,8 +129,9 @@ public partial class AlgorithmicColorRamp
         }
          
         return FromColor;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ToColor property.
     /// </summary>
@@ -168,8 +170,9 @@ public partial class AlgorithmicColorRamp
         }
          
         return ToColor;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -209,8 +212,9 @@ public partial class AlgorithmicColorRamp
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "algorithm", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FromColor property after render.
     /// </summary>
@@ -246,8 +250,9 @@ public partial class AlgorithmicColorRamp
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fromColor", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ToColor property after render.
     /// </summary>
@@ -283,8 +288,9 @@ public partial class AlgorithmicColorRamp
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "toColor", value);
+
     }
-    
+
 #endregion
 
 }

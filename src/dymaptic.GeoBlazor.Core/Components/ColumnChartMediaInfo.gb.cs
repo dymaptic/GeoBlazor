@@ -115,8 +115,9 @@ public partial class ColumnChartMediaInfo : IChartMediaInfo
         }
         
         return Value;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -161,8 +162,9 @@ public partial class ColumnChartMediaInfo : IChartMediaInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value", value);
+
     }
-    
+
 #endregion
 
 

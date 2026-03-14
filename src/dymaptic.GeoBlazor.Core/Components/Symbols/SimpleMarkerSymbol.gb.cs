@@ -151,8 +151,9 @@ public partial class SimpleMarkerSymbol : ISymbol2D,
         }
          
         return Outline;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Path property.
     /// </summary>
@@ -191,8 +192,9 @@ public partial class SimpleMarkerSymbol : ISymbol2D,
         }
          
         return Path;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Size property.
     /// </summary>
@@ -231,8 +233,9 @@ public partial class SimpleMarkerSymbol : ISymbol2D,
         }
          
         return Size;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Style property.
     /// </summary>
@@ -271,8 +274,9 @@ public partial class SimpleMarkerSymbol : ISymbol2D,
         }
          
         return Style;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -312,8 +316,9 @@ public partial class SimpleMarkerSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outline", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Path property after render.
     /// </summary>
@@ -349,8 +354,9 @@ public partial class SimpleMarkerSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "path", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Size property after render.
     /// </summary>
@@ -386,8 +392,9 @@ public partial class SimpleMarkerSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "size", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Style property after render.
     /// </summary>
@@ -423,8 +430,9 @@ public partial class SimpleMarkerSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "style", value);
+
     }
-    
+
 #endregion
 
 

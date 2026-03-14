@@ -206,8 +206,9 @@ public partial class LocateViewModel : IGeolocationPositioning,
         }
          
         return Error;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the GeolocationOptions property.
     /// </summary>
@@ -246,8 +247,9 @@ public partial class LocateViewModel : IGeolocationPositioning,
         }
          
         return GeolocationOptions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the GoToLocationEnabled property.
     /// </summary>
@@ -286,8 +288,9 @@ public partial class LocateViewModel : IGeolocationPositioning,
         }
          
         return GoToLocationEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Graphic property.
     /// </summary>
@@ -332,8 +335,9 @@ public partial class LocateViewModel : IGeolocationPositioning,
         }
         
         return Graphic;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupEnabled property.
     /// </summary>
@@ -372,8 +376,9 @@ public partial class LocateViewModel : IGeolocationPositioning,
         }
          
         return PopupEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Scale property.
     /// </summary>
@@ -412,8 +417,9 @@ public partial class LocateViewModel : IGeolocationPositioning,
         }
          
         return Scale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -452,8 +458,9 @@ public partial class LocateViewModel : IGeolocationPositioning,
         }
          
         return State;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -493,8 +500,9 @@ public partial class LocateViewModel : IGeolocationPositioning,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "error", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the GeolocationOptions property after render.
     /// </summary>
@@ -530,8 +538,9 @@ public partial class LocateViewModel : IGeolocationPositioning,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "geolocationOptions", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the GoToLocationEnabled property after render.
     /// </summary>
@@ -567,8 +576,9 @@ public partial class LocateViewModel : IGeolocationPositioning,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "goToLocationEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Graphic property after render.
     /// </summary>
@@ -607,11 +617,12 @@ public partial class LocateViewModel : IGeolocationPositioning,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetGraphic), nameof(LocateViewModel), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetGraphic), nameof(LocateViewModel),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
@@ -647,8 +658,9 @@ public partial class LocateViewModel : IGeolocationPositioning,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Scale property after render.
     /// </summary>
@@ -684,8 +696,9 @@ public partial class LocateViewModel : IGeolocationPositioning,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "scale", value);
+
     }
-    
+
 #endregion
 
 #region Public Methods

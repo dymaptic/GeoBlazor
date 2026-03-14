@@ -140,8 +140,9 @@ public partial class HighlightOptions
         }
          
         return Color;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FillOpacity property.
     /// </summary>
@@ -180,8 +181,9 @@ public partial class HighlightOptions
         }
          
         return FillOpacity;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HaloColor property.
     /// </summary>
@@ -220,8 +222,9 @@ public partial class HighlightOptions
         }
          
         return HaloColor;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HaloOpacity property.
     /// </summary>
@@ -260,8 +263,9 @@ public partial class HighlightOptions
         }
          
         return HaloOpacity;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -300,8 +304,9 @@ public partial class HighlightOptions
         }
          
         return Name;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ShadowColor property.
     /// </summary>
@@ -340,8 +345,9 @@ public partial class HighlightOptions
         }
          
         return ShadowColor;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ShadowDifference property.
     /// </summary>
@@ -380,8 +386,9 @@ public partial class HighlightOptions
         }
          
         return ShadowDifference;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ShadowOpacity property.
     /// </summary>
@@ -420,8 +427,9 @@ public partial class HighlightOptions
         }
          
         return ShadowOpacity;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -461,8 +469,9 @@ public partial class HighlightOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "color", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FillOpacity property after render.
     /// </summary>
@@ -498,8 +507,9 @@ public partial class HighlightOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fillOpacity", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HaloColor property after render.
     /// </summary>
@@ -535,8 +545,9 @@ public partial class HighlightOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "haloColor", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HaloOpacity property after render.
     /// </summary>
@@ -572,8 +583,9 @@ public partial class HighlightOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "haloOpacity", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
@@ -609,8 +621,9 @@ public partial class HighlightOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ShadowColor property after render.
     /// </summary>
@@ -646,8 +659,9 @@ public partial class HighlightOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "shadowColor", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ShadowDifference property after render.
     /// </summary>
@@ -683,8 +697,9 @@ public partial class HighlightOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "shadowDifference", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ShadowOpacity property after render.
     /// </summary>
@@ -720,8 +735,9 @@ public partial class HighlightOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "shadowOpacity", value);
+
     }
-    
+
 #endregion
 
 }

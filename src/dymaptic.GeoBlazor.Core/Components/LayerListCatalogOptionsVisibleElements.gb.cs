@@ -142,8 +142,9 @@ public partial class LayerListCatalogOptionsVisibleElements : MapComponent
         }
          
         return Errors;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Filter property.
     /// </summary>
@@ -182,8 +183,9 @@ public partial class LayerListCatalogOptionsVisibleElements : MapComponent
         }
          
         return Filter;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the StatusIndicators property.
     /// </summary>
@@ -222,8 +224,9 @@ public partial class LayerListCatalogOptionsVisibleElements : MapComponent
         }
          
         return StatusIndicators;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TemporaryLayerIndicators property.
     /// </summary>
@@ -262,8 +265,9 @@ public partial class LayerListCatalogOptionsVisibleElements : MapComponent
         }
          
         return TemporaryLayerIndicators;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -303,8 +307,9 @@ public partial class LayerListCatalogOptionsVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "errors", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Filter property after render.
     /// </summary>
@@ -340,8 +345,9 @@ public partial class LayerListCatalogOptionsVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "filter", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the StatusIndicators property after render.
     /// </summary>
@@ -377,8 +383,9 @@ public partial class LayerListCatalogOptionsVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "statusIndicators", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TemporaryLayerIndicators property after render.
     /// </summary>
@@ -414,8 +421,9 @@ public partial class LayerListCatalogOptionsVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "temporaryLayerIndicators", value);
+
     }
-    
+
 #endregion
 
 }

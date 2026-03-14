@@ -136,8 +136,9 @@ public partial class ChartMediaInfoValue
         }
          
         return Colors;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Fields property.
     /// </summary>
@@ -176,8 +177,9 @@ public partial class ChartMediaInfoValue
         }
          
         return Fields;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NormalizeField property.
     /// </summary>
@@ -216,8 +218,9 @@ public partial class ChartMediaInfoValue
         }
          
         return NormalizeField;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Series property.
     /// </summary>
@@ -260,8 +263,9 @@ public partial class ChartMediaInfoValue
         }
         
         return Series;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TooltipField property.
     /// </summary>
@@ -300,8 +304,9 @@ public partial class ChartMediaInfoValue
         }
          
         return TooltipField;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -341,8 +346,9 @@ public partial class ChartMediaInfoValue
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "colors", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Fields property after render.
     /// </summary>
@@ -378,8 +384,9 @@ public partial class ChartMediaInfoValue
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fields", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the NormalizeField property after render.
     /// </summary>
@@ -415,8 +422,9 @@ public partial class ChartMediaInfoValue
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "normalizeField", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Series property after render.
     /// </summary>
@@ -460,8 +468,9 @@ public partial class ChartMediaInfoValue
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "series", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TooltipField property after render.
     /// </summary>
@@ -497,8 +506,9 @@ public partial class ChartMediaInfoValue
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "tooltipField", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -515,6 +525,7 @@ public partial class ChartMediaInfoValue
             ? values
             : [..Colors, ..values];
         await SetColors(join);
+
     }
     
     /// <summary>
@@ -529,6 +540,7 @@ public partial class ChartMediaInfoValue
             ? values
             : [..Fields, ..values];
         await SetFields(join);
+
     }
     
     /// <summary>
@@ -543,6 +555,7 @@ public partial class ChartMediaInfoValue
             ? values
             : [..Series, ..values];
         await SetSeries(join);
+
     }
     
 #endregion
@@ -563,6 +576,7 @@ public partial class ChartMediaInfoValue
             return;
         }
         await SetColors(Colors.Except(values).ToArray());
+
     }
     
     
@@ -579,6 +593,7 @@ public partial class ChartMediaInfoValue
             return;
         }
         await SetFields(Fields.Except(values).ToArray());
+
     }
     
     
@@ -595,6 +610,7 @@ public partial class ChartMediaInfoValue
             return;
         }
         await SetSeries(Series.Except(values).ToArray());
+
     }
     
 #endregion

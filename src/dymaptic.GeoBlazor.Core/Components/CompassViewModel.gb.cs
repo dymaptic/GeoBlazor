@@ -111,8 +111,9 @@ public partial class CompassViewModel : MapComponent,
         }
         
         return Orientation;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -151,8 +152,9 @@ public partial class CompassViewModel : MapComponent,
         }
          
         return State;
+
     }
-    
+
 #endregion
 
 #region Property Setters

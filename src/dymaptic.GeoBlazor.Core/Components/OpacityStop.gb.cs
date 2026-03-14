@@ -89,8 +89,9 @@ public partial class OpacityStop
         }
          
         return Label;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Opacity property.
     /// </summary>
@@ -129,8 +130,9 @@ public partial class OpacityStop
         }
          
         return Opacity;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Value property.
     /// </summary>
@@ -169,8 +171,9 @@ public partial class OpacityStop
         }
          
         return Value;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -210,8 +213,9 @@ public partial class OpacityStop
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "label", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Opacity property after render.
     /// </summary>
@@ -247,8 +251,9 @@ public partial class OpacityStop
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "opacity", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Value property after render.
     /// </summary>
@@ -284,8 +289,9 @@ public partial class OpacityStop
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value", value);
+
     }
-    
+
 #endregion
 
 }

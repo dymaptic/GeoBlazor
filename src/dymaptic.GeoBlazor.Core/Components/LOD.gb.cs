@@ -108,8 +108,9 @@ public partial class LOD
         }
          
         return Level;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LevelValue property.
     /// </summary>
@@ -148,8 +149,9 @@ public partial class LOD
         }
          
         return LevelValue;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Resolution property.
     /// </summary>
@@ -188,8 +190,9 @@ public partial class LOD
         }
          
         return Resolution;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Scale property.
     /// </summary>
@@ -228,8 +231,9 @@ public partial class LOD
         }
          
         return Scale;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -269,8 +273,9 @@ public partial class LOD
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "level", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LevelValue property after render.
     /// </summary>
@@ -306,8 +311,9 @@ public partial class LOD
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "levelValue", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Resolution property after render.
     /// </summary>
@@ -343,8 +349,9 @@ public partial class LOD
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "resolution", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Scale property after render.
     /// </summary>
@@ -380,8 +387,9 @@ public partial class LOD
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "scale", value);
+
     }
-    
+
 #endregion
 
 }

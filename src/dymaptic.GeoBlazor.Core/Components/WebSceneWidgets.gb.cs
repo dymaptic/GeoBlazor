@@ -90,8 +90,9 @@ public partial class WebSceneWidgets : MapComponent
         }
         
         return TimeSlider;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -129,11 +130,12 @@ public partial class WebSceneWidgets : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetTimeSlider), nameof(WebSceneWidgets), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTimeSlider), nameof(WebSceneWidgets),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 }

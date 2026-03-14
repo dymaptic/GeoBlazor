@@ -199,8 +199,9 @@ public partial class PopupVisibleElements
         }
          
         return ActionBar;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CloseButton property.
     /// </summary>
@@ -239,8 +240,9 @@ public partial class PopupVisibleElements
         }
          
         return CloseButton;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CollapseButton property.
     /// </summary>
@@ -279,8 +281,9 @@ public partial class PopupVisibleElements
         }
          
         return CollapseButton;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureListLayerTitle property.
     /// </summary>
@@ -319,8 +322,9 @@ public partial class PopupVisibleElements
         }
          
         return FeatureListLayerTitle;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureMenuHeading property.
     /// </summary>
@@ -359,8 +363,9 @@ public partial class PopupVisibleElements
         }
          
         return FeatureMenuHeading;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureNavigation property.
     /// </summary>
@@ -399,8 +404,9 @@ public partial class PopupVisibleElements
         }
          
         return FeatureNavigation;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Heading property.
     /// </summary>
@@ -439,8 +445,9 @@ public partial class PopupVisibleElements
         }
          
         return Heading;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Spinner property.
     /// </summary>
@@ -479,8 +486,9 @@ public partial class PopupVisibleElements
         }
          
         return Spinner;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -520,8 +528,9 @@ public partial class PopupVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "actionBar", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CloseButton property after render.
     /// </summary>
@@ -557,8 +566,9 @@ public partial class PopupVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "closeButton", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CollapseButton property after render.
     /// </summary>
@@ -594,8 +604,9 @@ public partial class PopupVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "collapseButton", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeatureListLayerTitle property after render.
     /// </summary>
@@ -631,8 +642,9 @@ public partial class PopupVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featureListLayerTitle", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeatureMenuHeading property after render.
     /// </summary>
@@ -668,8 +680,9 @@ public partial class PopupVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featureMenuHeading", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeatureNavigation property after render.
     /// </summary>
@@ -705,8 +718,9 @@ public partial class PopupVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featureNavigation", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Heading property after render.
     /// </summary>
@@ -742,8 +756,9 @@ public partial class PopupVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "heading", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Spinner property after render.
     /// </summary>
@@ -779,8 +794,9 @@ public partial class PopupVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "spinner", value);
+
     }
-    
+
 #endregion
 
 }

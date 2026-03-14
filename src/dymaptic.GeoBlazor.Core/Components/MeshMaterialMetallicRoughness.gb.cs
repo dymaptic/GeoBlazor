@@ -264,8 +264,9 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         }
          
         return EmissiveColor;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the EmissiveTexture property.
     /// </summary>
@@ -310,8 +311,9 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         }
         
         return EmissiveTexture;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the EmissiveTextureTransform property.
     /// </summary>
@@ -356,8 +358,9 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         }
         
         return EmissiveTextureTransform;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Metallic property.
     /// </summary>
@@ -396,8 +399,9 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         }
          
         return Metallic;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MetallicRoughnessTexture property.
     /// </summary>
@@ -442,8 +446,9 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         }
         
         return MetallicRoughnessTexture;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OcclusionTexture property.
     /// </summary>
@@ -488,8 +493,9 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         }
         
         return OcclusionTexture;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OcclusionTextureTransform property.
     /// </summary>
@@ -534,8 +540,9 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         }
         
         return OcclusionTextureTransform;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Roughness property.
     /// </summary>
@@ -574,8 +581,9 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         }
          
         return Roughness;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -615,8 +623,9 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "emissiveColor", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the EmissiveTexture property after render.
     /// </summary>
@@ -657,8 +666,9 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "emissiveTexture", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the EmissiveTextureTransform property after render.
     /// </summary>
@@ -699,8 +709,9 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "emissiveTextureTransform", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Metallic property after render.
     /// </summary>
@@ -736,8 +747,9 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "metallic", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MetallicRoughnessTexture property after render.
     /// </summary>
@@ -778,8 +790,9 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "metallicRoughnessTexture", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OcclusionTexture property after render.
     /// </summary>
@@ -820,8 +833,9 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "occlusionTexture", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OcclusionTextureTransform property after render.
     /// </summary>
@@ -862,8 +876,9 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "occlusionTextureTransform", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Roughness property after render.
     /// </summary>
@@ -899,8 +914,9 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "roughness", value);
+
     }
-    
+
 #endregion
 
 }

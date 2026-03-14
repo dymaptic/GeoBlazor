@@ -11,6 +11,43 @@ namespace dymaptic.GeoBlazor.Core.Components;
 public partial class LegendLayerInfos : MapComponent
 {
 
+    /// <summary>
+    ///     Parameterless constructor for use as a Razor Component.
+    /// </summary>
+    [ActivatorUtilitiesConstructor]
+    public LegendLayerInfos()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
+    /// </summary>
+    /// <param name="sublayerIds">
+    ///     Only applicable if the `layer` is a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html">MapImageLayer</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SubtypeGroupLayer.html">SubtypeGroupLayer</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html">WMSLayer</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="title">
+    ///     Specifies a title for the layer to display above its symbols and descriptions.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="layer">
+    ///     A layer to display in the legend.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    public LegendLayerInfos(
+        IReadOnlyList<long>? sublayerIds = null,
+        string? title = null,
+        Layer? layer = null)
+    {
+        AllowRender = false;
+#pragma warning disable BL0005
+        SublayerIds = sublayerIds;
+        Title = title;
+        Layer = layer;
+#pragma warning restore BL0005
+    }
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -81,8 +118,9 @@ public partial class LegendLayerInfos : MapComponent
         }
         
         return Layer;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SublayerIds property.
     /// </summary>
@@ -121,8 +159,9 @@ public partial class LegendLayerInfos : MapComponent
         }
          
         return SublayerIds;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -161,8 +200,9 @@ public partial class LegendLayerInfos : MapComponent
         }
          
         return Title;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -207,8 +247,9 @@ public partial class LegendLayerInfos : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layer", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SublayerIds property after render.
     /// </summary>
@@ -244,8 +285,9 @@ public partial class LegendLayerInfos : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sublayerIds", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -281,8 +323,9 @@ public partial class LegendLayerInfos : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -299,6 +342,7 @@ public partial class LegendLayerInfos : MapComponent
             ? values
             : [..SublayerIds, ..values];
         await SetSublayerIds(join);
+
     }
     
 #endregion
@@ -319,6 +363,7 @@ public partial class LegendLayerInfos : MapComponent
             return;
         }
         await SetSublayerIds(SublayerIds.Except(values).ToArray());
+
     }
     
 #endregion

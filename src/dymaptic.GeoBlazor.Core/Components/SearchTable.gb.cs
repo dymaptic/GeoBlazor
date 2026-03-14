@@ -112,8 +112,9 @@ public partial class SearchTable : MapComponent
         }
         
         return Field;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SearchTableId property.
     /// </summary>
@@ -152,8 +153,9 @@ public partial class SearchTable : MapComponent
         }
          
         return SearchTableId;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -198,8 +200,9 @@ public partial class SearchTable : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SearchTableId property after render.
     /// </summary>
@@ -235,8 +238,9 @@ public partial class SearchTable : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
+
     }
-    
+
 #endregion
 
 

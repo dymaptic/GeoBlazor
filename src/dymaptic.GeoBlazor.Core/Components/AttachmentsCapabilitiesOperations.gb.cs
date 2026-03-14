@@ -122,8 +122,9 @@ public partial class AttachmentsCapabilitiesOperations : MapComponent
         }
          
         return Add;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Delete property.
     /// </summary>
@@ -162,8 +163,9 @@ public partial class AttachmentsCapabilitiesOperations : MapComponent
         }
          
         return Delete;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Update property.
     /// </summary>
@@ -202,8 +204,9 @@ public partial class AttachmentsCapabilitiesOperations : MapComponent
         }
          
         return Update;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -243,8 +246,9 @@ public partial class AttachmentsCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "add", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Delete property after render.
     /// </summary>
@@ -280,8 +284,9 @@ public partial class AttachmentsCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "delete", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Update property after render.
     /// </summary>
@@ -317,8 +322,9 @@ public partial class AttachmentsCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "update", value);
+
     }
-    
+
 #endregion
 
 }

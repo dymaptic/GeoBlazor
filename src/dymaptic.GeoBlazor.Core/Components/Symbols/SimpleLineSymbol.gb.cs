@@ -119,8 +119,9 @@ public partial class SimpleLineSymbol : ISymbol2D
         }
          
         return Cap;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Join property.
     /// </summary>
@@ -159,8 +160,9 @@ public partial class SimpleLineSymbol : ISymbol2D
         }
          
         return Join;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Marker property.
     /// </summary>
@@ -205,8 +207,9 @@ public partial class SimpleLineSymbol : ISymbol2D
         }
         
         return Marker;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MiterLimit property.
     /// </summary>
@@ -245,8 +248,9 @@ public partial class SimpleLineSymbol : ISymbol2D
         }
          
         return MiterLimit;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Style property.
     /// </summary>
@@ -285,8 +289,9 @@ public partial class SimpleLineSymbol : ISymbol2D
         }
          
         return Style;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -326,8 +331,9 @@ public partial class SimpleLineSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "cap", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Join property after render.
     /// </summary>
@@ -363,8 +369,9 @@ public partial class SimpleLineSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "join", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Marker property after render.
     /// </summary>
@@ -405,8 +412,9 @@ public partial class SimpleLineSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "marker", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MiterLimit property after render.
     /// </summary>
@@ -442,8 +450,9 @@ public partial class SimpleLineSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "miterLimit", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Style property after render.
     /// </summary>
@@ -479,8 +488,9 @@ public partial class SimpleLineSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "style", value);
+
     }
-    
+
 #endregion
 
 }

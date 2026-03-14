@@ -96,8 +96,9 @@ public partial class Viewing : MapComponent
         }
         
         return Search;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -142,8 +143,9 @@ public partial class Viewing : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "search", value);
+
     }
-    
+
 #endregion
 
 

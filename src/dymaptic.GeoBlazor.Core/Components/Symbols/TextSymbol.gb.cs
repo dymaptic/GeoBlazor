@@ -198,8 +198,9 @@ public partial class TextSymbol : ISymbol2D
         }
          
         return Angle;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BackgroundColor property.
     /// </summary>
@@ -238,8 +239,9 @@ public partial class TextSymbol : ISymbol2D
         }
          
         return BackgroundColor;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BorderLineColor property.
     /// </summary>
@@ -278,8 +280,9 @@ public partial class TextSymbol : ISymbol2D
         }
          
         return BorderLineColor;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BorderLineSize property.
     /// </summary>
@@ -318,8 +321,9 @@ public partial class TextSymbol : ISymbol2D
         }
          
         return BorderLineSize;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Font property.
     /// </summary>
@@ -364,8 +368,9 @@ public partial class TextSymbol : ISymbol2D
         }
         
         return Font;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HaloColor property.
     /// </summary>
@@ -404,8 +409,9 @@ public partial class TextSymbol : ISymbol2D
         }
          
         return HaloColor;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HaloSize property.
     /// </summary>
@@ -444,8 +450,9 @@ public partial class TextSymbol : ISymbol2D
         }
          
         return HaloSize;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HorizontalAlignment property.
     /// </summary>
@@ -484,8 +491,9 @@ public partial class TextSymbol : ISymbol2D
         }
          
         return HorizontalAlignment;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Kerning property.
     /// </summary>
@@ -524,8 +532,9 @@ public partial class TextSymbol : ISymbol2D
         }
          
         return Kerning;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LineHeight property.
     /// </summary>
@@ -564,8 +573,9 @@ public partial class TextSymbol : ISymbol2D
         }
          
         return LineHeight;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LineWidth property.
     /// </summary>
@@ -604,8 +614,9 @@ public partial class TextSymbol : ISymbol2D
         }
          
         return LineWidth;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Rotated property.
     /// </summary>
@@ -644,8 +655,9 @@ public partial class TextSymbol : ISymbol2D
         }
          
         return Rotated;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Text property.
     /// </summary>
@@ -684,8 +696,9 @@ public partial class TextSymbol : ISymbol2D
         }
          
         return Text;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VerticalAlignment property.
     /// </summary>
@@ -724,8 +737,9 @@ public partial class TextSymbol : ISymbol2D
         }
          
         return VerticalAlignment;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Xoffset property.
     /// </summary>
@@ -764,8 +778,9 @@ public partial class TextSymbol : ISymbol2D
         }
          
         return Xoffset;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Yoffset property.
     /// </summary>
@@ -804,8 +819,9 @@ public partial class TextSymbol : ISymbol2D
         }
          
         return Yoffset;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -845,8 +861,9 @@ public partial class TextSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "angle", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BackgroundColor property after render.
     /// </summary>
@@ -882,8 +899,9 @@ public partial class TextSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "backgroundColor", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BorderLineColor property after render.
     /// </summary>
@@ -919,8 +937,9 @@ public partial class TextSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "borderLineColor", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BorderLineSize property after render.
     /// </summary>
@@ -956,8 +975,9 @@ public partial class TextSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "borderLineSize", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Font property after render.
     /// </summary>
@@ -998,8 +1018,9 @@ public partial class TextSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "font", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HaloColor property after render.
     /// </summary>
@@ -1035,8 +1056,9 @@ public partial class TextSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "haloColor", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HaloSize property after render.
     /// </summary>
@@ -1072,8 +1094,9 @@ public partial class TextSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "haloSize", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HorizontalAlignment property after render.
     /// </summary>
@@ -1109,8 +1132,9 @@ public partial class TextSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "horizontalAlignment", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Kerning property after render.
     /// </summary>
@@ -1146,8 +1170,9 @@ public partial class TextSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "kerning", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LineHeight property after render.
     /// </summary>
@@ -1183,8 +1208,9 @@ public partial class TextSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "lineHeight", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LineWidth property after render.
     /// </summary>
@@ -1220,8 +1246,9 @@ public partial class TextSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "lineWidth", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Rotated property after render.
     /// </summary>
@@ -1257,8 +1284,9 @@ public partial class TextSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rotated", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Text property after render.
     /// </summary>
@@ -1294,8 +1322,9 @@ public partial class TextSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "text", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the VerticalAlignment property after render.
     /// </summary>
@@ -1331,8 +1360,9 @@ public partial class TextSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "verticalAlignment", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Xoffset property after render.
     /// </summary>
@@ -1368,8 +1398,9 @@ public partial class TextSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "xoffset", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Yoffset property after render.
     /// </summary>
@@ -1405,8 +1436,9 @@ public partial class TextSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "yoffset", value);
+
     }
-    
+
 #endregion
 
 

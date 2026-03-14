@@ -125,8 +125,9 @@ public partial class Viewpoint
         }
         
         return Camera;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Rotation property.
     /// </summary>
@@ -165,8 +166,9 @@ public partial class Viewpoint
         }
          
         return Rotation;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Scale property.
     /// </summary>
@@ -205,8 +207,9 @@ public partial class Viewpoint
         }
          
         return Scale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TargetGeometry property.
     /// </summary>
@@ -251,8 +254,9 @@ public partial class Viewpoint
         }
         
         return TargetGeometry;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -297,8 +301,9 @@ public partial class Viewpoint
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "camera", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Rotation property after render.
     /// </summary>
@@ -334,8 +339,9 @@ public partial class Viewpoint
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rotation", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Scale property after render.
     /// </summary>
@@ -371,8 +377,9 @@ public partial class Viewpoint
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "scale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TargetGeometry property after render.
     /// </summary>
@@ -413,8 +420,9 @@ public partial class Viewpoint
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "targetGeometry", value);
+
     }
-    
+
 #endregion
 
 

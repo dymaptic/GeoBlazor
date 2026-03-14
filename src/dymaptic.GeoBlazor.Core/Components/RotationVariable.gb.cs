@@ -132,8 +132,9 @@ public partial class RotationVariable
         }
          
         return Axis;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RotationType property.
     /// </summary>
@@ -172,8 +173,9 @@ public partial class RotationVariable
         }
          
         return RotationType;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -213,8 +215,9 @@ public partial class RotationVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "axis", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RotationType property after render.
     /// </summary>
@@ -250,8 +253,9 @@ public partial class RotationVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rotationType", value);
+
     }
-    
+
 #endregion
 
 }

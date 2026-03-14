@@ -165,8 +165,9 @@ public partial class RasterFunction : MapComponent
         }
          
         return FunctionArguments;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FunctionName property.
     /// </summary>
@@ -205,8 +206,9 @@ public partial class RasterFunction : MapComponent
         }
          
         return FunctionName;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OutputPixelType property.
     /// </summary>
@@ -245,8 +247,9 @@ public partial class RasterFunction : MapComponent
         }
          
         return OutputPixelType;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RasterFunctionDefinition property.
     /// </summary>
@@ -285,8 +288,9 @@ public partial class RasterFunction : MapComponent
         }
          
         return RasterFunctionDefinition;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VariableName property.
     /// </summary>
@@ -325,8 +329,9 @@ public partial class RasterFunction : MapComponent
         }
          
         return VariableName;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -366,8 +371,9 @@ public partial class RasterFunction : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "functionArguments", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FunctionName property after render.
     /// </summary>
@@ -403,8 +409,9 @@ public partial class RasterFunction : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "functionName", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OutputPixelType property after render.
     /// </summary>
@@ -440,8 +447,9 @@ public partial class RasterFunction : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outputPixelType", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RasterFunctionDefinition property after render.
     /// </summary>
@@ -477,8 +485,9 @@ public partial class RasterFunction : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rasterFunctionDefinition", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the VariableName property after render.
     /// </summary>
@@ -514,8 +523,9 @@ public partial class RasterFunction : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "variableName", value);
+
     }
-    
+
 #endregion
 
 }

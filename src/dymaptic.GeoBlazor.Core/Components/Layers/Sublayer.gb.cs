@@ -423,8 +423,9 @@ public partial class Sublayer
         }
          
         return AttributeTableTemplate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Capabilities property.
     /// </summary>
@@ -463,8 +464,9 @@ public partial class Sublayer
         }
          
         return Capabilities;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefinitionExpression property.
     /// </summary>
@@ -503,8 +505,9 @@ public partial class Sublayer
         }
          
         return DefinitionExpression;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Fields property.
     /// </summary>
@@ -547,8 +550,9 @@ public partial class Sublayer
         }
         
         return Fields;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FieldsIndex property.
     /// </summary>
@@ -587,8 +591,9 @@ public partial class Sublayer
         }
         
         return FieldsIndex;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FloorInfo property.
     /// </summary>
@@ -633,8 +638,9 @@ public partial class Sublayer
         }
         
         return FloorInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FullExtent property.
     /// </summary>
@@ -679,8 +685,9 @@ public partial class Sublayer
         }
         
         return FullExtent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsTable property.
     /// </summary>
@@ -719,8 +726,9 @@ public partial class Sublayer
         }
          
         return IsTable;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelingInfo property.
     /// </summary>
@@ -763,8 +771,9 @@ public partial class Sublayer
         }
         
         return LabelingInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelsVisible property.
     /// </summary>
@@ -803,8 +812,9 @@ public partial class Sublayer
         }
          
         return LabelsVisible;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendEnabled property.
     /// </summary>
@@ -843,8 +853,9 @@ public partial class Sublayer
         }
          
         return LegendEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ListMode property.
     /// </summary>
@@ -883,8 +894,9 @@ public partial class Sublayer
         }
          
         return ListMode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -923,8 +935,9 @@ public partial class Sublayer
         }
          
         return MaxScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -963,8 +976,9 @@ public partial class Sublayer
         }
          
         return MinScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ObjectIdField property.
     /// </summary>
@@ -1003,8 +1017,9 @@ public partial class Sublayer
         }
          
         return ObjectIdField;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Opacity property.
     /// </summary>
@@ -1043,8 +1058,9 @@ public partial class Sublayer
         }
          
         return Opacity;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OrderBy property.
     /// </summary>
@@ -1087,8 +1103,9 @@ public partial class Sublayer
         }
         
         return OrderBy;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupEnabled property.
     /// </summary>
@@ -1127,8 +1144,9 @@ public partial class Sublayer
         }
          
         return PopupEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupTemplate property.
     /// </summary>
@@ -1173,8 +1191,9 @@ public partial class Sublayer
         }
         
         return PopupTemplate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Relationships property.
     /// </summary>
@@ -1213,8 +1232,9 @@ public partial class Sublayer
         }
          
         return Relationships;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Renderer property.
     /// </summary>
@@ -1259,8 +1279,9 @@ public partial class Sublayer
         }
         
         return Renderer;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Source property.
     /// </summary>
@@ -1299,8 +1320,9 @@ public partial class Sublayer
         }
          
         return Source;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
@@ -1339,8 +1361,9 @@ public partial class Sublayer
         }
          
         return SourceJSON;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -1379,8 +1402,9 @@ public partial class Sublayer
         }
         
         return SpatialReference;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SublayerId property.
     /// </summary>
@@ -1419,8 +1443,9 @@ public partial class Sublayer
         }
          
         return SublayerId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -1459,8 +1484,9 @@ public partial class Sublayer
         }
          
         return Title;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TypeIdField property.
     /// </summary>
@@ -1499,8 +1525,9 @@ public partial class Sublayer
         }
          
         return TypeIdField;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Types property.
     /// </summary>
@@ -1539,8 +1566,9 @@ public partial class Sublayer
         }
         
         return Types;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -1579,8 +1607,9 @@ public partial class Sublayer
         }
          
         return Url;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -1620,8 +1649,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "attributeTableTemplate", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DefinitionExpression property after render.
     /// </summary>
@@ -1657,8 +1687,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "definitionExpression", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FloorInfo property after render.
     /// </summary>
@@ -1697,11 +1728,12 @@ public partial class Sublayer
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetFloorInfo), nameof(Sublayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetFloorInfo), nameof(Sublayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelingInfo property after render.
     /// </summary>
@@ -1743,11 +1775,12 @@ public partial class Sublayer
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetLabelingInfo), nameof(Sublayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetLabelingInfo), nameof(Sublayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelsVisible property after render.
     /// </summary>
@@ -1783,8 +1816,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelsVisible", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
@@ -1820,8 +1854,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ListMode property after render.
     /// </summary>
@@ -1857,8 +1892,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "listMode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -1894,8 +1930,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -1931,8 +1968,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Opacity property after render.
     /// </summary>
@@ -1968,8 +2006,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "opacity", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OrderBy property after render.
     /// </summary>
@@ -2011,11 +2050,12 @@ public partial class Sublayer
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetOrderBy), nameof(Sublayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetOrderBy), nameof(Sublayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
@@ -2051,8 +2091,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupTemplate property after render.
     /// </summary>
@@ -2091,11 +2132,12 @@ public partial class Sublayer
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPopupTemplate), nameof(Sublayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPopupTemplate), nameof(Sublayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Renderer property after render.
     /// </summary>
@@ -2134,11 +2176,12 @@ public partial class Sublayer
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetRenderer), nameof(Sublayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetRenderer), nameof(Sublayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Source property after render.
     /// </summary>
@@ -2174,8 +2217,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "source", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SublayerId property after render.
     /// </summary>
@@ -2211,8 +2255,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -2248,8 +2293,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -2285,8 +2331,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -2303,6 +2350,7 @@ public partial class Sublayer
             ? values
             : [..LabelingInfo, ..values];
         await SetLabelingInfo(join);
+
     }
     
     /// <summary>
@@ -2317,6 +2365,7 @@ public partial class Sublayer
             ? values
             : [..OrderBy, ..values];
         await SetOrderBy(join);
+
     }
     
 #endregion
@@ -2337,6 +2386,7 @@ public partial class Sublayer
             return;
         }
         await SetLabelingInfo(LabelingInfo.Except(values).ToArray());
+
     }
     
     
@@ -2353,6 +2403,7 @@ public partial class Sublayer
             return;
         }
         await SetOrderBy(OrderBy.Except(values).ToArray());
+
     }
     
 #endregion

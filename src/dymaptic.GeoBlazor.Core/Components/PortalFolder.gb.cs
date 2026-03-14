@@ -152,8 +152,9 @@ public partial class PortalFolder : MapComponent
         }
          
         return Created;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalFolderId property.
     /// </summary>
@@ -192,8 +193,9 @@ public partial class PortalFolder : MapComponent
         }
          
         return PortalFolderId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -232,8 +234,9 @@ public partial class PortalFolder : MapComponent
         }
          
         return Title;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -272,8 +275,9 @@ public partial class PortalFolder : MapComponent
         }
          
         return Url;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -313,8 +317,9 @@ public partial class PortalFolder : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "created", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PortalFolderId property after render.
     /// </summary>
@@ -350,8 +355,9 @@ public partial class PortalFolder : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -387,8 +393,9 @@ public partial class PortalFolder : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 

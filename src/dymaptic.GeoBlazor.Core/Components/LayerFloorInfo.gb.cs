@@ -76,8 +76,9 @@ public partial class LayerFloorInfo
         }
          
         return FloorField;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -117,8 +118,9 @@ public partial class LayerFloorInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "floorField", value);
+
     }
-    
+
 #endregion
 
 }

@@ -67,8 +67,9 @@ public partial class SizeVariable
         }
          
         return Axis;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxDataValue property.
     /// </summary>
@@ -107,8 +108,9 @@ public partial class SizeVariable
         }
          
         return MaxDataValue;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxSize property.
     /// </summary>
@@ -147,8 +149,9 @@ public partial class SizeVariable
         }
          
         return MaxSize;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinDataValue property.
     /// </summary>
@@ -187,8 +190,9 @@ public partial class SizeVariable
         }
          
         return MinDataValue;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinSize property.
     /// </summary>
@@ -227,8 +231,9 @@ public partial class SizeVariable
         }
          
         return MinSize;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NormalizationField property.
     /// </summary>
@@ -267,8 +272,9 @@ public partial class SizeVariable
         }
          
         return NormalizationField;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Stops property.
     /// </summary>
@@ -311,8 +317,9 @@ public partial class SizeVariable
         }
         
         return Stops;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Target property.
     /// </summary>
@@ -351,8 +358,9 @@ public partial class SizeVariable
         }
          
         return Target;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UseSymbolValue property.
     /// </summary>
@@ -391,8 +399,9 @@ public partial class SizeVariable
         }
          
         return UseSymbolValue;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ValueRepresentation property.
     /// </summary>
@@ -431,8 +440,9 @@ public partial class SizeVariable
         }
          
         return ValueRepresentation;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ValueUnit property.
     /// </summary>
@@ -471,8 +481,9 @@ public partial class SizeVariable
         }
          
         return ValueUnit;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -512,8 +523,9 @@ public partial class SizeVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "axis", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxDataValue property after render.
     /// </summary>
@@ -549,8 +561,9 @@ public partial class SizeVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxDataValue", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxSize property after render.
     /// </summary>
@@ -586,8 +599,9 @@ public partial class SizeVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxSize", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinDataValue property after render.
     /// </summary>
@@ -623,8 +637,9 @@ public partial class SizeVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minDataValue", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinSize property after render.
     /// </summary>
@@ -660,8 +675,9 @@ public partial class SizeVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minSize", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the NormalizationField property after render.
     /// </summary>
@@ -697,8 +713,9 @@ public partial class SizeVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "normalizationField", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Stops property after render.
     /// </summary>
@@ -740,11 +757,12 @@ public partial class SizeVariable
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetStops), nameof(SizeVariable), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetStops), nameof(SizeVariable),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Target property after render.
     /// </summary>
@@ -780,8 +798,9 @@ public partial class SizeVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "target", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UseSymbolValue property after render.
     /// </summary>
@@ -817,8 +836,9 @@ public partial class SizeVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "useSymbolValue", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ValueRepresentation property after render.
     /// </summary>
@@ -854,8 +874,9 @@ public partial class SizeVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "valueRepresentation", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ValueUnit property after render.
     /// </summary>
@@ -891,8 +912,9 @@ public partial class SizeVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "valueUnit", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -909,6 +931,7 @@ public partial class SizeVariable
             ? values
             : [..Stops, ..values];
         await SetStops(join);
+
     }
     
 #endregion
@@ -929,6 +952,7 @@ public partial class SizeVariable
             return;
         }
         await SetStops(Stops.Except(values).ToArray());
+
     }
     
 #endregion

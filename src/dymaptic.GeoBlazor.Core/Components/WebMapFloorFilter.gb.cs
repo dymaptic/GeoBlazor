@@ -186,8 +186,9 @@ public partial class WebMapFloorFilter : MapComponent
         }
          
         return Enabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Facility property.
     /// </summary>
@@ -226,8 +227,9 @@ public partial class WebMapFloorFilter : MapComponent
         }
          
         return Facility;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Level property.
     /// </summary>
@@ -266,8 +268,9 @@ public partial class WebMapFloorFilter : MapComponent
         }
          
         return Level;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LongNames property.
     /// </summary>
@@ -306,8 +309,9 @@ public partial class WebMapFloorFilter : MapComponent
         }
          
         return LongNames;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Minimized property.
     /// </summary>
@@ -346,8 +350,9 @@ public partial class WebMapFloorFilter : MapComponent
         }
          
         return Minimized;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PinnedLevels property.
     /// </summary>
@@ -386,8 +391,9 @@ public partial class WebMapFloorFilter : MapComponent
         }
          
         return PinnedLevels;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Site property.
     /// </summary>
@@ -426,8 +432,9 @@ public partial class WebMapFloorFilter : MapComponent
         }
          
         return Site;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -467,8 +474,9 @@ public partial class WebMapFloorFilter : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "enabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Facility property after render.
     /// </summary>
@@ -504,8 +512,9 @@ public partial class WebMapFloorFilter : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "facility", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Level property after render.
     /// </summary>
@@ -541,8 +550,9 @@ public partial class WebMapFloorFilter : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "level", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LongNames property after render.
     /// </summary>
@@ -578,8 +588,9 @@ public partial class WebMapFloorFilter : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "longNames", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Minimized property after render.
     /// </summary>
@@ -615,8 +626,9 @@ public partial class WebMapFloorFilter : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minimized", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PinnedLevels property after render.
     /// </summary>
@@ -652,8 +664,9 @@ public partial class WebMapFloorFilter : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "pinnedLevels", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Site property after render.
     /// </summary>
@@ -689,8 +702,9 @@ public partial class WebMapFloorFilter : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "site", value);
+
     }
-    
+
 #endregion
 
 }

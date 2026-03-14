@@ -96,8 +96,9 @@ public partial class DimensionalDefinition
         }
          
         return DimensionName;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsSlice property.
     /// </summary>
@@ -136,8 +137,9 @@ public partial class DimensionalDefinition
         }
          
         return IsSlice;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Values property.
     /// </summary>
@@ -176,8 +178,9 @@ public partial class DimensionalDefinition
         }
          
         return Values;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VariableName property.
     /// </summary>
@@ -216,8 +219,9 @@ public partial class DimensionalDefinition
         }
          
         return VariableName;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -257,8 +261,9 @@ public partial class DimensionalDefinition
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "dimensionName", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the IsSlice property after render.
     /// </summary>
@@ -294,8 +299,9 @@ public partial class DimensionalDefinition
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "isSlice", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Values property after render.
     /// </summary>
@@ -331,8 +337,9 @@ public partial class DimensionalDefinition
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "values", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the VariableName property after render.
     /// </summary>
@@ -368,8 +375,9 @@ public partial class DimensionalDefinition
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "variableName", value);
+
     }
-    
+
 #endregion
 
 }

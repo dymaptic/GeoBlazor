@@ -155,8 +155,9 @@ public partial class BasemapToggleWidget
         }
         
         return ActiveBasemap;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NextBasemap property.
     /// </summary>
@@ -201,8 +202,9 @@ public partial class BasemapToggleWidget
         }
         
         return NextBasemap;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -247,8 +249,9 @@ public partial class BasemapToggleWidget
         }
         
         return ViewModel;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibleElements property.
     /// </summary>
@@ -293,8 +296,9 @@ public partial class BasemapToggleWidget
         }
         
         return VisibleElements;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -337,11 +341,12 @@ public partial class BasemapToggleWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetNextBasemap), nameof(BasemapToggleWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetNextBasemap), nameof(BasemapToggleWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -380,11 +385,12 @@ public partial class BasemapToggleWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetViewModel), nameof(BasemapToggleWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetViewModel), nameof(BasemapToggleWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the VisibleElements property after render.
     /// </summary>
@@ -423,11 +429,12 @@ public partial class BasemapToggleWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetVisibleElements), nameof(BasemapToggleWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetVisibleElements), nameof(BasemapToggleWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Public Methods

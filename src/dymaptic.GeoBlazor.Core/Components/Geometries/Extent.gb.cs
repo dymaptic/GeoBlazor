@@ -91,8 +91,9 @@ public partial class Extent
         }
         
         return Center;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Height property.
     /// </summary>
@@ -131,8 +132,9 @@ public partial class Extent
         }
          
         return Height;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Mmax property.
     /// </summary>
@@ -171,8 +173,9 @@ public partial class Extent
         }
          
         return Mmax;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Mmin property.
     /// </summary>
@@ -211,8 +214,9 @@ public partial class Extent
         }
          
         return Mmin;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Width property.
     /// </summary>
@@ -251,8 +255,9 @@ public partial class Extent
         }
          
         return Width;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Xmax property.
     /// </summary>
@@ -291,8 +296,9 @@ public partial class Extent
         }
          
         return Xmax;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Xmin property.
     /// </summary>
@@ -331,8 +337,9 @@ public partial class Extent
         }
          
         return Xmin;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Ymax property.
     /// </summary>
@@ -371,8 +378,9 @@ public partial class Extent
         }
          
         return Ymax;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Ymin property.
     /// </summary>
@@ -411,8 +419,9 @@ public partial class Extent
         }
          
         return Ymin;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Zmax property.
     /// </summary>
@@ -451,8 +460,9 @@ public partial class Extent
         }
          
         return Zmax;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Zmin property.
     /// </summary>
@@ -491,8 +501,9 @@ public partial class Extent
         }
          
         return Zmin;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -532,8 +543,9 @@ public partial class Extent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mmax", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Mmin property after render.
     /// </summary>
@@ -569,8 +581,9 @@ public partial class Extent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mmin", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Xmax property after render.
     /// </summary>
@@ -606,8 +619,9 @@ public partial class Extent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "xmax", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Xmin property after render.
     /// </summary>
@@ -643,8 +657,9 @@ public partial class Extent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "xmin", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Ymax property after render.
     /// </summary>
@@ -680,8 +695,9 @@ public partial class Extent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "ymax", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Ymin property after render.
     /// </summary>
@@ -717,8 +733,9 @@ public partial class Extent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "ymin", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Zmax property after render.
     /// </summary>
@@ -754,8 +771,9 @@ public partial class Extent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "zmax", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Zmin property after render.
     /// </summary>
@@ -791,8 +809,9 @@ public partial class Extent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "zmin", value);
+
     }
-    
+
 #endregion
 
 #region Public Methods

@@ -57,8 +57,9 @@ public partial class Polygon
         }
         
         return Centroid;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Rings property.
     /// </summary>
@@ -97,8 +98,9 @@ public partial class Polygon
         }
          
         return Rings;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -138,8 +140,9 @@ public partial class Polygon
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rings", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -156,6 +159,7 @@ public partial class Polygon
             ? values
             : [..Rings, ..values];
         await SetRings(join);
+
     }
     
 #endregion
@@ -176,6 +180,7 @@ public partial class Polygon
             return;
         }
         await SetRings(Rings.Except(values).ToArray());
+
     }
     
 #endregion

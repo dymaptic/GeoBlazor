@@ -97,8 +97,9 @@ public partial class ApplicationProperties : MapComponent
         }
         
         return Viewing;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -143,8 +144,9 @@ public partial class ApplicationProperties : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "viewing", value);
+
     }
-    
+
 #endregion
 
 

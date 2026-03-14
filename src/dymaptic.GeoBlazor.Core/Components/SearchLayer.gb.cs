@@ -128,8 +128,9 @@ public partial class SearchLayer : MapComponent
         }
         
         return Field;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SearchLayerId property.
     /// </summary>
@@ -168,8 +169,9 @@ public partial class SearchLayer : MapComponent
         }
          
         return SearchLayerId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SubLayer property.
     /// </summary>
@@ -208,8 +210,9 @@ public partial class SearchLayer : MapComponent
         }
          
         return SubLayer;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -254,8 +257,9 @@ public partial class SearchLayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SearchLayerId property after render.
     /// </summary>
@@ -291,8 +295,9 @@ public partial class SearchLayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SubLayer property after render.
     /// </summary>
@@ -328,8 +333,9 @@ public partial class SearchLayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "subLayer", value);
+
     }
-    
+
 #endregion
 
 

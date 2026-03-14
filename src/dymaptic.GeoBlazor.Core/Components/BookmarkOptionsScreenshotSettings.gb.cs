@@ -144,8 +144,9 @@ public partial class BookmarkOptionsScreenshotSettings
         }
         
         return Area;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Height property.
     /// </summary>
@@ -184,8 +185,9 @@ public partial class BookmarkOptionsScreenshotSettings
         }
          
         return Height;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Layers property.
     /// </summary>
@@ -228,8 +230,9 @@ public partial class BookmarkOptionsScreenshotSettings
         }
         
         return Layers;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Width property.
     /// </summary>
@@ -268,8 +271,9 @@ public partial class BookmarkOptionsScreenshotSettings
         }
          
         return Width;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -314,8 +318,9 @@ public partial class BookmarkOptionsScreenshotSettings
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "area", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Height property after render.
     /// </summary>
@@ -351,8 +356,9 @@ public partial class BookmarkOptionsScreenshotSettings
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "height", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Layers property after render.
     /// </summary>
@@ -396,8 +402,9 @@ public partial class BookmarkOptionsScreenshotSettings
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layers", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Width property after render.
     /// </summary>
@@ -433,8 +440,9 @@ public partial class BookmarkOptionsScreenshotSettings
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "width", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -451,6 +459,7 @@ public partial class BookmarkOptionsScreenshotSettings
             ? values
             : [..Layers, ..values];
         await SetLayers(join);
+
     }
     
 #endregion
@@ -471,6 +480,7 @@ public partial class BookmarkOptionsScreenshotSettings
             return;
         }
         await SetLayers(Layers.Except(values).ToArray());
+
     }
     
 #endregion

@@ -138,8 +138,9 @@ public partial class RelationshipLabels : MapComponent
         }
          
         return Bottom;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Left property.
     /// </summary>
@@ -178,8 +179,9 @@ public partial class RelationshipLabels : MapComponent
         }
          
         return Left;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Right property.
     /// </summary>
@@ -218,8 +220,9 @@ public partial class RelationshipLabels : MapComponent
         }
          
         return Right;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Top property.
     /// </summary>
@@ -258,8 +261,9 @@ public partial class RelationshipLabels : MapComponent
         }
          
         return Top;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -299,8 +303,9 @@ public partial class RelationshipLabels : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "bottom", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Left property after render.
     /// </summary>
@@ -336,8 +341,9 @@ public partial class RelationshipLabels : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "left", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Right property after render.
     /// </summary>
@@ -373,8 +379,9 @@ public partial class RelationshipLabels : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "right", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Top property after render.
     /// </summary>
@@ -410,8 +417,9 @@ public partial class RelationshipLabels : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "top", value);
+
     }
-    
+
 #endregion
 
 }

@@ -112,8 +112,9 @@ public partial class WebMapWidgets : MapComponent
         }
         
         return FloorFilter;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeSlider property.
     /// </summary>
@@ -152,8 +153,9 @@ public partial class WebMapWidgets : MapComponent
         }
         
         return TimeSlider;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -198,8 +200,9 @@ public partial class WebMapWidgets : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "floorFilter", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeSlider property after render.
     /// </summary>
@@ -235,8 +238,9 @@ public partial class WebMapWidgets : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "timeSlider", value);
+
     }
-    
+
 #endregion
 
 

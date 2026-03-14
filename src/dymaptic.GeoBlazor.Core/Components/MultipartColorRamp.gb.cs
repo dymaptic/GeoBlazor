@@ -95,8 +95,9 @@ public partial class MultipartColorRamp
         }
         
         return ColorRamps;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -144,8 +145,9 @@ public partial class MultipartColorRamp
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "colorRamps", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -162,6 +164,7 @@ public partial class MultipartColorRamp
             ? values
             : [..ColorRamps, ..values];
         await SetColorRamps(join);
+
     }
     
 #endregion
@@ -182,6 +185,7 @@ public partial class MultipartColorRamp
             return;
         }
         await SetColorRamps(ColorRamps.Except(values).ToArray());
+
     }
     
 #endregion

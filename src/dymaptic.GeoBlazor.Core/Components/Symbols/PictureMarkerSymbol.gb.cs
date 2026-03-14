@@ -135,8 +135,9 @@ public partial class PictureMarkerSymbol : ISymbol2D,
         }
          
         return Height;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -175,8 +176,9 @@ public partial class PictureMarkerSymbol : ISymbol2D,
         }
          
         return Url;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Width property.
     /// </summary>
@@ -215,8 +217,9 @@ public partial class PictureMarkerSymbol : ISymbol2D,
         }
          
         return Width;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -256,8 +259,9 @@ public partial class PictureMarkerSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "height", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -293,8 +297,9 @@ public partial class PictureMarkerSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Width property after render.
     /// </summary>
@@ -330,8 +335,9 @@ public partial class PictureMarkerSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "width", value);
+
     }
-    
+
 #endregion
 
     /// <inheritdoc />

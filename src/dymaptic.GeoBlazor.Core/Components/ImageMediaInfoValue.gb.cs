@@ -82,8 +82,9 @@ public partial class ImageMediaInfoValue
         }
          
         return LinkURL;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceURL property.
     /// </summary>
@@ -122,8 +123,9 @@ public partial class ImageMediaInfoValue
         }
          
         return SourceURL;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -163,8 +165,9 @@ public partial class ImageMediaInfoValue
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "linkURL", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SourceURL property after render.
     /// </summary>
@@ -200,8 +203,9 @@ public partial class ImageMediaInfoValue
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sourceURL", value);
+
     }
-    
+
 #endregion
 
 }

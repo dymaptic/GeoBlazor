@@ -370,8 +370,9 @@ public partial class SearchWidget : IGoTo
         }
          
         return ActiveMenu;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ActiveSourceIndex property.
     /// </summary>
@@ -410,8 +411,9 @@ public partial class SearchWidget : IGoTo
         }
          
         return ActiveSourceIndex;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AllPlaceholder property.
     /// </summary>
@@ -450,8 +452,9 @@ public partial class SearchWidget : IGoTo
         }
          
         return AllPlaceholder;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AutoSelect property.
     /// </summary>
@@ -490,8 +493,9 @@ public partial class SearchWidget : IGoTo
         }
          
         return AutoSelect;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultSources property.
     /// </summary>
@@ -534,8 +538,9 @@ public partial class SearchWidget : IGoTo
         }
         
         return DefaultSources;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Disabled property.
     /// </summary>
@@ -574,8 +579,9 @@ public partial class SearchWidget : IGoTo
         }
          
         return Disabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IncludeDefaultSources property.
     /// </summary>
@@ -614,8 +620,9 @@ public partial class SearchWidget : IGoTo
         }
          
         return IncludeDefaultSources;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LocationEnabled property.
     /// </summary>
@@ -654,8 +661,9 @@ public partial class SearchWidget : IGoTo
         }
          
         return LocationEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxResults property.
     /// </summary>
@@ -694,8 +702,9 @@ public partial class SearchWidget : IGoTo
         }
          
         return MaxResults;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxSuggestions property.
     /// </summary>
@@ -734,8 +743,9 @@ public partial class SearchWidget : IGoTo
         }
          
         return MaxSuggestions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinSuggestCharacters property.
     /// </summary>
@@ -774,8 +784,9 @@ public partial class SearchWidget : IGoTo
         }
          
         return MinSuggestCharacters;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupEnabled property.
     /// </summary>
@@ -814,8 +825,9 @@ public partial class SearchWidget : IGoTo
         }
          
         return PopupEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupTemplate property.
     /// </summary>
@@ -860,8 +872,9 @@ public partial class SearchWidget : IGoTo
         }
         
         return PopupTemplate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Portal property.
     /// </summary>
@@ -906,8 +919,9 @@ public partial class SearchWidget : IGoTo
         }
         
         return Portal;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ResultGraphic property.
     /// </summary>
@@ -952,8 +966,9 @@ public partial class SearchWidget : IGoTo
         }
         
         return ResultGraphic;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ResultGraphicEnabled property.
     /// </summary>
@@ -992,8 +1007,9 @@ public partial class SearchWidget : IGoTo
         }
          
         return ResultGraphicEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Results property.
     /// </summary>
@@ -1032,8 +1048,9 @@ public partial class SearchWidget : IGoTo
         }
          
         return Results;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SearchAllEnabled property.
     /// </summary>
@@ -1072,8 +1089,9 @@ public partial class SearchWidget : IGoTo
         }
          
         return SearchAllEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SearchTerm property.
     /// </summary>
@@ -1112,8 +1130,9 @@ public partial class SearchWidget : IGoTo
         }
          
         return SearchTerm;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SuggestionsEnabled property.
     /// </summary>
@@ -1152,8 +1171,9 @@ public partial class SearchWidget : IGoTo
         }
          
         return SuggestionsEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -1198,8 +1218,9 @@ public partial class SearchWidget : IGoTo
         }
         
         return ViewModel;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -1239,8 +1260,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "activeMenu", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ActiveSourceIndex property after render.
     /// </summary>
@@ -1276,8 +1298,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "activeSourceIndex", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the AllPlaceholder property after render.
     /// </summary>
@@ -1313,8 +1336,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "allPlaceholder", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the AutoSelect property after render.
     /// </summary>
@@ -1350,8 +1374,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "autoSelect", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Disabled property after render.
     /// </summary>
@@ -1387,8 +1412,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "disabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the IncludeDefaultSources property after render.
     /// </summary>
@@ -1424,8 +1450,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "includeDefaultSources", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LocationEnabled property after render.
     /// </summary>
@@ -1461,8 +1488,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "locationEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxResults property after render.
     /// </summary>
@@ -1498,8 +1526,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxResults", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxSuggestions property after render.
     /// </summary>
@@ -1535,8 +1564,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxSuggestions", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinSuggestCharacters property after render.
     /// </summary>
@@ -1572,8 +1602,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minSuggestCharacters", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
@@ -1609,8 +1640,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupTemplate property after render.
     /// </summary>
@@ -1649,11 +1681,12 @@ public partial class SearchWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPopupTemplate), nameof(SearchWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPopupTemplate), nameof(SearchWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Portal property after render.
     /// </summary>
@@ -1692,11 +1725,12 @@ public partial class SearchWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPortal), nameof(SearchWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPortal), nameof(SearchWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ResultGraphicEnabled property after render.
     /// </summary>
@@ -1732,8 +1766,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "resultGraphicEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SearchAllEnabled property after render.
     /// </summary>
@@ -1769,8 +1804,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "searchAllEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SearchTerm property after render.
     /// </summary>
@@ -1806,8 +1842,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "searchTerm", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Sources property after render.
     /// </summary>
@@ -1846,11 +1883,12 @@ public partial class SearchWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetSources), nameof(SearchWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetSources), nameof(SearchWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SuggestionsEnabled property after render.
     /// </summary>
@@ -1886,8 +1924,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "suggestionsEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -1923,11 +1962,12 @@ public partial class SearchWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetViewModel), nameof(SearchWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetViewModel), nameof(SearchWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -1944,6 +1984,7 @@ public partial class SearchWidget : IGoTo
             ? values
             : [..Sources, ..values];
         await SetSources(join);
+
     }
     
 #endregion
@@ -1964,6 +2005,7 @@ public partial class SearchWidget : IGoTo
             return;
         }
         await SetSources(Sources.Except(values).ToArray());
+
     }
     
 #endregion

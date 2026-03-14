@@ -304,8 +304,9 @@ public partial class WMSSublayer : MapComponent
         }
          
         return Description;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Dimensions property.
     /// </summary>
@@ -344,8 +345,9 @@ public partial class WMSSublayer : MapComponent
         }
          
         return Dimensions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FullExtent property.
     /// </summary>
@@ -390,8 +392,9 @@ public partial class WMSSublayer : MapComponent
         }
         
         return FullExtent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendEnabled property.
     /// </summary>
@@ -430,8 +433,9 @@ public partial class WMSSublayer : MapComponent
         }
          
         return LegendEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendUrl property.
     /// </summary>
@@ -470,8 +474,9 @@ public partial class WMSSublayer : MapComponent
         }
          
         return LegendUrl;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -510,8 +515,9 @@ public partial class WMSSublayer : MapComponent
         }
          
         return MaxScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -550,8 +556,9 @@ public partial class WMSSublayer : MapComponent
         }
          
         return MinScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -590,8 +597,9 @@ public partial class WMSSublayer : MapComponent
         }
          
         return Name;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupEnabled property.
     /// </summary>
@@ -630,8 +638,9 @@ public partial class WMSSublayer : MapComponent
         }
          
         return PopupEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Queryable property.
     /// </summary>
@@ -670,8 +679,9 @@ public partial class WMSSublayer : MapComponent
         }
          
         return Queryable;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReferences property.
     /// </summary>
@@ -710,8 +720,9 @@ public partial class WMSSublayer : MapComponent
         }
          
         return SpatialReferences;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -750,8 +761,9 @@ public partial class WMSSublayer : MapComponent
         }
          
         return Title;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the WMSSublayerId property.
     /// </summary>
@@ -790,8 +802,9 @@ public partial class WMSSublayer : MapComponent
         }
          
         return WMSSublayerId;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -831,8 +844,9 @@ public partial class WMSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "description", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FullExtent property after render.
     /// </summary>
@@ -873,8 +887,9 @@ public partial class WMSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fullExtent", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
@@ -910,8 +925,9 @@ public partial class WMSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendUrl property after render.
     /// </summary>
@@ -947,8 +963,9 @@ public partial class WMSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendUrl", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -984,8 +1001,9 @@ public partial class WMSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -1021,8 +1039,9 @@ public partial class WMSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
@@ -1058,8 +1077,9 @@ public partial class WMSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
@@ -1095,8 +1115,9 @@ public partial class WMSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Queryable property after render.
     /// </summary>
@@ -1132,8 +1153,9 @@ public partial class WMSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "queryable", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SpatialReferences property after render.
     /// </summary>
@@ -1169,8 +1191,9 @@ public partial class WMSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "spatialReferences", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -1206,8 +1229,9 @@ public partial class WMSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the WMSSublayerId property after render.
     /// </summary>
@@ -1243,8 +1267,9 @@ public partial class WMSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -1261,6 +1286,7 @@ public partial class WMSSublayer : MapComponent
             ? values
             : [..SpatialReferences, ..values];
         await SetSpatialReferences(join);
+
     }
     
 #endregion
@@ -1281,6 +1307,7 @@ public partial class WMSSublayer : MapComponent
             return;
         }
         await SetSpatialReferences(SpatialReferences.Except(values).ToArray());
+
     }
     
 #endregion

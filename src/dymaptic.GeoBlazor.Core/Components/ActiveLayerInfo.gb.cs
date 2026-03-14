@@ -246,8 +246,9 @@ public partial class ActiveLayerInfo : MapComponent
         }
          
         return HideLayersNotInCurrentView;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsScaleDriven property.
     /// </summary>
@@ -286,8 +287,9 @@ public partial class ActiveLayerInfo : MapComponent
         }
          
         return IsScaleDriven;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Layer property.
     /// </summary>
@@ -332,8 +334,9 @@ public partial class ActiveLayerInfo : MapComponent
         }
         
         return Layer;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LayerView property.
     /// </summary>
@@ -378,8 +381,9 @@ public partial class ActiveLayerInfo : MapComponent
         }
         
         return LayerView;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendElements property.
     /// </summary>
@@ -422,8 +426,9 @@ public partial class ActiveLayerInfo : MapComponent
         }
         
         return LegendElements;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Opacity property.
     /// </summary>
@@ -462,8 +467,9 @@ public partial class ActiveLayerInfo : MapComponent
         }
          
         return Opacity;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Ready property.
     /// </summary>
@@ -502,8 +508,9 @@ public partial class ActiveLayerInfo : MapComponent
         }
          
         return Ready;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RespectLayerVisibility property.
     /// </summary>
@@ -542,8 +549,9 @@ public partial class ActiveLayerInfo : MapComponent
         }
          
         return RespectLayerVisibility;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Scale property.
     /// </summary>
@@ -582,8 +590,9 @@ public partial class ActiveLayerInfo : MapComponent
         }
          
         return Scale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SublayerIds property.
     /// </summary>
@@ -622,8 +631,9 @@ public partial class ActiveLayerInfo : MapComponent
         }
          
         return SublayerIds;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -662,8 +672,9 @@ public partial class ActiveLayerInfo : MapComponent
         }
          
         return Title;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Version property.
     /// </summary>
@@ -702,8 +713,9 @@ public partial class ActiveLayerInfo : MapComponent
         }
          
         return Version;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -743,8 +755,9 @@ public partial class ActiveLayerInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "hideLayersNotInCurrentView", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Layer property after render.
     /// </summary>
@@ -785,8 +798,9 @@ public partial class ActiveLayerInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layer", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LayerView property after render.
     /// </summary>
@@ -827,8 +841,9 @@ public partial class ActiveLayerInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layerView", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendElements property after render.
     /// </summary>
@@ -872,8 +887,9 @@ public partial class ActiveLayerInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendElements", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RespectLayerVisibility property after render.
     /// </summary>
@@ -909,8 +925,9 @@ public partial class ActiveLayerInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "respectLayerVisibility", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SublayerIds property after render.
     /// </summary>
@@ -946,8 +963,9 @@ public partial class ActiveLayerInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sublayerIds", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -983,8 +1001,9 @@ public partial class ActiveLayerInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -1001,6 +1020,7 @@ public partial class ActiveLayerInfo : MapComponent
             ? values
             : [..LegendElements, ..values];
         await SetLegendElements(join);
+
     }
     
     /// <summary>
@@ -1015,6 +1035,7 @@ public partial class ActiveLayerInfo : MapComponent
             ? values
             : [..SublayerIds, ..values];
         await SetSublayerIds(join);
+
     }
     
 #endregion
@@ -1035,6 +1056,7 @@ public partial class ActiveLayerInfo : MapComponent
             return;
         }
         await SetLegendElements(LegendElements.Except(values).ToArray());
+
     }
     
     
@@ -1051,6 +1073,7 @@ public partial class ActiveLayerInfo : MapComponent
             return;
         }
         await SetSublayerIds(SublayerIds.Except(values).ToArray());
+
     }
     
 #endregion

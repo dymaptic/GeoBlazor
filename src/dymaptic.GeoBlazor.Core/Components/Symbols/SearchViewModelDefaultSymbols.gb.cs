@@ -128,8 +128,9 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         }
         
         return Point;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Polygon property.
     /// </summary>
@@ -174,8 +175,9 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         }
         
         return Polygon;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Polyline property.
     /// </summary>
@@ -220,8 +222,9 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         }
         
         return Polyline;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -266,8 +269,9 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "point", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Polygon property after render.
     /// </summary>
@@ -308,8 +312,9 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "polygon", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Polyline property after render.
     /// </summary>
@@ -350,8 +355,9 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "polyline", value);
+
     }
-    
+
 #endregion
 
 }

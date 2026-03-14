@@ -93,8 +93,9 @@ public partial class FeatureSnappingLayerSource
         }
          
         return Enabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Layer property.
     /// </summary>
@@ -139,8 +140,9 @@ public partial class FeatureSnappingLayerSource
         }
         
         return Layer;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -180,8 +182,9 @@ public partial class FeatureSnappingLayerSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "enabled", value);
+
     }
-    
+
 #endregion
 
 }

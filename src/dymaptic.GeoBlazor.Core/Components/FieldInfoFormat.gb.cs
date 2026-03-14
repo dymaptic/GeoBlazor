@@ -91,8 +91,9 @@ public partial class FieldInfoFormat
         }
          
         return DateFormat;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DigitSeparator property.
     /// </summary>
@@ -131,8 +132,9 @@ public partial class FieldInfoFormat
         }
          
         return DigitSeparator;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Places property.
     /// </summary>
@@ -171,8 +173,9 @@ public partial class FieldInfoFormat
         }
          
         return Places;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -212,8 +215,9 @@ public partial class FieldInfoFormat
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "dateFormat", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DigitSeparator property after render.
     /// </summary>
@@ -249,8 +253,9 @@ public partial class FieldInfoFormat
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "digitSeparator", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Places property after render.
     /// </summary>
@@ -286,8 +291,9 @@ public partial class FieldInfoFormat
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "places", value);
+
     }
-    
+
 #endregion
 
 }

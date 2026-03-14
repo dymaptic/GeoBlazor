@@ -126,8 +126,9 @@ public partial class KMLLayerView : LayerView
         }
         
         return AllVisibleMapImages;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AllVisiblePoints property.
     /// </summary>
@@ -170,8 +171,9 @@ public partial class KMLLayerView : LayerView
         }
         
         return AllVisiblePoints;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AllVisiblePolygons property.
     /// </summary>
@@ -214,8 +216,9 @@ public partial class KMLLayerView : LayerView
         }
         
         return AllVisiblePolygons;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AllVisiblePolylines property.
     /// </summary>
@@ -258,8 +261,9 @@ public partial class KMLLayerView : LayerView
         }
         
         return AllVisiblePolylines;
+
     }
-    
+
 #endregion
 
 }

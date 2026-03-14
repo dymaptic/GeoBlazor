@@ -143,8 +143,9 @@ public partial class MeshComponent : MapComponent
         }
          
         return Faces;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -183,8 +184,9 @@ public partial class MeshComponent : MapComponent
         }
          
         return Name;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Shading property.
     /// </summary>
@@ -223,8 +225,9 @@ public partial class MeshComponent : MapComponent
         }
          
         return Shading;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -264,8 +267,9 @@ public partial class MeshComponent : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "faces", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Material property after render.
     /// </summary>
@@ -301,8 +305,9 @@ public partial class MeshComponent : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "material", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
@@ -338,8 +343,9 @@ public partial class MeshComponent : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Shading property after render.
     /// </summary>
@@ -375,8 +381,9 @@ public partial class MeshComponent : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "shading", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -393,6 +400,7 @@ public partial class MeshComponent : MapComponent
             ? values
             : [..Faces, ..values];
         await SetFaces(join);
+
     }
     
 #endregion
@@ -413,6 +421,7 @@ public partial class MeshComponent : MapComponent
             return;
         }
         await SetFaces(Faces.Except(values).ToArray());
+
     }
     
 #endregion

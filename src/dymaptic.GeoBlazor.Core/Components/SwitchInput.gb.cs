@@ -82,8 +82,9 @@ public partial class SwitchInput
         }
          
         return OffValue;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OnValue property.
     /// </summary>
@@ -122,8 +123,9 @@ public partial class SwitchInput
         }
          
         return OnValue;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -163,8 +165,9 @@ public partial class SwitchInput
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "offValue", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OnValue property after render.
     /// </summary>
@@ -200,8 +203,9 @@ public partial class SwitchInput
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "onValue", value);
+
     }
-    
+
 #endregion
 
 }

@@ -90,8 +90,9 @@ public partial class CapabilitiesAnalytics : MapComponent
         }
          
         return SupportsCacheHint;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -131,8 +132,9 @@ public partial class CapabilitiesAnalytics : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsCacheHint", value);
+
     }
-    
+
 #endregion
 
 }

@@ -194,8 +194,9 @@ public partial class TimeInfo
         }
          
         return EndField;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FullTimeExtent property.
     /// </summary>
@@ -240,8 +241,9 @@ public partial class TimeInfo
         }
         
         return FullTimeExtent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Interval property.
     /// </summary>
@@ -286,8 +288,9 @@ public partial class TimeInfo
         }
         
         return Interval;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the StartField property.
     /// </summary>
@@ -326,8 +329,9 @@ public partial class TimeInfo
         }
          
         return StartField;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Stops property.
     /// </summary>
@@ -366,8 +370,9 @@ public partial class TimeInfo
         }
          
         return Stops;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeZone property.
     /// </summary>
@@ -406,8 +411,9 @@ public partial class TimeInfo
         }
          
         return TimeZone;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TrackIdField property.
     /// </summary>
@@ -446,8 +452,9 @@ public partial class TimeInfo
         }
          
         return TrackIdField;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -487,8 +494,9 @@ public partial class TimeInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "endField", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FullTimeExtent property after render.
     /// </summary>
@@ -529,8 +537,9 @@ public partial class TimeInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fullTimeExtent", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Interval property after render.
     /// </summary>
@@ -571,8 +580,9 @@ public partial class TimeInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "interval", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the StartField property after render.
     /// </summary>
@@ -608,8 +618,9 @@ public partial class TimeInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "startField", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Stops property after render.
     /// </summary>
@@ -645,8 +656,9 @@ public partial class TimeInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "stops", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeZone property after render.
     /// </summary>
@@ -682,8 +694,9 @@ public partial class TimeInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "timeZone", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TrackIdField property after render.
     /// </summary>
@@ -719,8 +732,9 @@ public partial class TimeInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "trackIdField", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -737,6 +751,7 @@ public partial class TimeInfo
             ? values
             : [..Stops, ..values];
         await SetStops(join);
+
     }
     
 #endregion
@@ -757,6 +772,7 @@ public partial class TimeInfo
             return;
         }
         await SetStops(Stops.Except(values).ToArray());
+
     }
     
 #endregion

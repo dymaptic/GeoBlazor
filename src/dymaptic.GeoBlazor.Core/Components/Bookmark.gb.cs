@@ -119,8 +119,9 @@ public partial class Bookmark
         }
          
         return Name;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Thumbnail property.
     /// </summary>
@@ -159,8 +160,9 @@ public partial class Bookmark
         }
          
         return Thumbnail;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeExtent property.
     /// </summary>
@@ -205,8 +207,9 @@ public partial class Bookmark
         }
         
         return TimeExtent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Viewpoint property.
     /// </summary>
@@ -251,8 +254,9 @@ public partial class Bookmark
         }
         
         return Viewpoint;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -292,8 +296,9 @@ public partial class Bookmark
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Thumbnail property after render.
     /// </summary>
@@ -329,8 +334,9 @@ public partial class Bookmark
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "thumbnail", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeExtent property after render.
     /// </summary>
@@ -371,8 +377,9 @@ public partial class Bookmark
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "timeExtent", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Viewpoint property after render.
     /// </summary>
@@ -413,8 +420,9 @@ public partial class Bookmark
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "viewpoint", value);
+
     }
-    
+
 #endregion
 
 

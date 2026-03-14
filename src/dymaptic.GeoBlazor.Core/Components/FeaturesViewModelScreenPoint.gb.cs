@@ -100,8 +100,9 @@ public partial class FeaturesViewModelScreenPoint : MapComponent
         }
          
         return X;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Y property.
     /// </summary>
@@ -140,8 +141,9 @@ public partial class FeaturesViewModelScreenPoint : MapComponent
         }
          
         return Y;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -181,8 +183,9 @@ public partial class FeaturesViewModelScreenPoint : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "x", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Y property after render.
     /// </summary>
@@ -218,8 +221,9 @@ public partial class FeaturesViewModelScreenPoint : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "y", value);
+
     }
-    
+
 #endregion
 
 }

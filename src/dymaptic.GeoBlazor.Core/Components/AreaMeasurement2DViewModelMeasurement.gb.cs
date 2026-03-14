@@ -122,8 +122,9 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
         }
          
         return Area;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Geometry property.
     /// </summary>
@@ -168,8 +169,9 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
         }
         
         return Geometry;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Perimeter property.
     /// </summary>
@@ -208,8 +210,9 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
         }
          
         return Perimeter;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -249,8 +252,9 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "area", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Geometry property after render.
     /// </summary>
@@ -291,8 +295,9 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "geometry", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Perimeter property after render.
     /// </summary>
@@ -328,8 +333,9 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "perimeter", value);
+
     }
-    
+
 #endregion
 
 

@@ -580,8 +580,9 @@ public partial class WCSLayer : IBlendLayer,
         }
          
         return BandIds;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BlendMode property.
     /// </summary>
@@ -620,8 +621,9 @@ public partial class WCSLayer : IBlendLayer,
         }
          
         return BlendMode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Copyright property.
     /// </summary>
@@ -660,8 +662,9 @@ public partial class WCSLayer : IBlendLayer,
         }
          
         return Copyright;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CoverageId property.
     /// </summary>
@@ -700,8 +703,9 @@ public partial class WCSLayer : IBlendLayer,
         }
          
         return CoverageId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CoverageInfo property.
     /// </summary>
@@ -740,8 +744,9 @@ public partial class WCSLayer : IBlendLayer,
         }
         
         return CoverageInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomParameters property.
     /// </summary>
@@ -780,8 +785,9 @@ public partial class WCSLayer : IBlendLayer,
         }
          
         return CustomParameters;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Effect property.
     /// </summary>
@@ -820,8 +826,9 @@ public partial class WCSLayer : IBlendLayer,
         }
         
         return Effect;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Interpolation property.
     /// </summary>
@@ -860,8 +867,9 @@ public partial class WCSLayer : IBlendLayer,
         }
          
         return Interpolation;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendEnabled property.
     /// </summary>
@@ -900,8 +908,9 @@ public partial class WCSLayer : IBlendLayer,
         }
          
         return LegendEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -940,8 +949,9 @@ public partial class WCSLayer : IBlendLayer,
         }
          
         return MaxScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -980,8 +990,9 @@ public partial class WCSLayer : IBlendLayer,
         }
          
         return MinScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MultidimensionalDefinition property.
     /// </summary>
@@ -1024,8 +1035,9 @@ public partial class WCSLayer : IBlendLayer,
         }
         
         return MultidimensionalDefinition;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MultidimensionalSubset property.
     /// </summary>
@@ -1070,8 +1082,9 @@ public partial class WCSLayer : IBlendLayer,
         }
         
         return MultidimensionalSubset;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NoData property.
     /// </summary>
@@ -1110,8 +1123,9 @@ public partial class WCSLayer : IBlendLayer,
         }
          
         return NoData;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupEnabled property.
     /// </summary>
@@ -1150,8 +1164,9 @@ public partial class WCSLayer : IBlendLayer,
         }
          
         return PopupEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupTemplate property.
     /// </summary>
@@ -1196,8 +1211,9 @@ public partial class WCSLayer : IBlendLayer,
         }
         
         return PopupTemplate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalItem property.
     /// </summary>
@@ -1242,8 +1258,9 @@ public partial class WCSLayer : IBlendLayer,
         }
         
         return PortalItem;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RasterFields property.
     /// </summary>
@@ -1286,8 +1303,9 @@ public partial class WCSLayer : IBlendLayer,
         }
         
         return RasterFields;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Renderer property.
     /// </summary>
@@ -1326,8 +1344,9 @@ public partial class WCSLayer : IBlendLayer,
         }
          
         return Renderer;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ServiceRasterInfo property.
     /// </summary>
@@ -1366,8 +1385,9 @@ public partial class WCSLayer : IBlendLayer,
         }
         
         return ServiceRasterInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -1406,8 +1426,9 @@ public partial class WCSLayer : IBlendLayer,
         }
         
         return SpatialReference;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeExtent property.
     /// </summary>
@@ -1452,8 +1473,9 @@ public partial class WCSLayer : IBlendLayer,
         }
         
         return TimeExtent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeInfo property.
     /// </summary>
@@ -1498,8 +1520,9 @@ public partial class WCSLayer : IBlendLayer,
         }
         
         return TimeInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeOffset property.
     /// </summary>
@@ -1544,8 +1567,9 @@ public partial class WCSLayer : IBlendLayer,
         }
         
         return TimeOffset;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -1584,8 +1608,9 @@ public partial class WCSLayer : IBlendLayer,
         }
          
         return Url;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UseViewTime property.
     /// </summary>
@@ -1624,8 +1649,9 @@ public partial class WCSLayer : IBlendLayer,
         }
          
         return UseViewTime;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Version property.
     /// </summary>
@@ -1664,8 +1690,9 @@ public partial class WCSLayer : IBlendLayer,
         }
          
         return Version;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -1705,8 +1732,9 @@ public partial class WCSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "bandIds", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BlendMode property after render.
     /// </summary>
@@ -1742,8 +1770,9 @@ public partial class WCSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "blendMode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Copyright property after render.
     /// </summary>
@@ -1779,8 +1808,9 @@ public partial class WCSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "copyright", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CoverageId property after render.
     /// </summary>
@@ -1816,8 +1846,9 @@ public partial class WCSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "coverageId", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CoverageInfo property after render.
     /// </summary>
@@ -1851,11 +1882,12 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetCoverageInfo), nameof(WCSLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetCoverageInfo), nameof(WCSLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CustomParameters property after render.
     /// </summary>
@@ -1891,8 +1923,9 @@ public partial class WCSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "customParameters", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Effect property after render.
     /// </summary>
@@ -1926,11 +1959,12 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetEffect), nameof(WCSLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetEffect), nameof(WCSLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Interpolation property after render.
     /// </summary>
@@ -1966,8 +2000,9 @@ public partial class WCSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "interpolation", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
@@ -2003,8 +2038,9 @@ public partial class WCSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -2040,8 +2076,9 @@ public partial class WCSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -2077,8 +2114,9 @@ public partial class WCSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MultidimensionalDefinition property after render.
     /// </summary>
@@ -2120,11 +2158,12 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetMultidimensionalDefinition), nameof(WCSLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetMultidimensionalDefinition), nameof(WCSLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MultidimensionalSubset property after render.
     /// </summary>
@@ -2163,11 +2202,12 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetMultidimensionalSubset), nameof(WCSLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetMultidimensionalSubset), nameof(WCSLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the NoData property after render.
     /// </summary>
@@ -2203,8 +2243,9 @@ public partial class WCSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "noData", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PersistenceEnabled property after render.
     /// </summary>
@@ -2240,8 +2281,9 @@ public partial class WCSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "persistenceEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
@@ -2277,8 +2319,9 @@ public partial class WCSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupTemplate property after render.
     /// </summary>
@@ -2317,11 +2360,12 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPopupTemplate), nameof(WCSLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPopupTemplate), nameof(WCSLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
@@ -2360,11 +2404,12 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPortalItem), nameof(WCSLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPortalItem), nameof(WCSLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Renderer property after render.
     /// </summary>
@@ -2400,8 +2445,9 @@ public partial class WCSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "renderer", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeExtent property after render.
     /// </summary>
@@ -2440,11 +2486,12 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetTimeExtent), nameof(WCSLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTimeExtent), nameof(WCSLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeInfo property after render.
     /// </summary>
@@ -2483,11 +2530,12 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetTimeInfo), nameof(WCSLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTimeInfo), nameof(WCSLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeOffset property after render.
     /// </summary>
@@ -2526,11 +2574,12 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetTimeOffset), nameof(WCSLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTimeOffset), nameof(WCSLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -2566,8 +2615,9 @@ public partial class WCSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UseViewTime property after render.
     /// </summary>
@@ -2603,8 +2653,9 @@ public partial class WCSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "useViewTime", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Version property after render.
     /// </summary>
@@ -2640,8 +2691,9 @@ public partial class WCSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "version", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -2658,6 +2710,7 @@ public partial class WCSLayer : IBlendLayer,
             ? values
             : [..BandIds, ..values];
         await SetBandIds(join);
+
     }
     
     /// <summary>
@@ -2672,6 +2725,7 @@ public partial class WCSLayer : IBlendLayer,
             ? values
             : [..MultidimensionalDefinition, ..values];
         await SetMultidimensionalDefinition(join);
+
     }
     
 #endregion
@@ -2692,6 +2746,7 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         await SetBandIds(BandIds.Except(values).ToArray());
+
     }
     
     
@@ -2708,6 +2763,7 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         await SetMultidimensionalDefinition(MultidimensionalDefinition.Except(values).ToArray());
+
     }
     
 #endregion

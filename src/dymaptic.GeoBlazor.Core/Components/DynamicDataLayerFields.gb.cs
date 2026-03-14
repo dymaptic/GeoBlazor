@@ -106,8 +106,9 @@ public partial class DynamicDataLayerFields : MapComponent
         }
          
         return Alias;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -146,8 +147,9 @@ public partial class DynamicDataLayerFields : MapComponent
         }
          
         return Name;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -187,8 +189,9 @@ public partial class DynamicDataLayerFields : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "alias", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
@@ -224,8 +227,9 @@ public partial class DynamicDataLayerFields : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
+
     }
-    
+
 #endregion
 
 }

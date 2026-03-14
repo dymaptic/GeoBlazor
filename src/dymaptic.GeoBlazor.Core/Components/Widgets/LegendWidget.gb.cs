@@ -270,8 +270,9 @@ public partial class LegendWidget
         }
         
         return ActiveLayerInfos;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BasemapLegendVisible property.
     /// </summary>
@@ -310,8 +311,9 @@ public partial class LegendWidget
         }
          
         return BasemapLegendVisible;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HeadingLevel property.
     /// </summary>
@@ -350,8 +352,9 @@ public partial class LegendWidget
         }
          
         return HeadingLevel;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HideLayersNotInCurrentView property.
     /// </summary>
@@ -390,8 +393,9 @@ public partial class LegendWidget
         }
          
         return HideLayersNotInCurrentView;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LayerInfos property.
     /// </summary>
@@ -434,8 +438,9 @@ public partial class LegendWidget
         }
         
         return LayerInfos;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RespectLayerDefinitionExpression property.
     /// </summary>
@@ -474,8 +479,9 @@ public partial class LegendWidget
         }
          
         return RespectLayerDefinitionExpression;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RespectLayerVisibility property.
     /// </summary>
@@ -514,8 +520,9 @@ public partial class LegendWidget
         }
          
         return RespectLayerVisibility;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Style property.
     /// </summary>
@@ -560,8 +567,9 @@ public partial class LegendWidget
         }
         
         return Style;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -606,8 +614,9 @@ public partial class LegendWidget
         }
         
         return ViewModel;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -653,11 +662,12 @@ public partial class LegendWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetActiveLayerInfos), nameof(LegendWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetActiveLayerInfos), nameof(LegendWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BasemapLegendVisible property after render.
     /// </summary>
@@ -693,8 +703,9 @@ public partial class LegendWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "basemapLegendVisible", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HeadingLevel property after render.
     /// </summary>
@@ -730,8 +741,9 @@ public partial class LegendWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "headingLevel", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HideLayersNotInCurrentView property after render.
     /// </summary>
@@ -767,8 +779,9 @@ public partial class LegendWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "hideLayersNotInCurrentView", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LayerInfos property after render.
     /// </summary>
@@ -810,11 +823,12 @@ public partial class LegendWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetLayerInfos), nameof(LegendWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetLayerInfos), nameof(LegendWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RespectLayerDefinitionExpression property after render.
     /// </summary>
@@ -850,8 +864,9 @@ public partial class LegendWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "respectLayerDefinitionExpression", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RespectLayerVisibility property after render.
     /// </summary>
@@ -887,8 +902,9 @@ public partial class LegendWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "respectLayerVisibility", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Style property after render.
     /// </summary>
@@ -927,11 +943,12 @@ public partial class LegendWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetStyle), nameof(LegendWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetStyle), nameof(LegendWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -970,11 +987,12 @@ public partial class LegendWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetViewModel), nameof(LegendWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetViewModel), nameof(LegendWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -991,6 +1009,7 @@ public partial class LegendWidget
             ? values
             : [..ActiveLayerInfos, ..values];
         await SetActiveLayerInfos(join);
+
     }
     
     /// <summary>
@@ -1005,6 +1024,7 @@ public partial class LegendWidget
             ? values
             : [..LayerInfos, ..values];
         await SetLayerInfos(join);
+
     }
     
 #endregion
@@ -1025,6 +1045,7 @@ public partial class LegendWidget
             return;
         }
         await SetActiveLayerInfos(ActiveLayerInfos.Except(values).ToArray());
+
     }
     
     
@@ -1041,6 +1062,7 @@ public partial class LegendWidget
             return;
         }
         await SetLayerInfos(LayerInfos.Except(values).ToArray());
+
     }
     
 #endregion

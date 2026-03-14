@@ -111,8 +111,9 @@ public partial class LayerOptions : MapComponent
         }
          
         return ReturnTopmostRaster;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ShowNoDataRecords property.
     /// </summary>
@@ -151,8 +152,9 @@ public partial class LayerOptions : MapComponent
         }
          
         return ShowNoDataRecords;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -192,8 +194,9 @@ public partial class LayerOptions : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "returnTopmostRaster", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ShowNoDataRecords property after render.
     /// </summary>
@@ -229,8 +232,9 @@ public partial class LayerOptions : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "showNoDataRecords", value);
+
     }
-    
+
 #endregion
 
 }

@@ -45,10 +45,12 @@ public partial class ImageryLayerView : LayerView
     {
         AllowRender = false;
 #pragma warning disable BL0005
+#pragma warning disable CS0618
         HighlightOptions = highlightOptions;
         PixelData = pixelData;
         Visible = visible;
 #pragma warning restore BL0005
+#pragma warning restore CS0618
     }
     
     
@@ -75,6 +77,7 @@ public partial class ImageryLayerView : LayerView
     [Obsolete("$Deprecated since GeoBlazor version 4.4.0. Use the {nameof(MapView.Highlights)} property instead.")]
     public async Task<HighlightOptions?> GetHighlightOptions()
     {
+#pragma warning disable CS0618
         if (CoreJsModule is null)
         {
             return HighlightOptions;
@@ -114,8 +117,9 @@ public partial class ImageryLayerView : LayerView
         }
         
         return HighlightOptions;
+#pragma warning restore CS0618
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PixelData property.
     /// </summary>
@@ -160,8 +164,9 @@ public partial class ImageryLayerView : LayerView
         }
         
         return PixelData;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -175,6 +180,7 @@ public partial class ImageryLayerView : LayerView
     [Obsolete("$Deprecated since GeoBlazor version 4.4.0. Use the {nameof(MapView.Highlights)} property instead.")]
     public async Task SetHighlightOptions(HighlightOptions? value)
     {
+#pragma warning disable CS0618
 #pragma warning disable BL0005
         HighlightOptions = value;
 #pragma warning restore BL0005
@@ -205,11 +211,12 @@ public partial class ImageryLayerView : LayerView
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetHighlightOptions), nameof(ImageryLayerView), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetHighlightOptions), nameof(ImageryLayerView),
             CancellationTokenSource.Token, value);
+ #pragma warning restore CS0618
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PixelData property after render.
     /// </summary>
@@ -248,11 +255,12 @@ public partial class ImageryLayerView : LayerView
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPixelData), nameof(ImageryLayerView), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPixelData), nameof(ImageryLayerView),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Public Methods

@@ -51,8 +51,9 @@ public abstract partial class Symbol
         }
          
         return Color;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -92,8 +93,9 @@ public abstract partial class Symbol
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "color", value);
+
     }
-    
+
 #endregion
 
 }

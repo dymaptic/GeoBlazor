@@ -102,8 +102,9 @@ public partial class UniqueValueInfo
         }
          
         return Label;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Value property.
     /// </summary>
@@ -142,8 +143,9 @@ public partial class UniqueValueInfo
         }
          
         return Value;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -183,8 +185,9 @@ public partial class UniqueValueInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "label", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Value property after render.
     /// </summary>
@@ -220,8 +223,9 @@ public partial class UniqueValueInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value", value);
+
     }
-    
+
 #endregion
 
 

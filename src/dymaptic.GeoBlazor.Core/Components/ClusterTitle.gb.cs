@@ -87,8 +87,9 @@ public partial class ClusterTitle : MapComponent
         }
          
         return ShowCount;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -128,8 +129,9 @@ public partial class ClusterTitle : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "showCount", value);
+
     }
-    
+
 #endregion
 
 }

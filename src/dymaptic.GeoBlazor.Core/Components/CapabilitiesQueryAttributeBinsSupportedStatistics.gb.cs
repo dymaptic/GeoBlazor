@@ -190,8 +190,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         }
          
         return Avg;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Count property.
     /// </summary>
@@ -230,8 +231,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         }
          
         return Count;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Max property.
     /// </summary>
@@ -270,8 +272,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         }
          
         return Max;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Min property.
     /// </summary>
@@ -310,8 +313,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         }
          
         return Min;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PercentileContinuous property.
     /// </summary>
@@ -350,8 +354,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         }
          
         return PercentileContinuous;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PercentileDiscrete property.
     /// </summary>
@@ -390,8 +395,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         }
          
         return PercentileDiscrete;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Stddev property.
     /// </summary>
@@ -430,8 +436,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         }
          
         return Stddev;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Sum property.
     /// </summary>
@@ -470,8 +477,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         }
          
         return Sum;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Var property.
     /// </summary>
@@ -510,8 +518,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         }
          
         return Var;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -551,8 +560,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "avg", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Count property after render.
     /// </summary>
@@ -588,8 +598,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "count", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Max property after render.
     /// </summary>
@@ -625,8 +636,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "max", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Min property after render.
     /// </summary>
@@ -662,8 +674,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "min", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PercentileContinuous property after render.
     /// </summary>
@@ -699,8 +712,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "percentileContinuous", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PercentileDiscrete property after render.
     /// </summary>
@@ -736,8 +750,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "percentileDiscrete", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Stddev property after render.
     /// </summary>
@@ -773,8 +788,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "stddev", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Sum property after render.
     /// </summary>
@@ -810,8 +826,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sum", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Var property after render.
     /// </summary>
@@ -847,8 +864,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "var", value);
+
     }
-    
+
 #endregion
 
 }

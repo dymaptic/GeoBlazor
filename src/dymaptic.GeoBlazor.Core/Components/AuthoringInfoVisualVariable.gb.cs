@@ -293,8 +293,9 @@ public partial class AuthoringInfoVisualVariable
         }
          
         return EndTime;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Field property.
     /// </summary>
@@ -333,8 +334,9 @@ public partial class AuthoringInfoVisualVariable
         }
          
         return Field;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxSliderValue property.
     /// </summary>
@@ -373,8 +375,9 @@ public partial class AuthoringInfoVisualVariable
         }
          
         return MaxSliderValue;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinSliderValue property.
     /// </summary>
@@ -413,8 +416,9 @@ public partial class AuthoringInfoVisualVariable
         }
          
         return MinSliderValue;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NormalizationField property.
     /// </summary>
@@ -453,8 +457,9 @@ public partial class AuthoringInfoVisualVariable
         }
          
         return NormalizationField;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ReferenceSizeScale property.
     /// </summary>
@@ -493,8 +498,9 @@ public partial class AuthoringInfoVisualVariable
         }
          
         return ReferenceSizeScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ReferenceSizeSymbolStyle property.
     /// </summary>
@@ -533,8 +539,9 @@ public partial class AuthoringInfoVisualVariable
         }
          
         return ReferenceSizeSymbolStyle;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SizeStops property.
     /// </summary>
@@ -577,8 +584,9 @@ public partial class AuthoringInfoVisualVariable
         }
         
         return SizeStops;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpikeSymbolStyle property.
     /// </summary>
@@ -617,8 +625,9 @@ public partial class AuthoringInfoVisualVariable
         }
          
         return SpikeSymbolStyle;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the StartTime property.
     /// </summary>
@@ -657,8 +666,9 @@ public partial class AuthoringInfoVisualVariable
         }
          
         return StartTime;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Style property.
     /// </summary>
@@ -697,8 +707,9 @@ public partial class AuthoringInfoVisualVariable
         }
          
         return Style;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Theme property.
     /// </summary>
@@ -737,8 +748,9 @@ public partial class AuthoringInfoVisualVariable
         }
          
         return Theme;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Units property.
     /// </summary>
@@ -777,8 +789,9 @@ public partial class AuthoringInfoVisualVariable
         }
          
         return Units;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -818,8 +831,9 @@ public partial class AuthoringInfoVisualVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "endTime", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Field property after render.
     /// </summary>
@@ -855,8 +869,9 @@ public partial class AuthoringInfoVisualVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxSliderValue property after render.
     /// </summary>
@@ -892,8 +907,9 @@ public partial class AuthoringInfoVisualVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxSliderValue", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinSliderValue property after render.
     /// </summary>
@@ -929,8 +945,9 @@ public partial class AuthoringInfoVisualVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minSliderValue", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the NormalizationField property after render.
     /// </summary>
@@ -966,8 +983,9 @@ public partial class AuthoringInfoVisualVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "normalizationField", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ReferenceSizeScale property after render.
     /// </summary>
@@ -1003,8 +1021,9 @@ public partial class AuthoringInfoVisualVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "referenceSizeScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ReferenceSizeSymbolStyle property after render.
     /// </summary>
@@ -1040,8 +1059,9 @@ public partial class AuthoringInfoVisualVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "referenceSizeSymbolStyle", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SizeStops property after render.
     /// </summary>
@@ -1085,8 +1105,9 @@ public partial class AuthoringInfoVisualVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sizeStops", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SpikeSymbolStyle property after render.
     /// </summary>
@@ -1122,8 +1143,9 @@ public partial class AuthoringInfoVisualVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "spikeSymbolStyle", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the StartTime property after render.
     /// </summary>
@@ -1159,8 +1181,9 @@ public partial class AuthoringInfoVisualVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "startTime", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Style property after render.
     /// </summary>
@@ -1196,8 +1219,9 @@ public partial class AuthoringInfoVisualVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "style", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Theme property after render.
     /// </summary>
@@ -1233,8 +1257,9 @@ public partial class AuthoringInfoVisualVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "theme", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Units property after render.
     /// </summary>
@@ -1270,8 +1295,9 @@ public partial class AuthoringInfoVisualVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "units", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -1288,6 +1314,7 @@ public partial class AuthoringInfoVisualVariable
             ? values
             : [..SizeStops, ..values];
         await SetSizeStops(join);
+
     }
     
 #endregion
@@ -1308,6 +1335,7 @@ public partial class AuthoringInfoVisualVariable
             return;
         }
         await SetSizeStops(SizeStops.Except(values).ToArray());
+
     }
     
 #endregion

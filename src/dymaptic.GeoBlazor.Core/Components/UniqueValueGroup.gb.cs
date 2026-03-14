@@ -111,8 +111,9 @@ public partial class UniqueValueGroup : MapComponent
         }
         
         return Classes;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Heading property.
     /// </summary>
@@ -151,8 +152,9 @@ public partial class UniqueValueGroup : MapComponent
         }
          
         return Heading;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -200,8 +202,9 @@ public partial class UniqueValueGroup : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "classes", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Heading property after render.
     /// </summary>
@@ -237,8 +240,9 @@ public partial class UniqueValueGroup : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "heading", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -255,6 +259,7 @@ public partial class UniqueValueGroup : MapComponent
             ? values
             : [..Classes, ..values];
         await SetClasses(join);
+
     }
     
 #endregion
@@ -275,6 +280,7 @@ public partial class UniqueValueGroup : MapComponent
             return;
         }
         await SetClasses(Classes.Except(values).ToArray());
+
     }
     
 #endregion

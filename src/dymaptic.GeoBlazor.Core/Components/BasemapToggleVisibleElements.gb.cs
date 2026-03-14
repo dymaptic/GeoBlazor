@@ -90,8 +90,9 @@ public partial class BasemapToggleVisibleElements : MapComponent
         }
          
         return Title;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -131,8 +132,9 @@ public partial class BasemapToggleVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 }

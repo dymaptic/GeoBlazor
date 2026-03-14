@@ -53,8 +53,9 @@ public abstract partial class FillSymbol
         }
          
         return Outline;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -94,8 +95,9 @@ public abstract partial class FillSymbol
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outline", value);
+
     }
-    
+
 #endregion
 
 }

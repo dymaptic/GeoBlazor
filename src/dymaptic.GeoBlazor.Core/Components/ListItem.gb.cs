@@ -20,6 +20,85 @@ public partial class ListItem
     {
     }
 
+    /// <summary>
+    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
+    /// </summary>
+    /// <param name="actionsOpen">
+    ///     Whether the actions panel is open in the LayerList.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#actionsOpen">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="actionsSections">
+    ///     A nested 2-dimensional collection of actions that could be triggered on the item.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#actionsSections">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="childrenSortable">
+    ///     Indicates if the children of a list item (or sublayers in a GroupLayer) can be sorted or moved/reordered.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#childrenSortable">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="hidden">
+    ///     When `true`, hides the layer from the LayerList instance.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#hidden">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="listModeDisabled">
+    ///     Specifies whether to ignore the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">listMode</a> property of the child layers in the list item.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#listModeDisabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="open">
+    ///     Whether the layer is open in the LayerList.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#open">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="sortable">
+    ///     Indicates if the list item (or layer in the map) can be sorted or moved/reordered.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#sortable">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="title">
+    ///     The title of the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#title">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="layer">
+    ///     The layer associated with the triggered action.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#layer">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="visible">
+    ///     Indicates if the ListItem is visible.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#visible">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    public ListItem(
+        bool? actionsOpen = null,
+        ActionBase[][]? actionsSections = null,
+        bool? childrenSortable = null,
+        bool? hidden = null,
+        bool? listModeDisabled = null,
+        bool? open = null,
+        bool? sortable = null,
+        string? title = null,
+        Layer? layer = null,
+        bool? visible = null)
+    {
+        AllowRender = false;
+#pragma warning disable BL0005
+        ActionsOpen = actionsOpen;
+        ActionsSections = actionsSections;
+        ChildrenSortable = childrenSortable;
+        Hidden = hidden;
+        ListModeDisabled = listModeDisabled;
+        Open = open;
+        Sortable = sortable;
+        Title = title;
+        Layer = layer;
+        Visible = visible;
+#pragma warning restore BL0005
+    }
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -267,8 +346,9 @@ public partial class ListItem
         }
          
         return ActionsOpen;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ActionsSections property.
     /// </summary>
@@ -311,8 +391,9 @@ public partial class ListItem
         }
         
         return ActionsSections;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ChildrenSortable property.
     /// </summary>
@@ -351,8 +432,9 @@ public partial class ListItem
         }
          
         return ChildrenSortable;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ConnectionStatus property.
     /// </summary>
@@ -391,8 +473,9 @@ public partial class ListItem
         }
          
         return ConnectionStatus;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Error property.
     /// </summary>
@@ -431,8 +514,9 @@ public partial class ListItem
         }
          
         return Error;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Hidden property.
     /// </summary>
@@ -471,8 +555,9 @@ public partial class ListItem
         }
          
         return Hidden;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Incompatible property.
     /// </summary>
@@ -511,8 +596,9 @@ public partial class ListItem
         }
          
         return Incompatible;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Layer property.
     /// </summary>
@@ -557,8 +643,9 @@ public partial class ListItem
         }
         
         return Layer;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LayerView property.
     /// </summary>
@@ -603,8 +690,9 @@ public partial class ListItem
         }
         
         return LayerView;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ListModeDisabled property.
     /// </summary>
@@ -643,8 +731,9 @@ public partial class ListItem
         }
          
         return ListModeDisabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Open property.
     /// </summary>
@@ -683,8 +772,9 @@ public partial class ListItem
         }
          
         return Open;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Publishing property.
     /// </summary>
@@ -723,8 +813,9 @@ public partial class ListItem
         }
          
         return Publishing;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Sortable property.
     /// </summary>
@@ -763,8 +854,9 @@ public partial class ListItem
         }
          
         return Sortable;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -803,8 +895,9 @@ public partial class ListItem
         }
          
         return Title;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Updating property.
     /// </summary>
@@ -843,8 +936,9 @@ public partial class ListItem
         }
          
         return Updating;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibilityMode property.
     /// </summary>
@@ -883,8 +977,9 @@ public partial class ListItem
         }
          
         return VisibilityMode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibleAtCurrentScale property.
     /// </summary>
@@ -923,8 +1018,9 @@ public partial class ListItem
         }
          
         return VisibleAtCurrentScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibleAtCurrentTimeExtent property.
     /// </summary>
@@ -963,8 +1059,9 @@ public partial class ListItem
         }
          
         return VisibleAtCurrentTimeExtent;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -1004,8 +1101,9 @@ public partial class ListItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "actionsOpen", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ChildrenSortable property after render.
     /// </summary>
@@ -1041,8 +1139,9 @@ public partial class ListItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "childrenSortable", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Hidden property after render.
     /// </summary>
@@ -1078,8 +1177,9 @@ public partial class ListItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "hidden", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Layer property after render.
     /// </summary>
@@ -1118,11 +1218,12 @@ public partial class ListItem
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetLayer), nameof(ListItem), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetLayer), nameof(ListItem),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ListModeDisabled property after render.
     /// </summary>
@@ -1158,8 +1259,9 @@ public partial class ListItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "listModeDisabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Open property after render.
     /// </summary>
@@ -1195,8 +1297,9 @@ public partial class ListItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "open", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Sortable property after render.
     /// </summary>
@@ -1232,8 +1335,9 @@ public partial class ListItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sortable", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -1269,8 +1373,9 @@ public partial class ListItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 

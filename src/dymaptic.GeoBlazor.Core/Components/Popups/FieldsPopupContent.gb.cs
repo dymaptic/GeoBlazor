@@ -103,8 +103,9 @@ public partial class FieldsPopupContent
         }
          
         return Description;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FieldInfos property.
     /// </summary>
@@ -147,8 +148,9 @@ public partial class FieldsPopupContent
         }
         
         return FieldInfos;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -187,8 +189,9 @@ public partial class FieldsPopupContent
         }
          
         return Title;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -228,8 +231,9 @@ public partial class FieldsPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "description", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FieldInfos property after render.
     /// </summary>
@@ -273,8 +277,9 @@ public partial class FieldsPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fieldInfos", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -310,8 +315,9 @@ public partial class FieldsPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -328,6 +334,7 @@ public partial class FieldsPopupContent
             ? values
             : [..FieldInfos, ..values];
         await SetFieldInfos(join);
+
     }
     
 #endregion
@@ -348,6 +355,7 @@ public partial class FieldsPopupContent
             return;
         }
         await SetFieldInfos(FieldInfos.Except(values).ToArray());
+
     }
     
 #endregion

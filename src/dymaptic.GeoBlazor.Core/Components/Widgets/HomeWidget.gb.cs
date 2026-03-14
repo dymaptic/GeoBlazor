@@ -159,8 +159,9 @@ public partial class HomeWidget : IGoTo
         }
          
         return UiStrings;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -205,8 +206,9 @@ public partial class HomeWidget : IGoTo
         }
         
         return ViewModel;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Viewpoint property.
     /// </summary>
@@ -251,8 +253,9 @@ public partial class HomeWidget : IGoTo
         }
         
         return Viewpoint;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -292,8 +295,9 @@ public partial class HomeWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "uiStrings", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -332,11 +336,12 @@ public partial class HomeWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetViewModel), nameof(HomeWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetViewModel), nameof(HomeWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Viewpoint property after render.
     /// </summary>
@@ -375,11 +380,12 @@ public partial class HomeWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetViewpoint), nameof(HomeWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetViewpoint), nameof(HomeWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Public Methods

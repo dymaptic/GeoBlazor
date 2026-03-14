@@ -82,8 +82,9 @@ public partial class SliderVisibleElements
         }
          
         return Labels;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RangeLabels property.
     /// </summary>
@@ -122,8 +123,9 @@ public partial class SliderVisibleElements
         }
          
         return RangeLabels;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -163,8 +165,9 @@ public partial class SliderVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labels", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RangeLabels property after render.
     /// </summary>
@@ -200,8 +203,9 @@ public partial class SliderVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rangeLabels", value);
+
     }
-    
+
 #endregion
 
 }

@@ -118,8 +118,9 @@ public partial class BasemapGalleryItem : MapComponent
         }
         
         return Basemap;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Error property.
     /// </summary>
@@ -158,8 +159,9 @@ public partial class BasemapGalleryItem : MapComponent
         }
          
         return Error;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -198,8 +200,9 @@ public partial class BasemapGalleryItem : MapComponent
         }
          
         return State;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -244,8 +247,9 @@ public partial class BasemapGalleryItem : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "basemap", value);
+
     }
-    
+
 #endregion
 
 

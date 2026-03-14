@@ -19,6 +19,39 @@ public partial class LayerListViewModel : MapComponent
     {
     }
 
+    /// <summary>
+    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
+    /// </summary>
+    /// <param name="checkPublishStatusEnabled">
+    ///     Whether to provide an indication if a layer is being published in the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a>.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html#checkPublishStatusEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="listItemCreatedFunction">
+    ///     Specifies a function that accesses each <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html#listItemCreatedFunction">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="listModeDisabled">
+    ///     Specifies whether to ignore the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">listMode</a> property of the layers to display all layers.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html#listModeDisabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    public LayerListViewModel(
+        bool? checkPublishStatusEnabled = null,
+        LayerListListItemCreatedHandler? listItemCreatedFunction = null,
+        bool? listModeDisabled = null)
+    {
+        AllowRender = false;
+#pragma warning disable BL0005
+        CheckPublishStatusEnabled = checkPublishStatusEnabled;
+        ListItemCreatedFunction = listItemCreatedFunction;
+        ListModeDisabled = listModeDisabled;
+#pragma warning restore BL0005
+    }
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -107,8 +140,9 @@ public partial class LayerListViewModel : MapComponent
         }
          
         return CheckPublishStatusEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ListModeDisabled property.
     /// </summary>
@@ -147,8 +181,9 @@ public partial class LayerListViewModel : MapComponent
         }
          
         return ListModeDisabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OperationalItems property.
     /// </summary>
@@ -191,8 +226,9 @@ public partial class LayerListViewModel : MapComponent
         }
         
         return OperationalItems;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -231,8 +267,9 @@ public partial class LayerListViewModel : MapComponent
         }
          
         return State;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -272,8 +309,9 @@ public partial class LayerListViewModel : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "checkPublishStatusEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ListModeDisabled property after render.
     /// </summary>
@@ -309,8 +347,9 @@ public partial class LayerListViewModel : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "listModeDisabled", value);
+
     }
-    
+
 #endregion
 
 #region Public Methods

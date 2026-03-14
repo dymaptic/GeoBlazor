@@ -76,8 +76,9 @@ public partial class UniqueValueRendererLegendOptions
         }
          
         return Title;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -117,8 +118,9 @@ public partial class UniqueValueRendererLegendOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 }

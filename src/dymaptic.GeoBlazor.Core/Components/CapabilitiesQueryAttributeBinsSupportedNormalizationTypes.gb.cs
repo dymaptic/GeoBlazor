@@ -138,8 +138,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
         }
          
         return Field;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Log property.
     /// </summary>
@@ -178,8 +179,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
         }
          
         return Log;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NaturalLog property.
     /// </summary>
@@ -218,8 +220,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
         }
          
         return NaturalLog;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PercentOfTotal property.
     /// </summary>
@@ -258,8 +261,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
         }
          
         return PercentOfTotal;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SquareRoot property.
     /// </summary>
@@ -298,8 +302,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
         }
          
         return SquareRoot;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -339,8 +344,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Log property after render.
     /// </summary>
@@ -376,8 +382,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "log", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the NaturalLog property after render.
     /// </summary>
@@ -413,8 +420,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "naturalLog", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PercentOfTotal property after render.
     /// </summary>
@@ -450,8 +458,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "percentOfTotal", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SquareRoot property after render.
     /// </summary>
@@ -487,8 +496,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "squareRoot", value);
+
     }
-    
+
 #endregion
 
 }

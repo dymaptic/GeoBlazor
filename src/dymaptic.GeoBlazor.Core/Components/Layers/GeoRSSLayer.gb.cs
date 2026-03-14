@@ -293,8 +293,9 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
          
         return BlendMode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Effect property.
     /// </summary>
@@ -333,8 +334,9 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
         
         return Effect;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendEnabled property.
     /// </summary>
@@ -373,8 +375,9 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
          
         return LegendEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LineSymbol property.
     /// </summary>
@@ -419,8 +422,9 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
         
         return LineSymbol;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -459,8 +463,9 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
          
         return MaxScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -499,8 +504,9 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
          
         return MinScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PointSymbol property.
     /// </summary>
@@ -545,8 +551,9 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
         
         return PointSymbol;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PolygonSymbol property.
     /// </summary>
@@ -591,8 +598,9 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
         
         return PolygonSymbol;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RefreshInterval property.
     /// </summary>
@@ -631,8 +639,9 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
          
         return RefreshInterval;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -671,8 +680,9 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
          
         return Url;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -712,8 +722,9 @@ public partial class GeoRSSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "blendMode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Effect property after render.
     /// </summary>
@@ -747,11 +758,12 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetEffect), nameof(GeoRSSLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetEffect), nameof(GeoRSSLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
@@ -787,8 +799,9 @@ public partial class GeoRSSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LineSymbol property after render.
     /// </summary>
@@ -827,11 +840,12 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetLineSymbol), nameof(GeoRSSLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetLineSymbol), nameof(GeoRSSLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -867,8 +881,9 @@ public partial class GeoRSSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -904,8 +919,9 @@ public partial class GeoRSSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PersistenceEnabled property after render.
     /// </summary>
@@ -941,8 +957,9 @@ public partial class GeoRSSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "persistenceEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PointSymbol property after render.
     /// </summary>
@@ -981,11 +998,12 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPointSymbol), nameof(GeoRSSLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPointSymbol), nameof(GeoRSSLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PolygonSymbol property after render.
     /// </summary>
@@ -1024,11 +1042,12 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPolygonSymbol), nameof(GeoRSSLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPolygonSymbol), nameof(GeoRSSLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RefreshInterval property after render.
     /// </summary>
@@ -1064,8 +1083,9 @@ public partial class GeoRSSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "refreshInterval", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -1101,8 +1121,9 @@ public partial class GeoRSSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
+
     }
-    
+
 #endregion
 
 #region Public Methods

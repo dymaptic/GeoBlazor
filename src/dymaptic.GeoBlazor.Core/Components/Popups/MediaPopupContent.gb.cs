@@ -96,8 +96,9 @@ public partial class MediaPopupContent
         }
          
         return ActiveMediaInfoIndex;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Description property.
     /// </summary>
@@ -136,8 +137,9 @@ public partial class MediaPopupContent
         }
          
         return Description;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MediaInfos property.
     /// </summary>
@@ -180,8 +182,9 @@ public partial class MediaPopupContent
         }
         
         return MediaInfos;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -220,8 +223,9 @@ public partial class MediaPopupContent
         }
          
         return Title;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -261,8 +265,9 @@ public partial class MediaPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "activeMediaInfoIndex", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Description property after render.
     /// </summary>
@@ -298,8 +303,9 @@ public partial class MediaPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "description", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MediaInfos property after render.
     /// </summary>
@@ -343,8 +349,9 @@ public partial class MediaPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mediaInfos", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -380,8 +387,9 @@ public partial class MediaPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -398,6 +406,7 @@ public partial class MediaPopupContent
             ? values
             : [..MediaInfos, ..values];
         await SetMediaInfos(join);
+
     }
     
 #endregion
@@ -418,6 +427,7 @@ public partial class MediaPopupContent
             return;
         }
         await SetMediaInfos(MediaInfos.Except(values).ToArray());
+
     }
     
 #endregion

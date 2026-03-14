@@ -183,8 +183,9 @@ public partial class LegendViewModel : MapComponent
         }
         
         return ActiveLayerInfos;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BasemapLegendVisible property.
     /// </summary>
@@ -223,8 +224,9 @@ public partial class LegendViewModel : MapComponent
         }
          
         return BasemapLegendVisible;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HideLayersNotInCurrentView property.
     /// </summary>
@@ -263,8 +265,9 @@ public partial class LegendViewModel : MapComponent
         }
          
         return HideLayersNotInCurrentView;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LayerInfos property.
     /// </summary>
@@ -307,8 +310,9 @@ public partial class LegendViewModel : MapComponent
         }
         
         return LayerInfos;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RespectLayerVisibility property.
     /// </summary>
@@ -347,8 +351,9 @@ public partial class LegendViewModel : MapComponent
         }
          
         return RespectLayerVisibility;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -387,8 +392,9 @@ public partial class LegendViewModel : MapComponent
         }
          
         return State;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -436,8 +442,9 @@ public partial class LegendViewModel : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "activeLayerInfos", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BasemapLegendVisible property after render.
     /// </summary>
@@ -473,8 +480,9 @@ public partial class LegendViewModel : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "basemapLegendVisible", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HideLayersNotInCurrentView property after render.
     /// </summary>
@@ -510,8 +518,9 @@ public partial class LegendViewModel : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "hideLayersNotInCurrentView", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LayerInfos property after render.
     /// </summary>
@@ -555,8 +564,9 @@ public partial class LegendViewModel : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layerInfos", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RespectLayerVisibility property after render.
     /// </summary>
@@ -592,8 +602,9 @@ public partial class LegendViewModel : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "respectLayerVisibility", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -610,6 +621,7 @@ public partial class LegendViewModel : MapComponent
             ? values
             : [..ActiveLayerInfos, ..values];
         await SetActiveLayerInfos(join);
+
     }
     
     /// <summary>
@@ -624,6 +636,7 @@ public partial class LegendViewModel : MapComponent
             ? values
             : [..LayerInfos, ..values];
         await SetLayerInfos(join);
+
     }
     
 #endregion
@@ -644,6 +657,7 @@ public partial class LegendViewModel : MapComponent
             return;
         }
         await SetActiveLayerInfos(ActiveLayerInfos.Except(values).ToArray());
+
     }
     
     
@@ -660,6 +674,7 @@ public partial class LegendViewModel : MapComponent
             return;
         }
         await SetLayerInfos(LayerInfos.Except(values).ToArray());
+
     }
     
 #endregion

@@ -117,8 +117,9 @@ public partial class BasemapToggleViewModel : MapComponent
         }
         
         return ActiveBasemap;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NextBasemap property.
     /// </summary>
@@ -163,8 +164,9 @@ public partial class BasemapToggleViewModel : MapComponent
         }
         
         return NextBasemap;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -203,8 +205,9 @@ public partial class BasemapToggleViewModel : MapComponent
         }
          
         return State;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -247,11 +250,12 @@ public partial class BasemapToggleViewModel : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetNextBasemap), nameof(BasemapToggleViewModel), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetNextBasemap), nameof(BasemapToggleViewModel),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Public Methods

@@ -114,8 +114,9 @@ public partial class QueryTableDataSource
         }
          
         return GeometryType;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OidFields property.
     /// </summary>
@@ -154,8 +155,9 @@ public partial class QueryTableDataSource
         }
          
         return OidFields;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Query property.
     /// </summary>
@@ -194,8 +196,9 @@ public partial class QueryTableDataSource
         }
          
         return Query;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -234,8 +237,9 @@ public partial class QueryTableDataSource
         }
         
         return SpatialReference;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the WorkspaceId property.
     /// </summary>
@@ -274,8 +278,9 @@ public partial class QueryTableDataSource
         }
          
         return WorkspaceId;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -315,8 +320,9 @@ public partial class QueryTableDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "geometryType", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OidFields property after render.
     /// </summary>
@@ -352,8 +358,9 @@ public partial class QueryTableDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "oidFields", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Query property after render.
     /// </summary>
@@ -389,8 +396,9 @@ public partial class QueryTableDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "query", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SpatialReference property after render.
     /// </summary>
@@ -431,8 +439,9 @@ public partial class QueryTableDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "spatialReference", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the WorkspaceId property after render.
     /// </summary>
@@ -468,8 +477,9 @@ public partial class QueryTableDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "workspaceId", value);
+
     }
-    
+
 #endregion
 
 

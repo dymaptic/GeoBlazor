@@ -776,8 +776,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return AttributeTableTemplate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BlendMode property.
     /// </summary>
@@ -816,8 +817,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return BlendMode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Capabilities property.
     /// </summary>
@@ -862,8 +864,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return Capabilities;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Copyright property.
     /// </summary>
@@ -902,8 +905,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return Copyright;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomParameters property.
     /// </summary>
@@ -942,8 +946,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return CustomParameters;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DateFieldsTimeZone property.
     /// </summary>
@@ -982,8 +987,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return DateFieldsTimeZone;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefinitionExpression property.
     /// </summary>
@@ -1022,8 +1028,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return DefinitionExpression;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Delimiter property.
     /// </summary>
@@ -1062,8 +1069,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return Delimiter;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DisplayField property.
     /// </summary>
@@ -1102,8 +1110,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return DisplayField;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DisplayFilterEnabled property.
     /// </summary>
@@ -1142,8 +1151,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return DisplayFilterEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DisplayFilterInfo property.
     /// </summary>
@@ -1188,8 +1198,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return DisplayFilterInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Effect property.
     /// </summary>
@@ -1228,8 +1239,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return Effect;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ElevationInfo property.
     /// </summary>
@@ -1274,8 +1286,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return ElevationInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureEffect property.
     /// </summary>
@@ -1320,8 +1333,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return FeatureEffect;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureReduction property.
     /// </summary>
@@ -1360,8 +1374,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return FeatureReduction;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Fields property.
     /// </summary>
@@ -1404,8 +1419,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return Fields;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FieldsIndex property.
     /// </summary>
@@ -1444,8 +1460,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return FieldsIndex;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the GeometryType property.
     /// </summary>
@@ -1484,8 +1501,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return GeometryType;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsTable property.
     /// </summary>
@@ -1524,8 +1542,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return IsTable;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelingInfo property.
     /// </summary>
@@ -1568,8 +1587,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return LabelingInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelsVisible property.
     /// </summary>
@@ -1608,8 +1628,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return LabelsVisible;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LatitudeField property.
     /// </summary>
@@ -1648,8 +1669,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return LatitudeField;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendEnabled property.
     /// </summary>
@@ -1688,8 +1710,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return LegendEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LongitudeField property.
     /// </summary>
@@ -1728,8 +1751,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return LongitudeField;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -1768,8 +1792,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return MaxScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -1808,8 +1833,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return MinScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ObjectIdField property.
     /// </summary>
@@ -1848,8 +1874,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return ObjectIdField;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OrderBy property.
     /// </summary>
@@ -1892,8 +1919,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return OrderBy;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OutFields property.
     /// </summary>
@@ -1932,8 +1960,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return OutFields;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupEnabled property.
     /// </summary>
@@ -1972,8 +2001,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return PopupEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupTemplate property.
     /// </summary>
@@ -2018,8 +2048,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return PopupTemplate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalItem property.
     /// </summary>
@@ -2064,8 +2095,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return PortalItem;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RefreshInterval property.
     /// </summary>
@@ -2104,8 +2136,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return RefreshInterval;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Renderer property.
     /// </summary>
@@ -2150,8 +2183,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return Renderer;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ScreenSizePerspectiveEnabled property.
     /// </summary>
@@ -2190,8 +2224,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return ScreenSizePerspectiveEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -2230,8 +2265,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return SpatialReference;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeExtent property.
     /// </summary>
@@ -2276,8 +2312,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return TimeExtent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeInfo property.
     /// </summary>
@@ -2322,8 +2359,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return TimeInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeOffset property.
     /// </summary>
@@ -2368,8 +2406,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return TimeOffset;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TrackInfo property.
     /// </summary>
@@ -2414,8 +2453,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return TrackInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -2454,8 +2494,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return Url;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UseViewTime property.
     /// </summary>
@@ -2494,8 +2535,9 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return UseViewTime;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -2535,8 +2577,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "attributeTableTemplate", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BlendMode property after render.
     /// </summary>
@@ -2572,8 +2615,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "blendMode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Copyright property after render.
     /// </summary>
@@ -2609,8 +2653,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "copyright", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CustomParameters property after render.
     /// </summary>
@@ -2646,8 +2691,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "customParameters", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DefinitionExpression property after render.
     /// </summary>
@@ -2683,8 +2729,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "definitionExpression", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Delimiter property after render.
     /// </summary>
@@ -2720,8 +2767,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "delimiter", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DisplayField property after render.
     /// </summary>
@@ -2757,8 +2805,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "displayField", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DisplayFilterEnabled property after render.
     /// </summary>
@@ -2794,8 +2843,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "displayFilterEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DisplayFilterInfo property after render.
     /// </summary>
@@ -2834,11 +2884,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetDisplayFilterInfo), nameof(CSVLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetDisplayFilterInfo), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Effect property after render.
     /// </summary>
@@ -2872,11 +2923,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetEffect), nameof(CSVLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetEffect), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ElevationInfo property after render.
     /// </summary>
@@ -2915,11 +2967,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetElevationInfo), nameof(CSVLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetElevationInfo), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeatureEffect property after render.
     /// </summary>
@@ -2958,11 +3011,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetFeatureEffect), nameof(CSVLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetFeatureEffect), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeatureReduction property after render.
     /// </summary>
@@ -2998,8 +3052,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featureReduction", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Fields property after render.
     /// </summary>
@@ -3041,11 +3096,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetFields), nameof(CSVLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetFields), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelingInfo property after render.
     /// </summary>
@@ -3087,11 +3143,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetLabelingInfo), nameof(CSVLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetLabelingInfo), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelsVisible property after render.
     /// </summary>
@@ -3127,8 +3184,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelsVisible", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LatitudeField property after render.
     /// </summary>
@@ -3164,8 +3222,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "latitudeField", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
@@ -3201,8 +3260,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LongitudeField property after render.
     /// </summary>
@@ -3238,8 +3298,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "longitudeField", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -3275,8 +3336,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -3312,8 +3374,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OrderBy property after render.
     /// </summary>
@@ -3355,11 +3418,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetOrderBy), nameof(CSVLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetOrderBy), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OutFields property after render.
     /// </summary>
@@ -3395,8 +3459,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outFields", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
@@ -3432,8 +3497,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupTemplate property after render.
     /// </summary>
@@ -3472,11 +3538,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPopupTemplate), nameof(CSVLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPopupTemplate), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
@@ -3515,11 +3582,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPortalItem), nameof(CSVLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPortalItem), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RefreshInterval property after render.
     /// </summary>
@@ -3555,8 +3623,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "refreshInterval", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Renderer property after render.
     /// </summary>
@@ -3595,11 +3664,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetRenderer), nameof(CSVLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetRenderer), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ScreenSizePerspectiveEnabled property after render.
     /// </summary>
@@ -3635,8 +3705,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "screenSizePerspectiveEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SpatialReference property after render.
     /// </summary>
@@ -3675,11 +3746,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetSpatialReference), nameof(CSVLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetSpatialReference), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeExtent property after render.
     /// </summary>
@@ -3718,11 +3790,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetTimeExtent), nameof(CSVLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTimeExtent), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeInfo property after render.
     /// </summary>
@@ -3761,11 +3834,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetTimeInfo), nameof(CSVLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTimeInfo), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeOffset property after render.
     /// </summary>
@@ -3804,11 +3878,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetTimeOffset), nameof(CSVLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTimeOffset), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TrackInfo property after render.
     /// </summary>
@@ -3847,11 +3922,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetTrackInfo), nameof(CSVLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTrackInfo), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -3887,8 +3963,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UseViewTime property after render.
     /// </summary>
@@ -3924,8 +4001,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "useViewTime", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -3942,6 +4020,7 @@ public partial class CSVLayer : IBlendLayer,
             ? values
             : [..Fields, ..values];
         await SetFields(join);
+
     }
     
     /// <summary>
@@ -3956,6 +4035,7 @@ public partial class CSVLayer : IBlendLayer,
             ? values
             : [..LabelingInfo, ..values];
         await SetLabelingInfo(join);
+
     }
     
     /// <summary>
@@ -3970,6 +4050,7 @@ public partial class CSVLayer : IBlendLayer,
             ? values
             : [..OrderBy, ..values];
         await SetOrderBy(join);
+
     }
     
     /// <summary>
@@ -3984,6 +4065,7 @@ public partial class CSVLayer : IBlendLayer,
             ? values
             : [..OutFields, ..values];
         await SetOutFields(join);
+
     }
     
 #endregion
@@ -4004,6 +4086,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         await SetFields(Fields.Except(values).ToArray());
+
     }
     
     
@@ -4020,6 +4103,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         await SetLabelingInfo(LabelingInfo.Except(values).ToArray());
+
     }
     
     
@@ -4036,6 +4120,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         await SetOrderBy(OrderBy.Except(values).ToArray());
+
     }
     
     
@@ -4052,6 +4137,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         await SetOutFields(OutFields.Except(values).ToArray());
+
     }
     
 #endregion

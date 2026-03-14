@@ -419,8 +419,9 @@ public partial class PortalItem
         }
          
         return Access;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AccessInformation property.
     /// </summary>
@@ -459,8 +460,9 @@ public partial class PortalItem
         }
          
         return AccessInformation;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ApiKey property.
     /// </summary>
@@ -499,8 +501,9 @@ public partial class PortalItem
         }
          
         return ApiKey;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ApplicationProxies property.
     /// </summary>
@@ -539,8 +542,9 @@ public partial class PortalItem
         }
          
         return ApplicationProxies;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AvgRating property.
     /// </summary>
@@ -579,8 +583,9 @@ public partial class PortalItem
         }
          
         return AvgRating;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Categories property.
     /// </summary>
@@ -619,8 +624,9 @@ public partial class PortalItem
         }
          
         return Categories;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Classification property.
     /// </summary>
@@ -659,8 +665,9 @@ public partial class PortalItem
         }
          
         return Classification;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Created property.
     /// </summary>
@@ -699,8 +706,9 @@ public partial class PortalItem
         }
          
         return Created;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Culture property.
     /// </summary>
@@ -739,8 +747,9 @@ public partial class PortalItem
         }
          
         return Culture;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Description property.
     /// </summary>
@@ -779,8 +788,9 @@ public partial class PortalItem
         }
          
         return Description;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Extent property.
     /// </summary>
@@ -825,8 +835,9 @@ public partial class PortalItem
         }
         
         return Extent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the GroupCategories property.
     /// </summary>
@@ -865,8 +876,9 @@ public partial class PortalItem
         }
          
         return GroupCategories;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsLayer property.
     /// </summary>
@@ -905,8 +917,9 @@ public partial class PortalItem
         }
          
         return IsLayer;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsOrgItem property.
     /// </summary>
@@ -945,8 +958,9 @@ public partial class PortalItem
         }
          
         return IsOrgItem;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ItemControl property.
     /// </summary>
@@ -985,8 +999,9 @@ public partial class PortalItem
         }
          
         return ItemControl;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ItemPageUrl property.
     /// </summary>
@@ -1025,8 +1040,9 @@ public partial class PortalItem
         }
          
         return ItemPageUrl;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ItemUrl property.
     /// </summary>
@@ -1065,8 +1081,9 @@ public partial class PortalItem
         }
          
         return ItemUrl;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LicenseInfo property.
     /// </summary>
@@ -1105,8 +1122,9 @@ public partial class PortalItem
         }
          
         return LicenseInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Loaded property.
     /// </summary>
@@ -1145,8 +1163,9 @@ public partial class PortalItem
         }
          
         return Loaded;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Modified property.
     /// </summary>
@@ -1185,8 +1204,9 @@ public partial class PortalItem
         }
          
         return Modified;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -1225,8 +1245,9 @@ public partial class PortalItem
         }
          
         return Name;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NumComments property.
     /// </summary>
@@ -1265,8 +1286,9 @@ public partial class PortalItem
         }
          
         return NumComments;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NumRatings property.
     /// </summary>
@@ -1305,8 +1327,9 @@ public partial class PortalItem
         }
          
         return NumRatings;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NumViews property.
     /// </summary>
@@ -1345,8 +1368,9 @@ public partial class PortalItem
         }
          
         return NumViews;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Owner property.
     /// </summary>
@@ -1385,8 +1409,9 @@ public partial class PortalItem
         }
          
         return Owner;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OwnerFolder property.
     /// </summary>
@@ -1425,8 +1450,9 @@ public partial class PortalItem
         }
          
         return OwnerFolder;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Portal property.
     /// </summary>
@@ -1471,8 +1497,9 @@ public partial class PortalItem
         }
         
         return Portal;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalItemId property.
     /// </summary>
@@ -1511,8 +1538,9 @@ public partial class PortalItem
         }
          
         return PortalItemId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Screenshots property.
     /// </summary>
@@ -1551,8 +1579,9 @@ public partial class PortalItem
         }
          
         return Screenshots;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Size property.
     /// </summary>
@@ -1591,8 +1620,9 @@ public partial class PortalItem
         }
          
         return Size;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Snippet property.
     /// </summary>
@@ -1631,8 +1661,9 @@ public partial class PortalItem
         }
          
         return Snippet;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
@@ -1671,8 +1702,9 @@ public partial class PortalItem
         }
          
         return SourceJSON;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Tags property.
     /// </summary>
@@ -1711,8 +1743,9 @@ public partial class PortalItem
         }
          
         return Tags;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -1751,8 +1784,9 @@ public partial class PortalItem
         }
          
         return Title;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TypeKeywords property.
     /// </summary>
@@ -1791,8 +1825,9 @@ public partial class PortalItem
         }
          
         return TypeKeywords;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -1831,8 +1866,9 @@ public partial class PortalItem
         }
          
         return Url;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -1872,8 +1908,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "access", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the AccessInformation property after render.
     /// </summary>
@@ -1909,8 +1946,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "accessInformation", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ApiKey property after render.
     /// </summary>
@@ -1946,8 +1984,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "apiKey", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the AvgRating property after render.
     /// </summary>
@@ -1983,8 +2022,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "avgRating", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Categories property after render.
     /// </summary>
@@ -2020,8 +2060,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "categories", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Classification property after render.
     /// </summary>
@@ -2057,8 +2098,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "classification", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Created property after render.
     /// </summary>
@@ -2094,8 +2136,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "created", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Culture property after render.
     /// </summary>
@@ -2131,8 +2174,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "culture", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Description property after render.
     /// </summary>
@@ -2168,8 +2212,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "description", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Extent property after render.
     /// </summary>
@@ -2208,11 +2253,12 @@ public partial class PortalItem
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetExtent), nameof(PortalItem), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetExtent), nameof(PortalItem),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the GroupCategories property after render.
     /// </summary>
@@ -2248,8 +2294,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "groupCategories", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LicenseInfo property after render.
     /// </summary>
@@ -2285,8 +2332,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "licenseInfo", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Modified property after render.
     /// </summary>
@@ -2322,8 +2370,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "modified", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
@@ -2359,8 +2408,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the NumComments property after render.
     /// </summary>
@@ -2396,8 +2446,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "numComments", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the NumRatings property after render.
     /// </summary>
@@ -2433,8 +2484,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "numRatings", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the NumViews property after render.
     /// </summary>
@@ -2470,8 +2522,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "numViews", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Owner property after render.
     /// </summary>
@@ -2507,8 +2560,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "owner", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OwnerFolder property after render.
     /// </summary>
@@ -2544,8 +2598,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "ownerFolder", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Portal property after render.
     /// </summary>
@@ -2584,11 +2639,12 @@ public partial class PortalItem
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPortal), nameof(PortalItem), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPortal), nameof(PortalItem),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Screenshots property after render.
     /// </summary>
@@ -2624,8 +2680,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "screenshots", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Size property after render.
     /// </summary>
@@ -2661,8 +2718,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "size", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Snippet property after render.
     /// </summary>
@@ -2698,8 +2756,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "snippet", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Tags property after render.
     /// </summary>
@@ -2735,8 +2794,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "tags", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -2772,8 +2832,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TypeKeywords property after render.
     /// </summary>
@@ -2809,8 +2870,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "typeKeywords", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -2846,8 +2908,9 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -2864,6 +2927,7 @@ public partial class PortalItem
             ? values
             : [..Categories, ..values];
         await SetCategories(join);
+
     }
     
     /// <summary>
@@ -2878,6 +2942,7 @@ public partial class PortalItem
             ? values
             : [..GroupCategories, ..values];
         await SetGroupCategories(join);
+
     }
     
     /// <summary>
@@ -2892,6 +2957,7 @@ public partial class PortalItem
             ? values
             : [..Screenshots, ..values];
         await SetScreenshots(join);
+
     }
     
     /// <summary>
@@ -2906,6 +2972,7 @@ public partial class PortalItem
             ? values
             : [..Tags, ..values];
         await SetTags(join);
+
     }
     
     /// <summary>
@@ -2920,6 +2987,7 @@ public partial class PortalItem
             ? values
             : [..TypeKeywords, ..values];
         await SetTypeKeywords(join);
+
     }
     
 #endregion
@@ -2940,6 +3008,7 @@ public partial class PortalItem
             return;
         }
         await SetCategories(Categories.Except(values).ToArray());
+
     }
     
     
@@ -2956,6 +3025,7 @@ public partial class PortalItem
             return;
         }
         await SetGroupCategories(GroupCategories.Except(values).ToArray());
+
     }
     
     
@@ -2972,6 +3042,7 @@ public partial class PortalItem
             return;
         }
         await SetScreenshots(Screenshots.Except(values).ToArray());
+
     }
     
     
@@ -2988,6 +3059,7 @@ public partial class PortalItem
             return;
         }
         await SetTags(Tags.Except(values).ToArray());
+
     }
     
     
@@ -3004,6 +3076,7 @@ public partial class PortalItem
             return;
         }
         await SetTypeKeywords(TypeKeywords.Except(values).ToArray());
+
     }
     
 #endregion

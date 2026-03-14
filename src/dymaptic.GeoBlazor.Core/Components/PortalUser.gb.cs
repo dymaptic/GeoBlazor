@@ -373,8 +373,9 @@ public partial class PortalUser : MapComponent
         }
          
         return Access;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Created property.
     /// </summary>
@@ -413,8 +414,9 @@ public partial class PortalUser : MapComponent
         }
          
         return Created;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Culture property.
     /// </summary>
@@ -453,8 +455,9 @@ public partial class PortalUser : MapComponent
         }
          
         return Culture;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Description property.
     /// </summary>
@@ -493,8 +496,9 @@ public partial class PortalUser : MapComponent
         }
          
         return Description;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Email property.
     /// </summary>
@@ -533,8 +537,9 @@ public partial class PortalUser : MapComponent
         }
          
         return Email;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FullName property.
     /// </summary>
@@ -573,8 +578,9 @@ public partial class PortalUser : MapComponent
         }
          
         return FullName;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Modified property.
     /// </summary>
@@ -613,8 +619,9 @@ public partial class PortalUser : MapComponent
         }
          
         return Modified;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OrgId property.
     /// </summary>
@@ -653,8 +660,9 @@ public partial class PortalUser : MapComponent
         }
          
         return OrgId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalUserId property.
     /// </summary>
@@ -693,8 +701,9 @@ public partial class PortalUser : MapComponent
         }
          
         return PortalUserId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PreferredView property.
     /// </summary>
@@ -733,8 +742,9 @@ public partial class PortalUser : MapComponent
         }
          
         return PreferredView;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Privileges property.
     /// </summary>
@@ -773,8 +783,9 @@ public partial class PortalUser : MapComponent
         }
          
         return Privileges;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Region property.
     /// </summary>
@@ -813,8 +824,9 @@ public partial class PortalUser : MapComponent
         }
          
         return Region;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Role property.
     /// </summary>
@@ -853,8 +865,9 @@ public partial class PortalUser : MapComponent
         }
          
         return Role;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RoleId property.
     /// </summary>
@@ -893,8 +906,9 @@ public partial class PortalUser : MapComponent
         }
          
         return RoleId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
@@ -933,8 +947,9 @@ public partial class PortalUser : MapComponent
         }
          
         return SourceJSON;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Units property.
     /// </summary>
@@ -973,8 +988,9 @@ public partial class PortalUser : MapComponent
         }
          
         return Units;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UserContentUrl property.
     /// </summary>
@@ -1013,8 +1029,9 @@ public partial class PortalUser : MapComponent
         }
          
         return UserContentUrl;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Username property.
     /// </summary>
@@ -1053,8 +1070,9 @@ public partial class PortalUser : MapComponent
         }
          
         return Username;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -1094,8 +1112,9 @@ public partial class PortalUser : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "access", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Created property after render.
     /// </summary>
@@ -1131,8 +1150,9 @@ public partial class PortalUser : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "created", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Culture property after render.
     /// </summary>
@@ -1168,8 +1188,9 @@ public partial class PortalUser : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "culture", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Description property after render.
     /// </summary>
@@ -1205,8 +1226,9 @@ public partial class PortalUser : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "description", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Email property after render.
     /// </summary>
@@ -1242,8 +1264,9 @@ public partial class PortalUser : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "email", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FullName property after render.
     /// </summary>
@@ -1279,8 +1302,9 @@ public partial class PortalUser : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fullName", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Modified property after render.
     /// </summary>
@@ -1316,8 +1340,9 @@ public partial class PortalUser : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "modified", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OrgId property after render.
     /// </summary>
@@ -1353,8 +1378,9 @@ public partial class PortalUser : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "orgId", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PortalUserId property after render.
     /// </summary>
@@ -1390,8 +1416,9 @@ public partial class PortalUser : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PreferredView property after render.
     /// </summary>
@@ -1427,8 +1454,9 @@ public partial class PortalUser : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "preferredView", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Privileges property after render.
     /// </summary>
@@ -1464,8 +1492,9 @@ public partial class PortalUser : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "privileges", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Region property after render.
     /// </summary>
@@ -1501,8 +1530,9 @@ public partial class PortalUser : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "region", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Role property after render.
     /// </summary>
@@ -1538,8 +1568,9 @@ public partial class PortalUser : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "role", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RoleId property after render.
     /// </summary>
@@ -1575,8 +1606,9 @@ public partial class PortalUser : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "roleId", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Units property after render.
     /// </summary>
@@ -1612,8 +1644,9 @@ public partial class PortalUser : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "units", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Username property after render.
     /// </summary>
@@ -1649,8 +1682,9 @@ public partial class PortalUser : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "username", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -1667,6 +1701,7 @@ public partial class PortalUser : MapComponent
             ? values
             : [..Privileges, ..values];
         await SetPrivileges(join);
+
     }
     
 #endregion
@@ -1687,6 +1722,7 @@ public partial class PortalUser : MapComponent
             return;
         }
         await SetPrivileges(Privileges.Except(values).ToArray());
+
     }
     
 #endregion

@@ -108,8 +108,9 @@ public partial class ListItemPanelWidget
         }
          
         return Content;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Disabled property.
     /// </summary>
@@ -148,8 +149,9 @@ public partial class ListItemPanelWidget
         }
          
         return Disabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FlowEnabled property.
     /// </summary>
@@ -188,8 +190,9 @@ public partial class ListItemPanelWidget
         }
          
         return FlowEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Image property.
     /// </summary>
@@ -228,8 +231,9 @@ public partial class ListItemPanelWidget
         }
          
         return Image;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Open property.
     /// </summary>
@@ -268,8 +272,9 @@ public partial class ListItemPanelWidget
         }
          
         return Open;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -308,8 +313,9 @@ public partial class ListItemPanelWidget
         }
          
         return Title;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -349,8 +355,9 @@ public partial class ListItemPanelWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "content", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Disabled property after render.
     /// </summary>
@@ -386,8 +393,9 @@ public partial class ListItemPanelWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "disabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FlowEnabled property after render.
     /// </summary>
@@ -423,8 +431,9 @@ public partial class ListItemPanelWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "flowEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Image property after render.
     /// </summary>
@@ -460,8 +469,9 @@ public partial class ListItemPanelWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "image", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Open property after render.
     /// </summary>
@@ -497,8 +507,9 @@ public partial class ListItemPanelWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "open", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -534,8 +545,9 @@ public partial class ListItemPanelWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -552,6 +564,7 @@ public partial class ListItemPanelWidget
             ? values
             : [..Content, ..values];
         await SetContent(join);
+
     }
     
 #endregion
@@ -572,6 +585,7 @@ public partial class ListItemPanelWidget
             return;
         }
         await SetContent(Content.Except(values).ToArray());
+
     }
     
 #endregion

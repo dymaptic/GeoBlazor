@@ -160,8 +160,9 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
         }
         
         return Measurement;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MeasurementLabel property.
     /// </summary>
@@ -206,8 +207,9 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
         }
         
         return MeasurementLabel;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SnappingOptions property.
     /// </summary>
@@ -252,8 +254,9 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
         }
         
         return SnappingOptions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -292,8 +295,9 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
         }
          
         return State;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Unit property.
     /// </summary>
@@ -332,8 +336,9 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
         }
          
         return Unit;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UnitOptions property.
     /// </summary>
@@ -372,8 +377,9 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
         }
          
         return UnitOptions;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -413,11 +419,12 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetSnappingOptions), nameof(AreaMeasurement2DViewModel), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetSnappingOptions), nameof(AreaMeasurement2DViewModel),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Unit property after render.
     /// </summary>
@@ -453,8 +460,9 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "unit", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UnitOptions property after render.
     /// </summary>
@@ -490,8 +498,9 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "unitOptions", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -508,6 +517,7 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
             ? values
             : [..UnitOptions, ..values];
         await SetUnitOptions(join);
+
     }
     
 #endregion
@@ -528,6 +538,7 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
             return;
         }
         await SetUnitOptions(UnitOptions.Except(values).ToArray());
+
     }
     
 #endregion

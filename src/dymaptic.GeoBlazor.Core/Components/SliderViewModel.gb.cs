@@ -277,8 +277,9 @@ public partial class SliderViewModel
         }
          
         return EffectiveMax;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the EffectiveMin property.
     /// </summary>
@@ -317,8 +318,9 @@ public partial class SliderViewModel
         }
          
         return EffectiveMin;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Labels property.
     /// </summary>
@@ -357,8 +359,9 @@ public partial class SliderViewModel
         }
          
         return Labels;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Max property.
     /// </summary>
@@ -397,8 +400,9 @@ public partial class SliderViewModel
         }
          
         return Max;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Min property.
     /// </summary>
@@ -437,8 +441,9 @@ public partial class SliderViewModel
         }
          
         return Min;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Precision property.
     /// </summary>
@@ -477,8 +482,9 @@ public partial class SliderViewModel
         }
          
         return Precision;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -517,8 +523,9 @@ public partial class SliderViewModel
         }
          
         return State;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ThumbsConstrained property.
     /// </summary>
@@ -557,8 +564,9 @@ public partial class SliderViewModel
         }
          
         return ThumbsConstrained;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Values property.
     /// </summary>
@@ -597,8 +605,9 @@ public partial class SliderViewModel
         }
          
         return Values;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -638,8 +647,9 @@ public partial class SliderViewModel
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "effectiveMax", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the EffectiveMin property after render.
     /// </summary>
@@ -675,8 +685,9 @@ public partial class SliderViewModel
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "effectiveMin", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Max property after render.
     /// </summary>
@@ -712,8 +723,9 @@ public partial class SliderViewModel
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "max", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Min property after render.
     /// </summary>
@@ -749,8 +761,9 @@ public partial class SliderViewModel
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "min", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Precision property after render.
     /// </summary>
@@ -786,8 +799,9 @@ public partial class SliderViewModel
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "precision", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ThumbsConstrained property after render.
     /// </summary>
@@ -823,8 +837,9 @@ public partial class SliderViewModel
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "thumbsConstrained", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Values property after render.
     /// </summary>
@@ -860,8 +875,9 @@ public partial class SliderViewModel
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "values", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -878,6 +894,7 @@ public partial class SliderViewModel
             ? values
             : [..Values, ..values];
         await SetValues(join);
+
     }
     
 #endregion
@@ -898,6 +915,7 @@ public partial class SliderViewModel
             return;
         }
         await SetValues(Values.Except(values).ToArray());
+
     }
     
 #endregion

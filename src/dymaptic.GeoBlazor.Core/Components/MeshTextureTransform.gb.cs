@@ -129,8 +129,9 @@ public partial class MeshTextureTransform : MapComponent
         }
          
         return Offset;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Rotation property.
     /// </summary>
@@ -169,8 +170,9 @@ public partial class MeshTextureTransform : MapComponent
         }
          
         return Rotation;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Scale property.
     /// </summary>
@@ -209,8 +211,9 @@ public partial class MeshTextureTransform : MapComponent
         }
          
         return Scale;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -250,8 +253,9 @@ public partial class MeshTextureTransform : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "offset", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Rotation property after render.
     /// </summary>
@@ -287,8 +291,9 @@ public partial class MeshTextureTransform : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rotation", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Scale property after render.
     /// </summary>
@@ -324,8 +329,9 @@ public partial class MeshTextureTransform : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "scale", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -342,6 +348,7 @@ public partial class MeshTextureTransform : MapComponent
             ? values
             : [..Offset, ..values];
         await SetOffset(join);
+
     }
     
     /// <summary>
@@ -356,6 +363,7 @@ public partial class MeshTextureTransform : MapComponent
             ? values
             : [..Scale, ..values];
         await SetScale(join);
+
     }
     
 #endregion
@@ -376,6 +384,7 @@ public partial class MeshTextureTransform : MapComponent
             return;
         }
         await SetOffset(Offset.Except(values).ToArray());
+
     }
     
     
@@ -392,6 +401,7 @@ public partial class MeshTextureTransform : MapComponent
             return;
         }
         await SetScale(Scale.Except(values).ToArray());
+
     }
     
 #endregion

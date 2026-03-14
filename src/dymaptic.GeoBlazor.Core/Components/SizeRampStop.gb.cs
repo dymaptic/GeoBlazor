@@ -170,8 +170,9 @@ public partial class SizeRampStop : MapComponent
         }
          
         return Label;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OutlineSize property.
     /// </summary>
@@ -210,8 +211,9 @@ public partial class SizeRampStop : MapComponent
         }
          
         return OutlineSize;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Preview property.
     /// </summary>
@@ -250,8 +252,9 @@ public partial class SizeRampStop : MapComponent
         }
          
         return Preview;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Size property.
     /// </summary>
@@ -290,8 +293,9 @@ public partial class SizeRampStop : MapComponent
         }
          
         return Size;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Symbol property.
     /// </summary>
@@ -336,8 +340,9 @@ public partial class SizeRampStop : MapComponent
         }
         
         return Symbol;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Value property.
     /// </summary>
@@ -376,8 +381,9 @@ public partial class SizeRampStop : MapComponent
         }
          
         return Value;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -417,8 +423,9 @@ public partial class SizeRampStop : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "label", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OutlineSize property after render.
     /// </summary>
@@ -454,8 +461,9 @@ public partial class SizeRampStop : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outlineSize", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Preview property after render.
     /// </summary>
@@ -491,8 +499,9 @@ public partial class SizeRampStop : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "preview", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Size property after render.
     /// </summary>
@@ -528,8 +537,9 @@ public partial class SizeRampStop : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "size", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Symbol property after render.
     /// </summary>
@@ -570,8 +580,9 @@ public partial class SizeRampStop : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "symbol", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Value property after render.
     /// </summary>
@@ -607,8 +618,9 @@ public partial class SizeRampStop : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value", value);
+
     }
-    
+
 #endregion
 
 

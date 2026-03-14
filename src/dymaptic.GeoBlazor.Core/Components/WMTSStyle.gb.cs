@@ -138,8 +138,9 @@ public partial class WMTSStyle : MapComponent
         }
          
         return Description;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendUrl property.
     /// </summary>
@@ -178,8 +179,9 @@ public partial class WMTSStyle : MapComponent
         }
          
         return LegendUrl;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -218,8 +220,9 @@ public partial class WMTSStyle : MapComponent
         }
          
         return Title;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the WMTSStyleId property.
     /// </summary>
@@ -258,8 +261,9 @@ public partial class WMTSStyle : MapComponent
         }
          
         return WMTSStyleId;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -299,8 +303,9 @@ public partial class WMTSStyle : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "description", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendUrl property after render.
     /// </summary>
@@ -336,8 +341,9 @@ public partial class WMTSStyle : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendUrl", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -373,8 +379,9 @@ public partial class WMTSStyle : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the WMTSStyleId property after render.
     /// </summary>
@@ -410,8 +417,9 @@ public partial class WMTSStyle : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
+
     }
-    
+
 #endregion
 
 }

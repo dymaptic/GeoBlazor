@@ -52,8 +52,9 @@ public abstract partial class LineSymbol
         }
          
         return Width;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -93,8 +94,9 @@ public abstract partial class LineSymbol
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "width", value);
+
     }
-    
+
 #endregion
 
 }

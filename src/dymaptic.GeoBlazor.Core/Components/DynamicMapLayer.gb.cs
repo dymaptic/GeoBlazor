@@ -98,8 +98,9 @@ public partial class DynamicMapLayer
         }
          
         return GdbVersion;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MapLayerId property.
     /// </summary>
@@ -138,8 +139,9 @@ public partial class DynamicMapLayer
         }
          
         return MapLayerId;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -179,8 +181,9 @@ public partial class DynamicMapLayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "gdbVersion", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MapLayerId property after render.
     /// </summary>
@@ -216,8 +219,9 @@ public partial class DynamicMapLayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mapLayerId", value);
+
     }
-    
+
 #endregion
 
     /// <inheritdoc />

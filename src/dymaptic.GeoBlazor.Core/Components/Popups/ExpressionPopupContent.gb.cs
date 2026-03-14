@@ -85,8 +85,9 @@ public partial class ExpressionPopupContent
         }
         
         return ExpressionInfo;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -131,8 +132,9 @@ public partial class ExpressionPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "expressionInfo", value);
+
     }
-    
+
 #endregion
 
 }

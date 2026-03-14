@@ -167,8 +167,9 @@ public partial class MeasurementWidget
         }
          
         return ActiveTool;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ActiveWidget property.
     /// </summary>
@@ -207,8 +208,9 @@ public partial class MeasurementWidget
         }
          
         return ActiveWidget;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AreaUnit property.
     /// </summary>
@@ -247,8 +249,9 @@ public partial class MeasurementWidget
         }
          
         return AreaUnit;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LinearUnit property.
     /// </summary>
@@ -287,8 +290,9 @@ public partial class MeasurementWidget
         }
          
         return LinearUnit;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -333,8 +337,9 @@ public partial class MeasurementWidget
         }
         
         return ViewModel;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -374,8 +379,9 @@ public partial class MeasurementWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "activeTool", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the AreaUnit property after render.
     /// </summary>
@@ -411,8 +417,9 @@ public partial class MeasurementWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "areaUnit", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LinearUnit property after render.
     /// </summary>
@@ -448,8 +455,9 @@ public partial class MeasurementWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "linearUnit", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -488,11 +496,12 @@ public partial class MeasurementWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetViewModel), nameof(MeasurementWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetViewModel), nameof(MeasurementWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Public Methods

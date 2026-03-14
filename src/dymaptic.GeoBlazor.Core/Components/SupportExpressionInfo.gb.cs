@@ -125,8 +125,9 @@ public partial class SupportExpressionInfo : MapComponent
         }
          
         return Expression;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ReturnType property.
     /// </summary>
@@ -165,8 +166,9 @@ public partial class SupportExpressionInfo : MapComponent
         }
          
         return ReturnType;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -205,8 +207,9 @@ public partial class SupportExpressionInfo : MapComponent
         }
          
         return Title;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -246,8 +249,9 @@ public partial class SupportExpressionInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "expression", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ReturnType property after render.
     /// </summary>
@@ -283,8 +287,9 @@ public partial class SupportExpressionInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "returnType", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -320,8 +325,9 @@ public partial class SupportExpressionInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 }

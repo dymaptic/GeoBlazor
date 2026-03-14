@@ -199,8 +199,9 @@ public partial class Label
         }
          
         return AllowOverrun;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DeconflictionStrategy property.
     /// </summary>
@@ -239,8 +240,9 @@ public partial class Label
         }
          
         return DeconflictionStrategy;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelExpression property.
     /// </summary>
@@ -279,8 +281,9 @@ public partial class Label
         }
          
         return LabelExpression;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelExpressionInfo property.
     /// </summary>
@@ -319,8 +322,9 @@ public partial class Label
         }
         
         return LabelExpressionInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelPlacement property.
     /// </summary>
@@ -359,8 +363,9 @@ public partial class Label
         }
          
         return LabelPlacement;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelPosition property.
     /// </summary>
@@ -399,8 +404,9 @@ public partial class Label
         }
          
         return LabelPosition;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -439,8 +445,9 @@ public partial class Label
         }
          
         return MaxScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -479,8 +486,9 @@ public partial class Label
         }
          
         return MinScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RepeatLabel property.
     /// </summary>
@@ -519,8 +527,9 @@ public partial class Label
         }
          
         return RepeatLabel;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RepeatLabelDistance property.
     /// </summary>
@@ -559,8 +568,9 @@ public partial class Label
         }
          
         return RepeatLabelDistance;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UseCodedValues property.
     /// </summary>
@@ -599,8 +609,9 @@ public partial class Label
         }
          
         return UseCodedValues;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Where property.
     /// </summary>
@@ -639,8 +650,9 @@ public partial class Label
         }
          
         return Where;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -680,8 +692,9 @@ public partial class Label
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "allowOverrun", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DeconflictionStrategy property after render.
     /// </summary>
@@ -717,8 +730,9 @@ public partial class Label
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "deconflictionStrategy", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelExpression property after render.
     /// </summary>
@@ -754,8 +768,9 @@ public partial class Label
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelExpression", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelExpressionInfo property after render.
     /// </summary>
@@ -796,8 +811,9 @@ public partial class Label
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelExpressionInfo", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelPlacement property after render.
     /// </summary>
@@ -833,8 +849,9 @@ public partial class Label
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelPlacement", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelPosition property after render.
     /// </summary>
@@ -870,8 +887,9 @@ public partial class Label
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelPosition", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -907,8 +925,9 @@ public partial class Label
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -944,8 +963,9 @@ public partial class Label
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RepeatLabel property after render.
     /// </summary>
@@ -981,8 +1001,9 @@ public partial class Label
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "repeatLabel", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RepeatLabelDistance property after render.
     /// </summary>
@@ -1018,8 +1039,9 @@ public partial class Label
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "repeatLabelDistance", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UseCodedValues property after render.
     /// </summary>
@@ -1055,8 +1077,9 @@ public partial class Label
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "useCodedValues", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Where property after render.
     /// </summary>
@@ -1092,8 +1115,9 @@ public partial class Label
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "where", value);
+
     }
-    
+
 #endregion
 
 

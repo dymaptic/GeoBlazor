@@ -90,8 +90,9 @@ public partial class CapabilitiesMetadata : MapComponent
         }
          
         return SupportsAdvancedFieldProperties;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -131,8 +132,9 @@ public partial class CapabilitiesMetadata : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsAdvancedFieldProperties", value);
+
     }
-    
+
 #endregion
 
 }

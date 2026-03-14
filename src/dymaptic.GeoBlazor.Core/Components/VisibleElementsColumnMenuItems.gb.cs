@@ -106,8 +106,9 @@ public partial class VisibleElementsColumnMenuItems : MapComponent
         }
          
         return SortAscending;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SortDescending property.
     /// </summary>
@@ -146,8 +147,9 @@ public partial class VisibleElementsColumnMenuItems : MapComponent
         }
          
         return SortDescending;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -187,8 +189,9 @@ public partial class VisibleElementsColumnMenuItems : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sortAscending", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SortDescending property after render.
     /// </summary>
@@ -224,8 +227,9 @@ public partial class VisibleElementsColumnMenuItems : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sortDescending", value);
+
     }
-    
+
 #endregion
 
 }

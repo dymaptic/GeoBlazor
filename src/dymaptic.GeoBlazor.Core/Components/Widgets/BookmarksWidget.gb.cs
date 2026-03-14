@@ -257,8 +257,9 @@ public partial class BookmarksWidget : IGoTo
         }
         
         return Bookmarks;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultCreateOptions property.
     /// </summary>
@@ -297,8 +298,9 @@ public partial class BookmarksWidget : IGoTo
         }
         
         return DefaultCreateOptions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultEditOptions property.
     /// </summary>
@@ -337,8 +339,9 @@ public partial class BookmarksWidget : IGoTo
         }
         
         return DefaultEditOptions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Disabled property.
     /// </summary>
@@ -377,8 +380,9 @@ public partial class BookmarksWidget : IGoTo
         }
          
         return Disabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DragEnabled property.
     /// </summary>
@@ -417,8 +421,9 @@ public partial class BookmarksWidget : IGoTo
         }
          
         return DragEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FilterPlaceholder property.
     /// </summary>
@@ -457,8 +462,9 @@ public partial class BookmarksWidget : IGoTo
         }
          
         return FilterPlaceholder;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FilterText property.
     /// </summary>
@@ -497,8 +503,9 @@ public partial class BookmarksWidget : IGoTo
         }
          
         return FilterText;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HeadingLevel property.
     /// </summary>
@@ -537,8 +544,9 @@ public partial class BookmarksWidget : IGoTo
         }
          
         return HeadingLevel;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -583,8 +591,9 @@ public partial class BookmarksWidget : IGoTo
         }
         
         return ViewModel;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibleElements property.
     /// </summary>
@@ -629,8 +638,9 @@ public partial class BookmarksWidget : IGoTo
         }
         
         return VisibleElements;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -676,11 +686,12 @@ public partial class BookmarksWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetBookmarks), nameof(BookmarksWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetBookmarks), nameof(BookmarksWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DefaultCreateOptions property after render.
     /// </summary>
@@ -714,11 +725,12 @@ public partial class BookmarksWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetDefaultCreateOptions), nameof(BookmarksWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetDefaultCreateOptions), nameof(BookmarksWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DefaultEditOptions property after render.
     /// </summary>
@@ -752,11 +764,12 @@ public partial class BookmarksWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetDefaultEditOptions), nameof(BookmarksWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetDefaultEditOptions), nameof(BookmarksWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Disabled property after render.
     /// </summary>
@@ -792,8 +805,9 @@ public partial class BookmarksWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "disabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DragEnabled property after render.
     /// </summary>
@@ -829,8 +843,9 @@ public partial class BookmarksWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "dragEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FilterPlaceholder property after render.
     /// </summary>
@@ -866,8 +881,9 @@ public partial class BookmarksWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "filterPlaceholder", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FilterText property after render.
     /// </summary>
@@ -903,8 +919,9 @@ public partial class BookmarksWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "filterText", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HeadingLevel property after render.
     /// </summary>
@@ -940,8 +957,9 @@ public partial class BookmarksWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "headingLevel", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -980,11 +998,12 @@ public partial class BookmarksWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetViewModel), nameof(BookmarksWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetViewModel), nameof(BookmarksWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the VisibleElements property after render.
     /// </summary>
@@ -1023,11 +1042,12 @@ public partial class BookmarksWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetVisibleElements), nameof(BookmarksWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetVisibleElements), nameof(BookmarksWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -1044,6 +1064,7 @@ public partial class BookmarksWidget : IGoTo
             ? values
             : [..Bookmarks, ..values];
         await SetBookmarks(join);
+
     }
     
 #endregion
@@ -1064,6 +1085,7 @@ public partial class BookmarksWidget : IGoTo
             return;
         }
         await SetBookmarks(Bookmarks.Except(values).ToArray());
+
     }
     
 #endregion

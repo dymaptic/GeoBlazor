@@ -218,8 +218,9 @@ public partial class CapabilitiesEditing : MapComponent
         }
          
         return SupportsDeleteByAnonymous;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsDeleteByOthers property.
     /// </summary>
@@ -258,8 +259,9 @@ public partial class CapabilitiesEditing : MapComponent
         }
          
         return SupportsDeleteByOthers;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsGeometryUpdate property.
     /// </summary>
@@ -298,8 +300,9 @@ public partial class CapabilitiesEditing : MapComponent
         }
          
         return SupportsGeometryUpdate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsGlobalId property.
     /// </summary>
@@ -338,8 +341,9 @@ public partial class CapabilitiesEditing : MapComponent
         }
          
         return SupportsGlobalId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsRollbackOnFailure property.
     /// </summary>
@@ -378,8 +382,9 @@ public partial class CapabilitiesEditing : MapComponent
         }
          
         return SupportsRollbackOnFailure;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsUpdateByAnonymous property.
     /// </summary>
@@ -418,8 +423,9 @@ public partial class CapabilitiesEditing : MapComponent
         }
          
         return SupportsUpdateByAnonymous;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsUpdateByOthers property.
     /// </summary>
@@ -458,8 +464,9 @@ public partial class CapabilitiesEditing : MapComponent
         }
          
         return SupportsUpdateByOthers;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsUpdateWithoutM property.
     /// </summary>
@@ -498,8 +505,9 @@ public partial class CapabilitiesEditing : MapComponent
         }
          
         return SupportsUpdateWithoutM;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsUploadWithItemId property.
     /// </summary>
@@ -538,8 +546,9 @@ public partial class CapabilitiesEditing : MapComponent
         }
          
         return SupportsUploadWithItemId;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -579,8 +588,9 @@ public partial class CapabilitiesEditing : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsDeleteByAnonymous", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsDeleteByOthers property after render.
     /// </summary>
@@ -616,8 +626,9 @@ public partial class CapabilitiesEditing : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsDeleteByOthers", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsGeometryUpdate property after render.
     /// </summary>
@@ -653,8 +664,9 @@ public partial class CapabilitiesEditing : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsGeometryUpdate", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsGlobalId property after render.
     /// </summary>
@@ -690,8 +702,9 @@ public partial class CapabilitiesEditing : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsGlobalId", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsRollbackOnFailure property after render.
     /// </summary>
@@ -727,8 +740,9 @@ public partial class CapabilitiesEditing : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsRollbackOnFailure", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsUpdateByAnonymous property after render.
     /// </summary>
@@ -764,8 +778,9 @@ public partial class CapabilitiesEditing : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsUpdateByAnonymous", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsUpdateByOthers property after render.
     /// </summary>
@@ -801,8 +816,9 @@ public partial class CapabilitiesEditing : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsUpdateByOthers", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsUpdateWithoutM property after render.
     /// </summary>
@@ -838,8 +854,9 @@ public partial class CapabilitiesEditing : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsUpdateWithoutM", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsUploadWithItemId property after render.
     /// </summary>
@@ -875,8 +892,9 @@ public partial class CapabilitiesEditing : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsUploadWithItemId", value);
+
     }
-    
+
 #endregion
 
 }

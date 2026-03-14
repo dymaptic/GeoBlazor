@@ -153,8 +153,9 @@ public partial class FieldInfo
         }
          
         return FieldName;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Format property.
     /// </summary>
@@ -199,8 +200,9 @@ public partial class FieldInfo
         }
         
         return Format;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsEditable property.
     /// </summary>
@@ -239,8 +241,9 @@ public partial class FieldInfo
         }
          
         return IsEditable;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Label property.
     /// </summary>
@@ -279,8 +282,9 @@ public partial class FieldInfo
         }
          
         return Label;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the StatisticType property.
     /// </summary>
@@ -319,8 +323,9 @@ public partial class FieldInfo
         }
          
         return StatisticType;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the StringFieldOption property.
     /// </summary>
@@ -359,8 +364,9 @@ public partial class FieldInfo
         }
          
         return StringFieldOption;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Tooltip property.
     /// </summary>
@@ -399,8 +405,9 @@ public partial class FieldInfo
         }
          
         return Tooltip;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -440,8 +447,9 @@ public partial class FieldInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fieldName", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Format property after render.
     /// </summary>
@@ -482,8 +490,9 @@ public partial class FieldInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "format", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the IsEditable property after render.
     /// </summary>
@@ -519,8 +528,9 @@ public partial class FieldInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "isEditable", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Label property after render.
     /// </summary>
@@ -556,8 +566,9 @@ public partial class FieldInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "label", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the StatisticType property after render.
     /// </summary>
@@ -593,8 +604,9 @@ public partial class FieldInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "statisticType", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the StringFieldOption property after render.
     /// </summary>
@@ -630,8 +642,9 @@ public partial class FieldInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "stringFieldOption", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Tooltip property after render.
     /// </summary>
@@ -667,8 +680,9 @@ public partial class FieldInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "tooltip", value);
+
     }
-    
+
 #endregion
 
 

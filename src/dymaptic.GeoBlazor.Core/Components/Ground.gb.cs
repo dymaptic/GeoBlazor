@@ -167,8 +167,9 @@ public partial class Ground : MapComponent,
         }
         
         return Layers;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Loaded property.
     /// </summary>
@@ -207,8 +208,9 @@ public partial class Ground : MapComponent,
         }
          
         return Loaded;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NavigationConstraint property.
     /// </summary>
@@ -253,8 +255,9 @@ public partial class Ground : MapComponent,
         }
         
         return NavigationConstraint;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Opacity property.
     /// </summary>
@@ -293,8 +296,9 @@ public partial class Ground : MapComponent,
         }
          
         return Opacity;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SurfaceColor property.
     /// </summary>
@@ -333,8 +337,9 @@ public partial class Ground : MapComponent,
         }
          
         return SurfaceColor;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -380,11 +385,12 @@ public partial class Ground : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetLayers), nameof(Ground), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetLayers), nameof(Ground),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the NavigationConstraint property after render.
     /// </summary>
@@ -423,11 +429,12 @@ public partial class Ground : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetNavigationConstraint), nameof(Ground), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetNavigationConstraint), nameof(Ground),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Opacity property after render.
     /// </summary>
@@ -463,8 +470,9 @@ public partial class Ground : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "opacity", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SurfaceColor property after render.
     /// </summary>
@@ -500,8 +508,9 @@ public partial class Ground : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "surfaceColor", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -518,6 +527,7 @@ public partial class Ground : MapComponent,
             ? values
             : [..Layers, ..values];
         await SetLayers(join);
+
     }
     
 #endregion
@@ -538,6 +548,7 @@ public partial class Ground : MapComponent,
             return;
         }
         await SetLayers(Layers.Except(values).ToArray());
+
     }
     
 #endregion

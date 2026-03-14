@@ -106,8 +106,9 @@ public partial class AuthoringInfoField1ClassBreakInfos : MapComponent
         }
          
         return MaxValue;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinValue property.
     /// </summary>
@@ -146,8 +147,9 @@ public partial class AuthoringInfoField1ClassBreakInfos : MapComponent
         }
          
         return MinValue;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -187,8 +189,9 @@ public partial class AuthoringInfoField1ClassBreakInfos : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxValue", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinValue property after render.
     /// </summary>
@@ -224,8 +227,9 @@ public partial class AuthoringInfoField1ClassBreakInfos : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minValue", value);
+
     }
-    
+
 #endregion
 
 }

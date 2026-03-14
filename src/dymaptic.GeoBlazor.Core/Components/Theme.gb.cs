@@ -107,8 +107,9 @@ public partial class Theme : MapComponent
         }
          
         return AccentColor;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TextColor property.
     /// </summary>
@@ -147,8 +148,9 @@ public partial class Theme : MapComponent
         }
          
         return TextColor;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -188,8 +190,9 @@ public partial class Theme : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "accentColor", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TextColor property after render.
     /// </summary>
@@ -225,8 +228,9 @@ public partial class Theme : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "textColor", value);
+
     }
-    
+
 #endregion
 
 }

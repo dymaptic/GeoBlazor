@@ -126,8 +126,9 @@ public partial class OrderByInfo : MapComponent
         }
          
         return Field;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Order property.
     /// </summary>
@@ -166,8 +167,9 @@ public partial class OrderByInfo : MapComponent
         }
          
         return Order;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ValueExpression property.
     /// </summary>
@@ -206,8 +208,9 @@ public partial class OrderByInfo : MapComponent
         }
          
         return ValueExpression;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -247,8 +250,9 @@ public partial class OrderByInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Order property after render.
     /// </summary>
@@ -284,8 +288,9 @@ public partial class OrderByInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "order", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ValueExpression property after render.
     /// </summary>
@@ -321,8 +326,9 @@ public partial class OrderByInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "valueExpression", value);
+
     }
-    
+
 #endregion
 
 }

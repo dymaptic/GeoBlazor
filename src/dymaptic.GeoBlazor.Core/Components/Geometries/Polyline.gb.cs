@@ -95,8 +95,9 @@ public partial class Polyline
         }
          
         return Paths;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -136,8 +137,9 @@ public partial class Polyline
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "paths", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -154,6 +156,7 @@ public partial class Polyline
             ? values
             : [..Paths, ..values];
         await SetPaths(join);
+
     }
     
 #endregion
@@ -174,6 +177,7 @@ public partial class Polyline
             return;
         }
         await SetPaths(Paths.Except(values).ToArray());
+
     }
     
 #endregion

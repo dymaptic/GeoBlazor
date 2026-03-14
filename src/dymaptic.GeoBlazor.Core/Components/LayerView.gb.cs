@@ -11,7 +11,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class LayerView
 {
-
+   
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -116,8 +117,9 @@ public partial class LayerView
         }
         
         return Layer;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReferenceSupported property.
     /// </summary>
@@ -156,8 +158,9 @@ public partial class LayerView
         }
          
         return SpatialReferenceSupported;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Suspended property.
     /// </summary>
@@ -196,8 +199,9 @@ public partial class LayerView
         }
          
         return Suspended;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Updating property.
     /// </summary>
@@ -236,8 +240,9 @@ public partial class LayerView
         }
          
         return Updating;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibleAtCurrentScale property.
     /// </summary>
@@ -276,8 +281,9 @@ public partial class LayerView
         }
          
         return VisibleAtCurrentScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibleAtCurrentTimeExtent property.
     /// </summary>
@@ -316,8 +322,9 @@ public partial class LayerView
         }
          
         return VisibleAtCurrentTimeExtent;
+
     }
-    
+
 #endregion
 
 #region Public Methods

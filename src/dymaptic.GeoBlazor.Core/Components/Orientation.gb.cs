@@ -90,8 +90,9 @@ public partial class Orientation : MapComponent
         }
          
         return Z;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -131,8 +132,9 @@ public partial class Orientation : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "z", value);
+
     }
-    
+
 #endregion
 
 }

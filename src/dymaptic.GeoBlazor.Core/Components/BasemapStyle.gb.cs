@@ -85,8 +85,9 @@ public partial class BasemapStyle
         }
          
         return ApiKey;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Language property.
     /// </summary>
@@ -125,8 +126,9 @@ public partial class BasemapStyle
         }
          
         return Language;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -165,8 +167,9 @@ public partial class BasemapStyle
         }
          
         return Name;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Places property.
     /// </summary>
@@ -205,8 +208,9 @@ public partial class BasemapStyle
         }
          
         return Places;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ServiceUrl property.
     /// </summary>
@@ -245,8 +249,9 @@ public partial class BasemapStyle
         }
          
         return ServiceUrl;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Worldview property.
     /// </summary>
@@ -285,8 +290,9 @@ public partial class BasemapStyle
         }
          
         return Worldview;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -326,8 +332,9 @@ public partial class BasemapStyle
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "apiKey", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Language property after render.
     /// </summary>
@@ -363,8 +370,9 @@ public partial class BasemapStyle
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "language", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Places property after render.
     /// </summary>
@@ -400,8 +408,9 @@ public partial class BasemapStyle
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "places", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ServiceUrl property after render.
     /// </summary>
@@ -437,8 +446,9 @@ public partial class BasemapStyle
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "serviceUrl", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Worldview property after render.
     /// </summary>
@@ -474,8 +484,9 @@ public partial class BasemapStyle
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "worldview", value);
+
     }
-    
+
 #endregion
 
     /// <inheritdoc />

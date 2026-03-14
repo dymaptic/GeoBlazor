@@ -246,8 +246,9 @@ public partial class WMTSSublayer : MapComponent
         }
          
         return Description;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FullExtent property.
     /// </summary>
@@ -292,8 +293,9 @@ public partial class WMTSSublayer : MapComponent
         }
         
         return FullExtent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ImageFormat property.
     /// </summary>
@@ -332,8 +334,9 @@ public partial class WMTSSublayer : MapComponent
         }
          
         return ImageFormat;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ImageFormats property.
     /// </summary>
@@ -372,8 +375,9 @@ public partial class WMTSSublayer : MapComponent
         }
          
         return ImageFormats;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the StyleId property.
     /// </summary>
@@ -412,8 +416,9 @@ public partial class WMTSSublayer : MapComponent
         }
          
         return StyleId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Styles property.
     /// </summary>
@@ -456,8 +461,9 @@ public partial class WMTSSublayer : MapComponent
         }
         
         return Styles;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TileMatrixSet property.
     /// </summary>
@@ -502,8 +508,9 @@ public partial class WMTSSublayer : MapComponent
         }
         
         return TileMatrixSet;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TileMatrixSetId property.
     /// </summary>
@@ -542,8 +549,9 @@ public partial class WMTSSublayer : MapComponent
         }
          
         return TileMatrixSetId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TileMatrixSets property.
     /// </summary>
@@ -586,8 +594,9 @@ public partial class WMTSSublayer : MapComponent
         }
         
         return TileMatrixSets;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -626,8 +635,9 @@ public partial class WMTSSublayer : MapComponent
         }
          
         return Title;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the WMTSSublayerId property.
     /// </summary>
@@ -666,8 +676,9 @@ public partial class WMTSSublayer : MapComponent
         }
          
         return WMTSSublayerId;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -707,8 +718,9 @@ public partial class WMTSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "description", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FullExtent property after render.
     /// </summary>
@@ -749,8 +761,9 @@ public partial class WMTSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fullExtent", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ImageFormat property after render.
     /// </summary>
@@ -786,8 +799,9 @@ public partial class WMTSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "imageFormat", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ImageFormats property after render.
     /// </summary>
@@ -823,8 +837,9 @@ public partial class WMTSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "imageFormats", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the StyleId property after render.
     /// </summary>
@@ -860,8 +875,9 @@ public partial class WMTSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "styleId", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Styles property after render.
     /// </summary>
@@ -905,8 +921,9 @@ public partial class WMTSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "styles", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TileMatrixSetId property after render.
     /// </summary>
@@ -942,8 +959,9 @@ public partial class WMTSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "tileMatrixSetId", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TileMatrixSets property after render.
     /// </summary>
@@ -987,8 +1005,9 @@ public partial class WMTSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "tileMatrixSets", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -1024,8 +1043,9 @@ public partial class WMTSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the WMTSSublayerId property after render.
     /// </summary>
@@ -1061,8 +1081,9 @@ public partial class WMTSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -1079,6 +1100,7 @@ public partial class WMTSSublayer : MapComponent
             ? values
             : [..ImageFormats, ..values];
         await SetImageFormats(join);
+
     }
     
     /// <summary>
@@ -1093,6 +1115,7 @@ public partial class WMTSSublayer : MapComponent
             ? values
             : [..Styles, ..values];
         await SetStyles(join);
+
     }
     
     /// <summary>
@@ -1107,6 +1130,7 @@ public partial class WMTSSublayer : MapComponent
             ? values
             : [..TileMatrixSets, ..values];
         await SetTileMatrixSets(join);
+
     }
     
 #endregion
@@ -1127,6 +1151,7 @@ public partial class WMTSSublayer : MapComponent
             return;
         }
         await SetImageFormats(ImageFormats.Except(values).ToArray());
+
     }
     
     
@@ -1143,6 +1168,7 @@ public partial class WMTSSublayer : MapComponent
             return;
         }
         await SetStyles(Styles.Except(values).ToArray());
+
     }
     
     
@@ -1159,6 +1185,7 @@ public partial class WMTSSublayer : MapComponent
             return;
         }
         await SetTileMatrixSets(TileMatrixSets.Except(values).ToArray());
+
     }
     
 #endregion

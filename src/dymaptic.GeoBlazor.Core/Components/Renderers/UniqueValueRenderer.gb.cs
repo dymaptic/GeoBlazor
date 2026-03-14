@@ -315,8 +315,9 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
         
         return BackgroundFillSymbol;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultLabel property.
     /// </summary>
@@ -355,8 +356,9 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
          
         return DefaultLabel;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultSymbol property.
     /// </summary>
@@ -401,8 +403,9 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
         
         return DefaultSymbol;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Field property.
     /// </summary>
@@ -441,8 +444,9 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
          
         return Field;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Field2 property.
     /// </summary>
@@ -481,8 +485,9 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
          
         return Field2;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Field3 property.
     /// </summary>
@@ -521,8 +526,9 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
          
         return Field3;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FieldDelimiter property.
     /// </summary>
@@ -561,8 +567,9 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
          
         return FieldDelimiter;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendOptions property.
     /// </summary>
@@ -607,8 +614,9 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
         
         return LegendOptions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OrderByClassesEnabled property.
     /// </summary>
@@ -647,8 +655,9 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
          
         return OrderByClassesEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UniqueValueGroups property.
     /// </summary>
@@ -691,8 +700,9 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
         
         return UniqueValueGroups;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UniqueValueInfos property.
     /// </summary>
@@ -735,8 +745,9 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
         
         return UniqueValueInfos;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ValueExpression property.
     /// </summary>
@@ -775,8 +786,9 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
          
         return ValueExpression;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ValueExpressionTitle property.
     /// </summary>
@@ -815,8 +827,9 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
          
         return ValueExpressionTitle;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisualVariables property.
     /// </summary>
@@ -859,8 +872,9 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
         
         return VisualVariables;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -903,11 +917,12 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetBackgroundFillSymbol), nameof(UniqueValueRenderer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetBackgroundFillSymbol), nameof(UniqueValueRenderer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DefaultLabel property after render.
     /// </summary>
@@ -943,8 +958,9 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "defaultLabel", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DefaultSymbol property after render.
     /// </summary>
@@ -983,11 +999,12 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetDefaultSymbol), nameof(UniqueValueRenderer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetDefaultSymbol), nameof(UniqueValueRenderer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Field property after render.
     /// </summary>
@@ -1023,8 +1040,9 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Field2 property after render.
     /// </summary>
@@ -1060,8 +1078,9 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field2", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Field3 property after render.
     /// </summary>
@@ -1097,8 +1116,9 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field3", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FieldDelimiter property after render.
     /// </summary>
@@ -1134,8 +1154,9 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fieldDelimiter", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendOptions property after render.
     /// </summary>
@@ -1174,11 +1195,12 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetLegendOptions), nameof(UniqueValueRenderer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetLegendOptions), nameof(UniqueValueRenderer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OrderByClassesEnabled property after render.
     /// </summary>
@@ -1214,8 +1236,9 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "orderByClassesEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UniqueValueGroups property after render.
     /// </summary>
@@ -1257,11 +1280,12 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetUniqueValueGroups), nameof(UniqueValueRenderer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetUniqueValueGroups), nameof(UniqueValueRenderer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UniqueValueInfos property after render.
     /// </summary>
@@ -1303,11 +1327,12 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetUniqueValueInfos), nameof(UniqueValueRenderer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetUniqueValueInfos), nameof(UniqueValueRenderer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ValueExpression property after render.
     /// </summary>
@@ -1343,8 +1368,9 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "valueExpression", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ValueExpressionTitle property after render.
     /// </summary>
@@ -1380,8 +1406,9 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "valueExpressionTitle", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the VisualVariables property after render.
     /// </summary>
@@ -1423,11 +1450,12 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetVisualVariables), nameof(UniqueValueRenderer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetVisualVariables), nameof(UniqueValueRenderer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -1444,6 +1472,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             ? values
             : [..UniqueValueGroups, ..values];
         await SetUniqueValueGroups(join);
+
     }
     
     /// <summary>
@@ -1458,6 +1487,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             ? values
             : [..UniqueValueInfos, ..values];
         await SetUniqueValueInfos(join);
+
     }
     
     /// <summary>
@@ -1472,6 +1502,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             ? values
             : [..VisualVariables, ..values];
         await SetVisualVariables(join);
+
     }
     
 #endregion
@@ -1492,6 +1523,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         await SetUniqueValueGroups(UniqueValueGroups.Except(values).ToArray());
+
     }
     
     
@@ -1508,6 +1540,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         await SetUniqueValueInfos(UniqueValueInfos.Except(values).ToArray());
+
     }
     
     
@@ -1524,6 +1557,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         await SetVisualVariables(VisualVariables.Except(values).ToArray());
+
     }
     
 #endregion

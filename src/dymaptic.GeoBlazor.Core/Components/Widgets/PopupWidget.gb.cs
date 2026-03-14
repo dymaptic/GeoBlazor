@@ -381,8 +381,9 @@ public partial class PopupWidget : IGoTo
         }
         
         return Actions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Active property.
     /// </summary>
@@ -421,8 +422,9 @@ public partial class PopupWidget : IGoTo
         }
          
         return Active;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Alignment property.
     /// </summary>
@@ -461,8 +463,9 @@ public partial class PopupWidget : IGoTo
         }
          
         return Alignment;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AutoCloseEnabled property.
     /// </summary>
@@ -501,8 +504,9 @@ public partial class PopupWidget : IGoTo
         }
          
         return AutoCloseEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Collapsed property.
     /// </summary>
@@ -541,8 +545,9 @@ public partial class PopupWidget : IGoTo
         }
          
         return Collapsed;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Content property.
     /// </summary>
@@ -587,8 +592,9 @@ public partial class PopupWidget : IGoTo
         }
         
         return Content;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CurrentDockPosition property.
     /// </summary>
@@ -627,8 +633,9 @@ public partial class PopupWidget : IGoTo
         }
          
         return CurrentDockPosition;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultPopupTemplateEnabled property.
     /// </summary>
@@ -667,8 +674,9 @@ public partial class PopupWidget : IGoTo
         }
          
         return DefaultPopupTemplateEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DockEnabled property.
     /// </summary>
@@ -707,8 +715,9 @@ public partial class PopupWidget : IGoTo
         }
          
         return DockEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DockOptions property.
     /// </summary>
@@ -753,8 +762,9 @@ public partial class PopupWidget : IGoTo
         }
         
         return DockOptions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Features property.
     /// </summary>
@@ -797,8 +807,9 @@ public partial class PopupWidget : IGoTo
         }
         
         return Features;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HeadingLevel property.
     /// </summary>
@@ -837,8 +848,9 @@ public partial class PopupWidget : IGoTo
         }
          
         return HeadingLevel;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HighlightEnabled property.
     /// </summary>
@@ -877,8 +889,9 @@ public partial class PopupWidget : IGoTo
         }
          
         return HighlightEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the InitialDisplayMode property.
     /// </summary>
@@ -917,8 +930,9 @@ public partial class PopupWidget : IGoTo
         }
          
         return InitialDisplayMode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Location property.
     /// </summary>
@@ -963,8 +977,9 @@ public partial class PopupWidget : IGoTo
         }
         
         return Location;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Promises property.
     /// </summary>
@@ -1003,8 +1018,9 @@ public partial class PopupWidget : IGoTo
         }
          
         return Promises;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SelectedDrillInFeature property.
     /// </summary>
@@ -1049,8 +1065,9 @@ public partial class PopupWidget : IGoTo
         }
         
         return SelectedDrillInFeature;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SelectedFeatureWidget property.
     /// </summary>
@@ -1089,8 +1106,9 @@ public partial class PopupWidget : IGoTo
         }
          
         return SelectedFeatureWidget;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -1129,8 +1147,9 @@ public partial class PopupWidget : IGoTo
         }
          
         return Title;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -1175,8 +1194,9 @@ public partial class PopupWidget : IGoTo
         }
         
         return ViewModel;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibleElements property.
     /// </summary>
@@ -1221,8 +1241,9 @@ public partial class PopupWidget : IGoTo
         }
         
         return VisibleElements;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -1268,11 +1289,12 @@ public partial class PopupWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetActions), nameof(PopupWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetActions), nameof(PopupWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Alignment property after render.
     /// </summary>
@@ -1308,8 +1330,9 @@ public partial class PopupWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "alignment", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the AutoCloseEnabled property after render.
     /// </summary>
@@ -1345,8 +1368,9 @@ public partial class PopupWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "autoCloseEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DefaultPopupTemplateEnabled property after render.
     /// </summary>
@@ -1382,8 +1406,9 @@ public partial class PopupWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "defaultPopupTemplateEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DockEnabled property after render.
     /// </summary>
@@ -1419,8 +1444,9 @@ public partial class PopupWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "dockEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DockOptions property after render.
     /// </summary>
@@ -1459,11 +1485,12 @@ public partial class PopupWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetDockOptions), nameof(PopupWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetDockOptions), nameof(PopupWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Features property after render.
     /// </summary>
@@ -1505,11 +1532,12 @@ public partial class PopupWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetFeatures), nameof(PopupWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetFeatures), nameof(PopupWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HeadingLevel property after render.
     /// </summary>
@@ -1545,8 +1573,9 @@ public partial class PopupWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "headingLevel", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HighlightEnabled property after render.
     /// </summary>
@@ -1582,8 +1611,9 @@ public partial class PopupWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "highlightEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the InitialDisplayMode property after render.
     /// </summary>
@@ -1619,8 +1649,9 @@ public partial class PopupWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "initialDisplayMode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Location property after render.
     /// </summary>
@@ -1659,11 +1690,12 @@ public partial class PopupWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetLocation), nameof(PopupWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetLocation), nameof(PopupWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Promises property after render.
     /// </summary>
@@ -1699,8 +1731,9 @@ public partial class PopupWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "promises", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SelectedFeatureIndex property after render.
     /// </summary>
@@ -1736,8 +1769,9 @@ public partial class PopupWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "selectedFeatureIndex", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -1773,8 +1807,9 @@ public partial class PopupWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -1813,11 +1848,12 @@ public partial class PopupWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetViewModel), nameof(PopupWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetViewModel), nameof(PopupWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the VisibleElements property after render.
     /// </summary>
@@ -1856,11 +1892,12 @@ public partial class PopupWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetVisibleElements), nameof(PopupWidget), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetVisibleElements), nameof(PopupWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -1877,6 +1914,7 @@ public partial class PopupWidget : IGoTo
             ? values
             : [..Actions, ..values];
         await SetActions(join);
+
     }
     
     /// <summary>
@@ -1891,6 +1929,7 @@ public partial class PopupWidget : IGoTo
             ? values
             : [..Features, ..values];
         await SetFeatures(join);
+
     }
     
 #endregion
@@ -1911,6 +1950,7 @@ public partial class PopupWidget : IGoTo
             return;
         }
         await SetActions(Actions.Except(values).ToArray());
+
     }
     
     
@@ -1927,6 +1967,7 @@ public partial class PopupWidget : IGoTo
             return;
         }
         await SetFeatures(Features.Except(values).ToArray());
+
     }
     
 #endregion

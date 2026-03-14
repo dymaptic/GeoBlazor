@@ -69,8 +69,9 @@ public partial class Point
         }
          
         return Latitude;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Longitude property.
     /// </summary>
@@ -109,8 +110,9 @@ public partial class Point
         }
          
         return Longitude;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the M property.
     /// </summary>
@@ -149,8 +151,9 @@ public partial class Point
         }
          
         return M;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the X property.
     /// </summary>
@@ -189,8 +192,9 @@ public partial class Point
         }
          
         return X;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Y property.
     /// </summary>
@@ -229,8 +233,9 @@ public partial class Point
         }
          
         return Y;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Z property.
     /// </summary>
@@ -269,8 +274,9 @@ public partial class Point
         }
          
         return Z;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -310,8 +316,9 @@ public partial class Point
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "latitude", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Longitude property after render.
     /// </summary>
@@ -347,8 +354,9 @@ public partial class Point
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "longitude", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the M property after render.
     /// </summary>
@@ -384,8 +392,9 @@ public partial class Point
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "m", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the X property after render.
     /// </summary>
@@ -421,8 +430,9 @@ public partial class Point
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "x", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Y property after render.
     /// </summary>
@@ -458,8 +468,9 @@ public partial class Point
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "y", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Z property after render.
     /// </summary>
@@ -495,8 +506,9 @@ public partial class Point
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "z", value);
+
     }
-    
+
 #endregion
 
 #region Public Methods

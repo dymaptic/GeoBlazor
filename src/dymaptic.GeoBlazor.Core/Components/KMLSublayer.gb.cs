@@ -162,8 +162,9 @@ public partial class KMLSublayer : MapComponent
         }
          
         return Description;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the KMLSublayerId property.
     /// </summary>
@@ -202,8 +203,9 @@ public partial class KMLSublayer : MapComponent
         }
          
         return KMLSublayerId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NetworkLink property.
     /// </summary>
@@ -242,8 +244,9 @@ public partial class KMLSublayer : MapComponent
         }
          
         return NetworkLink;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
@@ -282,8 +285,9 @@ public partial class KMLSublayer : MapComponent
         }
          
         return SourceJSON;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -322,8 +326,9 @@ public partial class KMLSublayer : MapComponent
         }
          
         return Title;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -363,8 +368,9 @@ public partial class KMLSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "description", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the KMLSublayerId property after render.
     /// </summary>
@@ -400,8 +406,9 @@ public partial class KMLSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -437,8 +444,9 @@ public partial class KMLSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 

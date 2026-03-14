@@ -143,8 +143,9 @@ public partial class AuthoringInfoField
         }
         
         return ClassBreakInfos;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Field property.
     /// </summary>
@@ -183,8 +184,9 @@ public partial class AuthoringInfoField
         }
          
         return Field;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Label property.
     /// </summary>
@@ -223,8 +225,9 @@ public partial class AuthoringInfoField
         }
          
         return Label;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NormalizationField property.
     /// </summary>
@@ -263,8 +266,9 @@ public partial class AuthoringInfoField
         }
          
         return NormalizationField;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -312,8 +316,9 @@ public partial class AuthoringInfoField
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "classBreakInfos", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Field property after render.
     /// </summary>
@@ -349,8 +354,9 @@ public partial class AuthoringInfoField
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Label property after render.
     /// </summary>
@@ -386,8 +392,9 @@ public partial class AuthoringInfoField
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "label", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the NormalizationField property after render.
     /// </summary>
@@ -423,8 +430,9 @@ public partial class AuthoringInfoField
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "normalizationField", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -441,6 +449,7 @@ public partial class AuthoringInfoField
             ? values
             : [..ClassBreakInfos, ..values];
         await SetClassBreakInfos(join);
+
     }
     
 #endregion
@@ -461,6 +470,7 @@ public partial class AuthoringInfoField
             return;
         }
         await SetClassBreakInfos(ClassBreakInfos.Except(values).ToArray());
+
     }
     
 #endregion

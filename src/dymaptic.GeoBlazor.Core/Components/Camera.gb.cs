@@ -164,8 +164,9 @@ public partial class Camera : MapComponent
         }
          
         return Fov;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Heading property.
     /// </summary>
@@ -204,8 +205,9 @@ public partial class Camera : MapComponent
         }
          
         return Heading;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Layout property.
     /// </summary>
@@ -250,8 +252,9 @@ public partial class Camera : MapComponent
         }
         
         return Layout;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Position property.
     /// </summary>
@@ -296,8 +299,9 @@ public partial class Camera : MapComponent
         }
         
         return Position;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Tilt property.
     /// </summary>
@@ -336,8 +340,9 @@ public partial class Camera : MapComponent
         }
          
         return Tilt;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -377,8 +382,9 @@ public partial class Camera : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fov", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Heading property after render.
     /// </summary>
@@ -414,8 +420,9 @@ public partial class Camera : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "heading", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Layout property after render.
     /// </summary>
@@ -456,8 +463,9 @@ public partial class Camera : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layout", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Position property after render.
     /// </summary>
@@ -498,8 +506,9 @@ public partial class Camera : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "position", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Tilt property after render.
     /// </summary>
@@ -535,8 +544,9 @@ public partial class Camera : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "tilt", value);
+
     }
-    
+
 #endregion
 
 

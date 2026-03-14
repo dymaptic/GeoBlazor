@@ -138,8 +138,9 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
         }
          
         return Height;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Width property.
     /// </summary>
@@ -178,8 +179,9 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
         }
          
         return Width;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the X property.
     /// </summary>
@@ -218,8 +220,9 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
         }
          
         return X;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Y property.
     /// </summary>
@@ -258,8 +261,9 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
         }
          
         return Y;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -299,8 +303,9 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "height", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Width property after render.
     /// </summary>
@@ -336,8 +341,9 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "width", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the X property after render.
     /// </summary>
@@ -373,8 +379,9 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "x", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Y property after render.
     /// </summary>
@@ -410,8 +417,9 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "y", value);
+
     }
-    
+
 #endregion
 
 }

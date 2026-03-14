@@ -82,8 +82,9 @@ public partial class RasterDataSource
         }
          
         return DataSourceName;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the WorkspaceId property.
     /// </summary>
@@ -122,8 +123,9 @@ public partial class RasterDataSource
         }
          
         return WorkspaceId;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -163,8 +165,9 @@ public partial class RasterDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "dataSourceName", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the WorkspaceId property after render.
     /// </summary>
@@ -200,8 +203,9 @@ public partial class RasterDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "workspaceId", value);
+
     }
-    
+
 #endregion
 
 }

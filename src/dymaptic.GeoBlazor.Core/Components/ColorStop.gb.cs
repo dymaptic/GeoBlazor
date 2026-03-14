@@ -104,8 +104,9 @@ public partial class ColorStop
         }
          
         return Color;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Label property.
     /// </summary>
@@ -144,8 +145,9 @@ public partial class ColorStop
         }
          
         return Label;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Value property.
     /// </summary>
@@ -184,8 +186,9 @@ public partial class ColorStop
         }
          
         return Value;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -225,8 +228,9 @@ public partial class ColorStop
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "color", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Label property after render.
     /// </summary>
@@ -262,8 +266,9 @@ public partial class ColorStop
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "label", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Value property after render.
     /// </summary>
@@ -299,8 +304,9 @@ public partial class ColorStop
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value", value);
+
     }
-    
+
 #endregion
 
     /// <inheritdoc />

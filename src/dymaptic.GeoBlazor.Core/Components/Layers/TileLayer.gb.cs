@@ -397,8 +397,9 @@ public partial class TileLayer : IAPIKeyMixin,
         }
         
         return AllSublayers;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ApiKey property.
     /// </summary>
@@ -437,8 +438,9 @@ public partial class TileLayer : IAPIKeyMixin,
         }
          
         return ApiKey;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AttributionDataUrl property.
     /// </summary>
@@ -477,8 +479,9 @@ public partial class TileLayer : IAPIKeyMixin,
         }
          
         return AttributionDataUrl;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BlendMode property.
     /// </summary>
@@ -517,8 +520,9 @@ public partial class TileLayer : IAPIKeyMixin,
         }
          
         return BlendMode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Capabilities property.
     /// </summary>
@@ -557,8 +561,9 @@ public partial class TileLayer : IAPIKeyMixin,
         }
          
         return Capabilities;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Copyright property.
     /// </summary>
@@ -597,8 +602,9 @@ public partial class TileLayer : IAPIKeyMixin,
         }
          
         return Copyright;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomParameters property.
     /// </summary>
@@ -637,8 +643,9 @@ public partial class TileLayer : IAPIKeyMixin,
         }
          
         return CustomParameters;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Effect property.
     /// </summary>
@@ -677,8 +684,9 @@ public partial class TileLayer : IAPIKeyMixin,
         }
         
         return Effect;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HasAttributionData property.
     /// </summary>
@@ -717,8 +725,9 @@ public partial class TileLayer : IAPIKeyMixin,
         }
          
         return HasAttributionData;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendEnabled property.
     /// </summary>
@@ -757,8 +766,9 @@ public partial class TileLayer : IAPIKeyMixin,
         }
          
         return LegendEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -797,8 +807,9 @@ public partial class TileLayer : IAPIKeyMixin,
         }
          
         return MaxScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -837,8 +848,9 @@ public partial class TileLayer : IAPIKeyMixin,
         }
          
         return MinScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalItem property.
     /// </summary>
@@ -883,8 +895,9 @@ public partial class TileLayer : IAPIKeyMixin,
         }
         
         return PortalItem;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RefreshInterval property.
     /// </summary>
@@ -923,8 +936,9 @@ public partial class TileLayer : IAPIKeyMixin,
         }
          
         return RefreshInterval;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Resampling property.
     /// </summary>
@@ -963,8 +977,9 @@ public partial class TileLayer : IAPIKeyMixin,
         }
          
         return Resampling;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
@@ -1003,8 +1018,9 @@ public partial class TileLayer : IAPIKeyMixin,
         }
          
         return SourceJSON;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -1043,8 +1059,9 @@ public partial class TileLayer : IAPIKeyMixin,
         }
         
         return SpatialReference;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Sublayers property.
     /// </summary>
@@ -1087,8 +1104,9 @@ public partial class TileLayer : IAPIKeyMixin,
         }
         
         return Sublayers;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TileInfo property.
     /// </summary>
@@ -1133,8 +1151,9 @@ public partial class TileLayer : IAPIKeyMixin,
         }
         
         return TileInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TileServers property.
     /// </summary>
@@ -1173,8 +1192,9 @@ public partial class TileLayer : IAPIKeyMixin,
         }
          
         return TileServers;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -1213,8 +1233,9 @@ public partial class TileLayer : IAPIKeyMixin,
         }
          
         return Url;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Version property.
     /// </summary>
@@ -1253,8 +1274,9 @@ public partial class TileLayer : IAPIKeyMixin,
         }
          
         return Version;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -1294,8 +1316,9 @@ public partial class TileLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "apiKey", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BlendMode property after render.
     /// </summary>
@@ -1331,8 +1354,9 @@ public partial class TileLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "blendMode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Copyright property after render.
     /// </summary>
@@ -1368,8 +1392,9 @@ public partial class TileLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "copyright", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CustomParameters property after render.
     /// </summary>
@@ -1405,8 +1430,9 @@ public partial class TileLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "customParameters", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Effect property after render.
     /// </summary>
@@ -1440,11 +1466,12 @@ public partial class TileLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetEffect), nameof(TileLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetEffect), nameof(TileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
@@ -1480,8 +1507,9 @@ public partial class TileLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -1517,8 +1545,9 @@ public partial class TileLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -1554,8 +1583,9 @@ public partial class TileLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PersistenceEnabled property after render.
     /// </summary>
@@ -1591,8 +1621,9 @@ public partial class TileLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "persistenceEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
@@ -1631,11 +1662,12 @@ public partial class TileLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPortalItem), nameof(TileLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPortalItem), nameof(TileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RefreshInterval property after render.
     /// </summary>
@@ -1671,8 +1703,9 @@ public partial class TileLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "refreshInterval", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Resampling property after render.
     /// </summary>
@@ -1708,8 +1741,9 @@ public partial class TileLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "resampling", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Subtables property after render.
     /// </summary>
@@ -1751,11 +1785,12 @@ public partial class TileLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetSubtables), nameof(TileLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetSubtables), nameof(TileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TileInfo property after render.
     /// </summary>
@@ -1794,11 +1829,12 @@ public partial class TileLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetTileInfo), nameof(TileLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTileInfo), nameof(TileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TileServers property after render.
     /// </summary>
@@ -1834,8 +1870,9 @@ public partial class TileLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "tileServers", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -1871,8 +1908,9 @@ public partial class TileLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -1889,6 +1927,7 @@ public partial class TileLayer : IAPIKeyMixin,
             ? values
             : [..Subtables, ..values];
         await SetSubtables(join);
+
     }
     
     /// <summary>
@@ -1903,6 +1942,7 @@ public partial class TileLayer : IAPIKeyMixin,
             ? values
             : [..TileServers, ..values];
         await SetTileServers(join);
+
     }
     
 #endregion
@@ -1923,6 +1963,7 @@ public partial class TileLayer : IAPIKeyMixin,
             return;
         }
         await SetSubtables(Subtables.Except(values).ToArray());
+
     }
     
     
@@ -1939,6 +1980,7 @@ public partial class TileLayer : IAPIKeyMixin,
             return;
         }
         await SetTileServers(TileServers.Except(values).ToArray());
+
     }
     
 #endregion

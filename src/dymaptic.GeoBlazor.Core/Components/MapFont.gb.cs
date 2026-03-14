@@ -109,8 +109,9 @@ public partial class MapFont
         }
          
         return Decoration;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Family property.
     /// </summary>
@@ -149,8 +150,9 @@ public partial class MapFont
         }
          
         return Family;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Size property.
     /// </summary>
@@ -189,8 +191,9 @@ public partial class MapFont
         }
          
         return Size;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Style property.
     /// </summary>
@@ -229,8 +232,9 @@ public partial class MapFont
         }
          
         return Style;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Weight property.
     /// </summary>
@@ -269,8 +273,9 @@ public partial class MapFont
         }
          
         return Weight;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -310,8 +315,9 @@ public partial class MapFont
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "decoration", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Family property after render.
     /// </summary>
@@ -347,8 +353,9 @@ public partial class MapFont
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "family", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Size property after render.
     /// </summary>
@@ -384,8 +391,9 @@ public partial class MapFont
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "size", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Style property after render.
     /// </summary>
@@ -421,8 +429,9 @@ public partial class MapFont
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "style", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Weight property after render.
     /// </summary>
@@ -458,8 +467,9 @@ public partial class MapFont
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "weight", value);
+
     }
-    
+
 #endregion
 
 }

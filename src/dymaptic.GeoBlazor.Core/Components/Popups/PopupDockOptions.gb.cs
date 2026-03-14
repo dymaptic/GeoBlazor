@@ -99,8 +99,9 @@ public partial class PopupDockOptions
         }
          
         return Breakpoint;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ButtonEnabled property.
     /// </summary>
@@ -139,8 +140,9 @@ public partial class PopupDockOptions
         }
          
         return ButtonEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Position property.
     /// </summary>
@@ -179,8 +181,9 @@ public partial class PopupDockOptions
         }
          
         return Position;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -220,8 +223,9 @@ public partial class PopupDockOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "breakpoint", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ButtonEnabled property after render.
     /// </summary>
@@ -257,8 +261,9 @@ public partial class PopupDockOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "buttonEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Position property after render.
     /// </summary>
@@ -294,8 +299,9 @@ public partial class PopupDockOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "position", value);
+
     }
-    
+
 #endregion
 
 }

@@ -144,8 +144,9 @@ public partial class BasemapGalleryViewModel : MapComponent
         }
         
         return ActiveBasemap;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ActiveBasemapIndex property.
     /// </summary>
@@ -184,8 +185,9 @@ public partial class BasemapGalleryViewModel : MapComponent
         }
          
         return ActiveBasemapIndex;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Items property.
     /// </summary>
@@ -228,8 +230,9 @@ public partial class BasemapGalleryViewModel : MapComponent
         }
         
         return Items;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Source property.
     /// </summary>
@@ -268,8 +271,9 @@ public partial class BasemapGalleryViewModel : MapComponent
         }
          
         return Source;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -308,8 +312,9 @@ public partial class BasemapGalleryViewModel : MapComponent
         }
          
         return State;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -352,11 +357,12 @@ public partial class BasemapGalleryViewModel : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetActiveBasemap), nameof(BasemapGalleryViewModel), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetActiveBasemap), nameof(BasemapGalleryViewModel),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Source property after render.
     /// </summary>
@@ -392,8 +398,9 @@ public partial class BasemapGalleryViewModel : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "source", value);
+
     }
-    
+
 #endregion
 
 #region Public Methods

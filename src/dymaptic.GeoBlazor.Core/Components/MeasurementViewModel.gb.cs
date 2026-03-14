@@ -145,8 +145,9 @@ public partial class MeasurementViewModel : MapComponent
         }
          
         return ActiveTool;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ActiveViewModel property.
     /// </summary>
@@ -191,8 +192,9 @@ public partial class MeasurementViewModel : MapComponent
         }
         
         return ActiveViewModel;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AreaUnit property.
     /// </summary>
@@ -231,8 +233,9 @@ public partial class MeasurementViewModel : MapComponent
         }
          
         return AreaUnit;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LinearUnit property.
     /// </summary>
@@ -271,8 +274,9 @@ public partial class MeasurementViewModel : MapComponent
         }
          
         return LinearUnit;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -311,8 +315,9 @@ public partial class MeasurementViewModel : MapComponent
         }
          
         return State;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -352,8 +357,9 @@ public partial class MeasurementViewModel : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "activeTool", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the AreaUnit property after render.
     /// </summary>
@@ -389,8 +395,9 @@ public partial class MeasurementViewModel : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "areaUnit", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LinearUnit property after render.
     /// </summary>
@@ -426,8 +433,9 @@ public partial class MeasurementViewModel : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "linearUnit", value);
+
     }
-    
+
 #endregion
 
 }

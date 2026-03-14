@@ -199,8 +199,9 @@ public partial class VisibleElementsMenuItems : MapComponent
         }
          
         return ClearSelection;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DeleteSelection property.
     /// </summary>
@@ -239,8 +240,9 @@ public partial class VisibleElementsMenuItems : MapComponent
         }
          
         return DeleteSelection;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ExportSelectionToCSV property.
     /// </summary>
@@ -279,8 +281,9 @@ public partial class VisibleElementsMenuItems : MapComponent
         }
          
         return ExportSelectionToCSV;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RefreshData property.
     /// </summary>
@@ -319,8 +322,9 @@ public partial class VisibleElementsMenuItems : MapComponent
         }
          
         return RefreshData;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SelectedRecordsShowAllToggle property.
     /// </summary>
@@ -359,8 +363,9 @@ public partial class VisibleElementsMenuItems : MapComponent
         }
          
         return SelectedRecordsShowAllToggle;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SelectedRecordsShowSelectedToggle property.
     /// </summary>
@@ -399,8 +404,9 @@ public partial class VisibleElementsMenuItems : MapComponent
         }
          
         return SelectedRecordsShowSelectedToggle;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ToggleColumns property.
     /// </summary>
@@ -439,8 +445,9 @@ public partial class VisibleElementsMenuItems : MapComponent
         }
          
         return ToggleColumns;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ZoomToSelection property.
     /// </summary>
@@ -479,8 +486,9 @@ public partial class VisibleElementsMenuItems : MapComponent
         }
          
         return ZoomToSelection;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -520,8 +528,9 @@ public partial class VisibleElementsMenuItems : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "clearSelection", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DeleteSelection property after render.
     /// </summary>
@@ -557,8 +566,9 @@ public partial class VisibleElementsMenuItems : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "deleteSelection", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ExportSelectionToCSV property after render.
     /// </summary>
@@ -594,8 +604,9 @@ public partial class VisibleElementsMenuItems : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "exportSelectionToCSV", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RefreshData property after render.
     /// </summary>
@@ -631,8 +642,9 @@ public partial class VisibleElementsMenuItems : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "refreshData", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SelectedRecordsShowAllToggle property after render.
     /// </summary>
@@ -668,8 +680,9 @@ public partial class VisibleElementsMenuItems : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "selectedRecordsShowAllToggle", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SelectedRecordsShowSelectedToggle property after render.
     /// </summary>
@@ -705,8 +718,9 @@ public partial class VisibleElementsMenuItems : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "selectedRecordsShowSelectedToggle", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ToggleColumns property after render.
     /// </summary>
@@ -742,8 +756,9 @@ public partial class VisibleElementsMenuItems : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "toggleColumns", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ZoomToSelection property after render.
     /// </summary>
@@ -779,8 +794,9 @@ public partial class VisibleElementsMenuItems : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "zoomToSelection", value);
+
     }
-    
+
 #endregion
 
 }

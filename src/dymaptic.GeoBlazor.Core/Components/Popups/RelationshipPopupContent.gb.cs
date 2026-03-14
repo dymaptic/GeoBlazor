@@ -107,8 +107,9 @@ public partial class RelationshipPopupContent
         }
          
         return Description;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DisplayCount property.
     /// </summary>
@@ -147,8 +148,9 @@ public partial class RelationshipPopupContent
         }
          
         return DisplayCount;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DisplayType property.
     /// </summary>
@@ -187,8 +189,9 @@ public partial class RelationshipPopupContent
         }
          
         return DisplayType;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OrderByFields property.
     /// </summary>
@@ -231,8 +234,9 @@ public partial class RelationshipPopupContent
         }
         
         return OrderByFields;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RelationshipId property.
     /// </summary>
@@ -271,8 +275,9 @@ public partial class RelationshipPopupContent
         }
          
         return RelationshipId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -311,8 +316,9 @@ public partial class RelationshipPopupContent
         }
          
         return Title;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -352,8 +358,9 @@ public partial class RelationshipPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "description", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DisplayCount property after render.
     /// </summary>
@@ -389,8 +396,9 @@ public partial class RelationshipPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "displayCount", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DisplayType property after render.
     /// </summary>
@@ -426,8 +434,9 @@ public partial class RelationshipPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "displayType", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OrderByFields property after render.
     /// </summary>
@@ -471,8 +480,9 @@ public partial class RelationshipPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "orderByFields", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RelationshipId property after render.
     /// </summary>
@@ -508,8 +518,9 @@ public partial class RelationshipPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "relationshipId", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -545,8 +556,9 @@ public partial class RelationshipPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -563,6 +575,7 @@ public partial class RelationshipPopupContent
             ? values
             : [..OrderByFields, ..values];
         await SetOrderByFields(join);
+
     }
     
 #endregion
@@ -583,6 +596,7 @@ public partial class RelationshipPopupContent
             return;
         }
         await SetOrderByFields(OrderByFields.Except(values).ToArray());
+
     }
     
 #endregion

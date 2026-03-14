@@ -122,8 +122,9 @@ public partial class PixelData : MapComponent
         }
         
         return Extent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PixelBlock property.
     /// </summary>
@@ -168,8 +169,9 @@ public partial class PixelData : MapComponent
         }
         
         return PixelBlock;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -214,8 +216,9 @@ public partial class PixelData : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "extent", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PixelBlock property after render.
     /// </summary>
@@ -256,8 +259,9 @@ public partial class PixelData : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "pixelBlock", value);
+
     }
-    
+
 #endregion
 
 

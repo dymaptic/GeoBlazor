@@ -108,8 +108,9 @@ public abstract partial class SearchSource
         }
          
         return AutoNavigate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Filter property.
     /// </summary>
@@ -148,8 +149,9 @@ public abstract partial class SearchSource
         }
         
         return Filter;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the GetSuggestionsHandler property.
     /// </summary>
@@ -188,8 +190,9 @@ public abstract partial class SearchSource
         }
          
         return GetSuggestionsHandler;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxResults property.
     /// </summary>
@@ -228,8 +231,9 @@ public abstract partial class SearchSource
         }
          
         return MaxResults;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxSuggestions property.
     /// </summary>
@@ -268,8 +272,9 @@ public abstract partial class SearchSource
         }
          
         return MaxSuggestions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinSuggestCharacters property.
     /// </summary>
@@ -308,8 +313,9 @@ public abstract partial class SearchSource
         }
          
         return MinSuggestCharacters;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OutFields property.
     /// </summary>
@@ -348,8 +354,9 @@ public abstract partial class SearchSource
         }
          
         return OutFields;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Placeholder property.
     /// </summary>
@@ -388,8 +395,9 @@ public abstract partial class SearchSource
         }
          
         return Placeholder;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupEnabled property.
     /// </summary>
@@ -428,8 +436,9 @@ public abstract partial class SearchSource
         }
          
         return PopupEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupTemplate property.
     /// </summary>
@@ -474,8 +483,9 @@ public abstract partial class SearchSource
         }
         
         return PopupTemplate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Prefix property.
     /// </summary>
@@ -514,8 +524,9 @@ public abstract partial class SearchSource
         }
          
         return Prefix;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ResultGraphicEnabled property.
     /// </summary>
@@ -554,8 +565,9 @@ public abstract partial class SearchSource
         }
          
         return ResultGraphicEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ResultSymbol property.
     /// </summary>
@@ -600,8 +612,9 @@ public abstract partial class SearchSource
         }
         
         return ResultSymbol;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Suffix property.
     /// </summary>
@@ -640,8 +653,9 @@ public abstract partial class SearchSource
         }
          
         return Suffix;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SuggestionsEnabled property.
     /// </summary>
@@ -680,8 +694,9 @@ public abstract partial class SearchSource
         }
          
         return SuggestionsEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the WithinViewEnabled property.
     /// </summary>
@@ -720,8 +735,9 @@ public abstract partial class SearchSource
         }
          
         return WithinViewEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ZoomScale property.
     /// </summary>
@@ -760,8 +776,9 @@ public abstract partial class SearchSource
         }
          
         return ZoomScale;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -801,8 +818,9 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "autoNavigate", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Filter property after render.
     /// </summary>
@@ -838,8 +856,9 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "filter", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the GetSuggestionsHandler property after render.
     /// </summary>
@@ -875,8 +894,9 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "getSuggestions", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxResults property after render.
     /// </summary>
@@ -912,8 +932,9 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxResults", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxSuggestions property after render.
     /// </summary>
@@ -949,8 +970,9 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxSuggestions", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinSuggestCharacters property after render.
     /// </summary>
@@ -986,8 +1008,9 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minSuggestCharacters", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OutFields property after render.
     /// </summary>
@@ -1023,8 +1046,9 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outFields", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Placeholder property after render.
     /// </summary>
@@ -1060,8 +1084,9 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "placeholder", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
@@ -1097,8 +1122,9 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupTemplate property after render.
     /// </summary>
@@ -1139,8 +1165,9 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupTemplate", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Prefix property after render.
     /// </summary>
@@ -1176,8 +1203,9 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "prefix", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ResultGraphicEnabled property after render.
     /// </summary>
@@ -1213,8 +1241,9 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "resultGraphicEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ResultSymbol property after render.
     /// </summary>
@@ -1255,8 +1284,9 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "resultSymbol", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Suffix property after render.
     /// </summary>
@@ -1292,8 +1322,9 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "suffix", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SuggestionsEnabled property after render.
     /// </summary>
@@ -1329,8 +1360,9 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "suggestionsEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the WithinViewEnabled property after render.
     /// </summary>
@@ -1366,8 +1398,9 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "withinViewEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ZoomScale property after render.
     /// </summary>
@@ -1403,8 +1436,9 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "zoomScale", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -1421,6 +1455,7 @@ public abstract partial class SearchSource
             ? values
             : [..OutFields, ..values];
         await SetOutFields(join);
+
     }
     
 #endregion
@@ -1441,6 +1476,7 @@ public abstract partial class SearchSource
             return;
         }
         await SetOutFields(OutFields.Except(values).ToArray());
+
     }
     
 #endregion

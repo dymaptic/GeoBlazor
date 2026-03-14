@@ -154,8 +154,9 @@ public partial class Search : MapComponent
         }
          
         return AddressSearchEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Enabled property.
     /// </summary>
@@ -194,8 +195,9 @@ public partial class Search : MapComponent
         }
          
         return Enabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HintText property.
     /// </summary>
@@ -234,8 +236,9 @@ public partial class Search : MapComponent
         }
          
         return HintText;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Layers property.
     /// </summary>
@@ -278,8 +281,9 @@ public partial class Search : MapComponent
         }
         
         return Layers;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Tables property.
     /// </summary>
@@ -322,8 +326,9 @@ public partial class Search : MapComponent
         }
         
         return Tables;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -363,8 +368,9 @@ public partial class Search : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "addressSearchEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Enabled property after render.
     /// </summary>
@@ -400,8 +406,9 @@ public partial class Search : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "enabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HintText property after render.
     /// </summary>
@@ -437,8 +444,9 @@ public partial class Search : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "hintText", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Layers property after render.
     /// </summary>
@@ -482,8 +490,9 @@ public partial class Search : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layers", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Tables property after render.
     /// </summary>
@@ -527,8 +536,9 @@ public partial class Search : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "tables", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -545,6 +555,7 @@ public partial class Search : MapComponent
             ? values
             : [..Layers, ..values];
         await SetLayers(join);
+
     }
     
     /// <summary>
@@ -559,6 +570,7 @@ public partial class Search : MapComponent
             ? values
             : [..Tables, ..values];
         await SetTables(join);
+
     }
     
 #endregion
@@ -579,6 +591,7 @@ public partial class Search : MapComponent
             return;
         }
         await SetLayers(Layers.Except(values).ToArray());
+
     }
     
     
@@ -595,6 +608,7 @@ public partial class Search : MapComponent
             return;
         }
         await SetTables(Tables.Except(values).ToArray());
+
     }
     
 #endregion

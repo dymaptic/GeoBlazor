@@ -156,8 +156,9 @@ public partial class PictureFillSymbol : ISymbol2D,
         }
          
         return Height;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -196,8 +197,9 @@ public partial class PictureFillSymbol : ISymbol2D,
         }
          
         return Url;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Width property.
     /// </summary>
@@ -236,8 +238,9 @@ public partial class PictureFillSymbol : ISymbol2D,
         }
          
         return Width;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Xoffset property.
     /// </summary>
@@ -276,8 +279,9 @@ public partial class PictureFillSymbol : ISymbol2D,
         }
          
         return Xoffset;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Xscale property.
     /// </summary>
@@ -316,8 +320,9 @@ public partial class PictureFillSymbol : ISymbol2D,
         }
          
         return Xscale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Yoffset property.
     /// </summary>
@@ -356,8 +361,9 @@ public partial class PictureFillSymbol : ISymbol2D,
         }
          
         return Yoffset;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Yscale property.
     /// </summary>
@@ -396,8 +402,9 @@ public partial class PictureFillSymbol : ISymbol2D,
         }
          
         return Yscale;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -437,8 +444,9 @@ public partial class PictureFillSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "height", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -474,8 +482,9 @@ public partial class PictureFillSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Width property after render.
     /// </summary>
@@ -511,8 +520,9 @@ public partial class PictureFillSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "width", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Xoffset property after render.
     /// </summary>
@@ -548,8 +558,9 @@ public partial class PictureFillSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "xoffset", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Xscale property after render.
     /// </summary>
@@ -585,8 +596,9 @@ public partial class PictureFillSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "xscale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Yoffset property after render.
     /// </summary>
@@ -622,8 +634,9 @@ public partial class PictureFillSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "yoffset", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Yscale property after render.
     /// </summary>
@@ -659,8 +672,9 @@ public partial class PictureFillSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "yscale", value);
+
     }
-    
+
 #endregion
 
     /// <inheritdoc />

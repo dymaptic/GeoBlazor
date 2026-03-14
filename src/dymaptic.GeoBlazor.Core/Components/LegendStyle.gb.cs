@@ -13,6 +13,14 @@ public partial class LegendStyle
 {
 
     /// <summary>
+    ///     Parameterless constructor for use as a Razor Component.
+    /// </summary>
+    [ActivatorUtilitiesConstructor]
+    public LegendStyle()
+    {
+    }
+
+    /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="layout">
@@ -76,8 +84,9 @@ public partial class LegendStyle
         }
          
         return Layout;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -117,8 +126,9 @@ public partial class LegendStyle
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layout", value);
+
     }
-    
+
 #endregion
 
 }

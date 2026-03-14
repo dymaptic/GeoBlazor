@@ -166,8 +166,9 @@ public partial class TickConfig
         }
          
         return LabelsVisible;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Mode property.
     /// </summary>
@@ -206,8 +207,9 @@ public partial class TickConfig
         }
          
         return Mode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Values property.
     /// </summary>
@@ -246,8 +248,9 @@ public partial class TickConfig
         }
          
         return Values;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -287,8 +290,9 @@ public partial class TickConfig
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelsVisible", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Mode property after render.
     /// </summary>
@@ -324,8 +328,9 @@ public partial class TickConfig
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Values property after render.
     /// </summary>
@@ -361,8 +366,9 @@ public partial class TickConfig
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "values", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -379,6 +385,7 @@ public partial class TickConfig
             ? values
             : [..Values, ..values];
         await SetValues(join);
+
     }
     
 #endregion
@@ -399,6 +406,7 @@ public partial class TickConfig
             return;
         }
         await SetValues(Values.Except(values).ToArray());
+
     }
     
 #endregion

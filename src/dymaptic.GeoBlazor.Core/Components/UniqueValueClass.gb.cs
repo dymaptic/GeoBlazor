@@ -124,8 +124,9 @@ public partial class UniqueValueClass : MapComponent
         }
          
         return Label;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Symbol property.
     /// </summary>
@@ -170,8 +171,9 @@ public partial class UniqueValueClass : MapComponent
         }
         
         return Symbol;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Values property.
     /// </summary>
@@ -214,8 +216,9 @@ public partial class UniqueValueClass : MapComponent
         }
         
         return Values;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -255,8 +258,9 @@ public partial class UniqueValueClass : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "label", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Symbol property after render.
     /// </summary>
@@ -297,8 +301,9 @@ public partial class UniqueValueClass : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "symbol", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Values property after render.
     /// </summary>
@@ -342,8 +347,9 @@ public partial class UniqueValueClass : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "values", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -360,6 +366,7 @@ public partial class UniqueValueClass : MapComponent
             ? values
             : [..Values, ..values];
         await SetValues(join);
+
     }
     
 #endregion
@@ -380,6 +387,7 @@ public partial class UniqueValueClass : MapComponent
             return;
         }
         await SetValues(Values.Except(values).ToArray());
+
     }
     
 #endregion

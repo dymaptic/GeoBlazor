@@ -210,8 +210,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         }
          
         return BaseLayers;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CloseButton property.
     /// </summary>
@@ -250,8 +251,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         }
          
         return CloseButton;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CollapseButton property.
     /// </summary>
@@ -290,8 +292,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         }
          
         return CollapseButton;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the EditTitleButton property.
     /// </summary>
@@ -330,8 +333,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         }
          
         return EditTitleButton;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Errors property.
     /// </summary>
@@ -370,8 +374,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         }
          
         return Errors;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Filter property.
     /// </summary>
@@ -410,8 +415,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         }
          
         return Filter;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Flow property.
     /// </summary>
@@ -450,8 +456,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         }
          
         return Flow;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Heading property.
     /// </summary>
@@ -490,8 +497,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         }
          
         return Heading;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ReferenceLayers property.
     /// </summary>
@@ -530,8 +538,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         }
          
         return ReferenceLayers;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the StatusIndicators property.
     /// </summary>
@@ -570,8 +579,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         }
          
         return StatusIndicators;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TemporaryLayerIndicators property.
     /// </summary>
@@ -610,8 +620,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         }
          
         return TemporaryLayerIndicators;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -651,8 +662,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "baseLayers", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CloseButton property after render.
     /// </summary>
@@ -688,8 +700,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "closeButton", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CollapseButton property after render.
     /// </summary>
@@ -725,8 +738,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "collapseButton", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the EditTitleButton property after render.
     /// </summary>
@@ -762,8 +776,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "editTitleButton", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Errors property after render.
     /// </summary>
@@ -799,8 +814,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "errors", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Filter property after render.
     /// </summary>
@@ -836,8 +852,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "filter", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Flow property after render.
     /// </summary>
@@ -873,8 +890,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "flow", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Heading property after render.
     /// </summary>
@@ -910,8 +928,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "heading", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ReferenceLayers property after render.
     /// </summary>
@@ -947,8 +966,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "referenceLayers", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the StatusIndicators property after render.
     /// </summary>
@@ -984,8 +1004,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "statusIndicators", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TemporaryLayerIndicators property after render.
     /// </summary>
@@ -1021,8 +1042,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "temporaryLayerIndicators", value);
+
     }
-    
+
 #endregion
 
 }

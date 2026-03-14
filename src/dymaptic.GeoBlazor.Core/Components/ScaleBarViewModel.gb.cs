@@ -73,8 +73,9 @@ public partial class ScaleBarViewModel : MapComponent
         }
          
         return State;
+
     }
-    
+
 #endregion
 
 #region Public Methods

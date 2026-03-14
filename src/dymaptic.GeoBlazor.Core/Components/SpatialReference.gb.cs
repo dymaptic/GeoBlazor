@@ -20,6 +20,43 @@ public partial class SpatialReference
     }
 
     /// <summary>
+    ///     Constructor for use in C# code.
+    /// </summary>
+    /// <param name="wkid">
+    ///     The well-known ID of a spatial reference.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#wkid">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="imageCoordinateSystem">
+    ///     An <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/raster-ics.htm">image coordinate system</a> defines the
+    ///     spatial reference used to display the image in its original coordinates
+    ///     without distortion, map transformations or ortho-rectification.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#imageCoordinateSystem">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="wkt">
+    ///     The well-known text that defines a spatial reference.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#wkt">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="wkt2">
+    ///     The well-known text of the coordinate system as defined by OGC standard for well-known text strings.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#wkt2">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    public SpatialReference(
+        int? wkid = null,
+        string? imageCoordinateSystem = null,
+        string? wkt = null,
+        string? wkt2 = null)
+    {
+        AllowRender = false;
+#pragma warning disable BL0005
+        Wkid = wkid;
+        ImageCoordinateSystem = imageCoordinateSystem;
+        Wkt = wkt;
+        Wkt2 = wkt2;
+#pragma warning restore BL0005
+    }
+    
+    
+    /// <summary>
     ///     Implicit conversion between <see cref="string" /> and <see cref="SpatialReference" />.
     /// </summary>
     /// <param name="imageCoordinateSystem">
@@ -113,8 +150,9 @@ public partial class SpatialReference
         }
          
         return ImageCoordinateSystem;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsGeographic property.
     /// </summary>
@@ -153,8 +191,9 @@ public partial class SpatialReference
         }
          
         return IsGeographic;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsWebMercator property.
     /// </summary>
@@ -193,8 +232,9 @@ public partial class SpatialReference
         }
          
         return IsWebMercator;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsWGS84 property.
     /// </summary>
@@ -233,8 +273,9 @@ public partial class SpatialReference
         }
          
         return IsWGS84;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsWrappable property.
     /// </summary>
@@ -273,8 +314,9 @@ public partial class SpatialReference
         }
          
         return IsWrappable;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MetersPerUnit property.
     /// </summary>
@@ -313,8 +355,9 @@ public partial class SpatialReference
         }
          
         return MetersPerUnit;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Unit property.
     /// </summary>
@@ -353,8 +396,9 @@ public partial class SpatialReference
         }
          
         return Unit;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Wkid property.
     /// </summary>
@@ -393,8 +437,9 @@ public partial class SpatialReference
         }
          
         return Wkid;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Wkt property.
     /// </summary>
@@ -433,8 +478,9 @@ public partial class SpatialReference
         }
          
         return Wkt;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Wkt2 property.
     /// </summary>
@@ -473,8 +519,9 @@ public partial class SpatialReference
         }
          
         return Wkt2;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -514,8 +561,9 @@ public partial class SpatialReference
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "imageCoordinateSystem", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Wkid property after render.
     /// </summary>
@@ -551,8 +599,9 @@ public partial class SpatialReference
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "wkid", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Wkt property after render.
     /// </summary>
@@ -588,8 +637,9 @@ public partial class SpatialReference
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "wkt", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Wkt2 property after render.
     /// </summary>
@@ -625,8 +675,9 @@ public partial class SpatialReference
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "wkt2", value);
+
     }
-    
+
 #endregion
 
     /// <inheritdoc />

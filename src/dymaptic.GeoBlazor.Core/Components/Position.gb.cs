@@ -106,8 +106,9 @@ public partial class Position : MapComponent
         }
          
         return Coordinate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Location property.
     /// </summary>
@@ -152,8 +153,9 @@ public partial class Position : MapComponent
         }
         
         return Location;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -193,8 +195,9 @@ public partial class Position : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "coordinate", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Location property after render.
     /// </summary>
@@ -235,8 +238,9 @@ public partial class Position : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "location", value);
+
     }
-    
+
 #endregion
 
 

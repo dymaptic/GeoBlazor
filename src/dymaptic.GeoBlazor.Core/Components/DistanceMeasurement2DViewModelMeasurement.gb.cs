@@ -112,8 +112,9 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
         }
         
         return Geometry;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Length property.
     /// </summary>
@@ -152,8 +153,9 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
         }
          
         return Length;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -198,8 +200,9 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "geometry", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Length property after render.
     /// </summary>
@@ -235,8 +238,9 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "length", value);
+
     }
-    
+
 #endregion
 
 

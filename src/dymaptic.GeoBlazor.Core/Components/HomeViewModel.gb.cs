@@ -115,8 +115,9 @@ public partial class HomeViewModel : IGoTo
         }
          
         return State;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Viewpoint property.
     /// </summary>
@@ -161,8 +162,9 @@ public partial class HomeViewModel : IGoTo
         }
         
         return Viewpoint;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -205,11 +207,12 @@ public partial class HomeViewModel : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetViewpoint), nameof(HomeViewModel), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetViewpoint), nameof(HomeViewModel),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Public Methods

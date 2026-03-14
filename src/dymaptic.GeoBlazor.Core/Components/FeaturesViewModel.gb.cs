@@ -619,8 +619,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
         
         return Actions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Active property.
     /// </summary>
@@ -659,8 +660,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return Active;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ActiveFeature property.
     /// </summary>
@@ -705,8 +707,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
         
         return ActiveFeature;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AllActions property.
     /// </summary>
@@ -749,8 +752,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
         
         return AllActions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AutoCloseEnabled property.
     /// </summary>
@@ -789,8 +793,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return AutoCloseEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BrowseClusterEnabled property.
     /// </summary>
@@ -829,8 +834,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return BrowseClusterEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Content property.
     /// </summary>
@@ -875,8 +881,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
         
         return Content;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultActions property.
     /// </summary>
@@ -919,8 +926,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
         
         return DefaultActions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultPopupTemplateEnabled property.
     /// </summary>
@@ -959,8 +967,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return DefaultPopupTemplateEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureCount property.
     /// </summary>
@@ -999,8 +1008,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return FeatureCount;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureMenuOpen property.
     /// </summary>
@@ -1039,8 +1049,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return FeatureMenuOpen;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureMenuTitle property.
     /// </summary>
@@ -1079,8 +1090,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return FeatureMenuTitle;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeaturePage property.
     /// </summary>
@@ -1119,8 +1131,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return FeaturePage;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Features property.
     /// </summary>
@@ -1163,8 +1176,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
         
         return Features;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeaturesPerPage property.
     /// </summary>
@@ -1203,8 +1217,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return FeaturesPerPage;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureViewModelAbilities property.
     /// </summary>
@@ -1249,8 +1264,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
         
         return FeatureViewModelAbilities;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureViewModels property.
     /// </summary>
@@ -1289,8 +1305,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return FeatureViewModels;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HighlightEnabled property.
     /// </summary>
@@ -1329,8 +1346,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return HighlightEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IncludeDefaultActions property.
     /// </summary>
@@ -1369,8 +1387,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return IncludeDefaultActions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the InitialDisplayMode property.
     /// </summary>
@@ -1409,8 +1428,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return InitialDisplayMode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Location property.
     /// </summary>
@@ -1455,8 +1475,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
         
         return Location;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PendingPromisesCount property.
     /// </summary>
@@ -1495,8 +1516,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return PendingPromisesCount;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PromiseCount property.
     /// </summary>
@@ -1535,8 +1557,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return PromiseCount;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Promises property.
     /// </summary>
@@ -1579,8 +1602,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
         
         return Promises;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ScreenLocation property.
     /// </summary>
@@ -1625,8 +1649,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
         
         return ScreenLocation;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ScreenLocationEnabled property.
     /// </summary>
@@ -1665,8 +1690,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return ScreenLocationEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SelectedClusterBoundaryFeature property.
     /// </summary>
@@ -1711,8 +1737,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
         
         return SelectedClusterBoundaryFeature;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SelectedFeature property.
     /// </summary>
@@ -1757,8 +1784,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
         
         return SelectedFeature;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SelectedFeatureIndex property.
     /// </summary>
@@ -1797,8 +1825,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return SelectedFeatureIndex;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SelectedFeatureViewModel property.
     /// </summary>
@@ -1837,8 +1866,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return SelectedFeatureViewModel;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -1877,8 +1907,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
         
         return SpatialReference;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -1917,8 +1948,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return State;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeZone property.
     /// </summary>
@@ -1957,8 +1989,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return TimeZone;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -1997,8 +2030,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return Title;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UpdateLocationEnabled property.
     /// </summary>
@@ -2037,8 +2071,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return UpdateLocationEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the WaitingForContents property.
     /// </summary>
@@ -2077,8 +2112,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return WaitingForContents;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the WaitingForResult property.
     /// </summary>
@@ -2117,8 +2153,9 @@ public partial class FeaturesViewModel : MapComponent,
         }
          
         return WaitingForResult;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -2164,11 +2201,12 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetActions), nameof(FeaturesViewModel), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetActions), nameof(FeaturesViewModel),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ActiveFeature property after render.
     /// </summary>
@@ -2207,11 +2245,12 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetActiveFeature), nameof(FeaturesViewModel), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetActiveFeature), nameof(FeaturesViewModel),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the AutoCloseEnabled property after render.
     /// </summary>
@@ -2247,8 +2286,9 @@ public partial class FeaturesViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "autoCloseEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BrowseClusterEnabled property after render.
     /// </summary>
@@ -2284,8 +2324,9 @@ public partial class FeaturesViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "browseClusterEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Content property after render.
     /// </summary>
@@ -2324,11 +2365,12 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetContent), nameof(FeaturesViewModel), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetContent), nameof(FeaturesViewModel),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DefaultPopupTemplateEnabled property after render.
     /// </summary>
@@ -2364,8 +2406,9 @@ public partial class FeaturesViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "defaultPopupTemplateEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeatureMenuOpen property after render.
     /// </summary>
@@ -2401,8 +2444,9 @@ public partial class FeaturesViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featureMenuOpen", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeatureMenuTitle property after render.
     /// </summary>
@@ -2438,8 +2482,9 @@ public partial class FeaturesViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featureMenuTitle", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeaturePage property after render.
     /// </summary>
@@ -2475,8 +2520,9 @@ public partial class FeaturesViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featurePage", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Features property after render.
     /// </summary>
@@ -2518,11 +2564,12 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetFeatures), nameof(FeaturesViewModel), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetFeatures), nameof(FeaturesViewModel),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeaturesPerPage property after render.
     /// </summary>
@@ -2558,8 +2605,9 @@ public partial class FeaturesViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featuresPerPage", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeatureViewModelAbilities property after render.
     /// </summary>
@@ -2598,11 +2646,12 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetFeatureViewModelAbilities), nameof(FeaturesViewModel), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetFeatureViewModelAbilities), nameof(FeaturesViewModel),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HighlightEnabled property after render.
     /// </summary>
@@ -2638,8 +2687,9 @@ public partial class FeaturesViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "highlightEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the IncludeDefaultActions property after render.
     /// </summary>
@@ -2675,8 +2725,9 @@ public partial class FeaturesViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "includeDefaultActions", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the InitialDisplayMode property after render.
     /// </summary>
@@ -2712,8 +2763,9 @@ public partial class FeaturesViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "initialDisplayMode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Location property after render.
     /// </summary>
@@ -2752,11 +2804,12 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetLocation), nameof(FeaturesViewModel), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetLocation), nameof(FeaturesViewModel),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Promises property after render.
     /// </summary>
@@ -2798,11 +2851,12 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPromises), nameof(FeaturesViewModel), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPromises), nameof(FeaturesViewModel),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ScreenLocation property after render.
     /// </summary>
@@ -2841,11 +2895,12 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetScreenLocation), nameof(FeaturesViewModel), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetScreenLocation), nameof(FeaturesViewModel),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ScreenLocationEnabled property after render.
     /// </summary>
@@ -2881,8 +2936,9 @@ public partial class FeaturesViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "screenLocationEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SelectedFeatureIndex property after render.
     /// </summary>
@@ -2918,8 +2974,9 @@ public partial class FeaturesViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "selectedFeatureIndex", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SpatialReference property after render.
     /// </summary>
@@ -2958,11 +3015,12 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetSpatialReference), nameof(FeaturesViewModel), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetSpatialReference), nameof(FeaturesViewModel),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeZone property after render.
     /// </summary>
@@ -2998,8 +3056,9 @@ public partial class FeaturesViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "timeZone", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -3035,8 +3094,9 @@ public partial class FeaturesViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UpdateLocationEnabled property after render.
     /// </summary>
@@ -3072,8 +3132,9 @@ public partial class FeaturesViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "updateLocationEnabled", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -3090,6 +3151,7 @@ public partial class FeaturesViewModel : MapComponent,
             ? values
             : [..Actions, ..values];
         await SetActions(join);
+
     }
     
     /// <summary>
@@ -3104,6 +3166,7 @@ public partial class FeaturesViewModel : MapComponent,
             ? values
             : [..Features, ..values];
         await SetFeatures(join);
+
     }
     
     /// <summary>
@@ -3118,6 +3181,7 @@ public partial class FeaturesViewModel : MapComponent,
             ? values
             : [..Promises, ..values];
         await SetPromises(join);
+
     }
     
 #endregion
@@ -3138,6 +3202,7 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
         await SetActions(Actions.Except(values).ToArray());
+
     }
     
     
@@ -3154,6 +3219,7 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
         await SetFeatures(Features.Except(values).ToArray());
+
     }
     
     
@@ -3170,6 +3236,7 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
         await SetPromises(Promises.Except(values).ToArray());
+
     }
     
 #endregion

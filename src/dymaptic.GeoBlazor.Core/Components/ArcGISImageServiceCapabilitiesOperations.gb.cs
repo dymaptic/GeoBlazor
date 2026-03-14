@@ -362,8 +362,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
          
         return SupportsCalculateVolume;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsComputeHistograms property.
     /// </summary>
@@ -402,8 +403,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
          
         return SupportsComputeHistograms;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsComputePixelLocation property.
     /// </summary>
@@ -442,8 +444,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
          
         return SupportsComputePixelLocation;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsComputeStatisticsHistograms property.
     /// </summary>
@@ -482,8 +485,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
          
         return SupportsComputeStatisticsHistograms;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsDownload property.
     /// </summary>
@@ -522,8 +526,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
          
         return SupportsDownload;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsExportImage property.
     /// </summary>
@@ -562,8 +567,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
          
         return SupportsExportImage;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsFindImages property.
     /// </summary>
@@ -602,8 +608,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
          
         return SupportsFindImages;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsGetImageUrl property.
     /// </summary>
@@ -642,8 +649,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
          
         return SupportsGetImageUrl;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsGetSamples property.
     /// </summary>
@@ -682,8 +690,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
          
         return SupportsGetSamples;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsIdentify property.
     /// </summary>
@@ -722,8 +731,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
          
         return SupportsIdentify;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsImageToMap property.
     /// </summary>
@@ -762,8 +772,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
          
         return SupportsImageToMap;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsImageToMapMultiray property.
     /// </summary>
@@ -802,8 +813,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
          
         return SupportsImageToMapMultiray;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsMapToImage property.
     /// </summary>
@@ -842,8 +854,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
          
         return SupportsMapToImage;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsMeasure property.
     /// </summary>
@@ -882,8 +895,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
          
         return SupportsMeasure;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsProject property.
     /// </summary>
@@ -922,8 +936,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
          
         return SupportsProject;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsQuery property.
     /// </summary>
@@ -962,8 +977,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
          
         return SupportsQuery;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsQueryBoundary property.
     /// </summary>
@@ -1002,8 +1018,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
          
         return SupportsQueryBoundary;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsQueryGPSInfo property.
     /// </summary>
@@ -1042,8 +1059,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
          
         return SupportsQueryGPSInfo;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -1083,8 +1101,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsCalculateVolume", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsComputeHistograms property after render.
     /// </summary>
@@ -1120,8 +1139,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsComputeHistograms", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsComputePixelLocation property after render.
     /// </summary>
@@ -1157,8 +1177,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsComputePixelLocation", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsComputeStatisticsHistograms property after render.
     /// </summary>
@@ -1194,8 +1215,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsComputeStatisticsHistograms", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsDownload property after render.
     /// </summary>
@@ -1231,8 +1253,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsDownload", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsExportImage property after render.
     /// </summary>
@@ -1268,8 +1291,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsExportImage", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsFindImages property after render.
     /// </summary>
@@ -1305,8 +1329,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsFindImages", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsGetImageUrl property after render.
     /// </summary>
@@ -1342,8 +1367,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsGetImageUrl", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsGetSamples property after render.
     /// </summary>
@@ -1379,8 +1405,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsGetSamples", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsIdentify property after render.
     /// </summary>
@@ -1416,8 +1443,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsIdentify", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsImageToMap property after render.
     /// </summary>
@@ -1453,8 +1481,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsImageToMap", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsImageToMapMultiray property after render.
     /// </summary>
@@ -1490,8 +1519,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsImageToMapMultiray", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsMapToImage property after render.
     /// </summary>
@@ -1527,8 +1557,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsMapToImage", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsMeasure property after render.
     /// </summary>
@@ -1564,8 +1595,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsMeasure", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsProject property after render.
     /// </summary>
@@ -1601,8 +1633,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsProject", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsQuery property after render.
     /// </summary>
@@ -1638,8 +1671,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsQuery", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsQueryBoundary property after render.
     /// </summary>
@@ -1675,8 +1709,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsQueryBoundary", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsQueryGPSInfo property after render.
     /// </summary>
@@ -1712,8 +1747,9 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsQueryGPSInfo", value);
+
     }
-    
+
 #endregion
 
 }

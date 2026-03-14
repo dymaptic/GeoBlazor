@@ -314,8 +314,9 @@ public partial class LocatorSearchSource
         }
          
         return ApiKey;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Categories property.
     /// </summary>
@@ -354,8 +355,9 @@ public partial class LocatorSearchSource
         }
          
         return Categories;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CountryCode property.
     /// </summary>
@@ -394,8 +396,9 @@ public partial class LocatorSearchSource
         }
          
         return CountryCode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultZoomScale property.
     /// </summary>
@@ -434,8 +437,9 @@ public partial class LocatorSearchSource
         }
          
         return DefaultZoomScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LocalSearchDisabled property.
     /// </summary>
@@ -474,8 +478,9 @@ public partial class LocatorSearchSource
         }
          
         return LocalSearchDisabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LocationType property.
     /// </summary>
@@ -514,8 +519,9 @@ public partial class LocatorSearchSource
         }
          
         return LocationType;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -554,8 +560,9 @@ public partial class LocatorSearchSource
         }
          
         return Name;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SearchTemplate property.
     /// </summary>
@@ -594,8 +601,9 @@ public partial class LocatorSearchSource
         }
          
         return SearchTemplate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SingleLineFieldName property.
     /// </summary>
@@ -634,8 +642,9 @@ public partial class LocatorSearchSource
         }
          
         return SingleLineFieldName;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -674,8 +683,9 @@ public partial class LocatorSearchSource
         }
          
         return Url;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -715,8 +725,9 @@ public partial class LocatorSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "apiKey", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Categories property after render.
     /// </summary>
@@ -752,8 +763,9 @@ public partial class LocatorSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "categories", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CountryCode property after render.
     /// </summary>
@@ -789,8 +801,9 @@ public partial class LocatorSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "countryCode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DefaultZoomScale property after render.
     /// </summary>
@@ -826,8 +839,9 @@ public partial class LocatorSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "defaultZoomScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LocalSearchDisabled property after render.
     /// </summary>
@@ -863,8 +877,9 @@ public partial class LocatorSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "localSearchDisabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LocationType property after render.
     /// </summary>
@@ -900,8 +915,9 @@ public partial class LocatorSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "locationType", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
@@ -937,8 +953,9 @@ public partial class LocatorSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SearchTemplate property after render.
     /// </summary>
@@ -974,8 +991,9 @@ public partial class LocatorSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "searchTemplate", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SingleLineFieldName property after render.
     /// </summary>
@@ -1011,8 +1029,9 @@ public partial class LocatorSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "singleLineFieldName", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -1048,8 +1067,9 @@ public partial class LocatorSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -1066,6 +1086,7 @@ public partial class LocatorSearchSource
             ? values
             : [..Categories, ..values];
         await SetCategories(join);
+
     }
     
 #endregion
@@ -1086,6 +1107,7 @@ public partial class LocatorSearchSource
             return;
         }
         await SetCategories(Categories.Except(values).ToArray());
+
     }
     
 #endregion

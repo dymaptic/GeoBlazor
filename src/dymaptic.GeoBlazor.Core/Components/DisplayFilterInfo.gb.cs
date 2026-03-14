@@ -124,8 +124,9 @@ public partial class DisplayFilterInfo : MapComponent
         }
          
         return ActiveFilterId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Filters property.
     /// </summary>
@@ -164,8 +165,9 @@ public partial class DisplayFilterInfo : MapComponent
         }
          
         return Filters;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Mode property.
     /// </summary>
@@ -204,8 +206,9 @@ public partial class DisplayFilterInfo : MapComponent
         }
          
         return Mode;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -245,8 +248,9 @@ public partial class DisplayFilterInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "activeFilterId", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Filters property after render.
     /// </summary>
@@ -282,8 +286,9 @@ public partial class DisplayFilterInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "filters", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Mode property after render.
     /// </summary>
@@ -319,8 +324,9 @@ public partial class DisplayFilterInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mode", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -337,6 +343,7 @@ public partial class DisplayFilterInfo : MapComponent
             ? values
             : [..Filters, ..values];
         await SetFilters(join);
+
     }
     
 #endregion
@@ -357,6 +364,7 @@ public partial class DisplayFilterInfo : MapComponent
             return;
         }
         await SetFilters(Filters.Except(values).ToArray());
+
     }
     
 #endregion

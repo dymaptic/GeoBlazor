@@ -176,8 +176,9 @@ public partial class Field
         }
          
         return Alias;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultValue property.
     /// </summary>
@@ -216,8 +217,9 @@ public partial class Field
         }
          
         return DefaultValue;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Description property.
     /// </summary>
@@ -256,8 +258,9 @@ public partial class Field
         }
          
         return Description;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Domain property.
     /// </summary>
@@ -296,8 +299,9 @@ public partial class Field
         }
         
         return Domain;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Editable property.
     /// </summary>
@@ -336,8 +340,9 @@ public partial class Field
         }
          
         return Editable;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Length property.
     /// </summary>
@@ -376,8 +381,9 @@ public partial class Field
         }
          
         return Length;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -416,8 +422,9 @@ public partial class Field
         }
          
         return Name;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Nullable property.
     /// </summary>
@@ -456,8 +463,9 @@ public partial class Field
         }
          
         return Nullable;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ValueType property.
     /// </summary>
@@ -496,8 +504,9 @@ public partial class Field
         }
          
         return ValueType;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -537,8 +546,9 @@ public partial class Field
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "alias", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DefaultValue property after render.
     /// </summary>
@@ -574,8 +584,9 @@ public partial class Field
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "defaultValue", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Description property after render.
     /// </summary>
@@ -611,8 +622,9 @@ public partial class Field
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "description", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Domain property after render.
     /// </summary>
@@ -648,8 +660,9 @@ public partial class Field
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "domain", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Editable property after render.
     /// </summary>
@@ -685,8 +698,9 @@ public partial class Field
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "editable", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Length property after render.
     /// </summary>
@@ -722,8 +736,9 @@ public partial class Field
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "length", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
@@ -759,8 +774,9 @@ public partial class Field
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Nullable property after render.
     /// </summary>
@@ -796,8 +812,9 @@ public partial class Field
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "nullable", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ValueType property after render.
     /// </summary>
@@ -833,8 +850,9 @@ public partial class Field
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "valueType", value);
+
     }
-    
+
 #endregion
 
 

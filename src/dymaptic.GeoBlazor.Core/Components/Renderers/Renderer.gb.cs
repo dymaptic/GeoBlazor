@@ -74,8 +74,9 @@ public abstract partial class Renderer
         }
         
         return AuthoringInfo;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -120,8 +121,9 @@ public abstract partial class Renderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "authoringInfo", value);
+
     }
-    
+
 #endregion
 
 

@@ -464,8 +464,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
          
         return ActivePresetRendererName;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BandIds property.
     /// </summary>
@@ -504,8 +505,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
          
         return BandIds;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BlendMode property.
     /// </summary>
@@ -544,8 +546,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
          
         return BlendMode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Copyright property.
     /// </summary>
@@ -584,8 +587,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
          
         return Copyright;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomParameters property.
     /// </summary>
@@ -624,8 +628,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
          
         return CustomParameters;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Effect property.
     /// </summary>
@@ -664,8 +669,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return Effect;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Interpolation property.
     /// </summary>
@@ -704,8 +710,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
          
         return Interpolation;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendEnabled property.
     /// </summary>
@@ -744,8 +751,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
          
         return LegendEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -784,8 +792,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
          
         return MaxScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -824,8 +833,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
          
         return MinScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MultidimensionalDefinition property.
     /// </summary>
@@ -868,8 +878,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return MultidimensionalDefinition;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MultidimensionalSubset property.
     /// </summary>
@@ -914,8 +925,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return MultidimensionalSubset;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupEnabled property.
     /// </summary>
@@ -954,8 +966,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
          
         return PopupEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupTemplate property.
     /// </summary>
@@ -1000,8 +1013,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return PopupTemplate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalItem property.
     /// </summary>
@@ -1046,8 +1060,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return PortalItem;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PresetRenderers property.
     /// </summary>
@@ -1090,8 +1105,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return PresetRenderers;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RasterFields property.
     /// </summary>
@@ -1134,8 +1150,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return RasterFields;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RasterFunction property.
     /// </summary>
@@ -1180,8 +1197,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return RasterFunction;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Renderer property.
     /// </summary>
@@ -1220,8 +1238,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
          
         return Renderer;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Source property.
     /// </summary>
@@ -1266,8 +1285,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return Source;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
@@ -1306,8 +1326,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
          
         return SourceJSON;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -1346,8 +1367,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return SpatialReference;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TileInfo property.
     /// </summary>
@@ -1392,8 +1414,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return TileInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeExtent property.
     /// </summary>
@@ -1438,8 +1461,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return TimeExtent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeInfo property.
     /// </summary>
@@ -1484,8 +1508,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return TimeInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeOffset property.
     /// </summary>
@@ -1530,8 +1555,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return TimeOffset;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -1570,8 +1596,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
          
         return Url;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UseViewTime property.
     /// </summary>
@@ -1610,8 +1637,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
          
         return UseViewTime;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Version property.
     /// </summary>
@@ -1650,8 +1678,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
          
         return Version;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -1691,8 +1720,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "activePresetRendererName", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BandIds property after render.
     /// </summary>
@@ -1728,8 +1758,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "bandIds", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BlendMode property after render.
     /// </summary>
@@ -1765,8 +1796,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "blendMode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Copyright property after render.
     /// </summary>
@@ -1802,8 +1834,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "copyright", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CustomParameters property after render.
     /// </summary>
@@ -1839,8 +1872,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "customParameters", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Effect property after render.
     /// </summary>
@@ -1874,11 +1908,12 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetEffect), nameof(ImageryTileLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetEffect), nameof(ImageryTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Interpolation property after render.
     /// </summary>
@@ -1914,8 +1949,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "interpolation", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
@@ -1951,8 +1987,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -1988,8 +2025,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -2025,8 +2063,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MultidimensionalDefinition property after render.
     /// </summary>
@@ -2068,11 +2107,12 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetMultidimensionalDefinition), nameof(ImageryTileLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetMultidimensionalDefinition), nameof(ImageryTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MultidimensionalSubset property after render.
     /// </summary>
@@ -2111,11 +2151,12 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetMultidimensionalSubset), nameof(ImageryTileLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetMultidimensionalSubset), nameof(ImageryTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PersistenceEnabled property after render.
     /// </summary>
@@ -2151,8 +2192,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "persistenceEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
@@ -2188,8 +2230,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupTemplate property after render.
     /// </summary>
@@ -2228,11 +2271,12 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPopupTemplate), nameof(ImageryTileLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPopupTemplate), nameof(ImageryTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
@@ -2271,11 +2315,12 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPortalItem), nameof(ImageryTileLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPortalItem), nameof(ImageryTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PresetRenderers property after render.
     /// </summary>
@@ -2317,11 +2362,12 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPresetRenderers), nameof(ImageryTileLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPresetRenderers), nameof(ImageryTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RasterFunction property after render.
     /// </summary>
@@ -2360,11 +2406,12 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetRasterFunction), nameof(ImageryTileLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetRasterFunction), nameof(ImageryTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Renderer property after render.
     /// </summary>
@@ -2400,8 +2447,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "renderer", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Source property after render.
     /// </summary>
@@ -2440,11 +2488,12 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetSource), nameof(ImageryTileLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetSource), nameof(ImageryTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TileInfo property after render.
     /// </summary>
@@ -2483,11 +2532,12 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetTileInfo), nameof(ImageryTileLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTileInfo), nameof(ImageryTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeExtent property after render.
     /// </summary>
@@ -2526,11 +2576,12 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetTimeExtent), nameof(ImageryTileLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTimeExtent), nameof(ImageryTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeInfo property after render.
     /// </summary>
@@ -2569,11 +2620,12 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetTimeInfo), nameof(ImageryTileLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTimeInfo), nameof(ImageryTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeOffset property after render.
     /// </summary>
@@ -2612,11 +2664,12 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetTimeOffset), nameof(ImageryTileLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTimeOffset), nameof(ImageryTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -2652,8 +2705,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UseViewTime property after render.
     /// </summary>
@@ -2689,8 +2743,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "useViewTime", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -2707,6 +2762,7 @@ public partial class ImageryTileLayer : IBlendLayer,
             ? values
             : [..BandIds, ..values];
         await SetBandIds(join);
+
     }
     
     /// <summary>
@@ -2721,6 +2777,7 @@ public partial class ImageryTileLayer : IBlendLayer,
             ? values
             : [..MultidimensionalDefinition, ..values];
         await SetMultidimensionalDefinition(join);
+
     }
     
     /// <summary>
@@ -2735,6 +2792,7 @@ public partial class ImageryTileLayer : IBlendLayer,
             ? values
             : [..PresetRenderers, ..values];
         await SetPresetRenderers(join);
+
     }
     
 #endregion
@@ -2755,6 +2813,7 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         await SetBandIds(BandIds.Except(values).ToArray());
+
     }
     
     
@@ -2771,6 +2830,7 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         await SetMultidimensionalDefinition(MultidimensionalDefinition.Except(values).ToArray());
+
     }
     
     
@@ -2787,6 +2847,7 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         await SetPresetRenderers(PresetRenderers.Except(values).ToArray());
+
     }
     
 #endregion

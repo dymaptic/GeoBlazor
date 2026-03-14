@@ -86,8 +86,9 @@ public abstract partial class MediaInfo
         }
          
         return AltText;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Caption property.
     /// </summary>
@@ -126,8 +127,9 @@ public abstract partial class MediaInfo
         }
          
         return Caption;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -166,8 +168,9 @@ public abstract partial class MediaInfo
         }
          
         return Title;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -207,8 +210,9 @@ public abstract partial class MediaInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "altText", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Caption property after render.
     /// </summary>
@@ -244,8 +248,9 @@ public abstract partial class MediaInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "caption", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -281,8 +286,9 @@ public abstract partial class MediaInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 }

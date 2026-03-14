@@ -202,8 +202,9 @@ public partial class AttachmentsVisibleElements : MapComponent
         }
          
         return AddButton;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AddSubmitButton property.
     /// </summary>
@@ -242,8 +243,9 @@ public partial class AttachmentsVisibleElements : MapComponent
         }
          
         return AddSubmitButton;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CancelAddButton property.
     /// </summary>
@@ -282,8 +284,9 @@ public partial class AttachmentsVisibleElements : MapComponent
         }
          
         return CancelAddButton;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CancelUpdateButton property.
     /// </summary>
@@ -322,8 +325,9 @@ public partial class AttachmentsVisibleElements : MapComponent
         }
          
         return CancelUpdateButton;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DeleteButton property.
     /// </summary>
@@ -362,8 +366,9 @@ public partial class AttachmentsVisibleElements : MapComponent
         }
          
         return DeleteButton;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ErrorMessage property.
     /// </summary>
@@ -402,8 +407,9 @@ public partial class AttachmentsVisibleElements : MapComponent
         }
          
         return ErrorMessage;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ProgressBar property.
     /// </summary>
@@ -442,8 +448,9 @@ public partial class AttachmentsVisibleElements : MapComponent
         }
          
         return ProgressBar;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UpdateButton property.
     /// </summary>
@@ -482,8 +489,9 @@ public partial class AttachmentsVisibleElements : MapComponent
         }
          
         return UpdateButton;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -523,8 +531,9 @@ public partial class AttachmentsVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "addButton", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the AddSubmitButton property after render.
     /// </summary>
@@ -560,8 +569,9 @@ public partial class AttachmentsVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "addSubmitButton", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CancelAddButton property after render.
     /// </summary>
@@ -597,8 +607,9 @@ public partial class AttachmentsVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "cancelAddButton", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CancelUpdateButton property after render.
     /// </summary>
@@ -634,8 +645,9 @@ public partial class AttachmentsVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "cancelUpdateButton", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DeleteButton property after render.
     /// </summary>
@@ -671,8 +683,9 @@ public partial class AttachmentsVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "deleteButton", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ErrorMessage property after render.
     /// </summary>
@@ -708,8 +721,9 @@ public partial class AttachmentsVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "errorMessage", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ProgressBar property after render.
     /// </summary>
@@ -745,8 +759,9 @@ public partial class AttachmentsVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "progressBar", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UpdateButton property after render.
     /// </summary>
@@ -782,8 +797,9 @@ public partial class AttachmentsVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "updateButton", value);
+
     }
-    
+
 #endregion
 
 }

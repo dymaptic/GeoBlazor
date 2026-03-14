@@ -53,8 +53,9 @@ public abstract partial class MarkerSymbol
         }
          
         return Angle;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Xoffset property.
     /// </summary>
@@ -93,8 +94,9 @@ public abstract partial class MarkerSymbol
         }
          
         return Xoffset;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Yoffset property.
     /// </summary>
@@ -133,8 +135,9 @@ public abstract partial class MarkerSymbol
         }
          
         return Yoffset;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -174,8 +177,9 @@ public abstract partial class MarkerSymbol
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "angle", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Xoffset property after render.
     /// </summary>
@@ -211,8 +215,9 @@ public abstract partial class MarkerSymbol
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "xoffset", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Yoffset property after render.
     /// </summary>
@@ -248,8 +253,9 @@ public abstract partial class MarkerSymbol
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "yoffset", value);
+
     }
-    
+
 #endregion
 
 }

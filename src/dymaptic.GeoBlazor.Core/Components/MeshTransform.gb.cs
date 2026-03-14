@@ -146,8 +146,9 @@ public partial class MeshTransform : MapComponent
         }
          
         return RotationAngle;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RotationAxis property.
     /// </summary>
@@ -186,8 +187,9 @@ public partial class MeshTransform : MapComponent
         }
          
         return RotationAxis;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Scale property.
     /// </summary>
@@ -226,8 +228,9 @@ public partial class MeshTransform : MapComponent
         }
          
         return Scale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Translation property.
     /// </summary>
@@ -266,8 +269,9 @@ public partial class MeshTransform : MapComponent
         }
          
         return Translation;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -307,8 +311,9 @@ public partial class MeshTransform : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rotationAngle", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RotationAxis property after render.
     /// </summary>
@@ -344,8 +349,9 @@ public partial class MeshTransform : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rotationAxis", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Scale property after render.
     /// </summary>
@@ -381,8 +387,9 @@ public partial class MeshTransform : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "scale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Translation property after render.
     /// </summary>
@@ -418,8 +425,9 @@ public partial class MeshTransform : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "translation", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -436,6 +444,7 @@ public partial class MeshTransform : MapComponent
             ? values
             : [..RotationAxis, ..values];
         await SetRotationAxis(join);
+
     }
     
     /// <summary>
@@ -450,6 +459,7 @@ public partial class MeshTransform : MapComponent
             ? values
             : [..Scale, ..values];
         await SetScale(join);
+
     }
     
     /// <summary>
@@ -464,6 +474,7 @@ public partial class MeshTransform : MapComponent
             ? values
             : [..Translation, ..values];
         await SetTranslation(join);
+
     }
     
 #endregion
@@ -484,6 +495,7 @@ public partial class MeshTransform : MapComponent
             return;
         }
         await SetRotationAxis(RotationAxis.Except(values).ToArray());
+
     }
     
     
@@ -500,6 +512,7 @@ public partial class MeshTransform : MapComponent
             return;
         }
         await SetScale(Scale.Except(values).ToArray());
+
     }
     
     
@@ -516,6 +529,7 @@ public partial class MeshTransform : MapComponent
             return;
         }
         await SetTranslation(Translation.Except(values).ToArray());
+
     }
     
 #endregion

@@ -67,8 +67,9 @@ public partial class Graphic : IHitTestItem,
         }
          
         return Attributes;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -108,8 +109,9 @@ public partial class Graphic : IHitTestItem,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "attributes", value);
+
     }
-    
+
 #endregion
 
 }

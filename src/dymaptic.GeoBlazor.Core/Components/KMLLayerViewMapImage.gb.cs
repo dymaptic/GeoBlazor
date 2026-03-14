@@ -144,8 +144,9 @@ public partial class KMLLayerViewMapImage : MapComponent
         }
         
         return Extent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Href property.
     /// </summary>
@@ -184,8 +185,9 @@ public partial class KMLLayerViewMapImage : MapComponent
         }
          
         return Href;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the KMLLayerViewMapImageId property.
     /// </summary>
@@ -224,8 +226,9 @@ public partial class KMLLayerViewMapImage : MapComponent
         }
          
         return KMLLayerViewMapImageId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Rotation property.
     /// </summary>
@@ -264,8 +267,9 @@ public partial class KMLLayerViewMapImage : MapComponent
         }
          
         return Rotation;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -310,8 +314,9 @@ public partial class KMLLayerViewMapImage : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "extent", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Href property after render.
     /// </summary>
@@ -347,8 +352,9 @@ public partial class KMLLayerViewMapImage : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "href", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the KMLLayerViewMapImageId property after render.
     /// </summary>
@@ -384,8 +390,9 @@ public partial class KMLLayerViewMapImage : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Rotation property after render.
     /// </summary>
@@ -421,8 +428,9 @@ public partial class KMLLayerViewMapImage : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rotation", value);
+
     }
-    
+
 #endregion
 
 

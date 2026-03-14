@@ -229,8 +229,9 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         }
         
         return SupportedNormalizationTypes;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportedStatistics property.
     /// </summary>
@@ -269,8 +270,9 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         }
         
         return SupportedStatistics;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsAutoInterval property.
     /// </summary>
@@ -309,8 +311,9 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         }
          
         return SupportsAutoInterval;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsDate property.
     /// </summary>
@@ -349,8 +352,9 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         }
          
         return SupportsDate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsFirstDayOfWeek property.
     /// </summary>
@@ -389,8 +393,9 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         }
          
         return SupportsFirstDayOfWeek;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsFixedBoundaries property.
     /// </summary>
@@ -429,8 +434,9 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         }
          
         return SupportsFixedBoundaries;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsFixedInterval property.
     /// </summary>
@@ -469,8 +475,9 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         }
          
         return SupportsFixedInterval;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsNormalization property.
     /// </summary>
@@ -509,8 +516,9 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         }
          
         return SupportsNormalization;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsReturnFullIntervalBin property.
     /// </summary>
@@ -549,8 +557,9 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         }
          
         return SupportsReturnFullIntervalBin;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsSnapToData property.
     /// </summary>
@@ -589,8 +598,9 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         }
          
         return SupportsSnapToData;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsSplitBy property.
     /// </summary>
@@ -629,8 +639,9 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         }
          
         return SupportsSplitBy;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsStackBy property.
     /// </summary>
@@ -669,8 +680,9 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         }
          
         return SupportsStackBy;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -715,8 +727,9 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportedNormalizationTypes", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportedStatistics property after render.
     /// </summary>
@@ -757,8 +770,9 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportedStatistics", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsAutoInterval property after render.
     /// </summary>
@@ -794,8 +808,9 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsAutoInterval", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsDate property after render.
     /// </summary>
@@ -831,8 +846,9 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsDate", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsFirstDayOfWeek property after render.
     /// </summary>
@@ -868,8 +884,9 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsFirstDayOfWeek", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsFixedBoundaries property after render.
     /// </summary>
@@ -905,8 +922,9 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsFixedBoundaries", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsFixedInterval property after render.
     /// </summary>
@@ -942,8 +960,9 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsFixedInterval", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsNormalization property after render.
     /// </summary>
@@ -979,8 +998,9 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsNormalization", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsReturnFullIntervalBin property after render.
     /// </summary>
@@ -1016,8 +1036,9 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsReturnFullIntervalBin", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsSnapToData property after render.
     /// </summary>
@@ -1053,8 +1074,9 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsSnapToData", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsSplitBy property after render.
     /// </summary>
@@ -1090,8 +1112,9 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsSplitBy", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsStackBy property after render.
     /// </summary>
@@ -1127,8 +1150,9 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsStackBy", value);
+
     }
-    
+
 #endregion
 
 

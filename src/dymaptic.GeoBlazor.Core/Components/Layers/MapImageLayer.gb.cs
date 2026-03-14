@@ -457,8 +457,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
         
         return AllSublayers;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BlendMode property.
     /// </summary>
@@ -497,8 +498,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
          
         return BlendMode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Capabilities property.
     /// </summary>
@@ -537,8 +539,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
          
         return Capabilities;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Copyright property.
     /// </summary>
@@ -577,8 +580,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
          
         return Copyright;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomParameters property.
     /// </summary>
@@ -617,8 +621,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
          
         return CustomParameters;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DateFieldsTimeZone property.
     /// </summary>
@@ -657,8 +662,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
          
         return DateFieldsTimeZone;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DatesInUnknownTimezone property.
     /// </summary>
@@ -697,8 +703,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
          
         return DatesInUnknownTimezone;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Dpi property.
     /// </summary>
@@ -737,8 +744,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
          
         return Dpi;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Effect property.
     /// </summary>
@@ -777,8 +785,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
         
         return Effect;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the GdbVersion property.
     /// </summary>
@@ -817,8 +826,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
          
         return GdbVersion;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ImageFormat property.
     /// </summary>
@@ -857,8 +867,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
          
         return ImageFormat;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ImageMaxHeight property.
     /// </summary>
@@ -897,8 +908,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
          
         return ImageMaxHeight;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ImageMaxWidth property.
     /// </summary>
@@ -937,8 +949,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
          
         return ImageMaxWidth;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ImageTransparency property.
     /// </summary>
@@ -977,8 +990,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
          
         return ImageTransparency;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendEnabled property.
     /// </summary>
@@ -1017,8 +1031,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
          
         return LegendEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -1057,8 +1072,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
          
         return MaxScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -1097,8 +1113,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
          
         return MinScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalItem property.
     /// </summary>
@@ -1143,8 +1160,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
         
         return PortalItem;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PreferredTimeZone property.
     /// </summary>
@@ -1183,8 +1201,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
          
         return PreferredTimeZone;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RefreshInterval property.
     /// </summary>
@@ -1223,8 +1242,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
          
         return RefreshInterval;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
@@ -1263,8 +1283,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
          
         return SourceJSON;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -1303,8 +1324,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
         
         return SpatialReference;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Sublayers property.
     /// </summary>
@@ -1347,8 +1369,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
         
         return Sublayers;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Subtables property.
     /// </summary>
@@ -1391,8 +1414,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
         
         return Subtables;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeExtent property.
     /// </summary>
@@ -1437,8 +1461,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
         
         return TimeExtent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeInfo property.
     /// </summary>
@@ -1483,8 +1508,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
         
         return TimeInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeOffset property.
     /// </summary>
@@ -1529,8 +1555,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
         
         return TimeOffset;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -1569,8 +1596,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
          
         return Url;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UseViewTime property.
     /// </summary>
@@ -1609,8 +1637,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
          
         return UseViewTime;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Version property.
     /// </summary>
@@ -1649,8 +1678,9 @@ public partial class MapImageLayer : IArcGISMapService,
         }
          
         return Version;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -1690,8 +1720,9 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "blendMode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Copyright property after render.
     /// </summary>
@@ -1727,8 +1758,9 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "copyright", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CustomParameters property after render.
     /// </summary>
@@ -1764,8 +1796,9 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "customParameters", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Dpi property after render.
     /// </summary>
@@ -1801,8 +1834,9 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "dpi", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Effect property after render.
     /// </summary>
@@ -1836,11 +1870,12 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetEffect), nameof(MapImageLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetEffect), nameof(MapImageLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the GdbVersion property after render.
     /// </summary>
@@ -1876,8 +1911,9 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "gdbVersion", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ImageFormat property after render.
     /// </summary>
@@ -1913,8 +1949,9 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "imageFormat", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ImageMaxHeight property after render.
     /// </summary>
@@ -1950,8 +1987,9 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "imageMaxHeight", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ImageMaxWidth property after render.
     /// </summary>
@@ -1987,8 +2025,9 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "imageMaxWidth", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ImageTransparency property after render.
     /// </summary>
@@ -2024,8 +2063,9 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "imageTransparency", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
@@ -2061,8 +2101,9 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -2098,8 +2139,9 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -2135,8 +2177,9 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PersistenceEnabled property after render.
     /// </summary>
@@ -2172,8 +2215,9 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "persistenceEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
@@ -2212,11 +2256,12 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPortalItem), nameof(MapImageLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPortalItem), nameof(MapImageLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RefreshInterval property after render.
     /// </summary>
@@ -2252,8 +2297,9 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "refreshInterval", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Sublayers property after render.
     /// </summary>
@@ -2295,11 +2341,12 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetSublayers), nameof(MapImageLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetSublayers), nameof(MapImageLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Subtables property after render.
     /// </summary>
@@ -2341,11 +2388,12 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetSubtables), nameof(MapImageLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetSubtables), nameof(MapImageLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeExtent property after render.
     /// </summary>
@@ -2384,11 +2432,12 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetTimeExtent), nameof(MapImageLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTimeExtent), nameof(MapImageLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeInfo property after render.
     /// </summary>
@@ -2427,11 +2476,12 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetTimeInfo), nameof(MapImageLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTimeInfo), nameof(MapImageLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeOffset property after render.
     /// </summary>
@@ -2470,11 +2520,12 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetTimeOffset), nameof(MapImageLayer), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTimeOffset), nameof(MapImageLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -2510,8 +2561,9 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UseViewTime property after render.
     /// </summary>
@@ -2547,8 +2599,9 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "useViewTime", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -2565,6 +2618,7 @@ public partial class MapImageLayer : IArcGISMapService,
             ? values
             : [..Sublayers, ..values];
         await SetSublayers(join);
+
     }
     
     /// <summary>
@@ -2579,6 +2633,7 @@ public partial class MapImageLayer : IArcGISMapService,
             ? values
             : [..Subtables, ..values];
         await SetSubtables(join);
+
     }
     
 #endregion
@@ -2599,6 +2654,7 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
         await SetSublayers(Sublayers.Except(values).ToArray());
+
     }
     
     
@@ -2615,6 +2671,7 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
         await SetSubtables(Subtables.Except(values).ToArray());
+
     }
     
 #endregion

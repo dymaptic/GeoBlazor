@@ -122,8 +122,9 @@ public partial class HeatmapRampStop : MapComponent
         }
          
         return Color;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Label property.
     /// </summary>
@@ -162,8 +163,9 @@ public partial class HeatmapRampStop : MapComponent
         }
          
         return Label;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Ratio property.
     /// </summary>
@@ -202,8 +204,9 @@ public partial class HeatmapRampStop : MapComponent
         }
          
         return Ratio;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -243,8 +246,9 @@ public partial class HeatmapRampStop : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "color", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Label property after render.
     /// </summary>
@@ -280,8 +284,9 @@ public partial class HeatmapRampStop : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "label", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Ratio property after render.
     /// </summary>
@@ -317,8 +322,9 @@ public partial class HeatmapRampStop : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "ratio", value);
+
     }
-    
+
 #endregion
 
 }

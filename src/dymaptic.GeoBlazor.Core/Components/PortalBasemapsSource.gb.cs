@@ -211,8 +211,9 @@ public partial class PortalBasemapsSource
         }
         
         return Portal;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Query property.
     /// </summary>
@@ -251,8 +252,9 @@ public partial class PortalBasemapsSource
         }
          
         return Query;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -295,11 +297,12 @@ public partial class PortalBasemapsSource
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetPortal), nameof(PortalBasemapsSource), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPortal), nameof(PortalBasemapsSource),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Query property after render.
     /// </summary>
@@ -335,8 +338,9 @@ public partial class PortalBasemapsSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "query", value);
+
     }
-    
+
 #endregion
 
 

@@ -12,6 +12,14 @@ namespace dymaptic.GeoBlazor.Core.Components;
 public partial class ChartMediaInfoValueSeries
 {
 
+    /// <summary>
+    ///     Parameterless constructor for use as a Razor Component.
+    /// </summary>
+    [ActivatorUtilitiesConstructor]
+    public ChartMediaInfoValueSeries()
+    {
+    }
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -66,8 +74,9 @@ public partial class ChartMediaInfoValueSeries
         }
          
         return Color;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FieldName property.
     /// </summary>
@@ -106,8 +115,9 @@ public partial class ChartMediaInfoValueSeries
         }
          
         return FieldName;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Tooltip property.
     /// </summary>
@@ -146,8 +156,9 @@ public partial class ChartMediaInfoValueSeries
         }
          
         return Tooltip;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Value property.
     /// </summary>
@@ -186,8 +197,9 @@ public partial class ChartMediaInfoValueSeries
         }
          
         return Value;
+
     }
-    
+
 #endregion
 
 }

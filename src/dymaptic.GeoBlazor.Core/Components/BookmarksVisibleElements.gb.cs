@@ -218,8 +218,9 @@ public partial class BookmarksVisibleElements : MapComponent
         }
          
         return AddBookmarkButton;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CloseButton property.
     /// </summary>
@@ -258,8 +259,9 @@ public partial class BookmarksVisibleElements : MapComponent
         }
          
         return CloseButton;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CollapseButton property.
     /// </summary>
@@ -298,8 +300,9 @@ public partial class BookmarksVisibleElements : MapComponent
         }
          
         return CollapseButton;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the EditBookmarkButton property.
     /// </summary>
@@ -338,8 +341,9 @@ public partial class BookmarksVisibleElements : MapComponent
         }
          
         return EditBookmarkButton;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Filter property.
     /// </summary>
@@ -378,8 +382,9 @@ public partial class BookmarksVisibleElements : MapComponent
         }
          
         return Filter;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Flow property.
     /// </summary>
@@ -418,8 +423,9 @@ public partial class BookmarksVisibleElements : MapComponent
         }
          
         return Flow;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Heading property.
     /// </summary>
@@ -458,8 +464,9 @@ public partial class BookmarksVisibleElements : MapComponent
         }
          
         return Heading;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Thumbnail property.
     /// </summary>
@@ -498,8 +505,9 @@ public partial class BookmarksVisibleElements : MapComponent
         }
          
         return Thumbnail;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Time property.
     /// </summary>
@@ -538,8 +546,9 @@ public partial class BookmarksVisibleElements : MapComponent
         }
          
         return Time;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -579,8 +588,9 @@ public partial class BookmarksVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "addBookmarkButton", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CloseButton property after render.
     /// </summary>
@@ -616,8 +626,9 @@ public partial class BookmarksVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "closeButton", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CollapseButton property after render.
     /// </summary>
@@ -653,8 +664,9 @@ public partial class BookmarksVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "collapseButton", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the EditBookmarkButton property after render.
     /// </summary>
@@ -690,8 +702,9 @@ public partial class BookmarksVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "editBookmarkButton", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Filter property after render.
     /// </summary>
@@ -727,8 +740,9 @@ public partial class BookmarksVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "filter", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Flow property after render.
     /// </summary>
@@ -764,8 +778,9 @@ public partial class BookmarksVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "flow", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Heading property after render.
     /// </summary>
@@ -801,8 +816,9 @@ public partial class BookmarksVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "heading", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Thumbnail property after render.
     /// </summary>
@@ -838,8 +854,9 @@ public partial class BookmarksVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "thumbnail", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Time property after render.
     /// </summary>
@@ -875,8 +892,9 @@ public partial class BookmarksVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "time", value);
+
     }
-    
+
 #endregion
 
 }

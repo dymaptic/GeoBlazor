@@ -110,8 +110,9 @@ public partial class TimeExtent
         }
          
         return End;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Start property.
     /// </summary>
@@ -150,8 +151,9 @@ public partial class TimeExtent
         }
          
         return Start;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -191,8 +193,9 @@ public partial class TimeExtent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "end", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Start property after render.
     /// </summary>
@@ -228,8 +231,9 @@ public partial class TimeExtent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "start", value);
+
     }
-    
+
 #endregion
 
 }

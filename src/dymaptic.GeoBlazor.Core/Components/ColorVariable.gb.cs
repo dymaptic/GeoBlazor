@@ -126,8 +126,9 @@ public partial class ColorVariable
         }
          
         return NormalizationField;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Stops property.
     /// </summary>
@@ -170,8 +171,9 @@ public partial class ColorVariable
         }
         
         return Stops;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -211,8 +213,9 @@ public partial class ColorVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "normalizationField", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Stops property after render.
     /// </summary>
@@ -256,8 +259,9 @@ public partial class ColorVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "stops", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -274,6 +278,7 @@ public partial class ColorVariable
             ? values
             : [..Stops, ..values];
         await SetStops(join);
+
     }
     
 #endregion
@@ -294,6 +299,7 @@ public partial class ColorVariable
             return;
         }
         await SetStops(Stops.Except(values).ToArray());
+
     }
     
 #endregion

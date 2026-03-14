@@ -126,8 +126,9 @@ public partial class LayerListKnowledgeGraphOptionsVisibleElements : MapComponen
         }
          
         return Errors;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Filter property.
     /// </summary>
@@ -166,8 +167,9 @@ public partial class LayerListKnowledgeGraphOptionsVisibleElements : MapComponen
         }
          
         return Filter;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the StatusIndicators property.
     /// </summary>
@@ -206,8 +208,9 @@ public partial class LayerListKnowledgeGraphOptionsVisibleElements : MapComponen
         }
          
         return StatusIndicators;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -247,8 +250,9 @@ public partial class LayerListKnowledgeGraphOptionsVisibleElements : MapComponen
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "errors", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Filter property after render.
     /// </summary>
@@ -284,8 +288,9 @@ public partial class LayerListKnowledgeGraphOptionsVisibleElements : MapComponen
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "filter", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the StatusIndicators property after render.
     /// </summary>
@@ -321,8 +326,9 @@ public partial class LayerListKnowledgeGraphOptionsVisibleElements : MapComponen
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "statusIndicators", value);
+
     }
-    
+
 #endregion
 
 }

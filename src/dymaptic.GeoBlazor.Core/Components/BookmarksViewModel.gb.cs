@@ -173,8 +173,9 @@ public partial class BookmarksViewModel : IGoTo
         }
         
         return ActiveBookmark;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Bookmarks property.
     /// </summary>
@@ -217,8 +218,9 @@ public partial class BookmarksViewModel : IGoTo
         }
         
         return Bookmarks;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Capabilities property.
     /// </summary>
@@ -263,8 +265,9 @@ public partial class BookmarksViewModel : IGoTo
         }
         
         return Capabilities;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultCreateOptions property.
     /// </summary>
@@ -303,8 +306,9 @@ public partial class BookmarksViewModel : IGoTo
         }
         
         return DefaultCreateOptions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultEditOptions property.
     /// </summary>
@@ -343,8 +347,9 @@ public partial class BookmarksViewModel : IGoTo
         }
         
         return DefaultEditOptions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -383,8 +388,9 @@ public partial class BookmarksViewModel : IGoTo
         }
          
         return State;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -430,11 +436,12 @@ public partial class BookmarksViewModel : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetBookmarks), nameof(BookmarksViewModel), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetBookmarks), nameof(BookmarksViewModel),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Capabilities property after render.
     /// </summary>
@@ -473,11 +480,12 @@ public partial class BookmarksViewModel : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetCapabilities), nameof(BookmarksViewModel), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetCapabilities), nameof(BookmarksViewModel),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DefaultCreateOptions property after render.
     /// </summary>
@@ -511,11 +519,12 @@ public partial class BookmarksViewModel : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetDefaultCreateOptions), nameof(BookmarksViewModel), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetDefaultCreateOptions), nameof(BookmarksViewModel),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DefaultEditOptions property after render.
     /// </summary>
@@ -549,11 +558,12 @@ public partial class BookmarksViewModel : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer, 
-            nameof(SetDefaultEditOptions), nameof(BookmarksViewModel), 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetDefaultEditOptions), nameof(BookmarksViewModel),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -570,6 +580,7 @@ public partial class BookmarksViewModel : IGoTo
             ? values
             : [..Bookmarks, ..values];
         await SetBookmarks(join);
+
     }
     
 #endregion
@@ -590,6 +601,7 @@ public partial class BookmarksViewModel : IGoTo
             return;
         }
         await SetBookmarks(Bookmarks.Except(values).ToArray());
+
     }
     
 #endregion

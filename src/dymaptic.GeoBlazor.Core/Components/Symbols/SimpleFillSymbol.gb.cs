@@ -92,8 +92,9 @@ public partial class SimpleFillSymbol : ISymbol2D,
         }
          
         return Style;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -133,8 +134,9 @@ public partial class SimpleFillSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "style", value);
+
     }
-    
+
 #endregion
 
 }

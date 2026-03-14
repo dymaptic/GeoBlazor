@@ -186,8 +186,9 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
          
         return Supports3D;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsAreaAndPerimeter property.
     /// </summary>
@@ -226,8 +227,9 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
          
         return SupportsAreaAndPerimeter;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsDistanceAndAngle property.
     /// </summary>
@@ -266,8 +268,9 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
          
         return SupportsDistanceAndAngle;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsHeightFromBaseAndTop property.
     /// </summary>
@@ -306,8 +309,9 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
          
         return SupportsHeightFromBaseAndTop;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsHeightFromBaseAndTopShadow property.
     /// </summary>
@@ -346,8 +350,9 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
          
         return SupportsHeightFromBaseAndTopShadow;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsHeightFromTopAndTopShadow property.
     /// </summary>
@@ -386,8 +391,9 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
          
         return SupportsHeightFromTopAndTopShadow;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsPointOrCentroid property.
     /// </summary>
@@ -426,8 +432,9 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
          
         return SupportsPointOrCentroid;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -467,8 +474,9 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supports3D", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsAreaAndPerimeter property after render.
     /// </summary>
@@ -504,8 +512,9 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsAreaAndPerimeter", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsDistanceAndAngle property after render.
     /// </summary>
@@ -541,8 +550,9 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsDistanceAndAngle", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsHeightFromBaseAndTop property after render.
     /// </summary>
@@ -578,8 +588,9 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsHeightFromBaseAndTop", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsHeightFromBaseAndTopShadow property after render.
     /// </summary>
@@ -615,8 +626,9 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsHeightFromBaseAndTopShadow", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsHeightFromTopAndTopShadow property after render.
     /// </summary>
@@ -652,8 +664,9 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsHeightFromTopAndTopShadow", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsPointOrCentroid property after render.
     /// </summary>
@@ -689,8 +702,9 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsPointOrCentroid", value);
+
     }
-    
+
 #endregion
 
 }

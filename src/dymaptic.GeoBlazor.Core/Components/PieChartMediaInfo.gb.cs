@@ -114,8 +114,9 @@ public partial class PieChartMediaInfo : IChartMediaInfo
         }
         
         return Value;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -160,8 +161,9 @@ public partial class PieChartMediaInfo : IChartMediaInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value", value);
+
     }
-    
+
 #endregion
 
 
