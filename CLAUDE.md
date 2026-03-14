@@ -144,3 +144,24 @@ Known issue: ESBuild compilation conflicts with MSBuild static file analysis may
 - **Shell:** Use Bash-compatible commands. On Windows this means Git Bash/MSYS2.
 - **CRITICAL:** NEVER use `nul` in Bash commands - use `/dev/null` instead
 - **Commands:** Use Unix/Bash commands (`ls`, `cat`, `grep`), NOT Windows commands (`dir`, `type`, `findstr`)
+
+## Agents
+
+Specialized Claude Code agent configurations for GeoBlazor development are maintained in the [GeoBlazor-Agents](https://github.com/dymaptic/GeoBlazor-Agents) repository. These provide researcher/developer/reviewer triplets for .NET, JavaScript, TypeScript, GeoBlazor Core/Pro/Code-Gen, C#/JS interop, and MCP development.
+
+### Finding Agents
+
+Agents are available from two locations (check in this order):
+
+1. **Local on disk** — `CLAUDE_CONFIG_DIR` environment variable points to the local config directory (currently `D:/claude files`). Agent templates live in `$CLAUDE_CONFIG_DIR/agents/` with subdirectories per domain (`dotnet/`, `geoblazor/`, `interop/`, `javascript/`, `typescript/`, `mcp-experts/`).
+2. **GitHub** — If not available locally, fetch from `https://github.com/dymaptic/GeoBlazor-Agents`. The `agents/` directory mirrors the local structure. Use `gh api repos/dymaptic/GeoBlazor-Agents/contents/agents` to browse, or clone the repo.
+
+### Key Agent Files
+
+- `AGENTS_REFERENCE.md` — Full catalog with triggers, descriptions, and usage examples
+- `agents/DESIGN.md` — Agent system design principles and patterns
+- `agents/AGENT_SYSTEM_TEMPLATE.md` — Template for creating new agents
+
+### Agent Workflow
+
+Use the **researcher → developer → reviewer** pattern: research existing patterns and known issues first, then implement, then review. For cross-repo work use `geoblazor-architect`; for C#/JS boundary issues use `interop-architect`.

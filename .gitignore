@@ -17,8 +17,7 @@ esBuild.hash
 .esbuild-record.json
 .csbuild-record.json
 CustomerTests.razor
-.claude/*
-!.claude/agents/
+.claude/
 .env
 test/dymaptic.GeoBlazor.Core.Test.Automation/test.txt
 test/dymaptic.GeoBlazor.Core.Test.Automation/test-run.log
