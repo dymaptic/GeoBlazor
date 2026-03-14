@@ -93,12 +93,7 @@ npm install (from src/dymaptic.GeoBlazor.Core/)
 - **dymaptic.GeoBlazor.Core.SourceGenerator.Tests**: Source generator tests
 
 ## Sample Projects
-- **Sample.Wasm**: Standalone WebAssembly sample runner
-- **Sample.WebApp**: Blazor Web App sample runner with render mode selector
-- **Sample.Maui**: MAUI hybrid sample runner
-- **Sample.OAuth**: OAuth authentication sample
-- **Sample.TokenRefresh**: Token refresh sample
-- **Sample.Shared**: Shared components and pages for samples (used by Wasm, WebApp, and Maui runners)
+Sample projects have been moved to the [GeoBlazor-Samples](https://github.com/dymaptic/GeoBlazor-Samples) repository.
 
 ## Important Notes
 
