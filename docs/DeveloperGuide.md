@@ -157,7 +157,7 @@ that normal Blazor components do not have.
 - If there is no related gissue, create one and assign it to yourself
 - Create a new branch for your work with the pattern `feature/{gissue-number}_{short-description}`
 - Find a relevant sample from the ArcGIS JavaScript SDK, if one exists
-- Create a new sample page in `dymaptic.GeoBlazor.Core.Samples.Shared/Pages`. Use the same header pattern as other samples
+- Create a new sample page in the [GeoBlazor-Samples](https://github.com/dymaptic/GeoBlazor-Samples) repository under `samples/core/dymaptic.GeoBlazor.Core.Sample.Shared/Pages`. Use the same header pattern as other samples
   - The links in the sample header should point to a) the JS sample page and b) the data source (e.g., feature service) used, if available
 - Implement the necessary C# classes and methods to support the feature
 - Implement TypeScript functions and classes if necessary for your C# classes to call and use. See the `Widgets` and `Layers` details below for more examples
@@ -176,7 +176,7 @@ that normal Blazor components do not have.
 - Implement all properties from the ArcGIS Layer class. Use the `MapComponents` rules outlined above.
 - Add your layer to the switch statement in the `createLayer` function of `arcGisJsInterop.ts`. Use the `Converting GeoBlazor Objects to ArcGIS` rules outlined above.
 - If the layer has methods that we want to support, create a `wrapper` class for it. See `The JavaScript Wrapper Pattern` above.
-- Create a new Layer samples page in `dymaptic.GeoBlazor.Core.Samples.Shared/Pages`. Also add to the `NavMenu.razor`.
+- Create a new Layer samples page in the [GeoBlazor-Samples](https://github.com/dymaptic/GeoBlazor-Samples) repository under `samples/core/dymaptic.GeoBlazor.Core.Sample.Shared/Pages`. Also add to the `NavMenu.razor`.
 - Create a new unit test in `dymaptic.GeoBlazor.Core.Tests.Blazor.Shared/Components/LayerTests.razor`.
 
 ### Adding a New Widget
@@ -189,7 +189,7 @@ that normal Blazor components do not have.
   ```
 - Add your widget to the switch statement in the `createWidget` function of `arcGisJsInterop.ts`. Use the `Converting GeoBlazor Objects to ArcGIS` rules outlined above.
 - If the widget has methods that we want to support, create a `wrapper` class for it. See `The JavaScript Wrapper Pattern` above.
-- Create a new Widget samples page in `dymaptic.GeoBlazor.Core.Samples.Shared/Pages`. Also add to the `NavMenu.razor`.
+- Create a new Widget samples page in the [GeoBlazor-Samples](https://github.com/dymaptic/GeoBlazor-Samples) repository under `samples/core/dymaptic.GeoBlazor.Core.Sample.Shared/Pages`. Also add to the `NavMenu.razor`.
 - Alternatively, for simple widgets, you can add them to the `Widgets.razor` sample.
 - Create a new unit test in `dymaptic.GeoBlazor.Core.Tests.Blazor.Shared/Components/WidgetTests.razor`.
 
