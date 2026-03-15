@@ -32,6 +32,9 @@ public partial class LegendWidget
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#basemapLegendVisible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="containerId">
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    /// </param>
     /// <param name="headingLevel">
     ///     Indicates the heading level to use for the legend title.
     ///     default 3
@@ -55,6 +58,12 @@ public partial class LegendWidget
     /// <param name="layerInfos">
     ///     Specifies a subset of the layers to display in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="mapView">
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </param>
+    /// <param name="position">
+    ///     The position of the widget in relation to the map view.
     /// </param>
     /// <param name="respectLayerDefinitionExpression">
     ///     If a layer uses a unique value render, only features that satisfy the layer's
@@ -90,11 +99,14 @@ public partial class LegendWidget
     public LegendWidget(
         IReadOnlyList<ActiveLayerInfo>? activeLayerInfos = null,
         bool? basemapLegendVisible = null,
+        string? containerId = null,
         double? headingLevel = null,
         bool? hideLayersNotInCurrentView = null,
         string? icon = null,
         string? label = null,
         IReadOnlyList<LegendLayerInfos>? layerInfos = null,
+        MapView? mapView = null,
+        OverlayPosition? position = null,
         bool? respectLayerDefinitionExpression = null,
         bool? respectLayerVisibility = null,
         LegendViewModel? viewModel = null,
@@ -106,11 +118,14 @@ public partial class LegendWidget
 #pragma warning disable BL0005
         ActiveLayerInfos = activeLayerInfos;
         BasemapLegendVisible = basemapLegendVisible;
+        ContainerId = containerId;
         HeadingLevel = headingLevel;
         HideLayersNotInCurrentView = hideLayersNotInCurrentView;
         Icon = icon;
         Label = label;
         LayerInfos = layerInfos;
+        MapView = mapView;
+        Position = position;
         RespectLayerDefinitionExpression = respectLayerDefinitionExpression;
         RespectLayerVisibility = respectLayerVisibility;
         ViewModel = viewModel;

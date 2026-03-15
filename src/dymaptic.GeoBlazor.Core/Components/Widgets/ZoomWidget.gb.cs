@@ -22,6 +22,9 @@ public partial class ZoomWidget : Widget
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
+    /// <param name="containerId">
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    /// </param>
     /// <param name="icon">
     ///     Icon which represents the widget.
     ///     default "magnifying-glass-plus"
@@ -35,6 +38,12 @@ public partial class ZoomWidget : Widget
     ///     Determines the layout/orientation of the Zoom widget.
     ///     default "vertical"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Zoom.html#layout">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="mapView">
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </param>
+    /// <param name="position">
+    ///     The position of the widget in relation to the map view.
     /// </param>
     /// <param name="viewModel">
     ///     The view model for this widget.
@@ -50,18 +59,24 @@ public partial class ZoomWidget : Widget
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public ZoomWidget(
+        string? containerId = null,
         string? icon = null,
         string? label = null,
         WidgetLayout? layout = null,
+        MapView? mapView = null,
+        OverlayPosition? position = null,
         ZoomViewModel? viewModel = null,
         bool? visible = null,
         string? widgetId = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
+        ContainerId = containerId;
         Icon = icon;
         Label = label;
         Layout = layout;
+        MapView = mapView;
+        Position = position;
         ViewModel = viewModel;
         Visible = visible;
         WidgetId = widgetId;

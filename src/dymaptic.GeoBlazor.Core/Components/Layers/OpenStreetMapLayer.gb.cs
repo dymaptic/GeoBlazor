@@ -87,6 +87,9 @@ public partial class OpenStreetMapLayer
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
+    /// </param>
     /// <param name="persistenceEnabled">
     ///     Enable persistence of the layer in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">WebScene</a>.
     ///     default true
@@ -100,6 +103,9 @@ public partial class OpenStreetMapLayer
     ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">time extent</a> during which a layer should be visible.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
     /// </param>
     public OpenStreetMapLayer(
         PortalItem? portalItem = null,
@@ -116,9 +122,11 @@ public partial class OpenStreetMapLayer
         ListMode? listMode = null,
         string? arcGISLayerId = null,
         Effect? effect = null,
+        bool? isBasemapReferenceLayer = null,
         bool? persistenceEnabled = null,
         string? urlTemplate = null,
-        TimeExtent? visibilityTimeExtent = null)
+        TimeExtent? visibilityTimeExtent = null,
+        bool? excludeApiKey = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -136,9 +144,11 @@ public partial class OpenStreetMapLayer
         ListMode = listMode;
         ArcGISLayerId = arcGISLayerId;
         Effect = effect;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         PersistenceEnabled = persistenceEnabled;
         UrlTemplate = urlTemplate;
         VisibilityTimeExtent = visibilityTimeExtent;
+        ExcludeApiKey = excludeApiKey;
 #pragma warning restore BL0005
     }
     

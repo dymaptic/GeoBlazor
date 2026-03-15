@@ -23,6 +23,9 @@ public partial class BasemapToggleWidget
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
+    /// <param name="containerId">
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    /// </param>
     /// <param name="icon">
     ///     Icon which represents the widget.
     ///     default "layer-basemap"
@@ -32,9 +35,15 @@ public partial class BasemapToggleWidget
     ///     The widget's default label.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="mapView">
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </param>
     /// <param name="nextBasemap">
     ///     The next basemap for toggling.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html#nextBasemap">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="position">
+    ///     The position of the widget in relation to the map view.
     /// </param>
     /// <param name="viewModel">
     ///     The view model for this widget.
@@ -54,9 +63,12 @@ public partial class BasemapToggleWidget
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public BasemapToggleWidget(
+        string? containerId = null,
         string? icon = null,
         string? label = null,
+        MapView? mapView = null,
         Basemap? nextBasemap = null,
+        OverlayPosition? position = null,
         BasemapToggleViewModel? viewModel = null,
         bool? visible = null,
         BasemapToggleVisibleElements? visibleElements = null,
@@ -64,9 +76,12 @@ public partial class BasemapToggleWidget
     {
         AllowRender = false;
 #pragma warning disable BL0005
+        ContainerId = containerId;
         Icon = icon;
         Label = label;
+        MapView = mapView;
         NextBasemap = nextBasemap;
+        Position = position;
         ViewModel = viewModel;
         Visible = visible;
         VisibleElements = visibleElements;

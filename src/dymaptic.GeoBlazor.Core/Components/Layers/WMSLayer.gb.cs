@@ -98,6 +98,9 @@ public partial class WMSLayer : Layer,
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#imageTransparency">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
+    /// </param>
     /// <param name="legendEnabled">
     ///     Indicates whether the layer will be included in the legend.
     ///     default true
@@ -195,6 +198,9 @@ public partial class WMSLayer : Layer,
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
+    /// </param>
     public WMSLayer(
         string? arcGISLayerId = null,
         BlendMode? blendMode = null,
@@ -212,6 +218,7 @@ public partial class WMSLayer : Layer,
         int? imageMaxHeight = null,
         int? imageMaxWidth = null,
         bool? imageTransparency = null,
+        bool? isBasemapReferenceLayer = null,
         bool? legendEnabled = null,
         ListMode? listMode = null,
         double? maxScale = null,
@@ -231,7 +238,8 @@ public partial class WMSLayer : Layer,
         bool? useViewTime = null,
         string? version = null,
         TimeExtent? visibilityTimeExtent = null,
-        bool? visible = null)
+        bool? visible = null,
+        bool? excludeApiKey = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -251,6 +259,7 @@ public partial class WMSLayer : Layer,
         ImageMaxHeight = imageMaxHeight;
         ImageMaxWidth = imageMaxWidth;
         ImageTransparency = imageTransparency;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         LegendEnabled = legendEnabled;
         ListMode = listMode;
         MaxScale = maxScale;
@@ -271,6 +280,7 @@ public partial class WMSLayer : Layer,
         Version = version;
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
+        ExcludeApiKey = excludeApiKey;
 #pragma warning restore BL0005
     }
     

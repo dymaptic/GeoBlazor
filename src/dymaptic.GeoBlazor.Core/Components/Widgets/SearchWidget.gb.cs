@@ -61,6 +61,9 @@ public partial class SearchWidget : IGoTo
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#autoSelect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="containerId">
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    /// </param>
     /// <param name="disabled">
     ///     When true, the widget is visually withdrawn and cannot be interacted with.
     ///     default false
@@ -91,6 +94,9 @@ public partial class SearchWidget : IGoTo
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#locationEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="mapView">
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </param>
     /// <param name="maxResults">
     ///     The maximum number of results returned by the widget if not specified by the source.
     ///     default 6
@@ -119,6 +125,9 @@ public partial class SearchWidget : IGoTo
     ///     It is possible to search a specified portal instance's <a target="_blank" href="http://enterprise.arcgis.com/en/portal/latest/administer/windows/configure-portal-to-geocode-addresses.htm">locator services</a>
     ///     Use this property to set this <a target="_blank" href="https://enterprise.arcgis.com/en/portal/">ArcGIS Portal</a> instance to search.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#portal">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="position">
+    ///     The position of the widget in relation to the map view.
     /// </param>
     /// <param name="resultGraphicEnabled">
     ///     Indicates if the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#resultGraphic">resultGraphic</a> will display at the
@@ -156,18 +165,21 @@ public partial class SearchWidget : IGoTo
         int? activeSourceIndex = null,
         string? allPlaceholder = null,
         bool? autoSelect = null,
+        string? containerId = null,
         bool? disabled = null,
         GoToOverride? goToOverride = null,
         string? icon = null,
         bool? includeDefaultSources = null,
         string? label = null,
         bool? locationEnabled = null,
+        MapView? mapView = null,
         int? maxResults = null,
         int? maxSuggestions = null,
         int? minSuggestCharacters = null,
         bool? popupEnabled = null,
         PopupTemplate? popupTemplate = null,
         Portal? portal = null,
+        OverlayPosition? position = null,
         bool? resultGraphicEnabled = null,
         bool? searchAllEnabled = null,
         string? searchTerm = null,
@@ -183,18 +195,21 @@ public partial class SearchWidget : IGoTo
         ActiveSourceIndex = activeSourceIndex;
         AllPlaceholder = allPlaceholder;
         AutoSelect = autoSelect;
+        ContainerId = containerId;
         Disabled = disabled;
         GoToOverride = goToOverride;
         Icon = icon;
         IncludeDefaultSources = includeDefaultSources;
         Label = label;
         LocationEnabled = locationEnabled;
+        MapView = mapView;
         MaxResults = maxResults;
         MaxSuggestions = maxSuggestions;
         MinSuggestCharacters = minSuggestCharacters;
         PopupEnabled = popupEnabled;
         PopupTemplate = popupTemplate;
         Portal = portal;
+        Position = position;
         ResultGraphicEnabled = resultGraphicEnabled;
         SearchAllEnabled = searchAllEnabled;
         SearchTerm = searchTerm;

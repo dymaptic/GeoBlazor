@@ -39,7 +39,7 @@ export async function buildJsFeaturesViewModel(dotNetObject: any, viewId: string
     return jsViewModel;
 }     
 
-export async function buildDotNetFeaturesViewModel(jsObject: any): Promise<any> {
+export async function buildDotNetFeaturesViewModel(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetFeaturesViewModelGenerated } = await import('./featuresViewModel.gb');
-    return await buildDotNetFeaturesViewModelGenerated(jsObject);
+    return await buildDotNetFeaturesViewModelGenerated(jsObject, layerId, viewId);
 }

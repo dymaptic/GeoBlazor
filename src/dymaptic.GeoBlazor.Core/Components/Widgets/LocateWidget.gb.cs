@@ -23,6 +23,9 @@ public partial class LocateWidget : IGoTo
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
+    /// <param name="containerId">
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    /// </param>
     /// <param name="geolocationOptions">
     ///     The browser's Geolocation API Position options for locating.
     ///     default null
@@ -52,11 +55,17 @@ public partial class LocateWidget : IGoTo
     ///     The widget's default label.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="mapView">
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </param>
     /// <param name="popupEnabled">
     ///     Indicates whether to display the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a> of the result graphic from the
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#locate">locate()</a> method.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="position">
+    ///     The position of the widget in relation to the map view.
     /// </param>
     /// <param name="scale">
     ///     Indicates the scale to set on the view when navigating to the position of the geolocated
@@ -78,13 +87,16 @@ public partial class LocateWidget : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public LocateWidget(
+        string? containerId = null,
         string? geolocationOptions = null,
         bool? goToLocationEnabled = null,
         GoToOverride? goToOverride = null,
         Graphic? graphic = null,
         string? icon = null,
         string? label = null,
+        MapView? mapView = null,
         bool? popupEnabled = null,
+        OverlayPosition? position = null,
         int? scale = null,
         LocateViewModel? viewModel = null,
         bool? visible = null,
@@ -92,13 +104,16 @@ public partial class LocateWidget : IGoTo
     {
         AllowRender = false;
 #pragma warning disable BL0005
+        ContainerId = containerId;
         GeolocationOptions = geolocationOptions;
         GoToLocationEnabled = goToLocationEnabled;
         GoToOverride = goToOverride;
         Graphic = graphic;
         Icon = icon;
         Label = label;
+        MapView = mapView;
         PopupEnabled = popupEnabled;
+        Position = position;
         Scale = scale;
         ViewModel = viewModel;
         Visible = visible;

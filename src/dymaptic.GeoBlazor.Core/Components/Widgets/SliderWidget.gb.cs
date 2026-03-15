@@ -23,6 +23,9 @@ public partial class SliderWidget
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
+    /// <param name="containerId">
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    /// </param>
     /// <param name="disabled">
     ///     When `true`, sets the slider to a disabled state so the user cannot interact
     ///     with it.
@@ -143,6 +146,12 @@ public partial class SliderWidget
     ///     default "caret-double-horizontal"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#icon">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="mapView">
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </param>
+    /// <param name="position">
+    ///     The position of the widget in relation to the map view.
+    /// </param>
     /// <param name="viewModel">
     ///     The view model for the Slider widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
@@ -152,6 +161,7 @@ public partial class SliderWidget
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public SliderWidget(
+        string containerId,
         bool? disabled = null,
         bool? draggableSegmentsEnabled = null,
         double? effectiveMax = null,
@@ -177,11 +187,14 @@ public partial class SliderWidget
         bool? visible = null,
         SliderVisibleElements? visibleElements = null,
         string? icon = null,
+        MapView? mapView = null,
+        OverlayPosition? position = null,
         SliderViewModel? viewModel = null,
         string? widgetId = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
+        ContainerId = containerId;
         Disabled = disabled;
         DraggableSegmentsEnabled = draggableSegmentsEnabled;
         EffectiveMax = effectiveMax;
@@ -207,6 +220,8 @@ public partial class SliderWidget
         Visible = visible;
         VisibleElements = visibleElements;
         Icon = icon;
+        MapView = mapView;
+        Position = position;
         ViewModel = viewModel;
         WidgetId = widgetId;
 #pragma warning restore BL0005

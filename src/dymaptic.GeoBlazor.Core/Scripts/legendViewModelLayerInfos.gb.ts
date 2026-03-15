@@ -7,7 +7,8 @@ export async function buildJsLegendViewModelLayerInfosGenerated(dotNetObject: an
     }
 
     let jsLegendViewModelLayerInfos: any = {};
-    if (hasValue(dotNetObject.layerId) && arcGisObjectRefs.hasOwnProperty(dotNetObject.layerId)) {
+    
+if (hasValue(dotNetObject.layerId) && arcGisObjectRefs.hasOwnProperty(dotNetObject.layerId)) {
         jsLegendViewModelLayerInfos.layer = arcGisObjectRefs[dotNetObject.layerId!];
     } else if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');

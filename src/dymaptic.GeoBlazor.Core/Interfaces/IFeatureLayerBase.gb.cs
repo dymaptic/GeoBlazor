@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html">GeoBlazor Docs</a>
-///     Interface for types CatalogLayer, FeatureLayer
+///     Interface for types CatalogLayer, FeatureLayer, SubtypeGroupLayer
 /// </summary>
 public partial interface IFeatureLayerBase : IMapComponent
 {

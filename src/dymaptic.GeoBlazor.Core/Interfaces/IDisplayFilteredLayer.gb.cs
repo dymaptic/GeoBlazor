@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IDisplayFilteredLayer.html">GeoBlazor Docs</a>
-///     Interface for types CatalogLayer, CSVLayer, FeatureLayer, GeoJSONLayer, OGCFeatureLayer, WFSLayer
+///     Interface for types CatalogLayer, CSVLayer, FeatureLayer, GeoJSONLayer, OGCFeatureLayer, SubtypeGroupLayer, WFSLayer
 /// </summary>
 [JsonConverter(typeof(MultiTypeConverter<IDisplayFilteredLayer>))]
 public partial interface IDisplayFilteredLayer : IMapComponent

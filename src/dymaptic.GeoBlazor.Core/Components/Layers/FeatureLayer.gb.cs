@@ -17,6 +17,9 @@ public partial class FeatureLayer : IAPIKeyMixin,
     IDisplayFilteredLayer,
     IFeatureEffectLayer,
     IFeatureSetLayer,
+    IFeatureTableLayer,
+    IFeatureTemplatesLayer,
+    IInputBaseLayer,
     IOperationalLayer,
     IOrderedLayer,
     IPortalLayer,
@@ -211,6 +214,9 @@ public partial class FeatureLayer : IAPIKeyMixin,
     ///     The historic moment to query.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#historicMoment">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
+    /// </param>
     /// <param name="labelingInfo">
     ///     The label definition for this layer, specified as an array of
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">LabelClass</a>.
@@ -324,6 +330,9 @@ public partial class FeatureLayer : IAPIKeyMixin,
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
+    /// </param>
     /// <param name="globalIdField">
     ///     The name of a `gid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#fields">field</a> containing a globally unique identifier for each
     ///     feature in the layer.
@@ -369,6 +378,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
         bool? hasM = null,
         bool? hasZ = null,
         DateTime? historicMoment = null,
+        bool? isBasemapReferenceLayer = null,
         IReadOnlyList<Label>? labelingInfo = null,
         bool? labelsVisible = null,
         int? layerIndex = null,
@@ -392,6 +402,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
         IReadOnlyList<FeatureType>? types = null,
         bool? useViewTime = null,
         TimeExtent? visibilityTimeExtent = null,
+        bool? excludeApiKey = null,
         string? globalIdField = null)
     {
         AllowRender = false;
@@ -435,6 +446,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
         HasM = hasM;
         HasZ = hasZ;
         HistoricMoment = historicMoment;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         LabelingInfo = labelingInfo;
         LabelsVisible = labelsVisible;
         LayerIndex = layerIndex;
@@ -458,6 +470,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
         Types = types;
         UseViewTime = useViewTime;
         VisibilityTimeExtent = visibilityTimeExtent;
+        ExcludeApiKey = excludeApiKey;
         GlobalIdField = globalIdField;
 #pragma warning restore BL0005
     }

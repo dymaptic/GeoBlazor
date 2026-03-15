@@ -22,6 +22,9 @@ public partial class ScaleBarWidget
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
+    /// <param name="containerId">
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    /// </param>
     /// <param name="icon">
     ///     Icon which represents the widget.
     ///     default "actual-size"
@@ -30,6 +33,12 @@ public partial class ScaleBarWidget
     /// <param name="label">
     ///     The widget's default label.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-ScaleBar.html#label">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="mapView">
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </param>
+    /// <param name="position">
+    ///     The position of the widget in relation to the map view.
     /// </param>
     /// <param name="style">
     ///     The style for the scale bar.
@@ -54,8 +63,11 @@ public partial class ScaleBarWidget
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public ScaleBarWidget(
+        string? containerId = null,
         string? icon = null,
         string? label = null,
+        MapView? mapView = null,
+        OverlayPosition? position = null,
         ScaleBarWidgetStyle? style = null,
         ScaleUnit? unit = null,
         ScaleBarViewModel? viewModel = null,
@@ -64,8 +76,11 @@ public partial class ScaleBarWidget
     {
         AllowRender = false;
 #pragma warning disable BL0005
+        ContainerId = containerId;
         Icon = icon;
         Label = label;
+        MapView = mapView;
+        Position = position;
         Style = style;
         Unit = unit;
         ViewModel = viewModel;

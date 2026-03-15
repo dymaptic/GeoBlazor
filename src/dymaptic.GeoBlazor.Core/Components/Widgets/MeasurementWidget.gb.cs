@@ -32,6 +32,9 @@ public partial class MeasurementWidget
     ///     Unit system (imperial, metric) or specific unit used for displaying the area values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html#areaUnit">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="containerId">
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    /// </param>
     /// <param name="icon">
     ///     Icon which represents the widget.
     ///     default "measure"
@@ -44,6 +47,12 @@ public partial class MeasurementWidget
     /// <param name="linearUnit">
     ///     Unit system (imperial, metric) or specific unit used for displaying the distance values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html#linearUnit">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="mapView">
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </param>
+    /// <param name="position">
+    ///     The position of the widget in relation to the map view.
     /// </param>
     /// <param name="viewModel">
     ///     The view model for this widget.
@@ -61,9 +70,12 @@ public partial class MeasurementWidget
     public MeasurementWidget(
         ActiveTool? activeTool = null,
         SystemOrAreaUnit? areaUnit = null,
+        string? containerId = null,
         string? icon = null,
         string? label = null,
         SystemOrLengthUnit? linearUnit = null,
+        MapView? mapView = null,
+        OverlayPosition? position = null,
         MeasurementViewModel? viewModel = null,
         bool? visible = null,
         string? widgetId = null)
@@ -72,9 +84,12 @@ public partial class MeasurementWidget
 #pragma warning disable BL0005
         ActiveTool = activeTool;
         AreaUnit = areaUnit;
+        ContainerId = containerId;
         Icon = icon;
         Label = label;
         LinearUnit = linearUnit;
+        MapView = mapView;
+        Position = position;
         ViewModel = viewModel;
         Visible = visible;
         WidgetId = widgetId;
@@ -195,18 +210,18 @@ public partial class MeasurementWidget
             return ActiveWidget;
         }
 
-        IMeasurementActiveWidget? result = await JsComponentReference.InvokeJsMethod<IMeasurementActiveWidget?>(
-            IsServer, nameof(GetActiveWidget), nameof(MeasurementWidget), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token);
-
+        // get the property value
+        IMeasurementActiveWidget? result = await JsComponentReference!.InvokeJsMethod<IMeasurementActiveWidget?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeasurementWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "activeWidget");
         if (result is not null)
         {
 #pragma warning disable BL0005
-            ActiveWidget = result;
+                ActiveWidget = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ActiveWidget)] = ActiveWidget;
+                ModifiedParameters[nameof(ActiveWidget)] = ActiveWidget;
         }
-        
+         
         return ActiveWidget;
 
     }

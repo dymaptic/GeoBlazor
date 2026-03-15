@@ -155,7 +155,8 @@ export async function buildJsListItemGenerated(dotNetObject: any, layerId: strin
         let { buildJsActionBase } = await import('./actionBase');
         properties.actionsSections = dotNetObject.actionsSections.map(i => buildJsActionBase(i)) as any;
     }
-    if (hasValue(dotNetObject.layerId) && arcGisObjectRefs.hasOwnProperty(dotNetObject.layerId)) {
+    
+if (hasValue(dotNetObject.layerId) && arcGisObjectRefs.hasOwnProperty(dotNetObject.layerId)) {
         properties.layer = arcGisObjectRefs[dotNetObject.layerId!];
     } else if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');

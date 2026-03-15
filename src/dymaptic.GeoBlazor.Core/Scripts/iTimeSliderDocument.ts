@@ -1,10 +1,10 @@
 
-export function buildJsITimeSliderDocument(dotNetObject: any): any {
+export async function buildJsITimeSliderDocument(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsITimeSliderDocumentGenerated } = await import('./iTimeSliderDocument.gb');
-    return buildJsITimeSliderDocumentGenerated(dotNetObject);
+    return await buildJsITimeSliderDocumentGenerated(dotNetObject, layerId, viewId);
 }     
 
-export function buildDotNetITimeSliderDocument(jsObject: any): any {
+export async function buildDotNetITimeSliderDocument(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetITimeSliderDocumentGenerated } = await import('./iTimeSliderDocument.gb');
-    return buildDotNetITimeSliderDocumentGenerated(jsObject);
+    return await buildDotNetITimeSliderDocumentGenerated(jsObject, layerId, viewId);
 }

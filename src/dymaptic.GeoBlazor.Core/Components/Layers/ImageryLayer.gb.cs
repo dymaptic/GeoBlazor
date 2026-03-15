@@ -10,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class ImageryLayer : IBlendLayer,
+    IFeatureTableLayer,
     IOperationalLayer,
     IPortalLayer,
     IRasterPresetRendererMixin,
@@ -199,6 +200,9 @@ public partial class ImageryLayer : IBlendLayer,
     ///     The unique ID assigned to the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
+    /// </param>
     /// <param name="mosaicRule">
     ///     Defines how overlapping images should be mosaicked.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#mosaicRule">ArcGIS Maps SDK for JavaScript</a>
@@ -233,6 +237,9 @@ public partial class ImageryLayer : IBlendLayer,
     ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">time extent</a> during which a layer should be visible.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
     /// </param>
     public ImageryLayer(
         string? url = null,
@@ -271,6 +278,7 @@ public partial class ImageryLayer : IBlendLayer,
         Extent? fullExtent = null,
         string? activePresetRendererName = null,
         string? arcGISLayerId = null,
+        bool? isBasemapReferenceLayer = null,
         MosaicRule? mosaicRule = null,
         MultidimensionalSubset? multidimensionalSubset = null,
         PixelFilterFunction? pixelFilter = null,
@@ -278,7 +286,8 @@ public partial class ImageryLayer : IBlendLayer,
         IReadOnlyList<RasterPresetRenderer>? presetRenderers = null,
         RasterFunction? rasterFunction = null,
         string? sourceJSON = null,
-        TimeExtent? visibilityTimeExtent = null)
+        TimeExtent? visibilityTimeExtent = null,
+        bool? excludeApiKey = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -318,6 +327,7 @@ public partial class ImageryLayer : IBlendLayer,
         FullExtent = fullExtent;
         ActivePresetRendererName = activePresetRendererName;
         ArcGISLayerId = arcGISLayerId;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         MosaicRule = mosaicRule;
         MultidimensionalSubset = multidimensionalSubset;
         PixelFilter = pixelFilter;
@@ -326,6 +336,7 @@ public partial class ImageryLayer : IBlendLayer,
         RasterFunction = rasterFunction;
         SourceJSON = sourceJSON;
         VisibilityTimeExtent = visibilityTimeExtent;
+        ExcludeApiKey = excludeApiKey;
 #pragma warning restore BL0005
     }
     

@@ -134,6 +134,9 @@ public partial class ImageryTileLayer : IBlendLayer,
     ///     The full extent of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
+    /// </param>
     /// <param name="presetRenderers">
     ///     A list of preset renderers that defines a preferred renderer for a given multidimensional variable, a given raster function template,
     ///     or an additional generic predefined renderer.
@@ -176,6 +179,9 @@ public partial class ImageryTileLayer : IBlendLayer,
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
+    /// </param>
     /// <param name="source">
     ///     The data source for client-side ImageryTileLayer can be a <a target="_blank" href="https://www.ogc.org/standard/coveragejson/">coverage JSON</a> object
     ///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">PixelData</a>.
@@ -206,6 +212,7 @@ public partial class ImageryTileLayer : IBlendLayer,
         string? activePresetRendererName = null,
         string? arcGISLayerId = null,
         Extent? fullExtent = null,
+        bool? isBasemapReferenceLayer = null,
         IReadOnlyList<RasterPresetRenderer>? presetRenderers = null,
         RasterFunction? rasterFunction = null,
         TileInfo? tileInfo = null,
@@ -214,6 +221,7 @@ public partial class ImageryTileLayer : IBlendLayer,
         TimeInterval? timeOffset = null,
         TimeExtent? visibilityTimeExtent = null,
         bool? visible = null,
+        bool? excludeApiKey = null,
         PixelData? source = null)
     {
         AllowRender = false;
@@ -242,6 +250,7 @@ public partial class ImageryTileLayer : IBlendLayer,
         ActivePresetRendererName = activePresetRendererName;
         ArcGISLayerId = arcGISLayerId;
         FullExtent = fullExtent;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         PresetRenderers = presetRenderers;
         RasterFunction = rasterFunction;
         TileInfo = tileInfo;
@@ -250,6 +259,7 @@ public partial class ImageryTileLayer : IBlendLayer,
         TimeOffset = timeOffset;
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
+        ExcludeApiKey = excludeApiKey;
         Source = source;
 #pragma warning restore BL0005
     }

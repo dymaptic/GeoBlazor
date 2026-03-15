@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ICustomParametersMixin.html">GeoBlazor Docs</a>
-///     Interface for types CatalogLayer, FeatureLayer, ImageryLayer, ImageryTileLayer, MapImageLayer, OGCFeatureLayer, SceneLayer, TileLayer, VectorTileLayer
+///     Interface for types CatalogLayer, FeatureLayer, ImageryLayer, ImageryTileLayer, MapImageLayer, OGCFeatureLayer, SceneLayer, SubtypeGroupLayer, TileLayer, VectorTileLayer
 /// </summary>
 public partial interface ICustomParametersMixin : IMapComponent
 {

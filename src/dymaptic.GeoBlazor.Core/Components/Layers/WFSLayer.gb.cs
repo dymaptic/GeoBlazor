@@ -14,6 +14,7 @@ public partial class WFSLayer : Layer,
     IFeatureEffectLayer,
     IFeatureReductionLayer,
     IFeatureSetLayer,
+    IFeatureTableLayer,
     IOperationalLayer,
     IOrderedLayer,
     IPortalLayer,
@@ -97,6 +98,9 @@ public partial class WFSLayer : Layer,
     /// <param name="geometryType">
     ///     The geometry type of features in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#geometryType">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
     /// <param name="labelingInfo">
     ///     The label definition for this layer, specified as an array of
@@ -225,6 +229,9 @@ public partial class WFSLayer : Layer,
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
+    /// </param>
     public WFSLayer(
         string? arcGISLayerId = null,
         BlendMode? blendMode = null,
@@ -241,6 +248,7 @@ public partial class WFSLayer : Layer,
         IReadOnlyList<Field>? fields = null,
         Extent? fullExtent = null,
         SimpleGeometryType? geometryType = null,
+        bool? isBasemapReferenceLayer = null,
         IReadOnlyList<Label>? labelingInfo = null,
         bool? labelsVisible = null,
         bool? legendEnabled = null,
@@ -267,7 +275,8 @@ public partial class WFSLayer : Layer,
         TrackInfo? trackInfo = null,
         string? url = null,
         TimeExtent? visibilityTimeExtent = null,
-        bool? visible = null)
+        bool? visible = null,
+        bool? excludeApiKey = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -286,6 +295,7 @@ public partial class WFSLayer : Layer,
         Fields = fields;
         FullExtent = fullExtent;
         GeometryType = geometryType;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         LabelingInfo = labelingInfo;
         LabelsVisible = labelsVisible;
         LegendEnabled = legendEnabled;
@@ -313,6 +323,7 @@ public partial class WFSLayer : Layer,
         Url = url;
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
+        ExcludeApiKey = excludeApiKey;
 #pragma warning restore BL0005
     }
     

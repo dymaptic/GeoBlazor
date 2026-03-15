@@ -161,6 +161,9 @@ public partial class MapImageLayer : IArcGISMapService,
     ///     The full extent of the layer as defined by the map service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
+    /// </param>
     /// <param name="subtables">
     ///     A flat <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of all the tables
     ///     in the layer including the tables of its sublayers.
@@ -179,6 +182,9 @@ public partial class MapImageLayer : IArcGISMapService,
     ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">time extent</a> during which a layer should be visible.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
     /// </param>
     public MapImageLayer(
         string? url = null,
@@ -207,10 +213,12 @@ public partial class MapImageLayer : IArcGISMapService,
         string? arcGISLayerId = null,
         string? copyright = null,
         Extent? fullExtent = null,
+        bool? isBasemapReferenceLayer = null,
         IReadOnlyList<Sublayer>? subtables = null,
         TimeInterval? timeOffset = null,
         string? title = null,
-        TimeExtent? visibilityTimeExtent = null)
+        TimeExtent? visibilityTimeExtent = null,
+        bool? excludeApiKey = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -240,10 +248,12 @@ public partial class MapImageLayer : IArcGISMapService,
         ArcGISLayerId = arcGISLayerId;
         Copyright = copyright;
         FullExtent = fullExtent;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         Subtables = subtables;
         TimeOffset = timeOffset;
         Title = title;
         VisibilityTimeExtent = visibilityTimeExtent;
+        ExcludeApiKey = excludeApiKey;
 #pragma warning restore BL0005
     }
     

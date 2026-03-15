@@ -36,6 +36,9 @@ public partial class PopupWidget : IGoTo
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#autoCloseEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="containerId">
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    /// </param>
     /// <param name="defaultPopupTemplateEnabled">
     ///     Enables automatic creation of a popup template for layers that have popups enabled but no
     ///     popupTemplate defined.
@@ -92,6 +95,12 @@ public partial class PopupWidget : IGoTo
     ///     Point used to position the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#location">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="mapView">
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </param>
+    /// <param name="position">
+    ///     The position of the widget in relation to the map view.
+    /// </param>
     /// <param name="promises">
     ///     An array of pending Promises that have not yet been fulfilled.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#promises">ArcGIS Maps SDK for JavaScript</a>
@@ -130,6 +139,7 @@ public partial class PopupWidget : IGoTo
         IReadOnlyList<ActionBase>? actions = null,
         PopupAlignment? alignment = null,
         bool? autoCloseEnabled = null,
+        string? containerId = null,
         bool? defaultPopupTemplateEnabled = null,
         bool? dockEnabled = null,
         PopupDockOptions? dockOptions = null,
@@ -141,6 +151,8 @@ public partial class PopupWidget : IGoTo
         InitialDisplayMode? initialDisplayMode = null,
         string? label = null,
         Point? location = null,
+        MapView? mapView = null,
+        OverlayPosition? position = null,
         string? promises = null,
         int? selectedFeatureIndex = null,
         string? title = null,
@@ -155,6 +167,7 @@ public partial class PopupWidget : IGoTo
         Actions = actions;
         Alignment = alignment;
         AutoCloseEnabled = autoCloseEnabled;
+        ContainerId = containerId;
         DefaultPopupTemplateEnabled = defaultPopupTemplateEnabled;
         DockEnabled = dockEnabled;
         DockOptions = dockOptions;
@@ -166,6 +179,8 @@ public partial class PopupWidget : IGoTo
         InitialDisplayMode = initialDisplayMode;
         Label = label;
         Location = location;
+        MapView = mapView;
+        Position = position;
         Promises = promises;
         SelectedFeatureIndex = selectedFeatureIndex;
         Title = title;

@@ -12,6 +12,7 @@ public partial class CSVLayer : IBlendLayer,
     IDisplayFilteredLayer,
     IFeatureEffectLayer,
     IFeatureSetLayer,
+    IFeatureTableLayer,
     IOrderedLayer,
     IScaleRangeLayer,
     ITemporalLayer,
@@ -129,6 +130,9 @@ public partial class CSVLayer : IBlendLayer,
     ///     The geometry type of features in the CSVLayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#geometryType">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
+    /// </param>
     /// <param name="labelingInfo">
     ///     The label definition for this layer, specified as an array of
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">LabelClass</a>.
@@ -238,6 +242,9 @@ public partial class CSVLayer : IBlendLayer,
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
+    /// </param>
     public CSVLayer(
         string url,
         string? title = null,
@@ -262,6 +269,7 @@ public partial class CSVLayer : IBlendLayer,
         IReadOnlyList<Field>? fields = null,
         Extent? fullExtent = null,
         string? geometryType = null,
+        bool? isBasemapReferenceLayer = null,
         IReadOnlyList<Label>? labelingInfo = null,
         bool? labelsVisible = null,
         string? latitudeField = null,
@@ -283,7 +291,8 @@ public partial class CSVLayer : IBlendLayer,
         TimeInterval? timeOffset = null,
         TrackInfo? trackInfo = null,
         bool? useViewTime = null,
-        TimeExtent? visibilityTimeExtent = null)
+        TimeExtent? visibilityTimeExtent = null,
+        bool? excludeApiKey = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -310,6 +319,7 @@ public partial class CSVLayer : IBlendLayer,
         Fields = fields;
         FullExtent = fullExtent;
         GeometryType = geometryType;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         LabelingInfo = labelingInfo;
         LabelsVisible = labelsVisible;
         LatitudeField = latitudeField;
@@ -332,6 +342,7 @@ public partial class CSVLayer : IBlendLayer,
         TrackInfo = trackInfo;
         UseViewTime = useViewTime;
         VisibilityTimeExtent = visibilityTimeExtent;
+        ExcludeApiKey = excludeApiKey;
 #pragma warning restore BL0005
     }
     

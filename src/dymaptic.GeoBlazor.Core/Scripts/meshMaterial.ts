@@ -3,7 +3,7 @@ export function buildJsMeshMaterial(dotNetObject: any): any {
     return buildJsMeshMaterialGenerated(dotNetObject);
 }
 
-export function buildDotNetMeshMaterial(jsObject: any): any {
+export function buildDotNetMeshMaterial(jsObject: any, viewId: string | null): any {
     let {buildDotNetMeshMaterialGenerated} = await import('./meshMaterial.gb');
-    return buildDotNetMeshMaterialGenerated(jsObject);
+    return buildDotNetMeshMaterialGenerated(jsObject, viewId);
 }

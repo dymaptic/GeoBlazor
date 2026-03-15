@@ -85,7 +85,7 @@ export default class WebMapGenerated extends BaseComponent {
     async loadAll(): Promise<any> {
         let result = await this.component.loadAll();
         let { buildDotNetWebDocument2D } = await import('./webDocument2D');
-        return buildDotNetWebDocument2D(result);
+        return await buildDotNetWebDocument2D(result, this.layerId, this.viewId);
     }
 
     async save(options: any): Promise<any> {

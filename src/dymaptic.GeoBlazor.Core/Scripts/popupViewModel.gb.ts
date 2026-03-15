@@ -117,7 +117,7 @@ export default class PopupViewModelGenerated extends BaseComponent {
     async next(): Promise<any> {
         let result = this.component.next();
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
-        return buildDotNetFeaturesViewModel(result);
+        return await buildDotNetFeaturesViewModel(result, this.layerId, this.viewId);
     }
 
     async open(options: any): Promise<void> {
@@ -127,7 +127,7 @@ export default class PopupViewModelGenerated extends BaseComponent {
     async previous(): Promise<any> {
         let result = this.component.previous();
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
-        return buildDotNetFeaturesViewModel(result);
+        return await buildDotNetFeaturesViewModel(result, this.layerId, this.viewId);
     }
 
     async triggerAction(actionIndex: any): Promise<void> {
