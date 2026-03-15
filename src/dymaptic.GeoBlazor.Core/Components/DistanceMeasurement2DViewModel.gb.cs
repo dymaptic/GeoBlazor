@@ -9,7 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D-DistanceMeasurement2DViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class DistanceMeasurement2DViewModel : MapComponent,
-    IMeasurementViewModelActiveViewModel
+    IMeasurementActiveViewModel
 {
 
     /// <summary>

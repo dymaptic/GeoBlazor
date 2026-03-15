@@ -66,6 +66,7 @@ public abstract partial class Layer : MapComponent
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [CodeGenerationIgnore]
     public bool? IsBasemapReferenceLayer { get; set; }
 
     /// <summary>

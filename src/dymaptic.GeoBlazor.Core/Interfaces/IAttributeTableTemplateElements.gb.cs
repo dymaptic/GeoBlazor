@@ -8,6 +8,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///     objects that represent an ordered list of table elements.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-tables-AttributeTableTemplate.html#elements">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface IAttributeTableTemplateElements : IMapComponent
+public partial interface IAttributeTableTemplateElement : IMapComponent
 {
 }

@@ -14,7 +14,7 @@ namespace dymaptic.GeoBlazor.Core.Functions;
 /// <param name="layout">
 ///    The TimeSlider layout.
 /// </param>
-public delegate Task DateLabelFormatter(DateTime value,
+public delegate Task DateLabelFormatter(IReadOnlyCollection<DateTime> value,
     DateLabelFormatterType type,
     ElementReference element,
     DateLabelFormatterLayout layout);

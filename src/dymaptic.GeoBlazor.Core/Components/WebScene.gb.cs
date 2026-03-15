@@ -8,7 +8,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     The web scene is the core element of 3D mapping across ArcGIS.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class WebScene
+public partial class WebScene : ITimeSliderDocument,
+    ITimeUtilsDocument
 {
 
     /// <summary>

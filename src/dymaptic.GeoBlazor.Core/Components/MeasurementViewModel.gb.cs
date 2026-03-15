@@ -70,7 +70,7 @@ public partial class MeasurementViewModel : MapComponent
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public IMeasurementViewModelActiveViewModel? ActiveViewModel { get; protected set; }
+    public IMeasurementActiveViewModel? ActiveViewModel { get; protected set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeasurementViewModel.html#measurementviewmodelareaunit-property">GeoBlazor Docs</a>
@@ -151,7 +151,7 @@ public partial class MeasurementViewModel : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the ActiveViewModel property.
     /// </summary>
-    public async Task<IMeasurementViewModelActiveViewModel?> GetActiveViewModel()
+    public async Task<IMeasurementActiveViewModel?> GetActiveViewModel()
     {
         if (CoreJsModule is null)
         {
@@ -173,7 +173,7 @@ public partial class MeasurementViewModel : MapComponent
             return ActiveViewModel;
         }
 
-        IMeasurementViewModelActiveViewModel? result = await JsComponentReference.InvokeJsMethod<IMeasurementViewModelActiveViewModel?>(
+        IMeasurementActiveViewModel? result = await JsComponentReference.InvokeJsMethod<IMeasurementActiveViewModel?>(
             IsServer, nameof(GetActiveViewModel), nameof(MeasurementViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token);
 

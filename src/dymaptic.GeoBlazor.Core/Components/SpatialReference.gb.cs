@@ -20,6 +20,43 @@ public partial class SpatialReference
     }
 
     /// <summary>
+    ///     Constructor for use in C# code.
+    /// </summary>
+    /// <param name="wkid">
+    ///     The well-known ID of a spatial reference.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#wkid">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="imageCoordinateSystem">
+    ///     An <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/raster-ics.htm">image coordinate system</a> defines the
+    ///     spatial reference used to display the image in its original coordinates
+    ///     without distortion, map transformations or ortho-rectification.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#imageCoordinateSystem">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="wkt">
+    ///     The well-known text that defines a spatial reference.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#wkt">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="wkt2">
+    ///     The well-known text of the coordinate system as defined by OGC standard for well-known text strings.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#wkt2">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    public SpatialReference(
+        int? wkid = null,
+        string? imageCoordinateSystem = null,
+        string? wkt = null,
+        string? wkt2 = null)
+    {
+        AllowRender = false;
+#pragma warning disable BL0005
+        Wkid = wkid;
+        ImageCoordinateSystem = imageCoordinateSystem;
+        Wkt = wkt;
+        Wkt2 = wkt2;
+#pragma warning restore BL0005
+    }
+    
+    
+    /// <summary>
     ///     Implicit conversion between <see cref="string" /> and <see cref="SpatialReference" />.
     /// </summary>
     /// <param name="imageCoordinateSystem">
@@ -27,15 +64,6 @@ public partial class SpatialReference
     /// </param>
     public static implicit operator SpatialReference(string imageCoordinateSystem) =>
         new(imageCoordinateSystem: imageCoordinateSystem);
-
-    /// <summary>
-    ///     Implicit conversion between <see cref="double" /> and <see cref="SpatialReference" />.
-    /// </summary>
-    /// <param name="metersPerUnit">
-    ///     The double to use as the value.
-    /// </param>
-    public static implicit operator SpatialReference(double metersPerUnit) =>
-        new(metersPerUnit: metersPerUnit);
 
 #region Public Properties / Blazor Parameters
 

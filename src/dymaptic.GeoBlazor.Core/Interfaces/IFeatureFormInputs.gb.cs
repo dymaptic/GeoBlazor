@@ -8,6 +8,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureForm.html">FeatureForm</a> widget.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureForm-FeatureFormViewModel.html#inputs">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface IFeatureFormViewModelInputs 
+public partial interface IFeatureFormInputs 
 {
 }

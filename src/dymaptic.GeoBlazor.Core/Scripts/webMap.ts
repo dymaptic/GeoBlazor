@@ -33,7 +33,7 @@ export async function buildJsWebMap(dotNetObject: any, layerId: string | null, v
     }
     
     return webmap;
-}     
+}
 
 export async function buildDotNetWebMap(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetWebMapGenerated } = await import('./webMap.gb');

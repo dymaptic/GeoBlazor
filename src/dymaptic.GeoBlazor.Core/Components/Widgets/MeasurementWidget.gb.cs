@@ -93,7 +93,7 @@ public partial class MeasurementWidget
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public IMeasurementWidgetActiveWidget? ActiveWidget { get; protected set; }
+    public IMeasurementActiveWidget? ActiveWidget { get; protected set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.MeasurementWidget.html#measurementwidgetareaunit-property">GeoBlazor Docs</a>
@@ -173,7 +173,7 @@ public partial class MeasurementWidget
     /// <summary>
     ///     Asynchronously retrieve the current value of the ActiveWidget property.
     /// </summary>
-    public async Task<IMeasurementWidgetActiveWidget?> GetActiveWidget()
+    public async Task<IMeasurementActiveWidget?> GetActiveWidget()
     {
         if (CoreJsModule is null)
         {
@@ -195,18 +195,18 @@ public partial class MeasurementWidget
             return ActiveWidget;
         }
 
-        // get the property value
-        IMeasurementWidgetActiveWidget? result = await JsComponentReference!.InvokeJsMethod<IMeasurementWidgetActiveWidget?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeasurementWidget), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "activeWidget");
+        IMeasurementActiveWidget? result = await JsComponentReference.InvokeJsMethod<IMeasurementActiveWidget?>(
+            IsServer, nameof(GetActiveWidget), nameof(MeasurementWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-                ActiveWidget = result;
+            ActiveWidget = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ActiveWidget)] = ActiveWidget;
+            ModifiedParameters[nameof(ActiveWidget)] = ActiveWidget;
         }
-         
+        
         return ActiveWidget;
 
     }

@@ -261,6 +261,7 @@ public partial class GeoJSONLayer : IBlendLayer,
         IReadOnlyList<Field>? fields = null,
         Extent? fullExtent = null,
         SimpleGeometryType? geometryType = null,
+        bool? isBasemapReferenceLayer = null,
         IReadOnlyList<Label>? labelingInfo = null,
         bool? labelsVisible = null,
         bool? legendEnabled = null,
@@ -292,6 +293,7 @@ public partial class GeoJSONLayer : IBlendLayer,
         Title = title;
         Opacity = opacity;
         Visible = visible;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         ListMode = listMode;
         ArcGISLayerId = arcGISLayerId;
         AttributeTableTemplate = attributeTableTemplate;
