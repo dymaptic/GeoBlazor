@@ -35,7 +35,7 @@ public partial class VectorTileLayerView : LayerView
         AllowRender = false;
 #pragma warning disable BL0005
         Visible = visible;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -81,21 +81,19 @@ public partial class VectorTileLayerView : LayerView
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VectorTileLayerView), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "hasVisibleFeatures");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "hasVisibleFeatures");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                HasVisibleFeatures = result;
+             HasVisibleFeatures = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(HasVisibleFeatures)] = HasVisibleFeatures;
+             ModifiedParameters[nameof(HasVisibleFeatures)] = HasVisibleFeatures;
         }
          
         return HasVisibleFeatures;
-
     }
-
+    
 #endregion
 
 }

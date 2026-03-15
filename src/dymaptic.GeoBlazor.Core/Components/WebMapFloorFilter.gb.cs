@@ -68,7 +68,7 @@ public partial class WebMapFloorFilter : MapComponent
         Minimized = minimized;
         PinnedLevels = pinnedLevels;
         Site = site;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -174,21 +174,19 @@ public partial class WebMapFloorFilter : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebMapFloorFilter), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "enabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "enabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Enabled = result;
+             Enabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Enabled)] = Enabled;
+             ModifiedParameters[nameof(Enabled)] = Enabled;
         }
          
         return Enabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Facility property.
     /// </summary>
@@ -215,21 +213,19 @@ public partial class WebMapFloorFilter : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebMapFloorFilter), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "facility");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Facility = result;
+             Facility = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Facility)] = Facility;
+             ModifiedParameters[nameof(Facility)] = Facility;
         }
          
         return Facility;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Level property.
     /// </summary>
@@ -256,21 +252,19 @@ public partial class WebMapFloorFilter : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebMapFloorFilter), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "level");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Level = result;
+             Level = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Level)] = Level;
+             ModifiedParameters[nameof(Level)] = Level;
         }
          
         return Level;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LongNames property.
     /// </summary>
@@ -297,21 +291,19 @@ public partial class WebMapFloorFilter : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebMapFloorFilter), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "longNames");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "longNames");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                LongNames = result;
+             LongNames = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(LongNames)] = LongNames;
+             ModifiedParameters[nameof(LongNames)] = LongNames;
         }
          
         return LongNames;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Minimized property.
     /// </summary>
@@ -338,21 +330,19 @@ public partial class WebMapFloorFilter : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebMapFloorFilter), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "minimized");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "minimized");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Minimized = result;
+             Minimized = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Minimized)] = Minimized;
+             ModifiedParameters[nameof(Minimized)] = Minimized;
         }
          
         return Minimized;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PinnedLevels property.
     /// </summary>
@@ -379,21 +369,19 @@ public partial class WebMapFloorFilter : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebMapFloorFilter), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "pinnedLevels");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "pinnedLevels");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                PinnedLevels = result;
+             PinnedLevels = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(PinnedLevels)] = PinnedLevels;
+             ModifiedParameters[nameof(PinnedLevels)] = PinnedLevels;
         }
          
         return PinnedLevels;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Site property.
     /// </summary>
@@ -420,21 +408,19 @@ public partial class WebMapFloorFilter : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebMapFloorFilter), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "site");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Site = result;
+             Site = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Site)] = Site;
+             ModifiedParameters[nameof(Site)] = Site;
         }
          
         return Site;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -474,9 +460,8 @@ public partial class WebMapFloorFilter : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "enabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Facility property after render.
     /// </summary>
@@ -512,9 +497,8 @@ public partial class WebMapFloorFilter : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "facility", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Level property after render.
     /// </summary>
@@ -550,9 +534,8 @@ public partial class WebMapFloorFilter : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "level", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LongNames property after render.
     /// </summary>
@@ -588,9 +571,8 @@ public partial class WebMapFloorFilter : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "longNames", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Minimized property after render.
     /// </summary>
@@ -626,9 +608,8 @@ public partial class WebMapFloorFilter : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minimized", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PinnedLevels property after render.
     /// </summary>
@@ -664,9 +645,8 @@ public partial class WebMapFloorFilter : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "pinnedLevels", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Site property after render.
     /// </summary>
@@ -702,9 +682,8 @@ public partial class WebMapFloorFilter : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "site", value);
-
     }
-
+    
 #endregion
 
 }

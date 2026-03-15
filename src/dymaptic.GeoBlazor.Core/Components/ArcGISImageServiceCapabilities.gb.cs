@@ -44,7 +44,7 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         Mensuration = mensuration;
         Operations = operations;
         Query = query;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -109,18 +109,11 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
             return Mensuration;
         }
 
-        ArcGISImageServiceCapabilitiesMensuration? result = await JsComponentReference.InvokeJsMethod<ArcGISImageServiceCapabilitiesMensuration?>(
-            IsServer, nameof(GetMensuration), nameof(ArcGISImageServiceCapabilities), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        ArcGISImageServiceCapabilitiesMensuration? result = await JsComponentReference.InvokeAsync<ArcGISImageServiceCapabilitiesMensuration?>(
+            "getMensuration", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (Mensuration is not null)
-            {
-                result.Id = Mensuration.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Mensuration = result;
 #pragma warning restore BL0005
@@ -128,9 +121,8 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         }
         
         return Mensuration;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Operations property.
     /// </summary>
@@ -156,18 +148,11 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
             return Operations;
         }
 
-        ArcGISImageServiceCapabilitiesOperations? result = await JsComponentReference.InvokeJsMethod<ArcGISImageServiceCapabilitiesOperations?>(
-            IsServer, nameof(GetOperations), nameof(ArcGISImageServiceCapabilities), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        ArcGISImageServiceCapabilitiesOperations? result = await JsComponentReference.InvokeAsync<ArcGISImageServiceCapabilitiesOperations?>(
+            "getOperations", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (Operations is not null)
-            {
-                result.Id = Operations.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Operations = result;
 #pragma warning restore BL0005
@@ -175,9 +160,8 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         }
         
         return Operations;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Query property.
     /// </summary>
@@ -204,21 +188,19 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         }
 
         // get the property value
-        ArcGISImageServiceCapabilitiesQuery? result = await JsComponentReference!.InvokeJsMethod<ArcGISImageServiceCapabilitiesQuery?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilities), View?.QueryResultsMaxSizeLimit,
+        ArcGISImageServiceCapabilitiesQuery? result = await JsComponentReference!.InvokeAsync<ArcGISImageServiceCapabilitiesQuery?>("getProperty",
             CancellationTokenSource.Token, "query");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Query = result;
+             Query = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Query)] = Query;
+             ModifiedParameters[nameof(Query)] = Query;
         }
          
         return Query;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -231,6 +213,11 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
     /// </param>
     public async Task SetMensuration(ArcGISImageServiceCapabilitiesMensuration? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Mensuration = value;
 #pragma warning restore BL0005
@@ -240,11 +227,6 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -263,9 +245,8 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mensuration", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Operations property after render.
     /// </summary>
@@ -274,6 +255,11 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
     /// </param>
     public async Task SetOperations(ArcGISImageServiceCapabilitiesOperations? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Operations = value;
 #pragma warning restore BL0005
@@ -283,11 +269,6 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -306,9 +287,8 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "operations", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Query property after render.
     /// </summary>
@@ -344,9 +324,8 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "query", value);
-
     }
-
+    
 #endregion
 
 
@@ -381,11 +360,11 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
     {
         switch (child)
         {
-            case ArcGISImageServiceCapabilitiesMensuration:
+            case ArcGISImageServiceCapabilitiesMensuration _:
                 Mensuration = null;
                 ModifiedParameters[nameof(Mensuration)] = Mensuration;
                 return true;
-            case ArcGISImageServiceCapabilitiesOperations:
+            case ArcGISImageServiceCapabilitiesOperations _:
                 Operations = null;
                 ModifiedParameters[nameof(Operations)] = Operations;
                 return true;

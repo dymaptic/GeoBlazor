@@ -41,11 +41,7 @@ public partial record FieldsIndex(
     /// </summary>
     public IJSObjectReference? CoreJsModule { get; set; }
     
-    /// <summary>
-    ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
-    /// </summary>
-    public bool IsServer { get; set; }
-    
+
     /// <summary>
     ///     Cancellation Token for async methods.
     /// </summary>
@@ -83,8 +79,8 @@ public partial record FieldsIndex(
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<Field?>(
-            IsServer, nameof(Get), nameof(FieldsIndex), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<Field?>(
+            "get", 
             CancellationTokenSource.Token,
             fieldName);
     }
@@ -98,7 +94,7 @@ public partial record FieldsIndex(
     ///     The name of the field or the field instance.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> GetTimeZone(Field fieldOrFieldName)
+    public async Task<string?> GetTimeZone(string fieldOrFieldName)
     {
         if (CoreJsModule is null)
         {
@@ -120,8 +116,8 @@ public partial record FieldsIndex(
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GetTimeZone), nameof(FieldsIndex), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<string?>(
+            "getTimeZone", 
             CancellationTokenSource.Token,
             fieldOrFieldName);
     }
@@ -157,8 +153,8 @@ public partial record FieldsIndex(
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(Has), nameof(FieldsIndex), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "has", 
             CancellationTokenSource.Token,
             fieldName);
     }
@@ -194,8 +190,8 @@ public partial record FieldsIndex(
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(IsDateField), nameof(FieldsIndex), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "isDateField", 
             CancellationTokenSource.Token,
             fieldName);
     }

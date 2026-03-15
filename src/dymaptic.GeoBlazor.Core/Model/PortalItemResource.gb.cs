@@ -15,17 +15,12 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">portal item</a> that owns the resource.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="Url">
-///     The absolute url to the item resource.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html#url">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 public partial record PortalItemResource(
     string? Path = null,
-    PortalItem? PortalItem = null,
-    string? Url = null): IInteractiveRecord
+    PortalItem? PortalItem = null): IInteractiveRecord
 {
     /// <summary>
-    ///     Parameterless Constructor
+    ///     Parameterless constructor
     /// </summary>
     public PortalItemResource(): this(null, null)
     {
@@ -42,12 +37,6 @@ public partial record PortalItemResource(
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public PortalItem? PortalItem { get; set; } = PortalItem;
-    
-    /// <summary>
-    ///     The absolute url to the item resource.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html#url">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public string? Url { get; set; } = Url;
     
     /// <summary>
     ///     Represents the JavaScript component reference.
@@ -69,11 +58,7 @@ public partial record PortalItemResource(
     /// </summary>
     public IJSObjectReference? CoreJsModule { get; set; }
     
-    /// <summary>
-    ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
-    /// </summary>
-    public bool IsServer { get; set; }
-    
+
     /// <summary>
     ///     Cancellation Token for async methods.
     /// </summary>
@@ -120,14 +105,9 @@ public partial record PortalItemResource(
             return null;
         }
         
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(Fetch), nameof(PortalItemResource), View?.QueryResultsMaxSizeLimit, 
+        string? result = await JsComponentReference!.InvokeAsync<string?>(
+            "fetch", 
             CancellationTokenSource.Token,
             responseType,
             options,
@@ -178,14 +158,9 @@ public partial record PortalItemResource(
             return null;
         }
         
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(Update), nameof(PortalItemResource), View?.QueryResultsMaxSizeLimit, 
+        string? result = await JsComponentReference!.InvokeAsync<string?>(
+            "update", 
             CancellationTokenSource.Token,
             content,
             options,

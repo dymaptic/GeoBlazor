@@ -38,7 +38,7 @@ public partial class ZoomViewModel : MapComponent
 #pragma warning disable BL0005
         CanZoomIn = canZoomIn;
         CanZoomOut = canZoomOut;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -105,21 +105,19 @@ public partial class ZoomViewModel : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ZoomViewModel), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "canZoomIn");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "canZoomIn");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                CanZoomIn = result;
+             CanZoomIn = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(CanZoomIn)] = CanZoomIn;
+             ModifiedParameters[nameof(CanZoomIn)] = CanZoomIn;
         }
          
         return CanZoomIn;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the CanZoomOut property.
     /// </summary>
@@ -146,21 +144,19 @@ public partial class ZoomViewModel : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ZoomViewModel), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "canZoomOut");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "canZoomOut");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                CanZoomOut = result;
+             CanZoomOut = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(CanZoomOut)] = CanZoomOut;
+             ModifiedParameters[nameof(CanZoomOut)] = CanZoomOut;
         }
          
         return CanZoomOut;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -187,21 +183,19 @@ public partial class ZoomViewModel : MapComponent
         }
 
         // get the property value
-        ZoomViewModelState? result = await JsComponentReference!.InvokeJsMethod<ZoomViewModelState?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ZoomViewModel), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "state");
-        if (result is not null)
+        JsNullableEnumWrapper<ZoomViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ZoomViewModelState>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "state");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                State = result;
+             State = (ZoomViewModelState)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(State)] = State;
+             ModifiedParameters[nameof(State)] = State;
         }
          
         return State;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -241,9 +235,8 @@ public partial class ZoomViewModel : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "canZoomIn", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the CanZoomOut property after render.
     /// </summary>
@@ -279,9 +272,8 @@ public partial class ZoomViewModel : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "canZoomOut", value);
-
     }
-
+    
 #endregion
 
 #region Public Methods
@@ -314,14 +306,8 @@ public partial class ZoomViewModel : MapComponent
             return;
         }
         
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
-            nameof(ZoomIn), nameof(ZoomViewModel), 
+        await JsComponentReference!.InvokeVoidAsync(
+            "zoomIn", 
             CancellationTokenSource.Token);
     }
     
@@ -353,14 +339,8 @@ public partial class ZoomViewModel : MapComponent
             return;
         }
         
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
-            nameof(ZoomOut), nameof(ZoomViewModel), 
+        await JsComponentReference!.InvokeVoidAsync(
+            "zoomOut", 
             CancellationTokenSource.Token);
     }
     

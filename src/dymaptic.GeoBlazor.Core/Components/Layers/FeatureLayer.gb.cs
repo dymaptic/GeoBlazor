@@ -17,6 +17,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
     IDisplayFilteredLayer,
     IFeatureEffectLayer,
     IFeatureSetLayer,
+    IFeatureTableWidgetLayers,
+    IFeatureTemplatesViewModelLayers,
+    IFeatureTemplatesWidgetLayers,
+    IInputBaseLayers,
     IOperationalLayer,
     IOrderedLayer,
     IPortalLayer,
@@ -79,8 +83,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#geometryType">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
-    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>
-    ///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widgets.
+    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>
+    ///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="opacity">
@@ -94,7 +98,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="listMode">
-    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
     ///     default "show"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -170,7 +174,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="featureEffect">
-    ///     The featureEffect can be used to draw attention features of interest.
+    ///     The featureEffect can be used to draw attention to features of interest.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="featureReduction">
@@ -210,6 +214,9 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="historicMoment">
     ///     The historic moment to query.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#historicMoment">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
     /// <param name="labelingInfo">
     ///     The label definition for this layer, specified as an array of
@@ -265,7 +272,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#returnZ">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="screenSizePerspectiveEnabled">
-    ///     Apply perspective scaling to screen-size point symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
+    ///     Apply perspective scaling to screen-size symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#screenSizePerspectiveEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -324,6 +331,9 @@ public partial class FeatureLayer : IAPIKeyMixin,
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
+    /// </param>
     /// <param name="globalIdField">
     ///     The name of a `gid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#fields">field</a> containing a globally unique identifier for each
     ///     feature in the layer.
@@ -369,6 +379,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
         bool? hasM = null,
         bool? hasZ = null,
         DateTime? historicMoment = null,
+        bool? isBasemapReferenceLayer = null,
         IReadOnlyList<Label>? labelingInfo = null,
         bool? labelsVisible = null,
         int? layerIndex = null,
@@ -392,6 +403,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
         IReadOnlyList<FeatureType>? types = null,
         bool? useViewTime = null,
         TimeExtent? visibilityTimeExtent = null,
+        bool? excludeApiKey = null,
         string? globalIdField = null)
     {
         AllowRender = false;
@@ -435,6 +447,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
         HasM = hasM;
         HasZ = hasZ;
         HistoricMoment = historicMoment;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         LabelingInfo = labelingInfo;
         LabelsVisible = labelsVisible;
         LayerIndex = layerIndex;
@@ -458,8 +471,9 @@ public partial class FeatureLayer : IAPIKeyMixin,
         Types = types;
         UseViewTime = useViewTime;
         VisibilityTimeExtent = visibilityTimeExtent;
+        ExcludeApiKey = excludeApiKey;
         GlobalIdField = globalIdField;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -644,7 +658,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerfeatureeffect-property">GeoBlazor Docs</a>
-    ///     The featureEffect can be used to draw attention features of interest.
+    ///     The featureEffect can be used to draw attention to features of interest.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -916,7 +930,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerscreensizeperspectiveenabled-property">GeoBlazor Docs</a>
-    ///     Apply perspective scaling to screen-size point symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
+    ///     Apply perspective scaling to screen-size symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#screenSizePerspectiveEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -1147,21 +1161,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "apiKey");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                ApiKey = result;
+             ApiKey = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ApiKey)] = ApiKey;
+             ModifiedParameters[nameof(ApiKey)] = ApiKey;
         }
          
         return ApiKey;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the AttributeTableTemplate property.
     /// </summary>
@@ -1188,21 +1200,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        IAttributeTableTemplate? result = await JsComponentReference!.InvokeJsMethod<IAttributeTableTemplate?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        IAttributeTableTemplate? result = await JsComponentReference!.InvokeAsync<IAttributeTableTemplate?>("getProperty",
             CancellationTokenSource.Token, "attributeTableTemplate");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                AttributeTableTemplate = result;
+             AttributeTableTemplate = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
+             ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
         }
          
         return AttributeTableTemplate;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the BlendMode property.
     /// </summary>
@@ -1229,21 +1239,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        BlendMode? result = await JsComponentReference!.InvokeJsMethod<BlendMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "blendMode");
-        if (result is not null)
+        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                BlendMode = result;
+             BlendMode = (BlendMode)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(BlendMode)] = BlendMode;
+             ModifiedParameters[nameof(BlendMode)] = BlendMode;
         }
          
         return BlendMode;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Charts property.
     /// </summary>
@@ -1270,21 +1278,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, "charts");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Charts = result;
+             Charts = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Charts)] = Charts;
+             ModifiedParameters[nameof(Charts)] = Charts;
         }
          
         return Charts;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Copyright property.
     /// </summary>
@@ -1311,21 +1317,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "copyright");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Copyright = result;
+             Copyright = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Copyright)] = Copyright;
+             ModifiedParameters[nameof(Copyright)] = Copyright;
         }
          
         return Copyright;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomParameters property.
     /// </summary>
@@ -1352,21 +1356,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        Dictionary<string, object>? result = await JsComponentReference!.InvokeJsMethod<Dictionary<string, object>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        Dictionary<string, object>? result = await JsComponentReference!.InvokeAsync<Dictionary<string, object>?>("getProperty",
             CancellationTokenSource.Token, "customParameters");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                CustomParameters = result;
+             CustomParameters = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
+             ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
         }
          
         return CustomParameters;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DateFieldsTimeZone property.
     /// </summary>
@@ -1393,21 +1395,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "dateFieldsTimeZone");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                DateFieldsTimeZone = result;
+             DateFieldsTimeZone = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(DateFieldsTimeZone)] = DateFieldsTimeZone;
+             ModifiedParameters[nameof(DateFieldsTimeZone)] = DateFieldsTimeZone;
         }
          
         return DateFieldsTimeZone;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DatesInUnknownTimezone property.
     /// </summary>
@@ -1434,21 +1434,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "datesInUnknownTimezone");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "datesInUnknownTimezone");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                DatesInUnknownTimezone = result;
+             DatesInUnknownTimezone = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(DatesInUnknownTimezone)] = DatesInUnknownTimezone;
+             ModifiedParameters[nameof(DatesInUnknownTimezone)] = DatesInUnknownTimezone;
         }
          
         return DatesInUnknownTimezone;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefinitionExpression property.
     /// </summary>
@@ -1475,21 +1473,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "definitionExpression");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                DefinitionExpression = result;
+             DefinitionExpression = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(DefinitionExpression)] = DefinitionExpression;
+             ModifiedParameters[nameof(DefinitionExpression)] = DefinitionExpression;
         }
          
         return DefinitionExpression;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DisplayField property.
     /// </summary>
@@ -1516,21 +1512,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "displayField");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                DisplayField = result;
+             DisplayField = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(DisplayField)] = DisplayField;
+             ModifiedParameters[nameof(DisplayField)] = DisplayField;
         }
          
         return DisplayField;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DisplayFilterEnabled property.
     /// </summary>
@@ -1557,21 +1551,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "displayFilterEnabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "displayFilterEnabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                DisplayFilterEnabled = result;
+             DisplayFilterEnabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(DisplayFilterEnabled)] = DisplayFilterEnabled;
+             ModifiedParameters[nameof(DisplayFilterEnabled)] = DisplayFilterEnabled;
         }
          
         return DisplayFilterEnabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DisplayFilterInfo property.
     /// </summary>
@@ -1597,18 +1589,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return DisplayFilterInfo;
         }
 
-        DisplayFilterInfo? result = await JsComponentReference.InvokeJsMethod<DisplayFilterInfo?>(
-            IsServer, nameof(GetDisplayFilterInfo), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        DisplayFilterInfo? result = await JsComponentReference.InvokeAsync<DisplayFilterInfo?>(
+            "getDisplayFilterInfo", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (DisplayFilterInfo is not null)
-            {
-                result.Id = DisplayFilterInfo.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             DisplayFilterInfo = result;
 #pragma warning restore BL0005
@@ -1616,9 +1601,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
         
         return DisplayFilterInfo;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DynamicDataSource property.
     /// </summary>
@@ -1645,21 +1629,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        DynamicLayer? result = await JsComponentReference!.InvokeJsMethod<DynamicLayer?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        DynamicLayer? result = await JsComponentReference!.InvokeAsync<DynamicLayer?>("getProperty",
             CancellationTokenSource.Token, "dynamicDataSource");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                DynamicDataSource = result;
+             DynamicDataSource = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(DynamicDataSource)] = DynamicDataSource;
+             ModifiedParameters[nameof(DynamicDataSource)] = DynamicDataSource;
         }
          
         return DynamicDataSource;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the EditFieldsInfo property.
     /// </summary>
@@ -1686,21 +1668,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        EditFieldsInfo? result = await JsComponentReference!.InvokeJsMethod<EditFieldsInfo?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        EditFieldsInfo? result = await JsComponentReference!.InvokeAsync<EditFieldsInfo?>("getProperty",
             CancellationTokenSource.Token, "editFieldsInfo");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                EditFieldsInfo = result;
+             EditFieldsInfo = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(EditFieldsInfo)] = EditFieldsInfo;
+             ModifiedParameters[nameof(EditFieldsInfo)] = EditFieldsInfo;
         }
          
         return EditFieldsInfo;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the EditingEnabled property.
     /// </summary>
@@ -1727,21 +1707,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "editingEnabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "editingEnabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                EditingEnabled = result;
+             EditingEnabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(EditingEnabled)] = EditingEnabled;
+             ModifiedParameters[nameof(EditingEnabled)] = EditingEnabled;
         }
          
         return EditingEnabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the EditingInfo property.
     /// </summary>
@@ -1768,21 +1746,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        EditingInfo? result = await JsComponentReference!.InvokeJsMethod<EditingInfo?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        EditingInfo? result = await JsComponentReference!.InvokeAsync<EditingInfo?>("getProperty",
             CancellationTokenSource.Token, "editingInfo");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                EditingInfo = result;
+             EditingInfo = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(EditingInfo)] = EditingInfo;
+             ModifiedParameters[nameof(EditingInfo)] = EditingInfo;
         }
          
         return EditingInfo;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Effect property.
     /// </summary>
@@ -1808,9 +1784,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return Effect;
         }
 
-        Effect? result = await JsComponentReference.InvokeJsMethod<Effect?>(
-            IsServer, nameof(GetEffect), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Effect? result = await JsComponentReference.InvokeAsync<Effect?>(
+            "getEffect", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -1821,9 +1796,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
         
         return Effect;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the EffectiveCapabilities property.
     /// </summary>
@@ -1849,18 +1823,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return EffectiveCapabilities;
         }
 
-        Capabilities? result = await JsComponentReference.InvokeJsMethod<Capabilities?>(
-            IsServer, nameof(GetEffectiveCapabilities), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Capabilities? result = await JsComponentReference.InvokeAsync<Capabilities?>(
+            "getEffectiveCapabilities", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (EffectiveCapabilities is not null)
-            {
-                result.Id = EffectiveCapabilities.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             EffectiveCapabilities = result;
 #pragma warning restore BL0005
@@ -1868,9 +1835,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
         
         return EffectiveCapabilities;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the EffectiveEditingEnabled property.
     /// </summary>
@@ -1897,21 +1863,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "effectiveEditingEnabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "effectiveEditingEnabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                EffectiveEditingEnabled = result;
+             EffectiveEditingEnabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(EffectiveEditingEnabled)] = EffectiveEditingEnabled;
+             ModifiedParameters[nameof(EffectiveEditingEnabled)] = EffectiveEditingEnabled;
         }
          
         return EffectiveEditingEnabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ElevationInfo property.
     /// </summary>
@@ -1937,22 +1901,20 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return ElevationInfo;
         }
 
-        // get the property value
-        ElevationInfo? result = await JsComponentReference!.InvokeJsMethod<ElevationInfo?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "elevationInfo");
+        ElevationInfo? result = await JsComponentReference.InvokeAsync<ElevationInfo?>(
+            "getElevationInfo", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-                ElevationInfo = result;
+            ElevationInfo = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
+            ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
         }
-         
+        
         return ElevationInfo;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureEffect property.
     /// </summary>
@@ -1978,18 +1940,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return FeatureEffect;
         }
 
-        FeatureEffect? result = await JsComponentReference.InvokeJsMethod<FeatureEffect?>(
-            IsServer, nameof(GetFeatureEffect), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        FeatureEffect? result = await JsComponentReference.InvokeAsync<FeatureEffect?>(
+            "getFeatureEffect", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (FeatureEffect is not null)
-            {
-                result.Id = FeatureEffect.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             FeatureEffect = result;
 #pragma warning restore BL0005
@@ -1997,9 +1952,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
         
         return FeatureEffect;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureReduction property.
     /// </summary>
@@ -2026,21 +1980,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        IFeatureReduction? result = await JsComponentReference!.InvokeJsMethod<IFeatureReduction?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        IFeatureReduction? result = await JsComponentReference!.InvokeAsync<IFeatureReduction?>("getProperty",
             CancellationTokenSource.Token, "featureReduction");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                FeatureReduction = result;
+             FeatureReduction = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(FeatureReduction)] = FeatureReduction;
+             ModifiedParameters[nameof(FeatureReduction)] = FeatureReduction;
         }
          
         return FeatureReduction;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Fields property.
     /// </summary>
@@ -2066,16 +2018,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return Fields;
         }
 
-        IReadOnlyList<Field>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Field>?>(
-            IsServer, nameof(GetFields), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<Field>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Field>?>(
+            "getFields", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (Field item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             Fields = result;
 #pragma warning restore BL0005
@@ -2083,9 +2030,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
         
         return Fields;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FieldsIndex property.
     /// </summary>
@@ -2111,9 +2057,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return FieldsIndex;
         }
 
-        FieldsIndex? result = await JsComponentReference.InvokeJsMethod<FieldsIndex?>(
-            IsServer, nameof(GetFieldsIndex), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        FieldsIndex? result = await JsComponentReference.InvokeAsync<FieldsIndex?>(
+            "getFieldsIndex", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -2124,9 +2069,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
         
         return FieldsIndex;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FloorInfo property.
     /// </summary>
@@ -2152,18 +2096,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return FloorInfo;
         }
 
-        LayerFloorInfo? result = await JsComponentReference.InvokeJsMethod<LayerFloorInfo?>(
-            IsServer, nameof(GetFloorInfo), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        LayerFloorInfo? result = await JsComponentReference.InvokeAsync<LayerFloorInfo?>(
+            "getFloorInfo", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (FloorInfo is not null)
-            {
-                result.Id = FloorInfo.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             FloorInfo = result;
 #pragma warning restore BL0005
@@ -2171,9 +2108,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
         
         return FloorInfo;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FormTemplate property.
     /// </summary>
@@ -2200,21 +2136,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        IFormTemplate? result = await JsComponentReference!.InvokeJsMethod<IFormTemplate?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        IFormTemplate? result = await JsComponentReference!.InvokeAsync<IFormTemplate?>("getProperty",
             CancellationTokenSource.Token, "formTemplate");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                FormTemplate = result;
+             FormTemplate = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(FormTemplate)] = FormTemplate;
+             ModifiedParameters[nameof(FormTemplate)] = FormTemplate;
         }
          
         return FormTemplate;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the GdbVersion property.
     /// </summary>
@@ -2241,21 +2175,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "gdbVersion");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                GdbVersion = result;
+             GdbVersion = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(GdbVersion)] = GdbVersion;
+             ModifiedParameters[nameof(GdbVersion)] = GdbVersion;
         }
          
         return GdbVersion;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the GeometryFieldsInfo property.
     /// </summary>
@@ -2282,21 +2214,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        GeometryFieldsInfo? result = await JsComponentReference!.InvokeJsMethod<GeometryFieldsInfo?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        GeometryFieldsInfo? result = await JsComponentReference!.InvokeAsync<GeometryFieldsInfo?>("getProperty",
             CancellationTokenSource.Token, "geometryFieldsInfo");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                GeometryFieldsInfo = result;
+             GeometryFieldsInfo = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(GeometryFieldsInfo)] = GeometryFieldsInfo;
+             ModifiedParameters[nameof(GeometryFieldsInfo)] = GeometryFieldsInfo;
         }
          
         return GeometryFieldsInfo;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the GeometryType property.
     /// </summary>
@@ -2323,21 +2253,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        FeatureGeometryType? result = await JsComponentReference!.InvokeJsMethod<FeatureGeometryType?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "geometryType");
-        if (result is not null)
+        JsNullableEnumWrapper<FeatureGeometryType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<FeatureGeometryType>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "geometryType");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                GeometryType = result;
+             GeometryType = (FeatureGeometryType)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(GeometryType)] = GeometryType;
+             ModifiedParameters[nameof(GeometryType)] = GeometryType;
         }
          
         return GeometryType;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the GlobalIdField property.
     /// </summary>
@@ -2364,21 +2292,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "globalIdField");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                GlobalIdField = result;
+             GlobalIdField = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(GlobalIdField)] = GlobalIdField;
+             ModifiedParameters[nameof(GlobalIdField)] = GlobalIdField;
         }
          
         return GlobalIdField;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the HasM property.
     /// </summary>
@@ -2405,21 +2331,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "hasM");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "hasM");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                HasM = result;
+             HasM = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(HasM)] = HasM;
+             ModifiedParameters[nameof(HasM)] = HasM;
         }
          
         return HasM;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the HasZ property.
     /// </summary>
@@ -2446,21 +2370,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "hasZ");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "hasZ");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                HasZ = result;
+             HasZ = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(HasZ)] = HasZ;
+             ModifiedParameters[nameof(HasZ)] = HasZ;
         }
          
         return HasZ;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the HistoricMoment property.
     /// </summary>
@@ -2487,21 +2409,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        DateTime? result = await JsComponentReference!.InvokeJsMethod<DateTime?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "historicMoment");
-        if (result is not null)
+        JsNullableDateTimeWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDateTimeWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "historicMoment");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                HistoricMoment = result;
+             HistoricMoment = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(HistoricMoment)] = HistoricMoment;
+             ModifiedParameters[nameof(HistoricMoment)] = HistoricMoment;
         }
          
         return HistoricMoment;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsTable property.
     /// </summary>
@@ -2528,21 +2448,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "isTable");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "isTable");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                IsTable = result;
+             IsTable = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(IsTable)] = IsTable;
+             ModifiedParameters[nameof(IsTable)] = IsTable;
         }
          
         return IsTable;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelingInfo property.
     /// </summary>
@@ -2568,16 +2486,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return LabelingInfo;
         }
 
-        IReadOnlyList<Label>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Label>?>(
-            IsServer, nameof(GetLabelingInfo), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<Label>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Label>?>(
+            "getLabelingInfo", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (Label item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             LabelingInfo = result;
 #pragma warning restore BL0005
@@ -2585,9 +2498,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
         
         return LabelingInfo;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelsVisible property.
     /// </summary>
@@ -2614,21 +2526,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "labelsVisible");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "labelsVisible");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                LabelsVisible = result;
+             LabelsVisible = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
+             ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
         }
          
         return LabelsVisible;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LayerIndex property.
     /// </summary>
@@ -2655,21 +2565,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "layerId");
-        if (result is not null)
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "layerIndex");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                LayerIndex = result;
+             LayerIndex = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(LayerIndex)] = LayerIndex;
+             ModifiedParameters[nameof(LayerIndex)] = LayerIndex;
         }
          
         return LayerIndex;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendEnabled property.
     /// </summary>
@@ -2696,21 +2604,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "legendEnabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "legendEnabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                LegendEnabled = result;
+             LegendEnabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
+             ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
         }
          
         return LegendEnabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -2737,21 +2643,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "maxScale");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "maxScale");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MaxScale = result;
+             MaxScale = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MaxScale)] = MaxScale;
+             ModifiedParameters[nameof(MaxScale)] = MaxScale;
         }
          
         return MaxScale;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -2778,21 +2682,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "minScale");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "minScale");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MinScale = result;
+             MinScale = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MinScale)] = MinScale;
+             ModifiedParameters[nameof(MinScale)] = MinScale;
         }
          
         return MinScale;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ObjectIdField property.
     /// </summary>
@@ -2819,21 +2721,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "objectIdField");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                ObjectIdField = result;
+             ObjectIdField = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ObjectIdField)] = ObjectIdField;
+             ModifiedParameters[nameof(ObjectIdField)] = ObjectIdField;
         }
          
         return ObjectIdField;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the OrderBy property.
     /// </summary>
@@ -2859,16 +2759,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return OrderBy;
         }
 
-        IReadOnlyList<OrderByInfo>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<OrderByInfo>?>(
-            IsServer, nameof(GetOrderBy), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<OrderByInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<OrderByInfo>?>(
+            "getOrderBy", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (OrderByInfo item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             OrderBy = result;
 #pragma warning restore BL0005
@@ -2876,9 +2771,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
         
         return OrderBy;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the OutFields property.
     /// </summary>
@@ -2905,21 +2799,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, "outFields");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                OutFields = result;
+             OutFields = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(OutFields)] = OutFields;
+             ModifiedParameters[nameof(OutFields)] = OutFields;
         }
          
         return OutFields;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupEnabled property.
     /// </summary>
@@ -2946,21 +2838,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "popupEnabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "popupEnabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                PopupEnabled = result;
+             PopupEnabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
+             ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
         }
          
         return PopupEnabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupTemplate property.
     /// </summary>
@@ -2986,18 +2876,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return PopupTemplate;
         }
 
-        PopupTemplate? result = await JsComponentReference.InvokeJsMethod<PopupTemplate?>(
-            IsServer, nameof(GetPopupTemplate), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        PopupTemplate? result = await JsComponentReference.InvokeAsync<PopupTemplate?>(
+            "getPopupTemplate", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (PopupTemplate is not null)
-            {
-                result.Id = PopupTemplate.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             PopupTemplate = result;
 #pragma warning restore BL0005
@@ -3005,9 +2888,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
         
         return PopupTemplate;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalItem property.
     /// </summary>
@@ -3033,9 +2915,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return PortalItem;
         }
 
-        PortalItem? result = await JsComponentReference.InvokeJsMethod<PortalItem?>(
-            IsServer, nameof(GetPortalItem), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        PortalItem? result = await JsComponentReference.InvokeAsync<PortalItem?>(
+            "getPortalItem", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -3052,9 +2933,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
         
         return PortalItem;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PreferredTimeZone property.
     /// </summary>
@@ -3081,21 +2961,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "preferredTimeZone");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                PreferredTimeZone = result;
+             PreferredTimeZone = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(PreferredTimeZone)] = PreferredTimeZone;
+             ModifiedParameters[nameof(PreferredTimeZone)] = PreferredTimeZone;
         }
          
         return PreferredTimeZone;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PublishingInfo property.
     /// </summary>
@@ -3122,21 +3000,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        PublishingInfo? result = await JsComponentReference!.InvokeJsMethod<PublishingInfo?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        PublishingInfo? result = await JsComponentReference!.InvokeAsync<PublishingInfo?>("getProperty",
             CancellationTokenSource.Token, "publishingInfo");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                PublishingInfo = result;
+             PublishingInfo = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(PublishingInfo)] = PublishingInfo;
+             ModifiedParameters[nameof(PublishingInfo)] = PublishingInfo;
         }
          
         return PublishingInfo;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the RefreshInterval property.
     /// </summary>
@@ -3163,21 +3039,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "refreshInterval");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "refreshInterval");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                RefreshInterval = result;
+             RefreshInterval = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
+             ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
         }
          
         return RefreshInterval;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Relationships property.
     /// </summary>
@@ -3204,21 +3078,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        IReadOnlyList<Relationship>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<Relationship>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<Relationship>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Relationship>?>("getProperty",
             CancellationTokenSource.Token, "relationships");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Relationships = result;
+             Relationships = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Relationships)] = Relationships;
+             ModifiedParameters[nameof(Relationships)] = Relationships;
         }
          
         return Relationships;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Renderer property.
     /// </summary>
@@ -3244,18 +3116,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return Renderer;
         }
 
-        Renderer? result = await JsComponentReference.InvokeJsMethod<Renderer?>(
-            IsServer, nameof(GetRenderer), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Renderer? result = await JsComponentReference.InvokeAsync<Renderer?>(
+            "getRenderer", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (Renderer is not null)
-            {
-                result.Id = Renderer.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Renderer = result;
 #pragma warning restore BL0005
@@ -3263,9 +3128,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
         
         return Renderer;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ReturnM property.
     /// </summary>
@@ -3292,21 +3156,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "returnM");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "returnM");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ReturnM = result;
+             ReturnM = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ReturnM)] = ReturnM;
+             ModifiedParameters[nameof(ReturnM)] = ReturnM;
         }
          
         return ReturnM;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ReturnZ property.
     /// </summary>
@@ -3333,21 +3195,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "returnZ");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "returnZ");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ReturnZ = result;
+             ReturnZ = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ReturnZ)] = ReturnZ;
+             ModifiedParameters[nameof(ReturnZ)] = ReturnZ;
         }
          
         return ReturnZ;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ScreenSizePerspectiveEnabled property.
     /// </summary>
@@ -3374,21 +3234,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "screenSizePerspectiveEnabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "screenSizePerspectiveEnabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ScreenSizePerspectiveEnabled = result;
+             ScreenSizePerspectiveEnabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ScreenSizePerspectiveEnabled)] = ScreenSizePerspectiveEnabled;
+             ModifiedParameters[nameof(ScreenSizePerspectiveEnabled)] = ScreenSizePerspectiveEnabled;
         }
          
         return ScreenSizePerspectiveEnabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ServiceDefinitionExpression property.
     /// </summary>
@@ -3415,21 +3273,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "serviceDefinitionExpression");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                ServiceDefinitionExpression = result;
+             ServiceDefinitionExpression = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ServiceDefinitionExpression)] = ServiceDefinitionExpression;
+             ModifiedParameters[nameof(ServiceDefinitionExpression)] = ServiceDefinitionExpression;
         }
          
         return ServiceDefinitionExpression;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ServiceItemId property.
     /// </summary>
@@ -3456,21 +3312,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "serviceItemId");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                ServiceItemId = result;
+             ServiceItemId = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ServiceItemId)] = ServiceItemId;
+             ModifiedParameters[nameof(ServiceItemId)] = ServiceItemId;
         }
          
         return ServiceItemId;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
@@ -3497,21 +3351,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                SourceJSON = result;
+             SourceJSON = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
+             ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
         }
          
         return SourceJSON;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -3537,9 +3389,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return SpatialReference;
         }
 
-        SpatialReference? result = await JsComponentReference.InvokeJsMethod<SpatialReference?>(
-            IsServer, nameof(GetSpatialReference), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
+            "getSpatialReference", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -3550,9 +3401,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
         
         return SpatialReference;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SubtypeField property.
     /// </summary>
@@ -3579,21 +3429,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "subtypeField");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                SubtypeField = result;
+             SubtypeField = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SubtypeField)] = SubtypeField;
+             ModifiedParameters[nameof(SubtypeField)] = SubtypeField;
         }
          
         return SubtypeField;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Subtypes property.
     /// </summary>
@@ -3619,9 +3467,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return Subtypes;
         }
 
-        IReadOnlyList<Subtype>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Subtype>?>(
-            IsServer, nameof(GetSubtypes), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<Subtype>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Subtype>?>(
+            "getSubtypes", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -3632,9 +3479,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
         
         return Subtypes;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Templates property.
     /// </summary>
@@ -3661,21 +3507,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        IReadOnlyList<IFeatureTemplate>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<IFeatureTemplate>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<IFeatureTemplate>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<IFeatureTemplate>?>("getProperty",
             CancellationTokenSource.Token, "templates");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Templates = result;
+             Templates = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Templates)] = Templates;
+             ModifiedParameters[nameof(Templates)] = Templates;
         }
          
         return Templates;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeExtent property.
     /// </summary>
@@ -3701,9 +3545,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return TimeExtent;
         }
 
-        TimeExtent? result = await JsComponentReference.InvokeJsMethod<TimeExtent?>(
-            IsServer, nameof(GetTimeExtent), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        TimeExtent? result = await JsComponentReference.InvokeAsync<TimeExtent?>(
+            "getTimeExtent", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -3720,9 +3563,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
         
         return TimeExtent;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeInfo property.
     /// </summary>
@@ -3748,18 +3590,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return TimeInfo;
         }
 
-        TimeInfo? result = await JsComponentReference.InvokeJsMethod<TimeInfo?>(
-            IsServer, nameof(GetTimeInfo), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        TimeInfo? result = await JsComponentReference.InvokeAsync<TimeInfo?>(
+            "getTimeInfo", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (TimeInfo is not null)
-            {
-                result.Id = TimeInfo.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             TimeInfo = result;
 #pragma warning restore BL0005
@@ -3767,9 +3602,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
         
         return TimeInfo;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeOffset property.
     /// </summary>
@@ -3795,18 +3629,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return TimeOffset;
         }
 
-        TimeInterval? result = await JsComponentReference.InvokeJsMethod<TimeInterval?>(
-            IsServer, nameof(GetTimeOffset), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        TimeInterval? result = await JsComponentReference.InvokeAsync<TimeInterval?>(
+            "getTimeOffset", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (TimeOffset is not null)
-            {
-                result.Id = TimeOffset.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             TimeOffset = result;
 #pragma warning restore BL0005
@@ -3814,9 +3641,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
         
         return TimeOffset;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the TrackInfo property.
     /// </summary>
@@ -3842,18 +3668,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return TrackInfo;
         }
 
-        TrackInfo? result = await JsComponentReference.InvokeJsMethod<TrackInfo?>(
-            IsServer, nameof(GetTrackInfo), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        TrackInfo? result = await JsComponentReference.InvokeAsync<TrackInfo?>(
+            "getTrackInfo", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (TrackInfo is not null)
-            {
-                result.Id = TrackInfo.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             TrackInfo = result;
 #pragma warning restore BL0005
@@ -3861,9 +3680,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
         
         return TrackInfo;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the TypeIdField property.
     /// </summary>
@@ -3890,21 +3708,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "typeIdField");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                TypeIdField = result;
+             TypeIdField = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(TypeIdField)] = TypeIdField;
+             ModifiedParameters[nameof(TypeIdField)] = TypeIdField;
         }
          
         return TypeIdField;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Types property.
     /// </summary>
@@ -3930,9 +3746,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return Types;
         }
 
-        IReadOnlyList<FeatureType>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<FeatureType>?>(
-            IsServer, nameof(GetTypes), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<FeatureType>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<FeatureType>?>(
+            "getTypes", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -3943,9 +3758,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
         
         return Types;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the UniqueIdFields property.
     /// </summary>
@@ -3972,21 +3786,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, "uniqueIdFields");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                UniqueIdFields = result;
+             UniqueIdFields = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(UniqueIdFields)] = UniqueIdFields;
+             ModifiedParameters[nameof(UniqueIdFields)] = UniqueIdFields;
         }
          
         return UniqueIdFields;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -4013,21 +3825,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "url");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Url = result;
+             Url = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Url)] = Url;
+             ModifiedParameters[nameof(Url)] = Url;
         }
          
         return Url;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the UseViewTime property.
     /// </summary>
@@ -4054,21 +3864,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "useViewTime");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "useViewTime");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                UseViewTime = result;
+             UseViewTime = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(UseViewTime)] = UseViewTime;
+             ModifiedParameters[nameof(UseViewTime)] = UseViewTime;
         }
          
         return UseViewTime;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Version property.
     /// </summary>
@@ -4095,21 +3903,19 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "version");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "version");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Version = result;
+             Version = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Version)] = Version;
+             ModifiedParameters[nameof(Version)] = Version;
         }
          
         return Version;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -4149,9 +3955,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "apiKey", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the AttributeTableTemplate property after render.
     /// </summary>
@@ -4187,9 +3992,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "attributeTableTemplate", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the BlendMode property after render.
     /// </summary>
@@ -4225,9 +4029,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "blendMode", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Charts property after render.
     /// </summary>
@@ -4263,9 +4066,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "charts", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Copyright property after render.
     /// </summary>
@@ -4301,9 +4103,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "copyright", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the CustomParameters property after render.
     /// </summary>
@@ -4339,9 +4140,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "customParameters", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DateFieldsTimeZone property after render.
     /// </summary>
@@ -4377,9 +4177,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "dateFieldsTimeZone", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DefinitionExpression property after render.
     /// </summary>
@@ -4415,9 +4214,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "definitionExpression", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DisplayField property after render.
     /// </summary>
@@ -4453,9 +4251,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "displayField", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DisplayFilterEnabled property after render.
     /// </summary>
@@ -4491,9 +4288,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "displayFilterEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DisplayFilterInfo property after render.
     /// </summary>
@@ -4502,6 +4298,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </param>
     public async Task SetDisplayFilterInfo(DisplayFilterInfo? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         DisplayFilterInfo = value;
 #pragma warning restore BL0005
@@ -4511,11 +4312,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -4532,12 +4328,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetDisplayFilterInfo), nameof(FeatureLayer),
+        await JsComponentReference.InvokeVoidAsync("setDisplayFilterInfo", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DynamicDataSource property after render.
     /// </summary>
@@ -4573,9 +4367,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "dynamicDataSource", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the EditingEnabled property after render.
     /// </summary>
@@ -4611,9 +4404,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "editingEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ElevationInfo property after render.
     /// </summary>
@@ -4622,6 +4414,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </param>
     public async Task SetElevationInfo(ElevationInfo? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         ElevationInfo = value;
 #pragma warning restore BL0005
@@ -4647,11 +4444,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "elevationInfo", value);
-
+        await JsComponentReference.InvokeVoidAsync("setElevationInfo", 
+            CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the FeatureEffect property after render.
     /// </summary>
@@ -4660,6 +4456,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </param>
     public async Task SetFeatureEffect(FeatureEffect? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         FeatureEffect = value;
 #pragma warning restore BL0005
@@ -4669,11 +4470,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -4690,12 +4486,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetFeatureEffect), nameof(FeatureLayer),
+        await JsComponentReference.InvokeVoidAsync("setFeatureEffect", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Fields property after render.
     /// </summary>
@@ -4704,6 +4498,14 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </param>
     public async Task SetFields(IReadOnlyList<Field>? value)
     {
+        if (value is not null)
+        {
+            foreach (Field item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         Fields = value;
 #pragma warning restore BL0005
@@ -4713,14 +4515,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (Field item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -4737,12 +4531,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetFields), nameof(FeatureLayer),
+        await JsComponentReference.InvokeVoidAsync("setFields", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the FloorInfo property after render.
     /// </summary>
@@ -4751,6 +4543,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </param>
     public async Task SetFloorInfo(LayerFloorInfo? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         FloorInfo = value;
 #pragma warning restore BL0005
@@ -4760,11 +4557,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -4781,12 +4573,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetFloorInfo), nameof(FeatureLayer),
+        await JsComponentReference.InvokeVoidAsync("setFloorInfo", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the FormTemplate property after render.
     /// </summary>
@@ -4822,9 +4612,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "formTemplate", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the GdbVersion property after render.
     /// </summary>
@@ -4860,9 +4649,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "gdbVersion", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the GlobalIdField property after render.
     /// </summary>
@@ -4898,9 +4686,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "globalIdField", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the HasM property after render.
     /// </summary>
@@ -4936,9 +4723,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "hasM", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the HasZ property after render.
     /// </summary>
@@ -4974,9 +4760,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "hasZ", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the HistoricMoment property after render.
     /// </summary>
@@ -5012,9 +4797,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "historicMoment", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LabelingInfo property after render.
     /// </summary>
@@ -5023,6 +4807,14 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </param>
     public async Task SetLabelingInfo(IReadOnlyList<Label>? value)
     {
+        if (value is not null)
+        {
+            foreach (Label item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         LabelingInfo = value;
 #pragma warning restore BL0005
@@ -5032,14 +4824,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (Label item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -5056,12 +4840,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetLabelingInfo), nameof(FeatureLayer),
+        await JsComponentReference.InvokeVoidAsync("setLabelingInfo", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LabelsVisible property after render.
     /// </summary>
@@ -5097,9 +4879,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelsVisible", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LayerIndex property after render.
     /// </summary>
@@ -5135,9 +4916,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layerId", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
@@ -5173,9 +4953,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -5211,9 +4990,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -5249,9 +5027,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the OrderBy property after render.
     /// </summary>
@@ -5260,6 +5037,14 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </param>
     public async Task SetOrderBy(IReadOnlyList<OrderByInfo>? value)
     {
+        if (value is not null)
+        {
+            foreach (OrderByInfo item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         OrderBy = value;
 #pragma warning restore BL0005
@@ -5269,14 +5054,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (OrderByInfo item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -5293,12 +5070,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetOrderBy), nameof(FeatureLayer),
+        await JsComponentReference.InvokeVoidAsync("setOrderBy", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the OutFields property after render.
     /// </summary>
@@ -5334,9 +5109,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outFields", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PersistenceEnabled property after render.
     /// </summary>
@@ -5372,9 +5146,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "persistenceEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
@@ -5410,9 +5183,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PopupTemplate property after render.
     /// </summary>
@@ -5421,6 +5193,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </param>
     public async Task SetPopupTemplate(PopupTemplate? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         PopupTemplate = value;
 #pragma warning restore BL0005
@@ -5430,11 +5207,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -5451,12 +5223,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetPopupTemplate), nameof(FeatureLayer),
+        await JsComponentReference.InvokeVoidAsync("setPopupTemplate", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
@@ -5465,6 +5235,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </param>
     public async Task SetPortalItem(PortalItem? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         PortalItem = value;
 #pragma warning restore BL0005
@@ -5474,11 +5249,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -5495,12 +5265,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetPortalItem), nameof(FeatureLayer),
+        await JsComponentReference.InvokeVoidAsync("setPortalItem", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the RefreshInterval property after render.
     /// </summary>
@@ -5536,9 +5304,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "refreshInterval", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Renderer property after render.
     /// </summary>
@@ -5547,6 +5314,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </param>
     public async Task SetRenderer(Renderer? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Renderer = value;
 #pragma warning restore BL0005
@@ -5556,11 +5328,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -5577,12 +5344,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetRenderer), nameof(FeatureLayer),
+        await JsComponentReference.InvokeVoidAsync("setRenderer", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ReturnM property after render.
     /// </summary>
@@ -5618,9 +5383,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "returnM", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ReturnZ property after render.
     /// </summary>
@@ -5656,9 +5420,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "returnZ", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ScreenSizePerspectiveEnabled property after render.
     /// </summary>
@@ -5694,9 +5457,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "screenSizePerspectiveEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Source property after render.
     /// </summary>
@@ -5705,6 +5467,14 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </param>
     public async Task SetSource(IReadOnlyList<Graphic>? value)
     {
+        if (value is not null)
+        {
+            foreach (Graphic item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         Source = value;
 #pragma warning restore BL0005
@@ -5714,14 +5484,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (Graphic item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -5738,12 +5500,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetSource), nameof(FeatureLayer),
+        await JsComponentReference.InvokeVoidAsync("setSource", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SourceJSON property after render.
     /// </summary>
@@ -5779,9 +5539,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sourceJSON", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SpatialReference property after render.
     /// </summary>
@@ -5790,6 +5549,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </param>
     public async Task SetSpatialReference(SpatialReference? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         SpatialReference = value;
 #pragma warning restore BL0005
@@ -5799,11 +5563,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -5820,12 +5579,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetSpatialReference), nameof(FeatureLayer),
+        await JsComponentReference.InvokeVoidAsync("setSpatialReference", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Templates property after render.
     /// </summary>
@@ -5861,9 +5618,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "templates", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the TimeExtent property after render.
     /// </summary>
@@ -5872,6 +5628,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </param>
     public async Task SetTimeExtent(TimeExtent? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         TimeExtent = value;
 #pragma warning restore BL0005
@@ -5881,11 +5642,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -5902,12 +5658,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetTimeExtent), nameof(FeatureLayer),
+        await JsComponentReference.InvokeVoidAsync("setTimeExtent", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the TimeInfo property after render.
     /// </summary>
@@ -5916,6 +5670,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </param>
     public async Task SetTimeInfo(TimeInfo? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         TimeInfo = value;
 #pragma warning restore BL0005
@@ -5925,11 +5684,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -5946,12 +5700,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetTimeInfo), nameof(FeatureLayer),
+        await JsComponentReference.InvokeVoidAsync("setTimeInfo", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the TimeOffset property after render.
     /// </summary>
@@ -5960,6 +5712,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </param>
     public async Task SetTimeOffset(TimeInterval? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         TimeOffset = value;
 #pragma warning restore BL0005
@@ -5969,11 +5726,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -5990,12 +5742,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetTimeOffset), nameof(FeatureLayer),
+        await JsComponentReference.InvokeVoidAsync("setTimeOffset", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the TrackInfo property after render.
     /// </summary>
@@ -6004,6 +5754,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </param>
     public async Task SetTrackInfo(TrackInfo? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         TrackInfo = value;
 #pragma warning restore BL0005
@@ -6013,11 +5768,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -6034,12 +5784,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetTrackInfo), nameof(FeatureLayer),
+        await JsComponentReference.InvokeVoidAsync("setTrackInfo", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the TypeIdField property after render.
     /// </summary>
@@ -6075,9 +5823,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "typeIdField", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Types property after render.
     /// </summary>
@@ -6111,12 +5858,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetTypes), nameof(FeatureLayer),
+        await JsComponentReference.InvokeVoidAsync("setTypes", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -6152,9 +5897,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the UseViewTime property after render.
     /// </summary>
@@ -6190,9 +5934,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "useViewTime", value);
-
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -6209,7 +5952,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
             ? values
             : [..Charts, ..values];
         await SetCharts(join);
-
     }
     
     /// <summary>
@@ -6224,7 +5966,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
             ? values
             : [..Fields, ..values];
         await SetFields(join);
-
     }
     
     /// <summary>
@@ -6239,7 +5980,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
             ? values
             : [..LabelingInfo, ..values];
         await SetLabelingInfo(join);
-
     }
     
     /// <summary>
@@ -6254,7 +5994,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
             ? values
             : [..OrderBy, ..values];
         await SetOrderBy(join);
-
     }
     
     /// <summary>
@@ -6269,7 +6008,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
             ? values
             : [..OutFields, ..values];
         await SetOutFields(join);
-
     }
     
     /// <summary>
@@ -6284,7 +6022,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
             ? values
             : [..Source, ..values];
         await SetSource(join);
-
     }
     
     /// <summary>
@@ -6299,7 +6036,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
             ? values
             : [..Templates, ..values];
         await SetTemplates(join);
-
     }
     
     /// <summary>
@@ -6314,7 +6050,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
             ? values
             : [..Types, ..values];
         await SetTypes(join);
-
     }
     
 #endregion
@@ -6335,7 +6070,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         await SetCharts(Charts.Except(values).ToArray());
-
     }
     
     
@@ -6352,7 +6086,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         await SetFields(Fields.Except(values).ToArray());
-
     }
     
     
@@ -6369,7 +6102,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         await SetLabelingInfo(LabelingInfo.Except(values).ToArray());
-
     }
     
     
@@ -6386,7 +6118,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         await SetOrderBy(OrderBy.Except(values).ToArray());
-
     }
     
     
@@ -6403,7 +6134,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         await SetOutFields(OutFields.Except(values).ToArray());
-
     }
     
     
@@ -6420,7 +6150,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         await SetSource(Source.Except(values).ToArray());
-
     }
     
     
@@ -6437,7 +6166,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         await SetTemplates(Templates.Except(values).ToArray());
-
     }
     
     
@@ -6454,7 +6182,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         await SetTypes(Types.Except(values).ToArray());
-
     }
     
 #endregion
@@ -6477,7 +6204,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        FeatureLayerEditsEvent? editsEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<FeatureLayerEditsEvent>();
+        FeatureLayerEditsEvent? editsEvent = await jsStreamRef.ReadJsStreamReference<FeatureLayerEditsEvent>();
         if (editsEvent is not null)
         {
             await OnEdits.InvokeAsync(editsEvent);
@@ -6511,7 +6238,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<RefreshEvent>();
+        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReference<RefreshEvent>();
         if (refreshEvent is not null)
         {
             await OnRefresh.InvokeAsync(refreshEvent);
@@ -6762,7 +6489,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 DisplayFilterInfo = null;
                 ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
                 return true;
-            case DynamicLayer:
+            case DynamicLayer _:
                 DynamicDataSource = null;
                 ModifiedParameters[nameof(DynamicDataSource)] = DynamicDataSource;
                 return true;
@@ -6778,7 +6505,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 Fields = Fields?.Where(f => f != fields).ToList();
                 ModifiedParameters[nameof(Fields)] = Fields;
                 return true;
-            case LayerFloorInfo:
+            case LayerFloorInfo _:
                 FloorInfo = null;
                 ModifiedParameters[nameof(FloorInfo)] = FloorInfo;
                 return true;
@@ -6818,7 +6545,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 TimeInfo = null;
                 ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
                 return true;
-            case TimeInterval:
+            case TimeInterval _:
                 TimeOffset = null;
                 ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
                 return true;

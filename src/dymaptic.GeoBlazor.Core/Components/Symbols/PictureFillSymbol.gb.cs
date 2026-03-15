@@ -48,6 +48,14 @@ public partial class PictureFillSymbol : ISymbol2D,
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-PictureFillSymbol.html#yoffset">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="xScale">
+    ///     The scale factor on the x axis of the symbol.
+    ///     Default Value:1
+    /// </param>
+    /// <param name="yScale">
+    ///     The scale factor on the y axis of the symbol.
+    ///     Default Value:1
+    /// </param>
     /// <param name="outline">
     ///     The outline of the polygon.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-FillSymbol.html#outline">ArcGIS Maps SDK for JavaScript</a>
@@ -63,6 +71,8 @@ public partial class PictureFillSymbol : ISymbol2D,
         Dimension? height = null,
         Dimension? xoffset = null,
         Dimension? yoffset = null,
+        double? xScale = null,
+        double? yScale = null,
         Outline? outline = null,
         MapColor? color = null)
     {
@@ -73,9 +83,11 @@ public partial class PictureFillSymbol : ISymbol2D,
         Height = height;
         Xoffset = xoffset;
         Yoffset = yoffset;
+        XScale = xScale;
+        YScale = yScale;
         Outline = outline;
         Color = color;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -144,21 +156,19 @@ public partial class PictureFillSymbol : ISymbol2D,
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PictureFillSymbol), View?.QueryResultsMaxSizeLimit,
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, "height");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Height = result;
+             Height = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Height)] = Height;
+             ModifiedParameters[nameof(Height)] = Height;
         }
          
         return Height;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -185,21 +195,19 @@ public partial class PictureFillSymbol : ISymbol2D,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PictureFillSymbol), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "url");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Url = result;
+             Url = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Url)] = Url;
+             ModifiedParameters[nameof(Url)] = Url;
         }
          
         return Url;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Width property.
     /// </summary>
@@ -226,21 +234,19 @@ public partial class PictureFillSymbol : ISymbol2D,
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PictureFillSymbol), View?.QueryResultsMaxSizeLimit,
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, "width");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Width = result;
+             Width = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Width)] = Width;
+             ModifiedParameters[nameof(Width)] = Width;
         }
          
         return Width;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Xoffset property.
     /// </summary>
@@ -267,21 +273,19 @@ public partial class PictureFillSymbol : ISymbol2D,
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PictureFillSymbol), View?.QueryResultsMaxSizeLimit,
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, "xoffset");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Xoffset = result;
+             Xoffset = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Xoffset)] = Xoffset;
+             ModifiedParameters[nameof(Xoffset)] = Xoffset;
         }
          
         return Xoffset;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Xscale property.
     /// </summary>
@@ -308,21 +312,19 @@ public partial class PictureFillSymbol : ISymbol2D,
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PictureFillSymbol), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "xscale");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "xscale");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Xscale = result;
+             Xscale = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Xscale)] = Xscale;
+             ModifiedParameters[nameof(Xscale)] = Xscale;
         }
          
         return Xscale;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Yoffset property.
     /// </summary>
@@ -349,21 +351,19 @@ public partial class PictureFillSymbol : ISymbol2D,
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PictureFillSymbol), View?.QueryResultsMaxSizeLimit,
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, "yoffset");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Yoffset = result;
+             Yoffset = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Yoffset)] = Yoffset;
+             ModifiedParameters[nameof(Yoffset)] = Yoffset;
         }
          
         return Yoffset;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Yscale property.
     /// </summary>
@@ -390,21 +390,19 @@ public partial class PictureFillSymbol : ISymbol2D,
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PictureFillSymbol), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "yscale");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "yscale");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Yscale = result;
+             Yscale = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Yscale)] = Yscale;
+             ModifiedParameters[nameof(Yscale)] = Yscale;
         }
          
         return Yscale;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -444,9 +442,8 @@ public partial class PictureFillSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "height", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -482,9 +479,8 @@ public partial class PictureFillSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Width property after render.
     /// </summary>
@@ -520,9 +516,8 @@ public partial class PictureFillSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "width", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Xoffset property after render.
     /// </summary>
@@ -558,9 +553,8 @@ public partial class PictureFillSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "xoffset", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Xscale property after render.
     /// </summary>
@@ -596,9 +590,8 @@ public partial class PictureFillSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "xscale", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Yoffset property after render.
     /// </summary>
@@ -634,9 +627,8 @@ public partial class PictureFillSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "yoffset", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Yscale property after render.
     /// </summary>
@@ -672,9 +664,8 @@ public partial class PictureFillSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "yscale", value);
-
     }
-
+    
 #endregion
 
     /// <inheritdoc />

@@ -34,7 +34,7 @@ public partial record FeatureEditOptions(
     bool? RollbackOnFailureEnabled = null)
 {
     /// <summary>
-    ///     Parameterless Constructor
+    ///     Parameterless constructor
     /// </summary>
     public FeatureEditOptions(): this(null, null)
     {

@@ -92,7 +92,7 @@ public partial record RelationshipQuery(
     string? Where = null)
 {
     /// <summary>
-    ///     Parameterless Constructor
+    ///     Parameterless constructor
     /// </summary>
     public RelationshipQuery(): this(null, null)
     {

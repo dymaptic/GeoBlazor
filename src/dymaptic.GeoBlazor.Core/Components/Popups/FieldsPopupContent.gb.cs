@@ -24,7 +24,7 @@ public partial class FieldsPopupContent
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="fieldInfos">
-    ///     Array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">fieldInfos</a>.
+    ///     Array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">`fieldInfos`</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-FieldsContent.html#fieldInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="description">
@@ -45,7 +45,7 @@ public partial class FieldsPopupContent
         FieldInfos = fieldInfos;
         Description = description;
         Title = title;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -53,7 +53,7 @@ public partial class FieldsPopupContent
 
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.FieldsPopupContent.html#fieldspopupcontentfieldinfos-property">GeoBlazor Docs</a>
-    ///     Array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">fieldInfos</a>.
+    ///     Array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">`fieldInfos`</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-FieldsContent.html#fieldInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -91,21 +91,19 @@ public partial class FieldsPopupContent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FieldsPopupContent), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "description");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Description = result;
+             Description = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Description)] = Description;
+             ModifiedParameters[nameof(Description)] = Description;
         }
          
         return Description;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FieldInfos property.
     /// </summary>
@@ -131,16 +129,11 @@ public partial class FieldsPopupContent
             return FieldInfos;
         }
 
-        IReadOnlyList<FieldInfo>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<FieldInfo>?>(
-            IsServer, nameof(GetFieldInfos), nameof(FieldsPopupContent), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<FieldInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<FieldInfo>?>(
+            "getFieldInfos", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (FieldInfo item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             FieldInfos = result;
 #pragma warning restore BL0005
@@ -148,9 +141,8 @@ public partial class FieldsPopupContent
         }
         
         return FieldInfos;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -177,21 +169,19 @@ public partial class FieldsPopupContent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FieldsPopupContent), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Title = result;
+             Title = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Title)] = Title;
+             ModifiedParameters[nameof(Title)] = Title;
         }
          
         return Title;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -231,9 +221,8 @@ public partial class FieldsPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "description", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the FieldInfos property after render.
     /// </summary>
@@ -242,6 +231,14 @@ public partial class FieldsPopupContent
     /// </param>
     public async Task SetFieldInfos(IReadOnlyList<FieldInfo>? value)
     {
+        if (value is not null)
+        {
+            foreach (FieldInfo item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         FieldInfos = value;
 #pragma warning restore BL0005
@@ -251,14 +248,6 @@ public partial class FieldsPopupContent
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (FieldInfo item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -277,9 +266,8 @@ public partial class FieldsPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fieldInfos", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -315,9 +303,8 @@ public partial class FieldsPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
-
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -334,7 +321,6 @@ public partial class FieldsPopupContent
             ? values
             : [..FieldInfos, ..values];
         await SetFieldInfos(join);
-
     }
     
 #endregion
@@ -355,7 +341,6 @@ public partial class FieldsPopupContent
             return;
         }
         await SetFieldInfos(FieldInfos.Except(values).ToArray());
-
     }
     
 #endregion

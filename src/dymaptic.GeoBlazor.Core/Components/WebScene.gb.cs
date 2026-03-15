@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html">GeoBlazor Docs</a>
 ///     The web scene is the core element of 3D mapping across ArcGIS.
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class WebScene : IMapComponent
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -70,7 +72,8 @@ public partial class WebScene : IMapComponent
     ///     The widgets object contains widgets that are exposed to the user.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#widgets">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public WebScene(WebsceneApplicationProperties? applicationProperties = null,
+    public WebScene(
+        WebsceneApplicationProperties? applicationProperties = null,
         string? authoringApp = null,
         string? authoringAppVersion = null,
         Extent? clippingArea = null,
@@ -97,69 +100,10 @@ public partial class WebScene : IMapComponent
         Presentation = presentation;
         ThumbnailUrl = thumbnailUrl;
         Widgets = widgets;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        if (PortalItem is null)
-        {
-            throw new MissingRequiredChildElementException(nameof(WebScene), nameof(PortalItem));
-        }
-
-        ClippingArea?.ValidateRequiredGeneratedChildren();
-        Widgets?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Extent clippingArea:
-                if (clippingArea != ClippingArea)
-                {
-                    ClippingArea = clippingArea;
-                    ModifiedParameters[nameof(ClippingArea)] = ClippingArea;
-                }
-
-                return true;
-            case WebSceneWidgets widgets:
-                if (widgets != Widgets)
-                {
-                    Widgets = widgets;
-                    ModifiedParameters[nameof(Widgets)] = Widgets;
-                }
-
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Extent _:
-                ClippingArea = null;
-                ModifiedParameters[nameof(ClippingArea)] = ClippingArea;
-
-                return true;
-            case WebSceneWidgets _:
-                Widgets = null;
-                ModifiedParameters[nameof(Widgets)] = Widgets;
-
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -170,7 +114,7 @@ public partial class WebScene : IMapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public WebsceneApplicationProperties? ApplicationProperties { get; set; }
-
+    
     /// <summary>
     ///     The name of the application that authored the WebScene.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#authoringApp">ArcGIS Maps SDK for JavaScript</a>
@@ -179,7 +123,7 @@ public partial class WebScene : IMapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? AuthoringApp { get; set; }
-
+    
     /// <summary>
     ///     The version of the application that authored the WebScene.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#authoringAppVersion">ArcGIS Maps SDK for JavaScript</a>
@@ -188,7 +132,7 @@ public partial class WebScene : IMapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? AuthoringAppVersion { get; set; }
-
+    
     /// <summary>
     ///     This property only applies to local scenes. Represents an optional clipping area used to define the bounds or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">Extent</a> of a local scene.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#clippingArea">ArcGIS Maps SDK for JavaScript</a>
@@ -197,7 +141,7 @@ public partial class WebScene : IMapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Extent? ClippingArea { get; set; }
-
+    
     /// <summary>
     ///     This property only applies to local scenes. Determines whether clipping using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#clippingArea">clippingArea</a> is enabled.
     ///     default false
@@ -207,7 +151,7 @@ public partial class WebScene : IMapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ClippingEnabled { get; set; }
-
+    
     /// <summary>
     ///     When a web scene is configured as floor-aware, it has a floorInfo property defined.
     ///     default null
@@ -217,7 +161,7 @@ public partial class WebScene : IMapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MapFloorInfo? FloorInfo { get; set; }
-
+    
     /// <summary>
     ///     The height model info of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">WebScene</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#heightModelInfo">ArcGIS Maps SDK for JavaScript</a>
@@ -226,7 +170,7 @@ public partial class WebScene : IMapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public HeightModelInfo? HeightModelInfo { get; set; }
-
+    
     /// <summary>
     ///     The initial view of the WebScene.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#initialViewProperties">ArcGIS Maps SDK for JavaScript</a>
@@ -235,7 +179,7 @@ public partial class WebScene : IMapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public WebsceneInitialViewProperties? InitialViewProperties { get; set; }
-
+    
     /// <summary>
     ///     Indicates whether the instance has loaded.
     ///     default false
@@ -245,7 +189,7 @@ public partial class WebScene : IMapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? Loaded { get; protected set; }
-
+    
     /// <summary>
     ///     The Error object returned if an error occurred while loading.
     ///     default null
@@ -255,7 +199,7 @@ public partial class WebScene : IMapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public Error? LoadError { get; protected set; }
-
+    
     /// <summary>
     ///     Represents the status of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#load">load</a> operation.
     ///     default not-loaded
@@ -265,7 +209,7 @@ public partial class WebScene : IMapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public LoadStatus? LoadStatus { get; protected set; }
-
+    
     /// <summary>
     ///     Provides a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of slides that act as bookmarks for saving predefined <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">viewpoints</a> and visible layers.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#presentation">ArcGIS Maps SDK for JavaScript</a>
@@ -274,7 +218,7 @@ public partial class WebScene : IMapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IPresentation? Presentation { get; set; }
-
+    
     /// <summary>
     ///     The version of the source document from which the WebScene was read.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#sourceVersion">ArcGIS Maps SDK for JavaScript</a>
@@ -283,7 +227,7 @@ public partial class WebScene : IMapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public WebSceneSourceVersion? SourceVersion { get; protected set; }
-
+    
     /// <summary>
     ///     The URL to the thumbnail used for the web scene.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#thumbnailUrl">ArcGIS Maps SDK for JavaScript</a>
@@ -292,7 +236,7 @@ public partial class WebScene : IMapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ThumbnailUrl { get; set; }
-
+    
     /// <summary>
     ///     The widgets object contains widgets that are exposed to the user.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#widgets">ArcGIS Maps SDK for JavaScript</a>
@@ -301,9 +245,8 @@ public partial class WebScene : IMapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public WebSceneWidgets? Widgets { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -316,8 +259,8 @@ public partial class WebScene : IMapComponent
         {
             return ApplicationProperties;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -326,7 +269,7 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ApplicationProperties;
@@ -334,7 +277,7 @@ public partial class WebScene : IMapComponent
 
         WebsceneApplicationProperties? result = await JsComponentReference.InvokeAsync<WebsceneApplicationProperties?>(
             "getApplicationProperties", CancellationTokenSource.Token);
-
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -342,10 +285,10 @@ public partial class WebScene : IMapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ApplicationProperties)] = ApplicationProperties;
         }
-
+        
         return ApplicationProperties;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the AuthoringApp property.
     /// </summary>
@@ -355,8 +298,8 @@ public partial class WebScene : IMapComponent
         {
             return AuthoringApp;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -365,7 +308,7 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return AuthoringApp;
@@ -374,18 +317,17 @@ public partial class WebScene : IMapComponent
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "authoringApp");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            AuthoringApp = result;
+             AuthoringApp = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(AuthoringApp)] = AuthoringApp;
+             ModifiedParameters[nameof(AuthoringApp)] = AuthoringApp;
         }
-
+         
         return AuthoringApp;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the AuthoringAppVersion property.
     /// </summary>
@@ -395,8 +337,8 @@ public partial class WebScene : IMapComponent
         {
             return AuthoringAppVersion;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -405,7 +347,7 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return AuthoringAppVersion;
@@ -414,18 +356,17 @@ public partial class WebScene : IMapComponent
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "authoringAppVersion");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            AuthoringAppVersion = result;
+             AuthoringAppVersion = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(AuthoringAppVersion)] = AuthoringAppVersion;
+             ModifiedParameters[nameof(AuthoringAppVersion)] = AuthoringAppVersion;
         }
-
+         
         return AuthoringAppVersion;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ClippingArea property.
     /// </summary>
@@ -435,8 +376,8 @@ public partial class WebScene : IMapComponent
         {
             return ClippingArea;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -445,7 +386,7 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ClippingArea;
@@ -453,23 +394,23 @@ public partial class WebScene : IMapComponent
 
         Extent? result = await JsComponentReference.InvokeAsync<Extent?>(
             "getClippingArea", CancellationTokenSource.Token);
-
+        
         if (result is not null)
         {
             if (ClippingArea is not null)
             {
                 result.Id = ClippingArea.Id;
             }
-
+            
 #pragma warning disable BL0005
             ClippingArea = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ClippingArea)] = ClippingArea;
         }
-
+        
         return ClippingArea;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ClippingEnabled property.
     /// </summary>
@@ -479,8 +420,8 @@ public partial class WebScene : IMapComponent
         {
             return ClippingEnabled;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -489,28 +430,26 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ClippingEnabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "clippingEnabled");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            ClippingEnabled = result.Value.Value;
+             ClippingEnabled = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ClippingEnabled)] = ClippingEnabled;
+             ModifiedParameters[nameof(ClippingEnabled)] = ClippingEnabled;
         }
-
+         
         return ClippingEnabled;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FloorInfo property.
     /// </summary>
@@ -520,8 +459,8 @@ public partial class WebScene : IMapComponent
         {
             return FloorInfo;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -530,7 +469,7 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return FloorInfo;
@@ -538,7 +477,7 @@ public partial class WebScene : IMapComponent
 
         MapFloorInfo? result = await JsComponentReference.InvokeAsync<MapFloorInfo?>(
             "getFloorInfo", CancellationTokenSource.Token);
-
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -546,10 +485,10 @@ public partial class WebScene : IMapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(FloorInfo)] = FloorInfo;
         }
-
+        
         return FloorInfo;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the HeightModelInfo property.
     /// </summary>
@@ -559,8 +498,8 @@ public partial class WebScene : IMapComponent
         {
             return HeightModelInfo;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -569,7 +508,7 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return HeightModelInfo;
@@ -577,7 +516,7 @@ public partial class WebScene : IMapComponent
 
         HeightModelInfo? result = await JsComponentReference.InvokeAsync<HeightModelInfo?>(
             "getHeightModelInfo", CancellationTokenSource.Token);
-
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -585,10 +524,10 @@ public partial class WebScene : IMapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(HeightModelInfo)] = HeightModelInfo;
         }
-
+        
         return HeightModelInfo;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the InitialViewProperties property.
     /// </summary>
@@ -598,8 +537,8 @@ public partial class WebScene : IMapComponent
         {
             return InitialViewProperties;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -608,7 +547,7 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return InitialViewProperties;
@@ -616,7 +555,7 @@ public partial class WebScene : IMapComponent
 
         WebsceneInitialViewProperties? result = await JsComponentReference.InvokeAsync<WebsceneInitialViewProperties?>(
             "getInitialViewProperties", CancellationTokenSource.Token);
-
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -624,10 +563,10 @@ public partial class WebScene : IMapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(InitialViewProperties)] = InitialViewProperties;
         }
-
+        
         return InitialViewProperties;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Loaded property.
     /// </summary>
@@ -637,8 +576,8 @@ public partial class WebScene : IMapComponent
         {
             return Loaded;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -647,28 +586,26 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Loaded;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "loaded");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            Loaded = result.Value.Value;
+             Loaded = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Loaded)] = Loaded;
+             ModifiedParameters[nameof(Loaded)] = Loaded;
         }
-
+         
         return Loaded;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LoadError property.
     /// </summary>
@@ -678,8 +615,8 @@ public partial class WebScene : IMapComponent
         {
             return LoadError;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -688,7 +625,7 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return LoadError;
@@ -697,18 +634,17 @@ public partial class WebScene : IMapComponent
         // get the property value
         Error? result = await JsComponentReference!.InvokeAsync<Error?>("getProperty",
             CancellationTokenSource.Token, "loadError");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            LoadError = result;
+             LoadError = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(LoadError)] = LoadError;
+             ModifiedParameters[nameof(LoadError)] = LoadError;
         }
-
+         
         return LoadError;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LoadStatus property.
     /// </summary>
@@ -718,8 +654,8 @@ public partial class WebScene : IMapComponent
         {
             return LoadStatus;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -728,28 +664,26 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return LoadStatus;
         }
 
         // get the property value
-        JsNullableEnumWrapper<LoadStatus>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LoadStatus>?>(
-            "getNullableValueTypedProperty",
+        JsNullableEnumWrapper<LoadStatus>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LoadStatus>?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "loadStatus");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            LoadStatus = (LoadStatus)result.Value.Value!;
+             LoadStatus = (LoadStatus)result.Value.Value!;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(LoadStatus)] = LoadStatus;
+             ModifiedParameters[nameof(LoadStatus)] = LoadStatus;
         }
-
+         
         return LoadStatus;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Presentation property.
     /// </summary>
@@ -759,8 +693,8 @@ public partial class WebScene : IMapComponent
         {
             return Presentation;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -769,7 +703,7 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Presentation;
@@ -777,7 +711,7 @@ public partial class WebScene : IMapComponent
 
         IPresentation? result = await JsComponentReference.InvokeAsync<IPresentation?>(
             "getPresentation", CancellationTokenSource.Token);
-
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -785,10 +719,10 @@ public partial class WebScene : IMapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Presentation)] = Presentation;
         }
-
+        
         return Presentation;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceVersion property.
     /// </summary>
@@ -798,8 +732,8 @@ public partial class WebScene : IMapComponent
         {
             return SourceVersion;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -808,7 +742,7 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return SourceVersion;
@@ -817,18 +751,17 @@ public partial class WebScene : IMapComponent
         // get the property value
         WebSceneSourceVersion? result = await JsComponentReference!.InvokeAsync<WebSceneSourceVersion?>("getProperty",
             CancellationTokenSource.Token, "sourceVersion");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            SourceVersion = result;
+             SourceVersion = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SourceVersion)] = SourceVersion;
+             ModifiedParameters[nameof(SourceVersion)] = SourceVersion;
         }
-
+         
         return SourceVersion;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ThumbnailUrl property.
     /// </summary>
@@ -838,8 +771,8 @@ public partial class WebScene : IMapComponent
         {
             return ThumbnailUrl;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -848,7 +781,7 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return ThumbnailUrl;
@@ -857,18 +790,17 @@ public partial class WebScene : IMapComponent
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "thumbnailUrl");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            ThumbnailUrl = result;
+             ThumbnailUrl = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ThumbnailUrl)] = ThumbnailUrl;
+             ModifiedParameters[nameof(ThumbnailUrl)] = ThumbnailUrl;
         }
-
+         
         return ThumbnailUrl;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Widgets property.
     /// </summary>
@@ -878,8 +810,8 @@ public partial class WebScene : IMapComponent
         {
             return Widgets;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -888,15 +820,15 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Widgets;
         }
 
-        WebSceneWidgets? result =
-            await JsComponentReference.InvokeAsync<WebSceneWidgets?>("getWidgets", CancellationTokenSource.Token);
-
+        WebSceneWidgets? result = await JsComponentReference.InvokeAsync<WebSceneWidgets?>(
+            "getWidgets", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -904,12 +836,11 @@ public partial class WebScene : IMapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(Widgets)] = Widgets;
         }
-
+        
         return Widgets;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -925,13 +856,13 @@ public partial class WebScene : IMapComponent
         ApplicationProperties = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ApplicationProperties)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -940,16 +871,16 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setApplicationProperties",
+        
+        await JsComponentReference.InvokeVoidAsync("setApplicationProperties", 
             CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the AuthoringApp property after render.
     /// </summary>
@@ -962,13 +893,13 @@ public partial class WebScene : IMapComponent
         AuthoringApp = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(AuthoringApp)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -977,16 +908,16 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "authoringApp", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the AuthoringAppVersion property after render.
     /// </summary>
@@ -999,13 +930,13 @@ public partial class WebScene : IMapComponent
         AuthoringAppVersion = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(AuthoringAppVersion)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1014,16 +945,16 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "authoringAppVersion", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ClippingArea property after render.
     /// </summary>
@@ -1034,23 +965,23 @@ public partial class WebScene : IMapComponent
     {
         if (value is not null)
         {
-            value.CoreJsModule = CoreJsModule;
+            value.CoreJsModule  = CoreJsModule;
             value.Parent = this;
             value.Layer = Layer;
             value.View = View;
-        }
-
+        } 
+        
 #pragma warning disable BL0005
         ClippingArea = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ClippingArea)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1059,16 +990,16 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setClippingArea",
+        
+        await JsComponentReference.InvokeVoidAsync("setClippingArea", 
             CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ClippingEnabled property after render.
     /// </summary>
@@ -1081,13 +1012,13 @@ public partial class WebScene : IMapComponent
         ClippingEnabled = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ClippingEnabled)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1096,16 +1027,16 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "clippingEnabled", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the FloorInfo property after render.
     /// </summary>
@@ -1118,13 +1049,13 @@ public partial class WebScene : IMapComponent
         FloorInfo = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(FloorInfo)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1133,16 +1064,16 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setFloorInfo",
+        
+        await JsComponentReference.InvokeVoidAsync("setFloorInfo", 
             CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the HeightModelInfo property after render.
     /// </summary>
@@ -1155,13 +1086,13 @@ public partial class WebScene : IMapComponent
         HeightModelInfo = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(HeightModelInfo)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1170,16 +1101,16 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setHeightModelInfo",
+        
+        await JsComponentReference.InvokeVoidAsync("setHeightModelInfo", 
             CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the InitialViewProperties property after render.
     /// </summary>
@@ -1192,13 +1123,13 @@ public partial class WebScene : IMapComponent
         InitialViewProperties = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(InitialViewProperties)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1207,16 +1138,16 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setInitialViewProperties",
+        
+        await JsComponentReference.InvokeVoidAsync("setInitialViewProperties", 
             CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Presentation property after render.
     /// </summary>
@@ -1229,13 +1160,13 @@ public partial class WebScene : IMapComponent
         Presentation = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Presentation)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1244,16 +1175,16 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setPresentation",
+        
+        await JsComponentReference.InvokeVoidAsync("setPresentation", 
             CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ThumbnailUrl property after render.
     /// </summary>
@@ -1266,13 +1197,13 @@ public partial class WebScene : IMapComponent
         ThumbnailUrl = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ThumbnailUrl)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1281,16 +1212,16 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "thumbnailUrl", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Widgets property after render.
     /// </summary>
@@ -1301,23 +1232,23 @@ public partial class WebScene : IMapComponent
     {
         if (value is not null)
         {
-            value.CoreJsModule = CoreJsModule;
+            value.CoreJsModule  = CoreJsModule;
             value.Parent = this;
             value.Layer = Layer;
             value.View = View;
-        }
-
+        } 
+        
 #pragma warning disable BL0005
         Widgets = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Widgets)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -1326,18 +1257,17 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
-        await JsComponentReference.InvokeVoidAsync("setWidgets",
+        
+        await JsComponentReference.InvokeVoidAsync("setWidgets", 
             CancellationTokenSource.Token, value);
     }
-
+    
 #endregion
-
 
 #region Public Methods
 
@@ -1352,7 +1282,7 @@ public partial class WebScene : IMapComponent
         {
             return null;
         }
-
+        
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -1362,16 +1292,17 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
-        return await JsComponentReference!.InvokeAsync<object?>("load",
+        
+        return await JsComponentReference!.InvokeAsync<object?>(
+            "load", 
             CancellationTokenSource.Token);
     }
-
+    
     /// <summary>
     ///     Loads all the externally loadable resources associated with the webscene.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#loadAll">ArcGIS Maps SDK for JavaScript</a>
@@ -1383,7 +1314,7 @@ public partial class WebScene : IMapComponent
         {
             return null;
         }
-
+        
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -1393,16 +1324,17 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
-        return await JsComponentReference!.InvokeAsync<WebScene?>("loadAll",
+        
+        return await JsComponentReference!.InvokeAsync<WebScene?>(
+            "loadAll", 
             CancellationTokenSource.Token);
     }
-
+    
     /// <summary>
     ///     Saves the webscene to its associated portal item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#save">ArcGIS Maps SDK for JavaScript</a>
@@ -1417,7 +1349,7 @@ public partial class WebScene : IMapComponent
         {
             return null;
         }
-
+        
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -1427,17 +1359,18 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
-        return await JsComponentReference!.InvokeAsync<PortalItem?>("save",
+        
+        return await JsComponentReference!.InvokeAsync<PortalItem?>(
+            "save", 
             CancellationTokenSource.Token,
             options);
     }
-
+    
     /// <summary>
     ///     Saves the webscene to a new portal item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#saveAs">ArcGIS Maps SDK for JavaScript</a>
@@ -1456,7 +1389,7 @@ public partial class WebScene : IMapComponent
         {
             return null;
         }
-
+        
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -1466,18 +1399,19 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
-        return await JsComponentReference!.InvokeAsync<PortalItem?>("saveAs",
+        
+        return await JsComponentReference!.InvokeAsync<PortalItem?>(
+            "saveAs", 
             CancellationTokenSource.Token,
             portalItem,
             options);
     }
-
+    
     /// <summary>
     ///     Update properties of the WebScene related to the view.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#updateFrom">ArcGIS Maps SDK for JavaScript</a>
@@ -1496,7 +1430,7 @@ public partial class WebScene : IMapComponent
         {
             return null;
         }
-
+        
         try
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -1506,17 +1440,77 @@ public partial class WebScene : IMapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return null;
         }
-
-        return await JsComponentReference!.InvokeAsync<object?>("updateFrom",
+        
+        return await JsComponentReference!.InvokeAsync<object?>(
+            "updateFrom", 
             CancellationTokenSource.Token,
             view,
             options);
     }
-
+    
 #endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Extent clippingArea:
+                if (clippingArea != ClippingArea)
+                {
+                    ClippingArea = clippingArea;
+                    ModifiedParameters[nameof(ClippingArea)] = ClippingArea;
+                }
+                
+                return true;
+            case WebSceneWidgets widgets:
+                if (widgets != Widgets)
+                {
+                    Widgets = widgets;
+                    ModifiedParameters[nameof(Widgets)] = Widgets;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Extent _:
+                ClippingArea = null;
+                ModifiedParameters[nameof(ClippingArea)] = ClippingArea;
+                return true;
+            case WebSceneWidgets _:
+                Widgets = null;
+                ModifiedParameters[nameof(Widgets)] = Widgets;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        if (PortalItem is null)
+        {
+            throw new MissingRequiredChildElementException(nameof(WebScene), nameof(PortalItem));
+        }
+        ClippingArea?.ValidateRequiredGeneratedChildren();
+        Widgets?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

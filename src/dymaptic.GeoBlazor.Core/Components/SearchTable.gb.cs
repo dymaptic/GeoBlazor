@@ -38,7 +38,7 @@ public partial class SearchTable : MapComponent
 #pragma warning disable BL0005
         Field = field;
         SearchTableId = searchTableId;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -93,18 +93,11 @@ public partial class SearchTable : MapComponent
             return Field;
         }
 
-        SearchTableField? result = await JsComponentReference.InvokeJsMethod<SearchTableField?>(
-            IsServer, nameof(GetField), nameof(SearchTable), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        SearchTableField? result = await JsComponentReference.InvokeAsync<SearchTableField?>(
+            "getField", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (Field is not null)
-            {
-                result.Id = Field.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Field = result;
 #pragma warning restore BL0005
@@ -112,9 +105,8 @@ public partial class SearchTable : MapComponent
         }
         
         return Field;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SearchTableId property.
     /// </summary>
@@ -141,21 +133,19 @@ public partial class SearchTable : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchTable), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "id");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                SearchTableId = result;
+             SearchTableId = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SearchTableId)] = SearchTableId;
+             ModifiedParameters[nameof(SearchTableId)] = SearchTableId;
         }
          
         return SearchTableId;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -168,6 +158,11 @@ public partial class SearchTable : MapComponent
     /// </param>
     public async Task SetField(SearchTableField? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Field = value;
 #pragma warning restore BL0005
@@ -177,11 +172,6 @@ public partial class SearchTable : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -200,9 +190,8 @@ public partial class SearchTable : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SearchTableId property after render.
     /// </summary>
@@ -238,9 +227,8 @@ public partial class SearchTable : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
-
     }
-
+    
 #endregion
 
 
@@ -267,7 +255,7 @@ public partial class SearchTable : MapComponent
     {
         switch (child)
         {
-            case SearchTableField:
+            case SearchTableField _:
                 Field = null;
                 ModifiedParameters[nameof(Field)] = Field;
                 return true;

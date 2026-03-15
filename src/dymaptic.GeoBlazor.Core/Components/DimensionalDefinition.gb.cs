@@ -52,7 +52,7 @@ public partial class DimensionalDefinition
         IsSlice = isSlice;
         VariableName = variableName;
         Values = values;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -84,21 +84,19 @@ public partial class DimensionalDefinition
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DimensionalDefinition), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "dimensionName");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                DimensionName = result;
+             DimensionName = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(DimensionName)] = DimensionName;
+             ModifiedParameters[nameof(DimensionName)] = DimensionName;
         }
          
         return DimensionName;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsSlice property.
     /// </summary>
@@ -125,21 +123,19 @@ public partial class DimensionalDefinition
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DimensionalDefinition), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "isSlice");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "isSlice");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                IsSlice = result;
+             IsSlice = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(IsSlice)] = IsSlice;
+             ModifiedParameters[nameof(IsSlice)] = IsSlice;
         }
          
         return IsSlice;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Values property.
     /// </summary>
@@ -166,21 +162,19 @@ public partial class DimensionalDefinition
         }
 
         // get the property value
-        DimensionalDefinitionValues? result = await JsComponentReference!.InvokeJsMethod<DimensionalDefinitionValues?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DimensionalDefinition), View?.QueryResultsMaxSizeLimit,
+        DimensionalDefinitionValues? result = await JsComponentReference!.InvokeAsync<DimensionalDefinitionValues?>("getProperty",
             CancellationTokenSource.Token, "values");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Values = result;
+             Values = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Values)] = Values;
+             ModifiedParameters[nameof(Values)] = Values;
         }
          
         return Values;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the VariableName property.
     /// </summary>
@@ -207,21 +201,19 @@ public partial class DimensionalDefinition
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DimensionalDefinition), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "variableName");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                VariableName = result;
+             VariableName = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(VariableName)] = VariableName;
+             ModifiedParameters[nameof(VariableName)] = VariableName;
         }
          
         return VariableName;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -261,9 +253,8 @@ public partial class DimensionalDefinition
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "dimensionName", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the IsSlice property after render.
     /// </summary>
@@ -299,9 +290,8 @@ public partial class DimensionalDefinition
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "isSlice", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Values property after render.
     /// </summary>
@@ -337,9 +327,8 @@ public partial class DimensionalDefinition
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "values", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the VariableName property after render.
     /// </summary>
@@ -375,9 +364,8 @@ public partial class DimensionalDefinition
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "variableName", value);
-
     }
-
+    
 #endregion
 
 }

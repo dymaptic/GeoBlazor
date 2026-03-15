@@ -57,7 +57,7 @@ public partial class PortalBasemapsSource
         Portal = portal;
         Query = query;
         UpdateBasemapsCallback = updateBasemapsCallback;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -192,9 +192,8 @@ public partial class PortalBasemapsSource
             return Portal;
         }
 
-        Portal? result = await JsComponentReference.InvokeJsMethod<Portal?>(
-            IsServer, nameof(GetPortal), nameof(PortalBasemapsSource), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Portal? result = await JsComponentReference.InvokeAsync<Portal?>(
+            "getPortal", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -211,9 +210,8 @@ public partial class PortalBasemapsSource
         }
         
         return Portal;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Query property.
     /// </summary>
@@ -240,21 +238,19 @@ public partial class PortalBasemapsSource
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalBasemapsSource), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "query");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Query = result;
+             Query = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Query)] = Query;
+             ModifiedParameters[nameof(Query)] = Query;
         }
          
         return Query;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -267,6 +263,11 @@ public partial class PortalBasemapsSource
     /// </param>
     public async Task SetPortal(Portal? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Portal = value;
 #pragma warning restore BL0005
@@ -276,11 +277,6 @@ public partial class PortalBasemapsSource
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -297,12 +293,10 @@ public partial class PortalBasemapsSource
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetPortal), nameof(PortalBasemapsSource),
+        await JsComponentReference.InvokeVoidAsync("setPortal", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Query property after render.
     /// </summary>
@@ -338,9 +332,8 @@ public partial class PortalBasemapsSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "query", value);
-
     }
-
+    
 #endregion
 
 

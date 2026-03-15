@@ -135,7 +135,7 @@ public partial class MapImageLayer : IArcGISMapService,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#sublayers">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="listMode">
-    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
     ///     default "show"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -161,6 +161,9 @@ public partial class MapImageLayer : IArcGISMapService,
     ///     The full extent of the layer as defined by the map service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
+    /// </param>
     /// <param name="subtables">
     ///     A flat <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of all the tables
     ///     in the layer including the tables of its sublayers.
@@ -172,13 +175,16 @@ public partial class MapImageLayer : IArcGISMapService,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#timeOffset">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
-    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visibilityTimeExtent">
     ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">time extent</a> during which a layer should be visible.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
     /// </param>
     public MapImageLayer(
         string? url = null,
@@ -207,10 +213,12 @@ public partial class MapImageLayer : IArcGISMapService,
         string? arcGISLayerId = null,
         string? copyright = null,
         Extent? fullExtent = null,
+        bool? isBasemapReferenceLayer = null,
         IReadOnlyList<Sublayer>? subtables = null,
         TimeInterval? timeOffset = null,
         string? title = null,
-        TimeExtent? visibilityTimeExtent = null)
+        TimeExtent? visibilityTimeExtent = null,
+        bool? excludeApiKey = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -240,11 +248,13 @@ public partial class MapImageLayer : IArcGISMapService,
         ArcGISLayerId = arcGISLayerId;
         Copyright = copyright;
         FullExtent = fullExtent;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         Subtables = subtables;
         TimeOffset = timeOffset;
         Title = title;
         VisibilityTimeExtent = visibilityTimeExtent;
-#pragma warning restore BL0005
+        ExcludeApiKey = excludeApiKey;
+#pragma warning restore BL0005    
     }
     
     
@@ -440,9 +450,8 @@ public partial class MapImageLayer : IArcGISMapService,
             return AllSublayers;
         }
 
-        IReadOnlyList<Sublayer>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Sublayer>?>(
-            IsServer, nameof(GetAllSublayers), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<Sublayer>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Sublayer>?>(
+            "getAllSublayers", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -457,9 +466,8 @@ public partial class MapImageLayer : IArcGISMapService,
         }
         
         return AllSublayers;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the BlendMode property.
     /// </summary>
@@ -486,21 +494,19 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        BlendMode? result = await JsComponentReference!.InvokeJsMethod<BlendMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "blendMode");
-        if (result is not null)
+        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                BlendMode = result;
+             BlendMode = (BlendMode)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(BlendMode)] = BlendMode;
+             ModifiedParameters[nameof(BlendMode)] = BlendMode;
         }
          
         return BlendMode;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Capabilities property.
     /// </summary>
@@ -527,21 +533,19 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        ArcGISMapServiceCapabilities? result = await JsComponentReference!.InvokeJsMethod<ArcGISMapServiceCapabilities?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+        ArcGISMapServiceCapabilities? result = await JsComponentReference!.InvokeAsync<ArcGISMapServiceCapabilities?>("getProperty",
             CancellationTokenSource.Token, "capabilities");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Capabilities = result;
+             Capabilities = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Capabilities)] = Capabilities;
+             ModifiedParameters[nameof(Capabilities)] = Capabilities;
         }
          
         return Capabilities;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Copyright property.
     /// </summary>
@@ -568,21 +572,19 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "copyright");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Copyright = result;
+             Copyright = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Copyright)] = Copyright;
+             ModifiedParameters[nameof(Copyright)] = Copyright;
         }
          
         return Copyright;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomParameters property.
     /// </summary>
@@ -609,21 +611,19 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        Dictionary<string, object>? result = await JsComponentReference!.InvokeJsMethod<Dictionary<string, object>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+        Dictionary<string, object>? result = await JsComponentReference!.InvokeAsync<Dictionary<string, object>?>("getProperty",
             CancellationTokenSource.Token, "customParameters");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                CustomParameters = result;
+             CustomParameters = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
+             ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
         }
          
         return CustomParameters;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DateFieldsTimeZone property.
     /// </summary>
@@ -650,21 +650,19 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "dateFieldsTimeZone");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                DateFieldsTimeZone = result;
+             DateFieldsTimeZone = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(DateFieldsTimeZone)] = DateFieldsTimeZone;
+             ModifiedParameters[nameof(DateFieldsTimeZone)] = DateFieldsTimeZone;
         }
          
         return DateFieldsTimeZone;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DatesInUnknownTimezone property.
     /// </summary>
@@ -691,21 +689,19 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "datesInUnknownTimezone");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "datesInUnknownTimezone");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                DatesInUnknownTimezone = result;
+             DatesInUnknownTimezone = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(DatesInUnknownTimezone)] = DatesInUnknownTimezone;
+             ModifiedParameters[nameof(DatesInUnknownTimezone)] = DatesInUnknownTimezone;
         }
          
         return DatesInUnknownTimezone;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Dpi property.
     /// </summary>
@@ -732,21 +728,19 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "dpi");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "dpi");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Dpi = result;
+             Dpi = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Dpi)] = Dpi;
+             ModifiedParameters[nameof(Dpi)] = Dpi;
         }
          
         return Dpi;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Effect property.
     /// </summary>
@@ -772,9 +766,8 @@ public partial class MapImageLayer : IArcGISMapService,
             return Effect;
         }
 
-        Effect? result = await JsComponentReference.InvokeJsMethod<Effect?>(
-            IsServer, nameof(GetEffect), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Effect? result = await JsComponentReference.InvokeAsync<Effect?>(
+            "getEffect", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -785,9 +778,8 @@ public partial class MapImageLayer : IArcGISMapService,
         }
         
         return Effect;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the GdbVersion property.
     /// </summary>
@@ -814,21 +806,19 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "gdbVersion");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                GdbVersion = result;
+             GdbVersion = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(GdbVersion)] = GdbVersion;
+             ModifiedParameters[nameof(GdbVersion)] = GdbVersion;
         }
          
         return GdbVersion;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ImageFormat property.
     /// </summary>
@@ -855,21 +845,19 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        MapImageFormat? result = await JsComponentReference!.InvokeJsMethod<MapImageFormat?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "imageFormat");
-        if (result is not null)
+        JsNullableEnumWrapper<MapImageFormat>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<MapImageFormat>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "imageFormat");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ImageFormat = result;
+             ImageFormat = (MapImageFormat)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ImageFormat)] = ImageFormat;
+             ModifiedParameters[nameof(ImageFormat)] = ImageFormat;
         }
          
         return ImageFormat;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ImageMaxHeight property.
     /// </summary>
@@ -896,21 +884,19 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "imageMaxHeight");
-        if (result is not null)
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "imageMaxHeight");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ImageMaxHeight = result;
+             ImageMaxHeight = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ImageMaxHeight)] = ImageMaxHeight;
+             ModifiedParameters[nameof(ImageMaxHeight)] = ImageMaxHeight;
         }
          
         return ImageMaxHeight;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ImageMaxWidth property.
     /// </summary>
@@ -937,21 +923,19 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "imageMaxWidth");
-        if (result is not null)
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "imageMaxWidth");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ImageMaxWidth = result;
+             ImageMaxWidth = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ImageMaxWidth)] = ImageMaxWidth;
+             ModifiedParameters[nameof(ImageMaxWidth)] = ImageMaxWidth;
         }
          
         return ImageMaxWidth;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ImageTransparency property.
     /// </summary>
@@ -978,21 +962,19 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "imageTransparency");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "imageTransparency");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ImageTransparency = result;
+             ImageTransparency = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ImageTransparency)] = ImageTransparency;
+             ModifiedParameters[nameof(ImageTransparency)] = ImageTransparency;
         }
          
         return ImageTransparency;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendEnabled property.
     /// </summary>
@@ -1019,21 +1001,19 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "legendEnabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "legendEnabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                LegendEnabled = result;
+             LegendEnabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
+             ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
         }
          
         return LegendEnabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -1060,21 +1040,19 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "maxScale");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "maxScale");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MaxScale = result;
+             MaxScale = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MaxScale)] = MaxScale;
+             ModifiedParameters[nameof(MaxScale)] = MaxScale;
         }
          
         return MaxScale;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -1101,21 +1079,19 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "minScale");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "minScale");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MinScale = result;
+             MinScale = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MinScale)] = MinScale;
+             ModifiedParameters[nameof(MinScale)] = MinScale;
         }
          
         return MinScale;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalItem property.
     /// </summary>
@@ -1141,9 +1117,8 @@ public partial class MapImageLayer : IArcGISMapService,
             return PortalItem;
         }
 
-        PortalItem? result = await JsComponentReference.InvokeJsMethod<PortalItem?>(
-            IsServer, nameof(GetPortalItem), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        PortalItem? result = await JsComponentReference.InvokeAsync<PortalItem?>(
+            "getPortalItem", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -1160,9 +1135,8 @@ public partial class MapImageLayer : IArcGISMapService,
         }
         
         return PortalItem;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PreferredTimeZone property.
     /// </summary>
@@ -1189,21 +1163,19 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "preferredTimeZone");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                PreferredTimeZone = result;
+             PreferredTimeZone = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(PreferredTimeZone)] = PreferredTimeZone;
+             ModifiedParameters[nameof(PreferredTimeZone)] = PreferredTimeZone;
         }
          
         return PreferredTimeZone;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the RefreshInterval property.
     /// </summary>
@@ -1230,21 +1202,19 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "refreshInterval");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "refreshInterval");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                RefreshInterval = result;
+             RefreshInterval = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
+             ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
         }
          
         return RefreshInterval;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
@@ -1271,21 +1241,19 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                SourceJSON = result;
+             SourceJSON = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
+             ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
         }
          
         return SourceJSON;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -1311,9 +1279,8 @@ public partial class MapImageLayer : IArcGISMapService,
             return SpatialReference;
         }
 
-        SpatialReference? result = await JsComponentReference.InvokeJsMethod<SpatialReference?>(
-            IsServer, nameof(GetSpatialReference), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
+            "getSpatialReference", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -1324,9 +1291,8 @@ public partial class MapImageLayer : IArcGISMapService,
         }
         
         return SpatialReference;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Sublayers property.
     /// </summary>
@@ -1352,9 +1318,8 @@ public partial class MapImageLayer : IArcGISMapService,
             return Sublayers;
         }
 
-        IReadOnlyList<Sublayer>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Sublayer>?>(
-            IsServer, nameof(GetSublayers), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<Sublayer>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Sublayer>?>(
+            "getSublayers", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -1369,9 +1334,8 @@ public partial class MapImageLayer : IArcGISMapService,
         }
         
         return Sublayers;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Subtables property.
     /// </summary>
@@ -1397,9 +1361,8 @@ public partial class MapImageLayer : IArcGISMapService,
             return Subtables;
         }
 
-        IReadOnlyList<Sublayer>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Sublayer>?>(
-            IsServer, nameof(GetSubtables), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<Sublayer>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Sublayer>?>(
+            "getSubtables", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -1414,9 +1377,8 @@ public partial class MapImageLayer : IArcGISMapService,
         }
         
         return Subtables;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeExtent property.
     /// </summary>
@@ -1442,9 +1404,8 @@ public partial class MapImageLayer : IArcGISMapService,
             return TimeExtent;
         }
 
-        TimeExtent? result = await JsComponentReference.InvokeJsMethod<TimeExtent?>(
-            IsServer, nameof(GetTimeExtent), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        TimeExtent? result = await JsComponentReference.InvokeAsync<TimeExtent?>(
+            "getTimeExtent", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -1461,9 +1422,8 @@ public partial class MapImageLayer : IArcGISMapService,
         }
         
         return TimeExtent;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeInfo property.
     /// </summary>
@@ -1489,18 +1449,11 @@ public partial class MapImageLayer : IArcGISMapService,
             return TimeInfo;
         }
 
-        TimeInfo? result = await JsComponentReference.InvokeJsMethod<TimeInfo?>(
-            IsServer, nameof(GetTimeInfo), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        TimeInfo? result = await JsComponentReference.InvokeAsync<TimeInfo?>(
+            "getTimeInfo", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (TimeInfo is not null)
-            {
-                result.Id = TimeInfo.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             TimeInfo = result;
 #pragma warning restore BL0005
@@ -1508,9 +1461,8 @@ public partial class MapImageLayer : IArcGISMapService,
         }
         
         return TimeInfo;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeOffset property.
     /// </summary>
@@ -1536,18 +1488,11 @@ public partial class MapImageLayer : IArcGISMapService,
             return TimeOffset;
         }
 
-        TimeInterval? result = await JsComponentReference.InvokeJsMethod<TimeInterval?>(
-            IsServer, nameof(GetTimeOffset), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        TimeInterval? result = await JsComponentReference.InvokeAsync<TimeInterval?>(
+            "getTimeOffset", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (TimeOffset is not null)
-            {
-                result.Id = TimeOffset.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             TimeOffset = result;
 #pragma warning restore BL0005
@@ -1555,9 +1500,8 @@ public partial class MapImageLayer : IArcGISMapService,
         }
         
         return TimeOffset;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -1584,21 +1528,19 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "url");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Url = result;
+             Url = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Url)] = Url;
+             ModifiedParameters[nameof(Url)] = Url;
         }
          
         return Url;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the UseViewTime property.
     /// </summary>
@@ -1625,21 +1567,19 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "useViewTime");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "useViewTime");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                UseViewTime = result;
+             UseViewTime = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(UseViewTime)] = UseViewTime;
+             ModifiedParameters[nameof(UseViewTime)] = UseViewTime;
         }
          
         return UseViewTime;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Version property.
     /// </summary>
@@ -1666,21 +1606,19 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "version");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "version");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Version = result;
+             Version = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Version)] = Version;
+             ModifiedParameters[nameof(Version)] = Version;
         }
          
         return Version;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -1720,9 +1658,8 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "blendMode", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Copyright property after render.
     /// </summary>
@@ -1758,9 +1695,8 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "copyright", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the CustomParameters property after render.
     /// </summary>
@@ -1796,9 +1732,8 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "customParameters", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Dpi property after render.
     /// </summary>
@@ -1834,9 +1769,8 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "dpi", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Effect property after render.
     /// </summary>
@@ -1870,12 +1804,10 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetEffect), nameof(MapImageLayer),
+        await JsComponentReference.InvokeVoidAsync("setEffect", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the GdbVersion property after render.
     /// </summary>
@@ -1911,9 +1843,8 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "gdbVersion", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ImageFormat property after render.
     /// </summary>
@@ -1949,9 +1880,8 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "imageFormat", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ImageMaxHeight property after render.
     /// </summary>
@@ -1987,9 +1917,8 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "imageMaxHeight", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ImageMaxWidth property after render.
     /// </summary>
@@ -2025,9 +1954,8 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "imageMaxWidth", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ImageTransparency property after render.
     /// </summary>
@@ -2063,9 +1991,8 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "imageTransparency", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
@@ -2101,9 +2028,8 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -2139,9 +2065,8 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -2177,9 +2102,8 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PersistenceEnabled property after render.
     /// </summary>
@@ -2215,9 +2139,8 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "persistenceEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
@@ -2226,6 +2149,11 @@ public partial class MapImageLayer : IArcGISMapService,
     /// </param>
     public async Task SetPortalItem(PortalItem? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         PortalItem = value;
 #pragma warning restore BL0005
@@ -2235,11 +2163,6 @@ public partial class MapImageLayer : IArcGISMapService,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -2256,12 +2179,10 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetPortalItem), nameof(MapImageLayer),
+        await JsComponentReference.InvokeVoidAsync("setPortalItem", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the RefreshInterval property after render.
     /// </summary>
@@ -2297,9 +2218,8 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "refreshInterval", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Sublayers property after render.
     /// </summary>
@@ -2308,6 +2228,14 @@ public partial class MapImageLayer : IArcGISMapService,
     /// </param>
     public async Task SetSublayers(IReadOnlyList<Sublayer>? value)
     {
+        if (value is not null)
+        {
+            foreach (Sublayer item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         Sublayers = value;
 #pragma warning restore BL0005
@@ -2317,14 +2245,6 @@ public partial class MapImageLayer : IArcGISMapService,
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (Sublayer item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -2341,12 +2261,10 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetSublayers), nameof(MapImageLayer),
+        await JsComponentReference.InvokeVoidAsync("setSublayers", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Subtables property after render.
     /// </summary>
@@ -2355,6 +2273,14 @@ public partial class MapImageLayer : IArcGISMapService,
     /// </param>
     public async Task SetSubtables(IReadOnlyList<Sublayer>? value)
     {
+        if (value is not null)
+        {
+            foreach (Sublayer item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         Subtables = value;
 #pragma warning restore BL0005
@@ -2364,14 +2290,6 @@ public partial class MapImageLayer : IArcGISMapService,
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (Sublayer item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -2388,12 +2306,10 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetSubtables), nameof(MapImageLayer),
+        await JsComponentReference.InvokeVoidAsync("setSubtables", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the TimeExtent property after render.
     /// </summary>
@@ -2402,6 +2318,11 @@ public partial class MapImageLayer : IArcGISMapService,
     /// </param>
     public async Task SetTimeExtent(TimeExtent? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         TimeExtent = value;
 #pragma warning restore BL0005
@@ -2411,11 +2332,6 @@ public partial class MapImageLayer : IArcGISMapService,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -2432,12 +2348,10 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetTimeExtent), nameof(MapImageLayer),
+        await JsComponentReference.InvokeVoidAsync("setTimeExtent", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the TimeInfo property after render.
     /// </summary>
@@ -2446,6 +2360,11 @@ public partial class MapImageLayer : IArcGISMapService,
     /// </param>
     public async Task SetTimeInfo(TimeInfo? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         TimeInfo = value;
 #pragma warning restore BL0005
@@ -2455,11 +2374,6 @@ public partial class MapImageLayer : IArcGISMapService,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -2476,12 +2390,10 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetTimeInfo), nameof(MapImageLayer),
+        await JsComponentReference.InvokeVoidAsync("setTimeInfo", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the TimeOffset property after render.
     /// </summary>
@@ -2490,6 +2402,11 @@ public partial class MapImageLayer : IArcGISMapService,
     /// </param>
     public async Task SetTimeOffset(TimeInterval? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         TimeOffset = value;
 #pragma warning restore BL0005
@@ -2499,11 +2416,6 @@ public partial class MapImageLayer : IArcGISMapService,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -2520,12 +2432,10 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetTimeOffset), nameof(MapImageLayer),
+        await JsComponentReference.InvokeVoidAsync("setTimeOffset", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -2561,9 +2471,8 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the UseViewTime property after render.
     /// </summary>
@@ -2599,9 +2508,8 @@ public partial class MapImageLayer : IArcGISMapService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "useViewTime", value);
-
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -2618,7 +2526,6 @@ public partial class MapImageLayer : IArcGISMapService,
             ? values
             : [..Sublayers, ..values];
         await SetSublayers(join);
-
     }
     
     /// <summary>
@@ -2633,7 +2540,6 @@ public partial class MapImageLayer : IArcGISMapService,
             ? values
             : [..Subtables, ..values];
         await SetSubtables(join);
-
     }
     
 #endregion
@@ -2654,7 +2560,6 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
         await SetSublayers(Sublayers.Except(values).ToArray());
-
     }
     
     
@@ -2671,7 +2576,6 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
         await SetSubtables(Subtables.Except(values).ToArray());
-
     }
     
 #endregion
@@ -2707,14 +2611,8 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
         
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
-            nameof(Refresh), nameof(MapImageLayer), 
+        await JsComponentReference!.InvokeVoidAsync(
+            "refresh", 
             CancellationTokenSource.Token);
     }
     
@@ -2734,7 +2632,7 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
     
-        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<RefreshEvent>();
+        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReference<RefreshEvent>();
         if (refreshEvent is not null)
         {
             await OnRefresh.InvokeAsync(refreshEvent);
@@ -2801,7 +2699,7 @@ public partial class MapImageLayer : IArcGISMapService,
                 PortalItem = null;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
-            case TimeInterval:
+            case TimeInterval _:
                 TimeOffset = null;
                 ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
                 return true;

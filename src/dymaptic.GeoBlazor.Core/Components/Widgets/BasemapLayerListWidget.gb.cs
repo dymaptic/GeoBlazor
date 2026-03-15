@@ -19,171 +19,6 @@ public partial class BasemapLayerListWidget
     {
     }
 
-    /// <summary>
-    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
-    /// </summary>
-    /// <param name="baseFilterText">
-    ///     The value of the filter input text string if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibleElements">visibleElements.filter</a> is true.
-    ///     default ""
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#baseFilterText">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="baseListItemCreatedFunction">
-    ///     Specifies a function that accesses each <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a> representing a base layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#baseListItemCreatedFunction">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="basemapTitle">
-    ///     The current basemap's title.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#basemapTitle">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="catalogOptions">
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CatalogLayer.html">CatalogLayer</a> specific properties.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#catalogOptions">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="collapsed">
-    ///     Indicates whether the widget is collapsed.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#collapsed">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="dragEnabled">
-    ///     Indicates whether <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">list items</a> may be reordered within the list by dragging and dropping.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#dragEnabled">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="editingTitle">
-    ///     Indicates whether the form to edit the basemap's title is currently visible.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#editingTitle">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="filterPlaceholder">
-    ///     Placeholder text used in the filter input if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibleElements">visibleElements.filter</a> is true.
-    ///     default ""
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#filterPlaceholder">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="headingLevel">
-    ///     Indicates the heading level to use for the widget title (i.e.
-    ///     default 2
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#headingLevel">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="icon">
-    ///     Icon which represents the widget.
-    ///     default "layers"
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#icon">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="label">
-    ///     The widget's default label.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#label">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="minFilterItems">
-    ///     The minimum number of list items required to display the visibleElements.filter input box.
-    ///     default 10
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#minFilterItems">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="referenceFilterText">
-    ///     The value of the filter input text string if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibleElements">visibleElements.filter</a> is true.
-    ///     default ""
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#referenceFilterText">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="referenceListItemCreatedFunction">
-    ///     Specifies a function that accesses each <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a> representing a reference layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#referenceListItemCreatedFunction">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="selectedItems">
-    ///     A collection of selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>s representing basemap layers
-    ///     selected by the user.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#selectedItems">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="selectionMode">
-    ///     Specifies the selection mode.
-    ///     default "none"
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#selectionMode">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="viewModel">
-    ///     The view model for this widget.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="visibilityAppearance">
-    ///     Determines the icons used to indicate visibility.
-    ///     default "default"
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibilityAppearance">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="visibleElements">
-    ///     The visible elements that are displayed within the widget.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibleElements">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="widgetId">
-    ///     The unique ID assigned to the widget when the widget is created.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="baseFilterPredicate">
-    ///     Specifies a function to handle filtering base layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">list items</a>.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#baseFilterPredicate">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="referenceFilterPredicate">
-    ///     Specifies a function to handle filtering reference layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">list items</a>.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#referenceFilterPredicate">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="visible">
-    ///     Indicates whether the widget is visible.
-    ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#visible">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    public BasemapLayerListWidget(
-        string? baseFilterText = null,
-        ListItemCreatedHandler? baseListItemCreatedFunction = null,
-        string? basemapTitle = null,
-        BasemapLayerListCatalogOptions? catalogOptions = null,
-        bool? collapsed = null,
-        bool? dragEnabled = null,
-        bool? editingTitle = null,
-        string? filterPlaceholder = null,
-        int? headingLevel = null,
-        string? icon = null,
-        string? label = null,
-        double? minFilterItems = null,
-        string? referenceFilterText = null,
-        ListItemCreatedHandler? referenceListItemCreatedFunction = null,
-        IReadOnlyList<ListItem>? selectedItems = null,
-        SelectionMode? selectionMode = null,
-        BasemapLayerListViewModel? viewModel = null,
-        VisibilityAppearance? visibilityAppearance = null,
-        BasemapLayerListWidgetVisibleElements? visibleElements = null,
-        string? widgetId = null,
-        BaseFilterPredicate? baseFilterPredicate = null,
-        ReferenceFilterPredicate? referenceFilterPredicate = null,
-        bool? visible = null)
-    {
-        AllowRender = false;
-#pragma warning disable BL0005
-        BaseFilterText = baseFilterText;
-        BaseListItemCreatedFunction = baseListItemCreatedFunction;
-        BasemapTitle = basemapTitle;
-        CatalogOptions = catalogOptions;
-        Collapsed = collapsed;
-        DragEnabled = dragEnabled;
-        EditingTitle = editingTitle;
-        FilterPlaceholder = filterPlaceholder;
-        HeadingLevel = headingLevel;
-        Icon = icon;
-        Label = label;
-        MinFilterItems = minFilterItems;
-        ReferenceFilterText = referenceFilterText;
-        ReferenceListItemCreatedFunction = referenceListItemCreatedFunction;
-        SelectedItems = selectedItems;
-        SelectionMode = selectionMode;
-        ViewModel = viewModel;
-        VisibilityAppearance = visibilityAppearance;
-        VisibleElements = visibleElements;
-        WidgetId = widgetId;
-        BaseFilterPredicate = baseFilterPredicate;
-        ReferenceFilterPredicate = referenceFilterPredicate;
-        Visible = visible;
-#pragma warning restore BL0005
-    }
-    
-    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -458,21 +293,19 @@ public partial class BasemapLayerListWidget
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "baseFilterText");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                BaseFilterText = result;
+             BaseFilterText = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(BaseFilterText)] = BaseFilterText;
+             ModifiedParameters[nameof(BaseFilterText)] = BaseFilterText;
         }
          
         return BaseFilterText;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the BaseItems property.
     /// </summary>
@@ -498,16 +331,11 @@ public partial class BasemapLayerListWidget
             return BaseItems;
         }
 
-        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<ListItem>?>(
-            IsServer, nameof(GetBaseItems), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ListItem>?>(
+            "getBaseItems", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (ListItem item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             BaseItems = result;
 #pragma warning restore BL0005
@@ -515,50 +343,8 @@ public partial class BasemapLayerListWidget
         }
         
         return BaseItems;
-
     }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the BasemapTitle property.
-    /// </summary>
-    public async Task<string?> GetBasemapTitle()
-    {
-        if (CoreJsModule is null)
-        {
-            return BasemapTitle;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return BasemapTitle;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "basemapTitle");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-                BasemapTitle = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(BasemapTitle)] = BasemapTitle;
-        }
-         
-        return BasemapTitle;
-
-    }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the CatalogLayerList property.
     /// </summary>
@@ -585,21 +371,19 @@ public partial class BasemapLayerListWidget
         }
 
         // get the property value
-        ICatalogLayerListWidget? result = await JsComponentReference!.InvokeJsMethod<ICatalogLayerListWidget?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
+        ICatalogLayerListWidget? result = await JsComponentReference!.InvokeAsync<ICatalogLayerListWidget?>("getProperty",
             CancellationTokenSource.Token, "catalogLayerList");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                CatalogLayerList = result;
+             CatalogLayerList = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(CatalogLayerList)] = CatalogLayerList;
+             ModifiedParameters[nameof(CatalogLayerList)] = CatalogLayerList;
         }
          
         return CatalogLayerList;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the CatalogOptions property.
     /// </summary>
@@ -626,21 +410,19 @@ public partial class BasemapLayerListWidget
         }
 
         // get the property value
-        BasemapLayerListCatalogOptions? result = await JsComponentReference!.InvokeJsMethod<BasemapLayerListCatalogOptions?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
+        BasemapLayerListCatalogOptions? result = await JsComponentReference!.InvokeAsync<BasemapLayerListCatalogOptions?>("getProperty",
             CancellationTokenSource.Token, "catalogOptions");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                CatalogOptions = result;
+             CatalogOptions = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(CatalogOptions)] = CatalogOptions;
+             ModifiedParameters[nameof(CatalogOptions)] = CatalogOptions;
         }
          
         return CatalogOptions;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Collapsed property.
     /// </summary>
@@ -667,21 +449,19 @@ public partial class BasemapLayerListWidget
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "collapsed");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "collapsed");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Collapsed = result;
+             Collapsed = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Collapsed)] = Collapsed;
+             ModifiedParameters[nameof(Collapsed)] = Collapsed;
         }
          
         return Collapsed;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DragEnabled property.
     /// </summary>
@@ -708,21 +488,19 @@ public partial class BasemapLayerListWidget
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "dragEnabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "dragEnabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                DragEnabled = result;
+             DragEnabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(DragEnabled)] = DragEnabled;
+             ModifiedParameters[nameof(DragEnabled)] = DragEnabled;
         }
          
         return DragEnabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the EditingTitle property.
     /// </summary>
@@ -749,21 +527,19 @@ public partial class BasemapLayerListWidget
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "editingTitle");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "editingTitle");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                EditingTitle = result;
+             EditingTitle = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(EditingTitle)] = EditingTitle;
+             ModifiedParameters[nameof(EditingTitle)] = EditingTitle;
         }
          
         return EditingTitle;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FilterPlaceholder property.
     /// </summary>
@@ -790,62 +566,19 @@ public partial class BasemapLayerListWidget
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "filterPlaceholder");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                FilterPlaceholder = result;
+             FilterPlaceholder = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(FilterPlaceholder)] = FilterPlaceholder;
+             ModifiedParameters[nameof(FilterPlaceholder)] = FilterPlaceholder;
         }
          
         return FilterPlaceholder;
-
     }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the HeadingLevel property.
-    /// </summary>
-    public async Task<int?> GetHeadingLevel()
-    {
-        if (CoreJsModule is null)
-        {
-            return HeadingLevel;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return HeadingLevel;
-        }
-
-        // get the property value
-        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "headingLevel");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-                HeadingLevel = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(HeadingLevel)] = HeadingLevel;
-        }
-         
-        return HeadingLevel;
-
-    }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinFilterItems property.
     /// </summary>
@@ -872,21 +605,19 @@ public partial class BasemapLayerListWidget
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "minFilterItems");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "minFilterItems");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MinFilterItems = result;
+             MinFilterItems = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MinFilterItems)] = MinFilterItems;
+             ModifiedParameters[nameof(MinFilterItems)] = MinFilterItems;
         }
          
         return MinFilterItems;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ReferenceFilterText property.
     /// </summary>
@@ -913,21 +644,19 @@ public partial class BasemapLayerListWidget
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "referenceFilterText");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                ReferenceFilterText = result;
+             ReferenceFilterText = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ReferenceFilterText)] = ReferenceFilterText;
+             ModifiedParameters[nameof(ReferenceFilterText)] = ReferenceFilterText;
         }
          
         return ReferenceFilterText;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ReferenceItems property.
     /// </summary>
@@ -953,16 +682,11 @@ public partial class BasemapLayerListWidget
             return ReferenceItems;
         }
 
-        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<ListItem>?>(
-            IsServer, nameof(GetReferenceItems), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ListItem>?>(
+            "getReferenceItems", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (ListItem item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             ReferenceItems = result;
 #pragma warning restore BL0005
@@ -970,9 +694,8 @@ public partial class BasemapLayerListWidget
         }
         
         return ReferenceItems;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SelectedItems property.
     /// </summary>
@@ -998,16 +721,11 @@ public partial class BasemapLayerListWidget
             return SelectedItems;
         }
 
-        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<ListItem>?>(
-            IsServer, nameof(GetSelectedItems), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ListItem>?>(
+            "getSelectedItems", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (ListItem item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             SelectedItems = result;
 #pragma warning restore BL0005
@@ -1015,9 +733,8 @@ public partial class BasemapLayerListWidget
         }
         
         return SelectedItems;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SelectionMode property.
     /// </summary>
@@ -1044,21 +761,19 @@ public partial class BasemapLayerListWidget
         }
 
         // get the property value
-        SelectionMode? result = await JsComponentReference!.InvokeJsMethod<SelectionMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "selectionMode");
-        if (result is not null)
+        JsNullableEnumWrapper<SelectionMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SelectionMode>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "selectionMode");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SelectionMode = result;
+             SelectionMode = (SelectionMode)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SelectionMode)] = SelectionMode;
+             ModifiedParameters[nameof(SelectionMode)] = SelectionMode;
         }
          
         return SelectionMode;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -1084,9 +799,8 @@ public partial class BasemapLayerListWidget
             return ViewModel;
         }
 
-        BasemapLayerListViewModel? result = await JsComponentReference.InvokeJsMethod<BasemapLayerListViewModel?>(
-            IsServer, nameof(GetViewModel), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        BasemapLayerListViewModel? result = await JsComponentReference.InvokeAsync<BasemapLayerListViewModel?>(
+            "getViewModel", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -1103,9 +817,8 @@ public partial class BasemapLayerListWidget
         }
         
         return ViewModel;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibilityAppearance property.
     /// </summary>
@@ -1132,21 +845,19 @@ public partial class BasemapLayerListWidget
         }
 
         // get the property value
-        VisibilityAppearance? result = await JsComponentReference!.InvokeJsMethod<VisibilityAppearance?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "visibilityAppearance");
-        if (result is not null)
+        JsNullableEnumWrapper<VisibilityAppearance>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<VisibilityAppearance>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "visibilityAppearance");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                VisibilityAppearance = result;
+             VisibilityAppearance = (VisibilityAppearance)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(VisibilityAppearance)] = VisibilityAppearance;
+             ModifiedParameters[nameof(VisibilityAppearance)] = VisibilityAppearance;
         }
          
         return VisibilityAppearance;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibleElements property.
     /// </summary>
@@ -1172,18 +883,11 @@ public partial class BasemapLayerListWidget
             return VisibleElements;
         }
 
-        BasemapLayerListWidgetVisibleElements? result = await JsComponentReference.InvokeJsMethod<BasemapLayerListWidgetVisibleElements?>(
-            IsServer, nameof(GetVisibleElements), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        BasemapLayerListWidgetVisibleElements? result = await JsComponentReference.InvokeAsync<BasemapLayerListWidgetVisibleElements?>(
+            "getVisibleElements", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (VisibleElements is not null)
-            {
-                result.Id = VisibleElements.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             VisibleElements = result;
 #pragma warning restore BL0005
@@ -1191,9 +895,8 @@ public partial class BasemapLayerListWidget
         }
         
         return VisibleElements;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -1233,47 +936,8 @@ public partial class BasemapLayerListWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "baseFilterText", value);
-
     }
-
-    /// <summary>
-    ///    Asynchronously set the value of the BasemapTitle property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetBasemapTitle(string? value)
-    {
-#pragma warning disable BL0005
-        BasemapTitle = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(BasemapTitle)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
     
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "basemapTitle", value);
-
-    }
-
     /// <summary>
     ///    Asynchronously set the value of the CatalogOptions property after render.
     /// </summary>
@@ -1309,9 +973,8 @@ public partial class BasemapLayerListWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "catalogOptions", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Collapsed property after render.
     /// </summary>
@@ -1347,9 +1010,8 @@ public partial class BasemapLayerListWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "collapsed", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DragEnabled property after render.
     /// </summary>
@@ -1385,9 +1047,8 @@ public partial class BasemapLayerListWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "dragEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the EditingTitle property after render.
     /// </summary>
@@ -1423,9 +1084,8 @@ public partial class BasemapLayerListWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "editingTitle", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the FilterPlaceholder property after render.
     /// </summary>
@@ -1461,47 +1121,8 @@ public partial class BasemapLayerListWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "filterPlaceholder", value);
-
     }
-
-    /// <summary>
-    ///    Asynchronously set the value of the HeadingLevel property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetHeadingLevel(int? value)
-    {
-#pragma warning disable BL0005
-        HeadingLevel = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(HeadingLevel)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
     
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "headingLevel", value);
-
-    }
-
     /// <summary>
     ///    Asynchronously set the value of the MinFilterItems property after render.
     /// </summary>
@@ -1537,9 +1158,8 @@ public partial class BasemapLayerListWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minFilterItems", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ReferenceFilterText property after render.
     /// </summary>
@@ -1575,9 +1195,8 @@ public partial class BasemapLayerListWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "referenceFilterText", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SelectedItems property after render.
     /// </summary>
@@ -1586,6 +1205,14 @@ public partial class BasemapLayerListWidget
     /// </param>
     public async Task SetSelectedItems(IReadOnlyList<ListItem>? value)
     {
+        if (value is not null)
+        {
+            foreach (ListItem item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         SelectedItems = value;
 #pragma warning restore BL0005
@@ -1595,14 +1222,6 @@ public partial class BasemapLayerListWidget
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (ListItem item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -1619,12 +1238,10 @@ public partial class BasemapLayerListWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetSelectedItems), nameof(BasemapLayerListWidget),
+        await JsComponentReference.InvokeVoidAsync("setSelectedItems", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SelectionMode property after render.
     /// </summary>
@@ -1660,9 +1277,8 @@ public partial class BasemapLayerListWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "selectionMode", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -1671,6 +1287,11 @@ public partial class BasemapLayerListWidget
     /// </param>
     public async Task SetViewModel(BasemapLayerListViewModel? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005
@@ -1680,11 +1301,6 @@ public partial class BasemapLayerListWidget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -1701,12 +1317,10 @@ public partial class BasemapLayerListWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetViewModel), nameof(BasemapLayerListWidget),
+        await JsComponentReference.InvokeVoidAsync("setViewModel", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the VisibilityAppearance property after render.
     /// </summary>
@@ -1742,9 +1356,8 @@ public partial class BasemapLayerListWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "visibilityAppearance", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the VisibleElements property after render.
     /// </summary>
@@ -1753,6 +1366,11 @@ public partial class BasemapLayerListWidget
     /// </param>
     public async Task SetVisibleElements(BasemapLayerListWidgetVisibleElements? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         VisibleElements = value;
 #pragma warning restore BL0005
@@ -1762,11 +1380,6 @@ public partial class BasemapLayerListWidget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -1783,12 +1396,10 @@ public partial class BasemapLayerListWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetVisibleElements), nameof(BasemapLayerListWidget),
+        await JsComponentReference.InvokeVoidAsync("setVisibleElements", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -1805,7 +1416,6 @@ public partial class BasemapLayerListWidget
             ? values
             : [..SelectedItems, ..values];
         await SetSelectedItems(join);
-
     }
     
 #endregion
@@ -1826,7 +1436,6 @@ public partial class BasemapLayerListWidget
             return;
         }
         await SetSelectedItems(SelectedItems.Except(values).ToArray());
-
     }
     
 #endregion
@@ -1870,14 +1479,8 @@ public partial class BasemapLayerListWidget
             return;
         }
         
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
-            nameof(TriggerAction), nameof(BasemapLayerListWidget), 
+        await JsComponentReference!.InvokeVoidAsync(
+            "triggerAction", 
             CancellationTokenSource.Token,
             action,
             item);
@@ -1946,11 +1549,11 @@ public partial class BasemapLayerListWidget
                 SelectedItems = SelectedItems?.Where(s => s != selectedItems).ToList();
                 ModifiedParameters[nameof(SelectedItems)] = SelectedItems;
                 return true;
-            case BasemapLayerListViewModel:
+            case BasemapLayerListViewModel _:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
-            case BasemapLayerListWidgetVisibleElements:
+            case BasemapLayerListWidgetVisibleElements _:
                 VisibleElements = null;
                 ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
                 return true;

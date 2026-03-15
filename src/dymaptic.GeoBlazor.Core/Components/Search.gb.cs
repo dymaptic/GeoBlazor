@@ -56,7 +56,7 @@ public partial class Search : MapComponent
         HintText = hintText;
         Layers = layers;
         Tables = tables;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -142,21 +142,19 @@ public partial class Search : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Search), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "addressSearchEnabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "addressSearchEnabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                AddressSearchEnabled = result;
+             AddressSearchEnabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(AddressSearchEnabled)] = AddressSearchEnabled;
+             ModifiedParameters[nameof(AddressSearchEnabled)] = AddressSearchEnabled;
         }
          
         return AddressSearchEnabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Enabled property.
     /// </summary>
@@ -183,21 +181,19 @@ public partial class Search : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Search), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "enabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "enabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Enabled = result;
+             Enabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Enabled)] = Enabled;
+             ModifiedParameters[nameof(Enabled)] = Enabled;
         }
          
         return Enabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the HintText property.
     /// </summary>
@@ -224,21 +220,19 @@ public partial class Search : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Search), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "hintText");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                HintText = result;
+             HintText = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(HintText)] = HintText;
+             ModifiedParameters[nameof(HintText)] = HintText;
         }
          
         return HintText;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Layers property.
     /// </summary>
@@ -264,16 +258,11 @@ public partial class Search : MapComponent
             return Layers;
         }
 
-        IReadOnlyList<SearchLayer>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<SearchLayer>?>(
-            IsServer, nameof(GetLayers), nameof(Search), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<SearchLayer>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<SearchLayer>?>(
+            "getLayers", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (SearchLayer item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             Layers = result;
 #pragma warning restore BL0005
@@ -281,9 +270,8 @@ public partial class Search : MapComponent
         }
         
         return Layers;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Tables property.
     /// </summary>
@@ -309,16 +297,11 @@ public partial class Search : MapComponent
             return Tables;
         }
 
-        IReadOnlyList<SearchTable>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<SearchTable>?>(
-            IsServer, nameof(GetTables), nameof(Search), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<SearchTable>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<SearchTable>?>(
+            "getTables", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (SearchTable item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             Tables = result;
 #pragma warning restore BL0005
@@ -326,9 +309,8 @@ public partial class Search : MapComponent
         }
         
         return Tables;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -368,9 +350,8 @@ public partial class Search : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "addressSearchEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Enabled property after render.
     /// </summary>
@@ -406,9 +387,8 @@ public partial class Search : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "enabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the HintText property after render.
     /// </summary>
@@ -444,9 +424,8 @@ public partial class Search : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "hintText", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Layers property after render.
     /// </summary>
@@ -455,6 +434,14 @@ public partial class Search : MapComponent
     /// </param>
     public async Task SetLayers(IReadOnlyList<SearchLayer>? value)
     {
+        if (value is not null)
+        {
+            foreach (SearchLayer item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         Layers = value;
 #pragma warning restore BL0005
@@ -464,14 +451,6 @@ public partial class Search : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (SearchLayer item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -490,9 +469,8 @@ public partial class Search : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layers", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Tables property after render.
     /// </summary>
@@ -501,6 +479,14 @@ public partial class Search : MapComponent
     /// </param>
     public async Task SetTables(IReadOnlyList<SearchTable>? value)
     {
+        if (value is not null)
+        {
+            foreach (SearchTable item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         Tables = value;
 #pragma warning restore BL0005
@@ -510,14 +496,6 @@ public partial class Search : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (SearchTable item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -536,9 +514,8 @@ public partial class Search : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "tables", value);
-
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -555,7 +532,6 @@ public partial class Search : MapComponent
             ? values
             : [..Layers, ..values];
         await SetLayers(join);
-
     }
     
     /// <summary>
@@ -570,7 +546,6 @@ public partial class Search : MapComponent
             ? values
             : [..Tables, ..values];
         await SetTables(join);
-
     }
     
 #endregion
@@ -591,7 +566,6 @@ public partial class Search : MapComponent
             return;
         }
         await SetLayers(Layers.Except(values).ToArray());
-
     }
     
     
@@ -608,7 +582,6 @@ public partial class Search : MapComponent
             return;
         }
         await SetTables(Tables.Except(values).ToArray());
-
     }
     
 #endregion

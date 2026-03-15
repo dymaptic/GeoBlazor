@@ -65,7 +65,7 @@ public partial class MapFont
         Style = style;
         Weight = weight;
         Decoration = decoration;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -97,21 +97,19 @@ public partial class MapFont
         }
 
         // get the property value
-        TextDecoration? result = await JsComponentReference!.InvokeJsMethod<TextDecoration?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapFont), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "decoration");
-        if (result is not null)
+        JsNullableEnumWrapper<TextDecoration>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<TextDecoration>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "decoration");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Decoration = result;
+             Decoration = (TextDecoration)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Decoration)] = Decoration;
+             ModifiedParameters[nameof(Decoration)] = Decoration;
         }
          
         return Decoration;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Family property.
     /// </summary>
@@ -138,21 +136,19 @@ public partial class MapFont
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapFont), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "family");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Family = result;
+             Family = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Family)] = Family;
+             ModifiedParameters[nameof(Family)] = Family;
         }
          
         return Family;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Size property.
     /// </summary>
@@ -179,21 +175,19 @@ public partial class MapFont
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapFont), View?.QueryResultsMaxSizeLimit,
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, "size");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Size = result;
+             Size = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Size)] = Size;
+             ModifiedParameters[nameof(Size)] = Size;
         }
          
         return Size;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Style property.
     /// </summary>
@@ -220,21 +214,19 @@ public partial class MapFont
         }
 
         // get the property value
-        MapFontStyle? result = await JsComponentReference!.InvokeJsMethod<MapFontStyle?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapFont), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "style");
-        if (result is not null)
+        JsNullableEnumWrapper<MapFontStyle>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<MapFontStyle>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "style");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Style = result;
+             Style = (MapFontStyle)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Style)] = Style;
+             ModifiedParameters[nameof(Style)] = Style;
         }
          
         return Style;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Weight property.
     /// </summary>
@@ -261,21 +253,19 @@ public partial class MapFont
         }
 
         // get the property value
-        FontWeight? result = await JsComponentReference!.InvokeJsMethod<FontWeight?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapFont), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "weight");
-        if (result is not null)
+        JsNullableEnumWrapper<FontWeight>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<FontWeight>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "weight");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Weight = result;
+             Weight = (FontWeight)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Weight)] = Weight;
+             ModifiedParameters[nameof(Weight)] = Weight;
         }
          
         return Weight;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -315,9 +305,8 @@ public partial class MapFont
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "decoration", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Family property after render.
     /// </summary>
@@ -353,9 +342,8 @@ public partial class MapFont
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "family", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Size property after render.
     /// </summary>
@@ -391,9 +379,8 @@ public partial class MapFont
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "size", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Style property after render.
     /// </summary>
@@ -429,9 +416,8 @@ public partial class MapFont
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "style", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Weight property after render.
     /// </summary>
@@ -467,9 +453,8 @@ public partial class MapFont
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "weight", value);
-
     }
-
+    
 #endregion
 
 }

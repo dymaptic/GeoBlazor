@@ -24,7 +24,7 @@ public partial class UniqueValueClass : MapComponent
     /// </summary>
     /// <param name="label">
     ///     Describes the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#values">values</a> represented by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#symbol">symbol</a> in the
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="symbol">
@@ -45,7 +45,7 @@ public partial class UniqueValueClass : MapComponent
         Label = label;
         Symbol = symbol;
         Values = values;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -54,7 +54,7 @@ public partial class UniqueValueClass : MapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValueClass.html#uniquevalueclasslabel-property">GeoBlazor Docs</a>
     ///     Describes the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#values">values</a> represented by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#symbol">symbol</a> in the
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -112,21 +112,19 @@ public partial class UniqueValueClass : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValueClass), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "label");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Label = result;
+             Label = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Label)] = Label;
+             ModifiedParameters[nameof(Label)] = Label;
         }
          
         return Label;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Symbol property.
     /// </summary>
@@ -152,18 +150,11 @@ public partial class UniqueValueClass : MapComponent
             return Symbol;
         }
 
-        Symbol? result = await JsComponentReference.InvokeJsMethod<Symbol?>(
-            IsServer, nameof(GetSymbol), nameof(UniqueValueClass), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
+            "getSymbol", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (Symbol is not null)
-            {
-                result.Id = Symbol.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Symbol = result;
 #pragma warning restore BL0005
@@ -171,9 +162,8 @@ public partial class UniqueValueClass : MapComponent
         }
         
         return Symbol;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Values property.
     /// </summary>
@@ -199,16 +189,11 @@ public partial class UniqueValueClass : MapComponent
             return Values;
         }
 
-        IReadOnlyList<UniqueValue>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<UniqueValue>?>(
-            IsServer, nameof(GetValues), nameof(UniqueValueClass), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<UniqueValue>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<UniqueValue>?>(
+            "getValues", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (UniqueValue item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             Values = result;
 #pragma warning restore BL0005
@@ -216,9 +201,8 @@ public partial class UniqueValueClass : MapComponent
         }
         
         return Values;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -258,9 +242,8 @@ public partial class UniqueValueClass : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "label", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Symbol property after render.
     /// </summary>
@@ -269,6 +252,11 @@ public partial class UniqueValueClass : MapComponent
     /// </param>
     public async Task SetSymbol(Symbol? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Symbol = value;
 #pragma warning restore BL0005
@@ -278,11 +266,6 @@ public partial class UniqueValueClass : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -301,9 +284,8 @@ public partial class UniqueValueClass : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "symbol", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Values property after render.
     /// </summary>
@@ -312,6 +294,14 @@ public partial class UniqueValueClass : MapComponent
     /// </param>
     public async Task SetValues(IReadOnlyList<UniqueValue>? value)
     {
+        if (value is not null)
+        {
+            foreach (UniqueValue item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         Values = value;
 #pragma warning restore BL0005
@@ -321,14 +311,6 @@ public partial class UniqueValueClass : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (UniqueValue item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -347,9 +329,8 @@ public partial class UniqueValueClass : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "values", value);
-
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -366,7 +347,6 @@ public partial class UniqueValueClass : MapComponent
             ? values
             : [..Values, ..values];
         await SetValues(join);
-
     }
     
 #endregion
@@ -387,7 +367,6 @@ public partial class UniqueValueClass : MapComponent
             return;
         }
         await SetValues(Values.Except(values).ToArray());
-
     }
     
 #endregion

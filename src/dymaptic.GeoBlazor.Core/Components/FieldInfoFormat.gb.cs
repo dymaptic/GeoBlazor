@@ -47,7 +47,7 @@ public partial class FieldInfoFormat
         Places = places;
         DigitSeparator = digitSeparator;
         DateFormat = dateFormat;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -79,21 +79,19 @@ public partial class FieldInfoFormat
         }
 
         // get the property value
-        DateFormat? result = await JsComponentReference!.InvokeJsMethod<DateFormat?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FieldInfoFormat), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "dateFormat");
-        if (result is not null)
+        JsNullableEnumWrapper<DateFormat>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<DateFormat>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "dateFormat");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                DateFormat = result;
+             DateFormat = (DateFormat)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(DateFormat)] = DateFormat;
+             ModifiedParameters[nameof(DateFormat)] = DateFormat;
         }
          
         return DateFormat;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DigitSeparator property.
     /// </summary>
@@ -120,21 +118,19 @@ public partial class FieldInfoFormat
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FieldInfoFormat), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "digitSeparator");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "digitSeparator");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                DigitSeparator = result;
+             DigitSeparator = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(DigitSeparator)] = DigitSeparator;
+             ModifiedParameters[nameof(DigitSeparator)] = DigitSeparator;
         }
          
         return DigitSeparator;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Places property.
     /// </summary>
@@ -161,21 +157,19 @@ public partial class FieldInfoFormat
         }
 
         // get the property value
-        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FieldInfoFormat), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "places");
-        if (result is not null)
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "places");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Places = result;
+             Places = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Places)] = Places;
+             ModifiedParameters[nameof(Places)] = Places;
         }
          
         return Places;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -215,9 +209,8 @@ public partial class FieldInfoFormat
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "dateFormat", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DigitSeparator property after render.
     /// </summary>
@@ -253,9 +246,8 @@ public partial class FieldInfoFormat
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "digitSeparator", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Places property after render.
     /// </summary>
@@ -291,9 +283,8 @@ public partial class FieldInfoFormat
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "places", value);
-
     }
-
+    
 #endregion
 
 }

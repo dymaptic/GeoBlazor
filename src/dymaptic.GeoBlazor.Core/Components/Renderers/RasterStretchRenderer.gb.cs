@@ -110,7 +110,7 @@ public partial class RasterStretchRenderer
         MaxPercent = maxPercent;
         MinPercent = minPercent;
         SigmoidStrengthLevel = sigmoidStrengthLevel;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -205,18 +205,11 @@ public partial class RasterStretchRenderer
             return ColorRamp;
         }
 
-        ColorRamp? result = await JsComponentReference.InvokeJsMethod<ColorRamp?>(
-            IsServer, nameof(GetColorRamp), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        ColorRamp? result = await JsComponentReference.InvokeAsync<ColorRamp?>(
+            "getColorRamp", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (ColorRamp is not null)
-            {
-                result.Id = ColorRamp.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             ColorRamp = result;
 #pragma warning restore BL0005
@@ -224,9 +217,8 @@ public partial class RasterStretchRenderer
         }
         
         return ColorRamp;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ComputeGamma property.
     /// </summary>
@@ -253,21 +245,19 @@ public partial class RasterStretchRenderer
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "computeGamma");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "computeGamma");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ComputeGamma = result;
+             ComputeGamma = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ComputeGamma)] = ComputeGamma;
+             ModifiedParameters[nameof(ComputeGamma)] = ComputeGamma;
         }
          
         return ComputeGamma;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomStatistics property.
     /// </summary>
@@ -294,21 +284,19 @@ public partial class RasterStretchRenderer
         }
 
         // get the property value
-        IReadOnlyList<RasterBandStatistics>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<RasterBandStatistics>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<RasterBandStatistics>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<RasterBandStatistics>?>("getProperty",
             CancellationTokenSource.Token, "customStatistics");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                CustomStatistics = result;
+             CustomStatistics = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(CustomStatistics)] = CustomStatistics;
+             ModifiedParameters[nameof(CustomStatistics)] = CustomStatistics;
         }
          
         return CustomStatistics;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DynamicRangeAdjustment property.
     /// </summary>
@@ -335,21 +323,19 @@ public partial class RasterStretchRenderer
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "dynamicRangeAdjustment");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "dynamicRangeAdjustment");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                DynamicRangeAdjustment = result;
+             DynamicRangeAdjustment = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(DynamicRangeAdjustment)] = DynamicRangeAdjustment;
+             ModifiedParameters[nameof(DynamicRangeAdjustment)] = DynamicRangeAdjustment;
         }
          
         return DynamicRangeAdjustment;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Gamma property.
     /// </summary>
@@ -376,21 +362,19 @@ public partial class RasterStretchRenderer
         }
 
         // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
             CancellationTokenSource.Token, "gamma");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Gamma = result;
+             Gamma = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Gamma)] = Gamma;
+             ModifiedParameters[nameof(Gamma)] = Gamma;
         }
          
         return Gamma;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxPercent property.
     /// </summary>
@@ -417,21 +401,19 @@ public partial class RasterStretchRenderer
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "maxPercent");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "maxPercent");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MaxPercent = result;
+             MaxPercent = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MaxPercent)] = MaxPercent;
+             ModifiedParameters[nameof(MaxPercent)] = MaxPercent;
         }
          
         return MaxPercent;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinPercent property.
     /// </summary>
@@ -458,21 +440,19 @@ public partial class RasterStretchRenderer
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "minPercent");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "minPercent");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MinPercent = result;
+             MinPercent = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MinPercent)] = MinPercent;
+             ModifiedParameters[nameof(MinPercent)] = MinPercent;
         }
          
         return MinPercent;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the NumberOfStandardDeviations property.
     /// </summary>
@@ -499,21 +479,19 @@ public partial class RasterStretchRenderer
         }
 
         // get the property value
-        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "numberOfStandardDeviations");
-        if (result is not null)
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "numberOfStandardDeviations");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                NumberOfStandardDeviations = result;
+             NumberOfStandardDeviations = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(NumberOfStandardDeviations)] = NumberOfStandardDeviations;
+             ModifiedParameters[nameof(NumberOfStandardDeviations)] = NumberOfStandardDeviations;
         }
          
         return NumberOfStandardDeviations;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the OutputMax property.
     /// </summary>
@@ -540,21 +518,19 @@ public partial class RasterStretchRenderer
         }
 
         // get the property value
-        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "outputMax");
-        if (result is not null)
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "outputMax");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                OutputMax = result;
+             OutputMax = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(OutputMax)] = OutputMax;
+             ModifiedParameters[nameof(OutputMax)] = OutputMax;
         }
          
         return OutputMax;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the OutputMin property.
     /// </summary>
@@ -581,21 +557,19 @@ public partial class RasterStretchRenderer
         }
 
         // get the property value
-        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "outputMin");
-        if (result is not null)
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "outputMin");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                OutputMin = result;
+             OutputMin = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(OutputMin)] = OutputMin;
+             ModifiedParameters[nameof(OutputMin)] = OutputMin;
         }
          
         return OutputMin;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SigmoidStrengthLevel property.
     /// </summary>
@@ -622,21 +596,19 @@ public partial class RasterStretchRenderer
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "sigmoidStrengthLevel");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "sigmoidStrengthLevel");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SigmoidStrengthLevel = result;
+             SigmoidStrengthLevel = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SigmoidStrengthLevel)] = SigmoidStrengthLevel;
+             ModifiedParameters[nameof(SigmoidStrengthLevel)] = SigmoidStrengthLevel;
         }
          
         return SigmoidStrengthLevel;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the StretchType property.
     /// </summary>
@@ -663,21 +635,19 @@ public partial class RasterStretchRenderer
         }
 
         // get the property value
-        StretchType? result = await JsComponentReference!.InvokeJsMethod<StretchType?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "stretchType");
-        if (result is not null)
+        JsNullableEnumWrapper<StretchType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<StretchType>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "stretchType");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                StretchType = result;
+             StretchType = (StretchType)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(StretchType)] = StretchType;
+             ModifiedParameters[nameof(StretchType)] = StretchType;
         }
          
         return StretchType;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the UseGamma property.
     /// </summary>
@@ -704,21 +674,19 @@ public partial class RasterStretchRenderer
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "useGamma");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "useGamma");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                UseGamma = result;
+             UseGamma = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(UseGamma)] = UseGamma;
+             ModifiedParameters[nameof(UseGamma)] = UseGamma;
         }
          
         return UseGamma;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -731,6 +699,11 @@ public partial class RasterStretchRenderer
     /// </param>
     public async Task SetColorRamp(ColorRamp? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         ColorRamp = value;
 #pragma warning restore BL0005
@@ -740,11 +713,6 @@ public partial class RasterStretchRenderer
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -763,9 +731,8 @@ public partial class RasterStretchRenderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "colorRamp", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ComputeGamma property after render.
     /// </summary>
@@ -801,9 +768,8 @@ public partial class RasterStretchRenderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "computeGamma", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the CustomStatistics property after render.
     /// </summary>
@@ -839,9 +805,8 @@ public partial class RasterStretchRenderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "customStatistics", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DynamicRangeAdjustment property after render.
     /// </summary>
@@ -877,9 +842,8 @@ public partial class RasterStretchRenderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "dynamicRangeAdjustment", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Gamma property after render.
     /// </summary>
@@ -915,9 +879,8 @@ public partial class RasterStretchRenderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "gamma", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MaxPercent property after render.
     /// </summary>
@@ -953,9 +916,8 @@ public partial class RasterStretchRenderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxPercent", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MinPercent property after render.
     /// </summary>
@@ -991,9 +953,8 @@ public partial class RasterStretchRenderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minPercent", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the NumberOfStandardDeviations property after render.
     /// </summary>
@@ -1029,9 +990,8 @@ public partial class RasterStretchRenderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "numberOfStandardDeviations", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the OutputMax property after render.
     /// </summary>
@@ -1067,9 +1027,8 @@ public partial class RasterStretchRenderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outputMax", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the OutputMin property after render.
     /// </summary>
@@ -1105,9 +1064,8 @@ public partial class RasterStretchRenderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outputMin", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SigmoidStrengthLevel property after render.
     /// </summary>
@@ -1143,9 +1101,8 @@ public partial class RasterStretchRenderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sigmoidStrengthLevel", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the UseGamma property after render.
     /// </summary>
@@ -1181,9 +1138,8 @@ public partial class RasterStretchRenderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "useGamma", value);
-
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -1200,7 +1156,6 @@ public partial class RasterStretchRenderer
             ? values
             : [..CustomStatistics, ..values];
         await SetCustomStatistics(join);
-
     }
     
     /// <summary>
@@ -1215,7 +1170,6 @@ public partial class RasterStretchRenderer
             ? values
             : [..Gamma, ..values];
         await SetGamma(join);
-
     }
     
 #endregion
@@ -1236,7 +1190,6 @@ public partial class RasterStretchRenderer
             return;
         }
         await SetCustomStatistics(CustomStatistics.Except(values).ToArray());
-
     }
     
     
@@ -1253,7 +1206,6 @@ public partial class RasterStretchRenderer
             return;
         }
         await SetGamma(Gamma.Except(values).ToArray());
-
     }
     
 #endregion

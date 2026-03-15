@@ -12,6 +12,128 @@ namespace dymaptic.GeoBlazor.Core.Components;
 public partial class SizeVariable
 {
 
+    /// <summary>
+    ///     Parameterless constructor for use as a Razor Component.
+    /// </summary>
+    [ActivatorUtilitiesConstructor]
+    public SizeVariable()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
+    /// </summary>
+    /// <param name="field">
+    ///     The name of the numeric attribute field that contains the data
+    ///     values used to determine the color/opacity/size/rotation of each feature.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#field">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="minSize">
+    ///     The size used to render a feature containing the minimum data value.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html#minSize">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="maxSize">
+    ///     The size used to render a feature containing the maximum data value.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html#maxSize">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="minDataValue">
+    ///     The minimum data value used in the size ramp.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html#minDataValue">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="maxDataValue">
+    ///     The maximum data value used in the size ramp.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html#maxDataValue">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="valueRepresentation">
+    ///     Specifies how to apply the data value when mapping real-world sizes.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html#valueRepresentation">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="valueUnit">
+    ///     Indicates the unit of measurement used to interpret the value returned by <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html#field">field</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html#valueExpression">valueExpression</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html#valueUnit">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="normalizationField">
+    ///     The name of the numeric attribute field used to normalize
+    ///     the data in the given <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html#field">field</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html#normalizationField">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="target">
+    ///     This value must be `outline` when scaling polygon outline widths
+    ///     based on the view scale.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html#target">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="useSymbolValue">
+    ///     When setting a size visual variable on a renderer using an
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-ObjectSymbol3DLayer.html">ObjectSymbol3DLayer</a>, this property indicates whether to apply the value
+    ///     defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-ObjectSymbol3DLayer.html#height">height</a>,
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-ObjectSymbol3DLayer.html#width">width</a>, or
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-ObjectSymbol3DLayer.html#depth">depth</a> properties to the corresponding <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html#axis">axis</a> of
+    ///     this visual variable instead of proportionally scaling this axis' value.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html#useSymbolValue">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="axis">
+    ///     Only applicable when working in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
+    ///     default "all"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html#axis">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="valueExpression">
+    ///     An <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following the specification
+    ///     defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#visualization">Arcade Visualization Profile</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#valueExpression">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="valueExpressionTitle">
+    ///     The title identifying and describing the associated
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression as defined in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#valueExpression">valueExpression</a> property.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#valueExpressionTitle">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="legendOptions">
+    ///     An object providing options for displaying the visual variable in
+    ///     the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#legendOptions">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="stops">
+    ///     An array of objects that defines the mapping of data values returned from <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html#field">field</a> or
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html#valueExpression">valueExpression</a> to icon sizes.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html#stops">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    public SizeVariable(
+        string field,
+        Dimension? minSize = null,
+        Dimension? maxSize = null,
+        double? minDataValue = null,
+        double? maxDataValue = null,
+        VisualValueRepresentation? valueRepresentation = null,
+        VisualValueUnit? valueUnit = null,
+        string? normalizationField = null,
+        string? target = null,
+        bool? useSymbolValue = null,
+        VisualAxis? axis = null,
+        string? valueExpression = null,
+        string? valueExpressionTitle = null,
+        VisualVariableLegendOptions? legendOptions = null,
+        IReadOnlyList<SizeStop>? stops = null)
+    {
+        AllowRender = false;
+#pragma warning disable BL0005
+        Field = field;
+        MinSize = minSize;
+        MaxSize = maxSize;
+        MinDataValue = minDataValue;
+        MaxDataValue = maxDataValue;
+        ValueRepresentation = valueRepresentation;
+        ValueUnit = valueUnit;
+        NormalizationField = normalizationField;
+        Target = target;
+        UseSymbolValue = useSymbolValue;
+        Axis = axis;
+        ValueExpression = valueExpression;
+        ValueExpressionTitle = valueExpressionTitle;
+        LegendOptions = legendOptions;
+        Stops = stops;
+#pragma warning restore BL0005    
+    }
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -55,21 +177,19 @@ public partial class SizeVariable
         }
 
         // get the property value
-        VisualAxis? result = await JsComponentReference!.InvokeJsMethod<VisualAxis?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "axis");
-        if (result is not null)
+        JsNullableEnumWrapper<VisualAxis>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<VisualAxis>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "axis");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Axis = result;
+             Axis = (VisualAxis)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Axis)] = Axis;
+             ModifiedParameters[nameof(Axis)] = Axis;
         }
          
         return Axis;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxDataValue property.
     /// </summary>
@@ -96,21 +216,19 @@ public partial class SizeVariable
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "maxDataValue");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "maxDataValue");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MaxDataValue = result;
+             MaxDataValue = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MaxDataValue)] = MaxDataValue;
+             ModifiedParameters[nameof(MaxDataValue)] = MaxDataValue;
         }
          
         return MaxDataValue;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxSize property.
     /// </summary>
@@ -137,21 +255,19 @@ public partial class SizeVariable
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, "maxSize");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                MaxSize = result;
+             MaxSize = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MaxSize)] = MaxSize;
+             ModifiedParameters[nameof(MaxSize)] = MaxSize;
         }
          
         return MaxSize;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinDataValue property.
     /// </summary>
@@ -178,21 +294,19 @@ public partial class SizeVariable
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "minDataValue");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "minDataValue");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MinDataValue = result;
+             MinDataValue = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MinDataValue)] = MinDataValue;
+             ModifiedParameters[nameof(MinDataValue)] = MinDataValue;
         }
          
         return MinDataValue;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinSize property.
     /// </summary>
@@ -219,21 +333,19 @@ public partial class SizeVariable
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, "minSize");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                MinSize = result;
+             MinSize = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MinSize)] = MinSize;
+             ModifiedParameters[nameof(MinSize)] = MinSize;
         }
          
         return MinSize;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the NormalizationField property.
     /// </summary>
@@ -260,21 +372,19 @@ public partial class SizeVariable
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "normalizationField");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                NormalizationField = result;
+             NormalizationField = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(NormalizationField)] = NormalizationField;
+             ModifiedParameters[nameof(NormalizationField)] = NormalizationField;
         }
          
         return NormalizationField;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Stops property.
     /// </summary>
@@ -300,16 +410,11 @@ public partial class SizeVariable
             return Stops;
         }
 
-        IReadOnlyList<SizeStop>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<SizeStop>?>(
-            IsServer, nameof(GetStops), nameof(SizeVariable), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<SizeStop>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<SizeStop>?>(
+            "getStops", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (SizeStop item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             Stops = result;
 #pragma warning restore BL0005
@@ -317,9 +422,8 @@ public partial class SizeVariable
         }
         
         return Stops;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Target property.
     /// </summary>
@@ -346,21 +450,19 @@ public partial class SizeVariable
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "target");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Target = result;
+             Target = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Target)] = Target;
+             ModifiedParameters[nameof(Target)] = Target;
         }
          
         return Target;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the UseSymbolValue property.
     /// </summary>
@@ -387,21 +489,19 @@ public partial class SizeVariable
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "useSymbolValue");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "useSymbolValue");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                UseSymbolValue = result;
+             UseSymbolValue = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(UseSymbolValue)] = UseSymbolValue;
+             ModifiedParameters[nameof(UseSymbolValue)] = UseSymbolValue;
         }
          
         return UseSymbolValue;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ValueRepresentation property.
     /// </summary>
@@ -428,21 +528,19 @@ public partial class SizeVariable
         }
 
         // get the property value
-        VisualValueRepresentation? result = await JsComponentReference!.InvokeJsMethod<VisualValueRepresentation?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "valueRepresentation");
-        if (result is not null)
+        JsNullableEnumWrapper<VisualValueRepresentation>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<VisualValueRepresentation>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "valueRepresentation");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ValueRepresentation = result;
+             ValueRepresentation = (VisualValueRepresentation)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ValueRepresentation)] = ValueRepresentation;
+             ModifiedParameters[nameof(ValueRepresentation)] = ValueRepresentation;
         }
          
         return ValueRepresentation;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ValueUnit property.
     /// </summary>
@@ -469,21 +567,19 @@ public partial class SizeVariable
         }
 
         // get the property value
-        VisualValueUnit? result = await JsComponentReference!.InvokeJsMethod<VisualValueUnit?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "valueUnit");
-        if (result is not null)
+        JsNullableEnumWrapper<VisualValueUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<VisualValueUnit>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "valueUnit");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ValueUnit = result;
+             ValueUnit = (VisualValueUnit)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ValueUnit)] = ValueUnit;
+             ModifiedParameters[nameof(ValueUnit)] = ValueUnit;
         }
          
         return ValueUnit;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -523,9 +619,8 @@ public partial class SizeVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "axis", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MaxDataValue property after render.
     /// </summary>
@@ -561,9 +656,8 @@ public partial class SizeVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxDataValue", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MaxSize property after render.
     /// </summary>
@@ -599,9 +693,8 @@ public partial class SizeVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxSize", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MinDataValue property after render.
     /// </summary>
@@ -637,9 +730,8 @@ public partial class SizeVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minDataValue", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MinSize property after render.
     /// </summary>
@@ -675,9 +767,8 @@ public partial class SizeVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minSize", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the NormalizationField property after render.
     /// </summary>
@@ -713,9 +804,8 @@ public partial class SizeVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "normalizationField", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Stops property after render.
     /// </summary>
@@ -724,6 +814,14 @@ public partial class SizeVariable
     /// </param>
     public async Task SetStops(IReadOnlyList<SizeStop>? value)
     {
+        if (value is not null)
+        {
+            foreach (SizeStop item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         Stops = value;
 #pragma warning restore BL0005
@@ -733,14 +831,6 @@ public partial class SizeVariable
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (SizeStop item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -757,12 +847,10 @@ public partial class SizeVariable
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetStops), nameof(SizeVariable),
+        await JsComponentReference.InvokeVoidAsync("setStops", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Target property after render.
     /// </summary>
@@ -798,9 +886,8 @@ public partial class SizeVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "target", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the UseSymbolValue property after render.
     /// </summary>
@@ -836,9 +923,8 @@ public partial class SizeVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "useSymbolValue", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ValueRepresentation property after render.
     /// </summary>
@@ -874,9 +960,8 @@ public partial class SizeVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "valueRepresentation", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ValueUnit property after render.
     /// </summary>
@@ -912,9 +997,8 @@ public partial class SizeVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "valueUnit", value);
-
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -931,7 +1015,6 @@ public partial class SizeVariable
             ? values
             : [..Stops, ..values];
         await SetStops(join);
-
     }
     
 #endregion
@@ -952,7 +1035,6 @@ public partial class SizeVariable
             return;
         }
         await SetStops(Stops.Except(values).ToArray());
-
     }
     
 #endregion
@@ -987,14 +1069,8 @@ public partial class SizeVariable
             return;
         }
         
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
-            nameof(FlipSizes), nameof(SizeVariable), 
+        await JsComponentReference!.InvokeVoidAsync(
+            "flipSizes", 
             CancellationTokenSource.Token);
     }
     

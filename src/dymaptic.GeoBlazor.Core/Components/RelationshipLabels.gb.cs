@@ -50,7 +50,7 @@ public partial class RelationshipLabels : MapComponent
         Left = left;
         Right = right;
         Top = top;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -126,21 +126,19 @@ public partial class RelationshipLabels : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RelationshipLabels), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "bottom");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Bottom = result;
+             Bottom = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Bottom)] = Bottom;
+             ModifiedParameters[nameof(Bottom)] = Bottom;
         }
          
         return Bottom;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Left property.
     /// </summary>
@@ -167,21 +165,19 @@ public partial class RelationshipLabels : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RelationshipLabels), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "left");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Left = result;
+             Left = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Left)] = Left;
+             ModifiedParameters[nameof(Left)] = Left;
         }
          
         return Left;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Right property.
     /// </summary>
@@ -208,21 +204,19 @@ public partial class RelationshipLabels : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RelationshipLabels), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "right");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Right = result;
+             Right = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Right)] = Right;
+             ModifiedParameters[nameof(Right)] = Right;
         }
          
         return Right;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Top property.
     /// </summary>
@@ -249,21 +243,19 @@ public partial class RelationshipLabels : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RelationshipLabels), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "top");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Top = result;
+             Top = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Top)] = Top;
+             ModifiedParameters[nameof(Top)] = Top;
         }
          
         return Top;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -303,9 +295,8 @@ public partial class RelationshipLabels : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "bottom", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Left property after render.
     /// </summary>
@@ -341,9 +332,8 @@ public partial class RelationshipLabels : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "left", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Right property after render.
     /// </summary>
@@ -379,9 +369,8 @@ public partial class RelationshipLabels : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "right", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Top property after render.
     /// </summary>
@@ -417,9 +406,8 @@ public partial class RelationshipLabels : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "top", value);
-
     }
-
+    
 #endregion
 
 }

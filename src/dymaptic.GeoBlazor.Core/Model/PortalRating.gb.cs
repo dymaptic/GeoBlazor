@@ -16,26 +16,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalRating.html#rating">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record PortalRating(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     DateTime? Created = null,
-    double? Rating = null)
-{
-    /// <summary>
-    ///     Parameterless Constructor
-    /// </summary>
-    public PortalRating(): this(null, null)
-    {
-    }
-    
-    /// <summary>
-    ///     Date the rating was added to the item.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalRating.html#created">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public DateTime? Created { get; set; } = Created;
-    
-    /// <summary>
-    ///     A rating between 1.0 and 5.0 for the item.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalRating.html#rating">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public double? Rating { get; set; } = Rating;
-    
-}
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    double? Rating = null);

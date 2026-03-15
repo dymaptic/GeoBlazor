@@ -26,7 +26,7 @@ public partial class GeoJSONLayerView : LayerView,
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="featureEffect">
-    ///     The featureEffect can be used to draw attention features of interest.
+    ///     The featureEffect can be used to draw attention to features of interest.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-GeoJSONLayerView.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="filter">
@@ -63,15 +63,15 @@ public partial class GeoJSONLayerView : LayerView,
     {
         AllowRender = false;
 #pragma warning disable BL0005
-#pragma warning disable CS0618
         FeatureEffect = featureEffect;
         Filter = filter;
+#pragma warning disable CS0618 // Type or member is obsolete
         HighlightOptions = highlightOptions;
+#pragma warning restore CS0618 // Type or member is obsolete
         MaximumNumberOfFeatures = maximumNumberOfFeatures;
         MaximumNumberOfFeaturesExceeded = maximumNumberOfFeaturesExceeded;
         Visible = visible;
-#pragma warning restore BL0005
-#pragma warning restore CS0618
+#pragma warning restore BL0005    
     }
     
     
@@ -100,7 +100,7 @@ public partial class GeoJSONLayerView : LayerView,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.GeoJSONLayerView.html#geojsonlayerviewfeatureeffect-property">GeoBlazor Docs</a>
-    ///     The featureEffect can be used to draw attention features of interest.
+    ///     The featureEffect can be used to draw attention to features of interest.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-GeoJSONLayerView.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -123,7 +123,7 @@ public partial class GeoJSONLayerView : LayerView,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.GeoJSONLayerView.html#geojsonlayerviewhasallfeatures-property">GeoBlazor Docs</a>
-    ///     Indicates whether the layer view contains all available features from the service.
+    ///     Indicates whether the layer view contains all available features from the service or source.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-GeoJSONLayerView.html#hasAllFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -144,7 +144,7 @@ public partial class GeoJSONLayerView : LayerView,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.GeoJSONLayerView.html#geojsonlayerviewhasfullgeometries-property">GeoBlazor Docs</a>
-    ///     Indicates whether the layer view has geometries at full resolution.
+    ///     Indicates whether the LayerView contains geometries at full resolution.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-GeoJSONLayerView.html#hasFullGeometries">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -202,21 +202,19 @@ public partial class GeoJSONLayerView : LayerView,
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayerView), View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, "availableFields");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                AvailableFields = result;
+             AvailableFields = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(AvailableFields)] = AvailableFields;
+             ModifiedParameters[nameof(AvailableFields)] = AvailableFields;
         }
          
         return AvailableFields;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DataUpdating property.
     /// </summary>
@@ -243,21 +241,19 @@ public partial class GeoJSONLayerView : LayerView,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayerView), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "dataUpdating");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "dataUpdating");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                DataUpdating = result;
+             DataUpdating = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(DataUpdating)] = DataUpdating;
+             ModifiedParameters[nameof(DataUpdating)] = DataUpdating;
         }
          
         return DataUpdating;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureEffect property.
     /// </summary>
@@ -283,18 +279,11 @@ public partial class GeoJSONLayerView : LayerView,
             return FeatureEffect;
         }
 
-        FeatureEffect? result = await JsComponentReference.InvokeJsMethod<FeatureEffect?>(
-            IsServer, nameof(GetFeatureEffect), nameof(GeoJSONLayerView), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        FeatureEffect? result = await JsComponentReference.InvokeAsync<FeatureEffect?>(
+            "getFeatureEffect", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (FeatureEffect is not null)
-            {
-                result.Id = FeatureEffect.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             FeatureEffect = result;
 #pragma warning restore BL0005
@@ -302,9 +291,8 @@ public partial class GeoJSONLayerView : LayerView,
         }
         
         return FeatureEffect;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Filter property.
     /// </summary>
@@ -330,9 +318,8 @@ public partial class GeoJSONLayerView : LayerView,
             return Filter;
         }
 
-        FeatureFilter? result = await JsComponentReference.InvokeJsMethod<FeatureFilter?>(
-            IsServer, nameof(GetFilter), nameof(GeoJSONLayerView), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        FeatureFilter? result = await JsComponentReference.InvokeAsync<FeatureFilter?>(
+            "getFilter", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -349,9 +336,8 @@ public partial class GeoJSONLayerView : LayerView,
         }
         
         return Filter;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the HasAllFeatures property.
     /// </summary>
@@ -378,21 +364,19 @@ public partial class GeoJSONLayerView : LayerView,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayerView), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "hasAllFeatures");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "hasAllFeatures");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                HasAllFeatures = result;
+             HasAllFeatures = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(HasAllFeatures)] = HasAllFeatures;
+             ModifiedParameters[nameof(HasAllFeatures)] = HasAllFeatures;
         }
          
         return HasAllFeatures;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the HasAllFeaturesInView property.
     /// </summary>
@@ -419,21 +403,19 @@ public partial class GeoJSONLayerView : LayerView,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayerView), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "hasAllFeaturesInView");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "hasAllFeaturesInView");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                HasAllFeaturesInView = result;
+             HasAllFeaturesInView = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(HasAllFeaturesInView)] = HasAllFeaturesInView;
+             ModifiedParameters[nameof(HasAllFeaturesInView)] = HasAllFeaturesInView;
         }
          
         return HasAllFeaturesInView;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the HasFullGeometries property.
     /// </summary>
@@ -460,70 +442,19 @@ public partial class GeoJSONLayerView : LayerView,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayerView), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "hasFullGeometries");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "hasFullGeometries");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                HasFullGeometries = result;
+             HasFullGeometries = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(HasFullGeometries)] = HasFullGeometries;
+             ModifiedParameters[nameof(HasFullGeometries)] = HasFullGeometries;
         }
          
         return HasFullGeometries;
-
     }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the HighlightOptions property.
-    /// </summary>
-    [Obsolete("$Deprecated since GeoBlazor version 4.4.0. Use the {nameof(MapView.Highlights)} property instead.")]
-    public async Task<HighlightOptions?> GetHighlightOptions()
-    {
-#pragma warning disable CS0618
-        if (CoreJsModule is null)
-        {
-            return HighlightOptions;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return HighlightOptions;
-        }
-
-        HighlightOptions? result = await JsComponentReference.InvokeJsMethod<HighlightOptions?>(
-            IsServer, nameof(GetHighlightOptions), nameof(GeoJSONLayerView), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            if (HighlightOptions is not null)
-            {
-                result.Id = HighlightOptions.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
-#pragma warning disable BL0005
-            HighlightOptions = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
-        }
-        
-        return HighlightOptions;
-#pragma warning restore CS0618
-    }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaximumNumberOfFeatures property.
     /// </summary>
@@ -550,21 +481,19 @@ public partial class GeoJSONLayerView : LayerView,
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayerView), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "maximumNumberOfFeatures");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "maximumNumberOfFeatures");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MaximumNumberOfFeatures = result;
+             MaximumNumberOfFeatures = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MaximumNumberOfFeatures)] = MaximumNumberOfFeatures;
+             ModifiedParameters[nameof(MaximumNumberOfFeatures)] = MaximumNumberOfFeatures;
         }
          
         return MaximumNumberOfFeatures;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaximumNumberOfFeaturesExceeded property.
     /// </summary>
@@ -591,21 +520,19 @@ public partial class GeoJSONLayerView : LayerView,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoJSONLayerView), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "maximumNumberOfFeaturesExceeded");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "maximumNumberOfFeaturesExceeded");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MaximumNumberOfFeaturesExceeded = result;
+             MaximumNumberOfFeaturesExceeded = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MaximumNumberOfFeaturesExceeded)] = MaximumNumberOfFeaturesExceeded;
+             ModifiedParameters[nameof(MaximumNumberOfFeaturesExceeded)] = MaximumNumberOfFeaturesExceeded;
         }
          
         return MaximumNumberOfFeaturesExceeded;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -618,6 +545,11 @@ public partial class GeoJSONLayerView : LayerView,
     /// </param>
     public async Task SetFeatureEffect(FeatureEffect? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         FeatureEffect = value;
 #pragma warning restore BL0005
@@ -627,11 +559,6 @@ public partial class GeoJSONLayerView : LayerView,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -648,12 +575,10 @@ public partial class GeoJSONLayerView : LayerView,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetFeatureEffect), nameof(GeoJSONLayerView),
+        await JsComponentReference.InvokeVoidAsync("setFeatureEffect", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Filter property after render.
     /// </summary>
@@ -662,6 +587,11 @@ public partial class GeoJSONLayerView : LayerView,
     /// </param>
     public async Task SetFilter(FeatureFilter? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Filter = value;
 #pragma warning restore BL0005
@@ -671,11 +601,6 @@ public partial class GeoJSONLayerView : LayerView,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -692,58 +617,10 @@ public partial class GeoJSONLayerView : LayerView,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetFilter), nameof(GeoJSONLayerView),
+        await JsComponentReference.InvokeVoidAsync("setFilter", 
             CancellationTokenSource.Token, value);
- 
     }
-
-    /// <summary>
-    ///    Asynchronously set the value of the HighlightOptions property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    [Obsolete("$Deprecated since GeoBlazor version 4.4.0. Use the {nameof(MapView.Highlights)} property instead.")]
-    public async Task SetHighlightOptions(HighlightOptions? value)
-    {
-#pragma warning disable CS0618
-#pragma warning disable BL0005
-        HighlightOptions = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(HighlightOptions)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetHighlightOptions), nameof(GeoJSONLayerView),
-            CancellationTokenSource.Token, value);
- #pragma warning restore CS0618
-    }
-
     /// <summary>
     ///    Asynchronously set the value of the MaximumNumberOfFeatures property after render.
     /// </summary>
@@ -779,9 +656,8 @@ public partial class GeoJSONLayerView : LayerView,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maximumNumberOfFeatures", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MaximumNumberOfFeaturesExceeded property after render.
     /// </summary>
@@ -817,9 +693,8 @@ public partial class GeoJSONLayerView : LayerView,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maximumNumberOfFeaturesExceeded", value);
-
     }
-
+    
 #endregion
 
 #region Public Methods
@@ -862,7 +737,7 @@ public partial class GeoJSONLayerView : LayerView,
                 FeatureEffect = null;
                 ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
                 return true;
-            case FeatureFilter:
+            case FeatureFilter _:
                 Filter = null;
                 ModifiedParameters[nameof(Filter)] = Filter;
                 return true;

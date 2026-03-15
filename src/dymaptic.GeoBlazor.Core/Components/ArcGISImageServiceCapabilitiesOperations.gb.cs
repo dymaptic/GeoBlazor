@@ -134,7 +134,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         SupportsQuery = supportsQuery;
         SupportsQueryBoundary = supportsQueryBoundary;
         SupportsQueryGPSInfo = supportsQueryGPSInfo;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -350,21 +350,19 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsCalculateVolume");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsCalculateVolume");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsCalculateVolume = result;
+             SupportsCalculateVolume = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsCalculateVolume)] = SupportsCalculateVolume;
+             ModifiedParameters[nameof(SupportsCalculateVolume)] = SupportsCalculateVolume;
         }
          
         return SupportsCalculateVolume;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsComputeHistograms property.
     /// </summary>
@@ -391,21 +389,19 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsComputeHistograms");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsComputeHistograms");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsComputeHistograms = result;
+             SupportsComputeHistograms = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsComputeHistograms)] = SupportsComputeHistograms;
+             ModifiedParameters[nameof(SupportsComputeHistograms)] = SupportsComputeHistograms;
         }
          
         return SupportsComputeHistograms;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsComputePixelLocation property.
     /// </summary>
@@ -432,21 +428,19 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsComputePixelLocation");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsComputePixelLocation");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsComputePixelLocation = result;
+             SupportsComputePixelLocation = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsComputePixelLocation)] = SupportsComputePixelLocation;
+             ModifiedParameters[nameof(SupportsComputePixelLocation)] = SupportsComputePixelLocation;
         }
          
         return SupportsComputePixelLocation;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsComputeStatisticsHistograms property.
     /// </summary>
@@ -473,21 +467,19 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsComputeStatisticsHistograms");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsComputeStatisticsHistograms");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsComputeStatisticsHistograms = result;
+             SupportsComputeStatisticsHistograms = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsComputeStatisticsHistograms)] = SupportsComputeStatisticsHistograms;
+             ModifiedParameters[nameof(SupportsComputeStatisticsHistograms)] = SupportsComputeStatisticsHistograms;
         }
          
         return SupportsComputeStatisticsHistograms;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsDownload property.
     /// </summary>
@@ -514,21 +506,19 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsDownload");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsDownload");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsDownload = result;
+             SupportsDownload = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsDownload)] = SupportsDownload;
+             ModifiedParameters[nameof(SupportsDownload)] = SupportsDownload;
         }
          
         return SupportsDownload;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsExportImage property.
     /// </summary>
@@ -555,21 +545,19 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsExportImage");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsExportImage");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsExportImage = result;
+             SupportsExportImage = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsExportImage)] = SupportsExportImage;
+             ModifiedParameters[nameof(SupportsExportImage)] = SupportsExportImage;
         }
          
         return SupportsExportImage;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsFindImages property.
     /// </summary>
@@ -596,21 +584,19 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsFindImages");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsFindImages");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsFindImages = result;
+             SupportsFindImages = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsFindImages)] = SupportsFindImages;
+             ModifiedParameters[nameof(SupportsFindImages)] = SupportsFindImages;
         }
          
         return SupportsFindImages;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsGetImageUrl property.
     /// </summary>
@@ -637,21 +623,19 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsGetImageUrl");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsGetImageUrl");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsGetImageUrl = result;
+             SupportsGetImageUrl = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsGetImageUrl)] = SupportsGetImageUrl;
+             ModifiedParameters[nameof(SupportsGetImageUrl)] = SupportsGetImageUrl;
         }
          
         return SupportsGetImageUrl;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsGetSamples property.
     /// </summary>
@@ -678,21 +662,19 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsGetSamples");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsGetSamples");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsGetSamples = result;
+             SupportsGetSamples = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsGetSamples)] = SupportsGetSamples;
+             ModifiedParameters[nameof(SupportsGetSamples)] = SupportsGetSamples;
         }
          
         return SupportsGetSamples;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsIdentify property.
     /// </summary>
@@ -719,21 +701,19 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsIdentify");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsIdentify");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsIdentify = result;
+             SupportsIdentify = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsIdentify)] = SupportsIdentify;
+             ModifiedParameters[nameof(SupportsIdentify)] = SupportsIdentify;
         }
          
         return SupportsIdentify;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsImageToMap property.
     /// </summary>
@@ -760,21 +740,19 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsImageToMap");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsImageToMap");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsImageToMap = result;
+             SupportsImageToMap = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsImageToMap)] = SupportsImageToMap;
+             ModifiedParameters[nameof(SupportsImageToMap)] = SupportsImageToMap;
         }
          
         return SupportsImageToMap;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsImageToMapMultiray property.
     /// </summary>
@@ -801,21 +779,19 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsImageToMapMultiray");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsImageToMapMultiray");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsImageToMapMultiray = result;
+             SupportsImageToMapMultiray = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsImageToMapMultiray)] = SupportsImageToMapMultiray;
+             ModifiedParameters[nameof(SupportsImageToMapMultiray)] = SupportsImageToMapMultiray;
         }
          
         return SupportsImageToMapMultiray;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsMapToImage property.
     /// </summary>
@@ -842,21 +818,19 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsMapToImage");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsMapToImage");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsMapToImage = result;
+             SupportsMapToImage = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsMapToImage)] = SupportsMapToImage;
+             ModifiedParameters[nameof(SupportsMapToImage)] = SupportsMapToImage;
         }
          
         return SupportsMapToImage;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsMeasure property.
     /// </summary>
@@ -883,21 +857,19 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsMeasure");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsMeasure");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsMeasure = result;
+             SupportsMeasure = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsMeasure)] = SupportsMeasure;
+             ModifiedParameters[nameof(SupportsMeasure)] = SupportsMeasure;
         }
          
         return SupportsMeasure;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsProject property.
     /// </summary>
@@ -924,21 +896,19 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsProject");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsProject");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsProject = result;
+             SupportsProject = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsProject)] = SupportsProject;
+             ModifiedParameters[nameof(SupportsProject)] = SupportsProject;
         }
          
         return SupportsProject;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsQuery property.
     /// </summary>
@@ -965,21 +935,19 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsQuery");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsQuery");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsQuery = result;
+             SupportsQuery = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsQuery)] = SupportsQuery;
+             ModifiedParameters[nameof(SupportsQuery)] = SupportsQuery;
         }
          
         return SupportsQuery;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsQueryBoundary property.
     /// </summary>
@@ -1006,21 +974,19 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsQueryBoundary");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsQueryBoundary");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsQueryBoundary = result;
+             SupportsQueryBoundary = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsQueryBoundary)] = SupportsQueryBoundary;
+             ModifiedParameters[nameof(SupportsQueryBoundary)] = SupportsQueryBoundary;
         }
          
         return SupportsQueryBoundary;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsQueryGPSInfo property.
     /// </summary>
@@ -1047,21 +1013,19 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsQueryGPSInfo");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsQueryGPSInfo");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsQueryGPSInfo = result;
+             SupportsQueryGPSInfo = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsQueryGPSInfo)] = SupportsQueryGPSInfo;
+             ModifiedParameters[nameof(SupportsQueryGPSInfo)] = SupportsQueryGPSInfo;
         }
          
         return SupportsQueryGPSInfo;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -1101,9 +1065,8 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsCalculateVolume", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsComputeHistograms property after render.
     /// </summary>
@@ -1139,9 +1102,8 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsComputeHistograms", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsComputePixelLocation property after render.
     /// </summary>
@@ -1177,9 +1139,8 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsComputePixelLocation", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsComputeStatisticsHistograms property after render.
     /// </summary>
@@ -1215,9 +1176,8 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsComputeStatisticsHistograms", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsDownload property after render.
     /// </summary>
@@ -1253,9 +1213,8 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsDownload", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsExportImage property after render.
     /// </summary>
@@ -1291,9 +1250,8 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsExportImage", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsFindImages property after render.
     /// </summary>
@@ -1329,9 +1287,8 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsFindImages", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsGetImageUrl property after render.
     /// </summary>
@@ -1367,9 +1324,8 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsGetImageUrl", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsGetSamples property after render.
     /// </summary>
@@ -1405,9 +1361,8 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsGetSamples", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsIdentify property after render.
     /// </summary>
@@ -1443,9 +1398,8 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsIdentify", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsImageToMap property after render.
     /// </summary>
@@ -1481,9 +1435,8 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsImageToMap", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsImageToMapMultiray property after render.
     /// </summary>
@@ -1519,9 +1472,8 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsImageToMapMultiray", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsMapToImage property after render.
     /// </summary>
@@ -1557,9 +1509,8 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsMapToImage", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsMeasure property after render.
     /// </summary>
@@ -1595,9 +1546,8 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsMeasure", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsProject property after render.
     /// </summary>
@@ -1633,9 +1583,8 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsProject", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsQuery property after render.
     /// </summary>
@@ -1671,9 +1620,8 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsQuery", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsQueryBoundary property after render.
     /// </summary>
@@ -1709,9 +1657,8 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsQueryBoundary", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsQueryGPSInfo property after render.
     /// </summary>
@@ -1747,9 +1694,8 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsQueryGPSInfo", value);
-
     }
-
+    
 #endregion
 
 }

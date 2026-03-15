@@ -15,6 +15,10 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     If `true`, the browser will send a request to the server instead of using the browser's local cache.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="ElementReferenceBody">
+///     If uploading a file, specify the form data or element used to submit the file here.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 /// <param name="Headers">
 ///     Headers to use for the request.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
@@ -23,12 +27,20 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     Indicates if the request should be made using the HTTP DELETE, HEAD, POST, or PUT method.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="ObjectCollectionBody">
+///     If uploading a file, specify the form data or element used to submit the file here.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 /// <param name="Query">
 ///     Query parameters for the request.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="ResponseType">
 ///     Response format.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="StringBody">
+///     If uploading a file, specify the form data or element used to submit the file here.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Timeout">
@@ -43,24 +55,22 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     Indicates if cross-site `Access-Control` requests should use credentials.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="Body">
-///     If uploading a file, specify the form data or element used to submit the file here.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 public partial record RequestOptions(
     AuthMode? AuthMode = null,
     bool? CacheBust = null,
+    ElementReference? ElementReferenceBody = null,
     string? Headers = null,
     RequestMethod? Method = null,
+    Dictionary<string, object?>? ObjectCollectionBody = null,
     Dictionary<string, object?>? Query = null,
     ResponseType? ResponseType = null,
+    string? StringBody = null,
     long? Timeout = null,
     bool? UseProxy = null,
-    bool? WithCredentials = null,
-    RequestOptionsBody? Body = null)
+    bool? WithCredentials = null)
 {
     /// <summary>
-    ///     Parameterless Constructor
+    ///     Parameterless constructor
     /// </summary>
     public RequestOptions(): this(null, null)
     {
@@ -79,6 +89,12 @@ public partial record RequestOptions(
     public bool? CacheBust { get; set; } = CacheBust;
     
     /// <summary>
+    ///     If uploading a file, specify the form data or element used to submit the file here.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public ElementReference? ElementReferenceBody { get; set; } = ElementReferenceBody;
+    
+    /// <summary>
     ///     Headers to use for the request.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -91,6 +107,12 @@ public partial record RequestOptions(
     public RequestMethod? Method { get; set; } = Method;
     
     /// <summary>
+    ///     If uploading a file, specify the form data or element used to submit the file here.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public Dictionary<string, object?>? ObjectCollectionBody { get; set; } = ObjectCollectionBody;
+    
+    /// <summary>
     ///     Query parameters for the request.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -101,6 +123,12 @@ public partial record RequestOptions(
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public ResponseType? ResponseType { get; set; } = ResponseType;
+    
+    /// <summary>
+    ///     If uploading a file, specify the form data or element used to submit the file here.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public string? StringBody { get; set; } = StringBody;
     
     /// <summary>
     ///     Indicates the amount of time in milliseconds to wait for a response from the server.
@@ -119,11 +147,5 @@ public partial record RequestOptions(
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? WithCredentials { get; set; } = WithCredentials;
-    
-    /// <summary>
-    ///     If uploading a file, specify the form data or element used to submit the file here.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public RequestOptionsBody? Body { get; set; } = Body;
     
 }

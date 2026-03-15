@@ -56,7 +56,7 @@ public partial class TickConfig
         LabelsVisible = labelsVisible;
         TickCreatedFunction = tickCreatedFunction;
         Values = values;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -154,21 +154,19 @@ public partial class TickConfig
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TickConfig), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "labelsVisible");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "labelsVisible");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                LabelsVisible = result;
+             LabelsVisible = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
+             ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
         }
          
         return LabelsVisible;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Mode property.
     /// </summary>
@@ -195,21 +193,19 @@ public partial class TickConfig
         }
 
         // get the property value
-        TickConfigMode? result = await JsComponentReference!.InvokeJsMethod<TickConfigMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TickConfig), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "mode");
-        if (result is not null)
+        JsNullableEnumWrapper<TickConfigMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<TickConfigMode>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "mode");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Mode = result;
+             Mode = (TickConfigMode)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Mode)] = Mode;
+             ModifiedParameters[nameof(Mode)] = Mode;
         }
          
         return Mode;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Values property.
     /// </summary>
@@ -236,21 +232,19 @@ public partial class TickConfig
         }
 
         // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TickConfig), View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
             CancellationTokenSource.Token, "values");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Values = result;
+             Values = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Values)] = Values;
+             ModifiedParameters[nameof(Values)] = Values;
         }
          
         return Values;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -290,9 +284,8 @@ public partial class TickConfig
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelsVisible", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Mode property after render.
     /// </summary>
@@ -328,9 +321,8 @@ public partial class TickConfig
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mode", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Values property after render.
     /// </summary>
@@ -366,9 +358,8 @@ public partial class TickConfig
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "values", value);
-
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -385,7 +376,6 @@ public partial class TickConfig
             ? values
             : [..Values, ..values];
         await SetValues(join);
-
     }
     
 #endregion
@@ -406,7 +396,6 @@ public partial class TickConfig
             return;
         }
         await SetValues(Values.Except(values).ToArray());
-
     }
     
 #endregion

@@ -32,7 +32,7 @@ public partial class BasemapToggleViewModel : MapComponent
         AllowRender = false;
 #pragma warning disable BL0005
         NextBasemap = nextBasemap;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -98,9 +98,8 @@ public partial class BasemapToggleViewModel : MapComponent
             return ActiveBasemap;
         }
 
-        Basemap? result = await JsComponentReference.InvokeJsMethod<Basemap?>(
-            IsServer, nameof(GetActiveBasemap), nameof(BasemapToggleViewModel), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Basemap? result = await JsComponentReference.InvokeAsync<Basemap?>(
+            "getActiveBasemap", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -117,9 +116,8 @@ public partial class BasemapToggleViewModel : MapComponent
         }
         
         return ActiveBasemap;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the NextBasemap property.
     /// </summary>
@@ -145,9 +143,8 @@ public partial class BasemapToggleViewModel : MapComponent
             return NextBasemap;
         }
 
-        Basemap? result = await JsComponentReference.InvokeJsMethod<Basemap?>(
-            IsServer, nameof(GetNextBasemap), nameof(BasemapToggleViewModel), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Basemap? result = await JsComponentReference.InvokeAsync<Basemap?>(
+            "getNextBasemap", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -164,9 +161,8 @@ public partial class BasemapToggleViewModel : MapComponent
         }
         
         return NextBasemap;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -193,21 +189,19 @@ public partial class BasemapToggleViewModel : MapComponent
         }
 
         // get the property value
-        ViewModelState? result = await JsComponentReference!.InvokeJsMethod<ViewModelState?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapToggleViewModel), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "state");
-        if (result is not null)
+        JsNullableEnumWrapper<ViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ViewModelState>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "state");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                State = result;
+             State = (ViewModelState)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(State)] = State;
+             ModifiedParameters[nameof(State)] = State;
         }
          
         return State;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -220,6 +214,11 @@ public partial class BasemapToggleViewModel : MapComponent
     /// </param>
     public async Task SetNextBasemap(Basemap? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         NextBasemap = value;
 #pragma warning restore BL0005
@@ -229,11 +228,6 @@ public partial class BasemapToggleViewModel : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -250,12 +244,10 @@ public partial class BasemapToggleViewModel : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetNextBasemap), nameof(BasemapToggleViewModel),
+        await JsComponentReference.InvokeVoidAsync("setNextBasemap", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
 #endregion
 
 #region Public Methods
@@ -288,8 +280,8 @@ public partial class BasemapToggleViewModel : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(Toggle), nameof(BasemapToggleViewModel), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<string?>(
+            "toggle", 
             CancellationTokenSource.Token);
     }
     
@@ -319,7 +311,7 @@ public partial class BasemapToggleViewModel : MapComponent
     {
         switch (child)
         {
-            case Basemap:
+            case Basemap _:
                 NextBasemap = null;
                 ModifiedParameters[nameof(NextBasemap)] = NextBasemap;
                 return true;

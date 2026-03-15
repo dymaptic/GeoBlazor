@@ -44,7 +44,7 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
         Area = area;
         Geometry = geometry;
         Perimeter = perimeter;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -110,21 +110,19 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AreaMeasurement2DViewModelMeasurement), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "area");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "area");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Area = result;
+             Area = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Area)] = Area;
+             ModifiedParameters[nameof(Area)] = Area;
         }
          
         return Area;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Geometry property.
     /// </summary>
@@ -150,9 +148,8 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
             return Geometry;
         }
 
-        Polygon? result = await JsComponentReference.InvokeJsMethod<Polygon?>(
-            IsServer, nameof(GetGeometry), nameof(AreaMeasurement2DViewModelMeasurement), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Polygon? result = await JsComponentReference.InvokeAsync<Polygon?>(
+            "getGeometry", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -169,9 +166,8 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
         }
         
         return Geometry;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Perimeter property.
     /// </summary>
@@ -198,21 +194,19 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AreaMeasurement2DViewModelMeasurement), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "perimeter");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "perimeter");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Perimeter = result;
+             Perimeter = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Perimeter)] = Perimeter;
+             ModifiedParameters[nameof(Perimeter)] = Perimeter;
         }
          
         return Perimeter;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -252,9 +246,8 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "area", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Geometry property after render.
     /// </summary>
@@ -263,6 +256,11 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
     /// </param>
     public async Task SetGeometry(Polygon? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Geometry = value;
 #pragma warning restore BL0005
@@ -272,11 +270,6 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -295,9 +288,8 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "geometry", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Perimeter property after render.
     /// </summary>
@@ -333,9 +325,8 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "perimeter", value);
-
     }
-
+    
 #endregion
 
 
@@ -362,7 +353,7 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
     {
         switch (child)
         {
-            case Polygon:
+            case Polygon _:
                 Geometry = null;
                 ModifiedParameters[nameof(Geometry)] = Geometry;
                 return true;

@@ -44,7 +44,7 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         Point = point;
         Polygon = polygon;
         Polyline = polyline;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -109,18 +109,11 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
             return Point;
         }
 
-        Symbol? result = await JsComponentReference.InvokeJsMethod<Symbol?>(
-            IsServer, nameof(GetPoint), nameof(SearchViewModelDefaultSymbols), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
+            "getPoint", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (Point is not null)
-            {
-                result.Id = Point.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Point = result;
 #pragma warning restore BL0005
@@ -128,9 +121,8 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         }
         
         return Point;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Polygon property.
     /// </summary>
@@ -156,18 +148,11 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
             return Polygon;
         }
 
-        Symbol? result = await JsComponentReference.InvokeJsMethod<Symbol?>(
-            IsServer, nameof(GetPolygon), nameof(SearchViewModelDefaultSymbols), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
+            "getPolygon", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (Polygon is not null)
-            {
-                result.Id = Polygon.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Polygon = result;
 #pragma warning restore BL0005
@@ -175,9 +160,8 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         }
         
         return Polygon;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Polyline property.
     /// </summary>
@@ -203,18 +187,11 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
             return Polyline;
         }
 
-        Symbol? result = await JsComponentReference.InvokeJsMethod<Symbol?>(
-            IsServer, nameof(GetPolyline), nameof(SearchViewModelDefaultSymbols), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
+            "getPolyline", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (Polyline is not null)
-            {
-                result.Id = Polyline.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Polyline = result;
 #pragma warning restore BL0005
@@ -222,9 +199,8 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         }
         
         return Polyline;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -237,6 +213,11 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     /// </param>
     public async Task SetPoint(Symbol? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Point = value;
 #pragma warning restore BL0005
@@ -246,11 +227,6 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -269,9 +245,8 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "point", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Polygon property after render.
     /// </summary>
@@ -280,6 +255,11 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     /// </param>
     public async Task SetPolygon(Symbol? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Polygon = value;
 #pragma warning restore BL0005
@@ -289,11 +269,6 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -312,9 +287,8 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "polygon", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Polyline property after render.
     /// </summary>
@@ -323,6 +297,11 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     /// </param>
     public async Task SetPolyline(Symbol? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Polyline = value;
 #pragma warning restore BL0005
@@ -332,11 +311,6 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -355,9 +329,8 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "polyline", value);
-
     }
-
+    
 #endregion
 
 }

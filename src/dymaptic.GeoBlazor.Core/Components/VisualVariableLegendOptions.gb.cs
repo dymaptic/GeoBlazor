@@ -6,7 +6,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisualVariableLegendOptions.html">GeoBlazor Docs</a>
 ///     An object providing options for displaying the visual variable in
-///     the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
+///     the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#legendOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class VisualVariableLegendOptions
@@ -39,7 +39,7 @@ public partial class VisualVariableLegendOptions
 #pragma warning disable BL0005
         ShowLegend = showLegend;
         Title = title;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -71,21 +71,19 @@ public partial class VisualVariableLegendOptions
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisualVariableLegendOptions), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "showLegend");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "showLegend");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ShowLegend = result;
+             ShowLegend = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ShowLegend)] = ShowLegend;
+             ModifiedParameters[nameof(ShowLegend)] = ShowLegend;
         }
          
         return ShowLegend;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -112,21 +110,19 @@ public partial class VisualVariableLegendOptions
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisualVariableLegendOptions), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Title = result;
+             Title = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Title)] = Title;
+             ModifiedParameters[nameof(Title)] = Title;
         }
          
         return Title;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -166,9 +162,8 @@ public partial class VisualVariableLegendOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "showLegend", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -204,9 +199,8 @@ public partial class VisualVariableLegendOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
-
     }
-
+    
 #endregion
 
 }

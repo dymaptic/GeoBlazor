@@ -11,8 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class LayerView
 {
-   
-    
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -74,53 +73,6 @@ public partial class LayerView
 #region Property Getters
 
     /// <summary>
-    ///     Asynchronously retrieve the current value of the Layer property.
-    /// </summary>
-    public async Task<Layer?> GetLayer()
-    {
-        if (CoreJsModule is null)
-        {
-            return Layer;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Layer;
-        }
-
-        Layer? result = await JsComponentReference.InvokeJsMethod<Layer?>(
-            IsServer, nameof(GetLayer), nameof(LayerView), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            if (Layer is not null)
-            {
-                result.Id = Layer.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
-#pragma warning disable BL0005
-            Layer = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Layer)] = Layer;
-        }
-        
-        return Layer;
-
-    }
-
-    /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReferenceSupported property.
     /// </summary>
     public async Task<bool?> GetSpatialReferenceSupported()
@@ -146,21 +98,19 @@ public partial class LayerView
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerView), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "spatialReferenceSupported");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "spatialReferenceSupported");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SpatialReferenceSupported = result;
+             SpatialReferenceSupported = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SpatialReferenceSupported)] = SpatialReferenceSupported;
+             ModifiedParameters[nameof(SpatialReferenceSupported)] = SpatialReferenceSupported;
         }
          
         return SpatialReferenceSupported;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Suspended property.
     /// </summary>
@@ -187,21 +137,19 @@ public partial class LayerView
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerView), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "suspended");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "suspended");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Suspended = result;
+             Suspended = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Suspended)] = Suspended;
+             ModifiedParameters[nameof(Suspended)] = Suspended;
         }
          
         return Suspended;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Updating property.
     /// </summary>
@@ -228,21 +176,19 @@ public partial class LayerView
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerView), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "updating");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "updating");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Updating = result;
+             Updating = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Updating)] = Updating;
+             ModifiedParameters[nameof(Updating)] = Updating;
         }
          
         return Updating;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibleAtCurrentScale property.
     /// </summary>
@@ -269,21 +215,19 @@ public partial class LayerView
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerView), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "visibleAtCurrentScale");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "visibleAtCurrentScale");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                VisibleAtCurrentScale = result;
+             VisibleAtCurrentScale = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(VisibleAtCurrentScale)] = VisibleAtCurrentScale;
+             ModifiedParameters[nameof(VisibleAtCurrentScale)] = VisibleAtCurrentScale;
         }
          
         return VisibleAtCurrentScale;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibleAtCurrentTimeExtent property.
     /// </summary>
@@ -310,21 +254,19 @@ public partial class LayerView
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerView), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "visibleAtCurrentTimeExtent");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "visibleAtCurrentTimeExtent");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                VisibleAtCurrentTimeExtent = result;
+             VisibleAtCurrentTimeExtent = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(VisibleAtCurrentTimeExtent)] = VisibleAtCurrentTimeExtent;
+             ModifiedParameters[nameof(VisibleAtCurrentTimeExtent)] = VisibleAtCurrentTimeExtent;
         }
          
         return VisibleAtCurrentTimeExtent;
-
     }
-
+    
 #endregion
 
 #region Public Methods
@@ -357,8 +299,8 @@ public partial class LayerView
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(IsFulfilled), nameof(LayerView), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "isFulfilled", 
             CancellationTokenSource.Token);
     }
     
@@ -390,8 +332,8 @@ public partial class LayerView
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(IsRejected), nameof(LayerView), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "isRejected", 
             CancellationTokenSource.Token);
     }
     
@@ -423,26 +365,25 @@ public partial class LayerView
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(IsResolved), nameof(LayerView), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "isResolved", 
             CancellationTokenSource.Token);
     }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerView.html#layerviewwhen-method">GeoBlazor Docs</a>
     ///     `when()` may be leveraged once an instance of the class is created.
-    ///     param errback The function to execute when the promise fails.
+    ///     param onRejected The function to execute when the promise fails.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html#when">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    /// <param name="callback">
+    /// <param name="onFulfilled">
     ///     The function to call when the promise resolves.
     /// </param>
-    /// <param name="errback">
-    ///     The function to execute when the promise fails.
+    /// <param name="onRejected">
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> When(Func<Task> callback,
-        Func<Task> errback)
+    public async Task<string?> When(Func<Task> onFulfilled,
+        Func<Task> onRejected)
     {
         if (CoreJsModule is null)
         {
@@ -464,11 +405,11 @@ public partial class LayerView
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(When), nameof(LayerView), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<string?>(
+            "when", 
             CancellationTokenSource.Token,
-            callback,
-            errback);
+            onFulfilled,
+            onRejected);
     }
     
 #endregion

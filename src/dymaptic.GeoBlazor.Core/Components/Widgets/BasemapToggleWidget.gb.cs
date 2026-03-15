@@ -23,6 +23,9 @@ public partial class BasemapToggleWidget
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
+    /// <param name="containerId">
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    /// </param>
     /// <param name="icon">
     ///     Icon which represents the widget.
     ///     default "layer-basemap"
@@ -32,9 +35,15 @@ public partial class BasemapToggleWidget
     ///     The widget's default label.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="mapView">
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </param>
     /// <param name="nextBasemap">
     ///     The next basemap for toggling.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html#nextBasemap">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="position">
+    ///     The position of the widget in relation to the map view.
     /// </param>
     /// <param name="viewModel">
     ///     The view model for this widget.
@@ -54,9 +63,12 @@ public partial class BasemapToggleWidget
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public BasemapToggleWidget(
+        string? containerId = null,
         string? icon = null,
         string? label = null,
+        MapView? mapView = null,
         Basemap? nextBasemap = null,
+        OverlayPosition? position = null,
         BasemapToggleViewModel? viewModel = null,
         bool? visible = null,
         BasemapToggleVisibleElements? visibleElements = null,
@@ -64,14 +76,17 @@ public partial class BasemapToggleWidget
     {
         AllowRender = false;
 #pragma warning disable BL0005
+        ContainerId = containerId;
         Icon = icon;
         Label = label;
+        MapView = mapView;
         NextBasemap = nextBasemap;
+        Position = position;
         ViewModel = viewModel;
         Visible = visible;
         VisibleElements = visibleElements;
         WidgetId = widgetId;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -136,9 +151,8 @@ public partial class BasemapToggleWidget
             return ActiveBasemap;
         }
 
-        Basemap? result = await JsComponentReference.InvokeJsMethod<Basemap?>(
-            IsServer, nameof(GetActiveBasemap), nameof(BasemapToggleWidget), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Basemap? result = await JsComponentReference.InvokeAsync<Basemap?>(
+            "getActiveBasemap", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -155,56 +169,8 @@ public partial class BasemapToggleWidget
         }
         
         return ActiveBasemap;
-
     }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the NextBasemap property.
-    /// </summary>
-    public async Task<Basemap?> GetNextBasemap()
-    {
-        if (CoreJsModule is null)
-        {
-            return NextBasemap;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return NextBasemap;
-        }
-
-        Basemap? result = await JsComponentReference.InvokeJsMethod<Basemap?>(
-            IsServer, nameof(GetNextBasemap), nameof(BasemapToggleWidget), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            if (NextBasemap is not null)
-            {
-                result.Id = NextBasemap.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
-#pragma warning disable BL0005
-            NextBasemap = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(NextBasemap)] = NextBasemap;
-        }
-        
-        return NextBasemap;
-
-    }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -230,9 +196,8 @@ public partial class BasemapToggleWidget
             return ViewModel;
         }
 
-        BasemapToggleViewModel? result = await JsComponentReference.InvokeJsMethod<BasemapToggleViewModel?>(
-            IsServer, nameof(GetViewModel), nameof(BasemapToggleWidget), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        BasemapToggleViewModel? result = await JsComponentReference.InvokeAsync<BasemapToggleViewModel?>(
+            "getViewModel", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -249,9 +214,8 @@ public partial class BasemapToggleWidget
         }
         
         return ViewModel;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibleElements property.
     /// </summary>
@@ -277,18 +241,11 @@ public partial class BasemapToggleWidget
             return VisibleElements;
         }
 
-        BasemapToggleVisibleElements? result = await JsComponentReference.InvokeJsMethod<BasemapToggleVisibleElements?>(
-            IsServer, nameof(GetVisibleElements), nameof(BasemapToggleWidget), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        BasemapToggleVisibleElements? result = await JsComponentReference.InvokeAsync<BasemapToggleVisibleElements?>(
+            "getVisibleElements", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (VisibleElements is not null)
-            {
-                result.Id = VisibleElements.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             VisibleElements = result;
 #pragma warning restore BL0005
@@ -296,56 +253,11 @@ public partial class BasemapToggleWidget
         }
         
         return VisibleElements;
-
     }
-
+    
 #endregion
 
 #region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the NextBasemap property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetNextBasemap(Basemap? value)
-    {
-#pragma warning disable BL0005
-        NextBasemap = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(NextBasemap)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetNextBasemap), nameof(BasemapToggleWidget),
-            CancellationTokenSource.Token, value);
- 
-    }
 
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
@@ -355,6 +267,11 @@ public partial class BasemapToggleWidget
     /// </param>
     public async Task SetViewModel(BasemapToggleViewModel? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005
@@ -364,11 +281,6 @@ public partial class BasemapToggleWidget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -385,12 +297,10 @@ public partial class BasemapToggleWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetViewModel), nameof(BasemapToggleWidget),
+        await JsComponentReference.InvokeVoidAsync("setViewModel", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the VisibleElements property after render.
     /// </summary>
@@ -399,6 +309,11 @@ public partial class BasemapToggleWidget
     /// </param>
     public async Task SetVisibleElements(BasemapToggleVisibleElements? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         VisibleElements = value;
 #pragma warning restore BL0005
@@ -408,11 +323,6 @@ public partial class BasemapToggleWidget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -429,12 +339,10 @@ public partial class BasemapToggleWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetVisibleElements), nameof(BasemapToggleWidget),
+        await JsComponentReference.InvokeVoidAsync("setVisibleElements", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
 #endregion
 
 #region Public Methods
@@ -467,8 +375,8 @@ public partial class BasemapToggleWidget
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(Toggle), nameof(BasemapToggleWidget), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<string?>(
+            "toggle", 
             CancellationTokenSource.Token);
     }
     
@@ -514,11 +422,11 @@ public partial class BasemapToggleWidget
     {
         switch (child)
         {
-            case BasemapToggleViewModel:
+            case BasemapToggleViewModel _:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
-            case BasemapToggleVisibleElements:
+            case BasemapToggleVisibleElements _:
                 VisibleElements = null;
                 ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
                 return true;

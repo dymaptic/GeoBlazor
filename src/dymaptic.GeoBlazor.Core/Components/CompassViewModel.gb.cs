@@ -35,7 +35,7 @@ public partial class CompassViewModel : MapComponent,
         AllowRender = false;
 #pragma warning disable BL0005
         GoToOverride = goToOverride;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -92,18 +92,11 @@ public partial class CompassViewModel : MapComponent,
             return Orientation;
         }
 
-        Orientation? result = await JsComponentReference.InvokeJsMethod<Orientation?>(
-            IsServer, nameof(GetOrientation), nameof(CompassViewModel), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Orientation? result = await JsComponentReference.InvokeAsync<Orientation?>(
+            "getOrientation", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (Orientation is not null)
-            {
-                result.Id = Orientation.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Orientation = result;
 #pragma warning restore BL0005
@@ -111,9 +104,8 @@ public partial class CompassViewModel : MapComponent,
         }
         
         return Orientation;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -140,25 +132,19 @@ public partial class CompassViewModel : MapComponent,
         }
 
         // get the property value
-        CompassViewModelState? result = await JsComponentReference!.InvokeJsMethod<CompassViewModelState?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CompassViewModel), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "state");
-        if (result is not null)
+        JsNullableEnumWrapper<CompassViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<CompassViewModelState>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "state");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                State = result;
+             State = (CompassViewModelState)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(State)] = State;
+             ModifiedParameters[nameof(State)] = State;
         }
          
         return State;
-
     }
-
-#endregion
-
-#region Property Setters
-
+    
 #endregion
 
 #region Public Methods
@@ -192,14 +178,8 @@ public partial class CompassViewModel : MapComponent,
             return;
         }
         
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
-            nameof(Reset), nameof(CompassViewModel), 
+        await JsComponentReference!.InvokeVoidAsync(
+            "reset", 
             CancellationTokenSource.Token);
     }
     

@@ -50,7 +50,7 @@ public partial class LOD
         LevelValue = levelValue;
         Resolution = resolution;
         Scale = scale;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -96,21 +96,19 @@ public partial class LOD
         }
 
         // get the property value
-        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LOD), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "level");
-        if (result is not null)
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "level");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Level = result;
+             Level = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Level)] = Level;
+             ModifiedParameters[nameof(Level)] = Level;
         }
          
         return Level;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LevelValue property.
     /// </summary>
@@ -137,21 +135,19 @@ public partial class LOD
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LOD), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "levelValue");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                LevelValue = result;
+             LevelValue = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(LevelValue)] = LevelValue;
+             ModifiedParameters[nameof(LevelValue)] = LevelValue;
         }
          
         return LevelValue;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Resolution property.
     /// </summary>
@@ -178,21 +174,19 @@ public partial class LOD
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LOD), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "resolution");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "resolution");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Resolution = result;
+             Resolution = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Resolution)] = Resolution;
+             ModifiedParameters[nameof(Resolution)] = Resolution;
         }
          
         return Resolution;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Scale property.
     /// </summary>
@@ -219,21 +213,19 @@ public partial class LOD
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LOD), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "scale");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "scale");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Scale = result;
+             Scale = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Scale)] = Scale;
+             ModifiedParameters[nameof(Scale)] = Scale;
         }
          
         return Scale;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -273,9 +265,8 @@ public partial class LOD
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "level", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LevelValue property after render.
     /// </summary>
@@ -311,9 +302,8 @@ public partial class LOD
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "levelValue", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Resolution property after render.
     /// </summary>
@@ -349,9 +339,8 @@ public partial class LOD
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "resolution", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Scale property after render.
     /// </summary>
@@ -387,9 +376,8 @@ public partial class LOD
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "scale", value);
-
     }
-
+    
 #endregion
 
 }

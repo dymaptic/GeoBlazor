@@ -62,7 +62,7 @@ public partial class SizeRampStop : MapComponent
         Size = size;
         Symbol = symbol;
         Value = value;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -158,21 +158,19 @@ public partial class SizeRampStop : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeRampStop), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "label");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Label = result;
+             Label = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Label)] = Label;
+             ModifiedParameters[nameof(Label)] = Label;
         }
          
         return Label;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the OutlineSize property.
     /// </summary>
@@ -199,21 +197,19 @@ public partial class SizeRampStop : MapComponent
         }
 
         // get the property value
-        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeRampStop), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "outlineSize");
-        if (result is not null)
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "outlineSize");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                OutlineSize = result;
+             OutlineSize = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(OutlineSize)] = OutlineSize;
+             ModifiedParameters[nameof(OutlineSize)] = OutlineSize;
         }
          
         return OutlineSize;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Preview property.
     /// </summary>
@@ -240,21 +236,19 @@ public partial class SizeRampStop : MapComponent
         }
 
         // get the property value
-        ElementReference? result = await JsComponentReference!.InvokeJsMethod<ElementReference?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeRampStop), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "preview");
-        if (result is not null)
+        JsNullableElementReferenceWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableElementReferenceWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "preview");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Preview = result;
+             Preview = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Preview)] = Preview;
+             ModifiedParameters[nameof(Preview)] = Preview;
         }
          
         return Preview;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Size property.
     /// </summary>
@@ -281,21 +275,19 @@ public partial class SizeRampStop : MapComponent
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeRampStop), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "size");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "size");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Size = result;
+             Size = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Size)] = Size;
+             ModifiedParameters[nameof(Size)] = Size;
         }
          
         return Size;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Symbol property.
     /// </summary>
@@ -321,18 +313,11 @@ public partial class SizeRampStop : MapComponent
             return Symbol;
         }
 
-        Symbol? result = await JsComponentReference.InvokeJsMethod<Symbol?>(
-            IsServer, nameof(GetSymbol), nameof(SizeRampStop), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
+            "getSymbol", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (Symbol is not null)
-            {
-                result.Id = Symbol.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Symbol = result;
 #pragma warning restore BL0005
@@ -340,9 +325,8 @@ public partial class SizeRampStop : MapComponent
         }
         
         return Symbol;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Value property.
     /// </summary>
@@ -369,21 +353,19 @@ public partial class SizeRampStop : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeRampStop), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "value");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Value = result;
+             Value = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Value)] = Value;
+             ModifiedParameters[nameof(Value)] = Value;
         }
          
         return Value;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -423,9 +405,8 @@ public partial class SizeRampStop : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "label", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the OutlineSize property after render.
     /// </summary>
@@ -461,9 +442,8 @@ public partial class SizeRampStop : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outlineSize", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Preview property after render.
     /// </summary>
@@ -499,9 +479,8 @@ public partial class SizeRampStop : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "preview", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Size property after render.
     /// </summary>
@@ -537,9 +516,8 @@ public partial class SizeRampStop : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "size", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Symbol property after render.
     /// </summary>
@@ -548,6 +526,11 @@ public partial class SizeRampStop : MapComponent
     /// </param>
     public async Task SetSymbol(Symbol? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Symbol = value;
 #pragma warning restore BL0005
@@ -557,11 +540,6 @@ public partial class SizeRampStop : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -580,9 +558,8 @@ public partial class SizeRampStop : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "symbol", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Value property after render.
     /// </summary>
@@ -618,9 +595,8 @@ public partial class SizeRampStop : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value", value);
-
     }
-
+    
 #endregion
 
 

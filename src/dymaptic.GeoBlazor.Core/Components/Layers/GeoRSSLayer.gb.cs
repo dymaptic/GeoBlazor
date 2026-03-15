@@ -29,7 +29,7 @@ public partial class GeoRSSLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoRSSLayer.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
-    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="opacity">
@@ -43,7 +43,7 @@ public partial class GeoRSSLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="listMode">
-    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
     ///     default "show"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -65,6 +65,9 @@ public partial class GeoRSSLayer : IBlendLayer,
     /// <param name="fullExtent">
     ///     The full extent of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
     /// <param name="legendEnabled">
     ///     Indicates whether the layer will be included in the legend.
@@ -108,6 +111,9 @@ public partial class GeoRSSLayer : IBlendLayer,
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
+    /// </param>
     public GeoRSSLayer(
         string url,
         string? title = null,
@@ -118,6 +124,7 @@ public partial class GeoRSSLayer : IBlendLayer,
         BlendMode? blendMode = null,
         Effect? effect = null,
         Extent? fullExtent = null,
+        bool? isBasemapReferenceLayer = null,
         bool? legendEnabled = null,
         SimpleLineSymbol? lineSymbol = null,
         double? maxScale = null,
@@ -126,7 +133,8 @@ public partial class GeoRSSLayer : IBlendLayer,
         MarkerSymbol? pointSymbol = null,
         SimpleFillSymbol? polygonSymbol = null,
         double? refreshInterval = null,
-        TimeExtent? visibilityTimeExtent = null)
+        TimeExtent? visibilityTimeExtent = null,
+        bool? excludeApiKey = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -139,6 +147,7 @@ public partial class GeoRSSLayer : IBlendLayer,
         BlendMode = blendMode;
         Effect = effect;
         FullExtent = fullExtent;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         LegendEnabled = legendEnabled;
         LineSymbol = lineSymbol;
         MaxScale = maxScale;
@@ -148,7 +157,8 @@ public partial class GeoRSSLayer : IBlendLayer,
         PolygonSymbol = polygonSymbol;
         RefreshInterval = refreshInterval;
         VisibilityTimeExtent = visibilityTimeExtent;
-#pragma warning restore BL0005
+        ExcludeApiKey = excludeApiKey;
+#pragma warning restore BL0005    
     }
     
     
@@ -281,21 +291,19 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
 
         // get the property value
-        BlendMode? result = await JsComponentReference!.InvokeJsMethod<BlendMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoRSSLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "blendMode");
-        if (result is not null)
+        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                BlendMode = result;
+             BlendMode = (BlendMode)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(BlendMode)] = BlendMode;
+             ModifiedParameters[nameof(BlendMode)] = BlendMode;
         }
          
         return BlendMode;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Effect property.
     /// </summary>
@@ -321,9 +329,8 @@ public partial class GeoRSSLayer : IBlendLayer,
             return Effect;
         }
 
-        Effect? result = await JsComponentReference.InvokeJsMethod<Effect?>(
-            IsServer, nameof(GetEffect), nameof(GeoRSSLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Effect? result = await JsComponentReference.InvokeAsync<Effect?>(
+            "getEffect", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -334,9 +341,8 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
         
         return Effect;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendEnabled property.
     /// </summary>
@@ -363,21 +369,19 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoRSSLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "legendEnabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "legendEnabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                LegendEnabled = result;
+             LegendEnabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
+             ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
         }
          
         return LegendEnabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LineSymbol property.
     /// </summary>
@@ -403,18 +407,11 @@ public partial class GeoRSSLayer : IBlendLayer,
             return LineSymbol;
         }
 
-        SimpleLineSymbol? result = await JsComponentReference.InvokeJsMethod<SimpleLineSymbol?>(
-            IsServer, nameof(GetLineSymbol), nameof(GeoRSSLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        SimpleLineSymbol? result = await JsComponentReference.InvokeAsync<SimpleLineSymbol?>(
+            "getLineSymbol", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (LineSymbol is not null)
-            {
-                result.Id = LineSymbol.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             LineSymbol = result;
 #pragma warning restore BL0005
@@ -422,9 +419,8 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
         
         return LineSymbol;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -451,21 +447,19 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoRSSLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "maxScale");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "maxScale");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MaxScale = result;
+             MaxScale = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MaxScale)] = MaxScale;
+             ModifiedParameters[nameof(MaxScale)] = MaxScale;
         }
          
         return MaxScale;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -492,21 +486,19 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoRSSLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "minScale");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "minScale");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MinScale = result;
+             MinScale = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MinScale)] = MinScale;
+             ModifiedParameters[nameof(MinScale)] = MinScale;
         }
          
         return MinScale;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PointSymbol property.
     /// </summary>
@@ -532,18 +524,11 @@ public partial class GeoRSSLayer : IBlendLayer,
             return PointSymbol;
         }
 
-        MarkerSymbol? result = await JsComponentReference.InvokeJsMethod<MarkerSymbol?>(
-            IsServer, nameof(GetPointSymbol), nameof(GeoRSSLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        MarkerSymbol? result = await JsComponentReference.InvokeAsync<MarkerSymbol?>(
+            "getPointSymbol", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (PointSymbol is not null)
-            {
-                result.Id = PointSymbol.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             PointSymbol = result;
 #pragma warning restore BL0005
@@ -551,9 +536,8 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
         
         return PointSymbol;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PolygonSymbol property.
     /// </summary>
@@ -579,18 +563,11 @@ public partial class GeoRSSLayer : IBlendLayer,
             return PolygonSymbol;
         }
 
-        SimpleFillSymbol? result = await JsComponentReference.InvokeJsMethod<SimpleFillSymbol?>(
-            IsServer, nameof(GetPolygonSymbol), nameof(GeoRSSLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        SimpleFillSymbol? result = await JsComponentReference.InvokeAsync<SimpleFillSymbol?>(
+            "getPolygonSymbol", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (PolygonSymbol is not null)
-            {
-                result.Id = PolygonSymbol.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             PolygonSymbol = result;
 #pragma warning restore BL0005
@@ -598,9 +575,8 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
         
         return PolygonSymbol;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the RefreshInterval property.
     /// </summary>
@@ -627,21 +603,19 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoRSSLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "refreshInterval");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "refreshInterval");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                RefreshInterval = result;
+             RefreshInterval = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
+             ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
         }
          
         return RefreshInterval;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -668,21 +642,19 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GeoRSSLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "url");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Url = result;
+             Url = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Url)] = Url;
+             ModifiedParameters[nameof(Url)] = Url;
         }
          
         return Url;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -722,9 +694,8 @@ public partial class GeoRSSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "blendMode", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Effect property after render.
     /// </summary>
@@ -758,12 +729,10 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetEffect), nameof(GeoRSSLayer),
+        await JsComponentReference.InvokeVoidAsync("setEffect", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
@@ -799,9 +768,8 @@ public partial class GeoRSSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LineSymbol property after render.
     /// </summary>
@@ -810,6 +778,11 @@ public partial class GeoRSSLayer : IBlendLayer,
     /// </param>
     public async Task SetLineSymbol(SimpleLineSymbol? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         LineSymbol = value;
 #pragma warning restore BL0005
@@ -819,11 +792,6 @@ public partial class GeoRSSLayer : IBlendLayer,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -840,12 +808,10 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetLineSymbol), nameof(GeoRSSLayer),
+        await JsComponentReference.InvokeVoidAsync("setLineSymbol", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -881,9 +847,8 @@ public partial class GeoRSSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -919,9 +884,8 @@ public partial class GeoRSSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PersistenceEnabled property after render.
     /// </summary>
@@ -957,9 +921,8 @@ public partial class GeoRSSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "persistenceEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PointSymbol property after render.
     /// </summary>
@@ -968,6 +931,11 @@ public partial class GeoRSSLayer : IBlendLayer,
     /// </param>
     public async Task SetPointSymbol(MarkerSymbol? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         PointSymbol = value;
 #pragma warning restore BL0005
@@ -977,11 +945,6 @@ public partial class GeoRSSLayer : IBlendLayer,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -998,12 +961,10 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetPointSymbol), nameof(GeoRSSLayer),
+        await JsComponentReference.InvokeVoidAsync("setPointSymbol", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PolygonSymbol property after render.
     /// </summary>
@@ -1012,6 +973,11 @@ public partial class GeoRSSLayer : IBlendLayer,
     /// </param>
     public async Task SetPolygonSymbol(SimpleFillSymbol? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         PolygonSymbol = value;
 #pragma warning restore BL0005
@@ -1021,11 +987,6 @@ public partial class GeoRSSLayer : IBlendLayer,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -1042,12 +1003,10 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetPolygonSymbol), nameof(GeoRSSLayer),
+        await JsComponentReference.InvokeVoidAsync("setPolygonSymbol", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the RefreshInterval property after render.
     /// </summary>
@@ -1083,9 +1042,8 @@ public partial class GeoRSSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "refreshInterval", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -1121,9 +1079,8 @@ public partial class GeoRSSLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
-
     }
-
+    
 #endregion
 
 #region Public Methods
@@ -1157,14 +1114,8 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
         
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
-            nameof(Refresh), nameof(GeoRSSLayer), 
+        await JsComponentReference!.InvokeVoidAsync(
+            "refresh", 
             CancellationTokenSource.Token);
     }
     
@@ -1184,7 +1135,7 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
     
-        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<RefreshEvent>();
+        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReference<RefreshEvent>();
         if (refreshEvent is not null)
         {
             await OnRefresh.InvokeAsync(refreshEvent);
@@ -1259,15 +1210,15 @@ public partial class GeoRSSLayer : IBlendLayer,
     {
         switch (child)
         {
-            case SimpleLineSymbol:
+            case SimpleLineSymbol _:
                 LineSymbol = null;
                 ModifiedParameters[nameof(LineSymbol)] = LineSymbol;
                 return true;
-            case MarkerSymbol:
+            case MarkerSymbol _:
                 PointSymbol = null;
                 ModifiedParameters[nameof(PointSymbol)] = PointSymbol;
                 return true;
-            case SimpleFillSymbol:
+            case SimpleFillSymbol _:
                 PolygonSymbol = null;
                 ModifiedParameters[nameof(PolygonSymbol)] = PolygonSymbol;
                 return true;

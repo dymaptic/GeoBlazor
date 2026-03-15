@@ -38,7 +38,7 @@ public partial class LegendViewModelLayerInfos : MapComponent
 #pragma warning disable BL0005
         Layer = layer;
         Title = title;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -83,9 +83,8 @@ public partial class LegendViewModelLayerInfos : MapComponent
             return Layer;
         }
 
-        Layer? result = await JsComponentReference.InvokeJsMethod<Layer?>(
-            IsServer, nameof(GetLayer), nameof(LegendViewModelLayerInfos), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Layer? result = await JsComponentReference.InvokeAsync<Layer?>(
+            "getLayer", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -102,9 +101,8 @@ public partial class LegendViewModelLayerInfos : MapComponent
         }
         
         return Layer;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -131,21 +129,19 @@ public partial class LegendViewModelLayerInfos : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LegendViewModelLayerInfos), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Title = result;
+             Title = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Title)] = Title;
+             ModifiedParameters[nameof(Title)] = Title;
         }
          
         return Title;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -158,6 +154,11 @@ public partial class LegendViewModelLayerInfos : MapComponent
     /// </param>
     public async Task SetLayer(Layer? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Layer = value;
 #pragma warning restore BL0005
@@ -167,11 +168,6 @@ public partial class LegendViewModelLayerInfos : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -190,9 +186,8 @@ public partial class LegendViewModelLayerInfos : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layer", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -228,9 +223,8 @@ public partial class LegendViewModelLayerInfos : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
-
     }
-
+    
 #endregion
 
 }

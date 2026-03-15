@@ -72,7 +72,7 @@ public partial class TimeInfo
         Stops = stops;
         TimeZone = timeZone;
         TrackIdField = trackIdField;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -182,21 +182,19 @@ public partial class TimeInfo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TimeInfo), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "endField");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                EndField = result;
+             EndField = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(EndField)] = EndField;
+             ModifiedParameters[nameof(EndField)] = EndField;
         }
          
         return EndField;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FullTimeExtent property.
     /// </summary>
@@ -222,9 +220,8 @@ public partial class TimeInfo
             return FullTimeExtent;
         }
 
-        TimeExtent? result = await JsComponentReference.InvokeJsMethod<TimeExtent?>(
-            IsServer, nameof(GetFullTimeExtent), nameof(TimeInfo), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        TimeExtent? result = await JsComponentReference.InvokeAsync<TimeExtent?>(
+            "getFullTimeExtent", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -241,9 +238,8 @@ public partial class TimeInfo
         }
         
         return FullTimeExtent;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Interval property.
     /// </summary>
@@ -269,18 +265,11 @@ public partial class TimeInfo
             return Interval;
         }
 
-        TimeInterval? result = await JsComponentReference.InvokeJsMethod<TimeInterval?>(
-            IsServer, nameof(GetInterval), nameof(TimeInfo), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        TimeInterval? result = await JsComponentReference.InvokeAsync<TimeInterval?>(
+            "getInterval", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (Interval is not null)
-            {
-                result.Id = Interval.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Interval = result;
 #pragma warning restore BL0005
@@ -288,9 +277,8 @@ public partial class TimeInfo
         }
         
         return Interval;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the StartField property.
     /// </summary>
@@ -317,21 +305,19 @@ public partial class TimeInfo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TimeInfo), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "startField");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                StartField = result;
+             StartField = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(StartField)] = StartField;
+             ModifiedParameters[nameof(StartField)] = StartField;
         }
          
         return StartField;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Stops property.
     /// </summary>
@@ -358,21 +344,19 @@ public partial class TimeInfo
         }
 
         // get the property value
-        IReadOnlyList<DateTime>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<DateTime>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TimeInfo), View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<DateTime>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<DateTime>?>("getProperty",
             CancellationTokenSource.Token, "stops");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Stops = result;
+             Stops = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Stops)] = Stops;
+             ModifiedParameters[nameof(Stops)] = Stops;
         }
          
         return Stops;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeZone property.
     /// </summary>
@@ -399,21 +383,19 @@ public partial class TimeInfo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TimeInfo), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "timeZone");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                TimeZone = result;
+             TimeZone = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(TimeZone)] = TimeZone;
+             ModifiedParameters[nameof(TimeZone)] = TimeZone;
         }
          
         return TimeZone;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the TrackIdField property.
     /// </summary>
@@ -440,21 +422,19 @@ public partial class TimeInfo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TimeInfo), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "trackIdField");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                TrackIdField = result;
+             TrackIdField = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(TrackIdField)] = TrackIdField;
+             ModifiedParameters[nameof(TrackIdField)] = TrackIdField;
         }
          
         return TrackIdField;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -494,9 +474,8 @@ public partial class TimeInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "endField", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the FullTimeExtent property after render.
     /// </summary>
@@ -505,6 +484,11 @@ public partial class TimeInfo
     /// </param>
     public async Task SetFullTimeExtent(TimeExtent? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         FullTimeExtent = value;
 #pragma warning restore BL0005
@@ -514,11 +498,6 @@ public partial class TimeInfo
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -537,9 +516,8 @@ public partial class TimeInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fullTimeExtent", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Interval property after render.
     /// </summary>
@@ -548,6 +526,11 @@ public partial class TimeInfo
     /// </param>
     public async Task SetInterval(TimeInterval? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Interval = value;
 #pragma warning restore BL0005
@@ -557,11 +540,6 @@ public partial class TimeInfo
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -580,9 +558,8 @@ public partial class TimeInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "interval", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the StartField property after render.
     /// </summary>
@@ -618,9 +595,8 @@ public partial class TimeInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "startField", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Stops property after render.
     /// </summary>
@@ -656,9 +632,8 @@ public partial class TimeInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "stops", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the TimeZone property after render.
     /// </summary>
@@ -694,9 +669,8 @@ public partial class TimeInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "timeZone", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the TrackIdField property after render.
     /// </summary>
@@ -732,9 +706,8 @@ public partial class TimeInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "trackIdField", value);
-
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -751,7 +724,6 @@ public partial class TimeInfo
             ? values
             : [..Stops, ..values];
         await SetStops(join);
-
     }
     
 #endregion
@@ -772,7 +744,6 @@ public partial class TimeInfo
             return;
         }
         await SetStops(Stops.Except(values).ToArray());
-
     }
     
 #endregion
@@ -809,11 +780,11 @@ public partial class TimeInfo
     {
         switch (child)
         {
-            case TimeExtent:
+            case TimeExtent _:
                 FullTimeExtent = null;
                 ModifiedParameters[nameof(FullTimeExtent)] = FullTimeExtent;
                 return true;
-            case TimeInterval:
+            case TimeInterval _:
                 Interval = null;
                 ModifiedParameters[nameof(Interval)] = Interval;
                 return true;

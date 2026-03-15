@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendViewModelLayerInfo.html">GeoBlazor Docs</a>
 ///     An object that defines a layer, optional sublayer IDs, and a custom title for legend display.
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class LegendViewModelLayerInfo : MapComponent
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -26,7 +28,8 @@ public partial class LegendViewModelLayerInfo : MapComponent
     /// </param>
     /// <param name="title">
     /// </param>
-    public LegendViewModelLayerInfo(Layer? layer = null,
+    public LegendViewModelLayerInfo(
+        Layer? layer = null,
         IReadOnlyList<long>? sublayerIds = null,
         string? title = null)
     {
@@ -35,9 +38,267 @@ public partial class LegendViewModelLayerInfo : MapComponent
         Layer = layer;
         SublayerIds = sublayerIds;
         Title = title;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
+    
+    
+#region Public Properties / Blazor Parameters
 
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendViewModelLayerInfo.html#legendviewmodellayerinfosublayerids-property">GeoBlazor Docs</a>
+    ///     
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<long>? SublayerIds { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendViewModelLayerInfo.html#legendviewmodellayerinfotitle-property">GeoBlazor Docs</a>
+    ///     
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Title { get; set; }
+    
+#endregion
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Layer property.
+    /// </summary>
+    public async Task<Layer?> GetLayer()
+    {
+        if (CoreJsModule is null)
+        {
+            return Layer;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Layer;
+        }
+
+        // get the property value
+        Layer? result = await JsComponentReference!.InvokeAsync<Layer?>("getProperty",
+            CancellationTokenSource.Token, "layer");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Layer = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Layer)] = Layer;
+        }
+         
+        return Layer;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the SublayerIds property.
+    /// </summary>
+    public async Task<IReadOnlyList<long>?> GetSublayerIds()
+    {
+        if (CoreJsModule is null)
+        {
+            return SublayerIds;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return SublayerIds;
+        }
+
+        // get the property value
+        IReadOnlyList<long>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<long>?>("getProperty",
+            CancellationTokenSource.Token, "sublayerIds");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SublayerIds = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(SublayerIds)] = SublayerIds;
+        }
+         
+        return SublayerIds;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Title property.
+    /// </summary>
+    public async Task<string?> GetTitle()
+    {
+        if (CoreJsModule is null)
+        {
+            return Title;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Title;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "title");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Title = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Title)] = Title;
+        }
+         
+        return Title;
+    }
+    
+#endregion
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the Layer property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetLayer(Layer? value)
+    {
+#pragma warning disable BL0005
+        Layer = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Layer)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "layer", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the SublayerIds property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetSublayerIds(IReadOnlyList<long>? value)
+    {
+#pragma warning disable BL0005
+        SublayerIds = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(SublayerIds)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "sublayerIds", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Title property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetTitle(string? value)
+    {
+#pragma warning disable BL0005
+        Title = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Title)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "title", value);
+    }
+    
+#endregion
 
 #region Add to Collection Methods
 
@@ -54,12 +315,12 @@ public partial class LegendViewModelLayerInfo : MapComponent
             : [..SublayerIds, ..values];
         await SetSublayerIds(join);
     }
-
+    
 #endregion
-
 
 #region Remove From Collection Methods
 
+    
     /// <summary>
     ///     Asynchronously remove an element from the SublayerIds property.
     /// </summary>
@@ -72,273 +333,9 @@ public partial class LegendViewModelLayerInfo : MapComponent
         {
             return;
         }
-
         await SetSublayerIds(SublayerIds.Except(values).ToArray());
     }
-
+    
 #endregion
 
-
-#region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendViewModelLayerInfo.html#legendviewmodellayerinfosublayerids-property">GeoBlazor Docs</a>
-    ///     
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<long>? SublayerIds { get; set; }
-
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendViewModelLayerInfo.html#legendviewmodellayerinfotitle-property">GeoBlazor Docs</a>
-    ///     
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Title { get; set; }
-
-#endregion
-
-
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Layer property.
-    /// </summary>
-    public async Task<Layer?> GetLayer()
-    {
-        if (CoreJsModule is null)
-        {
-            return Layer;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Layer;
-        }
-
-        // get the property value
-        Layer? result = await JsComponentReference!.InvokeAsync<Layer?>("getProperty",
-            CancellationTokenSource.Token, "layer");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Layer = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Layer)] = Layer;
-        }
-
-        return Layer;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the SublayerIds property.
-    /// </summary>
-    public async Task<IReadOnlyList<long>?> GetSublayerIds()
-    {
-        if (CoreJsModule is null)
-        {
-            return SublayerIds;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return SublayerIds;
-        }
-
-        // get the property value
-        IReadOnlyList<long>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<long>?>("getProperty",
-            CancellationTokenSource.Token, "sublayerIds");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            SublayerIds = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(SublayerIds)] = SublayerIds;
-        }
-
-        return SublayerIds;
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Title property.
-    /// </summary>
-    public async Task<string?> GetTitle()
-    {
-        if (CoreJsModule is null)
-        {
-            return Title;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return Title;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "title");
-
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Title = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Title)] = Title;
-        }
-
-        return Title;
-    }
-
-#endregion
-
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the Layer property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetLayer(Layer? value)
-    {
-#pragma warning disable BL0005
-        Layer = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Layer)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "layer", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the SublayerIds property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetSublayerIds(IReadOnlyList<long>? value)
-    {
-#pragma warning disable BL0005
-        SublayerIds = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(SublayerIds)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "sublayerIds", value);
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Title property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetTitle(string? value)
-    {
-#pragma warning disable BL0005
-        Title = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Title)] = value;
-
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "title", value);
-    }
-
-#endregion
 }

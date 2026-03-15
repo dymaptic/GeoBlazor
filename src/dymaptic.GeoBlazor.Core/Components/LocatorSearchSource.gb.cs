@@ -92,7 +92,6 @@ public partial class LocatorSearchSource
     /// <param name="minSuggestCharacters">
     ///     Indicates the minimum number of characters
     ///     required before querying for a suggestion.
-    ///     default 1
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#minSuggestCharacters">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="name">
@@ -223,7 +222,7 @@ public partial class LocatorSearchSource
         SuggestionsEnabled = suggestionsEnabled;
         WithinViewEnabled = withinViewEnabled;
         ZoomScale = zoomScale;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -302,21 +301,19 @@ public partial class LocatorSearchSource
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "apiKey");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                ApiKey = result;
+             ApiKey = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ApiKey)] = ApiKey;
+             ModifiedParameters[nameof(ApiKey)] = ApiKey;
         }
          
         return ApiKey;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Categories property.
     /// </summary>
@@ -343,21 +340,19 @@ public partial class LocatorSearchSource
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, "categories");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Categories = result;
+             Categories = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Categories)] = Categories;
+             ModifiedParameters[nameof(Categories)] = Categories;
         }
          
         return Categories;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the CountryCode property.
     /// </summary>
@@ -384,21 +379,19 @@ public partial class LocatorSearchSource
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "countryCode");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                CountryCode = result;
+             CountryCode = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(CountryCode)] = CountryCode;
+             ModifiedParameters[nameof(CountryCode)] = CountryCode;
         }
          
         return CountryCode;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultZoomScale property.
     /// </summary>
@@ -425,21 +418,19 @@ public partial class LocatorSearchSource
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "defaultZoomScale");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "defaultZoomScale");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                DefaultZoomScale = result;
+             DefaultZoomScale = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(DefaultZoomScale)] = DefaultZoomScale;
+             ModifiedParameters[nameof(DefaultZoomScale)] = DefaultZoomScale;
         }
          
         return DefaultZoomScale;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LocalSearchDisabled property.
     /// </summary>
@@ -466,21 +457,19 @@ public partial class LocatorSearchSource
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "localSearchDisabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "localSearchDisabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                LocalSearchDisabled = result;
+             LocalSearchDisabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(LocalSearchDisabled)] = LocalSearchDisabled;
+             ModifiedParameters[nameof(LocalSearchDisabled)] = LocalSearchDisabled;
         }
          
         return LocalSearchDisabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LocationType property.
     /// </summary>
@@ -507,21 +496,19 @@ public partial class LocatorSearchSource
         }
 
         // get the property value
-        LocatorSearchLocationType? result = await JsComponentReference!.InvokeJsMethod<LocatorSearchLocationType?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "locationType");
-        if (result is not null)
+        JsNullableEnumWrapper<LocatorSearchLocationType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LocatorSearchLocationType>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "locationType");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                LocationType = result;
+             LocationType = (LocatorSearchLocationType)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(LocationType)] = LocationType;
+             ModifiedParameters[nameof(LocationType)] = LocationType;
         }
          
         return LocationType;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -548,21 +535,19 @@ public partial class LocatorSearchSource
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Name = result;
+             Name = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Name)] = Name;
+             ModifiedParameters[nameof(Name)] = Name;
         }
          
         return Name;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SearchTemplate property.
     /// </summary>
@@ -589,21 +574,19 @@ public partial class LocatorSearchSource
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "searchTemplate");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                SearchTemplate = result;
+             SearchTemplate = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SearchTemplate)] = SearchTemplate;
+             ModifiedParameters[nameof(SearchTemplate)] = SearchTemplate;
         }
          
         return SearchTemplate;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SingleLineFieldName property.
     /// </summary>
@@ -630,21 +613,19 @@ public partial class LocatorSearchSource
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "singleLineFieldName");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                SingleLineFieldName = result;
+             SingleLineFieldName = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SingleLineFieldName)] = SingleLineFieldName;
+             ModifiedParameters[nameof(SingleLineFieldName)] = SingleLineFieldName;
         }
          
         return SingleLineFieldName;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -671,21 +652,19 @@ public partial class LocatorSearchSource
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "url");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Url = result;
+             Url = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Url)] = Url;
+             ModifiedParameters[nameof(Url)] = Url;
         }
          
         return Url;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -725,9 +704,8 @@ public partial class LocatorSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "apiKey", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Categories property after render.
     /// </summary>
@@ -763,9 +741,8 @@ public partial class LocatorSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "categories", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the CountryCode property after render.
     /// </summary>
@@ -801,9 +778,8 @@ public partial class LocatorSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "countryCode", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DefaultZoomScale property after render.
     /// </summary>
@@ -839,9 +815,8 @@ public partial class LocatorSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "defaultZoomScale", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LocalSearchDisabled property after render.
     /// </summary>
@@ -877,9 +852,8 @@ public partial class LocatorSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "localSearchDisabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LocationType property after render.
     /// </summary>
@@ -915,9 +889,8 @@ public partial class LocatorSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "locationType", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
@@ -953,9 +926,8 @@ public partial class LocatorSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SearchTemplate property after render.
     /// </summary>
@@ -991,9 +963,8 @@ public partial class LocatorSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "searchTemplate", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SingleLineFieldName property after render.
     /// </summary>
@@ -1029,9 +1000,8 @@ public partial class LocatorSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "singleLineFieldName", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -1067,9 +1037,8 @@ public partial class LocatorSearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
-
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -1086,7 +1055,6 @@ public partial class LocatorSearchSource
             ? values
             : [..Categories, ..values];
         await SetCategories(join);
-
     }
     
 #endregion
@@ -1107,7 +1075,6 @@ public partial class LocatorSearchSource
             return;
         }
         await SetCategories(Categories.Except(values).ToArray());
-
     }
     
 #endregion

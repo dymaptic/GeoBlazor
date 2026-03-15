@@ -20,81 +20,6 @@ public partial class Circle : Polygon
     {
     }
 
-    /// <summary>
-    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
-    /// </summary>
-    /// <param name="center">
-    ///     The center point of the circle.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Circle.html#center">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="radius">
-    ///     The radius of the circle.
-    ///     default 1000
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Circle.html#radius">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="geodesic">
-    ///     Applicable when the spatial reference of the center point is either set to Web
-    ///     Mercator (wkid: 3857) or geographic/geodesic (wkid: 4326).
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Circle.html#geodesic">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="hasM">
-    ///     Indicates if the geometry has M values.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#hasM">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="hasZ">
-    ///     Indicates if the geometry has z-values (elevation).
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#hasZ">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="numberOfPoints">
-    ///     This value defines the number of points
-    ///     along the curve of the circle.
-    ///     default 60
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Circle.html#numberOfPoints">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="radiusUnit">
-    ///     Unit of the radius.
-    ///     default "meters"
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Circle.html#radiusUnit">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="rings">
-    ///     An array of rings.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#rings">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="spatialReference">
-    ///     The spatial reference of the geometry.
-    ///     default SpatialReference.WGS84 // wkid: 4326
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    public Circle(
-        Point center,
-        double radius,
-        bool? geodesic = null,
-        bool? hasM = null,
-        bool? hasZ = null,
-        int? numberOfPoints = null,
-        RadiusUnit? radiusUnit = null,
-        IReadOnlyList<MapPath>? rings = null,
-        SpatialReference? spatialReference = null)
-    {
-        AllowRender = false;
-#pragma warning disable BL0005
-        Center = center;
-        Radius = radius;
-        Geodesic = geodesic;
-        HasM = hasM;
-        HasZ = hasZ;
-        NumberOfPoints = numberOfPoints;
-        RadiusUnit = radiusUnit;
-        if (rings is not null)
-        {
-            Rings = rings;
-        }
-        SpatialReference = spatialReference;
-#pragma warning restore BL0005
-    }
-    
-    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -125,53 +50,6 @@ public partial class Circle : Polygon
 #region Property Getters
 
     /// <summary>
-    ///     Asynchronously retrieve the current value of the Center property.
-    /// </summary>
-    public async Task<Point?> GetCenter()
-    {
-        if (CoreJsModule is null)
-        {
-            return Center;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Center;
-        }
-
-        Point? result = await JsComponentReference.InvokeJsMethod<Point?>(
-            IsServer, nameof(GetCenter), nameof(Circle), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            if (Center is not null)
-            {
-                result.Id = Center.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
-#pragma warning disable BL0005
-            Center = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Center)] = Center;
-        }
-        
-        return Center;
-
-    }
-
-    /// <summary>
     ///     Asynchronously retrieve the current value of the Geodesic property.
     /// </summary>
     public async Task<bool?> GetGeodesic()
@@ -197,103 +75,19 @@ public partial class Circle : Polygon
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Circle), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "geodesic");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "geodesic");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Geodesic = result;
+             Geodesic = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Geodesic)] = Geodesic;
+             ModifiedParameters[nameof(Geodesic)] = Geodesic;
         }
          
         return Geodesic;
-
     }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the NumberOfPoints property.
-    /// </summary>
-    public async Task<int?> GetNumberOfPoints()
-    {
-        if (CoreJsModule is null)
-        {
-            return NumberOfPoints;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return NumberOfPoints;
-        }
-
-        // get the property value
-        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Circle), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "numberOfPoints");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-                NumberOfPoints = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(NumberOfPoints)] = NumberOfPoints;
-        }
-         
-        return NumberOfPoints;
-
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Radius property.
-    /// </summary>
-    public async Task<double?> GetRadius()
-    {
-        if (CoreJsModule is null)
-        {
-            return Radius;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Radius;
-        }
-
-        // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Circle), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "radius");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-                Radius = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(Radius)] = Radius;
-        }
-         
-        return Radius;
-
-    }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the RadiusUnit property.
     /// </summary>
@@ -320,68 +114,22 @@ public partial class Circle : Polygon
         }
 
         // get the property value
-        RadiusUnit? result = await JsComponentReference!.InvokeJsMethod<RadiusUnit?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Circle), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "radiusUnit");
-        if (result is not null)
+        JsNullableEnumWrapper<RadiusUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<RadiusUnit>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "radiusUnit");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                RadiusUnit = result;
+             RadiusUnit = (RadiusUnit)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(RadiusUnit)] = RadiusUnit;
+             ModifiedParameters[nameof(RadiusUnit)] = RadiusUnit;
         }
          
         return RadiusUnit;
-
     }
-
+    
 #endregion
 
 #region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the Center property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetCenter(Point? value)
-    {
-#pragma warning disable BL0005
-        Center = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Center)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetCenter), nameof(Circle),
-            CancellationTokenSource.Token, value);
- 
-    }
 
     /// <summary>
     ///    Asynchronously set the value of the Geodesic property after render.
@@ -418,85 +166,8 @@ public partial class Circle : Polygon
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "geodesic", value);
-
     }
-
-    /// <summary>
-    ///    Asynchronously set the value of the NumberOfPoints property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetNumberOfPoints(int? value)
-    {
-#pragma warning disable BL0005
-        NumberOfPoints = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(NumberOfPoints)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
     
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "numberOfPoints", value);
-
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Radius property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetRadius(double? value)
-    {
-#pragma warning disable BL0005
-        Radius = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Radius)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "radius", value);
-
-    }
-
     /// <summary>
     ///    Asynchronously set the value of the RadiusUnit property after render.
     /// </summary>
@@ -532,9 +203,8 @@ public partial class Circle : Polygon
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "radiusUnit", value);
-
     }
-
+    
 #endregion
 
 }

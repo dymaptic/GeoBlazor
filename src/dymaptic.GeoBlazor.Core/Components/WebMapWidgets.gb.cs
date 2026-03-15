@@ -38,7 +38,7 @@ public partial class WebMapWidgets : MapComponent
 #pragma warning disable BL0005
         FloorFilter = floorFilter;
         TimeSlider = timeSlider;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -93,18 +93,11 @@ public partial class WebMapWidgets : MapComponent
             return FloorFilter;
         }
 
-        WebMapFloorFilter? result = await JsComponentReference.InvokeJsMethod<WebMapFloorFilter?>(
-            IsServer, nameof(GetFloorFilter), nameof(WebMapWidgets), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        WebMapFloorFilter? result = await JsComponentReference.InvokeAsync<WebMapFloorFilter?>(
+            "getFloorFilter", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (FloorFilter is not null)
-            {
-                result.Id = FloorFilter.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             FloorFilter = result;
 #pragma warning restore BL0005
@@ -112,9 +105,8 @@ public partial class WebMapWidgets : MapComponent
         }
         
         return FloorFilter;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeSlider property.
     /// </summary>
@@ -140,9 +132,8 @@ public partial class WebMapWidgets : MapComponent
             return TimeSlider;
         }
 
-        WebDocTimeSlider? result = await JsComponentReference.InvokeJsMethod<WebDocTimeSlider?>(
-            IsServer, nameof(GetTimeSlider), nameof(WebMapWidgets), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        WebDocTimeSlider? result = await JsComponentReference.InvokeAsync<WebDocTimeSlider?>(
+            "getTimeSlider", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -153,9 +144,8 @@ public partial class WebMapWidgets : MapComponent
         }
         
         return TimeSlider;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -168,6 +158,11 @@ public partial class WebMapWidgets : MapComponent
     /// </param>
     public async Task SetFloorFilter(WebMapFloorFilter? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         FloorFilter = value;
 #pragma warning restore BL0005
@@ -177,11 +172,6 @@ public partial class WebMapWidgets : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -200,9 +190,8 @@ public partial class WebMapWidgets : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "floorFilter", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the TimeSlider property after render.
     /// </summary>
@@ -238,9 +227,8 @@ public partial class WebMapWidgets : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "timeSlider", value);
-
     }
-
+    
 #endregion
 
 
@@ -267,7 +255,7 @@ public partial class WebMapWidgets : MapComponent
     {
         switch (child)
         {
-            case WebMapFloorFilter:
+            case WebMapFloorFilter _:
                 FloorFilter = null;
                 ModifiedParameters[nameof(FloorFilter)] = FloorFilter;
                 return true;

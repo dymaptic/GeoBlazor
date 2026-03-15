@@ -37,7 +37,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#backgroundFillSymbol">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="defaultLabel">
-    ///     The label used in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> to describe features assigned the
+    ///     The label used in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a> to describe features assigned the
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#defaultSymbol">default symbol</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#defaultLabel">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -132,7 +132,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         ValueExpression = valueExpression;
         ValueExpressionTitle = valueExpressionTitle;
         VisualVariables = visualVariables;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -296,18 +296,11 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return BackgroundFillSymbol;
         }
 
-        FillSymbol? result = await JsComponentReference.InvokeJsMethod<FillSymbol?>(
-            IsServer, nameof(GetBackgroundFillSymbol), nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        FillSymbol? result = await JsComponentReference.InvokeAsync<FillSymbol?>(
+            "getBackgroundFillSymbol", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (BackgroundFillSymbol is not null)
-            {
-                result.Id = BackgroundFillSymbol.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             BackgroundFillSymbol = result;
 #pragma warning restore BL0005
@@ -315,9 +308,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
         
         return BackgroundFillSymbol;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultLabel property.
     /// </summary>
@@ -344,21 +336,19 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "defaultLabel");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                DefaultLabel = result;
+             DefaultLabel = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(DefaultLabel)] = DefaultLabel;
+             ModifiedParameters[nameof(DefaultLabel)] = DefaultLabel;
         }
          
         return DefaultLabel;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultSymbol property.
     /// </summary>
@@ -384,18 +374,11 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return DefaultSymbol;
         }
 
-        Symbol? result = await JsComponentReference.InvokeJsMethod<Symbol?>(
-            IsServer, nameof(GetDefaultSymbol), nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
+            "getDefaultSymbol", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (DefaultSymbol is not null)
-            {
-                result.Id = DefaultSymbol.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             DefaultSymbol = result;
 #pragma warning restore BL0005
@@ -403,9 +386,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
         
         return DefaultSymbol;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Field property.
     /// </summary>
@@ -432,21 +414,19 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "field");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Field = result;
+             Field = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Field)] = Field;
+             ModifiedParameters[nameof(Field)] = Field;
         }
          
         return Field;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Field2 property.
     /// </summary>
@@ -473,21 +453,19 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "field2");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Field2 = result;
+             Field2 = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Field2)] = Field2;
+             ModifiedParameters[nameof(Field2)] = Field2;
         }
          
         return Field2;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Field3 property.
     /// </summary>
@@ -514,21 +492,19 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "field3");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Field3 = result;
+             Field3 = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Field3)] = Field3;
+             ModifiedParameters[nameof(Field3)] = Field3;
         }
          
         return Field3;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FieldDelimiter property.
     /// </summary>
@@ -555,21 +531,19 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "fieldDelimiter");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                FieldDelimiter = result;
+             FieldDelimiter = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(FieldDelimiter)] = FieldDelimiter;
+             ModifiedParameters[nameof(FieldDelimiter)] = FieldDelimiter;
         }
          
         return FieldDelimiter;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendOptions property.
     /// </summary>
@@ -595,18 +569,11 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return LegendOptions;
         }
 
-        UniqueValueRendererLegendOptions? result = await JsComponentReference.InvokeJsMethod<UniqueValueRendererLegendOptions?>(
-            IsServer, nameof(GetLegendOptions), nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        UniqueValueRendererLegendOptions? result = await JsComponentReference.InvokeAsync<UniqueValueRendererLegendOptions?>(
+            "getLegendOptions", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (LegendOptions is not null)
-            {
-                result.Id = LegendOptions.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             LegendOptions = result;
 #pragma warning restore BL0005
@@ -614,9 +581,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
         
         return LegendOptions;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the OrderByClassesEnabled property.
     /// </summary>
@@ -643,21 +609,19 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "orderByClassesEnabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "orderByClassesEnabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                OrderByClassesEnabled = result;
+             OrderByClassesEnabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(OrderByClassesEnabled)] = OrderByClassesEnabled;
+             ModifiedParameters[nameof(OrderByClassesEnabled)] = OrderByClassesEnabled;
         }
          
         return OrderByClassesEnabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the UniqueValueGroups property.
     /// </summary>
@@ -683,16 +647,11 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return UniqueValueGroups;
         }
 
-        IReadOnlyList<UniqueValueGroup>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<UniqueValueGroup>?>(
-            IsServer, nameof(GetUniqueValueGroups), nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<UniqueValueGroup>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<UniqueValueGroup>?>(
+            "getUniqueValueGroups", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (UniqueValueGroup item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             UniqueValueGroups = result;
 #pragma warning restore BL0005
@@ -700,9 +659,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
         
         return UniqueValueGroups;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the UniqueValueInfos property.
     /// </summary>
@@ -728,16 +686,11 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return UniqueValueInfos;
         }
 
-        IReadOnlyList<UniqueValueInfo>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<UniqueValueInfo>?>(
-            IsServer, nameof(GetUniqueValueInfos), nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<UniqueValueInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<UniqueValueInfo>?>(
+            "getUniqueValueInfos", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (UniqueValueInfo item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             UniqueValueInfos = result;
 #pragma warning restore BL0005
@@ -745,9 +698,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
         
         return UniqueValueInfos;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ValueExpression property.
     /// </summary>
@@ -774,21 +726,19 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "valueExpression");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                ValueExpression = result;
+             ValueExpression = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ValueExpression)] = ValueExpression;
+             ModifiedParameters[nameof(ValueExpression)] = ValueExpression;
         }
          
         return ValueExpression;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ValueExpressionTitle property.
     /// </summary>
@@ -815,21 +765,19 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "valueExpressionTitle");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                ValueExpressionTitle = result;
+             ValueExpressionTitle = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ValueExpressionTitle)] = ValueExpressionTitle;
+             ModifiedParameters[nameof(ValueExpressionTitle)] = ValueExpressionTitle;
         }
          
         return ValueExpressionTitle;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisualVariables property.
     /// </summary>
@@ -855,16 +803,11 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return VisualVariables;
         }
 
-        IReadOnlyList<VisualVariable>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<VisualVariable>?>(
-            IsServer, nameof(GetVisualVariables), nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<VisualVariable>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<VisualVariable>?>(
+            "getVisualVariables", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (VisualVariable item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             VisualVariables = result;
 #pragma warning restore BL0005
@@ -872,9 +815,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
         
         return VisualVariables;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -887,6 +829,11 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// </param>
     public async Task SetBackgroundFillSymbol(FillSymbol? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         BackgroundFillSymbol = value;
 #pragma warning restore BL0005
@@ -896,11 +843,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -917,12 +859,10 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetBackgroundFillSymbol), nameof(UniqueValueRenderer),
+        await JsComponentReference.InvokeVoidAsync("setBackgroundFillSymbol", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DefaultLabel property after render.
     /// </summary>
@@ -958,9 +898,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "defaultLabel", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DefaultSymbol property after render.
     /// </summary>
@@ -969,6 +908,11 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// </param>
     public async Task SetDefaultSymbol(Symbol? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         DefaultSymbol = value;
 #pragma warning restore BL0005
@@ -978,11 +922,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -999,12 +938,10 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetDefaultSymbol), nameof(UniqueValueRenderer),
+        await JsComponentReference.InvokeVoidAsync("setDefaultSymbol", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Field property after render.
     /// </summary>
@@ -1040,9 +977,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Field2 property after render.
     /// </summary>
@@ -1078,9 +1014,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field2", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Field3 property after render.
     /// </summary>
@@ -1116,9 +1051,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field3", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the FieldDelimiter property after render.
     /// </summary>
@@ -1154,9 +1088,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fieldDelimiter", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LegendOptions property after render.
     /// </summary>
@@ -1165,6 +1098,11 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// </param>
     public async Task SetLegendOptions(UniqueValueRendererLegendOptions? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         LegendOptions = value;
 #pragma warning restore BL0005
@@ -1174,11 +1112,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -1195,12 +1128,10 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetLegendOptions), nameof(UniqueValueRenderer),
+        await JsComponentReference.InvokeVoidAsync("setLegendOptions", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the OrderByClassesEnabled property after render.
     /// </summary>
@@ -1236,9 +1167,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "orderByClassesEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the UniqueValueGroups property after render.
     /// </summary>
@@ -1247,6 +1177,14 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// </param>
     public async Task SetUniqueValueGroups(IReadOnlyList<UniqueValueGroup>? value)
     {
+        if (value is not null)
+        {
+            foreach (UniqueValueGroup item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         UniqueValueGroups = value;
 #pragma warning restore BL0005
@@ -1256,14 +1194,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (UniqueValueGroup item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -1280,12 +1210,10 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetUniqueValueGroups), nameof(UniqueValueRenderer),
+        await JsComponentReference.InvokeVoidAsync("setUniqueValueGroups", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the UniqueValueInfos property after render.
     /// </summary>
@@ -1294,6 +1222,14 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// </param>
     public async Task SetUniqueValueInfos(IReadOnlyList<UniqueValueInfo>? value)
     {
+        if (value is not null)
+        {
+            foreach (UniqueValueInfo item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         UniqueValueInfos = value;
 #pragma warning restore BL0005
@@ -1303,14 +1239,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (UniqueValueInfo item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -1327,12 +1255,10 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetUniqueValueInfos), nameof(UniqueValueRenderer),
+        await JsComponentReference.InvokeVoidAsync("setUniqueValueInfos", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ValueExpression property after render.
     /// </summary>
@@ -1368,9 +1294,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "valueExpression", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ValueExpressionTitle property after render.
     /// </summary>
@@ -1406,9 +1331,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "valueExpressionTitle", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the VisualVariables property after render.
     /// </summary>
@@ -1417,6 +1341,14 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// </param>
     public async Task SetVisualVariables(IReadOnlyList<VisualVariable>? value)
     {
+        if (value is not null)
+        {
+            foreach (VisualVariable item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         VisualVariables = value;
 #pragma warning restore BL0005
@@ -1426,14 +1358,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (VisualVariable item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -1450,12 +1374,10 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetVisualVariables), nameof(UniqueValueRenderer),
+        await JsComponentReference.InvokeVoidAsync("setVisualVariables", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -1472,7 +1394,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             ? values
             : [..UniqueValueGroups, ..values];
         await SetUniqueValueGroups(join);
-
     }
     
     /// <summary>
@@ -1487,7 +1408,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             ? values
             : [..UniqueValueInfos, ..values];
         await SetUniqueValueInfos(join);
-
     }
     
     /// <summary>
@@ -1502,7 +1422,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             ? values
             : [..VisualVariables, ..values];
         await SetVisualVariables(join);
-
     }
     
 #endregion
@@ -1523,7 +1442,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         await SetUniqueValueGroups(UniqueValueGroups.Except(values).ToArray());
-
     }
     
     
@@ -1540,7 +1458,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         await SetUniqueValueInfos(UniqueValueInfos.Except(values).ToArray());
-
     }
     
     
@@ -1557,7 +1474,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         await SetVisualVariables(VisualVariables.Except(values).ToArray());
-
     }
     
 #endregion
@@ -1595,8 +1511,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<UniqueValueInfo?>(
-            IsServer, nameof(GetUniqueValueInfo), nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<UniqueValueInfo?>(
+            "getUniqueValueInfo", 
             CancellationTokenSource.Token,
             graphic);
     }
@@ -1632,14 +1548,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
-            nameof(RemoveUniqueValueInfo), nameof(UniqueValueRenderer), 
+        await JsComponentReference!.InvokeVoidAsync(
+            "removeUniqueValueInfo", 
             CancellationTokenSource.Token,
             value);
     }
@@ -1713,15 +1623,15 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     {
         switch (child)
         {
-            case FillSymbol:
+            case FillSymbol _:
                 BackgroundFillSymbol = null;
                 ModifiedParameters[nameof(BackgroundFillSymbol)] = BackgroundFillSymbol;
                 return true;
-            case Symbol:
+            case Symbol _:
                 DefaultSymbol = null;
                 ModifiedParameters[nameof(DefaultSymbol)] = DefaultSymbol;
                 return true;
-            case UniqueValueRendererLegendOptions:
+            case UniqueValueRendererLegendOptions _:
                 LegendOptions = null;
                 ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
                 return true;

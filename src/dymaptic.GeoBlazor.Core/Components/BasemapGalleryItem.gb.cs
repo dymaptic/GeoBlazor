@@ -33,7 +33,7 @@ public partial class BasemapGalleryItem : MapComponent
         AllowRender = false;
 #pragma warning disable BL0005
         Basemap = basemap;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -99,9 +99,8 @@ public partial class BasemapGalleryItem : MapComponent
             return Basemap;
         }
 
-        Basemap? result = await JsComponentReference.InvokeJsMethod<Basemap?>(
-            IsServer, nameof(GetBasemap), nameof(BasemapGalleryItem), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Basemap? result = await JsComponentReference.InvokeAsync<Basemap?>(
+            "getBasemap", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -118,9 +117,8 @@ public partial class BasemapGalleryItem : MapComponent
         }
         
         return Basemap;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Error property.
     /// </summary>
@@ -147,21 +145,19 @@ public partial class BasemapGalleryItem : MapComponent
         }
 
         // get the property value
-        Error? result = await JsComponentReference!.InvokeJsMethod<Error?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapGalleryItem), View?.QueryResultsMaxSizeLimit,
+        Error? result = await JsComponentReference!.InvokeAsync<Error?>("getProperty",
             CancellationTokenSource.Token, "error");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Error = result;
+             Error = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Error)] = Error;
+             ModifiedParameters[nameof(Error)] = Error;
         }
          
         return Error;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -188,21 +184,19 @@ public partial class BasemapGalleryItem : MapComponent
         }
 
         // get the property value
-        BasemapGalleryItemState? result = await JsComponentReference!.InvokeJsMethod<BasemapGalleryItemState?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapGalleryItem), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "state");
-        if (result is not null)
+        JsNullableEnumWrapper<BasemapGalleryItemState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BasemapGalleryItemState>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "state");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                State = result;
+             State = (BasemapGalleryItemState)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(State)] = State;
+             ModifiedParameters[nameof(State)] = State;
         }
          
         return State;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -215,6 +209,11 @@ public partial class BasemapGalleryItem : MapComponent
     /// </param>
     public async Task SetBasemap(Basemap? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Basemap = value;
 #pragma warning restore BL0005
@@ -224,11 +223,6 @@ public partial class BasemapGalleryItem : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -247,9 +241,8 @@ public partial class BasemapGalleryItem : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "basemap", value);
-
     }
-
+    
 #endregion
 
 

@@ -45,7 +45,7 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
         SnappingOptions = snappingOptions;
         Unit = unit;
         UnitOptions = unitOptions;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -141,18 +141,11 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
             return Measurement;
         }
 
-        DistanceMeasurement2DViewModelMeasurement? result = await JsComponentReference.InvokeJsMethod<DistanceMeasurement2DViewModelMeasurement?>(
-            IsServer, nameof(GetMeasurement), nameof(DistanceMeasurement2DViewModel), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        DistanceMeasurement2DViewModelMeasurement? result = await JsComponentReference.InvokeAsync<DistanceMeasurement2DViewModelMeasurement?>(
+            "getMeasurement", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (Measurement is not null)
-            {
-                result.Id = Measurement.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Measurement = result;
 #pragma warning restore BL0005
@@ -160,9 +153,8 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
         }
         
         return Measurement;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MeasurementLabel property.
     /// </summary>
@@ -189,21 +181,19 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DistanceMeasurement2DViewModel), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "measurementLabel");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                MeasurementLabel = result;
+             MeasurementLabel = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MeasurementLabel)] = MeasurementLabel;
+             ModifiedParameters[nameof(MeasurementLabel)] = MeasurementLabel;
         }
          
         return MeasurementLabel;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SnappingOptions property.
     /// </summary>
@@ -229,18 +219,11 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
             return SnappingOptions;
         }
 
-        SnappingOptions? result = await JsComponentReference.InvokeJsMethod<SnappingOptions?>(
-            IsServer, nameof(GetSnappingOptions), nameof(DistanceMeasurement2DViewModel), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        SnappingOptions? result = await JsComponentReference.InvokeAsync<SnappingOptions?>(
+            "getSnappingOptions", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (SnappingOptions is not null)
-            {
-                result.Id = SnappingOptions.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             SnappingOptions = result;
 #pragma warning restore BL0005
@@ -248,9 +231,8 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
         }
         
         return SnappingOptions;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -277,21 +259,19 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
         }
 
         // get the property value
-        MeasurementViewModelState? result = await JsComponentReference!.InvokeJsMethod<MeasurementViewModelState?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DistanceMeasurement2DViewModel), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "state");
-        if (result is not null)
+        JsNullableEnumWrapper<MeasurementViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<MeasurementViewModelState>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "state");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                State = result;
+             State = (MeasurementViewModelState)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(State)] = State;
+             ModifiedParameters[nameof(State)] = State;
         }
          
         return State;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Unit property.
     /// </summary>
@@ -318,21 +298,19 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
         }
 
         // get the property value
-        SystemOrLengthUnit? result = await JsComponentReference!.InvokeJsMethod<SystemOrLengthUnit?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DistanceMeasurement2DViewModel), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "unit");
-        if (result is not null)
+        JsNullableEnumWrapper<SystemOrLengthUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SystemOrLengthUnit>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "unit");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Unit = result;
+             Unit = (SystemOrLengthUnit)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Unit)] = Unit;
+             ModifiedParameters[nameof(Unit)] = Unit;
         }
          
         return Unit;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the UnitOptions property.
     /// </summary>
@@ -359,21 +337,19 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
         }
 
         // get the property value
-        IReadOnlyList<SystemOrLengthUnit>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<SystemOrLengthUnit>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DistanceMeasurement2DViewModel), View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<SystemOrLengthUnit>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SystemOrLengthUnit>?>("getProperty",
             CancellationTokenSource.Token, "unitOptions");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                UnitOptions = result;
+             UnitOptions = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(UnitOptions)] = UnitOptions;
+             ModifiedParameters[nameof(UnitOptions)] = UnitOptions;
         }
          
         return UnitOptions;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -386,6 +362,11 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
     /// </param>
     public async Task SetSnappingOptions(SnappingOptions? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         SnappingOptions = value;
 #pragma warning restore BL0005
@@ -395,11 +376,6 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -416,12 +392,10 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetSnappingOptions), nameof(DistanceMeasurement2DViewModel),
+        await JsComponentReference.InvokeVoidAsync("setSnappingOptions", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Unit property after render.
     /// </summary>
@@ -457,9 +431,8 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "unit", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the UnitOptions property after render.
     /// </summary>
@@ -495,9 +468,8 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "unitOptions", value);
-
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -514,7 +486,6 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
             ? values
             : [..UnitOptions, ..values];
         await SetUnitOptions(join);
-
     }
     
 #endregion
@@ -535,7 +506,6 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
             return;
         }
         await SetUnitOptions(UnitOptions.Except(values).ToArray());
-
     }
     
 #endregion
@@ -570,14 +540,8 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
             return;
         }
         
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
-            nameof(Clear), nameof(DistanceMeasurement2DViewModel), 
+        await JsComponentReference!.InvokeVoidAsync(
+            "clear", 
             CancellationTokenSource.Token);
     }
     
@@ -609,14 +573,8 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
             return;
         }
         
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
-            nameof(Start), nameof(DistanceMeasurement2DViewModel), 
+        await JsComponentReference!.InvokeVoidAsync(
+            "start", 
             CancellationTokenSource.Token);
     }
     

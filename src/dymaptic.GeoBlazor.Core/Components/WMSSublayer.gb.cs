@@ -69,7 +69,7 @@ public partial class WMSSublayer : MapComponent
     /// </param>
     /// <param name="title">
     ///     The title of the WMS sublayer used to identify it in places such as the
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visible">
@@ -110,7 +110,7 @@ public partial class WMSSublayer : MapComponent
         Title = title;
         Visible = visible;
         WMSSublayerId = wMSSublayerId;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -244,7 +244,7 @@ public partial class WMSSublayer : MapComponent
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayertitle-property">GeoBlazor Docs</a>
     ///     The title of the WMS sublayer used to identify it in places such as the
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -292,21 +292,19 @@ public partial class WMSSublayer : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "description");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Description = result;
+             Description = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Description)] = Description;
+             ModifiedParameters[nameof(Description)] = Description;
         }
          
         return Description;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Dimensions property.
     /// </summary>
@@ -333,21 +331,19 @@ public partial class WMSSublayer : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<IWMSLayerDimension>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<IWMSLayerDimension>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<IWMSLayerDimension>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<IWMSLayerDimension>?>("getProperty",
             CancellationTokenSource.Token, "dimensions");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Dimensions = result;
+             Dimensions = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Dimensions)] = Dimensions;
+             ModifiedParameters[nameof(Dimensions)] = Dimensions;
         }
          
         return Dimensions;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FullExtent property.
     /// </summary>
@@ -373,9 +369,8 @@ public partial class WMSSublayer : MapComponent
             return FullExtent;
         }
 
-        Extent? result = await JsComponentReference.InvokeJsMethod<Extent?>(
-            IsServer, nameof(GetFullExtent), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Extent? result = await JsComponentReference.InvokeAsync<Extent?>(
+            "getFullExtent", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -392,9 +387,8 @@ public partial class WMSSublayer : MapComponent
         }
         
         return FullExtent;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendEnabled property.
     /// </summary>
@@ -421,21 +415,19 @@ public partial class WMSSublayer : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "legendEnabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "legendEnabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                LegendEnabled = result;
+             LegendEnabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
+             ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
         }
          
         return LegendEnabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendUrl property.
     /// </summary>
@@ -462,21 +454,19 @@ public partial class WMSSublayer : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "legendUrl");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                LegendUrl = result;
+             LegendUrl = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(LegendUrl)] = LegendUrl;
+             ModifiedParameters[nameof(LegendUrl)] = LegendUrl;
         }
          
         return LegendUrl;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -503,21 +493,19 @@ public partial class WMSSublayer : MapComponent
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "maxScale");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "maxScale");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MaxScale = result;
+             MaxScale = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MaxScale)] = MaxScale;
+             ModifiedParameters[nameof(MaxScale)] = MaxScale;
         }
          
         return MaxScale;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -544,21 +532,19 @@ public partial class WMSSublayer : MapComponent
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "minScale");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "minScale");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MinScale = result;
+             MinScale = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MinScale)] = MinScale;
+             ModifiedParameters[nameof(MinScale)] = MinScale;
         }
          
         return MinScale;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -585,21 +571,19 @@ public partial class WMSSublayer : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Name = result;
+             Name = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Name)] = Name;
+             ModifiedParameters[nameof(Name)] = Name;
         }
          
         return Name;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupEnabled property.
     /// </summary>
@@ -626,21 +610,19 @@ public partial class WMSSublayer : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "popupEnabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "popupEnabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                PopupEnabled = result;
+             PopupEnabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
+             ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
         }
          
         return PopupEnabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Queryable property.
     /// </summary>
@@ -667,21 +649,19 @@ public partial class WMSSublayer : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "queryable");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "queryable");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Queryable = result;
+             Queryable = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Queryable)] = Queryable;
+             ModifiedParameters[nameof(Queryable)] = Queryable;
         }
          
         return Queryable;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReferences property.
     /// </summary>
@@ -708,21 +688,19 @@ public partial class WMSSublayer : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
             CancellationTokenSource.Token, "spatialReferences");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                SpatialReferences = result;
+             SpatialReferences = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SpatialReferences)] = SpatialReferences;
+             ModifiedParameters[nameof(SpatialReferences)] = SpatialReferences;
         }
          
         return SpatialReferences;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -749,21 +727,19 @@ public partial class WMSSublayer : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Title = result;
+             Title = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Title)] = Title;
+             ModifiedParameters[nameof(Title)] = Title;
         }
          
         return Title;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the WMSSublayerId property.
     /// </summary>
@@ -790,21 +766,19 @@ public partial class WMSSublayer : MapComponent
         }
 
         // get the property value
-        long? result = await JsComponentReference!.InvokeJsMethod<long?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "id");
-        if (result is not null)
+        JsNullableLongWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableLongWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "wMSSublayerId");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                WMSSublayerId = result;
+             WMSSublayerId = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(WMSSublayerId)] = WMSSublayerId;
+             ModifiedParameters[nameof(WMSSublayerId)] = WMSSublayerId;
         }
          
         return WMSSublayerId;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -844,9 +818,8 @@ public partial class WMSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "description", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the FullExtent property after render.
     /// </summary>
@@ -855,6 +828,11 @@ public partial class WMSSublayer : MapComponent
     /// </param>
     public async Task SetFullExtent(Extent? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         FullExtent = value;
 #pragma warning restore BL0005
@@ -864,11 +842,6 @@ public partial class WMSSublayer : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -887,9 +860,8 @@ public partial class WMSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fullExtent", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
@@ -925,9 +897,8 @@ public partial class WMSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LegendUrl property after render.
     /// </summary>
@@ -963,9 +934,8 @@ public partial class WMSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendUrl", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -1001,9 +971,8 @@ public partial class WMSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -1039,9 +1008,8 @@ public partial class WMSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
@@ -1077,9 +1045,8 @@ public partial class WMSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
@@ -1115,9 +1082,8 @@ public partial class WMSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Queryable property after render.
     /// </summary>
@@ -1153,9 +1119,8 @@ public partial class WMSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "queryable", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SpatialReferences property after render.
     /// </summary>
@@ -1191,9 +1156,8 @@ public partial class WMSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "spatialReferences", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -1229,9 +1193,8 @@ public partial class WMSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the WMSSublayerId property after render.
     /// </summary>
@@ -1267,9 +1230,8 @@ public partial class WMSSublayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
-
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -1286,7 +1248,6 @@ public partial class WMSSublayer : MapComponent
             ? values
             : [..SpatialReferences, ..values];
         await SetSpatialReferences(join);
-
     }
     
 #endregion
@@ -1307,7 +1268,6 @@ public partial class WMSSublayer : MapComponent
             return;
         }
         await SetSpatialReferences(SpatialReferences.Except(values).ToArray());
-
     }
     
 #endregion
@@ -1345,7 +1305,7 @@ public partial class WMSSublayer : MapComponent
     {
         switch (child)
         {
-            case Extent:
+            case Extent _:
                 FullExtent = null;
                 ModifiedParameters[nameof(FullExtent)] = FullExtent;
                 return true;

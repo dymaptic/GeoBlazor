@@ -32,7 +32,7 @@ public partial class CapabilitiesMetadata : MapComponent
         AllowRender = false;
 #pragma warning disable BL0005
         SupportsAdvancedFieldProperties = supportsAdvancedFieldProperties;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -78,21 +78,19 @@ public partial class CapabilitiesMetadata : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesMetadata), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsAdvancedFieldProperties");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsAdvancedFieldProperties");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsAdvancedFieldProperties = result;
+             SupportsAdvancedFieldProperties = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsAdvancedFieldProperties)] = SupportsAdvancedFieldProperties;
+             ModifiedParameters[nameof(SupportsAdvancedFieldProperties)] = SupportsAdvancedFieldProperties;
         }
          
         return SupportsAdvancedFieldProperties;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -132,9 +130,8 @@ public partial class CapabilitiesMetadata : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsAdvancedFieldProperties", value);
-
     }
-
+    
 #endregion
 
 }

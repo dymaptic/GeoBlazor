@@ -58,7 +58,7 @@ public partial class BookmarksViewModel : IGoTo
         DefaultCreateOptions = defaultCreateOptions;
         DefaultEditOptions = defaultEditOptions;
         GoToOverride = goToOverride;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -154,18 +154,11 @@ public partial class BookmarksViewModel : IGoTo
             return ActiveBookmark;
         }
 
-        Bookmark? result = await JsComponentReference.InvokeJsMethod<Bookmark?>(
-            IsServer, nameof(GetActiveBookmark), nameof(BookmarksViewModel), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Bookmark? result = await JsComponentReference.InvokeAsync<Bookmark?>(
+            "getActiveBookmark", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (ActiveBookmark is not null)
-            {
-                result.Id = ActiveBookmark.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             ActiveBookmark = result;
 #pragma warning restore BL0005
@@ -173,9 +166,8 @@ public partial class BookmarksViewModel : IGoTo
         }
         
         return ActiveBookmark;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Bookmarks property.
     /// </summary>
@@ -201,16 +193,11 @@ public partial class BookmarksViewModel : IGoTo
             return Bookmarks;
         }
 
-        IReadOnlyList<Bookmark>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Bookmark>?>(
-            IsServer, nameof(GetBookmarks), nameof(BookmarksViewModel), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<Bookmark>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Bookmark>?>(
+            "getBookmarks", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (Bookmark item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             Bookmarks = result;
 #pragma warning restore BL0005
@@ -218,9 +205,8 @@ public partial class BookmarksViewModel : IGoTo
         }
         
         return Bookmarks;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Capabilities property.
     /// </summary>
@@ -246,18 +232,11 @@ public partial class BookmarksViewModel : IGoTo
             return Capabilities;
         }
 
-        BookmarksCapabilities? result = await JsComponentReference.InvokeJsMethod<BookmarksCapabilities?>(
-            IsServer, nameof(GetCapabilities), nameof(BookmarksViewModel), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        BookmarksCapabilities? result = await JsComponentReference.InvokeAsync<BookmarksCapabilities?>(
+            "getCapabilities", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (Capabilities is not null)
-            {
-                result.Id = Capabilities.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Capabilities = result;
 #pragma warning restore BL0005
@@ -265,9 +244,8 @@ public partial class BookmarksViewModel : IGoTo
         }
         
         return Capabilities;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultCreateOptions property.
     /// </summary>
@@ -293,9 +271,8 @@ public partial class BookmarksViewModel : IGoTo
             return DefaultCreateOptions;
         }
 
-        BookmarkOptions? result = await JsComponentReference.InvokeJsMethod<BookmarkOptions?>(
-            IsServer, nameof(GetDefaultCreateOptions), nameof(BookmarksViewModel), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        BookmarkOptions? result = await JsComponentReference.InvokeAsync<BookmarkOptions?>(
+            "getDefaultCreateOptions", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -306,9 +283,8 @@ public partial class BookmarksViewModel : IGoTo
         }
         
         return DefaultCreateOptions;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultEditOptions property.
     /// </summary>
@@ -334,9 +310,8 @@ public partial class BookmarksViewModel : IGoTo
             return DefaultEditOptions;
         }
 
-        BookmarkOptions? result = await JsComponentReference.InvokeJsMethod<BookmarkOptions?>(
-            IsServer, nameof(GetDefaultEditOptions), nameof(BookmarksViewModel), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        BookmarkOptions? result = await JsComponentReference.InvokeAsync<BookmarkOptions?>(
+            "getDefaultEditOptions", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -347,9 +322,8 @@ public partial class BookmarksViewModel : IGoTo
         }
         
         return DefaultEditOptions;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -376,21 +350,19 @@ public partial class BookmarksViewModel : IGoTo
         }
 
         // get the property value
-        ViewModelState? result = await JsComponentReference!.InvokeJsMethod<ViewModelState?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarksViewModel), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "state");
-        if (result is not null)
+        JsNullableEnumWrapper<ViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ViewModelState>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "state");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                State = result;
+             State = (ViewModelState)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(State)] = State;
+             ModifiedParameters[nameof(State)] = State;
         }
          
         return State;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -403,6 +375,14 @@ public partial class BookmarksViewModel : IGoTo
     /// </param>
     public async Task SetBookmarks(IReadOnlyList<Bookmark>? value)
     {
+        if (value is not null)
+        {
+            foreach (Bookmark item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         Bookmarks = value;
 #pragma warning restore BL0005
@@ -412,14 +392,6 @@ public partial class BookmarksViewModel : IGoTo
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (Bookmark item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -436,12 +408,10 @@ public partial class BookmarksViewModel : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetBookmarks), nameof(BookmarksViewModel),
+        await JsComponentReference.InvokeVoidAsync("setBookmarks", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Capabilities property after render.
     /// </summary>
@@ -450,6 +420,11 @@ public partial class BookmarksViewModel : IGoTo
     /// </param>
     public async Task SetCapabilities(BookmarksCapabilities? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Capabilities = value;
 #pragma warning restore BL0005
@@ -459,11 +434,6 @@ public partial class BookmarksViewModel : IGoTo
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -480,12 +450,10 @@ public partial class BookmarksViewModel : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetCapabilities), nameof(BookmarksViewModel),
+        await JsComponentReference.InvokeVoidAsync("setCapabilities", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DefaultCreateOptions property after render.
     /// </summary>
@@ -519,12 +487,10 @@ public partial class BookmarksViewModel : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetDefaultCreateOptions), nameof(BookmarksViewModel),
+        await JsComponentReference.InvokeVoidAsync("setDefaultCreateOptions", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DefaultEditOptions property after render.
     /// </summary>
@@ -558,12 +524,10 @@ public partial class BookmarksViewModel : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetDefaultEditOptions), nameof(BookmarksViewModel),
+        await JsComponentReference.InvokeVoidAsync("setDefaultEditOptions", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -580,7 +544,6 @@ public partial class BookmarksViewModel : IGoTo
             ? values
             : [..Bookmarks, ..values];
         await SetBookmarks(join);
-
     }
     
 #endregion
@@ -601,7 +564,6 @@ public partial class BookmarksViewModel : IGoTo
             return;
         }
         await SetBookmarks(Bookmarks.Except(values).ToArray());
-
     }
     
 #endregion
@@ -639,8 +601,8 @@ public partial class BookmarksViewModel : IGoTo
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<Bookmark?>(
-            IsServer, nameof(CreateBookmark), nameof(BookmarksViewModel), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<Bookmark?>(
+            "createBookmark", 
             CancellationTokenSource.Token,
             options);
     }
@@ -683,8 +645,8 @@ public partial class BookmarksViewModel : IGoTo
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<Bookmark?>(
-            IsServer, nameof(EditBookmark), nameof(BookmarksViewModel), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<Bookmark?>(
+            "editBookmark", 
             CancellationTokenSource.Token,
             bookmark,
             options);
@@ -721,11 +683,82 @@ public partial class BookmarksViewModel : IGoTo
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GoTo), nameof(BookmarksViewModel), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<string?>(
+            "goTo", 
             CancellationTokenSource.Token,
             bookmark);
     }
+    
+#endregion
+
+#region Event Handlers
+
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsBookmarkEdit(IJSStreamReference jsStreamRef)
+    {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        BookmarksViewModelBookmarkEditEvent? bookmarkEditEvent = await jsStreamRef.ReadJsStreamReference<BookmarksViewModelBookmarkEditEvent>();
+        if (bookmarkEditEvent is not null)
+        {
+            await OnBookmarkEdit.InvokeAsync(bookmarkEditEvent);
+        }
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksViewModel.html#bookmarksviewmodelonbookmarkedit-property">GeoBlazor Docs</a>
+    ///     Event Listener for BookmarkEdit.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    public EventCallback<BookmarksViewModelBookmarkEditEvent> OnBookmarkEdit { get; set; }
+   
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
+    public bool HasBookmarkEditListener => OnBookmarkEdit.HasDelegate;
+    
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsBookmarkSelect(IJSStreamReference jsStreamRef)
+    {
+        if (IsDisposed)
+        {
+            // cancel if the component is disposed
+            return;
+        }
+    
+        BookmarksViewModelBookmarkSelectEvent? bookmarkSelectEvent = await jsStreamRef.ReadJsStreamReference<BookmarksViewModelBookmarkSelectEvent>();
+        if (bookmarkSelectEvent is not null)
+        {
+            await OnBookmarkSelect.InvokeAsync(bookmarkSelectEvent);
+        }
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksViewModel.html#bookmarksviewmodelonbookmarkselect-property">GeoBlazor Docs</a>
+    ///     Indicates whether there is an event listener on the instance that matches
+    ///     the provided event name.
+    ///     param type The name of the event.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#hasEventListener">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    public EventCallback<BookmarksViewModelBookmarkSelectEvent> OnBookmarkSelect { get; set; }
+   
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
+    public bool HasBookmarkSelectListener => OnBookmarkSelect.HasDelegate;
     
 #endregion
 
@@ -766,7 +799,7 @@ public partial class BookmarksViewModel : IGoTo
                 Bookmarks = Bookmarks?.Where(b => b != bookmarks).ToList();
                 ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
                 return true;
-            case BookmarksCapabilities:
+            case BookmarksCapabilities _:
                 Capabilities = null;
                 ModifiedParameters[nameof(Capabilities)] = Capabilities;
                 return true;

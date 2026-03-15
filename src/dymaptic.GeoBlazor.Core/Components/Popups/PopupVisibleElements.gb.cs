@@ -72,7 +72,7 @@ public partial class PopupVisibleElements
         FeatureMenuHeading = featureMenuHeading;
         Heading = heading;
         Spinner = spinner;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -187,21 +187,19 @@ public partial class PopupVisibleElements
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "actionBar");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "actionBar");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ActionBar = result;
+             ActionBar = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ActionBar)] = ActionBar;
+             ModifiedParameters[nameof(ActionBar)] = ActionBar;
         }
          
         return ActionBar;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the CloseButton property.
     /// </summary>
@@ -228,21 +226,19 @@ public partial class PopupVisibleElements
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "closeButton");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "closeButton");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                CloseButton = result;
+             CloseButton = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(CloseButton)] = CloseButton;
+             ModifiedParameters[nameof(CloseButton)] = CloseButton;
         }
          
         return CloseButton;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the CollapseButton property.
     /// </summary>
@@ -269,21 +265,19 @@ public partial class PopupVisibleElements
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "collapseButton");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "collapseButton");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                CollapseButton = result;
+             CollapseButton = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(CollapseButton)] = CollapseButton;
+             ModifiedParameters[nameof(CollapseButton)] = CollapseButton;
         }
          
         return CollapseButton;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureListLayerTitle property.
     /// </summary>
@@ -310,21 +304,19 @@ public partial class PopupVisibleElements
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "featureListLayerTitle");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "featureListLayerTitle");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                FeatureListLayerTitle = result;
+             FeatureListLayerTitle = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(FeatureListLayerTitle)] = FeatureListLayerTitle;
+             ModifiedParameters[nameof(FeatureListLayerTitle)] = FeatureListLayerTitle;
         }
          
         return FeatureListLayerTitle;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureMenuHeading property.
     /// </summary>
@@ -351,21 +343,19 @@ public partial class PopupVisibleElements
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "featureMenuHeading");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "featureMenuHeading");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                FeatureMenuHeading = result;
+             FeatureMenuHeading = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(FeatureMenuHeading)] = FeatureMenuHeading;
+             ModifiedParameters[nameof(FeatureMenuHeading)] = FeatureMenuHeading;
         }
          
         return FeatureMenuHeading;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureNavigation property.
     /// </summary>
@@ -392,21 +382,19 @@ public partial class PopupVisibleElements
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "featureNavigation");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "featureNavigation");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                FeatureNavigation = result;
+             FeatureNavigation = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(FeatureNavigation)] = FeatureNavigation;
+             ModifiedParameters[nameof(FeatureNavigation)] = FeatureNavigation;
         }
          
         return FeatureNavigation;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Heading property.
     /// </summary>
@@ -433,21 +421,19 @@ public partial class PopupVisibleElements
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "heading");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "heading");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Heading = result;
+             Heading = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Heading)] = Heading;
+             ModifiedParameters[nameof(Heading)] = Heading;
         }
          
         return Heading;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Spinner property.
     /// </summary>
@@ -474,21 +460,19 @@ public partial class PopupVisibleElements
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "spinner");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "spinner");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Spinner = result;
+             Spinner = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Spinner)] = Spinner;
+             ModifiedParameters[nameof(Spinner)] = Spinner;
         }
          
         return Spinner;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -528,9 +512,8 @@ public partial class PopupVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "actionBar", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the CloseButton property after render.
     /// </summary>
@@ -566,9 +549,8 @@ public partial class PopupVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "closeButton", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the CollapseButton property after render.
     /// </summary>
@@ -604,9 +586,8 @@ public partial class PopupVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "collapseButton", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the FeatureListLayerTitle property after render.
     /// </summary>
@@ -642,9 +623,8 @@ public partial class PopupVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featureListLayerTitle", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the FeatureMenuHeading property after render.
     /// </summary>
@@ -680,9 +660,8 @@ public partial class PopupVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featureMenuHeading", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the FeatureNavigation property after render.
     /// </summary>
@@ -718,9 +697,8 @@ public partial class PopupVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featureNavigation", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Heading property after render.
     /// </summary>
@@ -756,9 +734,8 @@ public partial class PopupVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "heading", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Spinner property after render.
     /// </summary>
@@ -794,9 +771,8 @@ public partial class PopupVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "spinner", value);
-
     }
-
+    
 #endregion
 
 }

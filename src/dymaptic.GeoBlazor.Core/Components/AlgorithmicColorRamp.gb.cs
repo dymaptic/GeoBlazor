@@ -44,7 +44,7 @@ public partial class AlgorithmicColorRamp
         Algorithm = algorithm;
         FromColor = fromColor;
         ToColor = toColor;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -76,21 +76,19 @@ public partial class AlgorithmicColorRamp
         }
 
         // get the property value
-        Algorithm? result = await JsComponentReference!.InvokeJsMethod<Algorithm?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AlgorithmicColorRamp), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "algorithm");
-        if (result is not null)
+        JsNullableEnumWrapper<Algorithm>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Algorithm>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "algorithm");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Algorithm = result;
+             Algorithm = (Algorithm)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Algorithm)] = Algorithm;
+             ModifiedParameters[nameof(Algorithm)] = Algorithm;
         }
          
         return Algorithm;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FromColor property.
     /// </summary>
@@ -117,21 +115,19 @@ public partial class AlgorithmicColorRamp
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AlgorithmicColorRamp), View?.QueryResultsMaxSizeLimit,
+        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, "fromColor");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                FromColor = result;
+             FromColor = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(FromColor)] = FromColor;
+             ModifiedParameters[nameof(FromColor)] = FromColor;
         }
          
         return FromColor;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ToColor property.
     /// </summary>
@@ -158,21 +154,19 @@ public partial class AlgorithmicColorRamp
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AlgorithmicColorRamp), View?.QueryResultsMaxSizeLimit,
+        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, "toColor");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                ToColor = result;
+             ToColor = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ToColor)] = ToColor;
+             ModifiedParameters[nameof(ToColor)] = ToColor;
         }
          
         return ToColor;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -212,9 +206,8 @@ public partial class AlgorithmicColorRamp
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "algorithm", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the FromColor property after render.
     /// </summary>
@@ -250,9 +243,8 @@ public partial class AlgorithmicColorRamp
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fromColor", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ToColor property after render.
     /// </summary>
@@ -288,9 +280,8 @@ public partial class AlgorithmicColorRamp
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "toColor", value);
-
     }
-
+    
 #endregion
 
 }

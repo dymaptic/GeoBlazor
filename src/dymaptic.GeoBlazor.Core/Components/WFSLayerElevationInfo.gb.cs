@@ -50,7 +50,7 @@ public partial class WFSLayerElevationInfo : MapComponent
         Mode = mode;
         Offset = offset;
         Unit = unit;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -125,18 +125,11 @@ public partial class WFSLayerElevationInfo : MapComponent
             return FeatureExpressionInfo;
         }
 
-        WFSLayerElevationInfoFeatureExpressionInfo? result = await JsComponentReference.InvokeJsMethod<WFSLayerElevationInfoFeatureExpressionInfo?>(
-            IsServer, nameof(GetFeatureExpressionInfo), nameof(WFSLayerElevationInfo), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        WFSLayerElevationInfoFeatureExpressionInfo? result = await JsComponentReference.InvokeAsync<WFSLayerElevationInfoFeatureExpressionInfo?>(
+            "getFeatureExpressionInfo", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (FeatureExpressionInfo is not null)
-            {
-                result.Id = FeatureExpressionInfo.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             FeatureExpressionInfo = result;
 #pragma warning restore BL0005
@@ -144,9 +137,8 @@ public partial class WFSLayerElevationInfo : MapComponent
         }
         
         return FeatureExpressionInfo;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Mode property.
     /// </summary>
@@ -173,21 +165,19 @@ public partial class WFSLayerElevationInfo : MapComponent
         }
 
         // get the property value
-        ElevationInfoMode? result = await JsComponentReference!.InvokeJsMethod<ElevationInfoMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayerElevationInfo), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "mode");
-        if (result is not null)
+        JsNullableEnumWrapper<ElevationInfoMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ElevationInfoMode>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "mode");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Mode = result;
+             Mode = (ElevationInfoMode)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Mode)] = Mode;
+             ModifiedParameters[nameof(Mode)] = Mode;
         }
          
         return Mode;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Offset property.
     /// </summary>
@@ -214,21 +204,19 @@ public partial class WFSLayerElevationInfo : MapComponent
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayerElevationInfo), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "offset");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "offset");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Offset = result;
+             Offset = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Offset)] = Offset;
+             ModifiedParameters[nameof(Offset)] = Offset;
         }
          
         return Offset;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Unit property.
     /// </summary>
@@ -255,21 +243,19 @@ public partial class WFSLayerElevationInfo : MapComponent
         }
 
         // get the property value
-        ElevationUnit? result = await JsComponentReference!.InvokeJsMethod<ElevationUnit?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayerElevationInfo), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "unit");
-        if (result is not null)
+        JsNullableEnumWrapper<ElevationUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ElevationUnit>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "unit");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Unit = result;
+             Unit = (ElevationUnit)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Unit)] = Unit;
+             ModifiedParameters[nameof(Unit)] = Unit;
         }
          
         return Unit;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -282,6 +268,11 @@ public partial class WFSLayerElevationInfo : MapComponent
     /// </param>
     public async Task SetFeatureExpressionInfo(WFSLayerElevationInfoFeatureExpressionInfo? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         FeatureExpressionInfo = value;
 #pragma warning restore BL0005
@@ -291,11 +282,6 @@ public partial class WFSLayerElevationInfo : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -314,9 +300,8 @@ public partial class WFSLayerElevationInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featureExpressionInfo", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Mode property after render.
     /// </summary>
@@ -352,9 +337,8 @@ public partial class WFSLayerElevationInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mode", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Offset property after render.
     /// </summary>
@@ -390,9 +374,8 @@ public partial class WFSLayerElevationInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "offset", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Unit property after render.
     /// </summary>
@@ -428,9 +411,8 @@ public partial class WFSLayerElevationInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "unit", value);
-
     }
-
+    
 #endregion
 
 
@@ -457,7 +439,7 @@ public partial class WFSLayerElevationInfo : MapComponent
     {
         switch (child)
         {
-            case WFSLayerElevationInfoFeatureExpressionInfo:
+            case WFSLayerElevationInfoFeatureExpressionInfo _:
                 FeatureExpressionInfo = null;
                 ModifiedParameters[nameof(FeatureExpressionInfo)] = FeatureExpressionInfo;
                 return true;

@@ -22,6 +22,9 @@ public partial class ZoomWidget : Widget
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
+    /// <param name="containerId">
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    /// </param>
     /// <param name="icon">
     ///     Icon which represents the widget.
     ///     default "magnifying-glass-plus"
@@ -35,6 +38,12 @@ public partial class ZoomWidget : Widget
     ///     Determines the layout/orientation of the Zoom widget.
     ///     default "vertical"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Zoom.html#layout">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="mapView">
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </param>
+    /// <param name="position">
+    ///     The position of the widget in relation to the map view.
     /// </param>
     /// <param name="viewModel">
     ///     The view model for this widget.
@@ -50,22 +59,28 @@ public partial class ZoomWidget : Widget
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public ZoomWidget(
+        string? containerId = null,
         string? icon = null,
         string? label = null,
         WidgetLayout? layout = null,
+        MapView? mapView = null,
+        OverlayPosition? position = null,
         ZoomViewModel? viewModel = null,
         bool? visible = null,
         string? widgetId = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
+        ContainerId = containerId;
         Icon = icon;
         Label = label;
         Layout = layout;
+        MapView = mapView;
+        Position = position;
         ViewModel = viewModel;
         Visible = visible;
         WidgetId = widgetId;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -125,21 +140,19 @@ public partial class ZoomWidget : Widget
         }
 
         // get the property value
-        WidgetLayout? result = await JsComponentReference!.InvokeJsMethod<WidgetLayout?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ZoomWidget), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "layout");
-        if (result is not null)
+        JsNullableEnumWrapper<WidgetLayout>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<WidgetLayout>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "layout");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Layout = result;
+             Layout = (WidgetLayout)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Layout)] = Layout;
+             ModifiedParameters[nameof(Layout)] = Layout;
         }
          
         return Layout;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -165,9 +178,8 @@ public partial class ZoomWidget : Widget
             return ViewModel;
         }
 
-        ZoomViewModel? result = await JsComponentReference.InvokeJsMethod<ZoomViewModel?>(
-            IsServer, nameof(GetViewModel), nameof(ZoomWidget), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        ZoomViewModel? result = await JsComponentReference.InvokeAsync<ZoomViewModel?>(
+            "getViewModel", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -184,9 +196,8 @@ public partial class ZoomWidget : Widget
         }
         
         return ViewModel;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -226,9 +237,8 @@ public partial class ZoomWidget : Widget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layout", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -237,6 +247,11 @@ public partial class ZoomWidget : Widget
     /// </param>
     public async Task SetViewModel(ZoomViewModel? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005
@@ -246,11 +261,6 @@ public partial class ZoomWidget : Widget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -267,12 +277,10 @@ public partial class ZoomWidget : Widget
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetViewModel), nameof(ZoomWidget),
+        await JsComponentReference.InvokeVoidAsync("setViewModel", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
 #endregion
 
 #region Public Methods
@@ -305,14 +313,8 @@ public partial class ZoomWidget : Widget
             return;
         }
         
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
-            nameof(ZoomIn), nameof(ZoomWidget), 
+        await JsComponentReference!.InvokeVoidAsync(
+            "zoomIn", 
             CancellationTokenSource.Token);
     }
     
@@ -344,14 +346,8 @@ public partial class ZoomWidget : Widget
             return;
         }
         
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
-            nameof(ZoomOut), nameof(ZoomWidget), 
+        await JsComponentReference!.InvokeVoidAsync(
+            "zoomOut", 
             CancellationTokenSource.Token);
     }
     
@@ -385,7 +381,7 @@ public partial class ZoomWidget : Widget
     {
         switch (child)
         {
-            case ZoomViewModel:
+            case ZoomViewModel _:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;

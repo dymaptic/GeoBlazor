@@ -11,8 +11,16 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     A preview of the symbol element as displayed in the legend.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SymbolTableElementInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="RampTitleLabel">
+///     The title of the renderer as displayed in the Legend.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SymbolTableElementInfo">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 /// <param name="Size">
 ///     The size of the symbol in points.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SymbolTableElementInfo">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="StringLabel">
+///     The title of the renderer as displayed in the Legend.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SymbolTableElementInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Symbol">
@@ -23,18 +31,16 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     The value corresponding with the given `symbol` in the legend.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SymbolTableElementInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="Label">
-///     The title of the renderer as displayed in the Legend.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SymbolTableElementInfo">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 public partial record SymbolTableElementInfo(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     ElementReference? Preview = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    RampTitle? RampTitleLabel = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     int? Size = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    string? StringLabel = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Symbol? Symbol = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? Value = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    RampTitle? Label = null) : ISymbolTableElementType;
+    string? Value = null) : ISymbolTableElementType;

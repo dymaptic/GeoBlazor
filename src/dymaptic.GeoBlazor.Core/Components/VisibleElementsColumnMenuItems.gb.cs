@@ -38,7 +38,7 @@ public partial class VisibleElementsColumnMenuItems : MapComponent
 #pragma warning disable BL0005
         SortAscending = sortAscending;
         SortDescending = sortDescending;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -94,21 +94,19 @@ public partial class VisibleElementsColumnMenuItems : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElementsColumnMenuItems), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "sortAscending");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "sortAscending");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SortAscending = result;
+             SortAscending = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SortAscending)] = SortAscending;
+             ModifiedParameters[nameof(SortAscending)] = SortAscending;
         }
          
         return SortAscending;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SortDescending property.
     /// </summary>
@@ -135,21 +133,19 @@ public partial class VisibleElementsColumnMenuItems : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElementsColumnMenuItems), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "sortDescending");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "sortDescending");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SortDescending = result;
+             SortDescending = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SortDescending)] = SortDescending;
+             ModifiedParameters[nameof(SortDescending)] = SortDescending;
         }
          
         return SortDescending;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -189,9 +185,8 @@ public partial class VisibleElementsColumnMenuItems : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sortAscending", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SortDescending property after render.
     /// </summary>
@@ -227,9 +222,8 @@ public partial class VisibleElementsColumnMenuItems : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sortDescending", value);
-
     }
-
+    
 #endregion
 
 }

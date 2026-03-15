@@ -22,6 +22,9 @@ public partial class ScaleBarWidget
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
+    /// <param name="containerId">
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    /// </param>
     /// <param name="icon">
     ///     Icon which represents the widget.
     ///     default "actual-size"
@@ -30,6 +33,12 @@ public partial class ScaleBarWidget
     /// <param name="label">
     ///     The widget's default label.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-ScaleBar.html#label">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="mapView">
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </param>
+    /// <param name="position">
+    ///     The position of the widget in relation to the map view.
     /// </param>
     /// <param name="style">
     ///     The style for the scale bar.
@@ -54,8 +63,11 @@ public partial class ScaleBarWidget
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public ScaleBarWidget(
+        string? containerId = null,
         string? icon = null,
         string? label = null,
+        MapView? mapView = null,
+        OverlayPosition? position = null,
         ScaleBarWidgetStyle? style = null,
         ScaleUnit? unit = null,
         ScaleBarViewModel? viewModel = null,
@@ -64,14 +76,17 @@ public partial class ScaleBarWidget
     {
         AllowRender = false;
 #pragma warning disable BL0005
+        ContainerId = containerId;
         Icon = icon;
         Label = label;
+        MapView = mapView;
+        Position = position;
         Style = style;
         Unit = unit;
         ViewModel = viewModel;
         Visible = visible;
         WidgetId = widgetId;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -128,21 +143,19 @@ public partial class ScaleBarWidget
         }
 
         // get the property value
-        ScaleBarWidgetStyle? result = await JsComponentReference!.InvokeJsMethod<ScaleBarWidgetStyle?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ScaleBarWidget), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "style");
-        if (result is not null)
+        JsNullableEnumWrapper<ScaleBarWidgetStyle>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ScaleBarWidgetStyle>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "style");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Style = result;
+             Style = (ScaleBarWidgetStyle)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Style)] = Style;
+             ModifiedParameters[nameof(Style)] = Style;
         }
          
         return Style;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Unit property.
     /// </summary>
@@ -169,21 +182,19 @@ public partial class ScaleBarWidget
         }
 
         // get the property value
-        ScaleUnit? result = await JsComponentReference!.InvokeJsMethod<ScaleUnit?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ScaleBarWidget), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "unit");
-        if (result is not null)
+        JsNullableEnumWrapper<ScaleUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ScaleUnit>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "unit");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Unit = result;
+             Unit = (ScaleUnit)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Unit)] = Unit;
+             ModifiedParameters[nameof(Unit)] = Unit;
         }
          
         return Unit;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -209,9 +220,8 @@ public partial class ScaleBarWidget
             return ViewModel;
         }
 
-        ScaleBarViewModel? result = await JsComponentReference.InvokeJsMethod<ScaleBarViewModel?>(
-            IsServer, nameof(GetViewModel), nameof(ScaleBarWidget), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        ScaleBarViewModel? result = await JsComponentReference.InvokeAsync<ScaleBarViewModel?>(
+            "getViewModel", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -228,9 +238,8 @@ public partial class ScaleBarWidget
         }
         
         return ViewModel;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -270,9 +279,8 @@ public partial class ScaleBarWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "style", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Unit property after render.
     /// </summary>
@@ -308,9 +316,8 @@ public partial class ScaleBarWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "unit", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -319,6 +326,11 @@ public partial class ScaleBarWidget
     /// </param>
     public async Task SetViewModel(ScaleBarViewModel? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005
@@ -328,11 +340,6 @@ public partial class ScaleBarWidget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -349,12 +356,10 @@ public partial class ScaleBarWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetViewModel), nameof(ScaleBarWidget),
+        await JsComponentReference.InvokeVoidAsync("setViewModel", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
 #endregion
 
 
@@ -385,7 +390,7 @@ public partial class ScaleBarWidget
     {
         switch (child)
         {
-            case ScaleBarViewModel:
+            case ScaleBarViewModel _:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;

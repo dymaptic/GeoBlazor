@@ -143,7 +143,7 @@ public partial class AuthoringInfo
         UnivariateSymbolStyle = univariateSymbolStyle;
         UnivariateTheme = univariateTheme;
         VisualVariables = visualVariables;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -367,21 +367,19 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        ClassificationMethod? result = await JsComponentReference!.InvokeJsMethod<ClassificationMethod?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfo), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "classificationMethod");
-        if (result is not null)
+        JsNullableEnumWrapper<ClassificationMethod>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ClassificationMethod>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "classificationMethod");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ClassificationMethod = result;
+             ClassificationMethod = (ClassificationMethod)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ClassificationMethod)] = ClassificationMethod;
+             ModifiedParameters[nameof(ClassificationMethod)] = ClassificationMethod;
         }
          
         return ClassificationMethod;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ColorRamp property.
     /// </summary>
@@ -407,18 +405,11 @@ public partial class AuthoringInfo
             return ColorRamp;
         }
 
-        ColorRamp? result = await JsComponentReference.InvokeJsMethod<ColorRamp?>(
-            IsServer, nameof(GetColorRamp), nameof(AuthoringInfo), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        ColorRamp? result = await JsComponentReference.InvokeAsync<ColorRamp?>(
+            "getColorRamp", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (ColorRamp is not null)
-            {
-                result.Id = ColorRamp.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             ColorRamp = result;
 #pragma warning restore BL0005
@@ -426,9 +417,8 @@ public partial class AuthoringInfo
         }
         
         return ColorRamp;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FadeRatio property.
     /// </summary>
@@ -455,21 +445,19 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfo), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "fadeRatio");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "fadeRatio");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                FadeRatio = result;
+             FadeRatio = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(FadeRatio)] = FadeRatio;
+             ModifiedParameters[nameof(FadeRatio)] = FadeRatio;
         }
          
         return FadeRatio;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Field1 property.
     /// </summary>
@@ -495,18 +483,11 @@ public partial class AuthoringInfo
             return Field1;
         }
 
-        AuthoringInfoField? result = await JsComponentReference.InvokeJsMethod<AuthoringInfoField?>(
-            IsServer, nameof(GetField1), nameof(AuthoringInfo), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        AuthoringInfoField? result = await JsComponentReference.InvokeAsync<AuthoringInfoField?>(
+            "getField1", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (Field1 is not null)
-            {
-                result.Id = Field1.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Field1 = result;
 #pragma warning restore BL0005
@@ -514,9 +495,8 @@ public partial class AuthoringInfo
         }
         
         return Field1;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Field2 property.
     /// </summary>
@@ -542,18 +522,11 @@ public partial class AuthoringInfo
             return Field2;
         }
 
-        AuthoringInfoField? result = await JsComponentReference.InvokeJsMethod<AuthoringInfoField?>(
-            IsServer, nameof(GetField2), nameof(AuthoringInfo), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        AuthoringInfoField? result = await JsComponentReference.InvokeAsync<AuthoringInfoField?>(
+            "getField2", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (Field2 is not null)
-            {
-                result.Id = Field2.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Field2 = result;
 #pragma warning restore BL0005
@@ -561,9 +534,8 @@ public partial class AuthoringInfo
         }
         
         return Field2;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Fields property.
     /// </summary>
@@ -590,21 +562,19 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfo), View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, "fields");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Fields = result;
+             Fields = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Fields)] = Fields;
+             ModifiedParameters[nameof(Fields)] = Fields;
         }
          
         return Fields;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FlowTheme property.
     /// </summary>
@@ -631,21 +601,19 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        AuthoringInfoFlowTheme? result = await JsComponentReference!.InvokeJsMethod<AuthoringInfoFlowTheme?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfo), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "flowTheme");
-        if (result is not null)
+        JsNullableEnumWrapper<AuthoringInfoFlowTheme>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<AuthoringInfoFlowTheme>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "flowTheme");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                FlowTheme = result;
+             FlowTheme = (AuthoringInfoFlowTheme)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(FlowTheme)] = FlowTheme;
+             ModifiedParameters[nameof(FlowTheme)] = FlowTheme;
         }
          
         return FlowTheme;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Focus property.
     /// </summary>
@@ -672,21 +640,19 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfo), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "focus");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Focus = result;
+             Focus = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Focus)] = Focus;
+             ModifiedParameters[nameof(Focus)] = Focus;
         }
          
         return Focus;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsAutoGenerated property.
     /// </summary>
@@ -713,21 +679,19 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfo), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "isAutoGenerated");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "isAutoGenerated");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                IsAutoGenerated = result;
+             IsAutoGenerated = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(IsAutoGenerated)] = IsAutoGenerated;
+             ModifiedParameters[nameof(IsAutoGenerated)] = IsAutoGenerated;
         }
          
         return IsAutoGenerated;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LengthUnit property.
     /// </summary>
@@ -754,21 +718,19 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        LengthUnit? result = await JsComponentReference!.InvokeJsMethod<LengthUnit?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfo), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "lengthUnit");
-        if (result is not null)
+        JsNullableEnumWrapper<LengthUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LengthUnit>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "lengthUnit");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                LengthUnit = result;
+             LengthUnit = (LengthUnit)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(LengthUnit)] = LengthUnit;
+             ModifiedParameters[nameof(LengthUnit)] = LengthUnit;
         }
          
         return LengthUnit;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxSliderValue property.
     /// </summary>
@@ -795,21 +757,19 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfo), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "maxSliderValue");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "maxSliderValue");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MaxSliderValue = result;
+             MaxSliderValue = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MaxSliderValue)] = MaxSliderValue;
+             ModifiedParameters[nameof(MaxSliderValue)] = MaxSliderValue;
         }
          
         return MaxSliderValue;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinSliderValue property.
     /// </summary>
@@ -836,21 +796,19 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfo), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "minSliderValue");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "minSliderValue");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MinSliderValue = result;
+             MinSliderValue = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MinSliderValue)] = MinSliderValue;
+             ModifiedParameters[nameof(MinSliderValue)] = MinSliderValue;
         }
          
         return MinSliderValue;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the NumClasses property.
     /// </summary>
@@ -877,21 +835,19 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfo), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "numClasses");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "numClasses");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                NumClasses = result;
+             NumClasses = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(NumClasses)] = NumClasses;
+             ModifiedParameters[nameof(NumClasses)] = NumClasses;
         }
          
         return NumClasses;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the StandardDeviationInterval property.
     /// </summary>
@@ -918,21 +874,19 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfo), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "standardDeviationInterval");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "standardDeviationInterval");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                StandardDeviationInterval = result;
+             StandardDeviationInterval = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(StandardDeviationInterval)] = StandardDeviationInterval;
+             ModifiedParameters[nameof(StandardDeviationInterval)] = StandardDeviationInterval;
         }
          
         return StandardDeviationInterval;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Statistics property.
     /// </summary>
@@ -958,18 +912,11 @@ public partial class AuthoringInfo
             return Statistics;
         }
 
-        AuthoringInfoStatistics? result = await JsComponentReference.InvokeJsMethod<AuthoringInfoStatistics?>(
-            IsServer, nameof(GetStatistics), nameof(AuthoringInfo), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        AuthoringInfoStatistics? result = await JsComponentReference.InvokeAsync<AuthoringInfoStatistics?>(
+            "getStatistics", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (Statistics is not null)
-            {
-                result.Id = Statistics.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Statistics = result;
 #pragma warning restore BL0005
@@ -977,9 +924,8 @@ public partial class AuthoringInfo
         }
         
         return Statistics;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the UnivariateSymbolStyle property.
     /// </summary>
@@ -1006,21 +952,19 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        UnivariateSymbolStyle? result = await JsComponentReference!.InvokeJsMethod<UnivariateSymbolStyle?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfo), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "univariateSymbolStyle");
-        if (result is not null)
+        JsNullableEnumWrapper<UnivariateSymbolStyle>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<UnivariateSymbolStyle>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "univariateSymbolStyle");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                UnivariateSymbolStyle = result;
+             UnivariateSymbolStyle = (UnivariateSymbolStyle)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(UnivariateSymbolStyle)] = UnivariateSymbolStyle;
+             ModifiedParameters[nameof(UnivariateSymbolStyle)] = UnivariateSymbolStyle;
         }
          
         return UnivariateSymbolStyle;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the UnivariateTheme property.
     /// </summary>
@@ -1047,21 +991,19 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        UnivariateTheme? result = await JsComponentReference!.InvokeJsMethod<UnivariateTheme?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfo), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "univariateTheme");
-        if (result is not null)
+        JsNullableEnumWrapper<UnivariateTheme>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<UnivariateTheme>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "univariateTheme");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                UnivariateTheme = result;
+             UnivariateTheme = (UnivariateTheme)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(UnivariateTheme)] = UnivariateTheme;
+             ModifiedParameters[nameof(UnivariateTheme)] = UnivariateTheme;
         }
          
         return UnivariateTheme;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisualVariables property.
     /// </summary>
@@ -1087,16 +1029,11 @@ public partial class AuthoringInfo
             return VisualVariables;
         }
 
-        IReadOnlyList<AuthoringInfoVisualVariable>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<AuthoringInfoVisualVariable>?>(
-            IsServer, nameof(GetVisualVariables), nameof(AuthoringInfo), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<AuthoringInfoVisualVariable>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<AuthoringInfoVisualVariable>?>(
+            "getVisualVariables", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (AuthoringInfoVisualVariable item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             VisualVariables = result;
 #pragma warning restore BL0005
@@ -1104,9 +1041,8 @@ public partial class AuthoringInfo
         }
         
         return VisualVariables;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -1146,9 +1082,8 @@ public partial class AuthoringInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "classificationMethod", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ColorRamp property after render.
     /// </summary>
@@ -1157,6 +1092,11 @@ public partial class AuthoringInfo
     /// </param>
     public async Task SetColorRamp(ColorRamp? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         ColorRamp = value;
 #pragma warning restore BL0005
@@ -1166,11 +1106,6 @@ public partial class AuthoringInfo
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -1189,9 +1124,8 @@ public partial class AuthoringInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "colorRamp", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the FadeRatio property after render.
     /// </summary>
@@ -1227,9 +1161,8 @@ public partial class AuthoringInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fadeRatio", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Field1 property after render.
     /// </summary>
@@ -1238,6 +1171,11 @@ public partial class AuthoringInfo
     /// </param>
     public async Task SetField1(AuthoringInfoField? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Field1 = value;
 #pragma warning restore BL0005
@@ -1247,11 +1185,6 @@ public partial class AuthoringInfo
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -1270,9 +1203,8 @@ public partial class AuthoringInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field1", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Field2 property after render.
     /// </summary>
@@ -1281,6 +1213,11 @@ public partial class AuthoringInfo
     /// </param>
     public async Task SetField2(AuthoringInfoField? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Field2 = value;
 #pragma warning restore BL0005
@@ -1290,11 +1227,6 @@ public partial class AuthoringInfo
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -1313,9 +1245,8 @@ public partial class AuthoringInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field2", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Fields property after render.
     /// </summary>
@@ -1351,9 +1282,8 @@ public partial class AuthoringInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fields", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the FlowTheme property after render.
     /// </summary>
@@ -1389,9 +1319,8 @@ public partial class AuthoringInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "flowTheme", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Focus property after render.
     /// </summary>
@@ -1427,9 +1356,8 @@ public partial class AuthoringInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "focus", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the IsAutoGenerated property after render.
     /// </summary>
@@ -1465,9 +1393,8 @@ public partial class AuthoringInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "isAutoGenerated", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LengthUnit property after render.
     /// </summary>
@@ -1503,9 +1430,8 @@ public partial class AuthoringInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "lengthUnit", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MaxSliderValue property after render.
     /// </summary>
@@ -1541,9 +1467,8 @@ public partial class AuthoringInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxSliderValue", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MinSliderValue property after render.
     /// </summary>
@@ -1579,9 +1504,8 @@ public partial class AuthoringInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minSliderValue", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the NumClasses property after render.
     /// </summary>
@@ -1617,9 +1541,8 @@ public partial class AuthoringInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "numClasses", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the StandardDeviationInterval property after render.
     /// </summary>
@@ -1655,9 +1578,8 @@ public partial class AuthoringInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "standardDeviationInterval", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Statistics property after render.
     /// </summary>
@@ -1666,6 +1588,11 @@ public partial class AuthoringInfo
     /// </param>
     public async Task SetStatistics(AuthoringInfoStatistics? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Statistics = value;
 #pragma warning restore BL0005
@@ -1675,11 +1602,6 @@ public partial class AuthoringInfo
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -1698,9 +1620,8 @@ public partial class AuthoringInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "statistics", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the UnivariateSymbolStyle property after render.
     /// </summary>
@@ -1736,9 +1657,8 @@ public partial class AuthoringInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "univariateSymbolStyle", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the UnivariateTheme property after render.
     /// </summary>
@@ -1774,9 +1694,8 @@ public partial class AuthoringInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "univariateTheme", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the VisualVariables property after render.
     /// </summary>
@@ -1785,6 +1704,14 @@ public partial class AuthoringInfo
     /// </param>
     public async Task SetVisualVariables(IReadOnlyList<AuthoringInfoVisualVariable>? value)
     {
+        if (value is not null)
+        {
+            foreach (AuthoringInfoVisualVariable item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         VisualVariables = value;
 #pragma warning restore BL0005
@@ -1794,14 +1721,6 @@ public partial class AuthoringInfo
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (AuthoringInfoVisualVariable item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -1820,9 +1739,8 @@ public partial class AuthoringInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "visualVariables", value);
-
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -1839,7 +1757,6 @@ public partial class AuthoringInfo
             ? values
             : [..Fields, ..values];
         await SetFields(join);
-
     }
     
     /// <summary>
@@ -1854,7 +1771,6 @@ public partial class AuthoringInfo
             ? values
             : [..VisualVariables, ..values];
         await SetVisualVariables(join);
-
     }
     
 #endregion
@@ -1875,7 +1791,6 @@ public partial class AuthoringInfo
             return;
         }
         await SetFields(Fields.Except(values).ToArray());
-
     }
     
     
@@ -1892,7 +1807,6 @@ public partial class AuthoringInfo
             return;
         }
         await SetVisualVariables(VisualVariables.Except(values).ToArray());
-
     }
     
 #endregion
@@ -1942,7 +1856,7 @@ public partial class AuthoringInfo
                 ColorRamp = null;
                 ModifiedParameters[nameof(ColorRamp)] = ColorRamp;
                 return true;
-            case AuthoringInfoStatistics:
+            case AuthoringInfoStatistics _:
                 Statistics = null;
                 ModifiedParameters[nameof(Statistics)] = Statistics;
                 return true;

@@ -32,7 +32,7 @@ public partial class BasemapToggleVisibleElements : MapComponent
         AllowRender = false;
 #pragma warning disable BL0005
         Title = title;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -78,21 +78,19 @@ public partial class BasemapToggleVisibleElements : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapToggleVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "title");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "title");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Title = result;
+             Title = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Title)] = Title;
+             ModifiedParameters[nameof(Title)] = Title;
         }
          
         return Title;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -132,9 +130,8 @@ public partial class BasemapToggleVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
-
     }
-
+    
 #endregion
 
 }

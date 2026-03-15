@@ -39,7 +39,7 @@ public partial record FeatureEdits(
     IReadOnlyList<Graphic>? UpdateFeatures = null)
 {
     /// <summary>
-    ///     Parameterless Constructor
+    ///     Parameterless constructor
     /// </summary>
     public FeatureEdits(): this(null, null)
     {

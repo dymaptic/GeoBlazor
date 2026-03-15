@@ -81,14 +81,24 @@ public partial class PopupTemplate
     public IReadOnlyList<string>? OutFields { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#popuptemplatetitle-property">GeoBlazor Docs</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#popuptemplatestringtitle-property">GeoBlazor Docs</a>
     ///     The template for defining how to format the title used in a popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public PopupTemplateTitle? Title { get; set; }
+    public string? StringTitle { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#popuptemplatetaskcollectiontitle-property">GeoBlazor Docs</a>
+    ///     The template for defining how to format the title used in a popup.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html#title">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Func<Task>? TaskCollectionTitle { get; set; }
     
 #endregion
 
@@ -119,16 +129,11 @@ public partial class PopupTemplate
             return Actions;
         }
 
-        IReadOnlyList<ActionBase>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<ActionBase>?>(
-            IsServer, nameof(GetActions), nameof(PopupTemplate), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<ActionBase>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ActionBase>?>(
+            "getActions", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (ActionBase item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             Actions = result;
 #pragma warning restore BL0005
@@ -136,54 +141,8 @@ public partial class PopupTemplate
         }
         
         return Actions;
-
     }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Content property.
-    /// </summary>
-    public async Task<IReadOnlyList<PopupContent>?> GetContent()
-    {
-        if (CoreJsModule is null)
-        {
-            return Content;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Content;
-        }
-
-        IReadOnlyList<PopupContent>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<PopupContent>?>(
-            IsServer, nameof(GetContent), nameof(PopupTemplate), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            foreach (PopupContent item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-#pragma warning disable BL0005
-            Content = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Content)] = Content;
-        }
-        
-        return Content;
-
-    }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ExpressionInfos property.
     /// </summary>
@@ -209,16 +168,11 @@ public partial class PopupTemplate
             return ExpressionInfos;
         }
 
-        IReadOnlyList<PopupExpressionInfo>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<PopupExpressionInfo>?>(
-            IsServer, nameof(GetExpressionInfos), nameof(PopupTemplate), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<PopupExpressionInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<PopupExpressionInfo>?>(
+            "getExpressionInfos", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (PopupExpressionInfo item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             ExpressionInfos = result;
 #pragma warning restore BL0005
@@ -226,9 +180,8 @@ public partial class PopupTemplate
         }
         
         return ExpressionInfos;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FieldInfos property.
     /// </summary>
@@ -254,16 +207,11 @@ public partial class PopupTemplate
             return FieldInfos;
         }
 
-        IReadOnlyList<FieldInfo>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<FieldInfo>?>(
-            IsServer, nameof(GetFieldInfos), nameof(PopupTemplate), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<FieldInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<FieldInfo>?>(
+            "getFieldInfos", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (FieldInfo item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             FieldInfos = result;
 #pragma warning restore BL0005
@@ -271,9 +219,8 @@ public partial class PopupTemplate
         }
         
         return FieldInfos;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LastEditInfoEnabled property.
     /// </summary>
@@ -300,21 +247,19 @@ public partial class PopupTemplate
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupTemplate), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "lastEditInfoEnabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "lastEditInfoEnabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                LastEditInfoEnabled = result;
+             LastEditInfoEnabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(LastEditInfoEnabled)] = LastEditInfoEnabled;
+             ModifiedParameters[nameof(LastEditInfoEnabled)] = LastEditInfoEnabled;
         }
          
         return LastEditInfoEnabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LayerOptions property.
     /// </summary>
@@ -340,18 +285,11 @@ public partial class PopupTemplate
             return LayerOptions;
         }
 
-        LayerOptions? result = await JsComponentReference.InvokeJsMethod<LayerOptions?>(
-            IsServer, nameof(GetLayerOptions), nameof(PopupTemplate), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        LayerOptions? result = await JsComponentReference.InvokeAsync<LayerOptions?>(
+            "getLayerOptions", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (LayerOptions is not null)
-            {
-                result.Id = LayerOptions.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             LayerOptions = result;
 #pragma warning restore BL0005
@@ -359,9 +297,8 @@ public partial class PopupTemplate
         }
         
         return LayerOptions;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the OutFields property.
     /// </summary>
@@ -388,21 +325,19 @@ public partial class PopupTemplate
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupTemplate), View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, "outFields");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                OutFields = result;
+             OutFields = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(OutFields)] = OutFields;
+             ModifiedParameters[nameof(OutFields)] = OutFields;
         }
          
         return OutFields;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the OverwriteActions property.
     /// </summary>
@@ -429,21 +364,19 @@ public partial class PopupTemplate
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupTemplate), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "overwriteActions");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "overwriteActions");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                OverwriteActions = result;
+             OverwriteActions = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(OverwriteActions)] = OverwriteActions;
+             ModifiedParameters[nameof(OverwriteActions)] = OverwriteActions;
         }
          
         return OverwriteActions;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ReturnGeometry property.
     /// </summary>
@@ -470,29 +403,27 @@ public partial class PopupTemplate
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupTemplate), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "returnGeometry");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "returnGeometry");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ReturnGeometry = result;
+             ReturnGeometry = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ReturnGeometry)] = ReturnGeometry;
+             ModifiedParameters[nameof(ReturnGeometry)] = ReturnGeometry;
         }
          
         return ReturnGeometry;
-
     }
-
+    
     /// <summary>
-    ///     Asynchronously retrieve the current value of the Title property.
+    ///     Asynchronously retrieve the current value of the StringTitle property.
     /// </summary>
-    public async Task<PopupTemplateTitle?> GetTitle()
+    public async Task<string?> GetStringTitle()
     {
         if (CoreJsModule is null)
         {
-            return Title;
+            return StringTitle;
         }
         
         try 
@@ -507,25 +438,62 @@ public partial class PopupTemplate
         
         if (JsComponentReference is null)
         {
-            return Title;
+            return StringTitle;
         }
 
         // get the property value
-        PopupTemplateTitle? result = await JsComponentReference!.InvokeJsMethod<PopupTemplateTitle?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupTemplate), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Title = result;
+             StringTitle = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Title)] = Title;
+             ModifiedParameters[nameof(StringTitle)] = StringTitle;
         }
          
-        return Title;
-
+        return StringTitle;
     }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the TaskCollectionTitle property.
+    /// </summary>
+    public async Task<Func<Task>?> GetTaskCollectionTitle()
+    {
+        if (CoreJsModule is null)
+        {
+            return TaskCollectionTitle;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return TaskCollectionTitle;
+        }
 
+        // get the property value
+        Func<Task>? result = await JsComponentReference!.InvokeAsync<Func<Task>?>("getProperty",
+            CancellationTokenSource.Token, "title");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             TaskCollectionTitle = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(TaskCollectionTitle)] = TaskCollectionTitle;
+        }
+         
+        return TaskCollectionTitle;
+    }
+    
 #endregion
 
 #region Property Setters
@@ -538,6 +506,14 @@ public partial class PopupTemplate
     /// </param>
     public async Task SetActions(IReadOnlyList<ActionBase>? value)
     {
+        if (value is not null)
+        {
+            foreach (ActionBase item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         Actions = value;
 #pragma warning restore BL0005
@@ -547,14 +523,6 @@ public partial class PopupTemplate
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (ActionBase item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -573,55 +541,8 @@ public partial class PopupTemplate
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "actions", value);
-
     }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Content property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetContent(IReadOnlyList<PopupContent>? value)
-    {
-#pragma warning disable BL0005
-        Content = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Content)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-        if (value is not null)
-        {
-            foreach (PopupContent item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "content", value);
-
-    }
-
     /// <summary>
     ///    Asynchronously set the value of the ExpressionInfos property after render.
     /// </summary>
@@ -630,6 +551,14 @@ public partial class PopupTemplate
     /// </param>
     public async Task SetExpressionInfos(IReadOnlyList<PopupExpressionInfo>? value)
     {
+        if (value is not null)
+        {
+            foreach (PopupExpressionInfo item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         ExpressionInfos = value;
 #pragma warning restore BL0005
@@ -639,14 +568,6 @@ public partial class PopupTemplate
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (PopupExpressionInfo item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -665,9 +586,8 @@ public partial class PopupTemplate
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "expressionInfos", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the FieldInfos property after render.
     /// </summary>
@@ -676,6 +596,14 @@ public partial class PopupTemplate
     /// </param>
     public async Task SetFieldInfos(IReadOnlyList<FieldInfo>? value)
     {
+        if (value is not null)
+        {
+            foreach (FieldInfo item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         FieldInfos = value;
 #pragma warning restore BL0005
@@ -685,14 +613,6 @@ public partial class PopupTemplate
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (FieldInfo item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -711,9 +631,8 @@ public partial class PopupTemplate
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fieldInfos", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LastEditInfoEnabled property after render.
     /// </summary>
@@ -749,9 +668,8 @@ public partial class PopupTemplate
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "lastEditInfoEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LayerOptions property after render.
     /// </summary>
@@ -760,6 +678,11 @@ public partial class PopupTemplate
     /// </param>
     public async Task SetLayerOptions(LayerOptions? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         LayerOptions = value;
 #pragma warning restore BL0005
@@ -769,11 +692,6 @@ public partial class PopupTemplate
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -792,9 +710,8 @@ public partial class PopupTemplate
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layerOptions", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the OutFields property after render.
     /// </summary>
@@ -830,9 +747,8 @@ public partial class PopupTemplate
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outFields", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the OverwriteActions property after render.
     /// </summary>
@@ -868,9 +784,8 @@ public partial class PopupTemplate
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "overwriteActions", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ReturnGeometry property after render.
     /// </summary>
@@ -906,21 +821,20 @@ public partial class PopupTemplate
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "returnGeometry", value);
-
     }
-
+    
     /// <summary>
-    ///    Asynchronously set the value of the Title property after render.
+    ///    Asynchronously set the value of the StringTitle property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(PopupTemplateTitle? value)
+    public async Task SetStringTitle(string? value)
     {
 #pragma warning disable BL0005
-        Title = value;
+        StringTitle = value;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(Title)] = value;
+        ModifiedParameters[nameof(StringTitle)] = value;
         
         if (CoreJsModule is null)
         {
@@ -944,9 +858,45 @@ public partial class PopupTemplate
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
-
     }
-
+    
+    /// <summary>
+    ///    Asynchronously set the value of the TaskCollectionTitle property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetTaskCollectionTitle(Func<Task>? value)
+    {
+#pragma warning disable BL0005
+        TaskCollectionTitle = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(TaskCollectionTitle)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "title", value);
+    }
+    
 #endregion
 
 #region Add to Collection Methods
@@ -963,22 +913,6 @@ public partial class PopupTemplate
             ? values
             : [..Actions, ..values];
         await SetActions(join);
-
-    }
-    
-    /// <summary>
-    ///     Asynchronously adds elements to the Content property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to add.
-    /// </param>
-    public async Task AddToContent(params PopupContent[] values)
-    {
-        PopupContent[] join = Content is null
-            ? values
-            : [..Content, ..values];
-        await SetContent(join);
-
     }
     
     /// <summary>
@@ -993,7 +927,6 @@ public partial class PopupTemplate
             ? values
             : [..ExpressionInfos, ..values];
         await SetExpressionInfos(join);
-
     }
     
     /// <summary>
@@ -1008,7 +941,6 @@ public partial class PopupTemplate
             ? values
             : [..FieldInfos, ..values];
         await SetFieldInfos(join);
-
     }
     
     /// <summary>
@@ -1023,7 +955,6 @@ public partial class PopupTemplate
             ? values
             : [..OutFields, ..values];
         await SetOutFields(join);
-
     }
     
 #endregion
@@ -1044,24 +975,6 @@ public partial class PopupTemplate
             return;
         }
         await SetActions(Actions.Except(values).ToArray());
-
-    }
-    
-    
-    /// <summary>
-    ///     Asynchronously remove an element from the Content property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to remove.
-    /// </param>
-    public async Task RemoveFromContent(params PopupContent[] values)
-    {
-        if (Content is null)
-        {
-            return;
-        }
-        await SetContent(Content.Except(values).ToArray());
-
     }
     
     
@@ -1078,7 +991,6 @@ public partial class PopupTemplate
             return;
         }
         await SetExpressionInfos(ExpressionInfos.Except(values).ToArray());
-
     }
     
     
@@ -1095,7 +1007,6 @@ public partial class PopupTemplate
             return;
         }
         await SetFieldInfos(FieldInfos.Except(values).ToArray());
-
     }
     
     
@@ -1112,7 +1023,6 @@ public partial class PopupTemplate
             return;
         }
         await SetOutFields(OutFields.Except(values).ToArray());
-
     }
     
 #endregion

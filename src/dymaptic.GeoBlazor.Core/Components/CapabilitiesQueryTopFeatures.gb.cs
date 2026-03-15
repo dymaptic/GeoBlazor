@@ -32,7 +32,7 @@ public partial class CapabilitiesQueryTopFeatures : MapComponent
         AllowRender = false;
 #pragma warning disable BL0005
         SupportsCacheHint = supportsCacheHint;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -78,21 +78,19 @@ public partial class CapabilitiesQueryTopFeatures : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryTopFeatures), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsCacheHint");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsCacheHint");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsCacheHint = result;
+             SupportsCacheHint = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsCacheHint)] = SupportsCacheHint;
+             ModifiedParameters[nameof(SupportsCacheHint)] = SupportsCacheHint;
         }
          
         return SupportsCacheHint;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -132,9 +130,8 @@ public partial class CapabilitiesQueryTopFeatures : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsCacheHint", value);
-
     }
-
+    
 #endregion
 
 }

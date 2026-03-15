@@ -75,7 +75,7 @@ public partial class SimpleLineSymbol : ISymbol2D
         Join = join;
         Marker = marker;
         MiterLimit = miterLimit;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -107,21 +107,19 @@ public partial class SimpleLineSymbol : ISymbol2D
         }
 
         // get the property value
-        Cap? result = await JsComponentReference!.InvokeJsMethod<Cap?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SimpleLineSymbol), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "cap");
-        if (result is not null)
+        JsNullableEnumWrapper<Cap>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Cap>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "cap");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Cap = result;
+             Cap = (Cap)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Cap)] = Cap;
+             ModifiedParameters[nameof(Cap)] = Cap;
         }
          
         return Cap;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Join property.
     /// </summary>
@@ -148,21 +146,19 @@ public partial class SimpleLineSymbol : ISymbol2D
         }
 
         // get the property value
-        Join? result = await JsComponentReference!.InvokeJsMethod<Join?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SimpleLineSymbol), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "join");
-        if (result is not null)
+        JsNullableEnumWrapper<Join>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Join>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "join");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Join = result;
+             Join = (Join)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Join)] = Join;
+             ModifiedParameters[nameof(Join)] = Join;
         }
          
         return Join;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Marker property.
     /// </summary>
@@ -188,18 +184,11 @@ public partial class SimpleLineSymbol : ISymbol2D
             return Marker;
         }
 
-        LineSymbolMarker? result = await JsComponentReference.InvokeJsMethod<LineSymbolMarker?>(
-            IsServer, nameof(GetMarker), nameof(SimpleLineSymbol), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        LineSymbolMarker? result = await JsComponentReference.InvokeAsync<LineSymbolMarker?>(
+            "getMarker", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (Marker is not null)
-            {
-                result.Id = Marker.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Marker = result;
 #pragma warning restore BL0005
@@ -207,9 +196,8 @@ public partial class SimpleLineSymbol : ISymbol2D
         }
         
         return Marker;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MiterLimit property.
     /// </summary>
@@ -236,21 +224,19 @@ public partial class SimpleLineSymbol : ISymbol2D
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SimpleLineSymbol), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "miterLimit");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "miterLimit");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MiterLimit = result;
+             MiterLimit = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MiterLimit)] = MiterLimit;
+             ModifiedParameters[nameof(MiterLimit)] = MiterLimit;
         }
          
         return MiterLimit;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Style property.
     /// </summary>
@@ -277,21 +263,19 @@ public partial class SimpleLineSymbol : ISymbol2D
         }
 
         // get the property value
-        SimpleLineSymbolStyle? result = await JsComponentReference!.InvokeJsMethod<SimpleLineSymbolStyle?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SimpleLineSymbol), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "style");
-        if (result is not null)
+        JsNullableEnumWrapper<SimpleLineSymbolStyle>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SimpleLineSymbolStyle>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "style");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Style = result;
+             Style = (SimpleLineSymbolStyle)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Style)] = Style;
+             ModifiedParameters[nameof(Style)] = Style;
         }
          
         return Style;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -331,9 +315,8 @@ public partial class SimpleLineSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "cap", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Join property after render.
     /// </summary>
@@ -369,9 +352,8 @@ public partial class SimpleLineSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "join", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Marker property after render.
     /// </summary>
@@ -380,6 +362,11 @@ public partial class SimpleLineSymbol : ISymbol2D
     /// </param>
     public async Task SetMarker(LineSymbolMarker? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Marker = value;
 #pragma warning restore BL0005
@@ -389,11 +376,6 @@ public partial class SimpleLineSymbol : ISymbol2D
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -412,9 +394,8 @@ public partial class SimpleLineSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "marker", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MiterLimit property after render.
     /// </summary>
@@ -450,9 +431,8 @@ public partial class SimpleLineSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "miterLimit", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Style property after render.
     /// </summary>
@@ -488,9 +468,8 @@ public partial class SimpleLineSymbol : ISymbol2D
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "style", value);
-
     }
-
+    
 #endregion
 
 }

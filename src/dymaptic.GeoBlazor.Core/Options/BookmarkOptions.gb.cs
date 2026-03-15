@@ -40,7 +40,7 @@ public partial record BookmarkOptions(
     bool? TakeScreenshot = null)
 {
     /// <summary>
-    ///     Parameterless Constructor
+    ///     Parameterless constructor
     /// </summary>
     public BookmarkOptions(): this(null, null)
     {

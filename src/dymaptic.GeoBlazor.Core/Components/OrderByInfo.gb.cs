@@ -46,7 +46,7 @@ public partial class OrderByInfo : MapComponent
         Field = field;
         Order = order;
         ValueExpression = valueExpression;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -114,21 +114,19 @@ public partial class OrderByInfo : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(OrderByInfo), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "field");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Field = result;
+             Field = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Field)] = Field;
+             ModifiedParameters[nameof(Field)] = Field;
         }
          
         return Field;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Order property.
     /// </summary>
@@ -155,21 +153,19 @@ public partial class OrderByInfo : MapComponent
         }
 
         // get the property value
-        SortOrder? result = await JsComponentReference!.InvokeJsMethod<SortOrder?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(OrderByInfo), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "order");
-        if (result is not null)
+        JsNullableEnumWrapper<SortOrder>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SortOrder>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "order");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Order = result;
+             Order = (SortOrder)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Order)] = Order;
+             ModifiedParameters[nameof(Order)] = Order;
         }
          
         return Order;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ValueExpression property.
     /// </summary>
@@ -196,21 +192,19 @@ public partial class OrderByInfo : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(OrderByInfo), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "valueExpression");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                ValueExpression = result;
+             ValueExpression = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ValueExpression)] = ValueExpression;
+             ModifiedParameters[nameof(ValueExpression)] = ValueExpression;
         }
          
         return ValueExpression;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -250,9 +244,8 @@ public partial class OrderByInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Order property after render.
     /// </summary>
@@ -288,9 +281,8 @@ public partial class OrderByInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "order", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ValueExpression property after render.
     /// </summary>
@@ -326,9 +318,8 @@ public partial class OrderByInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "valueExpression", value);
-
     }
-
+    
 #endregion
 
 }

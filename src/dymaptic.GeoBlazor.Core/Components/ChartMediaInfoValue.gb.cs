@@ -57,7 +57,7 @@ public partial class ChartMediaInfoValue
         TooltipField = tooltipField;
         Series = series;
         Colors = colors;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -124,21 +124,19 @@ public partial class ChartMediaInfoValue
         }
 
         // get the property value
-        IReadOnlyList<MapColor>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<MapColor>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ChartMediaInfoValue), View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<MapColor>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<MapColor>?>("getProperty",
             CancellationTokenSource.Token, "colors");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Colors = result;
+             Colors = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Colors)] = Colors;
+             ModifiedParameters[nameof(Colors)] = Colors;
         }
          
         return Colors;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Fields property.
     /// </summary>
@@ -165,21 +163,19 @@ public partial class ChartMediaInfoValue
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ChartMediaInfoValue), View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, "fields");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Fields = result;
+             Fields = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Fields)] = Fields;
+             ModifiedParameters[nameof(Fields)] = Fields;
         }
          
         return Fields;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the NormalizeField property.
     /// </summary>
@@ -206,21 +202,19 @@ public partial class ChartMediaInfoValue
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ChartMediaInfoValue), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "normalizeField");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                NormalizeField = result;
+             NormalizeField = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(NormalizeField)] = NormalizeField;
+             ModifiedParameters[nameof(NormalizeField)] = NormalizeField;
         }
          
         return NormalizeField;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Series property.
     /// </summary>
@@ -246,16 +240,11 @@ public partial class ChartMediaInfoValue
             return Series;
         }
 
-        IReadOnlyList<ChartMediaInfoValueSeries>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<ChartMediaInfoValueSeries>?>(
-            IsServer, nameof(GetSeries), nameof(ChartMediaInfoValue), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<ChartMediaInfoValueSeries>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ChartMediaInfoValueSeries>?>(
+            "getSeries", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (ChartMediaInfoValueSeries item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             Series = result;
 #pragma warning restore BL0005
@@ -263,9 +252,8 @@ public partial class ChartMediaInfoValue
         }
         
         return Series;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the TooltipField property.
     /// </summary>
@@ -292,21 +280,19 @@ public partial class ChartMediaInfoValue
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ChartMediaInfoValue), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "tooltipField");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                TooltipField = result;
+             TooltipField = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(TooltipField)] = TooltipField;
+             ModifiedParameters[nameof(TooltipField)] = TooltipField;
         }
          
         return TooltipField;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -346,9 +332,8 @@ public partial class ChartMediaInfoValue
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "colors", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Fields property after render.
     /// </summary>
@@ -384,9 +369,8 @@ public partial class ChartMediaInfoValue
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fields", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the NormalizeField property after render.
     /// </summary>
@@ -422,9 +406,8 @@ public partial class ChartMediaInfoValue
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "normalizeField", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Series property after render.
     /// </summary>
@@ -433,6 +416,14 @@ public partial class ChartMediaInfoValue
     /// </param>
     public async Task SetSeries(IReadOnlyList<ChartMediaInfoValueSeries>? value)
     {
+        if (value is not null)
+        {
+            foreach (ChartMediaInfoValueSeries item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         Series = value;
 #pragma warning restore BL0005
@@ -442,14 +433,6 @@ public partial class ChartMediaInfoValue
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (ChartMediaInfoValueSeries item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -468,9 +451,8 @@ public partial class ChartMediaInfoValue
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "series", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the TooltipField property after render.
     /// </summary>
@@ -506,9 +488,8 @@ public partial class ChartMediaInfoValue
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "tooltipField", value);
-
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -525,7 +506,6 @@ public partial class ChartMediaInfoValue
             ? values
             : [..Colors, ..values];
         await SetColors(join);
-
     }
     
     /// <summary>
@@ -540,7 +520,6 @@ public partial class ChartMediaInfoValue
             ? values
             : [..Fields, ..values];
         await SetFields(join);
-
     }
     
     /// <summary>
@@ -555,7 +534,6 @@ public partial class ChartMediaInfoValue
             ? values
             : [..Series, ..values];
         await SetSeries(join);
-
     }
     
 #endregion
@@ -576,7 +554,6 @@ public partial class ChartMediaInfoValue
             return;
         }
         await SetColors(Colors.Except(values).ToArray());
-
     }
     
     
@@ -593,7 +570,6 @@ public partial class ChartMediaInfoValue
             return;
         }
         await SetFields(Fields.Except(values).ToArray());
-
     }
     
     
@@ -610,7 +586,6 @@ public partial class ChartMediaInfoValue
             return;
         }
         await SetSeries(Series.Except(values).ToArray());
-
     }
     
 #endregion

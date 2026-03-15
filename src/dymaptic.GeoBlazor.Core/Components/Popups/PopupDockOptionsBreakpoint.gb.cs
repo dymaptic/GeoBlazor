@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupDockOptionsBreakpoint.html">GeoBlazor Docs</a>
-///     Implementation of parent property Breakpoint as PopupDockOptionsBreakpoint.
+///     
 /// </summary>
 public partial class PopupDockOptionsBreakpoint : MapComponent
 {
@@ -39,7 +39,7 @@ public partial class PopupDockOptionsBreakpoint : MapComponent
 #pragma warning disable BL0005
         Height = height;
         Width = width;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -97,21 +97,19 @@ public partial class PopupDockOptionsBreakpoint : MapComponent
         }
 
         // get the property value
-        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupDockOptionsBreakpoint), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "height");
-        if (result is not null)
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "height");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Height = result;
+             Height = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Height)] = Height;
+             ModifiedParameters[nameof(Height)] = Height;
         }
          
         return Height;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Width property.
     /// </summary>
@@ -138,21 +136,19 @@ public partial class PopupDockOptionsBreakpoint : MapComponent
         }
 
         // get the property value
-        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupDockOptionsBreakpoint), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "width");
-        if (result is not null)
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "width");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Width = result;
+             Width = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Width)] = Width;
+             ModifiedParameters[nameof(Width)] = Width;
         }
          
         return Width;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -192,9 +188,8 @@ public partial class PopupDockOptionsBreakpoint : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "height", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Width property after render.
     /// </summary>
@@ -230,9 +225,8 @@ public partial class PopupDockOptionsBreakpoint : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "width", value);
-
     }
-
+    
 #endregion
 
 }

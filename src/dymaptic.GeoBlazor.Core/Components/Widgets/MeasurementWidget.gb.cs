@@ -32,6 +32,9 @@ public partial class MeasurementWidget
     ///     Unit system (imperial, metric) or specific unit used for displaying the area values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html#areaUnit">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="containerId">
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    /// </param>
     /// <param name="icon">
     ///     Icon which represents the widget.
     ///     default "measure"
@@ -44,6 +47,12 @@ public partial class MeasurementWidget
     /// <param name="linearUnit">
     ///     Unit system (imperial, metric) or specific unit used for displaying the distance values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html#linearUnit">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="mapView">
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </param>
+    /// <param name="position">
+    ///     The position of the widget in relation to the map view.
     /// </param>
     /// <param name="viewModel">
     ///     The view model for this widget.
@@ -61,9 +70,12 @@ public partial class MeasurementWidget
     public MeasurementWidget(
         ActiveTool? activeTool = null,
         SystemOrAreaUnit? areaUnit = null,
+        string? containerId = null,
         string? icon = null,
         string? label = null,
         SystemOrLengthUnit? linearUnit = null,
+        MapView? mapView = null,
+        OverlayPosition? position = null,
         MeasurementViewModel? viewModel = null,
         bool? visible = null,
         string? widgetId = null)
@@ -72,13 +84,16 @@ public partial class MeasurementWidget
 #pragma warning disable BL0005
         ActiveTool = activeTool;
         AreaUnit = areaUnit;
+        ContainerId = containerId;
         Icon = icon;
         Label = label;
         LinearUnit = linearUnit;
+        MapView = mapView;
+        Position = position;
         ViewModel = viewModel;
         Visible = visible;
         WidgetId = widgetId;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -155,21 +170,19 @@ public partial class MeasurementWidget
         }
 
         // get the property value
-        ActiveTool? result = await JsComponentReference!.InvokeJsMethod<ActiveTool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeasurementWidget), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "activeTool");
-        if (result is not null)
+        JsNullableEnumWrapper<ActiveTool>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ActiveTool>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "activeTool");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ActiveTool = result;
+             ActiveTool = (ActiveTool)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ActiveTool)] = ActiveTool;
+             ModifiedParameters[nameof(ActiveTool)] = ActiveTool;
         }
          
         return ActiveTool;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ActiveWidget property.
     /// </summary>
@@ -196,21 +209,19 @@ public partial class MeasurementWidget
         }
 
         // get the property value
-        IMeasurementWidgetActiveWidget? result = await JsComponentReference!.InvokeJsMethod<IMeasurementWidgetActiveWidget?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeasurementWidget), View?.QueryResultsMaxSizeLimit,
+        IMeasurementWidgetActiveWidget? result = await JsComponentReference!.InvokeAsync<IMeasurementWidgetActiveWidget?>("getProperty",
             CancellationTokenSource.Token, "activeWidget");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                ActiveWidget = result;
+             ActiveWidget = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ActiveWidget)] = ActiveWidget;
+             ModifiedParameters[nameof(ActiveWidget)] = ActiveWidget;
         }
          
         return ActiveWidget;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the AreaUnit property.
     /// </summary>
@@ -237,21 +248,19 @@ public partial class MeasurementWidget
         }
 
         // get the property value
-        SystemOrAreaUnit? result = await JsComponentReference!.InvokeJsMethod<SystemOrAreaUnit?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeasurementWidget), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "areaUnit");
-        if (result is not null)
+        JsNullableEnumWrapper<SystemOrAreaUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SystemOrAreaUnit>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "areaUnit");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                AreaUnit = result;
+             AreaUnit = (SystemOrAreaUnit)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(AreaUnit)] = AreaUnit;
+             ModifiedParameters[nameof(AreaUnit)] = AreaUnit;
         }
          
         return AreaUnit;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LinearUnit property.
     /// </summary>
@@ -278,21 +287,19 @@ public partial class MeasurementWidget
         }
 
         // get the property value
-        SystemOrLengthUnit? result = await JsComponentReference!.InvokeJsMethod<SystemOrLengthUnit?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeasurementWidget), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "linearUnit");
-        if (result is not null)
+        JsNullableEnumWrapper<SystemOrLengthUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SystemOrLengthUnit>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "linearUnit");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                LinearUnit = result;
+             LinearUnit = (SystemOrLengthUnit)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(LinearUnit)] = LinearUnit;
+             ModifiedParameters[nameof(LinearUnit)] = LinearUnit;
         }
          
         return LinearUnit;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -318,18 +325,11 @@ public partial class MeasurementWidget
             return ViewModel;
         }
 
-        MeasurementViewModel? result = await JsComponentReference.InvokeJsMethod<MeasurementViewModel?>(
-            IsServer, nameof(GetViewModel), nameof(MeasurementWidget), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        MeasurementViewModel? result = await JsComponentReference.InvokeAsync<MeasurementViewModel?>(
+            "getViewModel", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (ViewModel is not null)
-            {
-                result.Id = ViewModel.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             ViewModel = result;
 #pragma warning restore BL0005
@@ -337,9 +337,8 @@ public partial class MeasurementWidget
         }
         
         return ViewModel;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -379,9 +378,8 @@ public partial class MeasurementWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "activeTool", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the AreaUnit property after render.
     /// </summary>
@@ -417,9 +415,8 @@ public partial class MeasurementWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "areaUnit", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LinearUnit property after render.
     /// </summary>
@@ -455,9 +452,8 @@ public partial class MeasurementWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "linearUnit", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -466,6 +462,11 @@ public partial class MeasurementWidget
     /// </param>
     public async Task SetViewModel(MeasurementViewModel? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005
@@ -475,11 +476,6 @@ public partial class MeasurementWidget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -496,12 +492,10 @@ public partial class MeasurementWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetViewModel), nameof(MeasurementWidget),
+        await JsComponentReference.InvokeVoidAsync("setViewModel", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
 #endregion
 
 #region Public Methods
@@ -534,14 +528,8 @@ public partial class MeasurementWidget
             return;
         }
         
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
-            nameof(Clear), nameof(MeasurementWidget), 
+        await JsComponentReference!.InvokeVoidAsync(
+            "clear", 
             CancellationTokenSource.Token);
     }
     
@@ -573,14 +561,8 @@ public partial class MeasurementWidget
             return;
         }
         
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
-            nameof(StartMeasurement), nameof(MeasurementWidget), 
+        await JsComponentReference!.InvokeVoidAsync(
+            "startMeasurement", 
             CancellationTokenSource.Token);
     }
     
@@ -614,7 +596,7 @@ public partial class MeasurementWidget
     {
         switch (child)
         {
-            case MeasurementViewModel:
+            case MeasurementViewModel _:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;

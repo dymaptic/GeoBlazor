@@ -32,7 +32,7 @@ public partial class SizeStop
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-support-SizeStop.html#size">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="label">
-    ///     A string value used to label the stop in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
+    ///     A string value used to label the stop in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-support-SizeStop.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public SizeStop(
@@ -45,7 +45,7 @@ public partial class SizeStop
         Value = value;
         Size = size;
         Label = label;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -77,21 +77,19 @@ public partial class SizeStop
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeStop), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "label");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Label = result;
+             Label = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Label)] = Label;
+             ModifiedParameters[nameof(Label)] = Label;
         }
          
         return Label;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Size property.
     /// </summary>
@@ -118,21 +116,19 @@ public partial class SizeStop
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeStop), View?.QueryResultsMaxSizeLimit,
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, "size");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Size = result;
+             Size = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Size)] = Size;
+             ModifiedParameters[nameof(Size)] = Size;
         }
          
         return Size;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Value property.
     /// </summary>
@@ -159,21 +155,19 @@ public partial class SizeStop
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeStop), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "value");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "value");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Value = result;
+             Value = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Value)] = Value;
+             ModifiedParameters[nameof(Value)] = Value;
         }
          
         return Value;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -213,9 +207,8 @@ public partial class SizeStop
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "label", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Size property after render.
     /// </summary>
@@ -251,9 +244,8 @@ public partial class SizeStop
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "size", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Value property after render.
     /// </summary>
@@ -289,9 +281,8 @@ public partial class SizeStop
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value", value);
-
     }
-
+    
 #endregion
 
 }

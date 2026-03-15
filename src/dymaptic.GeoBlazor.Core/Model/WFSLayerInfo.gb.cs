@@ -63,7 +63,7 @@ public partial record WFSLayerInfo(
     WFSCapabilities? WfsCapabilities = null)
 {
     /// <summary>
-    ///     Parameterless Constructor
+    ///     Parameterless constructor
     /// </summary>
     public WFSLayerInfo(): this(null, null)
     {

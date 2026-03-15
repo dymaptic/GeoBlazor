@@ -52,8 +52,11 @@ public partial class KMLLayer : IBlendLayer,
     ///     The full extent of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
+    /// </param>
     /// <param name="listMode">
-    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
     ///     default "show"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -82,7 +85,7 @@ public partial class KMLLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-KMLLayer.html#sublayers">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
-    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visibilityTimeExtent">
@@ -95,6 +98,9 @@ public partial class KMLLayer : IBlendLayer,
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
+    /// </param>
     public KMLLayer(
         string? url = null,
         PortalItem? portalItem = null,
@@ -102,6 +108,7 @@ public partial class KMLLayer : IBlendLayer,
         BlendMode? blendMode = null,
         Effect? effect = null,
         Extent? fullExtent = null,
+        bool? isBasemapReferenceLayer = null,
         ListMode? listMode = null,
         double? maxScale = null,
         double? minScale = null,
@@ -110,7 +117,8 @@ public partial class KMLLayer : IBlendLayer,
         IReadOnlyList<KMLSublayer>? sublayers = null,
         string? title = null,
         TimeExtent? visibilityTimeExtent = null,
-        bool? visible = null)
+        bool? visible = null,
+        bool? excludeApiKey = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -120,6 +128,7 @@ public partial class KMLLayer : IBlendLayer,
         BlendMode = blendMode;
         Effect = effect;
         FullExtent = fullExtent;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         ListMode = listMode;
         MaxScale = maxScale;
         MinScale = minScale;
@@ -129,7 +138,8 @@ public partial class KMLLayer : IBlendLayer,
         Title = title;
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
-#pragma warning restore BL0005
+        ExcludeApiKey = excludeApiKey;
+#pragma warning restore BL0005    
     }
     
     
@@ -242,21 +252,19 @@ public partial class KMLLayer : IBlendLayer,
         }
 
         // get the property value
-        BlendMode? result = await JsComponentReference!.InvokeJsMethod<BlendMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(KMLLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "blendMode");
-        if (result is not null)
+        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                BlendMode = result;
+             BlendMode = (BlendMode)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(BlendMode)] = BlendMode;
+             ModifiedParameters[nameof(BlendMode)] = BlendMode;
         }
          
         return BlendMode;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Effect property.
     /// </summary>
@@ -282,9 +290,8 @@ public partial class KMLLayer : IBlendLayer,
             return Effect;
         }
 
-        Effect? result = await JsComponentReference.InvokeJsMethod<Effect?>(
-            IsServer, nameof(GetEffect), nameof(KMLLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Effect? result = await JsComponentReference.InvokeAsync<Effect?>(
+            "getEffect", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -295,9 +302,8 @@ public partial class KMLLayer : IBlendLayer,
         }
         
         return Effect;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -324,21 +330,19 @@ public partial class KMLLayer : IBlendLayer,
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(KMLLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "maxScale");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "maxScale");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MaxScale = result;
+             MaxScale = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MaxScale)] = MaxScale;
+             ModifiedParameters[nameof(MaxScale)] = MaxScale;
         }
          
         return MaxScale;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -365,21 +369,19 @@ public partial class KMLLayer : IBlendLayer,
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(KMLLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "minScale");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "minScale");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MinScale = result;
+             MinScale = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MinScale)] = MinScale;
+             ModifiedParameters[nameof(MinScale)] = MinScale;
         }
          
         return MinScale;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalItem property.
     /// </summary>
@@ -405,9 +407,8 @@ public partial class KMLLayer : IBlendLayer,
             return PortalItem;
         }
 
-        PortalItem? result = await JsComponentReference.InvokeJsMethod<PortalItem?>(
-            IsServer, nameof(GetPortalItem), nameof(KMLLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        PortalItem? result = await JsComponentReference.InvokeAsync<PortalItem?>(
+            "getPortalItem", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -424,9 +425,8 @@ public partial class KMLLayer : IBlendLayer,
         }
         
         return PortalItem;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Sublayers property.
     /// </summary>
@@ -452,16 +452,11 @@ public partial class KMLLayer : IBlendLayer,
             return Sublayers;
         }
 
-        IReadOnlyList<KMLSublayer>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<KMLSublayer>?>(
-            IsServer, nameof(GetSublayers), nameof(KMLLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<KMLSublayer>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<KMLSublayer>?>(
+            "getSublayers", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (KMLSublayer item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             Sublayers = result;
 #pragma warning restore BL0005
@@ -469,9 +464,8 @@ public partial class KMLLayer : IBlendLayer,
         }
         
         return Sublayers;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -498,21 +492,19 @@ public partial class KMLLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(KMLLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "url");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Url = result;
+             Url = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Url)] = Url;
+             ModifiedParameters[nameof(Url)] = Url;
         }
          
         return Url;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -552,9 +544,8 @@ public partial class KMLLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "blendMode", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Effect property after render.
     /// </summary>
@@ -588,12 +579,10 @@ public partial class KMLLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetEffect), nameof(KMLLayer),
+        await JsComponentReference.InvokeVoidAsync("setEffect", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -629,9 +618,8 @@ public partial class KMLLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -667,9 +655,8 @@ public partial class KMLLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PersistenceEnabled property after render.
     /// </summary>
@@ -705,9 +692,8 @@ public partial class KMLLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "persistenceEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
@@ -716,6 +702,11 @@ public partial class KMLLayer : IBlendLayer,
     /// </param>
     public async Task SetPortalItem(PortalItem? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         PortalItem = value;
 #pragma warning restore BL0005
@@ -725,11 +716,6 @@ public partial class KMLLayer : IBlendLayer,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -746,12 +732,10 @@ public partial class KMLLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetPortalItem), nameof(KMLLayer),
+        await JsComponentReference.InvokeVoidAsync("setPortalItem", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Sublayers property after render.
     /// </summary>
@@ -760,6 +744,14 @@ public partial class KMLLayer : IBlendLayer,
     /// </param>
     public async Task SetSublayers(IReadOnlyList<KMLSublayer>? value)
     {
+        if (value is not null)
+        {
+            foreach (KMLSublayer item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         Sublayers = value;
 #pragma warning restore BL0005
@@ -769,14 +761,6 @@ public partial class KMLLayer : IBlendLayer,
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (KMLSublayer item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -793,12 +777,10 @@ public partial class KMLLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetSublayers), nameof(KMLLayer),
+        await JsComponentReference.InvokeVoidAsync("setSublayers", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -834,9 +816,8 @@ public partial class KMLLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
-
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -853,7 +834,6 @@ public partial class KMLLayer : IBlendLayer,
             ? values
             : [..Sublayers, ..values];
         await SetSublayers(join);
-
     }
     
 #endregion
@@ -874,7 +854,6 @@ public partial class KMLLayer : IBlendLayer,
             return;
         }
         await SetSublayers(Sublayers.Except(values).ToArray());
-
     }
     
 #endregion

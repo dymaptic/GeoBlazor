@@ -48,6 +48,10 @@ public partial class PopupViewModel : FeaturesViewModel
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#defaultPopupTemplateEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="elementReferenceContent">
+    ///     The information to display.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#content">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="featureMenuOpen">
     ///     This property enables showing the list of features.
     ///     default false
@@ -82,9 +86,8 @@ public partial class PopupViewModel : FeaturesViewModel
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="highlightEnabled">
-    ///     Highlight the selected feature using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#highlightOptions">highlightOptions</a>
-    ///     set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#highlightOptions">highlightOptions</a>
-    ///     set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
+    ///     Highlight the selected feature using one of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-support-HighlightOptions.html">HighlightOptions</a> defined in the view's
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#highlights">highlights</a> collection.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#highlightEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -120,6 +123,10 @@ public partial class PopupViewModel : FeaturesViewModel
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="stringContent">
+    ///     The information to display.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#content">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="timeZone">
     ///     Dates and times will be displayed in this time zone.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#timeZone">ArcGIS Maps SDK for JavaScript</a>
@@ -138,7 +145,7 @@ public partial class PopupViewModel : FeaturesViewModel
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="content">
+    /// <param name="widgetContent">
     ///     The information to display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#content">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -148,6 +155,7 @@ public partial class PopupViewModel : FeaturesViewModel
         bool? autoCloseEnabled = null,
         bool? browseClusterEnabled = null,
         bool? defaultPopupTemplateEnabled = null,
+        ElementReference? elementReferenceContent = null,
         bool? featureMenuOpen = null,
         string? featureMenuTitle = null,
         double? featurePage = null,
@@ -163,11 +171,12 @@ public partial class PopupViewModel : FeaturesViewModel
         bool? screenLocationEnabled = null,
         int? selectedFeatureIndex = null,
         SpatialReference? spatialReference = null,
+        string? stringContent = null,
         string? timeZone = null,
         string? title = null,
         bool? updateLocationEnabled = null,
         bool? visible = null,
-        Widget? content = null)
+        Widget? widgetContent = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -176,6 +185,7 @@ public partial class PopupViewModel : FeaturesViewModel
         AutoCloseEnabled = autoCloseEnabled;
         BrowseClusterEnabled = browseClusterEnabled;
         DefaultPopupTemplateEnabled = defaultPopupTemplateEnabled;
+        ElementReferenceContent = elementReferenceContent;
         FeatureMenuOpen = featureMenuOpen;
         FeatureMenuTitle = featureMenuTitle;
         FeaturePage = featurePage;
@@ -191,12 +201,13 @@ public partial class PopupViewModel : FeaturesViewModel
         ScreenLocationEnabled = screenLocationEnabled;
         SelectedFeatureIndex = selectedFeatureIndex;
         SpatialReference = spatialReference;
+        StringContent = stringContent;
         TimeZone = timeZone;
         Title = title;
         UpdateLocationEnabled = updateLocationEnabled;
         Visible = visible;
-        Content = content;
-#pragma warning restore BL0005
+        WidgetContent = widgetContent;
+#pragma warning restore BL0005    
     }
     
     

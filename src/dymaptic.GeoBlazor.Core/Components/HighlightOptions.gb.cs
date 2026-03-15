@@ -81,7 +81,7 @@ public partial class HighlightOptions
         ShadowOpacity = shadowOpacity;
         ShadowDifference = shadowDifference;
         Name = name;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -128,21 +128,19 @@ public partial class HighlightOptions
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HighlightOptions), View?.QueryResultsMaxSizeLimit,
+        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, "color");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Color = result;
+             Color = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Color)] = Color;
+             ModifiedParameters[nameof(Color)] = Color;
         }
          
         return Color;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FillOpacity property.
     /// </summary>
@@ -169,21 +167,19 @@ public partial class HighlightOptions
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HighlightOptions), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "fillOpacity");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "fillOpacity");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                FillOpacity = result;
+             FillOpacity = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(FillOpacity)] = FillOpacity;
+             ModifiedParameters[nameof(FillOpacity)] = FillOpacity;
         }
          
         return FillOpacity;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the HaloColor property.
     /// </summary>
@@ -210,21 +206,19 @@ public partial class HighlightOptions
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HighlightOptions), View?.QueryResultsMaxSizeLimit,
+        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, "haloColor");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                HaloColor = result;
+             HaloColor = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(HaloColor)] = HaloColor;
+             ModifiedParameters[nameof(HaloColor)] = HaloColor;
         }
          
         return HaloColor;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the HaloOpacity property.
     /// </summary>
@@ -251,21 +245,19 @@ public partial class HighlightOptions
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HighlightOptions), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "haloOpacity");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "haloOpacity");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                HaloOpacity = result;
+             HaloOpacity = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(HaloOpacity)] = HaloOpacity;
+             ModifiedParameters[nameof(HaloOpacity)] = HaloOpacity;
         }
          
         return HaloOpacity;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -292,21 +284,19 @@ public partial class HighlightOptions
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HighlightOptions), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Name = result;
+             Name = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Name)] = Name;
+             ModifiedParameters[nameof(Name)] = Name;
         }
          
         return Name;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ShadowColor property.
     /// </summary>
@@ -333,21 +323,19 @@ public partial class HighlightOptions
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HighlightOptions), View?.QueryResultsMaxSizeLimit,
+        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, "shadowColor");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                ShadowColor = result;
+             ShadowColor = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ShadowColor)] = ShadowColor;
+             ModifiedParameters[nameof(ShadowColor)] = ShadowColor;
         }
          
         return ShadowColor;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ShadowDifference property.
     /// </summary>
@@ -374,21 +362,19 @@ public partial class HighlightOptions
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HighlightOptions), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "shadowDifference");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "shadowDifference");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ShadowDifference = result;
+             ShadowDifference = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ShadowDifference)] = ShadowDifference;
+             ModifiedParameters[nameof(ShadowDifference)] = ShadowDifference;
         }
          
         return ShadowDifference;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ShadowOpacity property.
     /// </summary>
@@ -415,21 +401,19 @@ public partial class HighlightOptions
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HighlightOptions), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "shadowOpacity");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "shadowOpacity");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ShadowOpacity = result;
+             ShadowOpacity = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ShadowOpacity)] = ShadowOpacity;
+             ModifiedParameters[nameof(ShadowOpacity)] = ShadowOpacity;
         }
          
         return ShadowOpacity;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -469,9 +453,8 @@ public partial class HighlightOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "color", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the FillOpacity property after render.
     /// </summary>
@@ -507,9 +490,8 @@ public partial class HighlightOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fillOpacity", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the HaloColor property after render.
     /// </summary>
@@ -545,9 +527,8 @@ public partial class HighlightOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "haloColor", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the HaloOpacity property after render.
     /// </summary>
@@ -583,9 +564,8 @@ public partial class HighlightOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "haloOpacity", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
@@ -621,9 +601,8 @@ public partial class HighlightOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ShadowColor property after render.
     /// </summary>
@@ -659,9 +638,8 @@ public partial class HighlightOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "shadowColor", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ShadowDifference property after render.
     /// </summary>
@@ -697,9 +675,8 @@ public partial class HighlightOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "shadowDifference", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ShadowOpacity property after render.
     /// </summary>
@@ -735,9 +712,8 @@ public partial class HighlightOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "shadowOpacity", value);
-
     }
-
+    
 #endregion
 
 }

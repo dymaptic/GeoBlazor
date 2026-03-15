@@ -51,137 +51,10 @@ public partial class Polyline
         SpatialReference = spatialReference;
         HasM = hasM;
         HasZ = hasZ;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Paths property.
-    /// </summary>
-    public async Task<IReadOnlyList<MapPath>?> GetPaths()
-    {
-        if (CoreJsModule is null)
-        {
-            return Paths;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Paths;
-        }
-
-        // get the property value
-        IReadOnlyList<MapPath>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<MapPath>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Polyline), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "paths");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-                Paths = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(Paths)] = Paths;
-        }
-         
-        return Paths;
-
-    }
-
-#endregion
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the Paths property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetPaths(IReadOnlyList<MapPath> value)
-    {
-#pragma warning disable BL0005
-        Paths = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Paths)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "paths", value);
-
-    }
-
-#endregion
-
-#region Add to Collection Methods
-
-    /// <summary>
-    ///     Asynchronously adds elements to the Paths property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to add.
-    /// </param>
-    public async Task AddToPaths(params MapPath[] values)
-    {
-        MapPath[] join = Paths is null
-            ? values
-            : [..Paths, ..values];
-        await SetPaths(join);
-
-    }
-    
-#endregion
-
-#region Remove From Collection Methods
-
-    
-    /// <summary>
-    ///     Asynchronously remove an element from the Paths property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to remove.
-    /// </param>
-    public async Task RemoveFromPaths(params MapPath[] values)
-    {
-        if (Paths is null)
-        {
-            return;
-        }
-        await SetPaths(Paths.Except(values).ToArray());
-
-    }
-    
-#endregion
-
 #region Public Methods
 
     /// <summary>
@@ -193,7 +66,7 @@ public partial class Polyline
     ///     A polyline path. This can either be defined as an array of Point geometries or an array of XY coordinates.
     /// </param>
     [ArcGISMethod]
-    public async Task<Polyline?> AddPath(Point[] points)
+    public async Task<Polyline?> AddPath(IReadOnlyCollection<Point> points)
     {
         if (CoreJsModule is null)
         {
@@ -215,8 +88,8 @@ public partial class Polyline
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<Polyline?>(
-            IsServer, nameof(AddPath), nameof(Polyline), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<Polyline?>(
+            "addPath", 
             CancellationTokenSource.Token,
             points);
     }
@@ -257,8 +130,8 @@ public partial class Polyline
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<Point?>(
-            IsServer, nameof(GetPoint), nameof(Polyline), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<Point?>(
+            "getPoint", 
             CancellationTokenSource.Token,
             pathIndex,
             pointIndex);
@@ -304,8 +177,8 @@ public partial class Polyline
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<Polyline?>(
-            IsServer, nameof(InsertPoint), nameof(Polyline), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<Polyline?>(
+            "insertPoint", 
             CancellationTokenSource.Token,
             pathIndex,
             pointIndex,
@@ -343,8 +216,8 @@ public partial class Polyline
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<Point[]?>(
-            IsServer, nameof(RemovePath), nameof(Polyline), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<Point[]?>(
+            "removePath", 
             CancellationTokenSource.Token,
             index);
     }
@@ -385,8 +258,8 @@ public partial class Polyline
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<Point?>(
-            IsServer, nameof(RemovePoint), nameof(Polyline), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<Point?>(
+            "removePoint", 
             CancellationTokenSource.Token,
             pathIndex,
             pointIndex);
@@ -432,8 +305,8 @@ public partial class Polyline
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<Polyline?>(
-            IsServer, nameof(SetPoint), nameof(Polyline), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<Polyline?>(
+            "setPoint", 
             CancellationTokenSource.Token,
             pathIndex,
             pointIndex,

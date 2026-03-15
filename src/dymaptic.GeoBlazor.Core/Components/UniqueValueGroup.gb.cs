@@ -28,7 +28,7 @@ public partial class UniqueValueGroup : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueGroup.html#classes">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="heading">
-    ///     The heading to be displayed for the group of unique classes in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
+    ///     The heading to be displayed for the group of unique classes in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueGroup.html#heading">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public UniqueValueGroup(
@@ -39,7 +39,7 @@ public partial class UniqueValueGroup : MapComponent
 #pragma warning disable BL0005
         Classes = classes;
         Heading = heading;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -57,7 +57,7 @@ public partial class UniqueValueGroup : MapComponent
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValueGroup.html#uniquevaluegroupheading-property">GeoBlazor Docs</a>
-    ///     The heading to be displayed for the group of unique classes in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
+    ///     The heading to be displayed for the group of unique classes in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueGroup.html#heading">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -94,16 +94,11 @@ public partial class UniqueValueGroup : MapComponent
             return Classes;
         }
 
-        IReadOnlyList<UniqueValueClass>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<UniqueValueClass>?>(
-            IsServer, nameof(GetClasses), nameof(UniqueValueGroup), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<UniqueValueClass>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<UniqueValueClass>?>(
+            "getClasses", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (UniqueValueClass item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             Classes = result;
 #pragma warning restore BL0005
@@ -111,9 +106,8 @@ public partial class UniqueValueGroup : MapComponent
         }
         
         return Classes;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Heading property.
     /// </summary>
@@ -140,21 +134,19 @@ public partial class UniqueValueGroup : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValueGroup), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "heading");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Heading = result;
+             Heading = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Heading)] = Heading;
+             ModifiedParameters[nameof(Heading)] = Heading;
         }
          
         return Heading;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -167,6 +159,14 @@ public partial class UniqueValueGroup : MapComponent
     /// </param>
     public async Task SetClasses(IReadOnlyList<UniqueValueClass>? value)
     {
+        if (value is not null)
+        {
+            foreach (UniqueValueClass item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         Classes = value;
 #pragma warning restore BL0005
@@ -176,14 +176,6 @@ public partial class UniqueValueGroup : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (UniqueValueClass item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -202,9 +194,8 @@ public partial class UniqueValueGroup : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "classes", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Heading property after render.
     /// </summary>
@@ -240,9 +231,8 @@ public partial class UniqueValueGroup : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "heading", value);
-
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -259,7 +249,6 @@ public partial class UniqueValueGroup : MapComponent
             ? values
             : [..Classes, ..values];
         await SetClasses(join);
-
     }
     
 #endregion
@@ -280,7 +269,6 @@ public partial class UniqueValueGroup : MapComponent
             return;
         }
         await SetClasses(Classes.Except(values).ToArray());
-
     }
     
 #endregion

@@ -50,7 +50,7 @@ public partial class KMLLayerViewMapImage : MapComponent
         Href = href;
         KMLLayerViewMapImageId = kMLLayerViewMapImageId;
         Rotation = rotation;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -125,9 +125,8 @@ public partial class KMLLayerViewMapImage : MapComponent
             return Extent;
         }
 
-        Extent? result = await JsComponentReference.InvokeJsMethod<Extent?>(
-            IsServer, nameof(GetExtent), nameof(KMLLayerViewMapImage), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Extent? result = await JsComponentReference.InvokeAsync<Extent?>(
+            "getExtent", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -144,9 +143,8 @@ public partial class KMLLayerViewMapImage : MapComponent
         }
         
         return Extent;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Href property.
     /// </summary>
@@ -173,21 +171,19 @@ public partial class KMLLayerViewMapImage : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(KMLLayerViewMapImage), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "href");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Href = result;
+             Href = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Href)] = Href;
+             ModifiedParameters[nameof(Href)] = Href;
         }
          
         return Href;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the KMLLayerViewMapImageId property.
     /// </summary>
@@ -214,21 +210,19 @@ public partial class KMLLayerViewMapImage : MapComponent
         }
 
         // get the property value
-        long? result = await JsComponentReference!.InvokeJsMethod<long?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(KMLLayerViewMapImage), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "id");
-        if (result is not null)
+        JsNullableLongWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableLongWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "kMLLayerViewMapImageId");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                KMLLayerViewMapImageId = result;
+             KMLLayerViewMapImageId = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(KMLLayerViewMapImageId)] = KMLLayerViewMapImageId;
+             ModifiedParameters[nameof(KMLLayerViewMapImageId)] = KMLLayerViewMapImageId;
         }
          
         return KMLLayerViewMapImageId;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Rotation property.
     /// </summary>
@@ -255,21 +249,19 @@ public partial class KMLLayerViewMapImage : MapComponent
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(KMLLayerViewMapImage), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "rotation");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "rotation");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Rotation = result;
+             Rotation = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Rotation)] = Rotation;
+             ModifiedParameters[nameof(Rotation)] = Rotation;
         }
          
         return Rotation;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -282,6 +274,11 @@ public partial class KMLLayerViewMapImage : MapComponent
     /// </param>
     public async Task SetExtent(Extent? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Extent = value;
 #pragma warning restore BL0005
@@ -291,11 +288,6 @@ public partial class KMLLayerViewMapImage : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -314,9 +306,8 @@ public partial class KMLLayerViewMapImage : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "extent", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Href property after render.
     /// </summary>
@@ -352,9 +343,8 @@ public partial class KMLLayerViewMapImage : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "href", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the KMLLayerViewMapImageId property after render.
     /// </summary>
@@ -390,9 +380,8 @@ public partial class KMLLayerViewMapImage : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Rotation property after render.
     /// </summary>
@@ -428,9 +417,8 @@ public partial class KMLLayerViewMapImage : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rotation", value);
-
     }
-
+    
 #endregion
 
 

@@ -44,19 +44,10 @@ public partial class PortalFolder : MapComponent
         Created = created;
         PortalFolderId = portalFolderId;
         Title = title;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
-    /// <summary>
-    ///     Implicit conversion between <see cref="string" /> and <see cref="PortalFolder" />.
-    /// </summary>
-    /// <param name="portalFolderId">
-    ///     The string to use as the value.
-    /// </param>
-    public static implicit operator PortalFolder(string portalFolderId) =>
-        new(portalFolderId: portalFolderId);
-
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -140,21 +131,19 @@ public partial class PortalFolder : MapComponent
         }
 
         // get the property value
-        DateTime? result = await JsComponentReference!.InvokeJsMethod<DateTime?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalFolder), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "created");
-        if (result is not null)
+        JsNullableDateTimeWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDateTimeWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "created");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Created = result;
+             Created = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Created)] = Created;
+             ModifiedParameters[nameof(Created)] = Created;
         }
          
         return Created;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalFolderId property.
     /// </summary>
@@ -181,21 +170,19 @@ public partial class PortalFolder : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalFolder), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "id");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                PortalFolderId = result;
+             PortalFolderId = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(PortalFolderId)] = PortalFolderId;
+             ModifiedParameters[nameof(PortalFolderId)] = PortalFolderId;
         }
          
         return PortalFolderId;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -222,21 +209,19 @@ public partial class PortalFolder : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalFolder), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Title = result;
+             Title = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Title)] = Title;
+             ModifiedParameters[nameof(Title)] = Title;
         }
          
         return Title;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -263,21 +248,19 @@ public partial class PortalFolder : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PortalFolder), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "url");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Url = result;
+             Url = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Url)] = Url;
+             ModifiedParameters[nameof(Url)] = Url;
         }
          
         return Url;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -317,9 +300,8 @@ public partial class PortalFolder : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "created", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PortalFolderId property after render.
     /// </summary>
@@ -355,9 +337,8 @@ public partial class PortalFolder : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -393,9 +374,8 @@ public partial class PortalFolder : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
-
     }
-
+    
 #endregion
 
 

@@ -57,19 +57,10 @@ public partial class RasterFunction : MapComponent
         OutputPixelType = outputPixelType;
         RasterFunctionDefinition = rasterFunctionDefinition;
         VariableName = variableName;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
-    /// <summary>
-    ///     Implicit conversion between <see cref="string" /> and <see cref="RasterFunction" />.
-    /// </summary>
-    /// <param name="functionArguments">
-    ///     The string to use as the value.
-    /// </param>
-    public static implicit operator RasterFunction(string functionArguments) =>
-        new(functionArguments: functionArguments);
-
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -153,21 +144,19 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterFunction), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "functionArguments");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                FunctionArguments = result;
+             FunctionArguments = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(FunctionArguments)] = FunctionArguments;
+             ModifiedParameters[nameof(FunctionArguments)] = FunctionArguments;
         }
          
         return FunctionArguments;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FunctionName property.
     /// </summary>
@@ -194,21 +183,19 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterFunction), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "functionName");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                FunctionName = result;
+             FunctionName = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(FunctionName)] = FunctionName;
+             ModifiedParameters[nameof(FunctionName)] = FunctionName;
         }
          
         return FunctionName;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the OutputPixelType property.
     /// </summary>
@@ -235,21 +222,19 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-        OutputPixelType? result = await JsComponentReference!.InvokeJsMethod<OutputPixelType?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterFunction), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "outputPixelType");
-        if (result is not null)
+        JsNullableEnumWrapper<OutputPixelType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<OutputPixelType>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "outputPixelType");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                OutputPixelType = result;
+             OutputPixelType = (OutputPixelType)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(OutputPixelType)] = OutputPixelType;
+             ModifiedParameters[nameof(OutputPixelType)] = OutputPixelType;
         }
          
         return OutputPixelType;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the RasterFunctionDefinition property.
     /// </summary>
@@ -276,21 +261,19 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterFunction), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "rasterFunctionDefinition");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                RasterFunctionDefinition = result;
+             RasterFunctionDefinition = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(RasterFunctionDefinition)] = RasterFunctionDefinition;
+             ModifiedParameters[nameof(RasterFunctionDefinition)] = RasterFunctionDefinition;
         }
          
         return RasterFunctionDefinition;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the VariableName property.
     /// </summary>
@@ -317,21 +300,19 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterFunction), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "variableName");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                VariableName = result;
+             VariableName = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(VariableName)] = VariableName;
+             ModifiedParameters[nameof(VariableName)] = VariableName;
         }
          
         return VariableName;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -371,9 +352,8 @@ public partial class RasterFunction : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "functionArguments", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the FunctionName property after render.
     /// </summary>
@@ -409,9 +389,8 @@ public partial class RasterFunction : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "functionName", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the OutputPixelType property after render.
     /// </summary>
@@ -447,9 +426,8 @@ public partial class RasterFunction : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outputPixelType", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the RasterFunctionDefinition property after render.
     /// </summary>
@@ -485,9 +463,8 @@ public partial class RasterFunction : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rasterFunctionDefinition", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the VariableName property after render.
     /// </summary>
@@ -523,9 +500,8 @@ public partial class RasterFunction : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "variableName", value);
-
     }
-
+    
 #endregion
 
 }

@@ -220,7 +220,7 @@ public partial record Query(
     string? Where = null) : IQueryMixin
 {
     /// <summary>
-    ///     Parameterless Constructor
+    ///     Parameterless constructor
     /// </summary>
     public Query(): this(null, null)
     {

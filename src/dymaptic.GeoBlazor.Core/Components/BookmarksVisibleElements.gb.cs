@@ -80,7 +80,7 @@ public partial class BookmarksVisibleElements : MapComponent
         Heading = heading;
         Thumbnail = thumbnail;
         Time = time;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -206,21 +206,19 @@ public partial class BookmarksVisibleElements : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarksVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "addBookmarkButton");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "addBookmarkButton");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                AddBookmarkButton = result;
+             AddBookmarkButton = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(AddBookmarkButton)] = AddBookmarkButton;
+             ModifiedParameters[nameof(AddBookmarkButton)] = AddBookmarkButton;
         }
          
         return AddBookmarkButton;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the CloseButton property.
     /// </summary>
@@ -247,21 +245,19 @@ public partial class BookmarksVisibleElements : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarksVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "closeButton");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "closeButton");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                CloseButton = result;
+             CloseButton = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(CloseButton)] = CloseButton;
+             ModifiedParameters[nameof(CloseButton)] = CloseButton;
         }
          
         return CloseButton;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the CollapseButton property.
     /// </summary>
@@ -288,21 +284,19 @@ public partial class BookmarksVisibleElements : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarksVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "collapseButton");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "collapseButton");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                CollapseButton = result;
+             CollapseButton = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(CollapseButton)] = CollapseButton;
+             ModifiedParameters[nameof(CollapseButton)] = CollapseButton;
         }
          
         return CollapseButton;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the EditBookmarkButton property.
     /// </summary>
@@ -329,21 +323,19 @@ public partial class BookmarksVisibleElements : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarksVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "editBookmarkButton");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "editBookmarkButton");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                EditBookmarkButton = result;
+             EditBookmarkButton = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(EditBookmarkButton)] = EditBookmarkButton;
+             ModifiedParameters[nameof(EditBookmarkButton)] = EditBookmarkButton;
         }
          
         return EditBookmarkButton;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Filter property.
     /// </summary>
@@ -370,21 +362,19 @@ public partial class BookmarksVisibleElements : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarksVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "filter");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "filter");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Filter = result;
+             Filter = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Filter)] = Filter;
+             ModifiedParameters[nameof(Filter)] = Filter;
         }
          
         return Filter;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Flow property.
     /// </summary>
@@ -411,21 +401,19 @@ public partial class BookmarksVisibleElements : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarksVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "flow");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "flow");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Flow = result;
+             Flow = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Flow)] = Flow;
+             ModifiedParameters[nameof(Flow)] = Flow;
         }
          
         return Flow;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Heading property.
     /// </summary>
@@ -452,21 +440,19 @@ public partial class BookmarksVisibleElements : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarksVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "heading");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "heading");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Heading = result;
+             Heading = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Heading)] = Heading;
+             ModifiedParameters[nameof(Heading)] = Heading;
         }
          
         return Heading;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Thumbnail property.
     /// </summary>
@@ -493,21 +479,19 @@ public partial class BookmarksVisibleElements : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarksVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "thumbnail");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "thumbnail");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Thumbnail = result;
+             Thumbnail = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Thumbnail)] = Thumbnail;
+             ModifiedParameters[nameof(Thumbnail)] = Thumbnail;
         }
          
         return Thumbnail;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Time property.
     /// </summary>
@@ -534,21 +518,19 @@ public partial class BookmarksVisibleElements : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarksVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "time");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "time");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Time = result;
+             Time = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Time)] = Time;
+             ModifiedParameters[nameof(Time)] = Time;
         }
          
         return Time;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -588,9 +570,8 @@ public partial class BookmarksVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "addBookmarkButton", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the CloseButton property after render.
     /// </summary>
@@ -626,9 +607,8 @@ public partial class BookmarksVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "closeButton", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the CollapseButton property after render.
     /// </summary>
@@ -664,9 +644,8 @@ public partial class BookmarksVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "collapseButton", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the EditBookmarkButton property after render.
     /// </summary>
@@ -702,9 +681,8 @@ public partial class BookmarksVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "editBookmarkButton", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Filter property after render.
     /// </summary>
@@ -740,9 +718,8 @@ public partial class BookmarksVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "filter", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Flow property after render.
     /// </summary>
@@ -778,9 +755,8 @@ public partial class BookmarksVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "flow", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Heading property after render.
     /// </summary>
@@ -816,9 +792,8 @@ public partial class BookmarksVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "heading", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Thumbnail property after render.
     /// </summary>
@@ -854,9 +829,8 @@ public partial class BookmarksVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "thumbnail", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Time property after render.
     /// </summary>
@@ -892,9 +866,8 @@ public partial class BookmarksVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "time", value);
-
     }
-
+    
 #endregion
 
 }

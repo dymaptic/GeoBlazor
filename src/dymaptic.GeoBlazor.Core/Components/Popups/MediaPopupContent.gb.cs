@@ -52,7 +52,7 @@ public partial class MediaPopupContent
         Description = description;
         MediaInfos = mediaInfos;
         ActiveMediaInfoIndex = activeMediaInfoIndex;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -84,21 +84,19 @@ public partial class MediaPopupContent
         }
 
         // get the property value
-        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MediaPopupContent), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "activeMediaInfoIndex");
-        if (result is not null)
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "activeMediaInfoIndex");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ActiveMediaInfoIndex = result;
+             ActiveMediaInfoIndex = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ActiveMediaInfoIndex)] = ActiveMediaInfoIndex;
+             ModifiedParameters[nameof(ActiveMediaInfoIndex)] = ActiveMediaInfoIndex;
         }
          
         return ActiveMediaInfoIndex;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Description property.
     /// </summary>
@@ -125,21 +123,19 @@ public partial class MediaPopupContent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MediaPopupContent), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "description");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Description = result;
+             Description = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Description)] = Description;
+             ModifiedParameters[nameof(Description)] = Description;
         }
          
         return Description;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MediaInfos property.
     /// </summary>
@@ -165,16 +161,11 @@ public partial class MediaPopupContent
             return MediaInfos;
         }
 
-        IReadOnlyList<MediaInfo>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<MediaInfo>?>(
-            IsServer, nameof(GetMediaInfos), nameof(MediaPopupContent), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<MediaInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<MediaInfo>?>(
+            "getMediaInfos", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (MediaInfo item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             MediaInfos = result;
 #pragma warning restore BL0005
@@ -182,9 +173,8 @@ public partial class MediaPopupContent
         }
         
         return MediaInfos;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -211,21 +201,19 @@ public partial class MediaPopupContent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MediaPopupContent), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Title = result;
+             Title = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Title)] = Title;
+             ModifiedParameters[nameof(Title)] = Title;
         }
          
         return Title;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -265,9 +253,8 @@ public partial class MediaPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "activeMediaInfoIndex", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Description property after render.
     /// </summary>
@@ -303,9 +290,8 @@ public partial class MediaPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "description", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MediaInfos property after render.
     /// </summary>
@@ -314,6 +300,14 @@ public partial class MediaPopupContent
     /// </param>
     public async Task SetMediaInfos(IReadOnlyList<MediaInfo>? value)
     {
+        if (value is not null)
+        {
+            foreach (MediaInfo item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         MediaInfos = value;
 #pragma warning restore BL0005
@@ -323,14 +317,6 @@ public partial class MediaPopupContent
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (MediaInfo item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -349,9 +335,8 @@ public partial class MediaPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mediaInfos", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -387,9 +372,8 @@ public partial class MediaPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
-
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -406,7 +390,6 @@ public partial class MediaPopupContent
             ? values
             : [..MediaInfos, ..values];
         await SetMediaInfos(join);
-
     }
     
 #endregion
@@ -427,7 +410,6 @@ public partial class MediaPopupContent
             return;
         }
         await SetMediaInfos(MediaInfos.Except(values).ToArray());
-
     }
     
 #endregion

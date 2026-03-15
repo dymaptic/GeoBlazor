@@ -56,7 +56,7 @@ public partial class RasterPresetRenderer : MapComponent
         Name = name;
         Renderer = renderer;
         Value = value;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -142,21 +142,19 @@ public partial class RasterPresetRenderer : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<long>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<long>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterPresetRenderer), View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<long>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<long>?>("getProperty",
             CancellationTokenSource.Token, "bandIds");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                BandIds = result;
+             BandIds = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(BandIds)] = BandIds;
+             ModifiedParameters[nameof(BandIds)] = BandIds;
         }
          
         return BandIds;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Method property.
     /// </summary>
@@ -183,21 +181,19 @@ public partial class RasterPresetRenderer : MapComponent
         }
 
         // get the property value
-        Method? result = await JsComponentReference!.InvokeJsMethod<Method?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterPresetRenderer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "method");
-        if (result is not null)
+        JsNullableEnumWrapper<Method>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Method>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "method");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Method = result;
+             Method = (Method)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Method)] = Method;
+             ModifiedParameters[nameof(Method)] = Method;
         }
          
         return Method;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -224,21 +220,19 @@ public partial class RasterPresetRenderer : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterPresetRenderer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Name = result;
+             Name = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Name)] = Name;
+             ModifiedParameters[nameof(Name)] = Name;
         }
          
         return Name;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Renderer property.
     /// </summary>
@@ -264,18 +258,11 @@ public partial class RasterPresetRenderer : MapComponent
             return Renderer;
         }
 
-        Renderer? result = await JsComponentReference.InvokeJsMethod<Renderer?>(
-            IsServer, nameof(GetRenderer), nameof(RasterPresetRenderer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Renderer? result = await JsComponentReference.InvokeAsync<Renderer?>(
+            "getRenderer", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (Renderer is not null)
-            {
-                result.Id = Renderer.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Renderer = result;
 #pragma warning restore BL0005
@@ -283,9 +270,8 @@ public partial class RasterPresetRenderer : MapComponent
         }
         
         return Renderer;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Value property.
     /// </summary>
@@ -312,21 +298,19 @@ public partial class RasterPresetRenderer : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterPresetRenderer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "value");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Value = result;
+             Value = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Value)] = Value;
+             ModifiedParameters[nameof(Value)] = Value;
         }
          
         return Value;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -366,9 +350,8 @@ public partial class RasterPresetRenderer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "bandIds", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Method property after render.
     /// </summary>
@@ -404,9 +387,8 @@ public partial class RasterPresetRenderer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "method", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
@@ -442,9 +424,8 @@ public partial class RasterPresetRenderer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Renderer property after render.
     /// </summary>
@@ -453,6 +434,11 @@ public partial class RasterPresetRenderer : MapComponent
     /// </param>
     public async Task SetRenderer(Renderer? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Renderer = value;
 #pragma warning restore BL0005
@@ -462,11 +448,6 @@ public partial class RasterPresetRenderer : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -485,9 +466,8 @@ public partial class RasterPresetRenderer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "renderer", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Value property after render.
     /// </summary>
@@ -523,9 +503,8 @@ public partial class RasterPresetRenderer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value", value);
-
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -542,7 +521,6 @@ public partial class RasterPresetRenderer : MapComponent
             ? values
             : [..BandIds, ..values];
         await SetBandIds(join);
-
     }
     
 #endregion
@@ -563,7 +541,6 @@ public partial class RasterPresetRenderer : MapComponent
             return;
         }
         await SetBandIds(BandIds.Except(values).ToArray());
-
     }
     
 #endregion

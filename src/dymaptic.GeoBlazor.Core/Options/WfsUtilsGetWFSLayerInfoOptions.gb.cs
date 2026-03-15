@@ -19,7 +19,7 @@ public partial record WfsUtilsGetWFSLayerInfoOptions(
     string? SpatialReference = null)
 {
     /// <summary>
-    ///     Parameterless Constructor
+    ///     Parameterless constructor
     /// </summary>
     public WfsUtilsGetWFSLayerInfoOptions(): this(null, null)
     {

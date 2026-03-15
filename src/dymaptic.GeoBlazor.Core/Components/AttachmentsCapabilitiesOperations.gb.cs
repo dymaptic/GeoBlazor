@@ -44,7 +44,7 @@ public partial class AttachmentsCapabilitiesOperations : MapComponent
         Add = add;
         Delete = delete;
         Update = update;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -110,21 +110,19 @@ public partial class AttachmentsCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "add");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "add");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Add = result;
+             Add = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Add)] = Add;
+             ModifiedParameters[nameof(Add)] = Add;
         }
          
         return Add;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Delete property.
     /// </summary>
@@ -151,21 +149,19 @@ public partial class AttachmentsCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "delete");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "delete");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Delete = result;
+             Delete = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Delete)] = Delete;
+             ModifiedParameters[nameof(Delete)] = Delete;
         }
          
         return Delete;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Update property.
     /// </summary>
@@ -192,21 +188,19 @@ public partial class AttachmentsCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "update");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "update");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Update = result;
+             Update = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Update)] = Update;
+             ModifiedParameters[nameof(Update)] = Update;
         }
          
         return Update;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -246,9 +240,8 @@ public partial class AttachmentsCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "add", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Delete property after render.
     /// </summary>
@@ -284,9 +277,8 @@ public partial class AttachmentsCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "delete", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Update property after render.
     /// </summary>
@@ -322,9 +314,8 @@ public partial class AttachmentsCapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "update", value);
-
     }
-
+    
 #endregion
 
 }

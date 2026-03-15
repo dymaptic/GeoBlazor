@@ -39,7 +39,7 @@ public partial class ColorVariable
     /// </param>
     /// <param name="legendOptions">
     ///     An object providing options for displaying the visual variable in
-    ///     the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
+    ///     the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#legendOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="valueExpression">
@@ -53,7 +53,7 @@ public partial class ColorVariable
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#valueExpressionTitle">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public ColorVariable(
-        string? field = null,
+        string field,
         string? normalizationField = null,
         IReadOnlyList<ColorStop>? stops = null,
         VisualVariableLegendOptions? legendOptions = null,
@@ -68,7 +68,7 @@ public partial class ColorVariable
         LegendOptions = legendOptions;
         ValueExpression = valueExpression;
         ValueExpressionTitle = valueExpressionTitle;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -114,21 +114,19 @@ public partial class ColorVariable
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ColorVariable), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "normalizationField");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                NormalizationField = result;
+             NormalizationField = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(NormalizationField)] = NormalizationField;
+             ModifiedParameters[nameof(NormalizationField)] = NormalizationField;
         }
          
         return NormalizationField;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Stops property.
     /// </summary>
@@ -154,16 +152,11 @@ public partial class ColorVariable
             return Stops;
         }
 
-        IReadOnlyList<ColorStop>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<ColorStop>?>(
-            IsServer, nameof(GetStops), nameof(ColorVariable), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<ColorStop>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ColorStop>?>(
+            "getStops", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (ColorStop item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             Stops = result;
 #pragma warning restore BL0005
@@ -171,9 +164,8 @@ public partial class ColorVariable
         }
         
         return Stops;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -213,9 +205,8 @@ public partial class ColorVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "normalizationField", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Stops property after render.
     /// </summary>
@@ -224,6 +215,14 @@ public partial class ColorVariable
     /// </param>
     public async Task SetStops(IReadOnlyList<ColorStop>? value)
     {
+        if (value is not null)
+        {
+            foreach (ColorStop item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         Stops = value;
 #pragma warning restore BL0005
@@ -233,14 +232,6 @@ public partial class ColorVariable
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (ColorStop item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -259,9 +250,8 @@ public partial class ColorVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "stops", value);
-
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -278,7 +268,6 @@ public partial class ColorVariable
             ? values
             : [..Stops, ..values];
         await SetStops(join);
-
     }
     
 #endregion
@@ -299,7 +288,6 @@ public partial class ColorVariable
             return;
         }
         await SetStops(Stops.Except(values).ToArray());
-
     }
     
 #endregion

@@ -15,7 +15,7 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#saveAs">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record WebMapSaveAsOptions(
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     PortalFolder? Folder = null,
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? IgnoreUnsupported = null);

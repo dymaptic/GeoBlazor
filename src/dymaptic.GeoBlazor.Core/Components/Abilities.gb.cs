@@ -74,7 +74,7 @@ public partial class Abilities : MapComponent
         TextContent = textContent;
         RelationshipContent = relationshipContent;
         UtilityNetworkAssociationsContent = utilityNetworkAssociationsContent;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -190,21 +190,19 @@ public partial class Abilities : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Abilities), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "attachmentsContent");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "attachmentsContent");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                AttachmentsContent = result;
+             AttachmentsContent = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(AttachmentsContent)] = AttachmentsContent;
+             ModifiedParameters[nameof(AttachmentsContent)] = AttachmentsContent;
         }
          
         return AttachmentsContent;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ChartAnimation property.
     /// </summary>
@@ -231,21 +229,19 @@ public partial class Abilities : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Abilities), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "chartAnimation");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "chartAnimation");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ChartAnimation = result;
+             ChartAnimation = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ChartAnimation)] = ChartAnimation;
+             ModifiedParameters[nameof(ChartAnimation)] = ChartAnimation;
         }
          
         return ChartAnimation;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomContent property.
     /// </summary>
@@ -272,21 +268,19 @@ public partial class Abilities : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Abilities), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "customContent");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "customContent");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                CustomContent = result;
+             CustomContent = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(CustomContent)] = CustomContent;
+             ModifiedParameters[nameof(CustomContent)] = CustomContent;
         }
          
         return CustomContent;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FieldsContent property.
     /// </summary>
@@ -313,21 +307,19 @@ public partial class Abilities : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Abilities), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "fieldsContent");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "fieldsContent");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                FieldsContent = result;
+             FieldsContent = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(FieldsContent)] = FieldsContent;
+             ModifiedParameters[nameof(FieldsContent)] = FieldsContent;
         }
          
         return FieldsContent;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MediaContent property.
     /// </summary>
@@ -354,21 +346,19 @@ public partial class Abilities : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Abilities), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "mediaContent");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "mediaContent");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MediaContent = result;
+             MediaContent = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MediaContent)] = MediaContent;
+             ModifiedParameters[nameof(MediaContent)] = MediaContent;
         }
          
         return MediaContent;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the RelationshipContent property.
     /// </summary>
@@ -395,21 +385,19 @@ public partial class Abilities : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Abilities), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "relationshipContent");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "relationshipContent");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                RelationshipContent = result;
+             RelationshipContent = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(RelationshipContent)] = RelationshipContent;
+             ModifiedParameters[nameof(RelationshipContent)] = RelationshipContent;
         }
          
         return RelationshipContent;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the TextContent property.
     /// </summary>
@@ -436,21 +424,19 @@ public partial class Abilities : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Abilities), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "textContent");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "textContent");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                TextContent = result;
+             TextContent = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(TextContent)] = TextContent;
+             ModifiedParameters[nameof(TextContent)] = TextContent;
         }
          
         return TextContent;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the UtilityNetworkAssociationsContent property.
     /// </summary>
@@ -477,21 +463,19 @@ public partial class Abilities : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Abilities), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "utilityNetworkAssociationsContent");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "utilityNetworkAssociationsContent");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                UtilityNetworkAssociationsContent = result;
+             UtilityNetworkAssociationsContent = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(UtilityNetworkAssociationsContent)] = UtilityNetworkAssociationsContent;
+             ModifiedParameters[nameof(UtilityNetworkAssociationsContent)] = UtilityNetworkAssociationsContent;
         }
          
         return UtilityNetworkAssociationsContent;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -531,9 +515,8 @@ public partial class Abilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "attachmentsContent", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ChartAnimation property after render.
     /// </summary>
@@ -569,9 +552,8 @@ public partial class Abilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "chartAnimation", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the CustomContent property after render.
     /// </summary>
@@ -607,9 +589,8 @@ public partial class Abilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "customContent", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the FieldsContent property after render.
     /// </summary>
@@ -645,9 +626,8 @@ public partial class Abilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fieldsContent", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MediaContent property after render.
     /// </summary>
@@ -683,9 +663,8 @@ public partial class Abilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mediaContent", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the RelationshipContent property after render.
     /// </summary>
@@ -721,9 +700,8 @@ public partial class Abilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "relationshipContent", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the TextContent property after render.
     /// </summary>
@@ -759,9 +737,8 @@ public partial class Abilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "textContent", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the UtilityNetworkAssociationsContent property after render.
     /// </summary>
@@ -797,9 +774,8 @@ public partial class Abilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "utilityNetworkAssociationsContent", value);
-
     }
-
+    
 #endregion
 
 }

@@ -72,9 +72,8 @@ public partial class Extent
             return Center;
         }
 
-        Point? result = await JsComponentReference.InvokeJsMethod<Point?>(
-            IsServer, nameof(GetCenter), nameof(Extent), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Point? result = await JsComponentReference.InvokeAsync<Point?>(
+            "getCenter", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -91,9 +90,8 @@ public partial class Extent
         }
         
         return Center;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Height property.
     /// </summary>
@@ -120,21 +118,19 @@ public partial class Extent
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Extent), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "height");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "height");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Height = result;
+             Height = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Height)] = Height;
+             ModifiedParameters[nameof(Height)] = Height;
         }
          
         return Height;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Mmax property.
     /// </summary>
@@ -161,21 +157,19 @@ public partial class Extent
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Extent), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "mmax");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "mmax");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Mmax = result;
+             Mmax = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Mmax)] = Mmax;
+             ModifiedParameters[nameof(Mmax)] = Mmax;
         }
          
         return Mmax;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Mmin property.
     /// </summary>
@@ -202,21 +196,19 @@ public partial class Extent
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Extent), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "mmin");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "mmin");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Mmin = result;
+             Mmin = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Mmin)] = Mmin;
+             ModifiedParameters[nameof(Mmin)] = Mmin;
         }
          
         return Mmin;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Width property.
     /// </summary>
@@ -243,185 +235,19 @@ public partial class Extent
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Extent), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "width");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "width");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Width = result;
+             Width = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Width)] = Width;
+             ModifiedParameters[nameof(Width)] = Width;
         }
          
         return Width;
-
     }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Xmax property.
-    /// </summary>
-    public async Task<double?> GetXmax()
-    {
-        if (CoreJsModule is null)
-        {
-            return Xmax;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Xmax;
-        }
-
-        // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Extent), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "xmax");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-                Xmax = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(Xmax)] = Xmax;
-        }
-         
-        return Xmax;
-
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Xmin property.
-    /// </summary>
-    public async Task<double?> GetXmin()
-    {
-        if (CoreJsModule is null)
-        {
-            return Xmin;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Xmin;
-        }
-
-        // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Extent), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "xmin");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-                Xmin = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(Xmin)] = Xmin;
-        }
-         
-        return Xmin;
-
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Ymax property.
-    /// </summary>
-    public async Task<double?> GetYmax()
-    {
-        if (CoreJsModule is null)
-        {
-            return Ymax;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Ymax;
-        }
-
-        // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Extent), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "ymax");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-                Ymax = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(Ymax)] = Ymax;
-        }
-         
-        return Ymax;
-
-    }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Ymin property.
-    /// </summary>
-    public async Task<double?> GetYmin()
-    {
-        if (CoreJsModule is null)
-        {
-            return Ymin;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Ymin;
-        }
-
-        // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Extent), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "ymin");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-                Ymin = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(Ymin)] = Ymin;
-        }
-         
-        return Ymin;
-
-    }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Zmax property.
     /// </summary>
@@ -448,21 +274,19 @@ public partial class Extent
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Extent), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "zmax");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "zmax");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Zmax = result;
+             Zmax = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Zmax)] = Zmax;
+             ModifiedParameters[nameof(Zmax)] = Zmax;
         }
          
         return Zmax;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Zmin property.
     /// </summary>
@@ -489,21 +313,19 @@ public partial class Extent
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Extent), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "zmin");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "zmin");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Zmin = result;
+             Zmin = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Zmin)] = Zmin;
+             ModifiedParameters[nameof(Zmin)] = Zmin;
         }
          
         return Zmin;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -543,9 +365,8 @@ public partial class Extent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mmax", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Mmin property after render.
     /// </summary>
@@ -581,161 +402,8 @@ public partial class Extent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mmin", value);
-
     }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Xmax property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetXmax(double value)
-    {
-#pragma warning disable BL0005
-        Xmax = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Xmax)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
     
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "xmax", value);
-
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Xmin property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetXmin(double value)
-    {
-#pragma warning disable BL0005
-        Xmin = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Xmin)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "xmin", value);
-
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Ymax property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetYmax(double value)
-    {
-#pragma warning disable BL0005
-        Ymax = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Ymax)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "ymax", value);
-
-    }
-
-    /// <summary>
-    ///    Asynchronously set the value of the Ymin property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetYmin(double value)
-    {
-#pragma warning disable BL0005
-        Ymin = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Ymin)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "ymin", value);
-
-    }
-
     /// <summary>
     ///    Asynchronously set the value of the Zmax property after render.
     /// </summary>
@@ -771,9 +439,8 @@ public partial class Extent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "zmax", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Zmin property after render.
     /// </summary>
@@ -809,9 +476,8 @@ public partial class Extent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "zmin", value);
-
     }
-
+    
 #endregion
 
 #region Public Methods
@@ -847,8 +513,8 @@ public partial class Extent
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<Extent?>(
-            IsServer, nameof(CenterAt), nameof(Extent), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<Extent?>(
+            "centerAt", 
             CancellationTokenSource.Token,
             point);
     }
@@ -884,8 +550,8 @@ public partial class Extent
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(Contains), nameof(Extent), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "contains", 
             CancellationTokenSource.Token,
             geometry);
     }
@@ -921,8 +587,8 @@ public partial class Extent
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<Extent?>(
-            IsServer, nameof(Expand), nameof(Extent), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<Extent?>(
+            "expand", 
             CancellationTokenSource.Token,
             factor);
     }
@@ -958,8 +624,8 @@ public partial class Extent
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<Extent?>(
-            IsServer, nameof(Intersection), nameof(Extent), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<Extent?>(
+            "intersection", 
             CancellationTokenSource.Token,
             extent);
     }
@@ -995,8 +661,8 @@ public partial class Extent
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(Intersects), nameof(Extent), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "intersects", 
             CancellationTokenSource.Token,
             geometry);
     }
@@ -1030,8 +696,8 @@ public partial class Extent
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<Extent[]?>(
-            IsServer, nameof(Normalize), nameof(Extent), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<Extent[]?>(
+            "normalize", 
             CancellationTokenSource.Token);
     }
     
@@ -1075,8 +741,8 @@ public partial class Extent
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<Extent?>(
-            IsServer, nameof(Offset), nameof(Extent), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<Extent?>(
+            "offset", 
             CancellationTokenSource.Token,
             dx,
             dy,
@@ -1114,8 +780,8 @@ public partial class Extent
             return null;
         }
         
-        return await JsComponentReference!.InvokeJsMethod<Extent?>(
-            IsServer, nameof(Union), nameof(Extent), View?.QueryResultsMaxSizeLimit, 
+        return await JsComponentReference!.InvokeAsync<Extent?>(
+            "union", 
             CancellationTokenSource.Token,
             extent);
     }

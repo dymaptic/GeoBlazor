@@ -14,6 +14,7 @@ public partial class WFSLayer : Layer,
     IFeatureEffectLayer,
     IFeatureReductionLayer,
     IFeatureSetLayer,
+    IFeatureTableWidgetLayers,
     IOperationalLayer,
     IOrderedLayer,
     IPortalLayer,
@@ -79,7 +80,7 @@ public partial class WFSLayer : Layer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="featureEffect">
-    ///     The featureEffect can be used to draw attention features of interest.
+    ///     The featureEffect can be used to draw attention to features of interest.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="featureReduction">
@@ -98,6 +99,9 @@ public partial class WFSLayer : Layer,
     ///     The geometry type of features in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#geometryType">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
+    /// </param>
     /// <param name="labelingInfo">
     ///     The label definition for this layer, specified as an array of
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">LabelClass</a>.
@@ -114,7 +118,7 @@ public partial class WFSLayer : Layer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#legendEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="listMode">
-    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
     ///     default "show"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -194,7 +198,7 @@ public partial class WFSLayer : Layer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#renderer">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="screenSizePerspectiveEnabled">
-    ///     Apply perspective scaling to screen-size point symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
+    ///     Apply perspective scaling to screen-size symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#screenSizePerspectiveEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -204,7 +208,7 @@ public partial class WFSLayer : Layer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
-    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="trackInfo">
@@ -225,6 +229,9 @@ public partial class WFSLayer : Layer,
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="excludeApiKey">
+    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
+    /// </param>
     public WFSLayer(
         string? arcGISLayerId = null,
         BlendMode? blendMode = null,
@@ -235,12 +242,13 @@ public partial class WFSLayer : Layer,
         bool? displayFilterEnabled = null,
         DisplayFilterInfo? displayFilterInfo = null,
         Effect? effect = null,
-        WFSLayerElevationInfo? elevationInfo = null,
+        ElevationInfo? elevationInfo = null,
         FeatureEffect? featureEffect = null,
         IFeatureReduction? featureReduction = null,
         IReadOnlyList<Field>? fields = null,
         Extent? fullExtent = null,
         SimpleGeometryType? geometryType = null,
+        bool? isBasemapReferenceLayer = null,
         IReadOnlyList<Label>? labelingInfo = null,
         bool? labelsVisible = null,
         bool? legendEnabled = null,
@@ -267,7 +275,8 @@ public partial class WFSLayer : Layer,
         TrackInfo? trackInfo = null,
         string? url = null,
         TimeExtent? visibilityTimeExtent = null,
-        bool? visible = null)
+        bool? visible = null,
+        bool? excludeApiKey = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -286,6 +295,7 @@ public partial class WFSLayer : Layer,
         Fields = fields;
         FullExtent = fullExtent;
         GeometryType = geometryType;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         LabelingInfo = labelingInfo;
         LabelsVisible = labelsVisible;
         LegendEnabled = legendEnabled;
@@ -313,7 +323,8 @@ public partial class WFSLayer : Layer,
         Url = url;
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
-#pragma warning restore BL0005
+        ExcludeApiKey = excludeApiKey;
+#pragma warning restore BL0005    
     }
     
     
@@ -435,11 +446,11 @@ public partial class WFSLayer : Layer,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public WFSLayerElevationInfo? ElevationInfo { get; set; }
+    public ElevationInfo? ElevationInfo { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerfeatureeffect-property">GeoBlazor Docs</a>
-    ///     The featureEffect can be used to draw attention features of interest.
+    ///     The featureEffect can be used to draw attention to features of interest.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -671,7 +682,7 @@ public partial class WFSLayer : Layer,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerscreensizeperspectiveenabled-property">GeoBlazor Docs</a>
-    ///     Apply perspective scaling to screen-size point symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
+    ///     Apply perspective scaling to screen-size symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#screenSizePerspectiveEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -751,21 +762,19 @@ public partial class WFSLayer : Layer,
         }
 
         // get the property value
-        BlendMode? result = await JsComponentReference!.InvokeJsMethod<BlendMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "blendMode");
-        if (result is not null)
+        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                BlendMode = result;
+             BlendMode = (BlendMode)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(BlendMode)] = BlendMode;
+             ModifiedParameters[nameof(BlendMode)] = BlendMode;
         }
          
         return BlendMode;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Capabilities property.
     /// </summary>
@@ -791,18 +800,11 @@ public partial class WFSLayer : Layer,
             return Capabilities;
         }
 
-        Capabilities? result = await JsComponentReference.InvokeJsMethod<Capabilities?>(
-            IsServer, nameof(GetCapabilities), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Capabilities? result = await JsComponentReference.InvokeAsync<Capabilities?>(
+            "getCapabilities", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (Capabilities is not null)
-            {
-                result.Id = Capabilities.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Capabilities = result;
 #pragma warning restore BL0005
@@ -810,9 +812,8 @@ public partial class WFSLayer : Layer,
         }
         
         return Capabilities;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Copyright property.
     /// </summary>
@@ -839,21 +840,19 @@ public partial class WFSLayer : Layer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "copyright");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Copyright = result;
+             Copyright = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Copyright)] = Copyright;
+             ModifiedParameters[nameof(Copyright)] = Copyright;
         }
          
         return Copyright;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomParameters property.
     /// </summary>
@@ -880,21 +879,19 @@ public partial class WFSLayer : Layer,
         }
 
         // get the property value
-        Dictionary<string, object>? result = await JsComponentReference!.InvokeJsMethod<Dictionary<string, object>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit,
+        Dictionary<string, object>? result = await JsComponentReference!.InvokeAsync<Dictionary<string, object>?>("getProperty",
             CancellationTokenSource.Token, "customParameters");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                CustomParameters = result;
+             CustomParameters = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
+             ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
         }
          
         return CustomParameters;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DateFieldsTimeZone property.
     /// </summary>
@@ -921,21 +918,19 @@ public partial class WFSLayer : Layer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "dateFieldsTimeZone");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                DateFieldsTimeZone = result;
+             DateFieldsTimeZone = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(DateFieldsTimeZone)] = DateFieldsTimeZone;
+             ModifiedParameters[nameof(DateFieldsTimeZone)] = DateFieldsTimeZone;
         }
          
         return DateFieldsTimeZone;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefinitionExpression property.
     /// </summary>
@@ -962,21 +957,19 @@ public partial class WFSLayer : Layer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "definitionExpression");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                DefinitionExpression = result;
+             DefinitionExpression = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(DefinitionExpression)] = DefinitionExpression;
+             ModifiedParameters[nameof(DefinitionExpression)] = DefinitionExpression;
         }
          
         return DefinitionExpression;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DisplayField property.
     /// </summary>
@@ -1003,21 +996,19 @@ public partial class WFSLayer : Layer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "displayField");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                DisplayField = result;
+             DisplayField = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(DisplayField)] = DisplayField;
+             ModifiedParameters[nameof(DisplayField)] = DisplayField;
         }
          
         return DisplayField;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DisplayFilterEnabled property.
     /// </summary>
@@ -1044,21 +1035,19 @@ public partial class WFSLayer : Layer,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "displayFilterEnabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "displayFilterEnabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                DisplayFilterEnabled = result;
+             DisplayFilterEnabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(DisplayFilterEnabled)] = DisplayFilterEnabled;
+             ModifiedParameters[nameof(DisplayFilterEnabled)] = DisplayFilterEnabled;
         }
          
         return DisplayFilterEnabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DisplayFilterInfo property.
     /// </summary>
@@ -1084,18 +1073,11 @@ public partial class WFSLayer : Layer,
             return DisplayFilterInfo;
         }
 
-        DisplayFilterInfo? result = await JsComponentReference.InvokeJsMethod<DisplayFilterInfo?>(
-            IsServer, nameof(GetDisplayFilterInfo), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        DisplayFilterInfo? result = await JsComponentReference.InvokeAsync<DisplayFilterInfo?>(
+            "getDisplayFilterInfo", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (DisplayFilterInfo is not null)
-            {
-                result.Id = DisplayFilterInfo.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             DisplayFilterInfo = result;
 #pragma warning restore BL0005
@@ -1103,9 +1085,8 @@ public partial class WFSLayer : Layer,
         }
         
         return DisplayFilterInfo;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Effect property.
     /// </summary>
@@ -1131,9 +1112,8 @@ public partial class WFSLayer : Layer,
             return Effect;
         }
 
-        Effect? result = await JsComponentReference.InvokeJsMethod<Effect?>(
-            IsServer, nameof(GetEffect), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Effect? result = await JsComponentReference.InvokeAsync<Effect?>(
+            "getEffect", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -1144,13 +1124,12 @@ public partial class WFSLayer : Layer,
         }
         
         return Effect;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ElevationInfo property.
     /// </summary>
-    public async Task<WFSLayerElevationInfo?> GetElevationInfo()
+    public async Task<ElevationInfo?> GetElevationInfo()
     {
         if (CoreJsModule is null)
         {
@@ -1172,18 +1151,11 @@ public partial class WFSLayer : Layer,
             return ElevationInfo;
         }
 
-        WFSLayerElevationInfo? result = await JsComponentReference.InvokeJsMethod<WFSLayerElevationInfo?>(
-            IsServer, nameof(GetElevationInfo), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        ElevationInfo? result = await JsComponentReference.InvokeAsync<ElevationInfo?>(
+            "getElevationInfo", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (ElevationInfo is not null)
-            {
-                result.Id = ElevationInfo.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             ElevationInfo = result;
 #pragma warning restore BL0005
@@ -1191,9 +1163,8 @@ public partial class WFSLayer : Layer,
         }
         
         return ElevationInfo;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureEffect property.
     /// </summary>
@@ -1219,18 +1190,11 @@ public partial class WFSLayer : Layer,
             return FeatureEffect;
         }
 
-        FeatureEffect? result = await JsComponentReference.InvokeJsMethod<FeatureEffect?>(
-            IsServer, nameof(GetFeatureEffect), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        FeatureEffect? result = await JsComponentReference.InvokeAsync<FeatureEffect?>(
+            "getFeatureEffect", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (FeatureEffect is not null)
-            {
-                result.Id = FeatureEffect.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             FeatureEffect = result;
 #pragma warning restore BL0005
@@ -1238,9 +1202,8 @@ public partial class WFSLayer : Layer,
         }
         
         return FeatureEffect;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureReduction property.
     /// </summary>
@@ -1267,21 +1230,19 @@ public partial class WFSLayer : Layer,
         }
 
         // get the property value
-        IFeatureReduction? result = await JsComponentReference!.InvokeJsMethod<IFeatureReduction?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit,
+        IFeatureReduction? result = await JsComponentReference!.InvokeAsync<IFeatureReduction?>("getProperty",
             CancellationTokenSource.Token, "featureReduction");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                FeatureReduction = result;
+             FeatureReduction = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(FeatureReduction)] = FeatureReduction;
+             ModifiedParameters[nameof(FeatureReduction)] = FeatureReduction;
         }
          
         return FeatureReduction;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Fields property.
     /// </summary>
@@ -1307,16 +1268,11 @@ public partial class WFSLayer : Layer,
             return Fields;
         }
 
-        IReadOnlyList<Field>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Field>?>(
-            IsServer, nameof(GetFields), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<Field>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Field>?>(
+            "getFields", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (Field item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             Fields = result;
 #pragma warning restore BL0005
@@ -1324,9 +1280,8 @@ public partial class WFSLayer : Layer,
         }
         
         return Fields;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the FieldsIndex property.
     /// </summary>
@@ -1352,9 +1307,8 @@ public partial class WFSLayer : Layer,
             return FieldsIndex;
         }
 
-        FieldsIndex? result = await JsComponentReference.InvokeJsMethod<FieldsIndex?>(
-            IsServer, nameof(GetFieldsIndex), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        FieldsIndex? result = await JsComponentReference.InvokeAsync<FieldsIndex?>(
+            "getFieldsIndex", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -1365,9 +1319,8 @@ public partial class WFSLayer : Layer,
         }
         
         return FieldsIndex;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the GeometryType property.
     /// </summary>
@@ -1394,21 +1347,19 @@ public partial class WFSLayer : Layer,
         }
 
         // get the property value
-        SimpleGeometryType? result = await JsComponentReference!.InvokeJsMethod<SimpleGeometryType?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "geometryType");
-        if (result is not null)
+        JsNullableEnumWrapper<SimpleGeometryType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SimpleGeometryType>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "geometryType");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                GeometryType = result;
+             GeometryType = (SimpleGeometryType)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(GeometryType)] = GeometryType;
+             ModifiedParameters[nameof(GeometryType)] = GeometryType;
         }
          
         return GeometryType;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelingInfo property.
     /// </summary>
@@ -1434,16 +1385,11 @@ public partial class WFSLayer : Layer,
             return LabelingInfo;
         }
 
-        IReadOnlyList<Label>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Label>?>(
-            IsServer, nameof(GetLabelingInfo), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<Label>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Label>?>(
+            "getLabelingInfo", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (Label item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             LabelingInfo = result;
 #pragma warning restore BL0005
@@ -1451,9 +1397,8 @@ public partial class WFSLayer : Layer,
         }
         
         return LabelingInfo;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelsVisible property.
     /// </summary>
@@ -1480,21 +1425,19 @@ public partial class WFSLayer : Layer,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "labelsVisible");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "labelsVisible");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                LabelsVisible = result;
+             LabelsVisible = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
+             ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
         }
          
         return LabelsVisible;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendEnabled property.
     /// </summary>
@@ -1521,21 +1464,19 @@ public partial class WFSLayer : Layer,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "legendEnabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "legendEnabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                LegendEnabled = result;
+             LegendEnabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
+             ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
         }
          
         return LegendEnabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxPageCount property.
     /// </summary>
@@ -1562,21 +1503,19 @@ public partial class WFSLayer : Layer,
         }
 
         // get the property value
-        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "maxPageCount");
-        if (result is not null)
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "maxPageCount");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MaxPageCount = result;
+             MaxPageCount = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MaxPageCount)] = MaxPageCount;
+             ModifiedParameters[nameof(MaxPageCount)] = MaxPageCount;
         }
          
         return MaxPageCount;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxRecordCount property.
     /// </summary>
@@ -1603,21 +1542,19 @@ public partial class WFSLayer : Layer,
         }
 
         // get the property value
-        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "maxRecordCount");
-        if (result is not null)
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "maxRecordCount");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MaxRecordCount = result;
+             MaxRecordCount = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MaxRecordCount)] = MaxRecordCount;
+             ModifiedParameters[nameof(MaxRecordCount)] = MaxRecordCount;
         }
          
         return MaxRecordCount;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -1644,21 +1581,19 @@ public partial class WFSLayer : Layer,
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "maxScale");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "maxScale");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MaxScale = result;
+             MaxScale = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MaxScale)] = MaxScale;
+             ModifiedParameters[nameof(MaxScale)] = MaxScale;
         }
          
         return MaxScale;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -1685,21 +1620,19 @@ public partial class WFSLayer : Layer,
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "minScale");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "minScale");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MinScale = result;
+             MinScale = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MinScale)] = MinScale;
+             ModifiedParameters[nameof(MinScale)] = MinScale;
         }
          
         return MinScale;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -1726,21 +1659,19 @@ public partial class WFSLayer : Layer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Name = result;
+             Name = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Name)] = Name;
+             ModifiedParameters[nameof(Name)] = Name;
         }
          
         return Name;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the NamespaceUri property.
     /// </summary>
@@ -1767,21 +1698,19 @@ public partial class WFSLayer : Layer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "namespaceUri");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                NamespaceUri = result;
+             NamespaceUri = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(NamespaceUri)] = NamespaceUri;
+             ModifiedParameters[nameof(NamespaceUri)] = NamespaceUri;
         }
          
         return NamespaceUri;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ObjectIdField property.
     /// </summary>
@@ -1808,21 +1737,19 @@ public partial class WFSLayer : Layer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "objectIdField");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                ObjectIdField = result;
+             ObjectIdField = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ObjectIdField)] = ObjectIdField;
+             ModifiedParameters[nameof(ObjectIdField)] = ObjectIdField;
         }
          
         return ObjectIdField;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the OrderBy property.
     /// </summary>
@@ -1848,16 +1775,11 @@ public partial class WFSLayer : Layer,
             return OrderBy;
         }
 
-        IReadOnlyList<OrderByInfo>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<OrderByInfo>?>(
-            IsServer, nameof(GetOrderBy), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<OrderByInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<OrderByInfo>?>(
+            "getOrderBy", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (OrderByInfo item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             OrderBy = result;
 #pragma warning restore BL0005
@@ -1865,9 +1787,8 @@ public partial class WFSLayer : Layer,
         }
         
         return OrderBy;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the OutFields property.
     /// </summary>
@@ -1894,21 +1815,19 @@ public partial class WFSLayer : Layer,
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, "outFields");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                OutFields = result;
+             OutFields = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(OutFields)] = OutFields;
+             ModifiedParameters[nameof(OutFields)] = OutFields;
         }
          
         return OutFields;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupEnabled property.
     /// </summary>
@@ -1935,21 +1854,19 @@ public partial class WFSLayer : Layer,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "popupEnabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "popupEnabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                PopupEnabled = result;
+             PopupEnabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
+             ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
         }
          
         return PopupEnabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupTemplate property.
     /// </summary>
@@ -1975,18 +1892,11 @@ public partial class WFSLayer : Layer,
             return PopupTemplate;
         }
 
-        PopupTemplate? result = await JsComponentReference.InvokeJsMethod<PopupTemplate?>(
-            IsServer, nameof(GetPopupTemplate), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        PopupTemplate? result = await JsComponentReference.InvokeAsync<PopupTemplate?>(
+            "getPopupTemplate", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (PopupTemplate is not null)
-            {
-                result.Id = PopupTemplate.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             PopupTemplate = result;
 #pragma warning restore BL0005
@@ -1994,9 +1904,8 @@ public partial class WFSLayer : Layer,
         }
         
         return PopupTemplate;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalItem property.
     /// </summary>
@@ -2022,9 +1931,8 @@ public partial class WFSLayer : Layer,
             return PortalItem;
         }
 
-        PortalItem? result = await JsComponentReference.InvokeJsMethod<PortalItem?>(
-            IsServer, nameof(GetPortalItem), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        PortalItem? result = await JsComponentReference.InvokeAsync<PortalItem?>(
+            "getPortalItem", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -2041,9 +1949,8 @@ public partial class WFSLayer : Layer,
         }
         
         return PortalItem;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the RefreshInterval property.
     /// </summary>
@@ -2070,21 +1977,19 @@ public partial class WFSLayer : Layer,
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "refreshInterval");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "refreshInterval");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                RefreshInterval = result;
+             RefreshInterval = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
+             ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
         }
          
         return RefreshInterval;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Renderer property.
     /// </summary>
@@ -2110,18 +2015,11 @@ public partial class WFSLayer : Layer,
             return Renderer;
         }
 
-        Renderer? result = await JsComponentReference.InvokeJsMethod<Renderer?>(
-            IsServer, nameof(GetRenderer), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Renderer? result = await JsComponentReference.InvokeAsync<Renderer?>(
+            "getRenderer", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (Renderer is not null)
-            {
-                result.Id = Renderer.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Renderer = result;
 #pragma warning restore BL0005
@@ -2129,9 +2027,8 @@ public partial class WFSLayer : Layer,
         }
         
         return Renderer;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ScreenSizePerspectiveEnabled property.
     /// </summary>
@@ -2158,21 +2055,19 @@ public partial class WFSLayer : Layer,
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "screenSizePerspectiveEnabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "screenSizePerspectiveEnabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ScreenSizePerspectiveEnabled = result;
+             ScreenSizePerspectiveEnabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ScreenSizePerspectiveEnabled)] = ScreenSizePerspectiveEnabled;
+             ModifiedParameters[nameof(ScreenSizePerspectiveEnabled)] = ScreenSizePerspectiveEnabled;
         }
          
         return ScreenSizePerspectiveEnabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -2198,9 +2093,8 @@ public partial class WFSLayer : Layer,
             return SpatialReference;
         }
 
-        SpatialReference? result = await JsComponentReference.InvokeJsMethod<SpatialReference?>(
-            IsServer, nameof(GetSpatialReference), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
+            "getSpatialReference", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -2211,9 +2105,8 @@ public partial class WFSLayer : Layer,
         }
         
         return SpatialReference;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the TrackInfo property.
     /// </summary>
@@ -2239,18 +2132,11 @@ public partial class WFSLayer : Layer,
             return TrackInfo;
         }
 
-        TrackInfo? result = await JsComponentReference.InvokeJsMethod<TrackInfo?>(
-            IsServer, nameof(GetTrackInfo), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        TrackInfo? result = await JsComponentReference.InvokeAsync<TrackInfo?>(
+            "getTrackInfo", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (TrackInfo is not null)
-            {
-                result.Id = TrackInfo.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             TrackInfo = result;
 #pragma warning restore BL0005
@@ -2258,9 +2144,8 @@ public partial class WFSLayer : Layer,
         }
         
         return TrackInfo;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -2287,21 +2172,19 @@ public partial class WFSLayer : Layer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "url");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Url = result;
+             Url = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Url)] = Url;
+             ModifiedParameters[nameof(Url)] = Url;
         }
          
         return Url;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the WfsCapabilities property.
     /// </summary>
@@ -2327,9 +2210,8 @@ public partial class WFSLayer : Layer,
             return WfsCapabilities;
         }
 
-        WFSCapabilities? result = await JsComponentReference.InvokeJsMethod<WFSCapabilities?>(
-            IsServer, nameof(GetWfsCapabilities), nameof(WFSLayer), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        WFSCapabilities? result = await JsComponentReference.InvokeAsync<WFSCapabilities?>(
+            "getWfsCapabilities", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -2340,9 +2222,8 @@ public partial class WFSLayer : Layer,
         }
         
         return WfsCapabilities;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -2382,9 +2263,8 @@ public partial class WFSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "blendMode", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Copyright property after render.
     /// </summary>
@@ -2420,9 +2300,8 @@ public partial class WFSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "copyright", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the CustomParameters property after render.
     /// </summary>
@@ -2458,9 +2337,8 @@ public partial class WFSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "customParameters", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DefinitionExpression property after render.
     /// </summary>
@@ -2496,9 +2374,8 @@ public partial class WFSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "definitionExpression", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DisplayField property after render.
     /// </summary>
@@ -2534,9 +2411,8 @@ public partial class WFSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "displayField", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DisplayFilterEnabled property after render.
     /// </summary>
@@ -2572,9 +2448,8 @@ public partial class WFSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "displayFilterEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DisplayFilterInfo property after render.
     /// </summary>
@@ -2583,6 +2458,11 @@ public partial class WFSLayer : Layer,
     /// </param>
     public async Task SetDisplayFilterInfo(DisplayFilterInfo? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         DisplayFilterInfo = value;
 #pragma warning restore BL0005
@@ -2592,11 +2472,6 @@ public partial class WFSLayer : Layer,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -2613,12 +2488,10 @@ public partial class WFSLayer : Layer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetDisplayFilterInfo), nameof(WFSLayer),
+        await JsComponentReference.InvokeVoidAsync("setDisplayFilterInfo", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Effect property after render.
     /// </summary>
@@ -2652,20 +2525,23 @@ public partial class WFSLayer : Layer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetEffect), nameof(WFSLayer),
+        await JsComponentReference.InvokeVoidAsync("setEffect", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ElevationInfo property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetElevationInfo(WFSLayerElevationInfo? value)
+    public async Task SetElevationInfo(ElevationInfo? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         ElevationInfo = value;
 #pragma warning restore BL0005
@@ -2675,11 +2551,6 @@ public partial class WFSLayer : Layer,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -2696,12 +2567,10 @@ public partial class WFSLayer : Layer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetElevationInfo), nameof(WFSLayer),
+        await JsComponentReference.InvokeVoidAsync("setElevationInfo", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the FeatureEffect property after render.
     /// </summary>
@@ -2710,6 +2579,11 @@ public partial class WFSLayer : Layer,
     /// </param>
     public async Task SetFeatureEffect(FeatureEffect? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         FeatureEffect = value;
 #pragma warning restore BL0005
@@ -2719,11 +2593,6 @@ public partial class WFSLayer : Layer,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -2740,12 +2609,10 @@ public partial class WFSLayer : Layer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetFeatureEffect), nameof(WFSLayer),
+        await JsComponentReference.InvokeVoidAsync("setFeatureEffect", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the FeatureReduction property after render.
     /// </summary>
@@ -2781,9 +2648,8 @@ public partial class WFSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featureReduction", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Fields property after render.
     /// </summary>
@@ -2792,6 +2658,14 @@ public partial class WFSLayer : Layer,
     /// </param>
     public async Task SetFields(IReadOnlyList<Field>? value)
     {
+        if (value is not null)
+        {
+            foreach (Field item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         Fields = value;
 #pragma warning restore BL0005
@@ -2801,14 +2675,6 @@ public partial class WFSLayer : Layer,
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (Field item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -2825,12 +2691,10 @@ public partial class WFSLayer : Layer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetFields), nameof(WFSLayer),
+        await JsComponentReference.InvokeVoidAsync("setFields", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LabelingInfo property after render.
     /// </summary>
@@ -2839,6 +2703,14 @@ public partial class WFSLayer : Layer,
     /// </param>
     public async Task SetLabelingInfo(IReadOnlyList<Label>? value)
     {
+        if (value is not null)
+        {
+            foreach (Label item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         LabelingInfo = value;
 #pragma warning restore BL0005
@@ -2848,14 +2720,6 @@ public partial class WFSLayer : Layer,
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (Label item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -2872,12 +2736,10 @@ public partial class WFSLayer : Layer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetLabelingInfo), nameof(WFSLayer),
+        await JsComponentReference.InvokeVoidAsync("setLabelingInfo", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LabelsVisible property after render.
     /// </summary>
@@ -2913,9 +2775,8 @@ public partial class WFSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelsVisible", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
@@ -2951,9 +2812,8 @@ public partial class WFSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MaxPageCount property after render.
     /// </summary>
@@ -2989,9 +2849,8 @@ public partial class WFSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxPageCount", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MaxRecordCount property after render.
     /// </summary>
@@ -3027,9 +2886,8 @@ public partial class WFSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxRecordCount", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -3065,9 +2923,8 @@ public partial class WFSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -3103,9 +2960,8 @@ public partial class WFSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
@@ -3141,9 +2997,8 @@ public partial class WFSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the NamespaceUri property after render.
     /// </summary>
@@ -3179,9 +3034,8 @@ public partial class WFSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "namespaceUri", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the OrderBy property after render.
     /// </summary>
@@ -3190,6 +3044,14 @@ public partial class WFSLayer : Layer,
     /// </param>
     public async Task SetOrderBy(IReadOnlyList<OrderByInfo>? value)
     {
+        if (value is not null)
+        {
+            foreach (OrderByInfo item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         OrderBy = value;
 #pragma warning restore BL0005
@@ -3199,14 +3061,6 @@ public partial class WFSLayer : Layer,
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (OrderByInfo item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -3223,12 +3077,10 @@ public partial class WFSLayer : Layer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetOrderBy), nameof(WFSLayer),
+        await JsComponentReference.InvokeVoidAsync("setOrderBy", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the OutFields property after render.
     /// </summary>
@@ -3264,9 +3116,8 @@ public partial class WFSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outFields", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PersistenceEnabled property after render.
     /// </summary>
@@ -3302,9 +3153,8 @@ public partial class WFSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "persistenceEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
@@ -3340,9 +3190,8 @@ public partial class WFSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PopupTemplate property after render.
     /// </summary>
@@ -3351,6 +3200,11 @@ public partial class WFSLayer : Layer,
     /// </param>
     public async Task SetPopupTemplate(PopupTemplate? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         PopupTemplate = value;
 #pragma warning restore BL0005
@@ -3360,11 +3214,6 @@ public partial class WFSLayer : Layer,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -3381,12 +3230,10 @@ public partial class WFSLayer : Layer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetPopupTemplate), nameof(WFSLayer),
+        await JsComponentReference.InvokeVoidAsync("setPopupTemplate", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
@@ -3395,6 +3242,11 @@ public partial class WFSLayer : Layer,
     /// </param>
     public async Task SetPortalItem(PortalItem? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         PortalItem = value;
 #pragma warning restore BL0005
@@ -3404,11 +3256,6 @@ public partial class WFSLayer : Layer,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -3425,12 +3272,10 @@ public partial class WFSLayer : Layer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetPortalItem), nameof(WFSLayer),
+        await JsComponentReference.InvokeVoidAsync("setPortalItem", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the RefreshInterval property after render.
     /// </summary>
@@ -3466,9 +3311,8 @@ public partial class WFSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "refreshInterval", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Renderer property after render.
     /// </summary>
@@ -3477,6 +3321,11 @@ public partial class WFSLayer : Layer,
     /// </param>
     public async Task SetRenderer(Renderer? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Renderer = value;
 #pragma warning restore BL0005
@@ -3486,11 +3335,6 @@ public partial class WFSLayer : Layer,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -3507,12 +3351,10 @@ public partial class WFSLayer : Layer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetRenderer), nameof(WFSLayer),
+        await JsComponentReference.InvokeVoidAsync("setRenderer", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ScreenSizePerspectiveEnabled property after render.
     /// </summary>
@@ -3548,9 +3390,8 @@ public partial class WFSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "screenSizePerspectiveEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SpatialReference property after render.
     /// </summary>
@@ -3559,6 +3400,11 @@ public partial class WFSLayer : Layer,
     /// </param>
     public async Task SetSpatialReference(SpatialReference? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         SpatialReference = value;
 #pragma warning restore BL0005
@@ -3568,11 +3414,6 @@ public partial class WFSLayer : Layer,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -3589,12 +3430,10 @@ public partial class WFSLayer : Layer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetSpatialReference), nameof(WFSLayer),
+        await JsComponentReference.InvokeVoidAsync("setSpatialReference", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the TrackInfo property after render.
     /// </summary>
@@ -3603,6 +3442,11 @@ public partial class WFSLayer : Layer,
     /// </param>
     public async Task SetTrackInfo(TrackInfo? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         TrackInfo = value;
 #pragma warning restore BL0005
@@ -3612,11 +3456,6 @@ public partial class WFSLayer : Layer,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -3633,12 +3472,10 @@ public partial class WFSLayer : Layer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetTrackInfo), nameof(WFSLayer),
+        await JsComponentReference.InvokeVoidAsync("setTrackInfo", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -3674,9 +3511,8 @@ public partial class WFSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
-
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -3693,7 +3529,6 @@ public partial class WFSLayer : Layer,
             ? values
             : [..Fields, ..values];
         await SetFields(join);
-
     }
     
     /// <summary>
@@ -3708,7 +3543,6 @@ public partial class WFSLayer : Layer,
             ? values
             : [..LabelingInfo, ..values];
         await SetLabelingInfo(join);
-
     }
     
     /// <summary>
@@ -3723,7 +3557,6 @@ public partial class WFSLayer : Layer,
             ? values
             : [..OrderBy, ..values];
         await SetOrderBy(join);
-
     }
     
     /// <summary>
@@ -3738,7 +3571,6 @@ public partial class WFSLayer : Layer,
             ? values
             : [..OutFields, ..values];
         await SetOutFields(join);
-
     }
     
 #endregion
@@ -3759,7 +3591,6 @@ public partial class WFSLayer : Layer,
             return;
         }
         await SetFields(Fields.Except(values).ToArray());
-
     }
     
     
@@ -3776,7 +3607,6 @@ public partial class WFSLayer : Layer,
             return;
         }
         await SetLabelingInfo(LabelingInfo.Except(values).ToArray());
-
     }
     
     
@@ -3793,7 +3623,6 @@ public partial class WFSLayer : Layer,
             return;
         }
         await SetOrderBy(OrderBy.Except(values).ToArray());
-
     }
     
     
@@ -3810,7 +3639,6 @@ public partial class WFSLayer : Layer,
             return;
         }
         await SetOutFields(OutFields.Except(values).ToArray());
-
     }
     
 #endregion
@@ -3846,14 +3674,8 @@ public partial class WFSLayer : Layer,
             return;
         }
         
-        if (AbortManager is null || AbortManager.Disposed)
-        {
-            AbortManager = new AbortManager(CoreJsModule);
-        }
-        
-        
-        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
-            nameof(Refresh), nameof(WFSLayer), 
+        await JsComponentReference!.InvokeVoidAsync(
+            "refresh", 
             CancellationTokenSource.Token);
     }
     
@@ -3873,7 +3695,7 @@ public partial class WFSLayer : Layer,
             return;
         }
     
-        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<RefreshEvent>();
+        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReference<RefreshEvent>();
         if (refreshEvent is not null)
         {
             await OnRefresh.InvokeAsync(refreshEvent);
@@ -3914,7 +3736,7 @@ public partial class WFSLayer : Layer,
                 }
                 
                 return true;
-            case WFSLayerElevationInfo elevationInfo:
+            case ElevationInfo elevationInfo:
                 if (elevationInfo != ElevationInfo)
                 {
                     ElevationInfo = elevationInfo;
@@ -4051,7 +3873,7 @@ public partial class WFSLayer : Layer,
                 DisplayFilterInfo = null;
                 ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
                 return true;
-            case WFSLayerElevationInfo:
+            case ElevationInfo _:
                 ElevationInfo = null;
                 ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
                 return true;

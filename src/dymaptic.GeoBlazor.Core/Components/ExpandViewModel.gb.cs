@@ -48,7 +48,7 @@ public partial class ExpandViewModel : MapComponent
         AutoCollapse = autoCollapse;
         Expanded = expanded;
         Group = group;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -129,21 +129,19 @@ public partial class ExpandViewModel : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ExpandViewModel), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "autoCollapse");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "autoCollapse");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                AutoCollapse = result;
+             AutoCollapse = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(AutoCollapse)] = AutoCollapse;
+             ModifiedParameters[nameof(AutoCollapse)] = AutoCollapse;
         }
          
         return AutoCollapse;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Expanded property.
     /// </summary>
@@ -170,21 +168,19 @@ public partial class ExpandViewModel : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ExpandViewModel), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "expanded");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "expanded");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Expanded = result;
+             Expanded = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Expanded)] = Expanded;
+             ModifiedParameters[nameof(Expanded)] = Expanded;
         }
          
         return Expanded;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Group property.
     /// </summary>
@@ -211,21 +207,19 @@ public partial class ExpandViewModel : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ExpandViewModel), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "group");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Group = result;
+             Group = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Group)] = Group;
+             ModifiedParameters[nameof(Group)] = Group;
         }
          
         return Group;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -252,21 +246,19 @@ public partial class ExpandViewModel : MapComponent
         }
 
         // get the property value
-        ViewModelState? result = await JsComponentReference!.InvokeJsMethod<ViewModelState?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ExpandViewModel), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "state");
-        if (result is not null)
+        JsNullableEnumWrapper<ViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ViewModelState>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "state");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                State = result;
+             State = (ViewModelState)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(State)] = State;
+             ModifiedParameters[nameof(State)] = State;
         }
          
         return State;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -306,9 +298,8 @@ public partial class ExpandViewModel : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "autoCollapse", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Expanded property after render.
     /// </summary>
@@ -344,9 +335,8 @@ public partial class ExpandViewModel : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "expanded", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Group property after render.
     /// </summary>
@@ -382,9 +372,8 @@ public partial class ExpandViewModel : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "group", value);
-
     }
-
+    
 #endregion
 
 }

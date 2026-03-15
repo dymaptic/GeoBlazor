@@ -32,7 +32,7 @@ public partial class WebSceneWidgets : MapComponent
         AllowRender = false;
 #pragma warning disable BL0005
         TimeSlider = timeSlider;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -77,9 +77,8 @@ public partial class WebSceneWidgets : MapComponent
             return TimeSlider;
         }
 
-        WebDocTimeSlider? result = await JsComponentReference.InvokeJsMethod<WebDocTimeSlider?>(
-            IsServer, nameof(GetTimeSlider), nameof(WebSceneWidgets), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        WebDocTimeSlider? result = await JsComponentReference.InvokeAsync<WebDocTimeSlider?>(
+            "getTimeSlider", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -90,9 +89,8 @@ public partial class WebSceneWidgets : MapComponent
         }
         
         return TimeSlider;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -130,12 +128,10 @@ public partial class WebSceneWidgets : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetTimeSlider), nameof(WebSceneWidgets),
+        await JsComponentReference.InvokeVoidAsync("setTimeSlider", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
 #endregion
 
 }

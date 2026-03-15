@@ -54,7 +54,7 @@ public partial record PortalQueryParams(
     double? Start = null)
 {
     /// <summary>
-    ///     Parameterless Constructor
+    ///     Parameterless constructor
     /// </summary>
     public PortalQueryParams(): this(null, null)
     {

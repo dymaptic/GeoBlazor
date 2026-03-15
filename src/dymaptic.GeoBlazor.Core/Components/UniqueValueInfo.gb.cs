@@ -44,7 +44,7 @@ public partial class UniqueValueInfo
         Label = label;
         Symbol = symbol;
         Value = value;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -90,21 +90,19 @@ public partial class UniqueValueInfo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValueInfo), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "label");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Label = result;
+             Label = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Label)] = Label;
+             ModifiedParameters[nameof(Label)] = Label;
         }
          
         return Label;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Value property.
     /// </summary>
@@ -131,21 +129,19 @@ public partial class UniqueValueInfo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValueInfo), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "value");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Value = result;
+             Value = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Value)] = Value;
+             ModifiedParameters[nameof(Value)] = Value;
         }
          
         return Value;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -185,9 +181,8 @@ public partial class UniqueValueInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "label", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Value property after render.
     /// </summary>
@@ -223,9 +218,8 @@ public partial class UniqueValueInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value", value);
-
     }
-
+    
 #endregion
 
 

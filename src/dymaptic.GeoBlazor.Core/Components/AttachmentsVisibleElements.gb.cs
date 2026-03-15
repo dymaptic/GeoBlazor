@@ -74,7 +74,7 @@ public partial class AttachmentsVisibleElements : MapComponent
         ErrorMessage = errorMessage;
         ProgressBar = progressBar;
         UpdateButton = updateButton;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -190,21 +190,19 @@ public partial class AttachmentsVisibleElements : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "addButton");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "addButton");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                AddButton = result;
+             AddButton = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(AddButton)] = AddButton;
+             ModifiedParameters[nameof(AddButton)] = AddButton;
         }
          
         return AddButton;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the AddSubmitButton property.
     /// </summary>
@@ -231,21 +229,19 @@ public partial class AttachmentsVisibleElements : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "addSubmitButton");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "addSubmitButton");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                AddSubmitButton = result;
+             AddSubmitButton = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(AddSubmitButton)] = AddSubmitButton;
+             ModifiedParameters[nameof(AddSubmitButton)] = AddSubmitButton;
         }
          
         return AddSubmitButton;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the CancelAddButton property.
     /// </summary>
@@ -272,21 +268,19 @@ public partial class AttachmentsVisibleElements : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "cancelAddButton");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "cancelAddButton");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                CancelAddButton = result;
+             CancelAddButton = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(CancelAddButton)] = CancelAddButton;
+             ModifiedParameters[nameof(CancelAddButton)] = CancelAddButton;
         }
          
         return CancelAddButton;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the CancelUpdateButton property.
     /// </summary>
@@ -313,21 +307,19 @@ public partial class AttachmentsVisibleElements : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "cancelUpdateButton");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "cancelUpdateButton");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                CancelUpdateButton = result;
+             CancelUpdateButton = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(CancelUpdateButton)] = CancelUpdateButton;
+             ModifiedParameters[nameof(CancelUpdateButton)] = CancelUpdateButton;
         }
          
         return CancelUpdateButton;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the DeleteButton property.
     /// </summary>
@@ -354,21 +346,19 @@ public partial class AttachmentsVisibleElements : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "deleteButton");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "deleteButton");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                DeleteButton = result;
+             DeleteButton = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(DeleteButton)] = DeleteButton;
+             ModifiedParameters[nameof(DeleteButton)] = DeleteButton;
         }
          
         return DeleteButton;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ErrorMessage property.
     /// </summary>
@@ -395,21 +385,19 @@ public partial class AttachmentsVisibleElements : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "errorMessage");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "errorMessage");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ErrorMessage = result;
+             ErrorMessage = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ErrorMessage)] = ErrorMessage;
+             ModifiedParameters[nameof(ErrorMessage)] = ErrorMessage;
         }
          
         return ErrorMessage;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ProgressBar property.
     /// </summary>
@@ -436,21 +424,19 @@ public partial class AttachmentsVisibleElements : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "progressBar");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "progressBar");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ProgressBar = result;
+             ProgressBar = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ProgressBar)] = ProgressBar;
+             ModifiedParameters[nameof(ProgressBar)] = ProgressBar;
         }
          
         return ProgressBar;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the UpdateButton property.
     /// </summary>
@@ -477,21 +463,19 @@ public partial class AttachmentsVisibleElements : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsVisibleElements), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "updateButton");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "updateButton");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                UpdateButton = result;
+             UpdateButton = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(UpdateButton)] = UpdateButton;
+             ModifiedParameters[nameof(UpdateButton)] = UpdateButton;
         }
          
         return UpdateButton;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -531,9 +515,8 @@ public partial class AttachmentsVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "addButton", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the AddSubmitButton property after render.
     /// </summary>
@@ -569,9 +552,8 @@ public partial class AttachmentsVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "addSubmitButton", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the CancelAddButton property after render.
     /// </summary>
@@ -607,9 +589,8 @@ public partial class AttachmentsVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "cancelAddButton", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the CancelUpdateButton property after render.
     /// </summary>
@@ -645,9 +626,8 @@ public partial class AttachmentsVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "cancelUpdateButton", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the DeleteButton property after render.
     /// </summary>
@@ -683,9 +663,8 @@ public partial class AttachmentsVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "deleteButton", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ErrorMessage property after render.
     /// </summary>
@@ -721,9 +700,8 @@ public partial class AttachmentsVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "errorMessage", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ProgressBar property after render.
     /// </summary>
@@ -759,9 +737,8 @@ public partial class AttachmentsVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "progressBar", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the UpdateButton property after render.
     /// </summary>
@@ -797,9 +774,8 @@ public partial class AttachmentsVisibleElements : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "updateButton", value);
-
     }
-
+    
 #endregion
 
 }

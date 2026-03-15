@@ -51,7 +51,7 @@ public partial class Bookmark
         TimeExtent = timeExtent;
         Thumbnail = thumbnail;
         Viewpoint = viewpoint;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -107,21 +107,19 @@ public partial class Bookmark
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Bookmark), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Name = result;
+             Name = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Name)] = Name;
+             ModifiedParameters[nameof(Name)] = Name;
         }
          
         return Name;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Thumbnail property.
     /// </summary>
@@ -148,21 +146,19 @@ public partial class Bookmark
         }
 
         // get the property value
-        BookmarkThumbnail? result = await JsComponentReference!.InvokeJsMethod<BookmarkThumbnail?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Bookmark), View?.QueryResultsMaxSizeLimit,
+        BookmarkThumbnail? result = await JsComponentReference!.InvokeAsync<BookmarkThumbnail?>("getProperty",
             CancellationTokenSource.Token, "thumbnail");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Thumbnail = result;
+             Thumbnail = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Thumbnail)] = Thumbnail;
+             ModifiedParameters[nameof(Thumbnail)] = Thumbnail;
         }
          
         return Thumbnail;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeExtent property.
     /// </summary>
@@ -188,9 +184,8 @@ public partial class Bookmark
             return TimeExtent;
         }
 
-        TimeExtent? result = await JsComponentReference.InvokeJsMethod<TimeExtent?>(
-            IsServer, nameof(GetTimeExtent), nameof(Bookmark), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        TimeExtent? result = await JsComponentReference.InvokeAsync<TimeExtent?>(
+            "getTimeExtent", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -207,9 +202,8 @@ public partial class Bookmark
         }
         
         return TimeExtent;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Viewpoint property.
     /// </summary>
@@ -235,18 +229,11 @@ public partial class Bookmark
             return Viewpoint;
         }
 
-        Viewpoint? result = await JsComponentReference.InvokeJsMethod<Viewpoint?>(
-            IsServer, nameof(GetViewpoint), nameof(Bookmark), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Viewpoint? result = await JsComponentReference.InvokeAsync<Viewpoint?>(
+            "getViewpoint", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (Viewpoint is not null)
-            {
-                result.Id = Viewpoint.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Viewpoint = result;
 #pragma warning restore BL0005
@@ -254,9 +241,8 @@ public partial class Bookmark
         }
         
         return Viewpoint;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -296,9 +282,8 @@ public partial class Bookmark
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Thumbnail property after render.
     /// </summary>
@@ -334,9 +319,8 @@ public partial class Bookmark
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "thumbnail", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the TimeExtent property after render.
     /// </summary>
@@ -345,6 +329,11 @@ public partial class Bookmark
     /// </param>
     public async Task SetTimeExtent(TimeExtent? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         TimeExtent = value;
 #pragma warning restore BL0005
@@ -354,11 +343,6 @@ public partial class Bookmark
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -377,9 +361,8 @@ public partial class Bookmark
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "timeExtent", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Viewpoint property after render.
     /// </summary>
@@ -388,6 +371,11 @@ public partial class Bookmark
     /// </param>
     public async Task SetViewpoint(Viewpoint? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Viewpoint = value;
 #pragma warning restore BL0005
@@ -397,11 +385,6 @@ public partial class Bookmark
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -420,9 +403,8 @@ public partial class Bookmark
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "viewpoint", value);
-
     }
-
+    
 #endregion
 
 

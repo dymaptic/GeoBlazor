@@ -96,21 +96,19 @@ public abstract partial class SearchSource
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "autoNavigate");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "autoNavigate");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                AutoNavigate = result;
+             AutoNavigate = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(AutoNavigate)] = AutoNavigate;
+             ModifiedParameters[nameof(AutoNavigate)] = AutoNavigate;
         }
          
         return AutoNavigate;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Filter property.
     /// </summary>
@@ -136,9 +134,8 @@ public abstract partial class SearchSource
             return Filter;
         }
 
-        SearchSourceFilter? result = await JsComponentReference.InvokeJsMethod<SearchSourceFilter?>(
-            IsServer, nameof(GetFilter), nameof(SearchSource), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        SearchSourceFilter? result = await JsComponentReference.InvokeAsync<SearchSourceFilter?>(
+            "getFilter", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -149,50 +146,8 @@ public abstract partial class SearchSource
         }
         
         return Filter;
-
     }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the GetSuggestionsHandler property.
-    /// </summary>
-    public async Task<GetSuggestionsHandler?> GetGetSuggestionsHandler()
-    {
-        if (CoreJsModule is null)
-        {
-            return GetSuggestionsHandler;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return GetSuggestionsHandler;
-        }
-
-        // get the property value
-        GetSuggestionsHandler? result = await JsComponentReference!.InvokeJsMethod<GetSuggestionsHandler?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "getSuggestions");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-                GetSuggestionsHandler = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(GetSuggestionsHandler)] = GetSuggestionsHandler;
-        }
-         
-        return GetSuggestionsHandler;
-
-    }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxResults property.
     /// </summary>
@@ -219,21 +174,19 @@ public abstract partial class SearchSource
         }
 
         // get the property value
-        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "maxResults");
-        if (result is not null)
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "maxResults");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MaxResults = result;
+             MaxResults = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MaxResults)] = MaxResults;
+             ModifiedParameters[nameof(MaxResults)] = MaxResults;
         }
          
         return MaxResults;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxSuggestions property.
     /// </summary>
@@ -260,21 +213,19 @@ public abstract partial class SearchSource
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "maxSuggestions");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "maxSuggestions");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MaxSuggestions = result;
+             MaxSuggestions = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MaxSuggestions)] = MaxSuggestions;
+             ModifiedParameters[nameof(MaxSuggestions)] = MaxSuggestions;
         }
          
         return MaxSuggestions;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinSuggestCharacters property.
     /// </summary>
@@ -301,21 +252,19 @@ public abstract partial class SearchSource
         }
 
         // get the property value
-        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "minSuggestCharacters");
-        if (result is not null)
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "minSuggestCharacters");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                MinSuggestCharacters = result;
+             MinSuggestCharacters = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(MinSuggestCharacters)] = MinSuggestCharacters;
+             ModifiedParameters[nameof(MinSuggestCharacters)] = MinSuggestCharacters;
         }
          
         return MinSuggestCharacters;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the OutFields property.
     /// </summary>
@@ -342,21 +291,19 @@ public abstract partial class SearchSource
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, "outFields");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                OutFields = result;
+             OutFields = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(OutFields)] = OutFields;
+             ModifiedParameters[nameof(OutFields)] = OutFields;
         }
          
         return OutFields;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Placeholder property.
     /// </summary>
@@ -383,21 +330,19 @@ public abstract partial class SearchSource
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "placeholder");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Placeholder = result;
+             Placeholder = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Placeholder)] = Placeholder;
+             ModifiedParameters[nameof(Placeholder)] = Placeholder;
         }
          
         return Placeholder;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupEnabled property.
     /// </summary>
@@ -424,21 +369,19 @@ public abstract partial class SearchSource
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "popupEnabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "popupEnabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                PopupEnabled = result;
+             PopupEnabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
+             ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
         }
          
         return PopupEnabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupTemplate property.
     /// </summary>
@@ -464,18 +407,11 @@ public abstract partial class SearchSource
             return PopupTemplate;
         }
 
-        PopupTemplate? result = await JsComponentReference.InvokeJsMethod<PopupTemplate?>(
-            IsServer, nameof(GetPopupTemplate), nameof(SearchSource), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        PopupTemplate? result = await JsComponentReference.InvokeAsync<PopupTemplate?>(
+            "getPopupTemplate", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (PopupTemplate is not null)
-            {
-                result.Id = PopupTemplate.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             PopupTemplate = result;
 #pragma warning restore BL0005
@@ -483,9 +419,8 @@ public abstract partial class SearchSource
         }
         
         return PopupTemplate;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Prefix property.
     /// </summary>
@@ -512,21 +447,19 @@ public abstract partial class SearchSource
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "prefix");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Prefix = result;
+             Prefix = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Prefix)] = Prefix;
+             ModifiedParameters[nameof(Prefix)] = Prefix;
         }
          
         return Prefix;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ResultGraphicEnabled property.
     /// </summary>
@@ -553,21 +486,19 @@ public abstract partial class SearchSource
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "resultGraphicEnabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "resultGraphicEnabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ResultGraphicEnabled = result;
+             ResultGraphicEnabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ResultGraphicEnabled)] = ResultGraphicEnabled;
+             ModifiedParameters[nameof(ResultGraphicEnabled)] = ResultGraphicEnabled;
         }
          
         return ResultGraphicEnabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ResultSymbol property.
     /// </summary>
@@ -593,18 +524,11 @@ public abstract partial class SearchSource
             return ResultSymbol;
         }
 
-        Symbol? result = await JsComponentReference.InvokeJsMethod<Symbol?>(
-            IsServer, nameof(GetResultSymbol), nameof(SearchSource), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
+            "getResultSymbol", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (ResultSymbol is not null)
-            {
-                result.Id = ResultSymbol.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             ResultSymbol = result;
 #pragma warning restore BL0005
@@ -612,9 +536,8 @@ public abstract partial class SearchSource
         }
         
         return ResultSymbol;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Suffix property.
     /// </summary>
@@ -641,21 +564,19 @@ public abstract partial class SearchSource
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "suffix");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Suffix = result;
+             Suffix = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Suffix)] = Suffix;
+             ModifiedParameters[nameof(Suffix)] = Suffix;
         }
          
         return Suffix;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SuggestionsEnabled property.
     /// </summary>
@@ -682,21 +603,19 @@ public abstract partial class SearchSource
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "suggestionsEnabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "suggestionsEnabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SuggestionsEnabled = result;
+             SuggestionsEnabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SuggestionsEnabled)] = SuggestionsEnabled;
+             ModifiedParameters[nameof(SuggestionsEnabled)] = SuggestionsEnabled;
         }
          
         return SuggestionsEnabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the WithinViewEnabled property.
     /// </summary>
@@ -723,21 +642,19 @@ public abstract partial class SearchSource
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "withinViewEnabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "withinViewEnabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                WithinViewEnabled = result;
+             WithinViewEnabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(WithinViewEnabled)] = WithinViewEnabled;
+             ModifiedParameters[nameof(WithinViewEnabled)] = WithinViewEnabled;
         }
          
         return WithinViewEnabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ZoomScale property.
     /// </summary>
@@ -764,21 +681,19 @@ public abstract partial class SearchSource
         }
 
         // get the property value
-        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "zoomScale");
-        if (result is not null)
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "zoomScale");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ZoomScale = result;
+             ZoomScale = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ZoomScale)] = ZoomScale;
+             ModifiedParameters[nameof(ZoomScale)] = ZoomScale;
         }
          
         return ZoomScale;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -818,9 +733,8 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "autoNavigate", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Filter property after render.
     /// </summary>
@@ -856,47 +770,8 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "filter", value);
-
     }
-
-    /// <summary>
-    ///    Asynchronously set the value of the GetSuggestionsHandler property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetGetSuggestionsHandler(GetSuggestionsHandler? value)
-    {
-#pragma warning disable BL0005
-        GetSuggestionsHandler = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(GetSuggestionsHandler)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
     
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "getSuggestions", value);
-
-    }
-
     /// <summary>
     ///    Asynchronously set the value of the MaxResults property after render.
     /// </summary>
@@ -932,9 +807,8 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxResults", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MaxSuggestions property after render.
     /// </summary>
@@ -970,9 +844,8 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxSuggestions", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the MinSuggestCharacters property after render.
     /// </summary>
@@ -1008,9 +881,8 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minSuggestCharacters", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the OutFields property after render.
     /// </summary>
@@ -1046,9 +918,8 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outFields", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Placeholder property after render.
     /// </summary>
@@ -1084,9 +955,8 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "placeholder", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
@@ -1122,9 +992,8 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the PopupTemplate property after render.
     /// </summary>
@@ -1133,6 +1002,11 @@ public abstract partial class SearchSource
     /// </param>
     public async Task SetPopupTemplate(PopupTemplate? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         PopupTemplate = value;
 #pragma warning restore BL0005
@@ -1142,11 +1016,6 @@ public abstract partial class SearchSource
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -1165,9 +1034,8 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupTemplate", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Prefix property after render.
     /// </summary>
@@ -1203,9 +1071,8 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "prefix", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ResultGraphicEnabled property after render.
     /// </summary>
@@ -1241,9 +1108,8 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "resultGraphicEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ResultSymbol property after render.
     /// </summary>
@@ -1252,6 +1118,11 @@ public abstract partial class SearchSource
     /// </param>
     public async Task SetResultSymbol(Symbol? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         ResultSymbol = value;
 #pragma warning restore BL0005
@@ -1261,11 +1132,6 @@ public abstract partial class SearchSource
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -1284,9 +1150,8 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "resultSymbol", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Suffix property after render.
     /// </summary>
@@ -1322,9 +1187,8 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "suffix", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SuggestionsEnabled property after render.
     /// </summary>
@@ -1360,9 +1224,8 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "suggestionsEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the WithinViewEnabled property after render.
     /// </summary>
@@ -1398,9 +1261,8 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "withinViewEnabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ZoomScale property after render.
     /// </summary>
@@ -1436,9 +1298,8 @@ public abstract partial class SearchSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "zoomScale", value);
-
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -1455,7 +1316,6 @@ public abstract partial class SearchSource
             ? values
             : [..OutFields, ..values];
         await SetOutFields(join);
-
     }
     
 #endregion
@@ -1476,7 +1336,6 @@ public abstract partial class SearchSource
             return;
         }
         await SetOutFields(OutFields.Except(values).ToArray());
-
     }
     
 #endregion
@@ -1517,7 +1376,7 @@ public abstract partial class SearchSource
                 PopupTemplate = null;
                 ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 return true;
-            case Symbol:
+            case Symbol _:
                 ResultSymbol = null;
                 ModifiedParameters[nameof(ResultSymbol)] = ResultSymbol;
                 return true;

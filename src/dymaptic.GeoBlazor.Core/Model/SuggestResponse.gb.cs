@@ -17,6 +17,9 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <param name="NumResults">
 ///     The number of search results.
 /// </param>
+/// <param name="SuggestTerm">
+///     The suggested expression.
+/// </param>
 /// <param name="Results">
 ///     An array of objects representing the results of suggest.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SuggestResponse">ArcGIS Maps SDK for JavaScript</a>
@@ -28,6 +31,7 @@ public partial record SuggestResponse(
     int? ActiveSourceIndex,
     IReadOnlyCollection<SuggestResults> Errors,
     double? NumResults,
+    string SuggestTerm,
     IReadOnlyCollection<SuggestResults> Results,
     string? SearchTerm) : BaseSearchResponse(
     ActiveSourceIndex,

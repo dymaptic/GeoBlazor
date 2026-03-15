@@ -20,7 +20,7 @@ public partial record WFSCapabilities(
     WFSOperations? Operations = null)
 {
     /// <summary>
-    ///     Parameterless Constructor
+    ///     Parameterless constructor
     /// </summary>
     public WFSCapabilities(): this(null, null)
     {

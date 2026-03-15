@@ -53,7 +53,7 @@ public partial class MeshComponent : MapComponent
         Material = material;
         Name = name;
         Shading = shading;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -131,21 +131,19 @@ public partial class MeshComponent : MapComponent
         }
 
         // get the property value
-        byte[]? result = await JsComponentReference!.InvokeJsMethod<byte[]?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshComponent), View?.QueryResultsMaxSizeLimit,
+        byte[]? result = await JsComponentReference!.InvokeAsync<byte[]?>("getProperty",
             CancellationTokenSource.Token, "faces");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Faces = result;
+             Faces = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Faces)] = Faces;
+             ModifiedParameters[nameof(Faces)] = Faces;
         }
          
         return Faces;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -172,21 +170,19 @@ public partial class MeshComponent : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshComponent), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Name = result;
+             Name = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Name)] = Name;
+             ModifiedParameters[nameof(Name)] = Name;
         }
          
         return Name;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Shading property.
     /// </summary>
@@ -213,21 +209,19 @@ public partial class MeshComponent : MapComponent
         }
 
         // get the property value
-        MeshShading? result = await JsComponentReference!.InvokeJsMethod<MeshShading?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshComponent), View?.QueryResultsMaxSizeLimit,
+        MeshShading? result = await JsComponentReference!.InvokeAsync<MeshShading?>("getProperty",
             CancellationTokenSource.Token, "shading");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Shading = result;
+             Shading = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Shading)] = Shading;
+             ModifiedParameters[nameof(Shading)] = Shading;
         }
          
         return Shading;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -267,9 +261,8 @@ public partial class MeshComponent : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "faces", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Material property after render.
     /// </summary>
@@ -278,6 +271,11 @@ public partial class MeshComponent : MapComponent
     /// </param>
     public async Task SetMaterial(IMeshComponentMaterial? value)
     {
+        if (value is not null)
+        {
+            ((MapComponent)value).UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Material = value;
 #pragma warning restore BL0005
@@ -303,11 +301,10 @@ public partial class MeshComponent : MapComponent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "material", value);
-
+        await JsComponentReference.InvokeVoidAsync("setMaterial", 
+            CancellationTokenSource.Token, value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
@@ -343,9 +340,8 @@ public partial class MeshComponent : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Shading property after render.
     /// </summary>
@@ -381,9 +377,8 @@ public partial class MeshComponent : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "shading", value);
-
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -400,7 +395,6 @@ public partial class MeshComponent : MapComponent
             ? values
             : [..Faces, ..values];
         await SetFaces(join);
-
     }
     
 #endregion
@@ -421,9 +415,49 @@ public partial class MeshComponent : MapComponent
             return;
         }
         await SetFaces(Faces.Except(values).ToArray());
-
     }
     
 #endregion
 
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case IMeshComponentMaterial material:
+                if (material != Material)
+                {
+                    Material = material;
+                    ModifiedParameters[nameof(Material)] = Material;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case IMeshComponentMaterial _:
+                Material = null;
+                ModifiedParameters[nameof(Material)] = Material;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        Material?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

@@ -38,7 +38,7 @@ public partial class DynamicDataLayerFields : MapComponent
 #pragma warning disable BL0005
         Alias = alias;
         Name = name;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -94,21 +94,19 @@ public partial class DynamicDataLayerFields : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DynamicDataLayerFields), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "alias");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Alias = result;
+             Alias = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Alias)] = Alias;
+             ModifiedParameters[nameof(Alias)] = Alias;
         }
          
         return Alias;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -135,21 +133,19 @@ public partial class DynamicDataLayerFields : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DynamicDataLayerFields), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Name = result;
+             Name = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Name)] = Name;
+             ModifiedParameters[nameof(Name)] = Name;
         }
          
         return Name;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -189,9 +185,8 @@ public partial class DynamicDataLayerFields : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "alias", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
@@ -227,9 +222,8 @@ public partial class DynamicDataLayerFields : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
-
     }
-
+    
 #endregion
 
 }

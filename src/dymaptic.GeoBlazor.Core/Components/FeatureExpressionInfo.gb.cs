@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureExpressionInfo.html">GeoBlazor Docs</a>
 ///     Defines how to override a feature's Z-value based on its attributes.
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class FeatureExpressionInfo : MapComponent
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -28,17 +30,18 @@ public partial class FeatureExpressionInfo : MapComponent
     ///     Title of the expression.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-support-FeatureExpressionInfo.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public FeatureExpressionInfo(string? expression = null,
+    public FeatureExpressionInfo(
+        string? expression = null,
         string? title = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Expression = expression;
         Title = title;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -50,7 +53,7 @@ public partial class FeatureExpressionInfo : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Expression { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureExpressionInfo.html#featureexpressioninfotitle-property">GeoBlazor Docs</a>
     ///     Title of the expression.
@@ -60,9 +63,8 @@ public partial class FeatureExpressionInfo : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -75,8 +77,8 @@ public partial class FeatureExpressionInfo : MapComponent
         {
             return Expression;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -85,7 +87,7 @@ public partial class FeatureExpressionInfo : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Expression;
@@ -94,18 +96,17 @@ public partial class FeatureExpressionInfo : MapComponent
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "expression");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Expression = result;
+             Expression = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Expression)] = Expression;
+             ModifiedParameters[nameof(Expression)] = Expression;
         }
-
+         
         return Expression;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -115,8 +116,8 @@ public partial class FeatureExpressionInfo : MapComponent
         {
             return Title;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -125,7 +126,7 @@ public partial class FeatureExpressionInfo : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Title;
@@ -134,20 +135,18 @@ public partial class FeatureExpressionInfo : MapComponent
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "title");
-
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Title = result;
+             Title = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Title)] = Title;
+             ModifiedParameters[nameof(Title)] = Title;
         }
-
+         
         return Title;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -163,13 +162,13 @@ public partial class FeatureExpressionInfo : MapComponent
         Expression = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Expression)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -178,16 +177,16 @@ public partial class FeatureExpressionInfo : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "expression", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -200,13 +199,13 @@ public partial class FeatureExpressionInfo : MapComponent
         Title = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Title)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -215,15 +214,16 @@ public partial class FeatureExpressionInfo : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
     }
-
+    
 #endregion
+
 }

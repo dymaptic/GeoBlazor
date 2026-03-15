@@ -20,85 +20,6 @@ public partial class ListItem
     {
     }
 
-    /// <summary>
-    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
-    /// </summary>
-    /// <param name="actionsOpen">
-    ///     Whether the actions panel is open in the LayerList.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#actionsOpen">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="actionsSections">
-    ///     A nested 2-dimensional collection of actions that could be triggered on the item.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#actionsSections">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="childrenSortable">
-    ///     Indicates if the children of a list item (or sublayers in a GroupLayer) can be sorted or moved/reordered.
-    ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#childrenSortable">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="hidden">
-    ///     When `true`, hides the layer from the LayerList instance.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#hidden">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="listModeDisabled">
-    ///     Specifies whether to ignore the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">listMode</a> property of the child layers in the list item.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#listModeDisabled">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="open">
-    ///     Whether the layer is open in the LayerList.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#open">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="sortable">
-    ///     Indicates if the list item (or layer in the map) can be sorted or moved/reordered.
-    ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#sortable">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="title">
-    ///     The title of the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#title">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="layer">
-    ///     The layer associated with the triggered action.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#layer">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="visible">
-    ///     Indicates if the ListItem is visible.
-    ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#visible">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    public ListItem(
-        bool? actionsOpen = null,
-        ActionBase[][]? actionsSections = null,
-        bool? childrenSortable = null,
-        bool? hidden = null,
-        bool? listModeDisabled = null,
-        bool? open = null,
-        bool? sortable = null,
-        string? title = null,
-        Layer? layer = null,
-        bool? visible = null)
-    {
-        AllowRender = false;
-#pragma warning disable BL0005
-        ActionsOpen = actionsOpen;
-        ActionsSections = actionsSections;
-        ChildrenSortable = childrenSortable;
-        Hidden = hidden;
-        ListModeDisabled = listModeDisabled;
-        Open = open;
-        Sortable = sortable;
-        Title = title;
-        Layer = layer;
-        Visible = visible;
-#pragma warning restore BL0005
-    }
-    
-    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -334,21 +255,19 @@ public partial class ListItem
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "actionsOpen");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "actionsOpen");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ActionsOpen = result;
+             ActionsOpen = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ActionsOpen)] = ActionsOpen;
+             ModifiedParameters[nameof(ActionsOpen)] = ActionsOpen;
         }
          
         return ActionsOpen;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ActionsSections property.
     /// </summary>
@@ -374,16 +293,11 @@ public partial class ListItem
             return ActionsSections;
         }
 
-        ActionBase[][]? result = await JsComponentReference.InvokeJsMethod<ActionBase[][]?>(
-            IsServer, nameof(GetActionsSections), nameof(ListItem), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        ActionBase[][]? result = await JsComponentReference.InvokeAsync<ActionBase[][]?>(
+            "getActionsSections", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (ActionBase item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             ActionsSections = result;
 #pragma warning restore BL0005
@@ -391,9 +305,8 @@ public partial class ListItem
         }
         
         return ActionsSections;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ChildrenSortable property.
     /// </summary>
@@ -420,21 +333,19 @@ public partial class ListItem
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "childrenSortable");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "childrenSortable");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ChildrenSortable = result;
+             ChildrenSortable = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ChildrenSortable)] = ChildrenSortable;
+             ModifiedParameters[nameof(ChildrenSortable)] = ChildrenSortable;
         }
          
         return ChildrenSortable;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ConnectionStatus property.
     /// </summary>
@@ -461,21 +372,19 @@ public partial class ListItem
         }
 
         // get the property value
-        ConnectionStatus? result = await JsComponentReference!.InvokeJsMethod<ConnectionStatus?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "connectionStatus");
-        if (result is not null)
+        JsNullableEnumWrapper<ConnectionStatus>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ConnectionStatus>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "connectionStatus");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ConnectionStatus = result;
+             ConnectionStatus = (ConnectionStatus)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ConnectionStatus)] = ConnectionStatus;
+             ModifiedParameters[nameof(ConnectionStatus)] = ConnectionStatus;
         }
          
         return ConnectionStatus;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Error property.
     /// </summary>
@@ -502,21 +411,19 @@ public partial class ListItem
         }
 
         // get the property value
-        Error? result = await JsComponentReference!.InvokeJsMethod<Error?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
+        Error? result = await JsComponentReference!.InvokeAsync<Error?>("getProperty",
             CancellationTokenSource.Token, "error");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Error = result;
+             Error = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Error)] = Error;
+             ModifiedParameters[nameof(Error)] = Error;
         }
          
         return Error;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Hidden property.
     /// </summary>
@@ -543,21 +450,19 @@ public partial class ListItem
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "hidden");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "hidden");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Hidden = result;
+             Hidden = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Hidden)] = Hidden;
+             ModifiedParameters[nameof(Hidden)] = Hidden;
         }
          
         return Hidden;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Incompatible property.
     /// </summary>
@@ -584,21 +489,19 @@ public partial class ListItem
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "incompatible");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "incompatible");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Incompatible = result;
+             Incompatible = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Incompatible)] = Incompatible;
+             ModifiedParameters[nameof(Incompatible)] = Incompatible;
         }
          
         return Incompatible;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Layer property.
     /// </summary>
@@ -624,9 +527,8 @@ public partial class ListItem
             return Layer;
         }
 
-        Layer? result = await JsComponentReference.InvokeJsMethod<Layer?>(
-            IsServer, nameof(GetLayer), nameof(ListItem), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        Layer? result = await JsComponentReference.InvokeAsync<Layer?>(
+            "getLayer", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -643,9 +545,8 @@ public partial class ListItem
         }
         
         return Layer;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LayerView property.
     /// </summary>
@@ -671,9 +572,8 @@ public partial class ListItem
             return LayerView;
         }
 
-        LayerView? result = await JsComponentReference.InvokeJsMethod<LayerView?>(
-            IsServer, nameof(GetLayerView), nameof(ListItem), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        LayerView? result = await JsComponentReference.InvokeAsync<LayerView?>(
+            "getLayerView", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -690,9 +590,8 @@ public partial class ListItem
         }
         
         return LayerView;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ListModeDisabled property.
     /// </summary>
@@ -719,21 +618,19 @@ public partial class ListItem
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "listModeDisabled");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "listModeDisabled");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ListModeDisabled = result;
+             ListModeDisabled = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ListModeDisabled)] = ListModeDisabled;
+             ModifiedParameters[nameof(ListModeDisabled)] = ListModeDisabled;
         }
          
         return ListModeDisabled;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Open property.
     /// </summary>
@@ -760,21 +657,19 @@ public partial class ListItem
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "open");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "open");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Open = result;
+             Open = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Open)] = Open;
+             ModifiedParameters[nameof(Open)] = Open;
         }
          
         return Open;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Publishing property.
     /// </summary>
@@ -801,21 +696,19 @@ public partial class ListItem
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "publishing");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "publishing");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Publishing = result;
+             Publishing = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Publishing)] = Publishing;
+             ModifiedParameters[nameof(Publishing)] = Publishing;
         }
          
         return Publishing;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Sortable property.
     /// </summary>
@@ -842,21 +735,19 @@ public partial class ListItem
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "sortable");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "sortable");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Sortable = result;
+             Sortable = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Sortable)] = Sortable;
+             ModifiedParameters[nameof(Sortable)] = Sortable;
         }
          
         return Sortable;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -883,21 +774,19 @@ public partial class ListItem
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Title = result;
+             Title = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Title)] = Title;
+             ModifiedParameters[nameof(Title)] = Title;
         }
          
         return Title;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Updating property.
     /// </summary>
@@ -924,21 +813,19 @@ public partial class ListItem
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "updating");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "updating");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Updating = result;
+             Updating = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Updating)] = Updating;
+             ModifiedParameters[nameof(Updating)] = Updating;
         }
          
         return Updating;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibilityMode property.
     /// </summary>
@@ -965,21 +852,19 @@ public partial class ListItem
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "visibilityMode");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                VisibilityMode = result;
+             VisibilityMode = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(VisibilityMode)] = VisibilityMode;
+             ModifiedParameters[nameof(VisibilityMode)] = VisibilityMode;
         }
          
         return VisibilityMode;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibleAtCurrentScale property.
     /// </summary>
@@ -1006,21 +891,19 @@ public partial class ListItem
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "visibleAtCurrentScale");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "visibleAtCurrentScale");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                VisibleAtCurrentScale = result;
+             VisibleAtCurrentScale = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(VisibleAtCurrentScale)] = VisibleAtCurrentScale;
+             ModifiedParameters[nameof(VisibleAtCurrentScale)] = VisibleAtCurrentScale;
         }
          
         return VisibleAtCurrentScale;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibleAtCurrentTimeExtent property.
     /// </summary>
@@ -1047,21 +930,19 @@ public partial class ListItem
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "visibleAtCurrentTimeExtent");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "visibleAtCurrentTimeExtent");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                VisibleAtCurrentTimeExtent = result;
+             VisibleAtCurrentTimeExtent = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(VisibleAtCurrentTimeExtent)] = VisibleAtCurrentTimeExtent;
+             ModifiedParameters[nameof(VisibleAtCurrentTimeExtent)] = VisibleAtCurrentTimeExtent;
         }
          
         return VisibleAtCurrentTimeExtent;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -1101,9 +982,8 @@ public partial class ListItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "actionsOpen", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ChildrenSortable property after render.
     /// </summary>
@@ -1139,9 +1019,8 @@ public partial class ListItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "childrenSortable", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Hidden property after render.
     /// </summary>
@@ -1177,9 +1056,8 @@ public partial class ListItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "hidden", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Layer property after render.
     /// </summary>
@@ -1188,6 +1066,11 @@ public partial class ListItem
     /// </param>
     public async Task SetLayer(Layer? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Layer = value;
 #pragma warning restore BL0005
@@ -1197,11 +1080,6 @@ public partial class ListItem
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -1218,12 +1096,10 @@ public partial class ListItem
             return;
         }
         
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetLayer), nameof(ListItem),
+        await JsComponentReference.InvokeVoidAsync("setLayer", 
             CancellationTokenSource.Token, value);
- 
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ListModeDisabled property after render.
     /// </summary>
@@ -1259,9 +1135,8 @@ public partial class ListItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "listModeDisabled", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Open property after render.
     /// </summary>
@@ -1297,9 +1172,8 @@ public partial class ListItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "open", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Sortable property after render.
     /// </summary>
@@ -1335,9 +1209,8 @@ public partial class ListItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sortable", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -1373,9 +1246,8 @@ public partial class ListItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
-
     }
-
+    
 #endregion
 
 
@@ -1435,7 +1307,7 @@ public partial class ListItem
                 Children = Children?.Where(c => c != children).ToList();
                 ModifiedParameters[nameof(Children)] = Children;
                 return true;
-            case ListItemPanelWidget:
+            case ListItemPanelWidget _:
                 Panel = null;
                 ModifiedParameters[nameof(Panel)] = Panel;
                 return true;

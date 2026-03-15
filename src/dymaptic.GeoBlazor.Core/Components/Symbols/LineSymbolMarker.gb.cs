@@ -46,7 +46,7 @@ public partial class LineSymbolMarker
         Color = color;
         Placement = placement;
         Style = style;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     

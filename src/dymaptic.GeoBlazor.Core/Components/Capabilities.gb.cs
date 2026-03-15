@@ -84,7 +84,7 @@ public partial class Capabilities : MapComponent
         QueryAttributeBins = queryAttributeBins;
         QueryRelated = queryRelated;
         QueryTopFeatures = queryTopFeatures;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -218,9 +218,8 @@ public partial class Capabilities : MapComponent
             return Analytics;
         }
 
-        CapabilitiesAnalytics? result = await JsComponentReference.InvokeJsMethod<CapabilitiesAnalytics?>(
-            IsServer, nameof(GetAnalytics), nameof(Capabilities), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        CapabilitiesAnalytics? result = await JsComponentReference.InvokeAsync<CapabilitiesAnalytics?>(
+            "getAnalytics", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -231,9 +230,8 @@ public partial class Capabilities : MapComponent
         }
         
         return Analytics;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Attachment property.
     /// </summary>
@@ -259,18 +257,11 @@ public partial class Capabilities : MapComponent
             return Attachment;
         }
 
-        CapabilitiesAttachment? result = await JsComponentReference.InvokeJsMethod<CapabilitiesAttachment?>(
-            IsServer, nameof(GetAttachment), nameof(Capabilities), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        CapabilitiesAttachment? result = await JsComponentReference.InvokeAsync<CapabilitiesAttachment?>(
+            "getAttachment", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            if (Attachment is not null)
-            {
-                result.Id = Attachment.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
             Attachment = result;
 #pragma warning restore BL0005
@@ -278,9 +269,8 @@ public partial class Capabilities : MapComponent
         }
         
         return Attachment;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Data property.
     /// </summary>
@@ -306,9 +296,8 @@ public partial class Capabilities : MapComponent
             return Data;
         }
 
-        CapabilitiesData? result = await JsComponentReference.InvokeJsMethod<CapabilitiesData?>(
-            IsServer, nameof(GetData), nameof(Capabilities), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        CapabilitiesData? result = await JsComponentReference.InvokeAsync<CapabilitiesData?>(
+            "getData", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -319,9 +308,8 @@ public partial class Capabilities : MapComponent
         }
         
         return Data;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Editing property.
     /// </summary>
@@ -347,9 +335,8 @@ public partial class Capabilities : MapComponent
             return Editing;
         }
 
-        CapabilitiesEditing? result = await JsComponentReference.InvokeJsMethod<CapabilitiesEditing?>(
-            IsServer, nameof(GetEditing), nameof(Capabilities), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        CapabilitiesEditing? result = await JsComponentReference.InvokeAsync<CapabilitiesEditing?>(
+            "getEditing", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -360,9 +347,8 @@ public partial class Capabilities : MapComponent
         }
         
         return Editing;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Metadata property.
     /// </summary>
@@ -388,9 +374,8 @@ public partial class Capabilities : MapComponent
             return Metadata;
         }
 
-        CapabilitiesMetadata? result = await JsComponentReference.InvokeJsMethod<CapabilitiesMetadata?>(
-            IsServer, nameof(GetMetadata), nameof(Capabilities), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        CapabilitiesMetadata? result = await JsComponentReference.InvokeAsync<CapabilitiesMetadata?>(
+            "getMetadata", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -401,9 +386,8 @@ public partial class Capabilities : MapComponent
         }
         
         return Metadata;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Operations property.
     /// </summary>
@@ -429,9 +413,8 @@ public partial class Capabilities : MapComponent
             return Operations;
         }
 
-        CapabilitiesOperations? result = await JsComponentReference.InvokeJsMethod<CapabilitiesOperations?>(
-            IsServer, nameof(GetOperations), nameof(Capabilities), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        CapabilitiesOperations? result = await JsComponentReference.InvokeAsync<CapabilitiesOperations?>(
+            "getOperations", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -442,9 +425,8 @@ public partial class Capabilities : MapComponent
         }
         
         return Operations;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Query property.
     /// </summary>
@@ -471,21 +453,19 @@ public partial class Capabilities : MapComponent
         }
 
         // get the property value
-        CapabilitiesQuery? result = await JsComponentReference!.InvokeJsMethod<CapabilitiesQuery?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Capabilities), View?.QueryResultsMaxSizeLimit,
+        CapabilitiesQuery? result = await JsComponentReference!.InvokeAsync<CapabilitiesQuery?>("getProperty",
             CancellationTokenSource.Token, "query");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Query = result;
+             Query = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Query)] = Query;
+             ModifiedParameters[nameof(Query)] = Query;
         }
          
         return Query;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the QueryAttributeBins property.
     /// </summary>
@@ -511,9 +491,8 @@ public partial class Capabilities : MapComponent
             return QueryAttributeBins;
         }
 
-        CapabilitiesQueryAttributeBins? result = await JsComponentReference.InvokeJsMethod<CapabilitiesQueryAttributeBins?>(
-            IsServer, nameof(GetQueryAttributeBins), nameof(Capabilities), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        CapabilitiesQueryAttributeBins? result = await JsComponentReference.InvokeAsync<CapabilitiesQueryAttributeBins?>(
+            "getQueryAttributeBins", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -524,9 +503,8 @@ public partial class Capabilities : MapComponent
         }
         
         return QueryAttributeBins;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the QueryRelated property.
     /// </summary>
@@ -552,9 +530,8 @@ public partial class Capabilities : MapComponent
             return QueryRelated;
         }
 
-        CapabilitiesQueryRelated? result = await JsComponentReference.InvokeJsMethod<CapabilitiesQueryRelated?>(
-            IsServer, nameof(GetQueryRelated), nameof(Capabilities), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        CapabilitiesQueryRelated? result = await JsComponentReference.InvokeAsync<CapabilitiesQueryRelated?>(
+            "getQueryRelated", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -565,9 +542,8 @@ public partial class Capabilities : MapComponent
         }
         
         return QueryRelated;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the QueryTopFeatures property.
     /// </summary>
@@ -593,9 +569,8 @@ public partial class Capabilities : MapComponent
             return QueryTopFeatures;
         }
 
-        CapabilitiesQueryTopFeatures? result = await JsComponentReference.InvokeJsMethod<CapabilitiesQueryTopFeatures?>(
-            IsServer, nameof(GetQueryTopFeatures), nameof(Capabilities), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        CapabilitiesQueryTopFeatures? result = await JsComponentReference.InvokeAsync<CapabilitiesQueryTopFeatures?>(
+            "getQueryTopFeatures", CancellationTokenSource.Token);
         
         if (result is not null)
         {
@@ -606,9 +581,8 @@ public partial class Capabilities : MapComponent
         }
         
         return QueryTopFeatures;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -621,6 +595,11 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetAnalytics(CapabilitiesAnalytics? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Analytics = value;
 #pragma warning restore BL0005
@@ -630,11 +609,6 @@ public partial class Capabilities : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -653,9 +627,8 @@ public partial class Capabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "analytics", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Attachment property after render.
     /// </summary>
@@ -664,6 +637,11 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetAttachment(CapabilitiesAttachment? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Attachment = value;
 #pragma warning restore BL0005
@@ -673,11 +651,6 @@ public partial class Capabilities : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -696,9 +669,8 @@ public partial class Capabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "attachment", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Data property after render.
     /// </summary>
@@ -707,6 +679,11 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetData(CapabilitiesData? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Data = value;
 #pragma warning restore BL0005
@@ -716,11 +693,6 @@ public partial class Capabilities : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -739,9 +711,8 @@ public partial class Capabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "data", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Editing property after render.
     /// </summary>
@@ -750,6 +721,11 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetEditing(CapabilitiesEditing? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Editing = value;
 #pragma warning restore BL0005
@@ -759,11 +735,6 @@ public partial class Capabilities : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -782,9 +753,8 @@ public partial class Capabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "editing", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Metadata property after render.
     /// </summary>
@@ -793,6 +763,11 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetMetadata(CapabilitiesMetadata? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Metadata = value;
 #pragma warning restore BL0005
@@ -802,11 +777,6 @@ public partial class Capabilities : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -825,9 +795,8 @@ public partial class Capabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "metadata", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Operations property after render.
     /// </summary>
@@ -836,6 +805,11 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetOperations(CapabilitiesOperations? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         Operations = value;
 #pragma warning restore BL0005
@@ -845,11 +819,6 @@ public partial class Capabilities : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -868,9 +837,8 @@ public partial class Capabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "operations", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Query property after render.
     /// </summary>
@@ -906,9 +874,8 @@ public partial class Capabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "query", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the QueryAttributeBins property after render.
     /// </summary>
@@ -917,6 +884,11 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetQueryAttributeBins(CapabilitiesQueryAttributeBins? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         QueryAttributeBins = value;
 #pragma warning restore BL0005
@@ -926,11 +898,6 @@ public partial class Capabilities : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -949,9 +916,8 @@ public partial class Capabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "queryAttributeBins", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the QueryRelated property after render.
     /// </summary>
@@ -960,6 +926,11 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetQueryRelated(CapabilitiesQueryRelated? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         QueryRelated = value;
 #pragma warning restore BL0005
@@ -969,11 +940,6 @@ public partial class Capabilities : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -992,9 +958,8 @@ public partial class Capabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "queryRelated", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the QueryTopFeatures property after render.
     /// </summary>
@@ -1003,6 +968,11 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetQueryTopFeatures(CapabilitiesQueryTopFeatures? value)
     {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
 #pragma warning disable BL0005
         QueryTopFeatures = value;
 #pragma warning restore BL0005
@@ -1012,11 +982,6 @@ public partial class Capabilities : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
     
         try 
         {
@@ -1035,9 +1000,8 @@ public partial class Capabilities : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "queryTopFeatures", value);
-
     }
-
+    
 #endregion
 
 
@@ -1128,39 +1092,39 @@ public partial class Capabilities : MapComponent
     {
         switch (child)
         {
-            case CapabilitiesAnalytics:
+            case CapabilitiesAnalytics _:
                 Analytics = null;
                 ModifiedParameters[nameof(Analytics)] = Analytics;
                 return true;
-            case CapabilitiesAttachment:
+            case CapabilitiesAttachment _:
                 Attachment = null;
                 ModifiedParameters[nameof(Attachment)] = Attachment;
                 return true;
-            case CapabilitiesData:
+            case CapabilitiesData _:
                 Data = null;
                 ModifiedParameters[nameof(Data)] = Data;
                 return true;
-            case CapabilitiesEditing:
+            case CapabilitiesEditing _:
                 Editing = null;
                 ModifiedParameters[nameof(Editing)] = Editing;
                 return true;
-            case CapabilitiesMetadata:
+            case CapabilitiesMetadata _:
                 Metadata = null;
                 ModifiedParameters[nameof(Metadata)] = Metadata;
                 return true;
-            case CapabilitiesOperations:
+            case CapabilitiesOperations _:
                 Operations = null;
                 ModifiedParameters[nameof(Operations)] = Operations;
                 return true;
-            case CapabilitiesQueryAttributeBins:
+            case CapabilitiesQueryAttributeBins _:
                 QueryAttributeBins = null;
                 ModifiedParameters[nameof(QueryAttributeBins)] = QueryAttributeBins;
                 return true;
-            case CapabilitiesQueryRelated:
+            case CapabilitiesQueryRelated _:
                 QueryRelated = null;
                 ModifiedParameters[nameof(QueryRelated)] = QueryRelated;
                 return true;
-            case CapabilitiesQueryTopFeatures:
+            case CapabilitiesQueryTopFeatures _:
                 QueryTopFeatures = null;
                 ModifiedParameters[nameof(QueryTopFeatures)] = QueryTopFeatures;
                 return true;

@@ -85,7 +85,7 @@ public partial class CapabilitiesOperations : MapComponent
         SupportsResizeAttachments = supportsResizeAttachments;
         SupportsUpdate = supportsUpdate;
         SupportsValidateSql = supportsValidateSql;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -220,21 +220,19 @@ public partial class CapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsAdd");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsAdd");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsAdd = result;
+             SupportsAdd = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsAdd)] = SupportsAdd;
+             ModifiedParameters[nameof(SupportsAdd)] = SupportsAdd;
         }
          
         return SupportsAdd;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsCalculate property.
     /// </summary>
@@ -261,21 +259,19 @@ public partial class CapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsCalculate");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsCalculate");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsCalculate = result;
+             SupportsCalculate = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsCalculate)] = SupportsCalculate;
+             ModifiedParameters[nameof(SupportsCalculate)] = SupportsCalculate;
         }
          
         return SupportsCalculate;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsDelete property.
     /// </summary>
@@ -302,21 +298,19 @@ public partial class CapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsDelete");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsDelete");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsDelete = result;
+             SupportsDelete = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsDelete)] = SupportsDelete;
+             ModifiedParameters[nameof(SupportsDelete)] = SupportsDelete;
         }
          
         return SupportsDelete;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsEditing property.
     /// </summary>
@@ -343,21 +337,19 @@ public partial class CapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsEditing");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsEditing");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsEditing = result;
+             SupportsEditing = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsEditing)] = SupportsEditing;
+             ModifiedParameters[nameof(SupportsEditing)] = SupportsEditing;
         }
          
         return SupportsEditing;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsQuery property.
     /// </summary>
@@ -384,21 +376,19 @@ public partial class CapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsQuery");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsQuery");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsQuery = result;
+             SupportsQuery = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsQuery)] = SupportsQuery;
+             ModifiedParameters[nameof(SupportsQuery)] = SupportsQuery;
         }
          
         return SupportsQuery;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsQueryAttachments property.
     /// </summary>
@@ -425,21 +415,19 @@ public partial class CapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsQueryAttachments");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsQueryAttachments");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsQueryAttachments = result;
+             SupportsQueryAttachments = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsQueryAttachments)] = SupportsQueryAttachments;
+             ModifiedParameters[nameof(SupportsQueryAttachments)] = SupportsQueryAttachments;
         }
          
         return SupportsQueryAttachments;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsQueryTopFeatures property.
     /// </summary>
@@ -466,21 +454,19 @@ public partial class CapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsQueryTopFeatures");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsQueryTopFeatures");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsQueryTopFeatures = result;
+             SupportsQueryTopFeatures = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsQueryTopFeatures)] = SupportsQueryTopFeatures;
+             ModifiedParameters[nameof(SupportsQueryTopFeatures)] = SupportsQueryTopFeatures;
         }
          
         return SupportsQueryTopFeatures;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsResizeAttachments property.
     /// </summary>
@@ -507,21 +493,19 @@ public partial class CapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsResizeAttachments");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsResizeAttachments");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsResizeAttachments = result;
+             SupportsResizeAttachments = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsResizeAttachments)] = SupportsResizeAttachments;
+             ModifiedParameters[nameof(SupportsResizeAttachments)] = SupportsResizeAttachments;
         }
          
         return SupportsResizeAttachments;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsUpdate property.
     /// </summary>
@@ -548,21 +532,19 @@ public partial class CapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsUpdate");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsUpdate");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsUpdate = result;
+             SupportsUpdate = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsUpdate)] = SupportsUpdate;
+             ModifiedParameters[nameof(SupportsUpdate)] = SupportsUpdate;
         }
          
         return SupportsUpdate;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsValidateSql property.
     /// </summary>
@@ -589,21 +571,19 @@ public partial class CapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "supportsValidateSql");
-        if (result is not null)
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "supportsValidateSql");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                SupportsValidateSql = result;
+             SupportsValidateSql = result.Value.Value;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(SupportsValidateSql)] = SupportsValidateSql;
+             ModifiedParameters[nameof(SupportsValidateSql)] = SupportsValidateSql;
         }
          
         return SupportsValidateSql;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -643,9 +623,8 @@ public partial class CapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsAdd", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsCalculate property after render.
     /// </summary>
@@ -681,9 +660,8 @@ public partial class CapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsCalculate", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsDelete property after render.
     /// </summary>
@@ -719,9 +697,8 @@ public partial class CapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsDelete", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsEditing property after render.
     /// </summary>
@@ -757,9 +734,8 @@ public partial class CapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsEditing", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsQuery property after render.
     /// </summary>
@@ -795,9 +771,8 @@ public partial class CapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsQuery", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsQueryAttachments property after render.
     /// </summary>
@@ -833,9 +808,8 @@ public partial class CapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsQueryAttachments", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsQueryTopFeatures property after render.
     /// </summary>
@@ -871,9 +845,8 @@ public partial class CapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsQueryTopFeatures", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsResizeAttachments property after render.
     /// </summary>
@@ -909,9 +882,8 @@ public partial class CapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsResizeAttachments", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsUpdate property after render.
     /// </summary>
@@ -947,9 +919,8 @@ public partial class CapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsUpdate", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the SupportsValidateSql property after render.
     /// </summary>
@@ -985,9 +956,8 @@ public partial class CapabilitiesOperations : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsValidateSql", value);
-
     }
-
+    
 #endregion
 
 }

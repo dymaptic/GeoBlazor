@@ -40,117 +40,14 @@ public partial class GraphicsLayerView : LayerView,
     {
         AllowRender = false;
 #pragma warning disable BL0005
-#pragma warning disable CS0618
+#pragma warning disable CS0618 // Type or member is obsolete
         HighlightOptions = highlightOptions;
+#pragma warning restore CS0618 // Type or member is obsolete
         Visible = visible;
-#pragma warning restore BL0005
-#pragma warning restore CS0618
+#pragma warning restore BL0005    
     }
     
     
-#region Property Getters
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the HighlightOptions property.
-    /// </summary>
-    [Obsolete("$Deprecated since GeoBlazor version 4.4.0. Use the {nameof(MapView.Highlights)} property instead.")]
-    public async Task<HighlightOptions?> GetHighlightOptions()
-    {
-#pragma warning disable CS0618
-        if (CoreJsModule is null)
-        {
-            return HighlightOptions;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return HighlightOptions;
-        }
-
-        HighlightOptions? result = await JsComponentReference.InvokeJsMethod<HighlightOptions?>(
-            IsServer, nameof(GetHighlightOptions), nameof(GraphicsLayerView), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            if (HighlightOptions is not null)
-            {
-                result.Id = HighlightOptions.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
-#pragma warning disable BL0005
-            HighlightOptions = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
-        }
-        
-        return HighlightOptions;
-#pragma warning restore CS0618
-    }
-
-#endregion
-
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the HighlightOptions property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    [Obsolete("$Deprecated since GeoBlazor version 4.4.0. Use the {nameof(MapView.Highlights)} property instead.")]
-    public async Task SetHighlightOptions(HighlightOptions? value)
-    {
-#pragma warning disable CS0618
-#pragma warning disable BL0005
-        HighlightOptions = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(HighlightOptions)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidJsMethod(IsServer,
-            nameof(SetHighlightOptions), nameof(GraphicsLayerView),
-            CancellationTokenSource.Token, value);
- #pragma warning restore CS0618
-    }
-
-#endregion
-
 #region Public Methods
 
 #endregion

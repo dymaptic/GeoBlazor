@@ -2,6 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ElevationInfo.html">GeoBlazor Docs</a>
 ///     Specifies how elements like features, observers, targets or flow are placed on the vertical axis (z).
@@ -9,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class ElevationInfo : MapComponent
 {
+
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
@@ -36,7 +38,8 @@ public partial class ElevationInfo : MapComponent
     ///     The unit for `featureExpressionInfo` and `offset` values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-support-ElevationInfo.html#unit">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public ElevationInfo(FeatureExpressionInfo? featureExpressionInfo = null,
+    public ElevationInfo(
+        FeatureExpressionInfo? featureExpressionInfo = null,
         ElevationInfoMode? mode = null,
         double? offset = null,
         ElevationUnit? unit = null)
@@ -47,50 +50,10 @@ public partial class ElevationInfo : MapComponent
         Mode = mode;
         Offset = offset;
         Unit = unit;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
-
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-        FeatureExpressionInfo?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case FeatureExpressionInfo featureExpressionInfo:
-                if (featureExpressionInfo != FeatureExpressionInfo)
-                {
-                    FeatureExpressionInfo = featureExpressionInfo;
-                    ModifiedParameters[nameof(FeatureExpressionInfo)] = FeatureExpressionInfo;
-                }
-
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case FeatureExpressionInfo _:
-                FeatureExpressionInfo = null;
-                ModifiedParameters[nameof(FeatureExpressionInfo)] = FeatureExpressionInfo;
-
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-
-
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -102,7 +65,7 @@ public partial class ElevationInfo : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public FeatureExpressionInfo? FeatureExpressionInfo { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ElevationInfo.html#elevationinfomode-property">GeoBlazor Docs</a>
     ///     Defines how the element is placed with respect to the terrain surface or 3D objects in the scene.
@@ -112,7 +75,7 @@ public partial class ElevationInfo : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ElevationInfoMode? Mode { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ElevationInfo.html#elevationinfooffset-property">GeoBlazor Docs</a>
     ///     An elevation offset, which is added to the vertical position of the element.
@@ -122,7 +85,7 @@ public partial class ElevationInfo : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Offset { get; set; }
-
+    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ElevationInfo.html#elevationinfounit-property">GeoBlazor Docs</a>
     ///     The unit for `featureExpressionInfo` and `offset` values.
@@ -132,9 +95,8 @@ public partial class ElevationInfo : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ElevationUnit? Unit { get; set; }
-
+    
 #endregion
-
 
 #region Property Getters
 
@@ -147,8 +109,8 @@ public partial class ElevationInfo : MapComponent
         {
             return FeatureExpressionInfo;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -157,7 +119,7 @@ public partial class ElevationInfo : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return FeatureExpressionInfo;
@@ -165,7 +127,7 @@ public partial class ElevationInfo : MapComponent
 
         FeatureExpressionInfo? result = await JsComponentReference.InvokeAsync<FeatureExpressionInfo?>(
             "getFeatureExpressionInfo", CancellationTokenSource.Token);
-
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -173,10 +135,10 @@ public partial class ElevationInfo : MapComponent
 #pragma warning restore BL0005
             ModifiedParameters[nameof(FeatureExpressionInfo)] = FeatureExpressionInfo;
         }
-
+        
         return FeatureExpressionInfo;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Mode property.
     /// </summary>
@@ -186,8 +148,8 @@ public partial class ElevationInfo : MapComponent
         {
             return Mode;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -196,28 +158,26 @@ public partial class ElevationInfo : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Mode;
         }
 
         // get the property value
-        JsNullableEnumWrapper<ElevationInfoMode>? result =
-            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ElevationInfoMode>?>("getNullableValueTypedProperty",
-                CancellationTokenSource.Token, JsComponentReference, "mode");
-
+        JsNullableEnumWrapper<ElevationInfoMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ElevationInfoMode>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "mode");
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            Mode = (ElevationInfoMode)result.Value.Value!;
+             Mode = (ElevationInfoMode)result.Value.Value!;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Mode)] = Mode;
+             ModifiedParameters[nameof(Mode)] = Mode;
         }
-
+         
         return Mode;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Offset property.
     /// </summary>
@@ -227,8 +187,8 @@ public partial class ElevationInfo : MapComponent
         {
             return Offset;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -237,28 +197,26 @@ public partial class ElevationInfo : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Offset;
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>(
-            "getNullableValueTypedProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "offset");
-
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            Offset = result.Value.Value;
+             Offset = result.Value.Value;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Offset)] = Offset;
+             ModifiedParameters[nameof(Offset)] = Offset;
         }
-
+         
         return Offset;
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Unit property.
     /// </summary>
@@ -268,8 +226,8 @@ public partial class ElevationInfo : MapComponent
         {
             return Unit;
         }
-
-        try
+        
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -278,30 +236,27 @@ public partial class ElevationInfo : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+        
         if (JsComponentReference is null)
         {
             return Unit;
         }
 
         // get the property value
-        JsNullableEnumWrapper<ElevationUnit>? result =
-            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ElevationUnit>?>("getNullableValueTypedProperty",
-                CancellationTokenSource.Token, JsComponentReference, "unit");
-
+        JsNullableEnumWrapper<ElevationUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ElevationUnit>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "unit");
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            Unit = (ElevationUnit)result.Value.Value!;
+             Unit = (ElevationUnit)result.Value.Value!;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Unit)] = Unit;
+             ModifiedParameters[nameof(Unit)] = Unit;
         }
-
+         
         return Unit;
     }
-
+    
 #endregion
-
 
 #region Property Setters
 
@@ -316,19 +271,19 @@ public partial class ElevationInfo : MapComponent
         if (value is not null)
         {
             value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-
+        } 
+        
 #pragma warning disable BL0005
         FeatureExpressionInfo = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(FeatureExpressionInfo)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -337,16 +292,16 @@ public partial class ElevationInfo : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featureExpressionInfo", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Mode property after render.
     /// </summary>
@@ -359,13 +314,13 @@ public partial class ElevationInfo : MapComponent
         Mode = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Mode)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -374,16 +329,16 @@ public partial class ElevationInfo : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mode", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Offset property after render.
     /// </summary>
@@ -396,13 +351,13 @@ public partial class ElevationInfo : MapComponent
         Offset = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Offset)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -411,16 +366,16 @@ public partial class ElevationInfo : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "offset", value);
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Unit property after render.
     /// </summary>
@@ -433,13 +388,13 @@ public partial class ElevationInfo : MapComponent
         Unit = value;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Unit)] = value;
-
+        
         if (CoreJsModule is null)
         {
             return;
         }
-
-        try
+    
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -448,15 +403,57 @@ public partial class ElevationInfo : MapComponent
         {
             // this is expected if the component is not yet built
         }
-
+    
         if (JsComponentReference is null)
         {
             return;
         }
-
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "unit", value);
     }
-
+    
 #endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case FeatureExpressionInfo featureExpressionInfo:
+                if (featureExpressionInfo != FeatureExpressionInfo)
+                {
+                    FeatureExpressionInfo = featureExpressionInfo;
+                    ModifiedParameters[nameof(FeatureExpressionInfo)] = FeatureExpressionInfo;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case FeatureExpressionInfo _:
+                FeatureExpressionInfo = null;
+                ModifiedParameters[nameof(FeatureExpressionInfo)] = FeatureExpressionInfo;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        FeatureExpressionInfo?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

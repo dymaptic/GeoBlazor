@@ -73,21 +73,19 @@ public partial class BasemapStyle
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapStyle), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "apiKey");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                ApiKey = result;
+             ApiKey = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ApiKey)] = ApiKey;
+             ModifiedParameters[nameof(ApiKey)] = ApiKey;
         }
          
         return ApiKey;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Language property.
     /// </summary>
@@ -114,62 +112,19 @@ public partial class BasemapStyle
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapStyle), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "language");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Language = result;
+             Language = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Language)] = Language;
+             ModifiedParameters[nameof(Language)] = Language;
         }
          
         return Language;
-
     }
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Name property.
-    /// </summary>
-    public async Task<BasemapStyleName?> GetName()
-    {
-        if (CoreJsModule is null)
-        {
-            return Name;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Name;
-        }
-
-        // get the property value
-        BasemapStyleName? result = await JsComponentReference!.InvokeJsMethod<BasemapStyleName?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapStyle), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "id");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-                Name = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(Name)] = Name;
-        }
-         
-        return Name;
-
-    }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Places property.
     /// </summary>
@@ -196,21 +151,19 @@ public partial class BasemapStyle
         }
 
         // get the property value
-        BasemapStylePlace? result = await JsComponentReference!.InvokeJsMethod<BasemapStylePlace?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapStyle), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "places");
-        if (result is not null)
+        JsNullableEnumWrapper<BasemapStylePlace>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BasemapStylePlace>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "places");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Places = result;
+             Places = (BasemapStylePlace)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Places)] = Places;
+             ModifiedParameters[nameof(Places)] = Places;
         }
          
         return Places;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ServiceUrl property.
     /// </summary>
@@ -237,21 +190,19 @@ public partial class BasemapStyle
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapStyle), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "serviceUrl");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                ServiceUrl = result;
+             ServiceUrl = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ServiceUrl)] = ServiceUrl;
+             ModifiedParameters[nameof(ServiceUrl)] = ServiceUrl;
         }
          
         return ServiceUrl;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Worldview property.
     /// </summary>
@@ -278,21 +229,19 @@ public partial class BasemapStyle
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapStyle), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "worldview");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Worldview = result;
+             Worldview = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Worldview)] = Worldview;
+             ModifiedParameters[nameof(Worldview)] = Worldview;
         }
          
         return Worldview;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -332,9 +281,8 @@ public partial class BasemapStyle
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "apiKey", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Language property after render.
     /// </summary>
@@ -370,9 +318,8 @@ public partial class BasemapStyle
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "language", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Places property after render.
     /// </summary>
@@ -408,9 +355,8 @@ public partial class BasemapStyle
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "places", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ServiceUrl property after render.
     /// </summary>
@@ -446,9 +392,8 @@ public partial class BasemapStyle
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "serviceUrl", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Worldview property after render.
     /// </summary>
@@ -484,9 +429,8 @@ public partial class BasemapStyle
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "worldview", value);
-
     }
-
+    
 #endregion
 
     /// <inheritdoc />

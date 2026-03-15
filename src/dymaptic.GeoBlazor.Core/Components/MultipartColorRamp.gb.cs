@@ -33,7 +33,7 @@ public partial class MultipartColorRamp
         AllowRender = false;
 #pragma warning disable BL0005
         ColorRamps = colorRamps;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -78,16 +78,11 @@ public partial class MultipartColorRamp
             return ColorRamps;
         }
 
-        IReadOnlyList<AlgorithmicColorRamp>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<AlgorithmicColorRamp>?>(
-            IsServer, nameof(GetColorRamps), nameof(MultipartColorRamp), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
+        IReadOnlyList<AlgorithmicColorRamp>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<AlgorithmicColorRamp>?>(
+            "getColorRamps", CancellationTokenSource.Token);
         
         if (result is not null)
         {
-            foreach (AlgorithmicColorRamp item in result)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
 #pragma warning disable BL0005
             ColorRamps = result;
 #pragma warning restore BL0005
@@ -95,9 +90,8 @@ public partial class MultipartColorRamp
         }
         
         return ColorRamps;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -110,6 +104,14 @@ public partial class MultipartColorRamp
     /// </param>
     public async Task SetColorRamps(IReadOnlyList<AlgorithmicColorRamp>? value)
     {
+        if (value is not null)
+        {
+            foreach (AlgorithmicColorRamp item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
 #pragma warning disable BL0005
         ColorRamps = value;
 #pragma warning restore BL0005
@@ -119,14 +121,6 @@ public partial class MultipartColorRamp
         {
             return;
         }
-        if (value is not null)
-        {
-            foreach (AlgorithmicColorRamp item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
     
         try 
         {
@@ -145,9 +139,8 @@ public partial class MultipartColorRamp
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "colorRamps", value);
-
     }
-
+    
 #endregion
 
 #region Add to Collection Methods
@@ -164,7 +157,6 @@ public partial class MultipartColorRamp
             ? values
             : [..ColorRamps, ..values];
         await SetColorRamps(join);
-
     }
     
 #endregion
@@ -185,7 +177,6 @@ public partial class MultipartColorRamp
             return;
         }
         await SetColorRamps(ColorRamps.Except(values).ToArray());
-
     }
     
 #endregion

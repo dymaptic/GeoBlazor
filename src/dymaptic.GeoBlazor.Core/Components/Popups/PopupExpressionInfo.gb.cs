@@ -53,7 +53,7 @@ public partial class PopupExpressionInfo
         Name = name;
         ReturnType = returnType;
         Title = title;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -131,21 +131,19 @@ public partial class PopupExpressionInfo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupExpressionInfo), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "expression");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Expression = result;
+             Expression = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Expression)] = Expression;
+             ModifiedParameters[nameof(Expression)] = Expression;
         }
          
         return Expression;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -172,21 +170,19 @@ public partial class PopupExpressionInfo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupExpressionInfo), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Name = result;
+             Name = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Name)] = Name;
+             ModifiedParameters[nameof(Name)] = Name;
         }
          
         return Name;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the ReturnType property.
     /// </summary>
@@ -213,21 +209,19 @@ public partial class PopupExpressionInfo
         }
 
         // get the property value
-        PopupExpressionInfoReturnType? result = await JsComponentReference!.InvokeJsMethod<PopupExpressionInfoReturnType?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupExpressionInfo), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "returnType");
-        if (result is not null)
+        JsNullableEnumWrapper<PopupExpressionInfoReturnType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PopupExpressionInfoReturnType>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "returnType");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                ReturnType = result;
+             ReturnType = (PopupExpressionInfoReturnType)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(ReturnType)] = ReturnType;
+             ModifiedParameters[nameof(ReturnType)] = ReturnType;
         }
          
         return ReturnType;
-
     }
-
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -254,21 +248,19 @@ public partial class PopupExpressionInfo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupExpressionInfo), View?.QueryResultsMaxSizeLimit,
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Title = result;
+             Title = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Title)] = Title;
+             ModifiedParameters[nameof(Title)] = Title;
         }
          
         return Title;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -308,9 +300,8 @@ public partial class PopupExpressionInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "expression", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
@@ -346,9 +337,8 @@ public partial class PopupExpressionInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the ReturnType property after render.
     /// </summary>
@@ -384,9 +374,8 @@ public partial class PopupExpressionInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "returnType", value);
-
     }
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -422,9 +411,8 @@ public partial class PopupExpressionInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
-
     }
-
+    
 #endregion
 
 }

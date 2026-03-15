@@ -5,9 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendStyle.html">GeoBlazor Docs</a>
-///     Indicates the style of the legend.
-///     default "classic"
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">ArcGIS Maps SDK for JavaScript</a>
+///     
 /// </summary>
 public partial class LegendStyle
 {
@@ -28,19 +26,13 @@ public partial class LegendStyle
     ///     default stack
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="type">
-    ///     Specifies the style of the legend.
-    ///     <a target="_blank" href="global.html#type">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     public LegendStyle(
-        LegendStyleLayout? layout = null,
-        LegendStyleType? type = null)
+        LegendStyleLayout? layout = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Layout = layout;
-        Type = type;
-#pragma warning restore BL0005
+#pragma warning restore BL0005    
     }
     
     
@@ -72,21 +64,19 @@ public partial class LegendStyle
         }
 
         // get the property value
-        LegendStyleLayout? result = await JsComponentReference!.InvokeJsMethod<LegendStyleLayout?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LegendStyle), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "layout");
-        if (result is not null)
+        JsNullableEnumWrapper<LegendStyleLayout>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LegendStyleLayout>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "layout");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-                Layout = result;
+             Layout = (LegendStyleLayout)result.Value.Value!;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(Layout)] = Layout;
+             ModifiedParameters[nameof(Layout)] = Layout;
         }
          
         return Layout;
-
     }
-
+    
 #endregion
 
 #region Property Setters
@@ -126,9 +116,8 @@ public partial class LegendStyle
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layout", value);
-
     }
-
+    
 #endregion
 
 }
