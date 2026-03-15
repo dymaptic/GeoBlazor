@@ -99,8 +99,6 @@ internal class LayerConverter : JsonConverter<Layer>
         Extent? fullExtent = fullExtentValue is not null
             ? JsonSerializer.Deserialize<Extent>(fullExtentValue.ToString()!, newOptions)
             : null;
-        temp.TryGetValue("isBasemapReferenceLayer", out object? isBasemapReferenceLayerValue);
-        bool.TryParse(isBasemapReferenceLayerValue?.ToString(), out bool isBasemapReferenceLayer);
         temp.TryGetValue("listMode", out object? listModeValue);
         string? listMode = listModeValue?.ToString();
         Enum.TryParse(listMode, out ListMode listModeEnum);
@@ -116,8 +114,8 @@ internal class LayerConverter : JsonConverter<Layer>
         temp.TryGetValue("visible", out object? visibleValue);
         bool.TryParse(visibleValue?.ToString(), out bool visible);
 
-        return new UnknownLayer(arcGisLayerId, fullExtent, isBasemapReferenceLayer, listModeEnum, opacity, title,
-            visibilityTimeExtent, visible);
+        return new UnknownLayer(arcGISLayerId: arcGisLayerId, fullExtent: fullExtent, listMode: listModeEnum,
+            opacity: opacity, title: title, visibilityTimeExtent: visibilityTimeExtent, visible: visible);
     }
 
     public override void Write(Utf8JsonWriter writer, Layer value, JsonSerializerOptions options)

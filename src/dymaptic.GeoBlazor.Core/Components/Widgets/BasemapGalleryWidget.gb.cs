@@ -27,9 +27,6 @@ public partial class BasemapGalleryWidget
     ///     The map's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap">basemap</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html#activeBasemap">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="containerId">
-    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
-    /// </param>
     /// <param name="disabled">
     ///     When `true`, sets the widget to a disabled state so the user cannot interact with it.
     ///     default false
@@ -50,12 +47,6 @@ public partial class BasemapGalleryWidget
     ///     The widget's default label.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="mapView">
-    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
-    /// </param>
-    /// <param name="position">
-    ///     The position of the widget in relation to the map view.
-    /// </param>
     /// <param name="source">
     ///     The source for basemaps that the widget will display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html#source">ArcGIS Maps SDK for JavaScript</a>
@@ -75,13 +66,10 @@ public partial class BasemapGalleryWidget
     /// </param>
     public BasemapGalleryWidget(
         Basemap? activeBasemap = null,
-        string? containerId = null,
         bool? disabled = null,
         double? headingLevel = null,
         string? icon = null,
         string? label = null,
-        MapView? mapView = null,
-        OverlayPosition? position = null,
         IBasemapGalleryWidgetSource? source = null,
         BasemapGalleryViewModel? viewModel = null,
         bool? visible = null,
@@ -90,18 +78,15 @@ public partial class BasemapGalleryWidget
         AllowRender = false;
 #pragma warning disable BL0005
         ActiveBasemap = activeBasemap;
-        ContainerId = containerId;
         Disabled = disabled;
         HeadingLevel = headingLevel;
         Icon = icon;
         Label = label;
-        MapView = mapView;
-        Position = position;
         Source = source;
         ViewModel = viewModel;
         Visible = visible;
         WidgetId = widgetId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -189,9 +174,10 @@ public partial class BasemapGalleryWidget
             return ActiveBasemap;
         }
 
-        Basemap? result = await JsComponentReference.InvokeAsync<Basemap?>(
-            "getActiveBasemap", CancellationTokenSource.Token);
-        
+        Basemap? result = await JsComponentReference.InvokeJsMethod<Basemap?>(
+            IsServer, nameof(GetActiveBasemap), nameof(BasemapGalleryWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (ActiveBasemap is not null)
@@ -207,8 +193,9 @@ public partial class BasemapGalleryWidget
         }
         
         return ActiveBasemap;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Disabled property.
     /// </summary>
@@ -235,19 +222,21 @@ public partial class BasemapGalleryWidget
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "disabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapGalleryWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "disabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Disabled = result.Value.Value;
+                Disabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Disabled)] = Disabled;
+                ModifiedParameters[nameof(Disabled)] = Disabled;
         }
          
         return Disabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HeadingLevel property.
     /// </summary>
@@ -274,19 +263,21 @@ public partial class BasemapGalleryWidget
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "headingLevel");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapGalleryWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "headingLevel");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             HeadingLevel = result.Value.Value;
+                HeadingLevel = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(HeadingLevel)] = HeadingLevel;
+                ModifiedParameters[nameof(HeadingLevel)] = HeadingLevel;
         }
          
         return HeadingLevel;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Source property.
     /// </summary>
@@ -312,26 +303,22 @@ public partial class BasemapGalleryWidget
             return Source;
         }
 
-        IBasemapGalleryWidgetSource? result = await JsComponentReference.InvokeAsync<IBasemapGalleryWidgetSource?>(
-            "getSource", CancellationTokenSource.Token);
-        
+        // get the property value
+        IBasemapGalleryWidgetSource? result = await JsComponentReference!.InvokeJsMethod<IBasemapGalleryWidgetSource?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapGalleryWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "source");
         if (result is not null)
         {
-            if (Source is not null)
-            {
-                result.Id = Source.Id;
-            }
-            ((MapComponent)result).UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
-            Source = result;
+                Source = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Source)] = Source;
+                ModifiedParameters[nameof(Source)] = Source;
         }
-        
+         
         return Source;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -357,9 +344,10 @@ public partial class BasemapGalleryWidget
             return ViewModel;
         }
 
-        BasemapGalleryViewModel? result = await JsComponentReference.InvokeAsync<BasemapGalleryViewModel?>(
-            "getViewModel", CancellationTokenSource.Token);
-        
+        BasemapGalleryViewModel? result = await JsComponentReference.InvokeJsMethod<BasemapGalleryViewModel?>(
+            IsServer, nameof(GetViewModel), nameof(BasemapGalleryWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (ViewModel is not null)
@@ -375,8 +363,9 @@ public partial class BasemapGalleryWidget
         }
         
         return ViewModel;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -389,11 +378,6 @@ public partial class BasemapGalleryWidget
     /// </param>
     public async Task SetActiveBasemap(Basemap? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         ActiveBasemap = value;
 #pragma warning restore BL0005
@@ -403,6 +387,11 @@ public partial class BasemapGalleryWidget
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -419,10 +408,12 @@ public partial class BasemapGalleryWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setActiveBasemap", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetActiveBasemap), nameof(BasemapGalleryWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Disabled property after render.
     /// </summary>
@@ -458,8 +449,9 @@ public partial class BasemapGalleryWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "disabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HeadingLevel property after render.
     /// </summary>
@@ -495,8 +487,9 @@ public partial class BasemapGalleryWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "headingLevel", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Source property after render.
     /// </summary>
@@ -505,11 +498,6 @@ public partial class BasemapGalleryWidget
     /// </param>
     public async Task SetSource(IBasemapGalleryWidgetSource? value)
     {
-        if (value is not null)
-        {
-            ((MapComponent)value).UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Source = value;
 #pragma warning restore BL0005
@@ -537,8 +525,9 @@ public partial class BasemapGalleryWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "source", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -547,11 +536,6 @@ public partial class BasemapGalleryWidget
     /// </param>
     public async Task SetViewModel(BasemapGalleryViewModel? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005
@@ -561,6 +545,11 @@ public partial class BasemapGalleryWidget
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -577,10 +566,12 @@ public partial class BasemapGalleryWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setViewModel", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetViewModel), nameof(BasemapGalleryWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 
@@ -594,18 +585,6 @@ public partial class BasemapGalleryWidget
                 {
                     ActiveBasemap = activeBasemap;
                     ModifiedParameters[nameof(ActiveBasemap)] = ActiveBasemap;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
-                }
-                
-                return true;
-            case IBasemapGalleryWidgetSource source:
-                if (source != Source)
-                {
-                    Source = source;
-                    ModifiedParameters[nameof(Source)] = Source;
                     if (MapRendered)
                     {
                         await UpdateWidget();
@@ -635,15 +614,11 @@ public partial class BasemapGalleryWidget
     {
         switch (child)
         {
-            case Basemap _:
+            case Basemap:
                 ActiveBasemap = null;
                 ModifiedParameters[nameof(ActiveBasemap)] = ActiveBasemap;
                 return true;
-            case IBasemapGalleryWidgetSource _:
-                Source = null;
-                ModifiedParameters[nameof(Source)] = Source;
-                return true;
-            case BasemapGalleryViewModel _:
+            case BasemapGalleryViewModel:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
@@ -657,7 +632,6 @@ public partial class BasemapGalleryWidget
     {
     
         ActiveBasemap?.ValidateRequiredGeneratedChildren();
-        Source?.ValidateRequiredGeneratedChildren();
         ViewModel?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

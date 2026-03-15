@@ -32,7 +32,7 @@ public partial class OpacityStop
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-support-OpacityStop.html#opacity">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="label">
-    ///     A string value used to label the stop in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
+    ///     A string value used to label the stop in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-support-OpacityStop.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public OpacityStop(
@@ -45,7 +45,7 @@ public partial class OpacityStop
         Value = value;
         Opacity = opacity;
         Label = label;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -77,19 +77,21 @@ public partial class OpacityStop
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(OpacityStop), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "label");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Label = result;
+                Label = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Label)] = Label;
+                ModifiedParameters[nameof(Label)] = Label;
         }
          
         return Label;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Opacity property.
     /// </summary>
@@ -116,19 +118,21 @@ public partial class OpacityStop
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "opacity");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(OpacityStop), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "opacity");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Opacity = result.Value.Value;
+                Opacity = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Opacity)] = Opacity;
+                ModifiedParameters[nameof(Opacity)] = Opacity;
         }
          
         return Opacity;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Value property.
     /// </summary>
@@ -155,19 +159,21 @@ public partial class OpacityStop
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "value");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(OpacityStop), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "value");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Value = result.Value.Value;
+                Value = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Value)] = Value;
+                ModifiedParameters[nameof(Value)] = Value;
         }
          
         return Value;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -207,8 +213,9 @@ public partial class OpacityStop
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "label", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Opacity property after render.
     /// </summary>
@@ -244,8 +251,9 @@ public partial class OpacityStop
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "opacity", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Value property after render.
     /// </summary>
@@ -281,8 +289,9 @@ public partial class OpacityStop
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value", value);
+
     }
-    
+
 #endregion
 
 }

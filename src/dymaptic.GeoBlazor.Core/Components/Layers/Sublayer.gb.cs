@@ -61,7 +61,7 @@ public partial class Sublayer
     /// </param>
     /// <param name="title">
     ///     The title of the sublayer used to identify it in places such as the
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visible">
@@ -166,7 +166,7 @@ public partial class Sublayer
         Url = url;
         AttributeTableTemplate = attributeTableTemplate;
         ObjectIdField = objectIdField;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -411,19 +411,21 @@ public partial class Sublayer
         }
 
         // get the property value
-        IAttributeTableTemplate? result = await JsComponentReference!.InvokeAsync<IAttributeTableTemplate?>("getProperty",
+        IAttributeTableTemplate? result = await JsComponentReference!.InvokeJsMethod<IAttributeTableTemplate?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "attributeTableTemplate");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             AttributeTableTemplate = result;
+                AttributeTableTemplate = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
+                ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
         }
          
         return AttributeTableTemplate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Capabilities property.
     /// </summary>
@@ -450,19 +452,21 @@ public partial class Sublayer
         }
 
         // get the property value
-        SublayerCapabilities? result = await JsComponentReference!.InvokeAsync<SublayerCapabilities?>("getProperty",
+        SublayerCapabilities? result = await JsComponentReference!.InvokeJsMethod<SublayerCapabilities?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "capabilities");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Capabilities = result;
+                Capabilities = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Capabilities)] = Capabilities;
+                ModifiedParameters[nameof(Capabilities)] = Capabilities;
         }
          
         return Capabilities;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefinitionExpression property.
     /// </summary>
@@ -489,19 +493,21 @@ public partial class Sublayer
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "definitionExpression");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             DefinitionExpression = result;
+                DefinitionExpression = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DefinitionExpression)] = DefinitionExpression;
+                ModifiedParameters[nameof(DefinitionExpression)] = DefinitionExpression;
         }
          
         return DefinitionExpression;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Fields property.
     /// </summary>
@@ -527,11 +533,16 @@ public partial class Sublayer
             return Fields;
         }
 
-        IReadOnlyList<Field>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Field>?>(
-            "getFields", CancellationTokenSource.Token);
-        
+        IReadOnlyList<Field>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Field>?>(
+            IsServer, nameof(GetFields), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (Field item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             Fields = result;
 #pragma warning restore BL0005
@@ -539,8 +550,9 @@ public partial class Sublayer
         }
         
         return Fields;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FieldsIndex property.
     /// </summary>
@@ -566,9 +578,10 @@ public partial class Sublayer
             return FieldsIndex;
         }
 
-        FieldsIndex? result = await JsComponentReference.InvokeAsync<FieldsIndex?>(
-            "getFieldsIndex", CancellationTokenSource.Token);
-        
+        FieldsIndex? result = await JsComponentReference.InvokeJsMethod<FieldsIndex?>(
+            IsServer, nameof(GetFieldsIndex), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -578,8 +591,9 @@ public partial class Sublayer
         }
         
         return FieldsIndex;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FloorInfo property.
     /// </summary>
@@ -605,11 +619,18 @@ public partial class Sublayer
             return FloorInfo;
         }
 
-        LayerFloorInfo? result = await JsComponentReference.InvokeAsync<LayerFloorInfo?>(
-            "getFloorInfo", CancellationTokenSource.Token);
-        
+        LayerFloorInfo? result = await JsComponentReference.InvokeJsMethod<LayerFloorInfo?>(
+            IsServer, nameof(GetFloorInfo), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (FloorInfo is not null)
+            {
+                result.Id = FloorInfo.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             FloorInfo = result;
 #pragma warning restore BL0005
@@ -617,8 +638,9 @@ public partial class Sublayer
         }
         
         return FloorInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FullExtent property.
     /// </summary>
@@ -644,9 +666,10 @@ public partial class Sublayer
             return FullExtent;
         }
 
-        Extent? result = await JsComponentReference.InvokeAsync<Extent?>(
-            "getFullExtent", CancellationTokenSource.Token);
-        
+        Extent? result = await JsComponentReference.InvokeJsMethod<Extent?>(
+            IsServer, nameof(GetFullExtent), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (FullExtent is not null)
@@ -662,8 +685,9 @@ public partial class Sublayer
         }
         
         return FullExtent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsTable property.
     /// </summary>
@@ -690,19 +714,21 @@ public partial class Sublayer
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "isTable");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "isTable");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             IsTable = result.Value.Value;
+                IsTable = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(IsTable)] = IsTable;
+                ModifiedParameters[nameof(IsTable)] = IsTable;
         }
          
         return IsTable;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelingInfo property.
     /// </summary>
@@ -728,11 +754,16 @@ public partial class Sublayer
             return LabelingInfo;
         }
 
-        IReadOnlyList<Label>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Label>?>(
-            "getLabelingInfo", CancellationTokenSource.Token);
-        
+        IReadOnlyList<Label>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Label>?>(
+            IsServer, nameof(GetLabelingInfo), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (Label item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             LabelingInfo = result;
 #pragma warning restore BL0005
@@ -740,8 +771,9 @@ public partial class Sublayer
         }
         
         return LabelingInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelsVisible property.
     /// </summary>
@@ -768,19 +800,21 @@ public partial class Sublayer
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "labelsVisible");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "labelsVisible");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             LabelsVisible = result.Value.Value;
+                LabelsVisible = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
+                ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
         }
          
         return LabelsVisible;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendEnabled property.
     /// </summary>
@@ -807,19 +841,21 @@ public partial class Sublayer
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "legendEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "legendEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             LegendEnabled = result.Value.Value;
+                LegendEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
+                ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
         }
          
         return LegendEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ListMode property.
     /// </summary>
@@ -846,19 +882,21 @@ public partial class Sublayer
         }
 
         // get the property value
-        JsNullableEnumWrapper<ListMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ListMode>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "listMode");
-        if (result is { Value: not null })
+        ListMode? result = await JsComponentReference!.InvokeJsMethod<ListMode?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "listMode");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ListMode = (ListMode)result.Value.Value!;
+                ListMode = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ListMode)] = ListMode;
+                ModifiedParameters[nameof(ListMode)] = ListMode;
         }
          
         return ListMode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -885,19 +923,21 @@ public partial class Sublayer
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "maxScale");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "maxScale");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             MaxScale = result.Value.Value;
+                MaxScale = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MaxScale)] = MaxScale;
+                ModifiedParameters[nameof(MaxScale)] = MaxScale;
         }
          
         return MaxScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -924,19 +964,21 @@ public partial class Sublayer
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "minScale");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "minScale");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             MinScale = result.Value.Value;
+                MinScale = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MinScale)] = MinScale;
+                ModifiedParameters[nameof(MinScale)] = MinScale;
         }
          
         return MinScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ObjectIdField property.
     /// </summary>
@@ -963,19 +1005,21 @@ public partial class Sublayer
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "objectIdField");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ObjectIdField = result;
+                ObjectIdField = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ObjectIdField)] = ObjectIdField;
+                ModifiedParameters[nameof(ObjectIdField)] = ObjectIdField;
         }
          
         return ObjectIdField;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Opacity property.
     /// </summary>
@@ -1002,19 +1046,21 @@ public partial class Sublayer
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "opacity");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "opacity");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Opacity = result.Value.Value;
+                Opacity = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Opacity)] = Opacity;
+                ModifiedParameters[nameof(Opacity)] = Opacity;
         }
          
         return Opacity;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OrderBy property.
     /// </summary>
@@ -1040,11 +1086,16 @@ public partial class Sublayer
             return OrderBy;
         }
 
-        IReadOnlyList<OrderByInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<OrderByInfo>?>(
-            "getOrderBy", CancellationTokenSource.Token);
-        
+        IReadOnlyList<OrderByInfo>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<OrderByInfo>?>(
+            IsServer, nameof(GetOrderBy), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (OrderByInfo item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             OrderBy = result;
 #pragma warning restore BL0005
@@ -1052,8 +1103,9 @@ public partial class Sublayer
         }
         
         return OrderBy;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupEnabled property.
     /// </summary>
@@ -1080,19 +1132,21 @@ public partial class Sublayer
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "popupEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "popupEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             PopupEnabled = result.Value.Value;
+                PopupEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
+                ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
         }
          
         return PopupEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupTemplate property.
     /// </summary>
@@ -1118,11 +1172,18 @@ public partial class Sublayer
             return PopupTemplate;
         }
 
-        PopupTemplate? result = await JsComponentReference.InvokeAsync<PopupTemplate?>(
-            "getPopupTemplate", CancellationTokenSource.Token);
-        
+        PopupTemplate? result = await JsComponentReference.InvokeJsMethod<PopupTemplate?>(
+            IsServer, nameof(GetPopupTemplate), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (PopupTemplate is not null)
+            {
+                result.Id = PopupTemplate.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             PopupTemplate = result;
 #pragma warning restore BL0005
@@ -1130,8 +1191,9 @@ public partial class Sublayer
         }
         
         return PopupTemplate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Relationships property.
     /// </summary>
@@ -1158,19 +1220,21 @@ public partial class Sublayer
         }
 
         // get the property value
-        IReadOnlyList<Relationship>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Relationship>?>("getProperty",
+        IReadOnlyList<Relationship>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<Relationship>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "relationships");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Relationships = result;
+                Relationships = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Relationships)] = Relationships;
+                ModifiedParameters[nameof(Relationships)] = Relationships;
         }
          
         return Relationships;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Renderer property.
     /// </summary>
@@ -1196,11 +1260,18 @@ public partial class Sublayer
             return Renderer;
         }
 
-        Renderer? result = await JsComponentReference.InvokeAsync<Renderer?>(
-            "getRenderer", CancellationTokenSource.Token);
-        
+        Renderer? result = await JsComponentReference.InvokeJsMethod<Renderer?>(
+            IsServer, nameof(GetRenderer), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (Renderer is not null)
+            {
+                result.Id = Renderer.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Renderer = result;
 #pragma warning restore BL0005
@@ -1208,8 +1279,9 @@ public partial class Sublayer
         }
         
         return Renderer;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Source property.
     /// </summary>
@@ -1236,19 +1308,21 @@ public partial class Sublayer
         }
 
         // get the property value
-        DynamicLayer? result = await JsComponentReference!.InvokeAsync<DynamicLayer?>("getProperty",
+        DynamicLayer? result = await JsComponentReference!.InvokeJsMethod<DynamicLayer?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "source");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Source = result;
+                Source = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Source)] = Source;
+                ModifiedParameters[nameof(Source)] = Source;
         }
          
         return Source;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
@@ -1275,19 +1349,21 @@ public partial class Sublayer
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SourceJSON = result;
+                SourceJSON = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
+                ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
         }
          
         return SourceJSON;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -1313,9 +1389,10 @@ public partial class Sublayer
             return SpatialReference;
         }
 
-        SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
-            "getSpatialReference", CancellationTokenSource.Token);
-        
+        SpatialReference? result = await JsComponentReference.InvokeJsMethod<SpatialReference?>(
+            IsServer, nameof(GetSpatialReference), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1325,8 +1402,9 @@ public partial class Sublayer
         }
         
         return SpatialReference;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SublayerId property.
     /// </summary>
@@ -1353,19 +1431,21 @@ public partial class Sublayer
         }
 
         // get the property value
-        JsNullableLongWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableLongWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "sublayerId");
-        if (result is { Value: not null })
+        long? result = await JsComponentReference!.InvokeJsMethod<long?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "id");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SublayerId = result.Value.Value;
+                SublayerId = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SublayerId)] = SublayerId;
+                ModifiedParameters[nameof(SublayerId)] = SublayerId;
         }
          
         return SublayerId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -1392,19 +1472,21 @@ public partial class Sublayer
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Title = result;
+                Title = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Title)] = Title;
+                ModifiedParameters[nameof(Title)] = Title;
         }
          
         return Title;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TypeIdField property.
     /// </summary>
@@ -1431,19 +1513,21 @@ public partial class Sublayer
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "typeIdField");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             TypeIdField = result;
+                TypeIdField = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TypeIdField)] = TypeIdField;
+                ModifiedParameters[nameof(TypeIdField)] = TypeIdField;
         }
          
         return TypeIdField;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Types property.
     /// </summary>
@@ -1469,9 +1553,10 @@ public partial class Sublayer
             return Types;
         }
 
-        IReadOnlyList<FeatureType>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<FeatureType>?>(
-            "getTypes", CancellationTokenSource.Token);
-        
+        IReadOnlyList<FeatureType>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<FeatureType>?>(
+            IsServer, nameof(GetTypes), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1481,8 +1566,9 @@ public partial class Sublayer
         }
         
         return Types;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -1509,19 +1595,21 @@ public partial class Sublayer
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "url");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Url = result;
+                Url = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Url)] = Url;
+                ModifiedParameters[nameof(Url)] = Url;
         }
          
         return Url;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -1561,8 +1649,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "attributeTableTemplate", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DefinitionExpression property after render.
     /// </summary>
@@ -1598,8 +1687,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "definitionExpression", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FloorInfo property after render.
     /// </summary>
@@ -1608,11 +1698,6 @@ public partial class Sublayer
     /// </param>
     public async Task SetFloorInfo(LayerFloorInfo? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         FloorInfo = value;
 #pragma warning restore BL0005
@@ -1622,6 +1707,11 @@ public partial class Sublayer
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -1638,10 +1728,12 @@ public partial class Sublayer
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setFloorInfo", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetFloorInfo), nameof(Sublayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelingInfo property after render.
     /// </summary>
@@ -1650,14 +1742,6 @@ public partial class Sublayer
     /// </param>
     public async Task SetLabelingInfo(IReadOnlyList<Label>? value)
     {
-        if (value is not null)
-        {
-            foreach (Label item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
 #pragma warning disable BL0005
         LabelingInfo = value;
 #pragma warning restore BL0005
@@ -1667,6 +1751,14 @@ public partial class Sublayer
         {
             return;
         }
+        if (value is not null)
+        {
+            foreach (Label item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
     
         try 
         {
@@ -1683,10 +1775,12 @@ public partial class Sublayer
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setLabelingInfo", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetLabelingInfo), nameof(Sublayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelsVisible property after render.
     /// </summary>
@@ -1722,8 +1816,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelsVisible", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
@@ -1759,8 +1854,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ListMode property after render.
     /// </summary>
@@ -1796,8 +1892,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "listMode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -1833,8 +1930,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -1870,8 +1968,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Opacity property after render.
     /// </summary>
@@ -1907,8 +2006,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "opacity", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OrderBy property after render.
     /// </summary>
@@ -1917,14 +2017,6 @@ public partial class Sublayer
     /// </param>
     public async Task SetOrderBy(IReadOnlyList<OrderByInfo>? value)
     {
-        if (value is not null)
-        {
-            foreach (OrderByInfo item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
 #pragma warning disable BL0005
         OrderBy = value;
 #pragma warning restore BL0005
@@ -1934,6 +2026,14 @@ public partial class Sublayer
         {
             return;
         }
+        if (value is not null)
+        {
+            foreach (OrderByInfo item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
     
         try 
         {
@@ -1950,10 +2050,12 @@ public partial class Sublayer
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setOrderBy", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetOrderBy), nameof(Sublayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
@@ -1989,8 +2091,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupTemplate property after render.
     /// </summary>
@@ -1999,11 +2102,6 @@ public partial class Sublayer
     /// </param>
     public async Task SetPopupTemplate(PopupTemplate? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         PopupTemplate = value;
 #pragma warning restore BL0005
@@ -2013,6 +2111,11 @@ public partial class Sublayer
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -2029,10 +2132,12 @@ public partial class Sublayer
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setPopupTemplate", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPopupTemplate), nameof(Sublayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Renderer property after render.
     /// </summary>
@@ -2041,11 +2146,6 @@ public partial class Sublayer
     /// </param>
     public async Task SetRenderer(Renderer? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Renderer = value;
 #pragma warning restore BL0005
@@ -2055,6 +2155,11 @@ public partial class Sublayer
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -2071,10 +2176,12 @@ public partial class Sublayer
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setRenderer", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetRenderer), nameof(Sublayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Source property after render.
     /// </summary>
@@ -2110,8 +2217,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "source", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SublayerId property after render.
     /// </summary>
@@ -2147,8 +2255,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -2184,8 +2293,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -2221,8 +2331,9 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -2239,6 +2350,7 @@ public partial class Sublayer
             ? values
             : [..LabelingInfo, ..values];
         await SetLabelingInfo(join);
+
     }
     
     /// <summary>
@@ -2253,6 +2365,7 @@ public partial class Sublayer
             ? values
             : [..OrderBy, ..values];
         await SetOrderBy(join);
+
     }
     
 #endregion
@@ -2273,6 +2386,7 @@ public partial class Sublayer
             return;
         }
         await SetLabelingInfo(LabelingInfo.Except(values).ToArray());
+
     }
     
     
@@ -2289,6 +2403,7 @@ public partial class Sublayer
             return;
         }
         await SetOrderBy(OrderBy.Except(values).ToArray());
+
     }
     
 #endregion
@@ -2323,8 +2438,14 @@ public partial class Sublayer
             return;
         }
         
-        await JsComponentReference!.InvokeVoidAsync(
-            "cancelLoad", 
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(CancelLoad), nameof(Sublayer), 
             CancellationTokenSource.Token);
     }
     
@@ -2358,8 +2479,8 @@ public partial class Sublayer
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<FeatureLayer?>(
-            "createFeatureLayer", 
+        return await JsComponentReference!.InvokeJsMethod<FeatureLayer?>(
+            IsServer, nameof(CreateFeatureLayer), nameof(Sublayer), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
     
@@ -2394,8 +2515,8 @@ public partial class Sublayer
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<PopupTemplate?>(
-            "createPopupTemplate", 
+        return await JsComponentReference!.InvokeJsMethod<PopupTemplate?>(
+            IsServer, nameof(CreatePopupTemplate), nameof(Sublayer), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             options);
     }
@@ -2430,8 +2551,8 @@ public partial class Sublayer
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Query?>(
-            "createQuery", 
+        return await JsComponentReference!.InvokeJsMethod<Query?>(
+            IsServer, nameof(CreateQuery), nameof(Sublayer), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
     
@@ -2466,8 +2587,8 @@ public partial class Sublayer
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<FeatureType?>(
-            "getFeatureType", 
+        return await JsComponentReference!.InvokeJsMethod<FeatureType?>(
+            IsServer, nameof(GetFeatureType), nameof(Sublayer), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             feature);
     }
@@ -2509,8 +2630,8 @@ public partial class Sublayer
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Domain?>(
-            "getFieldDomain", 
+        return await JsComponentReference!.InvokeJsMethod<Domain?>(
+            IsServer, nameof(GetFieldDomain), nameof(Sublayer), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             fieldName,
             options);
@@ -2544,8 +2665,8 @@ public partial class Sublayer
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isFulfilled", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsFulfilled), nameof(Sublayer), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
     
@@ -2577,8 +2698,8 @@ public partial class Sublayer
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isRejected", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsRejected), nameof(Sublayer), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
     
@@ -2610,8 +2731,8 @@ public partial class Sublayer
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isResolved", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsResolved), nameof(Sublayer), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
     
@@ -2646,9 +2767,14 @@ public partial class Sublayer
             return null;
         }
         
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
-            "load", 
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(Load), nameof(Sublayer), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             abortSignal);
                 
@@ -2693,9 +2819,14 @@ public partial class Sublayer
             return null;
         }
         
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        AttachmentsQueryResult? result = await JsComponentReference!.InvokeAsync<AttachmentsQueryResult?>(
-            "queryAttachments", 
+        AttachmentsQueryResult? result = await JsComponentReference!.InvokeJsMethod<AttachmentsQueryResult?>(
+            IsServer, nameof(QueryAttachments), nameof(Sublayer), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             attachmentQuery,
             abortSignal);
@@ -2742,9 +2873,14 @@ public partial class Sublayer
             return null;
         }
         
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        int? result = await JsComponentReference!.InvokeAsync<int?>(
-            "queryFeatureCount", 
+        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(QueryFeatureCount), nameof(Sublayer), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             query,
             abortSignal);
@@ -2790,9 +2926,14 @@ public partial class Sublayer
             return null;
         }
         
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        FeatureSet? result = await JsComponentReference!.InvokeAsync<FeatureSet?>(
-            "queryFeatures", 
+        FeatureSet? result = await JsComponentReference!.InvokeJsMethod<FeatureSet?>(
+            IsServer, nameof(QueryFeatures), nameof(Sublayer), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             query,
             abortSignal);
@@ -2839,9 +2980,14 @@ public partial class Sublayer
             return null;
         }
         
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        ObjectId[]? result = await JsComponentReference!.InvokeAsync<ObjectId[]?>(
-            "queryObjectIds", 
+        ObjectId[]? result = await JsComponentReference!.InvokeJsMethod<ObjectId[]?>(
+            IsServer, nameof(QueryObjectIds), nameof(Sublayer), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             query,
             abortSignal);
@@ -2888,9 +3034,14 @@ public partial class Sublayer
             return null;
         }
         
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        RelatedFeaturesQueryResult? result = await JsComponentReference!.InvokeAsync<RelatedFeaturesQueryResult?>(
-            "queryRelatedFeatures", 
+        RelatedFeaturesQueryResult? result = await JsComponentReference!.InvokeJsMethod<RelatedFeaturesQueryResult?>(
+            IsServer, nameof(QueryRelatedFeatures), nameof(Sublayer), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             relationshipQuery,
             abortSignal);
@@ -2937,9 +3088,14 @@ public partial class Sublayer
             return null;
         }
         
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        RelatedFeaturesCountQueryResult? result = await JsComponentReference!.InvokeAsync<RelatedFeaturesCountQueryResult?>(
-            "queryRelatedFeaturesCount", 
+        RelatedFeaturesCountQueryResult? result = await JsComponentReference!.InvokeJsMethod<RelatedFeaturesCountQueryResult?>(
+            IsServer, nameof(QueryRelatedFeaturesCount), nameof(Sublayer), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             relationshipQuery,
             abortSignal);
@@ -2950,57 +3106,20 @@ public partial class Sublayer
     }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerreload-method">GeoBlazor Docs</a>
-    ///     Reloads the properties for the sublayer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#reload">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="cancellationToken">
-    ///     The CancellationToken to cancel an asynchronous operation.
-    /// </param>
-    [ArcGISMethod]
-    public async Task Reload(CancellationToken cancellationToken = default)
-    {
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        await JsComponentReference!.InvokeVoidAsync(
-            "reload", 
-            CancellationTokenSource.Token,
-            abortSignal);
-    }
-    
-    /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Sublayer.html#sublayerwhen-method">GeoBlazor Docs</a>
     ///     `when()` may be leveraged once an instance of the class is created.
-    ///     param onRejected The function to execute when the promise fails.
+    ///     param errback The function to execute when the promise fails.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#when">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    /// <param name="onFulfilled">
+    /// <param name="callback">
     ///     The function to call when the promise resolves.
     /// </param>
-    /// <param name="onRejected">
+    /// <param name="errback">
+    ///     The function to execute when the promise fails.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> When(Func<Task> onFulfilled,
-        Func<Task> onRejected)
+    public async Task<string?> When(Func<Task> callback,
+        Func<Task> errback)
     {
         if (CoreJsModule is null)
         {
@@ -3022,11 +3141,11 @@ public partial class Sublayer
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "when", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(When), nameof(Sublayer), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
-            onFulfilled,
-            onRejected);
+            callback,
+            errback);
     }
     
 #endregion
@@ -3114,7 +3233,7 @@ public partial class Sublayer
                 Renderer = null;
                 ModifiedParameters[nameof(Renderer)] = Renderer;
                 return true;
-            case DynamicLayer _:
+            case DynamicLayer:
                 Source = null;
                 ModifiedParameters[nameof(Source)] = Source;
                 return true;

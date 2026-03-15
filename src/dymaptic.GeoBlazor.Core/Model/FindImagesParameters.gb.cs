@@ -36,7 +36,7 @@ public partial record FindImagesParameters(
     string? Where = null)
 {
     /// <summary>
-    ///     Parameterless constructor
+    ///     Parameterless Constructor
     /// </summary>
     public FindImagesParameters(): this(null, null)
     {

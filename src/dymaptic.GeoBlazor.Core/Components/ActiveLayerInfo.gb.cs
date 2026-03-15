@@ -74,7 +74,7 @@ public partial class ActiveLayerInfo : MapComponent
         RespectLayerVisibility = respectLayerVisibility;
         SublayerIds = sublayerIds;
         Title = title;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -234,19 +234,21 @@ public partial class ActiveLayerInfo : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "hideLayersNotInCurrentView");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "hideLayersNotInCurrentView");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             HideLayersNotInCurrentView = result.Value.Value;
+                HideLayersNotInCurrentView = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(HideLayersNotInCurrentView)] = HideLayersNotInCurrentView;
+                ModifiedParameters[nameof(HideLayersNotInCurrentView)] = HideLayersNotInCurrentView;
         }
          
         return HideLayersNotInCurrentView;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsScaleDriven property.
     /// </summary>
@@ -273,19 +275,21 @@ public partial class ActiveLayerInfo : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "isScaleDriven");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "isScaleDriven");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             IsScaleDriven = result.Value.Value;
+                IsScaleDriven = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(IsScaleDriven)] = IsScaleDriven;
+                ModifiedParameters[nameof(IsScaleDriven)] = IsScaleDriven;
         }
          
         return IsScaleDriven;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Layer property.
     /// </summary>
@@ -311,9 +315,10 @@ public partial class ActiveLayerInfo : MapComponent
             return Layer;
         }
 
-        Layer? result = await JsComponentReference.InvokeAsync<Layer?>(
-            "getLayer", CancellationTokenSource.Token);
-        
+        Layer? result = await JsComponentReference.InvokeJsMethod<Layer?>(
+            IsServer, nameof(GetLayer), nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (Layer is not null)
@@ -329,8 +334,9 @@ public partial class ActiveLayerInfo : MapComponent
         }
         
         return Layer;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LayerView property.
     /// </summary>
@@ -356,9 +362,10 @@ public partial class ActiveLayerInfo : MapComponent
             return LayerView;
         }
 
-        LayerView? result = await JsComponentReference.InvokeAsync<LayerView?>(
-            "getLayerView", CancellationTokenSource.Token);
-        
+        LayerView? result = await JsComponentReference.InvokeJsMethod<LayerView?>(
+            IsServer, nameof(GetLayerView), nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (LayerView is not null)
@@ -374,8 +381,9 @@ public partial class ActiveLayerInfo : MapComponent
         }
         
         return LayerView;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendElements property.
     /// </summary>
@@ -401,9 +409,10 @@ public partial class ActiveLayerInfo : MapComponent
             return LegendElements;
         }
 
-        IReadOnlyList<ILegendElement>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ILegendElement>?>(
-            "getLegendElements", CancellationTokenSource.Token);
-        
+        IReadOnlyList<ILegendElement>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<ILegendElement>?>(
+            IsServer, nameof(GetLegendElements), nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             foreach (ILegendElement item in result)
@@ -417,8 +426,9 @@ public partial class ActiveLayerInfo : MapComponent
         }
         
         return LegendElements;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Opacity property.
     /// </summary>
@@ -445,19 +455,21 @@ public partial class ActiveLayerInfo : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "opacity");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "opacity");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Opacity = result.Value.Value;
+                Opacity = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Opacity)] = Opacity;
+                ModifiedParameters[nameof(Opacity)] = Opacity;
         }
          
         return Opacity;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Ready property.
     /// </summary>
@@ -484,19 +496,21 @@ public partial class ActiveLayerInfo : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "ready");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "ready");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Ready = result.Value.Value;
+                Ready = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Ready)] = Ready;
+                ModifiedParameters[nameof(Ready)] = Ready;
         }
          
         return Ready;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RespectLayerVisibility property.
     /// </summary>
@@ -523,19 +537,21 @@ public partial class ActiveLayerInfo : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "respectLayerVisibility");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "respectLayerVisibility");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             RespectLayerVisibility = result.Value.Value;
+                RespectLayerVisibility = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RespectLayerVisibility)] = RespectLayerVisibility;
+                ModifiedParameters[nameof(RespectLayerVisibility)] = RespectLayerVisibility;
         }
          
         return RespectLayerVisibility;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Scale property.
     /// </summary>
@@ -562,19 +578,21 @@ public partial class ActiveLayerInfo : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "scale");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "scale");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Scale = result.Value.Value;
+                Scale = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Scale)] = Scale;
+                ModifiedParameters[nameof(Scale)] = Scale;
         }
          
         return Scale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SublayerIds property.
     /// </summary>
@@ -601,19 +619,21 @@ public partial class ActiveLayerInfo : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<long>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<long>?>("getProperty",
+        IReadOnlyList<long>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<long>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sublayerIds");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SublayerIds = result;
+                SublayerIds = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SublayerIds)] = SublayerIds;
+                ModifiedParameters[nameof(SublayerIds)] = SublayerIds;
         }
          
         return SublayerIds;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -640,19 +660,21 @@ public partial class ActiveLayerInfo : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Title = result;
+                Title = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Title)] = Title;
+                ModifiedParameters[nameof(Title)] = Title;
         }
          
         return Title;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Version property.
     /// </summary>
@@ -679,19 +701,21 @@ public partial class ActiveLayerInfo : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "version");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "version");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Version = result.Value.Value;
+                Version = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Version)] = Version;
+                ModifiedParameters[nameof(Version)] = Version;
         }
          
         return Version;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -731,8 +755,9 @@ public partial class ActiveLayerInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "hideLayersNotInCurrentView", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Layer property after render.
     /// </summary>
@@ -741,11 +766,6 @@ public partial class ActiveLayerInfo : MapComponent
     /// </param>
     public async Task SetLayer(Layer? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Layer = value;
 #pragma warning restore BL0005
@@ -755,6 +775,11 @@ public partial class ActiveLayerInfo : MapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -773,8 +798,9 @@ public partial class ActiveLayerInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layer", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LayerView property after render.
     /// </summary>
@@ -783,11 +809,6 @@ public partial class ActiveLayerInfo : MapComponent
     /// </param>
     public async Task SetLayerView(LayerView? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         LayerView = value;
 #pragma warning restore BL0005
@@ -797,6 +818,11 @@ public partial class ActiveLayerInfo : MapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -815,8 +841,9 @@ public partial class ActiveLayerInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layerView", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendElements property after render.
     /// </summary>
@@ -825,14 +852,6 @@ public partial class ActiveLayerInfo : MapComponent
     /// </param>
     public async Task SetLegendElements(IReadOnlyList<ILegendElement>? value)
     {
-        if (value is not null)
-        {
-            foreach (ILegendElement item in value)
-            {
-                ((MapComponent)item).UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
 #pragma warning disable BL0005
         LegendElements = value;
 #pragma warning restore BL0005
@@ -842,6 +861,14 @@ public partial class ActiveLayerInfo : MapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            foreach (ILegendElement item in value)
+            {
+                ((MapComponent)item).UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
     
         try 
         {
@@ -860,8 +887,9 @@ public partial class ActiveLayerInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendElements", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RespectLayerVisibility property after render.
     /// </summary>
@@ -897,8 +925,9 @@ public partial class ActiveLayerInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "respectLayerVisibility", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SublayerIds property after render.
     /// </summary>
@@ -934,8 +963,9 @@ public partial class ActiveLayerInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sublayerIds", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -971,8 +1001,9 @@ public partial class ActiveLayerInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -989,6 +1020,7 @@ public partial class ActiveLayerInfo : MapComponent
             ? values
             : [..LegendElements, ..values];
         await SetLegendElements(join);
+
     }
     
     /// <summary>
@@ -1003,6 +1035,7 @@ public partial class ActiveLayerInfo : MapComponent
             ? values
             : [..SublayerIds, ..values];
         await SetSublayerIds(join);
+
     }
     
 #endregion
@@ -1023,6 +1056,7 @@ public partial class ActiveLayerInfo : MapComponent
             return;
         }
         await SetLegendElements(LegendElements.Except(values).ToArray());
+
     }
     
     
@@ -1039,6 +1073,7 @@ public partial class ActiveLayerInfo : MapComponent
             return;
         }
         await SetSublayerIds(SublayerIds.Except(values).ToArray());
+
     }
     
 #endregion

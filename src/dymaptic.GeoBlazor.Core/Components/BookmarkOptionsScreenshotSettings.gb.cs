@@ -50,7 +50,7 @@ public partial class BookmarkOptionsScreenshotSettings
         Height = height;
         Layers = layers;
         Width = width;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -125,11 +125,18 @@ public partial class BookmarkOptionsScreenshotSettings
             return Area;
         }
 
-        BookmarkOptionsScreenshotSettingsArea? result = await JsComponentReference.InvokeAsync<BookmarkOptionsScreenshotSettingsArea?>(
-            "getArea", CancellationTokenSource.Token);
-        
+        BookmarkOptionsScreenshotSettingsArea? result = await JsComponentReference.InvokeJsMethod<BookmarkOptionsScreenshotSettingsArea?>(
+            IsServer, nameof(GetArea), nameof(BookmarkOptionsScreenshotSettings), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (Area is not null)
+            {
+                result.Id = Area.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Area = result;
 #pragma warning restore BL0005
@@ -137,8 +144,9 @@ public partial class BookmarkOptionsScreenshotSettings
         }
         
         return Area;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Height property.
     /// </summary>
@@ -165,19 +173,21 @@ public partial class BookmarkOptionsScreenshotSettings
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "height");
-        if (result is { Value: not null })
+        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarkOptionsScreenshotSettings), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "height");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Height = result.Value.Value;
+                Height = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Height)] = Height;
+                ModifiedParameters[nameof(Height)] = Height;
         }
          
         return Height;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Layers property.
     /// </summary>
@@ -203,9 +213,10 @@ public partial class BookmarkOptionsScreenshotSettings
             return Layers;
         }
 
-        IReadOnlyList<Layer>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Layer>?>(
-            "getLayers", CancellationTokenSource.Token);
-        
+        IReadOnlyList<Layer>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Layer>?>(
+            IsServer, nameof(GetLayers), nameof(BookmarkOptionsScreenshotSettings), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             foreach (Layer item in result)
@@ -219,8 +230,9 @@ public partial class BookmarkOptionsScreenshotSettings
         }
         
         return Layers;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Width property.
     /// </summary>
@@ -247,19 +259,21 @@ public partial class BookmarkOptionsScreenshotSettings
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "width");
-        if (result is { Value: not null })
+        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarkOptionsScreenshotSettings), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "width");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Width = result.Value.Value;
+                Width = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Width)] = Width;
+                ModifiedParameters[nameof(Width)] = Width;
         }
          
         return Width;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -272,11 +286,6 @@ public partial class BookmarkOptionsScreenshotSettings
     /// </param>
     public async Task SetArea(BookmarkOptionsScreenshotSettingsArea? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Area = value;
 #pragma warning restore BL0005
@@ -286,6 +295,11 @@ public partial class BookmarkOptionsScreenshotSettings
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -304,8 +318,9 @@ public partial class BookmarkOptionsScreenshotSettings
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "area", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Height property after render.
     /// </summary>
@@ -341,8 +356,9 @@ public partial class BookmarkOptionsScreenshotSettings
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "height", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Layers property after render.
     /// </summary>
@@ -351,14 +367,6 @@ public partial class BookmarkOptionsScreenshotSettings
     /// </param>
     public async Task SetLayers(IReadOnlyList<Layer>? value)
     {
-        if (value is not null)
-        {
-            foreach (Layer item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
 #pragma warning disable BL0005
         Layers = value;
 #pragma warning restore BL0005
@@ -368,6 +376,14 @@ public partial class BookmarkOptionsScreenshotSettings
         {
             return;
         }
+        if (value is not null)
+        {
+            foreach (Layer item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
     
         try 
         {
@@ -386,8 +402,9 @@ public partial class BookmarkOptionsScreenshotSettings
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layers", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Width property after render.
     /// </summary>
@@ -423,8 +440,9 @@ public partial class BookmarkOptionsScreenshotSettings
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "width", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -441,6 +459,7 @@ public partial class BookmarkOptionsScreenshotSettings
             ? values
             : [..Layers, ..values];
         await SetLayers(join);
+
     }
     
 #endregion
@@ -461,6 +480,7 @@ public partial class BookmarkOptionsScreenshotSettings
             return;
         }
         await SetLayers(Layers.Except(values).ToArray());
+
     }
     
 #endregion
@@ -498,7 +518,7 @@ public partial class BookmarkOptionsScreenshotSettings
     {
         switch (child)
         {
-            case BookmarkOptionsScreenshotSettingsArea _:
+            case BookmarkOptionsScreenshotSettingsArea:
                 Area = null;
                 ModifiedParameters[nameof(Area)] = Area;
                 return true;

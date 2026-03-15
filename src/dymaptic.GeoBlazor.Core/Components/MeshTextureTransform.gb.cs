@@ -48,7 +48,7 @@ public partial class MeshTextureTransform : MapComponent
         Offset = offset;
         Rotation = rotation;
         Scale = scale;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -117,19 +117,21 @@ public partial class MeshTextureTransform : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshTextureTransform), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "offset");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Offset = result;
+                Offset = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Offset)] = Offset;
+                ModifiedParameters[nameof(Offset)] = Offset;
         }
          
         return Offset;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Rotation property.
     /// </summary>
@@ -156,19 +158,21 @@ public partial class MeshTextureTransform : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "rotation");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshTextureTransform), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "rotation");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Rotation = result.Value.Value;
+                Rotation = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Rotation)] = Rotation;
+                ModifiedParameters[nameof(Rotation)] = Rotation;
         }
          
         return Rotation;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Scale property.
     /// </summary>
@@ -195,19 +199,21 @@ public partial class MeshTextureTransform : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshTextureTransform), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "scale");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Scale = result;
+                Scale = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Scale)] = Scale;
+                ModifiedParameters[nameof(Scale)] = Scale;
         }
          
         return Scale;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -247,8 +253,9 @@ public partial class MeshTextureTransform : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "offset", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Rotation property after render.
     /// </summary>
@@ -284,8 +291,9 @@ public partial class MeshTextureTransform : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rotation", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Scale property after render.
     /// </summary>
@@ -321,8 +329,9 @@ public partial class MeshTextureTransform : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "scale", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -339,6 +348,7 @@ public partial class MeshTextureTransform : MapComponent
             ? values
             : [..Offset, ..values];
         await SetOffset(join);
+
     }
     
     /// <summary>
@@ -353,6 +363,7 @@ public partial class MeshTextureTransform : MapComponent
             ? values
             : [..Scale, ..values];
         await SetScale(join);
+
     }
     
 #endregion
@@ -373,6 +384,7 @@ public partial class MeshTextureTransform : MapComponent
             return;
         }
         await SetOffset(Offset.Except(values).ToArray());
+
     }
     
     
@@ -389,6 +401,7 @@ public partial class MeshTextureTransform : MapComponent
             return;
         }
         await SetScale(Scale.Except(values).ToArray());
+
     }
     
 #endregion

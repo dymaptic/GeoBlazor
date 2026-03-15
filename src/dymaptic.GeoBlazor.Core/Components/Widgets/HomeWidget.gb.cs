@@ -23,9 +23,6 @@ public partial class HomeWidget : IGoTo
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
-    /// <param name="containerId">
-    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
-    /// </param>
     /// <param name="goToOverride">
     ///     This function provides the ability to override either the
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or
@@ -40,12 +37,6 @@ public partial class HomeWidget : IGoTo
     /// <param name="label">
     ///     The widget's default label.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home.html#label">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="mapView">
-    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
-    /// </param>
-    /// <param name="position">
-    ///     The position of the widget in relation to the map view.
     /// </param>
     /// <param name="uiStrings">
     ///     Overwrite localized strings for this widget.
@@ -70,12 +61,9 @@ public partial class HomeWidget : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public HomeWidget(
-        string? containerId = null,
         GoToOverride? goToOverride = null,
         string? icon = null,
         string? label = null,
-        MapView? mapView = null,
-        OverlayPosition? position = null,
         string? uiStrings = null,
         HomeViewModel? viewModel = null,
         Viewpoint? viewpoint = null,
@@ -84,18 +72,15 @@ public partial class HomeWidget : IGoTo
     {
         AllowRender = false;
 #pragma warning disable BL0005
-        ContainerId = containerId;
         GoToOverride = goToOverride;
         Icon = icon;
         Label = label;
-        MapView = mapView;
-        Position = position;
         UiStrings = uiStrings;
         ViewModel = viewModel;
         Viewpoint = viewpoint;
         Visible = visible;
         WidgetId = widgetId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -162,19 +147,21 @@ public partial class HomeWidget : IGoTo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HomeWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "uiStrings");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             UiStrings = result;
+                UiStrings = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(UiStrings)] = UiStrings;
+                ModifiedParameters[nameof(UiStrings)] = UiStrings;
         }
          
         return UiStrings;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -200,9 +187,10 @@ public partial class HomeWidget : IGoTo
             return ViewModel;
         }
 
-        HomeViewModel? result = await JsComponentReference.InvokeAsync<HomeViewModel?>(
-            "getViewModel", CancellationTokenSource.Token);
-        
+        HomeViewModel? result = await JsComponentReference.InvokeJsMethod<HomeViewModel?>(
+            IsServer, nameof(GetViewModel), nameof(HomeWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (ViewModel is not null)
@@ -218,8 +206,9 @@ public partial class HomeWidget : IGoTo
         }
         
         return ViewModel;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Viewpoint property.
     /// </summary>
@@ -245,11 +234,18 @@ public partial class HomeWidget : IGoTo
             return Viewpoint;
         }
 
-        Viewpoint? result = await JsComponentReference.InvokeAsync<Viewpoint?>(
-            "getViewpoint", CancellationTokenSource.Token);
-        
+        Viewpoint? result = await JsComponentReference.InvokeJsMethod<Viewpoint?>(
+            IsServer, nameof(GetViewpoint), nameof(HomeWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (Viewpoint is not null)
+            {
+                result.Id = Viewpoint.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Viewpoint = result;
 #pragma warning restore BL0005
@@ -257,8 +253,9 @@ public partial class HomeWidget : IGoTo
         }
         
         return Viewpoint;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -298,8 +295,9 @@ public partial class HomeWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "uiStrings", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -308,11 +306,6 @@ public partial class HomeWidget : IGoTo
     /// </param>
     public async Task SetViewModel(HomeViewModel? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005
@@ -322,6 +315,11 @@ public partial class HomeWidget : IGoTo
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -338,10 +336,12 @@ public partial class HomeWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setViewModel", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetViewModel), nameof(HomeWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Viewpoint property after render.
     /// </summary>
@@ -350,11 +350,6 @@ public partial class HomeWidget : IGoTo
     /// </param>
     public async Task SetViewpoint(Viewpoint? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Viewpoint = value;
 #pragma warning restore BL0005
@@ -364,6 +359,11 @@ public partial class HomeWidget : IGoTo
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -380,10 +380,12 @@ public partial class HomeWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setViewpoint", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetViewpoint), nameof(HomeWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Public Methods
@@ -417,8 +419,14 @@ public partial class HomeWidget : IGoTo
             return;
         }
         
-        await JsComponentReference!.InvokeVoidAsync(
-            "cancelGo", 
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(CancelGo), nameof(HomeWidget), 
             CancellationTokenSource.Token);
     }
     
@@ -451,8 +459,14 @@ public partial class HomeWidget : IGoTo
             return;
         }
         
-        await JsComponentReference!.InvokeVoidAsync(
-            "go", 
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(Go), nameof(HomeWidget), 
             CancellationTokenSource.Token);
     }
     
@@ -502,7 +516,7 @@ public partial class HomeWidget : IGoTo
     {
         switch (child)
         {
-            case HomeViewModel _:
+            case HomeViewModel:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;

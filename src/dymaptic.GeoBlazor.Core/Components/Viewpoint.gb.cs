@@ -51,7 +51,7 @@ public partial class Viewpoint
         Scale = scale;
         Rotation = rotation;
         Camera = camera;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -106,11 +106,18 @@ public partial class Viewpoint
             return Camera;
         }
 
-        Camera? result = await JsComponentReference.InvokeAsync<Camera?>(
-            "getCamera", CancellationTokenSource.Token);
-        
+        Camera? result = await JsComponentReference.InvokeJsMethod<Camera?>(
+            IsServer, nameof(GetCamera), nameof(Viewpoint), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (Camera is not null)
+            {
+                result.Id = Camera.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Camera = result;
 #pragma warning restore BL0005
@@ -118,8 +125,9 @@ public partial class Viewpoint
         }
         
         return Camera;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Rotation property.
     /// </summary>
@@ -146,19 +154,21 @@ public partial class Viewpoint
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "rotation");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Viewpoint), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "rotation");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Rotation = result.Value.Value;
+                Rotation = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Rotation)] = Rotation;
+                ModifiedParameters[nameof(Rotation)] = Rotation;
         }
          
         return Rotation;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Scale property.
     /// </summary>
@@ -185,19 +195,21 @@ public partial class Viewpoint
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "scale");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Viewpoint), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "scale");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Scale = result.Value.Value;
+                Scale = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Scale)] = Scale;
+                ModifiedParameters[nameof(Scale)] = Scale;
         }
          
         return Scale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TargetGeometry property.
     /// </summary>
@@ -223,11 +235,18 @@ public partial class Viewpoint
             return TargetGeometry;
         }
 
-        Geometry? result = await JsComponentReference.InvokeAsync<Geometry?>(
-            "getTargetGeometry", CancellationTokenSource.Token);
-        
+        Geometry? result = await JsComponentReference.InvokeJsMethod<Geometry?>(
+            IsServer, nameof(GetTargetGeometry), nameof(Viewpoint), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (TargetGeometry is not null)
+            {
+                result.Id = TargetGeometry.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             TargetGeometry = result;
 #pragma warning restore BL0005
@@ -235,8 +254,9 @@ public partial class Viewpoint
         }
         
         return TargetGeometry;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -249,11 +269,6 @@ public partial class Viewpoint
     /// </param>
     public async Task SetCamera(Camera? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Camera = value;
 #pragma warning restore BL0005
@@ -263,6 +278,11 @@ public partial class Viewpoint
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -281,8 +301,9 @@ public partial class Viewpoint
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "camera", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Rotation property after render.
     /// </summary>
@@ -318,8 +339,9 @@ public partial class Viewpoint
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rotation", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Scale property after render.
     /// </summary>
@@ -355,8 +377,9 @@ public partial class Viewpoint
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "scale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TargetGeometry property after render.
     /// </summary>
@@ -365,11 +388,6 @@ public partial class Viewpoint
     /// </param>
     public async Task SetTargetGeometry(Geometry? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         TargetGeometry = value;
 #pragma warning restore BL0005
@@ -379,6 +397,11 @@ public partial class Viewpoint
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -397,8 +420,9 @@ public partial class Viewpoint
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "targetGeometry", value);
+
     }
-    
+
 #endregion
 
 
@@ -437,7 +461,7 @@ public partial class Viewpoint
                 Camera = null;
                 ModifiedParameters[nameof(Camera)] = Camera;
                 return true;
-            case Geometry _:
+            case Geometry:
                 TargetGeometry = null;
                 ModifiedParameters[nameof(TargetGeometry)] = TargetGeometry;
                 return true;

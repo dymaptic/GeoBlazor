@@ -9,7 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class ImageryTileLayer : IBlendLayer,
-    ICustomParametersMixin,
     IOperationalLayer,
     IPortalLayer,
     IRasterPresetRendererMixin,
@@ -68,7 +67,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#legendEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="listMode">
-    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
+    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
     ///     default "show"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -120,7 +119,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#opacity">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
-    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
+    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="activePresetRendererName">
@@ -135,14 +134,6 @@ public partial class ImageryTileLayer : IBlendLayer,
     ///     The full extent of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="isBasemapReferenceLayer">
-    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
-    /// </param>
-    /// <param name="pixelDataSource">
-    ///     The data source for client-side ImageryTileLayer can be a <a target="_blank" href="https://www.ogc.org/standard/coveragejson/">coverage JSON</a> object
-    ///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">PixelData</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#source">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="presetRenderers">
     ///     A list of preset renderers that defines a preferred renderer for a given multidimensional variable, a given raster function template,
     ///     or an additional generic predefined renderer.
@@ -151,11 +142,6 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// <param name="rasterFunction">
     ///     The client-side raster functions are operations that apply processing directly to the source image pixels.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#rasterFunction">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="stringSource">
-    ///     The data source for client-side ImageryTileLayer can be a <a target="_blank" href="https://www.ogc.org/standard/coveragejson/">coverage JSON</a> object
-    ///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">PixelData</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#source">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="tileInfo">
     ///     The tiling scheme information for the layer.
@@ -190,8 +176,10 @@ public partial class ImageryTileLayer : IBlendLayer,
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="excludeApiKey">
-    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
+    /// <param name="source">
+    ///     The data source for client-side ImageryTileLayer can be a <a target="_blank" href="https://www.ogc.org/standard/coveragejson/">coverage JSON</a> object
+    ///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">PixelData</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#source">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public ImageryTileLayer(
         string? url = null,
@@ -218,18 +206,15 @@ public partial class ImageryTileLayer : IBlendLayer,
         string? activePresetRendererName = null,
         string? arcGISLayerId = null,
         Extent? fullExtent = null,
-        bool? isBasemapReferenceLayer = null,
-        PixelData? pixelDataSource = null,
         IReadOnlyList<RasterPresetRenderer>? presetRenderers = null,
         RasterFunction? rasterFunction = null,
-        string? stringSource = null,
         TileInfo? tileInfo = null,
         TimeExtent? timeExtent = null,
         TimeInfo? timeInfo = null,
         TimeInterval? timeOffset = null,
         TimeExtent? visibilityTimeExtent = null,
         bool? visible = null,
-        bool? excludeApiKey = null)
+        PixelData? source = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -257,19 +242,16 @@ public partial class ImageryTileLayer : IBlendLayer,
         ActivePresetRendererName = activePresetRendererName;
         ArcGISLayerId = arcGISLayerId;
         FullExtent = fullExtent;
-        IsBasemapReferenceLayer = isBasemapReferenceLayer;
-        PixelDataSource = pixelDataSource;
         PresetRenderers = presetRenderers;
         RasterFunction = rasterFunction;
-        StringSource = stringSource;
         TileInfo = tileInfo;
         TimeExtent = timeExtent;
         TimeInfo = timeInfo;
         TimeOffset = timeOffset;
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
-        ExcludeApiKey = excludeApiKey;
-#pragma warning restore BL0005    
+        Source = source;
+#pragma warning restore BL0005
     }
     
     
@@ -314,17 +296,6 @@ public partial class ImageryTileLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<DimensionalDefinition>? MultidimensionalDefinition { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayerpixeldatasource-property">GeoBlazor Docs</a>
-    ///     The data source for client-side ImageryTileLayer can be a <a target="_blank" href="https://www.ogc.org/standard/coveragejson/">coverage JSON</a> object
-    ///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">PixelData</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#source">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public PixelData? PixelDataSource { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayerportalitem-property">GeoBlazor Docs</a>
@@ -389,6 +360,17 @@ public partial class ImageryTileLayer : IBlendLayer,
     public RasterInfo? ServiceRasterInfo { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayersource-property">GeoBlazor Docs</a>
+    ///     The data source for client-side ImageryTileLayer can be a <a target="_blank" href="https://www.ogc.org/standard/coveragejson/">coverage JSON</a> object
+    ///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">PixelData</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#source">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public PixelData? Source { get; set; }
+    
+    /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayersourcejson-property">GeoBlazor Docs</a>
     ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/image-service.htm">tiled image service's metadata JSON</a>
     ///     exposed by the ArcGIS REST API.
@@ -408,17 +390,6 @@ public partial class ImageryTileLayer : IBlendLayer,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public SpatialReference? SpatialReference { get; protected set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayerstringsource-property">GeoBlazor Docs</a>
-    ///     The data source for client-side ImageryTileLayer can be a <a target="_blank" href="https://www.ogc.org/standard/coveragejson/">coverage JSON</a> object
-    ///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">PixelData</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#source">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? StringSource { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayertileinfo-property">GeoBlazor Docs</a>
@@ -481,19 +452,21 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "activePresetRendererName");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ActivePresetRendererName = result;
+                ActivePresetRendererName = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ActivePresetRendererName)] = ActivePresetRendererName;
+                ModifiedParameters[nameof(ActivePresetRendererName)] = ActivePresetRendererName;
         }
          
         return ActivePresetRendererName;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BandIds property.
     /// </summary>
@@ -520,19 +493,21 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
 
         // get the property value
-        IReadOnlyList<long>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<long>?>("getProperty",
+        IReadOnlyList<long>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<long>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "bandIds");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             BandIds = result;
+                BandIds = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(BandIds)] = BandIds;
+                ModifiedParameters[nameof(BandIds)] = BandIds;
         }
          
         return BandIds;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BlendMode property.
     /// </summary>
@@ -559,19 +534,21 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "blendMode");
-        if (result is { Value: not null })
+        BlendMode? result = await JsComponentReference!.InvokeJsMethod<BlendMode?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "blendMode");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             BlendMode = (BlendMode)result.Value.Value!;
+                BlendMode = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(BlendMode)] = BlendMode;
+                ModifiedParameters[nameof(BlendMode)] = BlendMode;
         }
          
         return BlendMode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Copyright property.
     /// </summary>
@@ -598,19 +575,21 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "copyright");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Copyright = result;
+                Copyright = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Copyright)] = Copyright;
+                ModifiedParameters[nameof(Copyright)] = Copyright;
         }
          
         return Copyright;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomParameters property.
     /// </summary>
@@ -637,19 +616,21 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
 
         // get the property value
-        Dictionary<string, object>? result = await JsComponentReference!.InvokeAsync<Dictionary<string, object>?>("getProperty",
+        Dictionary<string, object>? result = await JsComponentReference!.InvokeJsMethod<Dictionary<string, object>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "customParameters");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             CustomParameters = result;
+                CustomParameters = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
+                ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
         }
          
         return CustomParameters;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Effect property.
     /// </summary>
@@ -675,9 +656,10 @@ public partial class ImageryTileLayer : IBlendLayer,
             return Effect;
         }
 
-        Effect? result = await JsComponentReference.InvokeAsync<Effect?>(
-            "getEffect", CancellationTokenSource.Token);
-        
+        Effect? result = await JsComponentReference.InvokeJsMethod<Effect?>(
+            IsServer, nameof(GetEffect), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -687,8 +669,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return Effect;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Interpolation property.
     /// </summary>
@@ -715,19 +698,21 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableEnumWrapper<PixelInterpolation>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PixelInterpolation>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "interpolation");
-        if (result is { Value: not null })
+        PixelInterpolation? result = await JsComponentReference!.InvokeJsMethod<PixelInterpolation?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "interpolation");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Interpolation = (PixelInterpolation)result.Value.Value!;
+                Interpolation = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Interpolation)] = Interpolation;
+                ModifiedParameters[nameof(Interpolation)] = Interpolation;
         }
          
         return Interpolation;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendEnabled property.
     /// </summary>
@@ -754,19 +739,21 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "legendEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "legendEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             LegendEnabled = result.Value.Value;
+                LegendEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
+                ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
         }
          
         return LegendEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -793,19 +780,21 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "maxScale");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "maxScale");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             MaxScale = result.Value.Value;
+                MaxScale = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MaxScale)] = MaxScale;
+                ModifiedParameters[nameof(MaxScale)] = MaxScale;
         }
          
         return MaxScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -832,19 +821,21 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "minScale");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "minScale");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             MinScale = result.Value.Value;
+                MinScale = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MinScale)] = MinScale;
+                ModifiedParameters[nameof(MinScale)] = MinScale;
         }
          
         return MinScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MultidimensionalDefinition property.
     /// </summary>
@@ -870,11 +861,16 @@ public partial class ImageryTileLayer : IBlendLayer,
             return MultidimensionalDefinition;
         }
 
-        IReadOnlyList<DimensionalDefinition>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<DimensionalDefinition>?>(
-            "getMultidimensionalDefinition", CancellationTokenSource.Token);
-        
+        IReadOnlyList<DimensionalDefinition>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<DimensionalDefinition>?>(
+            IsServer, nameof(GetMultidimensionalDefinition), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (DimensionalDefinition item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             MultidimensionalDefinition = result;
 #pragma warning restore BL0005
@@ -882,8 +878,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return MultidimensionalDefinition;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MultidimensionalSubset property.
     /// </summary>
@@ -909,11 +906,18 @@ public partial class ImageryTileLayer : IBlendLayer,
             return MultidimensionalSubset;
         }
 
-        MultidimensionalSubset? result = await JsComponentReference.InvokeAsync<MultidimensionalSubset?>(
-            "getMultidimensionalSubset", CancellationTokenSource.Token);
-        
+        MultidimensionalSubset? result = await JsComponentReference.InvokeJsMethod<MultidimensionalSubset?>(
+            IsServer, nameof(GetMultidimensionalSubset), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (MultidimensionalSubset is not null)
+            {
+                result.Id = MultidimensionalSubset.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             MultidimensionalSubset = result;
 #pragma warning restore BL0005
@@ -921,47 +925,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return MultidimensionalSubset;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the PixelDataSource property.
-    /// </summary>
-    public async Task<PixelData?> GetPixelDataSource()
-    {
-        if (CoreJsModule is null)
-        {
-            return PixelDataSource;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return PixelDataSource;
-        }
 
-        PixelData? result = await JsComponentReference.InvokeAsync<PixelData?>(
-            "getPixelDataSource", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            PixelDataSource = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(PixelDataSource)] = PixelDataSource;
-        }
-        
-        return PixelDataSource;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupEnabled property.
     /// </summary>
@@ -988,19 +954,21 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "popupEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "popupEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             PopupEnabled = result.Value.Value;
+                PopupEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
+                ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
         }
          
         return PopupEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupTemplate property.
     /// </summary>
@@ -1026,11 +994,18 @@ public partial class ImageryTileLayer : IBlendLayer,
             return PopupTemplate;
         }
 
-        PopupTemplate? result = await JsComponentReference.InvokeAsync<PopupTemplate?>(
-            "getPopupTemplate", CancellationTokenSource.Token);
-        
+        PopupTemplate? result = await JsComponentReference.InvokeJsMethod<PopupTemplate?>(
+            IsServer, nameof(GetPopupTemplate), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (PopupTemplate is not null)
+            {
+                result.Id = PopupTemplate.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             PopupTemplate = result;
 #pragma warning restore BL0005
@@ -1038,8 +1013,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return PopupTemplate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalItem property.
     /// </summary>
@@ -1065,9 +1041,10 @@ public partial class ImageryTileLayer : IBlendLayer,
             return PortalItem;
         }
 
-        PortalItem? result = await JsComponentReference.InvokeAsync<PortalItem?>(
-            "getPortalItem", CancellationTokenSource.Token);
-        
+        PortalItem? result = await JsComponentReference.InvokeJsMethod<PortalItem?>(
+            IsServer, nameof(GetPortalItem), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (PortalItem is not null)
@@ -1083,8 +1060,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return PortalItem;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PresetRenderers property.
     /// </summary>
@@ -1110,11 +1088,16 @@ public partial class ImageryTileLayer : IBlendLayer,
             return PresetRenderers;
         }
 
-        IReadOnlyList<RasterPresetRenderer>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<RasterPresetRenderer>?>(
-            "getPresetRenderers", CancellationTokenSource.Token);
-        
+        IReadOnlyList<RasterPresetRenderer>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<RasterPresetRenderer>?>(
+            IsServer, nameof(GetPresetRenderers), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (RasterPresetRenderer item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             PresetRenderers = result;
 #pragma warning restore BL0005
@@ -1122,8 +1105,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return PresetRenderers;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RasterFields property.
     /// </summary>
@@ -1149,11 +1133,16 @@ public partial class ImageryTileLayer : IBlendLayer,
             return RasterFields;
         }
 
-        IReadOnlyList<Field>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Field>?>(
-            "getRasterFields", CancellationTokenSource.Token);
-        
+        IReadOnlyList<Field>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Field>?>(
+            IsServer, nameof(GetRasterFields), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (Field item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             RasterFields = result;
 #pragma warning restore BL0005
@@ -1161,8 +1150,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return RasterFields;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RasterFunction property.
     /// </summary>
@@ -1188,11 +1178,18 @@ public partial class ImageryTileLayer : IBlendLayer,
             return RasterFunction;
         }
 
-        RasterFunction? result = await JsComponentReference.InvokeAsync<RasterFunction?>(
-            "getRasterFunction", CancellationTokenSource.Token);
-        
+        RasterFunction? result = await JsComponentReference.InvokeJsMethod<RasterFunction?>(
+            IsServer, nameof(GetRasterFunction), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (RasterFunction is not null)
+            {
+                result.Id = RasterFunction.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             RasterFunction = result;
 #pragma warning restore BL0005
@@ -1200,8 +1197,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return RasterFunction;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Renderer property.
     /// </summary>
@@ -1228,19 +1226,68 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
 
         // get the property value
-        IImageryRenderer? result = await JsComponentReference!.InvokeAsync<IImageryRenderer?>("getProperty",
+        IImageryRenderer? result = await JsComponentReference!.InvokeJsMethod<IImageryRenderer?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "renderer");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Renderer = result;
+                Renderer = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Renderer)] = Renderer;
+                ModifiedParameters[nameof(Renderer)] = Renderer;
         }
          
         return Renderer;
+
     }
-    
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Source property.
+    /// </summary>
+    public async Task<PixelData?> GetSource()
+    {
+        if (CoreJsModule is null)
+        {
+            return Source;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Source;
+        }
+
+        PixelData? result = await JsComponentReference.InvokeJsMethod<PixelData?>(
+            IsServer, nameof(GetSource), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+            if (Source is not null)
+            {
+                result.Id = Source.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            Source = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Source)] = Source;
+        }
+        
+        return Source;
+
+    }
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
@@ -1267,19 +1314,21 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SourceJSON = result;
+                SourceJSON = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
+                ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
         }
          
         return SourceJSON;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -1305,9 +1354,10 @@ public partial class ImageryTileLayer : IBlendLayer,
             return SpatialReference;
         }
 
-        SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
-            "getSpatialReference", CancellationTokenSource.Token);
-        
+        SpatialReference? result = await JsComponentReference.InvokeJsMethod<SpatialReference?>(
+            IsServer, nameof(GetSpatialReference), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1317,47 +1367,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return SpatialReference;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the StringSource property.
-    /// </summary>
-    public async Task<string?> GetStringSource()
-    {
-        if (CoreJsModule is null)
-        {
-            return StringSource;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return StringSource;
-        }
 
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "source");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             StringSource = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(StringSource)] = StringSource;
-        }
-         
-        return StringSource;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TileInfo property.
     /// </summary>
@@ -1383,9 +1395,10 @@ public partial class ImageryTileLayer : IBlendLayer,
             return TileInfo;
         }
 
-        TileInfo? result = await JsComponentReference.InvokeAsync<TileInfo?>(
-            "getTileInfo", CancellationTokenSource.Token);
-        
+        TileInfo? result = await JsComponentReference.InvokeJsMethod<TileInfo?>(
+            IsServer, nameof(GetTileInfo), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (TileInfo is not null)
@@ -1401,8 +1414,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return TileInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeExtent property.
     /// </summary>
@@ -1428,9 +1442,10 @@ public partial class ImageryTileLayer : IBlendLayer,
             return TimeExtent;
         }
 
-        TimeExtent? result = await JsComponentReference.InvokeAsync<TimeExtent?>(
-            "getTimeExtent", CancellationTokenSource.Token);
-        
+        TimeExtent? result = await JsComponentReference.InvokeJsMethod<TimeExtent?>(
+            IsServer, nameof(GetTimeExtent), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (TimeExtent is not null)
@@ -1446,8 +1461,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return TimeExtent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeInfo property.
     /// </summary>
@@ -1473,11 +1489,18 @@ public partial class ImageryTileLayer : IBlendLayer,
             return TimeInfo;
         }
 
-        TimeInfo? result = await JsComponentReference.InvokeAsync<TimeInfo?>(
-            "getTimeInfo", CancellationTokenSource.Token);
-        
+        TimeInfo? result = await JsComponentReference.InvokeJsMethod<TimeInfo?>(
+            IsServer, nameof(GetTimeInfo), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (TimeInfo is not null)
+            {
+                result.Id = TimeInfo.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             TimeInfo = result;
 #pragma warning restore BL0005
@@ -1485,8 +1508,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return TimeInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeOffset property.
     /// </summary>
@@ -1512,11 +1536,18 @@ public partial class ImageryTileLayer : IBlendLayer,
             return TimeOffset;
         }
 
-        TimeInterval? result = await JsComponentReference.InvokeAsync<TimeInterval?>(
-            "getTimeOffset", CancellationTokenSource.Token);
-        
+        TimeInterval? result = await JsComponentReference.InvokeJsMethod<TimeInterval?>(
+            IsServer, nameof(GetTimeOffset), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (TimeOffset is not null)
+            {
+                result.Id = TimeOffset.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             TimeOffset = result;
 #pragma warning restore BL0005
@@ -1524,8 +1555,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return TimeOffset;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -1552,19 +1584,21 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "url");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Url = result;
+                Url = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Url)] = Url;
+                ModifiedParameters[nameof(Url)] = Url;
         }
          
         return Url;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UseViewTime property.
     /// </summary>
@@ -1591,19 +1625,21 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "useViewTime");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "useViewTime");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             UseViewTime = result.Value.Value;
+                UseViewTime = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(UseViewTime)] = UseViewTime;
+                ModifiedParameters[nameof(UseViewTime)] = UseViewTime;
         }
          
         return UseViewTime;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Version property.
     /// </summary>
@@ -1630,19 +1666,21 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "version");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "version");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Version = result.Value.Value;
+                Version = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Version)] = Version;
+                ModifiedParameters[nameof(Version)] = Version;
         }
          
         return Version;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -1682,8 +1720,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "activePresetRendererName", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BandIds property after render.
     /// </summary>
@@ -1719,8 +1758,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "bandIds", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BlendMode property after render.
     /// </summary>
@@ -1756,8 +1796,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "blendMode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Copyright property after render.
     /// </summary>
@@ -1793,8 +1834,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "copyright", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CustomParameters property after render.
     /// </summary>
@@ -1830,8 +1872,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "customParameters", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Effect property after render.
     /// </summary>
@@ -1865,10 +1908,12 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setEffect", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetEffect), nameof(ImageryTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Interpolation property after render.
     /// </summary>
@@ -1904,8 +1949,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "interpolation", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
@@ -1941,8 +1987,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -1978,8 +2025,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -2015,8 +2063,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MultidimensionalDefinition property after render.
     /// </summary>
@@ -2025,14 +2074,6 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </param>
     public async Task SetMultidimensionalDefinition(IReadOnlyList<DimensionalDefinition>? value)
     {
-        if (value is not null)
-        {
-            foreach (DimensionalDefinition item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
 #pragma warning disable BL0005
         MultidimensionalDefinition = value;
 #pragma warning restore BL0005
@@ -2042,6 +2083,14 @@ public partial class ImageryTileLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            foreach (DimensionalDefinition item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
     
         try 
         {
@@ -2058,10 +2107,12 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setMultidimensionalDefinition", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetMultidimensionalDefinition), nameof(ImageryTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MultidimensionalSubset property after render.
     /// </summary>
@@ -2070,11 +2121,6 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </param>
     public async Task SetMultidimensionalSubset(MultidimensionalSubset? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         MultidimensionalSubset = value;
 #pragma warning restore BL0005
@@ -2084,6 +2130,11 @@ public partial class ImageryTileLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -2100,10 +2151,12 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setMultidimensionalSubset", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetMultidimensionalSubset), nameof(ImageryTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PersistenceEnabled property after render.
     /// </summary>
@@ -2139,50 +2192,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "persistenceEnabled", value);
+
     }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the PixelDataSource property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetPixelDataSource(PixelData? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-#pragma warning disable BL0005
-        PixelDataSource = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(PixelDataSource)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setPixelDataSource", 
-            CancellationTokenSource.Token, value);
-    }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
@@ -2218,8 +2230,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupTemplate property after render.
     /// </summary>
@@ -2228,11 +2241,6 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </param>
     public async Task SetPopupTemplate(PopupTemplate? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         PopupTemplate = value;
 #pragma warning restore BL0005
@@ -2242,6 +2250,11 @@ public partial class ImageryTileLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -2258,10 +2271,12 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setPopupTemplate", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPopupTemplate), nameof(ImageryTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
@@ -2270,11 +2285,6 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </param>
     public async Task SetPortalItem(PortalItem? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         PortalItem = value;
 #pragma warning restore BL0005
@@ -2284,6 +2294,11 @@ public partial class ImageryTileLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -2300,10 +2315,12 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setPortalItem", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPortalItem), nameof(ImageryTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PresetRenderers property after render.
     /// </summary>
@@ -2312,14 +2329,6 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </param>
     public async Task SetPresetRenderers(IReadOnlyList<RasterPresetRenderer>? value)
     {
-        if (value is not null)
-        {
-            foreach (RasterPresetRenderer item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
 #pragma warning disable BL0005
         PresetRenderers = value;
 #pragma warning restore BL0005
@@ -2329,6 +2338,14 @@ public partial class ImageryTileLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            foreach (RasterPresetRenderer item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
     
         try 
         {
@@ -2345,10 +2362,12 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setPresetRenderers", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPresetRenderers), nameof(ImageryTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RasterFunction property after render.
     /// </summary>
@@ -2357,11 +2376,6 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </param>
     public async Task SetRasterFunction(RasterFunction? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         RasterFunction = value;
 #pragma warning restore BL0005
@@ -2371,6 +2385,11 @@ public partial class ImageryTileLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -2387,10 +2406,12 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setRasterFunction", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetRasterFunction), nameof(ImageryTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Renderer property after render.
     /// </summary>
@@ -2426,25 +2447,31 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "renderer", value);
+
     }
-    
+
     /// <summary>
-    ///    Asynchronously set the value of the StringSource property after render.
+    ///    Asynchronously set the value of the Source property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStringSource(string? value)
+    public async Task SetSource(PixelData? value)
     {
 #pragma warning disable BL0005
-        StringSource = value;
+        Source = value;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(StringSource)] = value;
+        ModifiedParameters[nameof(Source)] = value;
         
         if (CoreJsModule is null)
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -2461,10 +2488,12 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "source", value);
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetSource), nameof(ImageryTileLayer),
+            CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TileInfo property after render.
     /// </summary>
@@ -2473,11 +2502,6 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </param>
     public async Task SetTileInfo(TileInfo? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         TileInfo = value;
 #pragma warning restore BL0005
@@ -2487,6 +2511,11 @@ public partial class ImageryTileLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -2503,10 +2532,12 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setTileInfo", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTileInfo), nameof(ImageryTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeExtent property after render.
     /// </summary>
@@ -2515,11 +2546,6 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </param>
     public async Task SetTimeExtent(TimeExtent? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         TimeExtent = value;
 #pragma warning restore BL0005
@@ -2529,6 +2555,11 @@ public partial class ImageryTileLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -2545,10 +2576,12 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setTimeExtent", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTimeExtent), nameof(ImageryTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeInfo property after render.
     /// </summary>
@@ -2557,11 +2590,6 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </param>
     public async Task SetTimeInfo(TimeInfo? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         TimeInfo = value;
 #pragma warning restore BL0005
@@ -2571,6 +2599,11 @@ public partial class ImageryTileLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -2587,10 +2620,12 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setTimeInfo", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTimeInfo), nameof(ImageryTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeOffset property after render.
     /// </summary>
@@ -2599,11 +2634,6 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </param>
     public async Task SetTimeOffset(TimeInterval? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         TimeOffset = value;
 #pragma warning restore BL0005
@@ -2613,6 +2643,11 @@ public partial class ImageryTileLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -2629,10 +2664,12 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setTimeOffset", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTimeOffset), nameof(ImageryTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -2668,8 +2705,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UseViewTime property after render.
     /// </summary>
@@ -2705,8 +2743,9 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "useViewTime", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -2723,6 +2762,7 @@ public partial class ImageryTileLayer : IBlendLayer,
             ? values
             : [..BandIds, ..values];
         await SetBandIds(join);
+
     }
     
     /// <summary>
@@ -2737,6 +2777,7 @@ public partial class ImageryTileLayer : IBlendLayer,
             ? values
             : [..MultidimensionalDefinition, ..values];
         await SetMultidimensionalDefinition(join);
+
     }
     
     /// <summary>
@@ -2751,6 +2792,7 @@ public partial class ImageryTileLayer : IBlendLayer,
             ? values
             : [..PresetRenderers, ..values];
         await SetPresetRenderers(join);
+
     }
     
 #endregion
@@ -2771,6 +2813,7 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         await SetBandIds(BandIds.Except(values).ToArray());
+
     }
     
     
@@ -2787,6 +2830,7 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         await SetMultidimensionalDefinition(MultidimensionalDefinition.Except(values).ToArray());
+
     }
     
     
@@ -2803,6 +2847,7 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         await SetPresetRenderers(PresetRenderers.Except(values).ToArray());
+
     }
     
 #endregion
@@ -2823,18 +2868,6 @@ public partial class ImageryTileLayer : IBlendLayer,
                 {
                     MultidimensionalDefinition = [..MultidimensionalDefinition, multidimensionalDefinition];
                     ModifiedParameters[nameof(MultidimensionalDefinition)] = MultidimensionalDefinition;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-                
-                return true;
-            case PixelData pixelDataSource:
-                if (pixelDataSource != PixelDataSource)
-                {
-                    PixelDataSource = pixelDataSource;
-                    ModifiedParameters[nameof(PixelDataSource)] = PixelDataSource;
                     if (MapRendered)
                     {
                         await UpdateLayer();
@@ -2879,6 +2912,18 @@ public partial class ImageryTileLayer : IBlendLayer,
                 }
                 
                 return true;
+            case PixelData source:
+                if (source != Source)
+                {
+                    Source = source;
+                    ModifiedParameters[nameof(Source)] = Source;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+                
+                return true;
             case TileInfo tileInfo:
                 if (tileInfo != TileInfo)
                 {
@@ -2905,10 +2950,6 @@ public partial class ImageryTileLayer : IBlendLayer,
                 MultidimensionalDefinition = MultidimensionalDefinition?.Where(m => m != multidimensionalDefinition).ToList();
                 ModifiedParameters[nameof(MultidimensionalDefinition)] = MultidimensionalDefinition;
                 return true;
-            case PixelData _:
-                PixelDataSource = null;
-                ModifiedParameters[nameof(PixelDataSource)] = PixelDataSource;
-                return true;
             case PortalItem _:
                 PortalItem = null;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
@@ -2920,6 +2961,10 @@ public partial class ImageryTileLayer : IBlendLayer,
             case RasterFunction _:
                 RasterFunction = null;
                 ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
+                return true;
+            case PixelData:
+                Source = null;
+                ModifiedParameters[nameof(Source)] = Source;
                 return true;
             case TileInfo _:
                 TileInfo = null;
@@ -2945,7 +2990,6 @@ public partial class ImageryTileLayer : IBlendLayer,
                 child.ValidateRequiredGeneratedChildren();
             }
         }
-        PixelDataSource?.ValidateRequiredGeneratedChildren();
         if (PresetRenderers is not null)
         {
             foreach (RasterPresetRenderer child in PresetRenderers)
@@ -2954,6 +2998,7 @@ public partial class ImageryTileLayer : IBlendLayer,
             }
         }
         RasterFunction?.ValidateRequiredGeneratedChildren();
+        Source?.ValidateRequiredGeneratedChildren();
         TileInfo?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

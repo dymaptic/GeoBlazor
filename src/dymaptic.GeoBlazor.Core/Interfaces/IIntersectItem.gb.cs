@@ -4,8 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IIntersectItem.html">GeoBlazor Docs</a>
-///     Items which are to be excluded when querying elevation from the view.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-analysis-ElevationProfile-ElevationProfileLineScene.html#exclude">ArcGIS Maps SDK for JavaScript</a>
+///     Implementation of parent property Exclude as IntersectItem.
 /// </summary>
 public partial interface IIntersectItem 
 {

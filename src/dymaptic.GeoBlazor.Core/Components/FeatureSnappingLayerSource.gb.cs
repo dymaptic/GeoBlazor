@@ -34,7 +34,7 @@ public partial class FeatureSnappingLayerSource
         AllowRender = false;
 #pragma warning disable BL0005
         Enabled = enabled;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -81,19 +81,21 @@ public partial class FeatureSnappingLayerSource
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "enabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureSnappingLayerSource), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "enabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Enabled = result.Value.Value;
+                Enabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Enabled)] = Enabled;
+                ModifiedParameters[nameof(Enabled)] = Enabled;
         }
          
         return Enabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Layer property.
     /// </summary>
@@ -119,9 +121,10 @@ public partial class FeatureSnappingLayerSource
             return Layer;
         }
 
-        Layer? result = await JsComponentReference.InvokeAsync<Layer?>(
-            "getLayer", CancellationTokenSource.Token);
-        
+        Layer? result = await JsComponentReference.InvokeJsMethod<Layer?>(
+            IsServer, nameof(GetLayer), nameof(FeatureSnappingLayerSource), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (Layer is not null)
@@ -137,8 +140,9 @@ public partial class FeatureSnappingLayerSource
         }
         
         return Layer;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -178,8 +182,9 @@ public partial class FeatureSnappingLayerSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "enabled", value);
+
     }
-    
+
 #endregion
 
 }

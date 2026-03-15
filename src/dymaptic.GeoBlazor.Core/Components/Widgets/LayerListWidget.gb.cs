@@ -270,19 +270,21 @@ public partial class LayerListWidget
         }
 
         // get the property value
-        ICatalogLayerListWidget? result = await JsComponentReference!.InvokeAsync<ICatalogLayerListWidget?>("getProperty",
+        ICatalogLayerListWidget? result = await JsComponentReference!.InvokeJsMethod<ICatalogLayerListWidget?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "catalogLayerList");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             CatalogLayerList = result;
+                CatalogLayerList = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(CatalogLayerList)] = CatalogLayerList;
+                ModifiedParameters[nameof(CatalogLayerList)] = CatalogLayerList;
         }
          
         return CatalogLayerList;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CatalogOptions property.
     /// </summary>
@@ -308,9 +310,10 @@ public partial class LayerListWidget
             return CatalogOptions;
         }
 
-        LayerListCatalogOptions? result = await JsComponentReference.InvokeAsync<LayerListCatalogOptions?>(
-            "getCatalogOptions", CancellationTokenSource.Token);
-        
+        LayerListCatalogOptions? result = await JsComponentReference.InvokeJsMethod<LayerListCatalogOptions?>(
+            IsServer, nameof(GetCatalogOptions), nameof(LayerListWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -320,8 +323,9 @@ public partial class LayerListWidget
         }
         
         return CatalogOptions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Collapsed property.
     /// </summary>
@@ -348,19 +352,21 @@ public partial class LayerListWidget
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "collapsed");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "collapsed");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Collapsed = result.Value.Value;
+                Collapsed = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Collapsed)] = Collapsed;
+                ModifiedParameters[nameof(Collapsed)] = Collapsed;
         }
          
         return Collapsed;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DragEnabled property.
     /// </summary>
@@ -387,19 +393,21 @@ public partial class LayerListWidget
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "dragEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "dragEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             DragEnabled = result.Value.Value;
+                DragEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DragEnabled)] = DragEnabled;
+                ModifiedParameters[nameof(DragEnabled)] = DragEnabled;
         }
          
         return DragEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FilterPlaceholder property.
     /// </summary>
@@ -426,19 +434,21 @@ public partial class LayerListWidget
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "filterPlaceholder");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FilterPlaceholder = result;
+                FilterPlaceholder = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FilterPlaceholder)] = FilterPlaceholder;
+                ModifiedParameters[nameof(FilterPlaceholder)] = FilterPlaceholder;
         }
          
         return FilterPlaceholder;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FilterText property.
     /// </summary>
@@ -465,19 +475,21 @@ public partial class LayerListWidget
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "filterText");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FilterText = result;
+                FilterText = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FilterText)] = FilterText;
+                ModifiedParameters[nameof(FilterText)] = FilterText;
         }
          
         return FilterText;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HeadingLevel property.
     /// </summary>
@@ -504,19 +516,21 @@ public partial class LayerListWidget
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "headingLevel");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "headingLevel");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             HeadingLevel = result.Value.Value;
+                HeadingLevel = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(HeadingLevel)] = HeadingLevel;
+                ModifiedParameters[nameof(HeadingLevel)] = HeadingLevel;
         }
          
         return HeadingLevel;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the KnowledgeGraphOptions property.
     /// </summary>
@@ -542,9 +556,10 @@ public partial class LayerListWidget
             return KnowledgeGraphOptions;
         }
 
-        LayerListKnowledgeGraphOptions? result = await JsComponentReference.InvokeAsync<LayerListKnowledgeGraphOptions?>(
-            "getKnowledgeGraphOptions", CancellationTokenSource.Token);
-        
+        LayerListKnowledgeGraphOptions? result = await JsComponentReference.InvokeJsMethod<LayerListKnowledgeGraphOptions?>(
+            IsServer, nameof(GetKnowledgeGraphOptions), nameof(LayerListWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -554,8 +569,9 @@ public partial class LayerListWidget
         }
         
         return KnowledgeGraphOptions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinDragEnabledItems property.
     /// </summary>
@@ -582,19 +598,21 @@ public partial class LayerListWidget
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "minDragEnabledItems");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "minDragEnabledItems");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             MinDragEnabledItems = result.Value.Value;
+                MinDragEnabledItems = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MinDragEnabledItems)] = MinDragEnabledItems;
+                ModifiedParameters[nameof(MinDragEnabledItems)] = MinDragEnabledItems;
         }
          
         return MinDragEnabledItems;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinFilterItems property.
     /// </summary>
@@ -621,19 +639,21 @@ public partial class LayerListWidget
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "minFilterItems");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "minFilterItems");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             MinFilterItems = result.Value.Value;
+                MinFilterItems = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MinFilterItems)] = MinFilterItems;
+                ModifiedParameters[nameof(MinFilterItems)] = MinFilterItems;
         }
          
         return MinFilterItems;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OperationalItems property.
     /// </summary>
@@ -659,11 +679,16 @@ public partial class LayerListWidget
             return OperationalItems;
         }
 
-        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ListItem>?>(
-            "getOperationalItems", CancellationTokenSource.Token);
-        
+        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<ListItem>?>(
+            IsServer, nameof(GetOperationalItems), nameof(LayerListWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (ListItem item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             OperationalItems = result;
 #pragma warning restore BL0005
@@ -671,8 +696,9 @@ public partial class LayerListWidget
         }
         
         return OperationalItems;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SelectedItems property.
     /// </summary>
@@ -698,11 +724,16 @@ public partial class LayerListWidget
             return SelectedItems;
         }
 
-        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ListItem>?>(
-            "getSelectedItems", CancellationTokenSource.Token);
-        
+        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<ListItem>?>(
+            IsServer, nameof(GetSelectedItems), nameof(LayerListWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (ListItem item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             SelectedItems = result;
 #pragma warning restore BL0005
@@ -710,8 +741,9 @@ public partial class LayerListWidget
         }
         
         return SelectedItems;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SelectionMode property.
     /// </summary>
@@ -738,19 +770,21 @@ public partial class LayerListWidget
         }
 
         // get the property value
-        JsNullableEnumWrapper<SelectionMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SelectionMode>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "selectionMode");
-        if (result is { Value: not null })
+        SelectionMode? result = await JsComponentReference!.InvokeJsMethod<SelectionMode?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "selectionMode");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SelectionMode = (SelectionMode)result.Value.Value!;
+                SelectionMode = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SelectionMode)] = SelectionMode;
+                ModifiedParameters[nameof(SelectionMode)] = SelectionMode;
         }
          
         return SelectionMode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TableList property.
     /// </summary>
@@ -777,19 +811,21 @@ public partial class LayerListWidget
         }
 
         // get the property value
-        ITableListWidget? result = await JsComponentReference!.InvokeAsync<ITableListWidget?>("getProperty",
+        ITableListWidget? result = await JsComponentReference!.InvokeJsMethod<ITableListWidget?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "tableList");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             TableList = result;
+                TableList = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TableList)] = TableList;
+                ModifiedParameters[nameof(TableList)] = TableList;
         }
          
         return TableList;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -815,9 +851,10 @@ public partial class LayerListWidget
             return ViewModel;
         }
 
-        LayerListViewModel? result = await JsComponentReference.InvokeAsync<LayerListViewModel?>(
-            "getViewModel", CancellationTokenSource.Token);
-        
+        LayerListViewModel? result = await JsComponentReference.InvokeJsMethod<LayerListViewModel?>(
+            IsServer, nameof(GetViewModel), nameof(LayerListWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (ViewModel is not null)
@@ -833,8 +870,9 @@ public partial class LayerListWidget
         }
         
         return ViewModel;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibilityAppearance property.
     /// </summary>
@@ -861,19 +899,21 @@ public partial class LayerListWidget
         }
 
         // get the property value
-        JsNullableEnumWrapper<VisibilityAppearance>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<VisibilityAppearance>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "visibilityAppearance");
-        if (result is { Value: not null })
+        VisibilityAppearance? result = await JsComponentReference!.InvokeJsMethod<VisibilityAppearance?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "visibilityAppearance");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             VisibilityAppearance = (VisibilityAppearance)result.Value.Value!;
+                VisibilityAppearance = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(VisibilityAppearance)] = VisibilityAppearance;
+                ModifiedParameters[nameof(VisibilityAppearance)] = VisibilityAppearance;
         }
          
         return VisibilityAppearance;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibleElements property.
     /// </summary>
@@ -899,11 +939,18 @@ public partial class LayerListWidget
             return VisibleElements;
         }
 
-        LayerListVisibleElements? result = await JsComponentReference.InvokeAsync<LayerListVisibleElements?>(
-            "getVisibleElements", CancellationTokenSource.Token);
-        
+        LayerListVisibleElements? result = await JsComponentReference.InvokeJsMethod<LayerListVisibleElements?>(
+            IsServer, nameof(GetVisibleElements), nameof(LayerListWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (VisibleElements is not null)
+            {
+                result.Id = VisibleElements.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             VisibleElements = result;
 #pragma warning restore BL0005
@@ -911,8 +958,9 @@ public partial class LayerListWidget
         }
         
         return VisibleElements;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -950,10 +998,12 @@ public partial class LayerListWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setCatalogOptions", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetCatalogOptions), nameof(LayerListWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Collapsed property after render.
     /// </summary>
@@ -989,8 +1039,9 @@ public partial class LayerListWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "collapsed", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DragEnabled property after render.
     /// </summary>
@@ -1026,8 +1077,9 @@ public partial class LayerListWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "dragEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FilterPlaceholder property after render.
     /// </summary>
@@ -1063,8 +1115,9 @@ public partial class LayerListWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "filterPlaceholder", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FilterText property after render.
     /// </summary>
@@ -1100,8 +1153,9 @@ public partial class LayerListWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "filterText", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HeadingLevel property after render.
     /// </summary>
@@ -1137,8 +1191,9 @@ public partial class LayerListWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "headingLevel", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the KnowledgeGraphOptions property after render.
     /// </summary>
@@ -1172,10 +1227,12 @@ public partial class LayerListWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setKnowledgeGraphOptions", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetKnowledgeGraphOptions), nameof(LayerListWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinDragEnabledItems property after render.
     /// </summary>
@@ -1211,8 +1268,9 @@ public partial class LayerListWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minDragEnabledItems", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinFilterItems property after render.
     /// </summary>
@@ -1248,8 +1306,9 @@ public partial class LayerListWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minFilterItems", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SelectedItems property after render.
     /// </summary>
@@ -1258,14 +1317,6 @@ public partial class LayerListWidget
     /// </param>
     public async Task SetSelectedItems(IReadOnlyList<ListItem>? value)
     {
-        if (value is not null)
-        {
-            foreach (ListItem item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
 #pragma warning disable BL0005
         SelectedItems = value;
 #pragma warning restore BL0005
@@ -1275,6 +1326,14 @@ public partial class LayerListWidget
         {
             return;
         }
+        if (value is not null)
+        {
+            foreach (ListItem item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
     
         try 
         {
@@ -1291,10 +1350,12 @@ public partial class LayerListWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setSelectedItems", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetSelectedItems), nameof(LayerListWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SelectionMode property after render.
     /// </summary>
@@ -1330,8 +1391,9 @@ public partial class LayerListWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "selectionMode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -1340,11 +1402,6 @@ public partial class LayerListWidget
     /// </param>
     public async Task SetViewModel(LayerListViewModel? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005
@@ -1354,6 +1411,11 @@ public partial class LayerListWidget
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -1370,10 +1432,12 @@ public partial class LayerListWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setViewModel", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetViewModel), nameof(LayerListWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the VisibilityAppearance property after render.
     /// </summary>
@@ -1409,8 +1473,9 @@ public partial class LayerListWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "visibilityAppearance", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the VisibleElements property after render.
     /// </summary>
@@ -1419,11 +1484,6 @@ public partial class LayerListWidget
     /// </param>
     public async Task SetVisibleElements(LayerListVisibleElements? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         VisibleElements = value;
 #pragma warning restore BL0005
@@ -1433,6 +1493,11 @@ public partial class LayerListWidget
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -1449,10 +1514,12 @@ public partial class LayerListWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setVisibleElements", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetVisibleElements), nameof(LayerListWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -1469,6 +1536,7 @@ public partial class LayerListWidget
             ? values
             : [..SelectedItems, ..values];
         await SetSelectedItems(join);
+
     }
     
 #endregion
@@ -1489,6 +1557,7 @@ public partial class LayerListWidget
             return;
         }
         await SetSelectedItems(SelectedItems.Except(values).ToArray());
+
     }
     
 #endregion
@@ -1532,8 +1601,14 @@ public partial class LayerListWidget
             return;
         }
         
-        await JsComponentReference!.InvokeVoidAsync(
-            "triggerAction", 
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(TriggerAction), nameof(LayerListWidget), 
             CancellationTokenSource.Token,
             action,
             item);
@@ -1602,11 +1677,11 @@ public partial class LayerListWidget
                 SelectedItems = SelectedItems?.Where(s => s != selectedItems).ToList();
                 ModifiedParameters[nameof(SelectedItems)] = SelectedItems;
                 return true;
-            case LayerListViewModel _:
+            case LayerListViewModel:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
-            case LayerListVisibleElements _:
+            case LayerListVisibleElements:
                 VisibleElements = null;
                 ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
                 return true;

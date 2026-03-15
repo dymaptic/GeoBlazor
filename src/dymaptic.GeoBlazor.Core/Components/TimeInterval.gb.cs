@@ -41,7 +41,7 @@ public partial class TimeInterval
 #pragma warning disable BL0005
         Unit = unit;
         Value = value;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -99,19 +99,21 @@ public partial class TimeInterval
         }
 
         // get the property value
-        JsNullableEnumWrapper<TemporalTime>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<TemporalTime>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "unit");
-        if (result is { Value: not null })
+        TemporalTime? result = await JsComponentReference!.InvokeJsMethod<TemporalTime?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TimeInterval), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "unit");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Unit = (TemporalTime)result.Value.Value!;
+                Unit = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Unit)] = Unit;
+                ModifiedParameters[nameof(Unit)] = Unit;
         }
          
         return Unit;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Value property.
     /// </summary>
@@ -138,19 +140,21 @@ public partial class TimeInterval
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "value");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TimeInterval), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "value");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Value = result.Value.Value;
+                Value = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Value)] = Value;
+                ModifiedParameters[nameof(Value)] = Value;
         }
          
         return Value;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -190,8 +194,9 @@ public partial class TimeInterval
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "unit", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Value property after render.
     /// </summary>
@@ -227,8 +232,9 @@ public partial class TimeInterval
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value", value);
+
     }
-    
+
 #endregion
 
 }

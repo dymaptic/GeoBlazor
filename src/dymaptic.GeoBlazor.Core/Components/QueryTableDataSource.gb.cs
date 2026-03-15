@@ -56,7 +56,7 @@ public partial class QueryTableDataSource
         OidFields = oidFields;
         GeometryType = geometryType;
         SpatialReference = spatialReference;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -102,19 +102,21 @@ public partial class QueryTableDataSource
         }
 
         // get the property value
-        JsNullableEnumWrapper<FeatureGeometryType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<FeatureGeometryType>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "geometryType");
-        if (result is { Value: not null })
+        FeatureGeometryType? result = await JsComponentReference!.InvokeJsMethod<FeatureGeometryType?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(QueryTableDataSource), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "geometryType");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             GeometryType = (FeatureGeometryType)result.Value.Value!;
+                GeometryType = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(GeometryType)] = GeometryType;
+                ModifiedParameters[nameof(GeometryType)] = GeometryType;
         }
          
         return GeometryType;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OidFields property.
     /// </summary>
@@ -141,19 +143,21 @@ public partial class QueryTableDataSource
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(QueryTableDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "oidFields");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             OidFields = result;
+                OidFields = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(OidFields)] = OidFields;
+                ModifiedParameters[nameof(OidFields)] = OidFields;
         }
          
         return OidFields;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Query property.
     /// </summary>
@@ -180,19 +184,21 @@ public partial class QueryTableDataSource
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(QueryTableDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "query");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Query = result;
+                Query = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Query)] = Query;
+                ModifiedParameters[nameof(Query)] = Query;
         }
          
         return Query;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -218,9 +224,10 @@ public partial class QueryTableDataSource
             return SpatialReference;
         }
 
-        SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
-            "getSpatialReference", CancellationTokenSource.Token);
-        
+        SpatialReference? result = await JsComponentReference.InvokeJsMethod<SpatialReference?>(
+            IsServer, nameof(GetSpatialReference), nameof(QueryTableDataSource), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -230,8 +237,9 @@ public partial class QueryTableDataSource
         }
         
         return SpatialReference;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the WorkspaceId property.
     /// </summary>
@@ -258,19 +266,21 @@ public partial class QueryTableDataSource
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(QueryTableDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "workspaceId");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             WorkspaceId = result;
+                WorkspaceId = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(WorkspaceId)] = WorkspaceId;
+                ModifiedParameters[nameof(WorkspaceId)] = WorkspaceId;
         }
          
         return WorkspaceId;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -310,8 +320,9 @@ public partial class QueryTableDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "geometryType", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OidFields property after render.
     /// </summary>
@@ -347,8 +358,9 @@ public partial class QueryTableDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "oidFields", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Query property after render.
     /// </summary>
@@ -384,8 +396,9 @@ public partial class QueryTableDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "query", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SpatialReference property after render.
     /// </summary>
@@ -394,11 +407,6 @@ public partial class QueryTableDataSource
     /// </param>
     public async Task SetSpatialReference(SpatialReference? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         SpatialReference = value;
 #pragma warning restore BL0005
@@ -408,6 +416,11 @@ public partial class QueryTableDataSource
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -426,8 +439,9 @@ public partial class QueryTableDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "spatialReference", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the WorkspaceId property after render.
     /// </summary>
@@ -463,8 +477,9 @@ public partial class QueryTableDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "workspaceId", value);
+
     }
-    
+
 #endregion
 
 

@@ -10,13 +10,13 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 public enum PopupContentType
 {
 #pragma warning disable CS1591
+    Text,
+    Fields,
+    Media,
     Attachments,
     Custom,
     Expression,
-    Fields,
-    Media,
     Relationship,
-    Text,
     UtilityNetworkAssociations
 #pragma warning restore CS1591
 }

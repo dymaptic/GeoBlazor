@@ -32,7 +32,7 @@ public partial class LayerFloorInfo
         AllowRender = false;
 #pragma warning disable BL0005
         FloorField = floorField;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -64,19 +64,21 @@ public partial class LayerFloorInfo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerFloorInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "floorField");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FloorField = result;
+                FloorField = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FloorField)] = FloorField;
+                ModifiedParameters[nameof(FloorField)] = FloorField;
         }
          
         return FloorField;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -116,8 +118,9 @@ public partial class LayerFloorInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "floorField", value);
+
     }
-    
+
 #endregion
 
 }

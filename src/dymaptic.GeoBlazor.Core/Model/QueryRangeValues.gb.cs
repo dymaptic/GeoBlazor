@@ -7,18 +7,14 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     Filters features from the layer that are within the specified range values.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#rangeValues">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-/// <param name="DoubleCollectionValue">
-/// </param>
-/// <param name="DoubleValue">
-/// </param>
 /// <param name="Name">
 ///     The range id.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#rangeValues">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="Value">
+/// </param>
 public partial record QueryRangeValues(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyCollection<double>? DoubleCollectionValue = null,
+    string? Name = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    double? DoubleValue = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? Name = null);
+    IReadOnlyCollection<NumberOrDate>? Value = null);

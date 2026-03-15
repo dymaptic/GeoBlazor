@@ -24,9 +24,6 @@ public partial class CompassWidget : IGoTo
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
-    /// <param name="containerId">
-    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
-    /// </param>
     /// <param name="goToOverride">
     ///     This function provides the ability to override either the
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or
@@ -42,12 +39,6 @@ public partial class CompassWidget : IGoTo
     ///     The widget's default label.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Compass.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="mapView">
-    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
-    /// </param>
-    /// <param name="position">
-    ///     The position of the widget in relation to the map view.
-    /// </param>
     /// <param name="viewModel">
     ///     The view model for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Compass.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
@@ -62,28 +53,22 @@ public partial class CompassWidget : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public CompassWidget(
-        string? containerId = null,
         GoToOverride? goToOverride = null,
         string? icon = null,
         string? label = null,
-        MapView? mapView = null,
-        OverlayPosition? position = null,
         CompassViewModel? viewModel = null,
         bool? visible = null,
         string? widgetId = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
-        ContainerId = containerId;
         GoToOverride = goToOverride;
         Icon = icon;
         Label = label;
-        MapView = mapView;
-        Position = position;
         ViewModel = viewModel;
         Visible = visible;
         WidgetId = widgetId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -128,9 +113,10 @@ public partial class CompassWidget : IGoTo
             return ViewModel;
         }
 
-        CompassViewModel? result = await JsComponentReference.InvokeAsync<CompassViewModel?>(
-            "getViewModel", CancellationTokenSource.Token);
-        
+        CompassViewModel? result = await JsComponentReference.InvokeJsMethod<CompassViewModel?>(
+            IsServer, nameof(GetViewModel), nameof(CompassWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (ViewModel is not null)
@@ -146,8 +132,9 @@ public partial class CompassWidget : IGoTo
         }
         
         return ViewModel;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -160,11 +147,6 @@ public partial class CompassWidget : IGoTo
     /// </param>
     public async Task SetViewModel(CompassViewModel? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005
@@ -174,6 +156,11 @@ public partial class CompassWidget : IGoTo
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -190,10 +177,12 @@ public partial class CompassWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setViewModel", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetViewModel), nameof(CompassWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Public Methods
@@ -227,8 +216,14 @@ public partial class CompassWidget : IGoTo
             return;
         }
         
-        await JsComponentReference!.InvokeVoidAsync(
-            "reset", 
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(Reset), nameof(CompassWidget), 
             CancellationTokenSource.Token);
     }
     
@@ -262,7 +257,7 @@ public partial class CompassWidget : IGoTo
     {
         switch (child)
         {
-            case CompassViewModel _:
+            case CompassViewModel:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;

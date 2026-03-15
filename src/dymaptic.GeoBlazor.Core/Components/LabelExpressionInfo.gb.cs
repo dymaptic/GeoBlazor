@@ -39,7 +39,7 @@ public partial class LabelExpressionInfo
 #pragma warning disable BL0005
         Expression = expression;
         Title = title;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -96,19 +96,21 @@ public partial class LabelExpressionInfo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LabelExpressionInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "expression");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Expression = result;
+                Expression = (string)result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Expression)] = Expression;
+                ModifiedParameters[nameof(Expression)] = Expression;
         }
          
         return Expression;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -135,19 +137,21 @@ public partial class LabelExpressionInfo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LabelExpressionInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Title = result;
+                Title = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Title)] = Title;
+                ModifiedParameters[nameof(Title)] = Title;
         }
          
         return Title;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -187,8 +191,9 @@ public partial class LabelExpressionInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "expression", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -224,8 +229,9 @@ public partial class LabelExpressionInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
     /// <inheritdoc />

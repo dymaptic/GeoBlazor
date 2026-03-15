@@ -61,19 +61,21 @@ public partial class ScaleBarViewModel : MapComponent
         }
 
         // get the property value
-        JsNullableEnumWrapper<ScaleBarViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ScaleBarViewModelState>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "state");
-        if (result is { Value: not null })
+        ScaleBarViewModelState? result = await JsComponentReference!.InvokeJsMethod<ScaleBarViewModelState?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ScaleBarViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "state");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             State = (ScaleBarViewModelState)result.Value.Value!;
+                State = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(State)] = State;
+                ModifiedParameters[nameof(State)] = State;
         }
          
         return State;
+
     }
-    
+
 #endregion
 
 #region Public Methods
@@ -114,8 +116,8 @@ public partial class ScaleBarViewModel : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "getScaleBarProperties", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GetScaleBarProperties), nameof(ScaleBarViewModel), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             length,
             measurementSystem);

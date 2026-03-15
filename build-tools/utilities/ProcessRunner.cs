@@ -87,6 +87,8 @@ public static partial class ProcessRunner
             {
                 using Process? process = Process.Start(psi);
                 bool lineWasEmpty = false;
+                bool failureTriggered = false;
+                string? failureTriggerWord = null;
 
                 if (process != null)
                 {
@@ -165,8 +167,8 @@ public static partial class ProcessRunner
                             {
                                 if (e.Data.Contains(triggerWord, StringComparison.OrdinalIgnoreCase))
                                 {
-                                    throw new TaskFailureException($"Detected failure word '{triggerWord
-                                    }' in output of process {psi.FileName} {psi.Arguments}.");
+                                    failureTriggered = true;
+                                    failureTriggerWord = triggerWord;
                                 }
                             }
                         }
@@ -184,8 +186,8 @@ public static partial class ProcessRunner
                             {
                                 if (e.Data.Contains(triggerWord, StringComparison.OrdinalIgnoreCase))
                                 {
-                                    throw new TaskFailureException($"Detected failure word '{triggerWord
-                                    }' in error output of process {psi.FileName} {psi.Arguments}.");
+                                    failureTriggered = true;
+                                    failureTriggerWord = triggerWord;
                                 }
                             }
                         }
@@ -195,6 +197,11 @@ public static partial class ProcessRunner
                     process.BeginErrorReadLine();
 
                     await process.WaitForExitAsync(cancellationToken);
+
+                    if (failureTriggered)
+                    {
+                        throw new TaskFailureException($"Detected failure word '{failureTriggerWord}' in output of process {psi.FileName} {psi.Arguments}.");
+                    }
 
                     if (!process.HasExited)
                     {

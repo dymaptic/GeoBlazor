@@ -39,19 +39,21 @@ public abstract partial class Symbol
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Symbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "color");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Color = result;
+                Color = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Color)] = Color;
+                ModifiedParameters[nameof(Color)] = Color;
         }
          
         return Color;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -91,8 +93,9 @@ public abstract partial class Symbol
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "color", value);
+
     }
-    
+
 #endregion
 
 }

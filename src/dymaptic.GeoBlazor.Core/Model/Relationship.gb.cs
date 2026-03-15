@@ -62,7 +62,7 @@ public partial record Relationship(
     Role? Role = null)
 {
     /// <summary>
-    ///     Parameterless constructor
+    ///     Parameterless Constructor
     /// </summary>
     public Relationship(): this(null, null)
     {

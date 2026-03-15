@@ -15,8 +15,6 @@ public enum ResponseType
     Text,
     Blob,
     ArrayBuffer,
-    Document,
-    Image,
-    Native
+    Document
 #pragma warning restore CS1591
 }

@@ -41,7 +41,7 @@ public partial class LayerOptions : MapComponent
 #pragma warning disable BL0005
         ReturnTopmostRaster = returnTopmostRaster;
         ShowNoDataRecords = showNoDataRecords;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -99,19 +99,21 @@ public partial class LayerOptions : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "returnTopmostRaster");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerOptions), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "returnTopmostRaster");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ReturnTopmostRaster = result.Value.Value;
+                ReturnTopmostRaster = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ReturnTopmostRaster)] = ReturnTopmostRaster;
+                ModifiedParameters[nameof(ReturnTopmostRaster)] = ReturnTopmostRaster;
         }
          
         return ReturnTopmostRaster;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ShowNoDataRecords property.
     /// </summary>
@@ -138,19 +140,21 @@ public partial class LayerOptions : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "showNoDataRecords");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerOptions), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "showNoDataRecords");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ShowNoDataRecords = result.Value.Value;
+                ShowNoDataRecords = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ShowNoDataRecords)] = ShowNoDataRecords;
+                ModifiedParameters[nameof(ShowNoDataRecords)] = ShowNoDataRecords;
         }
          
         return ShowNoDataRecords;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -190,8 +194,9 @@ public partial class LayerOptions : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "returnTopmostRaster", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ShowNoDataRecords property after render.
     /// </summary>
@@ -227,8 +232,9 @@ public partial class LayerOptions : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "showNoDataRecords", value);
+
     }
-    
+
 #endregion
 
 }

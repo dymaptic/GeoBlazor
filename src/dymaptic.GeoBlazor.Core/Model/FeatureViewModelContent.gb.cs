@@ -25,25 +25,25 @@ public partial record FeatureViewModelContent
     /// <param name="contentElementReference">
     ///     Implementation of parent property Content as ElementReference.
     /// </param>
+    /// <param name="contentPopupContentCollection">
+    ///     Implementation of parent property Content as IReadOnlyList<PopupContent>.
+    /// </param>
     /// <param name="contentstring">
     ///     Implementation of parent property Content as string.
     /// </param>
     /// <param name="contentWidget">
     ///     Implementation of parent property Content as Widget.
     /// </param>
-    /// <param name="contentPopupContentCollection">
-    ///     Implementation of parent property Content as IReadOnlyList<PopupContent>.
-    /// </param>
     public FeatureViewModelContent(
         ElementReference? contentElementReference = null,
+        IReadOnlyList<PopupContent>? contentPopupContentCollection = null,
         string? contentstring = null,
-        Widget? contentWidget = null,
-        IReadOnlyList<PopupContent>? contentPopupContentCollection = null)
+        Widget? contentWidget = null)
     {
         ContentElementReference = contentElementReference;
+        ContentPopupContentCollection = contentPopupContentCollection;
         Contentstring = contentstring;
         ContentWidget = contentWidget;
-        ContentPopupContentCollection = contentPopupContentCollection;
     }
     
     

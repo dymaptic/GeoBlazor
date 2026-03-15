@@ -53,19 +53,21 @@ public abstract partial class Geometry
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Geometry), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "cache");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Cache = result;
+                Cache = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Cache)] = Cache;
+                ModifiedParameters[nameof(Cache)] = Cache;
         }
          
         return Cache;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HasM property.
     /// </summary>
@@ -92,19 +94,21 @@ public abstract partial class Geometry
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "hasM");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Geometry), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "hasM");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             HasM = result.Value.Value;
+                HasM = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(HasM)] = HasM;
+                ModifiedParameters[nameof(HasM)] = HasM;
         }
          
         return HasM;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HasZ property.
     /// </summary>
@@ -131,19 +135,62 @@ public abstract partial class Geometry
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "hasZ");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Geometry), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "hasZ");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             HasZ = result.Value.Value;
+                HasZ = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(HasZ)] = HasZ;
+                ModifiedParameters[nameof(HasZ)] = HasZ;
         }
          
         return HasZ;
+
     }
-    
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the SpatialReference property.
+    /// </summary>
+    public async Task<SpatialReference?> GetSpatialReference()
+    {
+        if (CoreJsModule is null)
+        {
+            return SpatialReference;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return SpatialReference;
+        }
+
+        SpatialReference? result = await JsComponentReference.InvokeJsMethod<SpatialReference?>(
+            IsServer, nameof(GetSpatialReference), nameof(Geometry), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            SpatialReference = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+        }
+        
+        return SpatialReference;
+
+    }
+
 #endregion
 
 #region Property Setters
@@ -183,8 +230,9 @@ public abstract partial class Geometry
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "hasM", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HasZ property after render.
     /// </summary>
@@ -220,8 +268,52 @@ public abstract partial class Geometry
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "hasZ", value);
+
     }
+
+    /// <summary>
+    ///    Asynchronously set the value of the SpatialReference property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetSpatialReference(SpatialReference? value)
+    {
+#pragma warning disable BL0005
+        SpatialReference = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(SpatialReference)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "spatialReference", value);
+
+    }
+
 #endregion
 
 }

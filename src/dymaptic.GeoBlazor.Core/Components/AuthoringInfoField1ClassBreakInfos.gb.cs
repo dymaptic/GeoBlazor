@@ -38,7 +38,7 @@ public partial class AuthoringInfoField1ClassBreakInfos : MapComponent
 #pragma warning disable BL0005
         MaxValue = maxValue;
         MinValue = minValue;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -94,19 +94,21 @@ public partial class AuthoringInfoField1ClassBreakInfos : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "maxValue");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfoField1ClassBreakInfos), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "maxValue");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             MaxValue = result.Value.Value;
+                MaxValue = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MaxValue)] = MaxValue;
+                ModifiedParameters[nameof(MaxValue)] = MaxValue;
         }
          
         return MaxValue;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinValue property.
     /// </summary>
@@ -133,19 +135,21 @@ public partial class AuthoringInfoField1ClassBreakInfos : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "minValue");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfoField1ClassBreakInfos), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "minValue");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             MinValue = result.Value.Value;
+                MinValue = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MinValue)] = MinValue;
+                ModifiedParameters[nameof(MinValue)] = MinValue;
         }
          
         return MinValue;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -185,8 +189,9 @@ public partial class AuthoringInfoField1ClassBreakInfos : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxValue", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinValue property after render.
     /// </summary>
@@ -222,8 +227,9 @@ public partial class AuthoringInfoField1ClassBreakInfos : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minValue", value);
+
     }
-    
+
 #endregion
 
 }

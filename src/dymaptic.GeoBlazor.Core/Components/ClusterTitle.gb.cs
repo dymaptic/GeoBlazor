@@ -30,7 +30,7 @@ public partial class ClusterTitle : MapComponent
         AllowRender = false;
 #pragma warning disable BL0005
         ShowCount = showCount;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -75,19 +75,21 @@ public partial class ClusterTitle : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "showCount");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ClusterTitle), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "showCount");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ShowCount = result.Value.Value;
+                ShowCount = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ShowCount)] = ShowCount;
+                ModifiedParameters[nameof(ShowCount)] = ShowCount;
         }
          
         return ShowCount;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -127,8 +129,9 @@ public partial class ClusterTitle : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "showCount", value);
+
     }
-    
+
 #endregion
 
 }

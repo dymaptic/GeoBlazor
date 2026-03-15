@@ -20,7 +20,7 @@ public partial record RasterIdentifyOptions(
     string? TransposedVariableName = null)
 {
     /// <summary>
-    ///     Parameterless constructor
+    ///     Parameterless Constructor
     /// </summary>
     public RasterIdentifyOptions(): this(null, null)
     {

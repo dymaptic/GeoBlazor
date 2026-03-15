@@ -63,7 +63,7 @@ public partial class RelationshipPopupContent
         DisplayType = displayType;
         OrderByFields = orderByFields;
         RelationshipId = relationshipId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -95,19 +95,21 @@ public partial class RelationshipPopupContent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RelationshipPopupContent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "description");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Description = result;
+                Description = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Description)] = Description;
+                ModifiedParameters[nameof(Description)] = Description;
         }
          
         return Description;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DisplayCount property.
     /// </summary>
@@ -134,19 +136,21 @@ public partial class RelationshipPopupContent
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "displayCount");
-        if (result is { Value: not null })
+        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RelationshipPopupContent), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "displayCount");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             DisplayCount = result.Value.Value;
+                DisplayCount = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DisplayCount)] = DisplayCount;
+                ModifiedParameters[nameof(DisplayCount)] = DisplayCount;
         }
          
         return DisplayCount;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DisplayType property.
     /// </summary>
@@ -173,19 +177,21 @@ public partial class RelationshipPopupContent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RelationshipPopupContent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "displayType");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             DisplayType = result;
+                DisplayType = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DisplayType)] = DisplayType;
+                ModifiedParameters[nameof(DisplayType)] = DisplayType;
         }
          
         return DisplayType;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OrderByFields property.
     /// </summary>
@@ -211,11 +217,16 @@ public partial class RelationshipPopupContent
             return OrderByFields;
         }
 
-        IReadOnlyList<RelatedRecordsInfoFieldOrder>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<RelatedRecordsInfoFieldOrder>?>(
-            "getOrderByFields", CancellationTokenSource.Token);
-        
+        IReadOnlyList<RelatedRecordsInfoFieldOrder>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<RelatedRecordsInfoFieldOrder>?>(
+            IsServer, nameof(GetOrderByFields), nameof(RelationshipPopupContent), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (RelatedRecordsInfoFieldOrder item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             OrderByFields = result;
 #pragma warning restore BL0005
@@ -223,8 +234,9 @@ public partial class RelationshipPopupContent
         }
         
         return OrderByFields;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RelationshipId property.
     /// </summary>
@@ -251,19 +263,21 @@ public partial class RelationshipPopupContent
         }
 
         // get the property value
-        JsNullableLongWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableLongWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "relationshipId");
-        if (result is { Value: not null })
+        long? result = await JsComponentReference!.InvokeJsMethod<long?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RelationshipPopupContent), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "relationshipId");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             RelationshipId = result.Value.Value;
+                RelationshipId = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RelationshipId)] = RelationshipId;
+                ModifiedParameters[nameof(RelationshipId)] = RelationshipId;
         }
          
         return RelationshipId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -290,19 +304,21 @@ public partial class RelationshipPopupContent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RelationshipPopupContent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Title = result;
+                Title = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Title)] = Title;
+                ModifiedParameters[nameof(Title)] = Title;
         }
          
         return Title;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -342,8 +358,9 @@ public partial class RelationshipPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "description", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DisplayCount property after render.
     /// </summary>
@@ -379,8 +396,9 @@ public partial class RelationshipPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "displayCount", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DisplayType property after render.
     /// </summary>
@@ -416,8 +434,9 @@ public partial class RelationshipPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "displayType", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OrderByFields property after render.
     /// </summary>
@@ -426,14 +445,6 @@ public partial class RelationshipPopupContent
     /// </param>
     public async Task SetOrderByFields(IReadOnlyList<RelatedRecordsInfoFieldOrder>? value)
     {
-        if (value is not null)
-        {
-            foreach (RelatedRecordsInfoFieldOrder item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
 #pragma warning disable BL0005
         OrderByFields = value;
 #pragma warning restore BL0005
@@ -443,6 +454,14 @@ public partial class RelationshipPopupContent
         {
             return;
         }
+        if (value is not null)
+        {
+            foreach (RelatedRecordsInfoFieldOrder item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
     
         try 
         {
@@ -461,8 +480,9 @@ public partial class RelationshipPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "orderByFields", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RelationshipId property after render.
     /// </summary>
@@ -498,8 +518,9 @@ public partial class RelationshipPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "relationshipId", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -535,8 +556,9 @@ public partial class RelationshipPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -553,6 +575,7 @@ public partial class RelationshipPopupContent
             ? values
             : [..OrderByFields, ..values];
         await SetOrderByFields(join);
+
     }
     
 #endregion
@@ -573,6 +596,7 @@ public partial class RelationshipPopupContent
             return;
         }
         await SetOrderByFields(OrderByFields.Except(values).ToArray());
+
     }
     
 #endregion

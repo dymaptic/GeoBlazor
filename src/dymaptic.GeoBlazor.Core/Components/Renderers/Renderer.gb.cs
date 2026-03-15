@@ -55,11 +55,18 @@ public abstract partial class Renderer
             return AuthoringInfo;
         }
 
-        AuthoringInfo? result = await JsComponentReference.InvokeAsync<AuthoringInfo?>(
-            "getAuthoringInfo", CancellationTokenSource.Token);
-        
+        AuthoringInfo? result = await JsComponentReference.InvokeJsMethod<AuthoringInfo?>(
+            IsServer, nameof(GetAuthoringInfo), nameof(Renderer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (AuthoringInfo is not null)
+            {
+                result.Id = AuthoringInfo.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             AuthoringInfo = result;
 #pragma warning restore BL0005
@@ -67,8 +74,9 @@ public abstract partial class Renderer
         }
         
         return AuthoringInfo;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -81,11 +89,6 @@ public abstract partial class Renderer
     /// </param>
     public async Task SetAuthoringInfo(AuthoringInfo? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         AuthoringInfo = value;
 #pragma warning restore BL0005
@@ -95,6 +98,11 @@ public abstract partial class Renderer
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -113,8 +121,9 @@ public abstract partial class Renderer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "authoringInfo", value);
+
     }
-    
+
 #endregion
 
 

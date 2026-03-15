@@ -44,7 +44,7 @@ public partial class TileMatrixSet : MapComponent
         FullExtent = fullExtent;
         TileInfo = tileInfo;
         TileMatrixSetId = tileMatrixSetId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -109,9 +109,10 @@ public partial class TileMatrixSet : MapComponent
             return FullExtent;
         }
 
-        Extent? result = await JsComponentReference.InvokeAsync<Extent?>(
-            "getFullExtent", CancellationTokenSource.Token);
-        
+        Extent? result = await JsComponentReference.InvokeJsMethod<Extent?>(
+            IsServer, nameof(GetFullExtent), nameof(TileMatrixSet), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (FullExtent is not null)
@@ -127,8 +128,9 @@ public partial class TileMatrixSet : MapComponent
         }
         
         return FullExtent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TileInfo property.
     /// </summary>
@@ -154,9 +156,10 @@ public partial class TileMatrixSet : MapComponent
             return TileInfo;
         }
 
-        TileInfo? result = await JsComponentReference.InvokeAsync<TileInfo?>(
-            "getTileInfo", CancellationTokenSource.Token);
-        
+        TileInfo? result = await JsComponentReference.InvokeJsMethod<TileInfo?>(
+            IsServer, nameof(GetTileInfo), nameof(TileMatrixSet), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (TileInfo is not null)
@@ -172,8 +175,9 @@ public partial class TileMatrixSet : MapComponent
         }
         
         return TileInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TileMatrixSetId property.
     /// </summary>
@@ -200,19 +204,21 @@ public partial class TileMatrixSet : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TileMatrixSet), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "id");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             TileMatrixSetId = result;
+                TileMatrixSetId = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TileMatrixSetId)] = TileMatrixSetId;
+                ModifiedParameters[nameof(TileMatrixSetId)] = TileMatrixSetId;
         }
          
         return TileMatrixSetId;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -225,11 +231,6 @@ public partial class TileMatrixSet : MapComponent
     /// </param>
     public async Task SetFullExtent(Extent? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         FullExtent = value;
 #pragma warning restore BL0005
@@ -239,6 +240,11 @@ public partial class TileMatrixSet : MapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -257,8 +263,9 @@ public partial class TileMatrixSet : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fullExtent", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TileInfo property after render.
     /// </summary>
@@ -267,11 +274,6 @@ public partial class TileMatrixSet : MapComponent
     /// </param>
     public async Task SetTileInfo(TileInfo? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         TileInfo = value;
 #pragma warning restore BL0005
@@ -281,6 +283,11 @@ public partial class TileMatrixSet : MapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -299,8 +306,9 @@ public partial class TileMatrixSet : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "tileInfo", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TileMatrixSetId property after render.
     /// </summary>
@@ -336,8 +344,9 @@ public partial class TileMatrixSet : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
+
     }
-    
+
 #endregion
 
 
@@ -372,7 +381,7 @@ public partial class TileMatrixSet : MapComponent
     {
         switch (child)
         {
-            case Extent _:
+            case Extent:
                 FullExtent = null;
                 ModifiedParameters[nameof(FullExtent)] = FullExtent;
                 return true;

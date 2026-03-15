@@ -11,8 +11,6 @@ public enum NoDataInterpretation
 {
 #pragma warning disable CS1591
     MatchAny,
-    MatchAll,
-    Any,
-    All
+    MatchAll
 #pragma warning restore CS1591
 }

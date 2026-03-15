@@ -79,7 +79,7 @@ public partial record AttachmentQuery(
     string? Where = null)
 {
     /// <summary>
-    ///     Parameterless constructor
+    ///     Parameterless Constructor
     /// </summary>
     public AttachmentQuery(): this(null, null)
     {

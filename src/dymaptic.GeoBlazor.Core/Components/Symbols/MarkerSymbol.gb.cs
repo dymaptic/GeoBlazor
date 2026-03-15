@@ -41,19 +41,21 @@ public abstract partial class MarkerSymbol
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "angle");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MarkerSymbol), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "angle");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Angle = result.Value.Value;
+                Angle = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Angle)] = Angle;
+                ModifiedParameters[nameof(Angle)] = Angle;
         }
          
         return Angle;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Xoffset property.
     /// </summary>
@@ -80,19 +82,21 @@ public abstract partial class MarkerSymbol
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MarkerSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "xoffset");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Xoffset = result;
+                Xoffset = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Xoffset)] = Xoffset;
+                ModifiedParameters[nameof(Xoffset)] = Xoffset;
         }
          
         return Xoffset;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Yoffset property.
     /// </summary>
@@ -119,19 +123,21 @@ public abstract partial class MarkerSymbol
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MarkerSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "yoffset");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Yoffset = result;
+                Yoffset = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Yoffset)] = Yoffset;
+                ModifiedParameters[nameof(Yoffset)] = Yoffset;
         }
          
         return Yoffset;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -171,8 +177,9 @@ public abstract partial class MarkerSymbol
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "angle", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Xoffset property after render.
     /// </summary>
@@ -208,8 +215,9 @@ public abstract partial class MarkerSymbol
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "xoffset", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Yoffset property after render.
     /// </summary>
@@ -245,8 +253,9 @@ public abstract partial class MarkerSymbol
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "yoffset", value);
+
     }
-    
+
 #endregion
 
 }

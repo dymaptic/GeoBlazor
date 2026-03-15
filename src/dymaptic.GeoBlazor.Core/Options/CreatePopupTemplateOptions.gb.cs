@@ -20,7 +20,7 @@ public partial record CreatePopupTemplateOptions(
     IReadOnlyCollection<string>? VisibleFieldNames = null)
 {
     /// <summary>
-    ///     Parameterless constructor
+    ///     Parameterless Constructor
     /// </summary>
     public CreatePopupTemplateOptions(): this(null, null)
     {

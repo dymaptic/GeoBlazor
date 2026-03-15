@@ -86,7 +86,7 @@ export default class WebMapGenerated extends BaseComponent {
     async loadAll(): Promise<any> {
         let result = await this.component.loadAll();
         let { buildDotNetWebDocument2D } = await import('./webDocument2D');
-        return await buildDotNetWebDocument2D(result, this.viewId);
+        return buildDotNetWebDocument2D(result);
     }
 
     async save(options: any): Promise<any> {
@@ -224,7 +224,7 @@ export default class WebMapGenerated extends BaseComponent {
         }
         
         let { buildDotNetIPSInfo } = await import('./iPSInfo');
-        return await buildDotNetIPSInfo(this.component.ipsInfo);
+        return await buildDotNetIPSInfo(this.component.ipsInfo, this.layerId, this.viewId);
     }
     
     async setIpsInfo(value: any): Promise<void> {
@@ -391,7 +391,7 @@ export async function buildDotNetWebMapGenerated(jsObject: any, layerId: string 
     
     if (hasValue(jsObject.ipsInfo)) {
         let { buildDotNetIPSInfo } = await import('./iPSInfo');
-        dotNetWebMap.ipsInfo = await buildDotNetIPSInfo(jsObject.ipsInfo);
+        dotNetWebMap.ipsInfo = await buildDotNetIPSInfo(jsObject.ipsInfo, layerId, viewId);
     }
     
     if (hasValue(jsObject.portalItem)) {

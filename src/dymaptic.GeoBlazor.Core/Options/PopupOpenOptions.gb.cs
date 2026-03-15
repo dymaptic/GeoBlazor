@@ -10,10 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     Since: 4.5    When `true`, indicates that only the popup header will display.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="ElementReferenceContent">
-///     Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">content</a> of the popup.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 /// <param name="FeatureMenuOpen">
 ///     Since: 4.5    This property enables multiple features in a popup to display in a list rather than displaying the first selected feature.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
@@ -38,10 +34,6 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     Since: 4.23    When `true`, indicates that the focus should be on the popup after it has been opened.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="StringContent">
-///     Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">content</a> of the popup.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 /// <param name="Title">
 ///     Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#title">title</a> of the popup.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
@@ -50,26 +42,24 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     When `true` indicates the popup should update its <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#location">location</a> for each paginated feature based on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedFeature">selected feature's</a> geometry.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="WidgetContent">
+/// <param name="Content">
 ///     Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">content</a> of the popup.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record PopupOpenOptions(
     bool? Collapsed = null,
-    ElementReference? ElementReferenceContent = null,
     bool? FeatureMenuOpen = null,
     IReadOnlyCollection<Graphic>? Features = null,
     bool? FetchFeatures = null,
     Point? Location = null,
     string? Promises = null,
     bool? ShouldFocus = null,
-    string? StringContent = null,
     string? Title = null,
     bool? UpdateLocationEnabled = null,
-    Widget? WidgetContent = null)
+    Widget? Content = null)
 {
     /// <summary>
-    ///     Parameterless constructor
+    ///     Parameterless Constructor
     /// </summary>
     public PopupOpenOptions(): this(null, null)
     {
@@ -80,12 +70,6 @@ public partial record PopupOpenOptions(
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? Collapsed { get; set; } = Collapsed;
-    
-    /// <summary>
-    ///     Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">content</a> of the popup.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public ElementReference? ElementReferenceContent { get; set; } = ElementReferenceContent;
     
     /// <summary>
     ///     Since: 4.5    This property enables multiple features in a popup to display in a list rather than displaying the first selected feature.
@@ -124,12 +108,6 @@ public partial record PopupOpenOptions(
     public bool? ShouldFocus { get; set; } = ShouldFocus;
     
     /// <summary>
-    ///     Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">content</a> of the popup.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public string? StringContent { get; set; } = StringContent;
-    
-    /// <summary>
     ///     Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#title">title</a> of the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -145,6 +123,6 @@ public partial record PopupOpenOptions(
     ///     Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">content</a> of the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public Widget? WidgetContent { get; set; } = WidgetContent;
+    public Widget? Content { get; set; } = Content;
     
 }

@@ -32,7 +32,7 @@ public partial class Viewing : MapComponent
         AllowRender = false;
 #pragma warning disable BL0005
         Search = search;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -77,11 +77,18 @@ public partial class Viewing : MapComponent
             return Search;
         }
 
-        Search? result = await JsComponentReference.InvokeAsync<Search?>(
-            "getSearch", CancellationTokenSource.Token);
-        
+        Search? result = await JsComponentReference.InvokeJsMethod<Search?>(
+            IsServer, nameof(GetSearch), nameof(Viewing), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (Search is not null)
+            {
+                result.Id = Search.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Search = result;
 #pragma warning restore BL0005
@@ -89,8 +96,9 @@ public partial class Viewing : MapComponent
         }
         
         return Search;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -103,11 +111,6 @@ public partial class Viewing : MapComponent
     /// </param>
     public async Task SetSearch(Search? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Search = value;
 #pragma warning restore BL0005
@@ -117,6 +120,11 @@ public partial class Viewing : MapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -135,8 +143,9 @@ public partial class Viewing : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "search", value);
+
     }
-    
+
 #endregion
 
 

@@ -23,10 +23,6 @@ public partial class SymbolTableElement : MapComponent,
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
-    /// <param name="dotDensityTitle">
-    ///     The title of the renderer as displayed in the legend.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SymbolTableElement">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="infos">
     ///     An array of each symbol/category/break rendered for the symbol table.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SymbolTableElement">ArcGIS Maps SDK for JavaScript</a>
@@ -35,44 +31,26 @@ public partial class SymbolTableElement : MapComponent,
     ///     Only used for renderers set to ImageryLayers.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SymbolTableElement">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="rendererTitle">
-    ///     The title of the renderer as displayed in the legend.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SymbolTableElement">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="stringTitle">
+    /// <param name="title">
     ///     The title of the renderer as displayed in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SymbolTableElement">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public SymbolTableElement(
-        DotDensityTitle? dotDensityTitle = null,
         IReadOnlyList<ISymbolTableElementType>? infos = null,
         string? legendType = null,
-        RendererTitle? rendererTitle = null,
-        string? stringTitle = null)
+        SymbolTableElementTitle? title = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
-        DotDensityTitle = dotDensityTitle;
         Infos = infos;
         LegendType = legendType;
-        RendererTitle = rendererTitle;
-        StringTitle = stringTitle;
-#pragma warning restore BL0005    
+        Title = title;
+#pragma warning restore BL0005
     }
     
     
 #region Public Properties / Blazor Parameters
 
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.SymbolTableElement.html#symboltableelementdotdensitytitle-property">GeoBlazor Docs</a>
-    ///     The title of the renderer as displayed in the legend.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SymbolTableElement">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public DotDensityTitle? DotDensityTitle { get; set; }
-    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.SymbolTableElement.html#symboltableelementinfos-property">GeoBlazor Docs</a>
     ///     An array of each symbol/category/break rendered for the symbol table.
@@ -94,68 +72,19 @@ public partial class SymbolTableElement : MapComponent,
     public string? LegendType { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.SymbolTableElement.html#symboltableelementrenderertitle-property">GeoBlazor Docs</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.SymbolTableElement.html#symboltableelementtitle-property">GeoBlazor Docs</a>
     ///     The title of the renderer as displayed in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SymbolTableElement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public RendererTitle? RendererTitle { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.SymbolTableElement.html#symboltableelementstringtitle-property">GeoBlazor Docs</a>
-    ///     The title of the renderer as displayed in the legend.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SymbolTableElement">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? StringTitle { get; set; }
+    public SymbolTableElementTitle? Title { get; set; }
     
 #endregion
 
 #region Property Getters
 
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the DotDensityTitle property.
-    /// </summary>
-    public async Task<DotDensityTitle?> GetDotDensityTitle()
-    {
-        if (CoreJsModule is null)
-        {
-            return DotDensityTitle;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return DotDensityTitle;
-        }
-
-        DotDensityTitle? result = await JsComponentReference.InvokeAsync<DotDensityTitle?>(
-            "getDotDensityTitle", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            DotDensityTitle = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(DotDensityTitle)] = DotDensityTitle;
-        }
-        
-        return DotDensityTitle;
-    }
-    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Infos property.
     /// </summary>
@@ -182,19 +111,21 @@ public partial class SymbolTableElement : MapComponent,
         }
 
         // get the property value
-        IReadOnlyList<ISymbolTableElementType>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ISymbolTableElementType>?>("getProperty",
+        IReadOnlyList<ISymbolTableElementType>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<ISymbolTableElementType>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SymbolTableElement), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "infos");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Infos = result;
+                Infos = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Infos)] = Infos;
+                ModifiedParameters[nameof(Infos)] = Infos;
         }
          
         return Infos;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendType property.
     /// </summary>
@@ -221,27 +152,29 @@ public partial class SymbolTableElement : MapComponent,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SymbolTableElement), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "legendType");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LegendType = result;
+                LegendType = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LegendType)] = LegendType;
+                ModifiedParameters[nameof(LegendType)] = LegendType;
         }
          
         return LegendType;
+
     }
-    
+
     /// <summary>
-    ///     Asynchronously retrieve the current value of the RendererTitle property.
+    ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
-    public async Task<RendererTitle?> GetRendererTitle()
+    public async Task<SymbolTableElementTitle?> GetTitle()
     {
         if (CoreJsModule is null)
         {
-            return RendererTitle;
+            return Title;
         }
         
         try 
@@ -256,108 +189,29 @@ public partial class SymbolTableElement : MapComponent,
         
         if (JsComponentReference is null)
         {
-            return RendererTitle;
+            return Title;
         }
 
-        // get the property value
-        RendererTitle? result = await JsComponentReference!.InvokeAsync<RendererTitle?>("getProperty",
-            CancellationTokenSource.Token, "title");
+        SymbolTableElementTitle? result = await JsComponentReference.InvokeJsMethod<SymbolTableElementTitle?>(
+            IsServer, nameof(GetTitle), nameof(SymbolTableElement), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
-             RendererTitle = result;
+            Title = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RendererTitle)] = RendererTitle;
-        }
-         
-        return RendererTitle;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the StringTitle property.
-    /// </summary>
-    public async Task<string?> GetStringTitle()
-    {
-        if (CoreJsModule is null)
-        {
-            return StringTitle;
+            ModifiedParameters[nameof(Title)] = Title;
         }
         
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return StringTitle;
-        }
+        return Title;
 
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "title");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             StringTitle = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(StringTitle)] = StringTitle;
-        }
-         
-        return StringTitle;
     }
-    
+
 #endregion
 
 #region Property Setters
 
-    /// <summary>
-    ///    Asynchronously set the value of the DotDensityTitle property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetDotDensityTitle(DotDensityTitle? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-#pragma warning disable BL0005
-        DotDensityTitle = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(DotDensityTitle)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "title", value);
-    }
-    
     /// <summary>
     ///    Asynchronously set the value of the Infos property after render.
     /// </summary>
@@ -393,8 +247,9 @@ public partial class SymbolTableElement : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "infos", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendType property after render.
     /// </summary>
@@ -430,20 +285,21 @@ public partial class SymbolTableElement : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendType", value);
+
     }
-    
+
     /// <summary>
-    ///    Asynchronously set the value of the RendererTitle property after render.
+    ///    Asynchronously set the value of the Title property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRendererTitle(RendererTitle? value)
+    public async Task SetTitle(SymbolTableElementTitle? value)
     {
 #pragma warning disable BL0005
-        RendererTitle = value;
+        Title = value;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(RendererTitle)] = value;
+        ModifiedParameters[nameof(Title)] = value;
         
         if (CoreJsModule is null)
         {
@@ -467,45 +323,9 @@ public partial class SymbolTableElement : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the StringTitle property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetStringTitle(string? value)
-    {
-#pragma warning disable BL0005
-        StringTitle = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(StringTitle)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "title", value);
-    }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -522,6 +342,7 @@ public partial class SymbolTableElement : MapComponent,
             ? values
             : [..Infos, ..values];
         await SetInfos(join);
+
     }
     
 #endregion
@@ -542,49 +363,9 @@ public partial class SymbolTableElement : MapComponent,
             return;
         }
         await SetInfos(Infos.Except(values).ToArray());
+
     }
     
 #endregion
 
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case DotDensityTitle dotDensityTitle:
-                if (dotDensityTitle != DotDensityTitle)
-                {
-                    DotDensityTitle = dotDensityTitle;
-                    ModifiedParameters[nameof(DotDensityTitle)] = DotDensityTitle;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case DotDensityTitle _:
-                DotDensityTitle = null;
-                ModifiedParameters[nameof(DotDensityTitle)] = DotDensityTitle;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        DotDensityTitle?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

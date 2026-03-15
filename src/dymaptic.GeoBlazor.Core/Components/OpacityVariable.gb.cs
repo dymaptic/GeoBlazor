@@ -39,7 +39,7 @@ public partial class OpacityVariable
     /// </param>
     /// <param name="legendOptions">
     ///     An object providing options for displaying the visual variable in
-    ///     the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
+    ///     the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#legendOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="valueExpression">
@@ -68,7 +68,7 @@ public partial class OpacityVariable
         LegendOptions = legendOptions;
         ValueExpression = valueExpression;
         ValueExpressionTitle = valueExpressionTitle;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -114,19 +114,21 @@ public partial class OpacityVariable
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(OpacityVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "normalizationField");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             NormalizationField = result;
+                NormalizationField = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(NormalizationField)] = NormalizationField;
+                ModifiedParameters[nameof(NormalizationField)] = NormalizationField;
         }
          
         return NormalizationField;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Stops property.
     /// </summary>
@@ -152,11 +154,16 @@ public partial class OpacityVariable
             return Stops;
         }
 
-        IReadOnlyList<OpacityStop>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<OpacityStop>?>(
-            "getStops", CancellationTokenSource.Token);
-        
+        IReadOnlyList<OpacityStop>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<OpacityStop>?>(
+            IsServer, nameof(GetStops), nameof(OpacityVariable), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (OpacityStop item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             Stops = result;
 #pragma warning restore BL0005
@@ -164,8 +171,9 @@ public partial class OpacityVariable
         }
         
         return Stops;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -205,8 +213,9 @@ public partial class OpacityVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "normalizationField", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Stops property after render.
     /// </summary>
@@ -215,14 +224,6 @@ public partial class OpacityVariable
     /// </param>
     public async Task SetStops(IReadOnlyList<OpacityStop>? value)
     {
-        if (value is not null)
-        {
-            foreach (OpacityStop item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
 #pragma warning disable BL0005
         Stops = value;
 #pragma warning restore BL0005
@@ -232,6 +233,14 @@ public partial class OpacityVariable
         {
             return;
         }
+        if (value is not null)
+        {
+            foreach (OpacityStop item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
     
         try 
         {
@@ -250,8 +259,9 @@ public partial class OpacityVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "stops", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -268,6 +278,7 @@ public partial class OpacityVariable
             ? values
             : [..Stops, ..values];
         await SetStops(join);
+
     }
     
 #endregion
@@ -288,6 +299,7 @@ public partial class OpacityVariable
             return;
         }
         await SetStops(Stops.Except(values).ToArray());
+
     }
     
 #endregion

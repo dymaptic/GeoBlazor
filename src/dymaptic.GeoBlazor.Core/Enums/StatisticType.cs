@@ -16,11 +16,6 @@ public enum StatisticType
     Max,
     Avg,
     Stddev,
-    Var,
-    PercentileContinuous,
-    PercentileDiscrete,
-    EnvelopeAggregate,
-    CentroidAggregate,
-    ConvexHullAggregate
+    Var
 #pragma warning restore CS1591
 }

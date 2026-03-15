@@ -8,7 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     A basemap is a collection of layers that provide geographic context to a map or scene with data such as topographic features, road networks, buildings, and labels.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class Basemap : ILayerParent
+public partial class Basemap
 {
 
     /// <summary>
@@ -23,7 +23,7 @@ public partial class Basemap : ILayerParent
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="baseLayers">
-    ///     A collection of layers that make up the basemap's features.
+    ///     A collection of tile layers that make up the basemap's features.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#baseLayers">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="basemapId">
@@ -74,10 +74,19 @@ public partial class Basemap : ILayerParent
         Style = style;
         ThumbnailUrl = thumbnailUrl;
         Title = title;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
+    /// <summary>
+    ///     Implicit conversion between <see cref="string" /> and <see cref="Basemap" />.
+    /// </summary>
+    /// <param name="basemapId">
+    ///     The string to use as the value.
+    /// </param>
+    public static implicit operator Basemap(string basemapId) =>
+        new(basemapId: basemapId);
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -181,19 +190,21 @@ public partial class Basemap : ILayerParent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Basemap), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "id");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             BasemapId = result;
+                BasemapId = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(BasemapId)] = BasemapId;
+                ModifiedParameters[nameof(BasemapId)] = BasemapId;
         }
          
         return BasemapId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Loaded property.
     /// </summary>
@@ -220,19 +231,21 @@ public partial class Basemap : ILayerParent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "loaded");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Basemap), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "loaded");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Loaded = result.Value.Value;
+                Loaded = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Loaded)] = Loaded;
+                ModifiedParameters[nameof(Loaded)] = Loaded;
         }
          
         return Loaded;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalItem property.
     /// </summary>
@@ -258,9 +271,10 @@ public partial class Basemap : ILayerParent
             return PortalItem;
         }
 
-        PortalItem? result = await JsComponentReference.InvokeAsync<PortalItem?>(
-            "getPortalItem", CancellationTokenSource.Token);
-        
+        PortalItem? result = await JsComponentReference.InvokeJsMethod<PortalItem?>(
+            IsServer, nameof(GetPortalItem), nameof(Basemap), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (PortalItem is not null)
@@ -276,8 +290,9 @@ public partial class Basemap : ILayerParent
         }
         
         return PortalItem;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -303,9 +318,10 @@ public partial class Basemap : ILayerParent
             return SpatialReference;
         }
 
-        SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
-            "getSpatialReference", CancellationTokenSource.Token);
-        
+        SpatialReference? result = await JsComponentReference.InvokeJsMethod<SpatialReference?>(
+            IsServer, nameof(GetSpatialReference), nameof(Basemap), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -315,8 +331,9 @@ public partial class Basemap : ILayerParent
         }
         
         return SpatialReference;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Style property.
     /// </summary>
@@ -342,11 +359,18 @@ public partial class Basemap : ILayerParent
             return Style;
         }
 
-        BasemapStyle? result = await JsComponentReference.InvokeAsync<BasemapStyle?>(
-            "getStyle", CancellationTokenSource.Token);
-        
+        BasemapStyle? result = await JsComponentReference.InvokeJsMethod<BasemapStyle?>(
+            IsServer, nameof(GetStyle), nameof(Basemap), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (Style is not null)
+            {
+                result.Id = Style.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Style = result;
 #pragma warning restore BL0005
@@ -354,8 +378,9 @@ public partial class Basemap : ILayerParent
         }
         
         return Style;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ThumbnailUrl property.
     /// </summary>
@@ -382,19 +407,21 @@ public partial class Basemap : ILayerParent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Basemap), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "thumbnailUrl");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ThumbnailUrl = result;
+                ThumbnailUrl = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ThumbnailUrl)] = ThumbnailUrl;
+                ModifiedParameters[nameof(ThumbnailUrl)] = ThumbnailUrl;
         }
          
         return ThumbnailUrl;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -421,19 +448,21 @@ public partial class Basemap : ILayerParent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Basemap), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Title = result;
+                Title = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Title)] = Title;
+                ModifiedParameters[nameof(Title)] = Title;
         }
          
         return Title;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -473,8 +502,9 @@ public partial class Basemap : ILayerParent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
@@ -483,11 +513,6 @@ public partial class Basemap : ILayerParent
     /// </param>
     public async Task SetPortalItem(PortalItem? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         PortalItem = value;
 #pragma warning restore BL0005
@@ -497,6 +522,11 @@ public partial class Basemap : ILayerParent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -513,10 +543,12 @@ public partial class Basemap : ILayerParent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setPortalItem", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPortalItem), nameof(Basemap),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SpatialReference property after render.
     /// </summary>
@@ -525,11 +557,6 @@ public partial class Basemap : ILayerParent
     /// </param>
     public async Task SetSpatialReference(SpatialReference? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         SpatialReference = value;
 #pragma warning restore BL0005
@@ -539,6 +566,11 @@ public partial class Basemap : ILayerParent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -555,10 +587,12 @@ public partial class Basemap : ILayerParent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setSpatialReference", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetSpatialReference), nameof(Basemap),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Style property after render.
     /// </summary>
@@ -567,11 +601,6 @@ public partial class Basemap : ILayerParent
     /// </param>
     public async Task SetStyle(BasemapStyle? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Style = value;
 #pragma warning restore BL0005
@@ -581,6 +610,11 @@ public partial class Basemap : ILayerParent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -597,10 +631,12 @@ public partial class Basemap : ILayerParent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setStyle", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetStyle), nameof(Basemap),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ThumbnailUrl property after render.
     /// </summary>
@@ -636,8 +672,9 @@ public partial class Basemap : ILayerParent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "thumbnailUrl", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -673,8 +710,9 @@ public partial class Basemap : ILayerParent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 #region Public Methods
@@ -707,8 +745,14 @@ public partial class Basemap : ILayerParent
             return;
         }
         
-        await JsComponentReference!.InvokeVoidAsync(
-            "cancelLoad", 
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(CancelLoad), nameof(Basemap), 
             CancellationTokenSource.Token);
     }
     
@@ -740,8 +784,8 @@ public partial class Basemap : ILayerParent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isFulfilled", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsFulfilled), nameof(Basemap), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
     
@@ -773,8 +817,8 @@ public partial class Basemap : ILayerParent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isRejected", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsRejected), nameof(Basemap), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
     
@@ -806,8 +850,8 @@ public partial class Basemap : ILayerParent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "isResolved", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsResolved), nameof(Basemap), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
     
@@ -842,9 +886,14 @@ public partial class Basemap : ILayerParent
             return null;
         }
         
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
-            "load", 
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(Load), nameof(Basemap), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             abortSignal);
                 
@@ -881,25 +930,26 @@ public partial class Basemap : ILayerParent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Basemap?>(
-            "loadAll", 
+        return await JsComponentReference!.InvokeJsMethod<Basemap?>(
+            IsServer, nameof(LoadAll), nameof(Basemap), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemapwhen-method">GeoBlazor Docs</a>
     ///     `when()` may be leveraged once an instance of the class is created.
-    ///     param onRejected The function to execute when the promise fails.
+    ///     param errback The function to execute when the promise fails.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#when">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    /// <param name="onFulfilled">
+    /// <param name="callback">
     ///     The function to call when the promise resolves.
     /// </param>
-    /// <param name="onRejected">
+    /// <param name="errback">
+    ///     The function to execute when the promise fails.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> When(Func<Task> onFulfilled,
-        Func<Task> onRejected)
+    public async Task<string?> When(Func<Task> callback,
+        Func<Task> errback)
     {
         if (CoreJsModule is null)
         {
@@ -921,11 +971,11 @@ public partial class Basemap : ILayerParent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "when", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(When), nameof(Basemap), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
-            onFulfilled,
-            onRejected);
+            callback,
+            errback);
     }
     
 #endregion
@@ -978,7 +1028,7 @@ public partial class Basemap : ILayerParent
                 SpatialReference = null;
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 return true;
-            case BasemapStyle _:
+            case BasemapStyle:
                 Style = null;
                 ModifiedParameters[nameof(Style)] = Style;
                 return true;

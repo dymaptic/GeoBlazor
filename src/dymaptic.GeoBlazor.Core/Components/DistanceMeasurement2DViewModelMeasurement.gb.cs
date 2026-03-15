@@ -38,7 +38,7 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
 #pragma warning disable BL0005
         Geometry = geometry;
         Length = length;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -93,9 +93,10 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
             return Geometry;
         }
 
-        Polyline? result = await JsComponentReference.InvokeAsync<Polyline?>(
-            "getGeometry", CancellationTokenSource.Token);
-        
+        Polyline? result = await JsComponentReference.InvokeJsMethod<Polyline?>(
+            IsServer, nameof(GetGeometry), nameof(DistanceMeasurement2DViewModelMeasurement), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (Geometry is not null)
@@ -111,8 +112,9 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
         }
         
         return Geometry;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Length property.
     /// </summary>
@@ -139,19 +141,21 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "length");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DistanceMeasurement2DViewModelMeasurement), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "length");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Length = result.Value.Value;
+                Length = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Length)] = Length;
+                ModifiedParameters[nameof(Length)] = Length;
         }
          
         return Length;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -164,11 +168,6 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
     /// </param>
     public async Task SetGeometry(Polyline? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Geometry = value;
 #pragma warning restore BL0005
@@ -178,6 +177,11 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -196,8 +200,9 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "geometry", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Length property after render.
     /// </summary>
@@ -233,8 +238,9 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "length", value);
+
     }
-    
+
 #endregion
 
 
@@ -261,7 +267,7 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
     {
         switch (child)
         {
-            case Polyline _:
+            case Polyline:
                 Geometry = null;
                 ModifiedParameters[nameof(Geometry)] = Geometry;
                 return true;

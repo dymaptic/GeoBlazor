@@ -33,7 +33,7 @@ public partial class LocalBasemapsSource : MapComponent
         AllowRender = false;
 #pragma warning disable BL0005
         Basemaps = basemaps;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -88,9 +88,10 @@ public partial class LocalBasemapsSource : MapComponent
             return Basemaps;
         }
 
-        IReadOnlyList<Basemap>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Basemap>?>(
-            "getBasemaps", CancellationTokenSource.Token);
-        
+        IReadOnlyList<Basemap>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Basemap>?>(
+            IsServer, nameof(GetBasemaps), nameof(LocalBasemapsSource), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             foreach (Basemap item in result)
@@ -104,8 +105,9 @@ public partial class LocalBasemapsSource : MapComponent
         }
         
         return Basemaps;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -132,19 +134,21 @@ public partial class LocalBasemapsSource : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocalBasemapsSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "state");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             State = result;
+                State = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(State)] = State;
+                ModifiedParameters[nameof(State)] = State;
         }
          
         return State;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -157,14 +161,6 @@ public partial class LocalBasemapsSource : MapComponent
     /// </param>
     public async Task SetBasemaps(IReadOnlyList<Basemap>? value)
     {
-        if (value is not null)
-        {
-            foreach (Basemap item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
 #pragma warning disable BL0005
         Basemaps = value;
 #pragma warning restore BL0005
@@ -174,6 +170,14 @@ public partial class LocalBasemapsSource : MapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            foreach (Basemap item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
     
         try 
         {
@@ -192,8 +196,9 @@ public partial class LocalBasemapsSource : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "basemaps", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -210,6 +215,7 @@ public partial class LocalBasemapsSource : MapComponent
             ? values
             : [..Basemaps, ..values];
         await SetBasemaps(join);
+
     }
     
 #endregion
@@ -230,6 +236,7 @@ public partial class LocalBasemapsSource : MapComponent
             return;
         }
         await SetBasemaps(Basemaps.Except(values).ToArray());
+
     }
     
 #endregion

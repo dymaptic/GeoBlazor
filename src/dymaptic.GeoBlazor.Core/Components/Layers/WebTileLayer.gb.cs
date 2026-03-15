@@ -45,11 +45,8 @@ public partial class WebTileLayer : IBlendLayer,
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="isBasemapReferenceLayer">
-    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
-    /// </param>
     /// <param name="listMode">
-    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
+    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
     ///     default "show"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -91,7 +88,7 @@ public partial class WebTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#tileInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
-    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
+    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="urlTemplate">
@@ -108,15 +105,11 @@ public partial class WebTileLayer : IBlendLayer,
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="excludeApiKey">
-    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
-    /// </param>
     public WebTileLayer(
         string? arcGISLayerId = null,
         BlendMode? blendMode = null,
         string? copyright = null,
         Effect? effect = null,
-        bool? isBasemapReferenceLayer = null,
         ListMode? listMode = null,
         double? maxScale = null,
         double? minScale = null,
@@ -129,8 +122,7 @@ public partial class WebTileLayer : IBlendLayer,
         string? title = null,
         string? urlTemplate = null,
         TimeExtent? visibilityTimeExtent = null,
-        bool? visible = null,
-        bool? excludeApiKey = null)
+        bool? visible = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -138,7 +130,6 @@ public partial class WebTileLayer : IBlendLayer,
         BlendMode = blendMode;
         Copyright = copyright;
         Effect = effect;
-        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         ListMode = listMode;
         MaxScale = maxScale;
         MinScale = minScale;
@@ -152,8 +143,7 @@ public partial class WebTileLayer : IBlendLayer,
         UrlTemplate = urlTemplate;
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
-        ExcludeApiKey = excludeApiKey;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -242,19 +232,21 @@ public partial class WebTileLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "blendMode");
-        if (result is { Value: not null })
+        BlendMode? result = await JsComponentReference!.InvokeJsMethod<BlendMode?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "blendMode");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             BlendMode = (BlendMode)result.Value.Value!;
+                BlendMode = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(BlendMode)] = BlendMode;
+                ModifiedParameters[nameof(BlendMode)] = BlendMode;
         }
          
         return BlendMode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Copyright property.
     /// </summary>
@@ -281,19 +273,21 @@ public partial class WebTileLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "copyright");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Copyright = result;
+                Copyright = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Copyright)] = Copyright;
+                ModifiedParameters[nameof(Copyright)] = Copyright;
         }
          
         return Copyright;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Effect property.
     /// </summary>
@@ -319,9 +313,10 @@ public partial class WebTileLayer : IBlendLayer,
             return Effect;
         }
 
-        Effect? result = await JsComponentReference.InvokeAsync<Effect?>(
-            "getEffect", CancellationTokenSource.Token);
-        
+        Effect? result = await JsComponentReference.InvokeJsMethod<Effect?>(
+            IsServer, nameof(GetEffect), nameof(WebTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -331,8 +326,9 @@ public partial class WebTileLayer : IBlendLayer,
         }
         
         return Effect;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -359,19 +355,21 @@ public partial class WebTileLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "maxScale");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "maxScale");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             MaxScale = result.Value.Value;
+                MaxScale = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MaxScale)] = MaxScale;
+                ModifiedParameters[nameof(MaxScale)] = MaxScale;
         }
          
         return MaxScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -398,19 +396,21 @@ public partial class WebTileLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "minScale");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "minScale");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             MinScale = result.Value.Value;
+                MinScale = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MinScale)] = MinScale;
+                ModifiedParameters[nameof(MinScale)] = MinScale;
         }
          
         return MinScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalItem property.
     /// </summary>
@@ -436,9 +436,10 @@ public partial class WebTileLayer : IBlendLayer,
             return PortalItem;
         }
 
-        PortalItem? result = await JsComponentReference.InvokeAsync<PortalItem?>(
-            "getPortalItem", CancellationTokenSource.Token);
-        
+        PortalItem? result = await JsComponentReference.InvokeJsMethod<PortalItem?>(
+            IsServer, nameof(GetPortalItem), nameof(WebTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (PortalItem is not null)
@@ -454,8 +455,9 @@ public partial class WebTileLayer : IBlendLayer,
         }
         
         return PortalItem;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RefreshInterval property.
     /// </summary>
@@ -482,19 +484,21 @@ public partial class WebTileLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "refreshInterval");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "refreshInterval");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             RefreshInterval = result.Value.Value;
+                RefreshInterval = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
+                ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
         }
          
         return RefreshInterval;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -520,9 +524,10 @@ public partial class WebTileLayer : IBlendLayer,
             return SpatialReference;
         }
 
-        SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
-            "getSpatialReference", CancellationTokenSource.Token);
-        
+        SpatialReference? result = await JsComponentReference.InvokeJsMethod<SpatialReference?>(
+            IsServer, nameof(GetSpatialReference), nameof(WebTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -532,8 +537,9 @@ public partial class WebTileLayer : IBlendLayer,
         }
         
         return SpatialReference;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SubDomains property.
     /// </summary>
@@ -560,19 +566,21 @@ public partial class WebTileLayer : IBlendLayer,
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "subDomains");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SubDomains = result;
+                SubDomains = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SubDomains)] = SubDomains;
+                ModifiedParameters[nameof(SubDomains)] = SubDomains;
         }
          
         return SubDomains;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TileInfo property.
     /// </summary>
@@ -598,9 +606,10 @@ public partial class WebTileLayer : IBlendLayer,
             return TileInfo;
         }
 
-        TileInfo? result = await JsComponentReference.InvokeAsync<TileInfo?>(
-            "getTileInfo", CancellationTokenSource.Token);
-        
+        TileInfo? result = await JsComponentReference.InvokeJsMethod<TileInfo?>(
+            IsServer, nameof(GetTileInfo), nameof(WebTileLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (TileInfo is not null)
@@ -616,8 +625,9 @@ public partial class WebTileLayer : IBlendLayer,
         }
         
         return TileInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TileServers property.
     /// </summary>
@@ -644,19 +654,21 @@ public partial class WebTileLayer : IBlendLayer,
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "tileServers");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             TileServers = result;
+                TileServers = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TileServers)] = TileServers;
+                ModifiedParameters[nameof(TileServers)] = TileServers;
         }
          
         return TileServers;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UrlTemplate property.
     /// </summary>
@@ -683,19 +695,21 @@ public partial class WebTileLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "urlTemplate");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             UrlTemplate = result;
+                UrlTemplate = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(UrlTemplate)] = UrlTemplate;
+                ModifiedParameters[nameof(UrlTemplate)] = UrlTemplate;
         }
          
         return UrlTemplate;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -735,8 +749,9 @@ public partial class WebTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "blendMode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Copyright property after render.
     /// </summary>
@@ -772,8 +787,9 @@ public partial class WebTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "copyright", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Effect property after render.
     /// </summary>
@@ -807,10 +823,12 @@ public partial class WebTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setEffect", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetEffect), nameof(WebTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -846,8 +864,9 @@ public partial class WebTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -883,8 +902,9 @@ public partial class WebTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PersistenceEnabled property after render.
     /// </summary>
@@ -920,8 +940,9 @@ public partial class WebTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "persistenceEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
@@ -930,11 +951,6 @@ public partial class WebTileLayer : IBlendLayer,
     /// </param>
     public async Task SetPortalItem(PortalItem? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         PortalItem = value;
 #pragma warning restore BL0005
@@ -944,6 +960,11 @@ public partial class WebTileLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -960,10 +981,12 @@ public partial class WebTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setPortalItem", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPortalItem), nameof(WebTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RefreshInterval property after render.
     /// </summary>
@@ -999,8 +1022,9 @@ public partial class WebTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "refreshInterval", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SubDomains property after render.
     /// </summary>
@@ -1036,8 +1060,9 @@ public partial class WebTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "subDomains", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TileInfo property after render.
     /// </summary>
@@ -1046,11 +1071,6 @@ public partial class WebTileLayer : IBlendLayer,
     /// </param>
     public async Task SetTileInfo(TileInfo? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         TileInfo = value;
 #pragma warning restore BL0005
@@ -1060,6 +1080,11 @@ public partial class WebTileLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -1076,10 +1101,12 @@ public partial class WebTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setTileInfo", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTileInfo), nameof(WebTileLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UrlTemplate property after render.
     /// </summary>
@@ -1115,8 +1142,9 @@ public partial class WebTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "urlTemplate", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -1133,6 +1161,7 @@ public partial class WebTileLayer : IBlendLayer,
             ? values
             : [..SubDomains, ..values];
         await SetSubDomains(join);
+
     }
     
 #endregion
@@ -1153,6 +1182,7 @@ public partial class WebTileLayer : IBlendLayer,
             return;
         }
         await SetSubDomains(SubDomains.Except(values).ToArray());
+
     }
     
 #endregion
@@ -1188,8 +1218,14 @@ public partial class WebTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference!.InvokeVoidAsync(
-            "refresh", 
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(Refresh), nameof(WebTileLayer), 
             CancellationTokenSource.Token);
     }
     
@@ -1209,7 +1245,7 @@ public partial class WebTileLayer : IBlendLayer,
             return;
         }
     
-        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReference<RefreshEvent>();
+        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<RefreshEvent>();
         if (refreshEvent is not null)
         {
             await OnRefresh.InvokeAsync(refreshEvent);

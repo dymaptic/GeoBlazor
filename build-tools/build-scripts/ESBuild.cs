@@ -8,12 +8,10 @@
 //   -f, --force                          Force rebuild, ignoring lock files and record
 //   -p, --pro                            Run the GeoBlazor Pro ESBuild process
 //   -pc, --prooncorechange               Run the GeoBlazor Pro ESBuild process if pro OR core files have changed
-//   -d, --dialog                         Show a console dialog during build
 //   -v, --verbose                        Enable verbose logging
 //   -h, --help                           Display help message
 
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -35,7 +33,6 @@ bool force = false;
 bool help = false;
 bool pro = false;
 bool proOnCoreChange = false;
-bool dialog = false;
 bool verbose = false;
 
 for (int i = 0; i < args.Length; i++)
@@ -49,10 +46,6 @@ for (int i = 0; i < args.Length; i++)
             {
                 configuration = args[++i];
             }
-            break;
-        case "-d":
-        case "--dialog":
-            dialog = true;
             break;
         case "-f":
         case "--force":
@@ -103,14 +96,8 @@ if (help)
     return 0;
 }
 
-Process? dialogProcess = null;
-
 if (verbose)
 {
-    if (dialog) // only start the dialog early if we are in Verbose + Dialog mode
-    {
-        dialogProcess = StartConsoleDialog(toolsDir, $"GeoBlazor {(pro ? "PRO" : "CORE")} ESBuild", pro);
-    }
     Trace.WriteLine($"ESBUILD {(pro ? "PRO:" : "CORE:")} Launching...");
 }
 
@@ -153,18 +140,12 @@ if (!force)
 
     if (!needsBuild)
     {
-        KillDialog(dialogProcess);
         Environment.Exit(0);
     }
 }
 
 if (!verbose)
 {
-    if (dialog) // start the dialog now if we are not in Verbose mode
-    {
-        dialogProcess = StartConsoleDialog(toolsDir, 
-            $"GeoBlazor {(pro ? "PRO" : "CORE")} ESBuild", pro);
-    }
     Trace.WriteLine($"ESBUILD {(pro ? "PRO:" : "CORE:")} Launching...");
 }
 
@@ -200,14 +181,12 @@ try
     SaveBuildRecord(recordFilePath, currentBranch);
 
     Trace.WriteLine($"ESBUILD {(pro ? "PRO" : "CORE")}: NPM Build Complete");
-    KillDialog(dialogProcess);
     return 0;
 }
 catch (Exception ex)
 {
-    Trace.WriteLine($"ESBUILD {(pro ? "PRO" : "CORE")}: An error occurred in esBuild.cs");
-    Trace.WriteLine($"{ex.Message}{Environment.NewLine}{ex.StackTrace}");
-    HoldDialog(dialogProcess);
+    Console.Error.WriteLine($"ESBUILD {(pro ? "PRO" : "CORE")}: An error occurred in esBuild.cs");
+    Console.Error.WriteLine($"{ex.Message}{Environment.NewLine}{ex.StackTrace}");
     return 1;
 }
 
@@ -469,142 +448,4 @@ static bool GetScriptsModifiedSince(string scriptsDir, long lastTimestamp, strin
     }
 
     return false;
-}
-
-/// <summary>
-/// Starts the ConsoleDialog process to display build progress in a separate window.
-/// </summary>
-/// <param name="buildDir">The build-tools directory containing ConsoleDialog.dll.</param>
-/// <param name="title">The title for the console window.</param>
-/// <returns>The started Process, or null if it failed to start.</returns>
-static Process? StartConsoleDialog(string buildDir, string title, bool pro)
-{
-    try
-    {
-        string consoleDialogPath = Path.Combine(buildDir, "ConsoleDialog.dll");
-        if (!File.Exists(consoleDialogPath))
-        {
-            Trace.WriteLine($"ESBUILD {(pro ? "PRO" : "CORE")}: ConsoleDialog.dll not found at {consoleDialogPath}");
-            return null;
-        }
-        
-        string[] args =
-        [
-            "ConsoleDialog.dll",
-            $"\"{title}\"",
-            "-w",
-            "2"
-        ];
-
-        var psi = new ProcessStartInfo
-        {
-            FileName = "dotnet",
-            Arguments = string.Join(" ", args),
-            WorkingDirectory = buildDir,
-            RedirectStandardInput = true,
-            RedirectStandardOutput = true,
-            UseShellExecute = false,
-            CreateNoWindow = true
-        };
-
-        Process? dialog = Process.Start(psi);
-
-        if (dialog?.StandardInput is null)
-        {
-            Trace.WriteLine($"ESBUILD {(pro ? "PRO" : "CORE")}: Failed to start console dialog. Exiting.");
-        }
-        else
-        {
-            dialog.StandardInput.AutoFlush = true;
-            Trace.Listeners.Add(new DialogTraceListener(dialog, pro));
-        }
-
-        return dialog;
-    }
-    catch (Exception ex)
-    {
-        Trace.WriteLine($"ESBUILD {(pro ? "PRO" : "CORE")}: Failed to start ConsoleDialog: {ex.Message}");
-        return null;
-    }
-}
-
-/// <summary>
-/// Gracefully closes the ConsoleDialog process by sending an "exit" command.
-/// </summary>
-/// <param name="dialog">The ConsoleDialog process to close.</param>
-static void KillDialog(Process? dialog)
-{
-    if (dialog is null || dialog.HasExited)
-    {
-        return;
-    }
-
-    try
-    {
-        if (dialog?.StandardInput is not null)
-        {
-            // Flush to ensure all pending messages are sent before exit
-            dialog.StandardInput.Flush();
-            // Small delay to allow the dialog to display the final message
-            Thread.Sleep(500);
-            dialog.StandardInput.WriteLine("exit");
-        }
-    }
-    catch
-    {
-        dialog.Kill();
-    }
-}
-
-/// <summary>
-/// Sends a failure message to the dialog and keeps it open for user review.
-/// </summary>
-/// <param name="dialog">The ConsoleDialog process.</param>
-static void HoldDialog(Process? dialog)
-{
-    if (dialog?.StandardInput is not null && !dialog.HasExited)
-    {
-        dialog.StandardInput.WriteLine("hold");
-    }
-}
-
-/// <summary>
-/// A TraceListener that forwards trace output to a ConsoleDialog process via stdin.
-/// This allows build output to be displayed in the popup console window.
-/// </summary>
-public class DialogTraceListener(Process dialog, bool isPro) : TraceListener
-{
-    public override void Write(string? message)
-    {
-        if (dialog.StandardInput is null || dialog.HasExited)
-        {
-            return;
-        }
-
-        try
-        {
-            dialog.StandardInput.Write(isPro ? $"PRO: {message}" : message);
-        }
-        catch
-        {
-            // Dialog may have closed - ignore
-        }
-    }
-
-    public override void WriteLine(string? message)
-    {
-        if (dialog.StandardInput is null || dialog.HasExited)
-        {
-            return;
-        }
-
-        try
-        {
-            dialog.StandardInput.WriteLine(isPro ? $"PRO: {message}" : message);
-        }
-        catch
-        {
-            // Dialog may have closed - ignore
-        }
-    }
 }

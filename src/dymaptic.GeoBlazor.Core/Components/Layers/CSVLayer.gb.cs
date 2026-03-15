@@ -12,7 +12,6 @@ public partial class CSVLayer : IBlendLayer,
     IDisplayFilteredLayer,
     IFeatureEffectLayer,
     IFeatureSetLayer,
-    IFeatureTableWidgetLayers,
     IOrderedLayer,
     IScaleRangeLayer,
     ITemporalLayer,
@@ -35,7 +34,7 @@ public partial class CSVLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
-    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
+    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="copyright">
@@ -53,7 +52,7 @@ public partial class CSVLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="listMode">
-    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-layer-list/">Layer List</a> component.
+    ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
     ///     default "show"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -111,7 +110,7 @@ public partial class CSVLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="featureEffect">
-    ///     The featureEffect can be used to draw attention to features of interest.
+    ///     The featureEffect can be used to draw attention features of interest.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="featureReduction">
@@ -129,9 +128,6 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="geometryType">
     ///     The geometry type of features in the CSVLayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#geometryType">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="isBasemapReferenceLayer">
-    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
     /// <param name="labelingInfo">
     ///     The label definition for this layer, specified as an array of
@@ -199,7 +195,7 @@ public partial class CSVLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#renderer">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="screenSizePerspectiveEnabled">
-    ///     Apply perspective scaling to screen-size symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
+    ///     Apply perspective scaling to screen-size point symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#screenSizePerspectiveEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -242,9 +238,6 @@ public partial class CSVLayer : IBlendLayer,
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="excludeApiKey">
-    ///     Indicates whether the layer should exclude the API key when making requests to services. This is a workaround for an ArcGIS bug where public services throw an "Invalid Token" error.
-    /// </param>
     public CSVLayer(
         string url,
         string? title = null,
@@ -263,13 +256,12 @@ public partial class CSVLayer : IBlendLayer,
         bool? displayFilterEnabled = null,
         DisplayFilterInfo? displayFilterInfo = null,
         Effect? effect = null,
-        ElevationInfo? elevationInfo = null,
+        CSVLayerElevationInfo? elevationInfo = null,
         FeatureEffect? featureEffect = null,
         IFeatureReduction? featureReduction = null,
         IReadOnlyList<Field>? fields = null,
         Extent? fullExtent = null,
         string? geometryType = null,
-        bool? isBasemapReferenceLayer = null,
         IReadOnlyList<Label>? labelingInfo = null,
         bool? labelsVisible = null,
         string? latitudeField = null,
@@ -291,8 +283,7 @@ public partial class CSVLayer : IBlendLayer,
         TimeInterval? timeOffset = null,
         TrackInfo? trackInfo = null,
         bool? useViewTime = null,
-        TimeExtent? visibilityTimeExtent = null,
-        bool? excludeApiKey = null)
+        TimeExtent? visibilityTimeExtent = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -319,7 +310,6 @@ public partial class CSVLayer : IBlendLayer,
         Fields = fields;
         FullExtent = fullExtent;
         GeometryType = geometryType;
-        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         LabelingInfo = labelingInfo;
         LabelsVisible = labelsVisible;
         LatitudeField = latitudeField;
@@ -342,8 +332,7 @@ public partial class CSVLayer : IBlendLayer,
         TrackInfo = trackInfo;
         UseViewTime = useViewTime;
         VisibilityTimeExtent = visibilityTimeExtent;
-        ExcludeApiKey = excludeApiKey;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -441,11 +430,11 @@ public partial class CSVLayer : IBlendLayer,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ElevationInfo? ElevationInfo { get; set; }
+    public CSVLayerElevationInfo? ElevationInfo { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerfeatureeffect-property">GeoBlazor Docs</a>
-    ///     The featureEffect can be used to draw attention to features of interest.
+    ///     The featureEffect can be used to draw attention features of interest.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -655,7 +644,7 @@ public partial class CSVLayer : IBlendLayer,
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerscreensizeperspectiveenabled-property">GeoBlazor Docs</a>
-    ///     Apply perspective scaling to screen-size symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
+    ///     Apply perspective scaling to screen-size point symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#screenSizePerspectiveEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -775,19 +764,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        IAttributeTableTemplate? result = await JsComponentReference!.InvokeAsync<IAttributeTableTemplate?>("getProperty",
+        IAttributeTableTemplate? result = await JsComponentReference!.InvokeJsMethod<IAttributeTableTemplate?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "attributeTableTemplate");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             AttributeTableTemplate = result;
+                AttributeTableTemplate = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
+                ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
         }
          
         return AttributeTableTemplate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BlendMode property.
     /// </summary>
@@ -814,19 +805,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "blendMode");
-        if (result is { Value: not null })
+        BlendMode? result = await JsComponentReference!.InvokeJsMethod<BlendMode?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "blendMode");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             BlendMode = (BlendMode)result.Value.Value!;
+                BlendMode = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(BlendMode)] = BlendMode;
+                ModifiedParameters[nameof(BlendMode)] = BlendMode;
         }
          
         return BlendMode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Capabilities property.
     /// </summary>
@@ -852,11 +845,18 @@ public partial class CSVLayer : IBlendLayer,
             return Capabilities;
         }
 
-        Capabilities? result = await JsComponentReference.InvokeAsync<Capabilities?>(
-            "getCapabilities", CancellationTokenSource.Token);
-        
+        Capabilities? result = await JsComponentReference.InvokeJsMethod<Capabilities?>(
+            IsServer, nameof(GetCapabilities), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (Capabilities is not null)
+            {
+                result.Id = Capabilities.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Capabilities = result;
 #pragma warning restore BL0005
@@ -864,8 +864,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return Capabilities;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Copyright property.
     /// </summary>
@@ -892,19 +893,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "copyright");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Copyright = result;
+                Copyright = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Copyright)] = Copyright;
+                ModifiedParameters[nameof(Copyright)] = Copyright;
         }
          
         return Copyright;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomParameters property.
     /// </summary>
@@ -931,19 +934,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        Dictionary<string, object>? result = await JsComponentReference!.InvokeAsync<Dictionary<string, object>?>("getProperty",
+        Dictionary<string, object>? result = await JsComponentReference!.InvokeJsMethod<Dictionary<string, object>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "customParameters");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             CustomParameters = result;
+                CustomParameters = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
+                ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
         }
          
         return CustomParameters;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DateFieldsTimeZone property.
     /// </summary>
@@ -970,19 +975,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "dateFieldsTimeZone");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             DateFieldsTimeZone = result;
+                DateFieldsTimeZone = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DateFieldsTimeZone)] = DateFieldsTimeZone;
+                ModifiedParameters[nameof(DateFieldsTimeZone)] = DateFieldsTimeZone;
         }
          
         return DateFieldsTimeZone;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefinitionExpression property.
     /// </summary>
@@ -1009,19 +1016,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "definitionExpression");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             DefinitionExpression = result;
+                DefinitionExpression = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DefinitionExpression)] = DefinitionExpression;
+                ModifiedParameters[nameof(DefinitionExpression)] = DefinitionExpression;
         }
          
         return DefinitionExpression;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Delimiter property.
     /// </summary>
@@ -1048,19 +1057,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableEnumWrapper<CSVDelimiter>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<CSVDelimiter>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "delimiter");
-        if (result is { Value: not null })
+        CSVDelimiter? result = await JsComponentReference!.InvokeJsMethod<CSVDelimiter?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "delimiter");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Delimiter = (CSVDelimiter)result.Value.Value!;
+                Delimiter = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Delimiter)] = Delimiter;
+                ModifiedParameters[nameof(Delimiter)] = Delimiter;
         }
          
         return Delimiter;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DisplayField property.
     /// </summary>
@@ -1087,19 +1098,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "displayField");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             DisplayField = result;
+                DisplayField = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DisplayField)] = DisplayField;
+                ModifiedParameters[nameof(DisplayField)] = DisplayField;
         }
          
         return DisplayField;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DisplayFilterEnabled property.
     /// </summary>
@@ -1126,19 +1139,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "displayFilterEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "displayFilterEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             DisplayFilterEnabled = result.Value.Value;
+                DisplayFilterEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DisplayFilterEnabled)] = DisplayFilterEnabled;
+                ModifiedParameters[nameof(DisplayFilterEnabled)] = DisplayFilterEnabled;
         }
          
         return DisplayFilterEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DisplayFilterInfo property.
     /// </summary>
@@ -1164,11 +1179,18 @@ public partial class CSVLayer : IBlendLayer,
             return DisplayFilterInfo;
         }
 
-        DisplayFilterInfo? result = await JsComponentReference.InvokeAsync<DisplayFilterInfo?>(
-            "getDisplayFilterInfo", CancellationTokenSource.Token);
-        
+        DisplayFilterInfo? result = await JsComponentReference.InvokeJsMethod<DisplayFilterInfo?>(
+            IsServer, nameof(GetDisplayFilterInfo), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (DisplayFilterInfo is not null)
+            {
+                result.Id = DisplayFilterInfo.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             DisplayFilterInfo = result;
 #pragma warning restore BL0005
@@ -1176,8 +1198,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return DisplayFilterInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Effect property.
     /// </summary>
@@ -1203,9 +1226,10 @@ public partial class CSVLayer : IBlendLayer,
             return Effect;
         }
 
-        Effect? result = await JsComponentReference.InvokeAsync<Effect?>(
-            "getEffect", CancellationTokenSource.Token);
-        
+        Effect? result = await JsComponentReference.InvokeJsMethod<Effect?>(
+            IsServer, nameof(GetEffect), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1215,12 +1239,13 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return Effect;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ElevationInfo property.
     /// </summary>
-    public async Task<ElevationInfo?> GetElevationInfo()
+    public async Task<CSVLayerElevationInfo?> GetElevationInfo()
     {
         if (CoreJsModule is null)
         {
@@ -1242,11 +1267,18 @@ public partial class CSVLayer : IBlendLayer,
             return ElevationInfo;
         }
 
-        ElevationInfo? result = await JsComponentReference.InvokeAsync<ElevationInfo?>(
-            "getElevationInfo", CancellationTokenSource.Token);
-        
+        CSVLayerElevationInfo? result = await JsComponentReference.InvokeJsMethod<CSVLayerElevationInfo?>(
+            IsServer, nameof(GetElevationInfo), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (ElevationInfo is not null)
+            {
+                result.Id = ElevationInfo.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             ElevationInfo = result;
 #pragma warning restore BL0005
@@ -1254,8 +1286,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return ElevationInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureEffect property.
     /// </summary>
@@ -1281,11 +1314,18 @@ public partial class CSVLayer : IBlendLayer,
             return FeatureEffect;
         }
 
-        FeatureEffect? result = await JsComponentReference.InvokeAsync<FeatureEffect?>(
-            "getFeatureEffect", CancellationTokenSource.Token);
-        
+        FeatureEffect? result = await JsComponentReference.InvokeJsMethod<FeatureEffect?>(
+            IsServer, nameof(GetFeatureEffect), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (FeatureEffect is not null)
+            {
+                result.Id = FeatureEffect.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             FeatureEffect = result;
 #pragma warning restore BL0005
@@ -1293,8 +1333,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return FeatureEffect;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureReduction property.
     /// </summary>
@@ -1321,19 +1362,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        IFeatureReduction? result = await JsComponentReference!.InvokeAsync<IFeatureReduction?>("getProperty",
+        IFeatureReduction? result = await JsComponentReference!.InvokeJsMethod<IFeatureReduction?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "featureReduction");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FeatureReduction = result;
+                FeatureReduction = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FeatureReduction)] = FeatureReduction;
+                ModifiedParameters[nameof(FeatureReduction)] = FeatureReduction;
         }
          
         return FeatureReduction;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Fields property.
     /// </summary>
@@ -1359,11 +1402,16 @@ public partial class CSVLayer : IBlendLayer,
             return Fields;
         }
 
-        IReadOnlyList<Field>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Field>?>(
-            "getFields", CancellationTokenSource.Token);
-        
+        IReadOnlyList<Field>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Field>?>(
+            IsServer, nameof(GetFields), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (Field item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             Fields = result;
 #pragma warning restore BL0005
@@ -1371,8 +1419,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return Fields;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FieldsIndex property.
     /// </summary>
@@ -1398,9 +1447,10 @@ public partial class CSVLayer : IBlendLayer,
             return FieldsIndex;
         }
 
-        FieldsIndex? result = await JsComponentReference.InvokeAsync<FieldsIndex?>(
-            "getFieldsIndex", CancellationTokenSource.Token);
-        
+        FieldsIndex? result = await JsComponentReference.InvokeJsMethod<FieldsIndex?>(
+            IsServer, nameof(GetFieldsIndex), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1410,8 +1460,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return FieldsIndex;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the GeometryType property.
     /// </summary>
@@ -1438,19 +1489,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "geometryType");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             GeometryType = result;
+                GeometryType = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(GeometryType)] = GeometryType;
+                ModifiedParameters[nameof(GeometryType)] = GeometryType;
         }
          
         return GeometryType;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsTable property.
     /// </summary>
@@ -1477,19 +1530,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "isTable");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "isTable");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             IsTable = result.Value.Value;
+                IsTable = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(IsTable)] = IsTable;
+                ModifiedParameters[nameof(IsTable)] = IsTable;
         }
          
         return IsTable;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelingInfo property.
     /// </summary>
@@ -1515,11 +1570,16 @@ public partial class CSVLayer : IBlendLayer,
             return LabelingInfo;
         }
 
-        IReadOnlyList<Label>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Label>?>(
-            "getLabelingInfo", CancellationTokenSource.Token);
-        
+        IReadOnlyList<Label>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Label>?>(
+            IsServer, nameof(GetLabelingInfo), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (Label item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             LabelingInfo = result;
 #pragma warning restore BL0005
@@ -1527,8 +1587,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return LabelingInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelsVisible property.
     /// </summary>
@@ -1555,19 +1616,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "labelsVisible");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "labelsVisible");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             LabelsVisible = result.Value.Value;
+                LabelsVisible = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
+                ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
         }
          
         return LabelsVisible;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LatitudeField property.
     /// </summary>
@@ -1594,19 +1657,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "latitudeField");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LatitudeField = result;
+                LatitudeField = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LatitudeField)] = LatitudeField;
+                ModifiedParameters[nameof(LatitudeField)] = LatitudeField;
         }
          
         return LatitudeField;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LegendEnabled property.
     /// </summary>
@@ -1633,19 +1698,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "legendEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "legendEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             LegendEnabled = result.Value.Value;
+                LegendEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
+                ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
         }
          
         return LegendEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LongitudeField property.
     /// </summary>
@@ -1672,19 +1739,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "longitudeField");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LongitudeField = result;
+                LongitudeField = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LongitudeField)] = LongitudeField;
+                ModifiedParameters[nameof(LongitudeField)] = LongitudeField;
         }
          
         return LongitudeField;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -1711,19 +1780,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "maxScale");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "maxScale");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             MaxScale = result.Value.Value;
+                MaxScale = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MaxScale)] = MaxScale;
+                ModifiedParameters[nameof(MaxScale)] = MaxScale;
         }
          
         return MaxScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -1750,19 +1821,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "minScale");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "minScale");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             MinScale = result.Value.Value;
+                MinScale = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MinScale)] = MinScale;
+                ModifiedParameters[nameof(MinScale)] = MinScale;
         }
          
         return MinScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ObjectIdField property.
     /// </summary>
@@ -1789,19 +1862,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "objectIdField");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ObjectIdField = result;
+                ObjectIdField = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ObjectIdField)] = ObjectIdField;
+                ModifiedParameters[nameof(ObjectIdField)] = ObjectIdField;
         }
          
         return ObjectIdField;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OrderBy property.
     /// </summary>
@@ -1827,11 +1902,16 @@ public partial class CSVLayer : IBlendLayer,
             return OrderBy;
         }
 
-        IReadOnlyList<OrderByInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<OrderByInfo>?>(
-            "getOrderBy", CancellationTokenSource.Token);
-        
+        IReadOnlyList<OrderByInfo>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<OrderByInfo>?>(
+            IsServer, nameof(GetOrderBy), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (OrderByInfo item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             OrderBy = result;
 #pragma warning restore BL0005
@@ -1839,8 +1919,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return OrderBy;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OutFields property.
     /// </summary>
@@ -1867,19 +1948,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "outFields");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             OutFields = result;
+                OutFields = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(OutFields)] = OutFields;
+                ModifiedParameters[nameof(OutFields)] = OutFields;
         }
          
         return OutFields;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupEnabled property.
     /// </summary>
@@ -1906,19 +1989,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "popupEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "popupEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             PopupEnabled = result.Value.Value;
+                PopupEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
+                ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
         }
          
         return PopupEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupTemplate property.
     /// </summary>
@@ -1944,11 +2029,18 @@ public partial class CSVLayer : IBlendLayer,
             return PopupTemplate;
         }
 
-        PopupTemplate? result = await JsComponentReference.InvokeAsync<PopupTemplate?>(
-            "getPopupTemplate", CancellationTokenSource.Token);
-        
+        PopupTemplate? result = await JsComponentReference.InvokeJsMethod<PopupTemplate?>(
+            IsServer, nameof(GetPopupTemplate), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (PopupTemplate is not null)
+            {
+                result.Id = PopupTemplate.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             PopupTemplate = result;
 #pragma warning restore BL0005
@@ -1956,8 +2048,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return PopupTemplate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalItem property.
     /// </summary>
@@ -1983,9 +2076,10 @@ public partial class CSVLayer : IBlendLayer,
             return PortalItem;
         }
 
-        PortalItem? result = await JsComponentReference.InvokeAsync<PortalItem?>(
-            "getPortalItem", CancellationTokenSource.Token);
-        
+        PortalItem? result = await JsComponentReference.InvokeJsMethod<PortalItem?>(
+            IsServer, nameof(GetPortalItem), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (PortalItem is not null)
@@ -2001,8 +2095,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return PortalItem;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RefreshInterval property.
     /// </summary>
@@ -2029,19 +2124,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "refreshInterval");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "refreshInterval");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             RefreshInterval = result.Value.Value;
+                RefreshInterval = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
+                ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
         }
          
         return RefreshInterval;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Renderer property.
     /// </summary>
@@ -2067,11 +2164,18 @@ public partial class CSVLayer : IBlendLayer,
             return Renderer;
         }
 
-        Renderer? result = await JsComponentReference.InvokeAsync<Renderer?>(
-            "getRenderer", CancellationTokenSource.Token);
-        
+        Renderer? result = await JsComponentReference.InvokeJsMethod<Renderer?>(
+            IsServer, nameof(GetRenderer), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (Renderer is not null)
+            {
+                result.Id = Renderer.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Renderer = result;
 #pragma warning restore BL0005
@@ -2079,8 +2183,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return Renderer;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ScreenSizePerspectiveEnabled property.
     /// </summary>
@@ -2107,19 +2212,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "screenSizePerspectiveEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "screenSizePerspectiveEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ScreenSizePerspectiveEnabled = result.Value.Value;
+                ScreenSizePerspectiveEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ScreenSizePerspectiveEnabled)] = ScreenSizePerspectiveEnabled;
+                ModifiedParameters[nameof(ScreenSizePerspectiveEnabled)] = ScreenSizePerspectiveEnabled;
         }
          
         return ScreenSizePerspectiveEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -2145,9 +2252,10 @@ public partial class CSVLayer : IBlendLayer,
             return SpatialReference;
         }
 
-        SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
-            "getSpatialReference", CancellationTokenSource.Token);
-        
+        SpatialReference? result = await JsComponentReference.InvokeJsMethod<SpatialReference?>(
+            IsServer, nameof(GetSpatialReference), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2157,8 +2265,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return SpatialReference;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeExtent property.
     /// </summary>
@@ -2184,9 +2293,10 @@ public partial class CSVLayer : IBlendLayer,
             return TimeExtent;
         }
 
-        TimeExtent? result = await JsComponentReference.InvokeAsync<TimeExtent?>(
-            "getTimeExtent", CancellationTokenSource.Token);
-        
+        TimeExtent? result = await JsComponentReference.InvokeJsMethod<TimeExtent?>(
+            IsServer, nameof(GetTimeExtent), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (TimeExtent is not null)
@@ -2202,8 +2312,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return TimeExtent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeInfo property.
     /// </summary>
@@ -2229,11 +2340,18 @@ public partial class CSVLayer : IBlendLayer,
             return TimeInfo;
         }
 
-        TimeInfo? result = await JsComponentReference.InvokeAsync<TimeInfo?>(
-            "getTimeInfo", CancellationTokenSource.Token);
-        
+        TimeInfo? result = await JsComponentReference.InvokeJsMethod<TimeInfo?>(
+            IsServer, nameof(GetTimeInfo), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (TimeInfo is not null)
+            {
+                result.Id = TimeInfo.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             TimeInfo = result;
 #pragma warning restore BL0005
@@ -2241,8 +2359,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return TimeInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeOffset property.
     /// </summary>
@@ -2268,11 +2387,18 @@ public partial class CSVLayer : IBlendLayer,
             return TimeOffset;
         }
 
-        TimeInterval? result = await JsComponentReference.InvokeAsync<TimeInterval?>(
-            "getTimeOffset", CancellationTokenSource.Token);
-        
+        TimeInterval? result = await JsComponentReference.InvokeJsMethod<TimeInterval?>(
+            IsServer, nameof(GetTimeOffset), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (TimeOffset is not null)
+            {
+                result.Id = TimeOffset.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             TimeOffset = result;
 #pragma warning restore BL0005
@@ -2280,8 +2406,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return TimeOffset;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TrackInfo property.
     /// </summary>
@@ -2307,11 +2434,18 @@ public partial class CSVLayer : IBlendLayer,
             return TrackInfo;
         }
 
-        TrackInfo? result = await JsComponentReference.InvokeAsync<TrackInfo?>(
-            "getTrackInfo", CancellationTokenSource.Token);
-        
+        TrackInfo? result = await JsComponentReference.InvokeJsMethod<TrackInfo?>(
+            IsServer, nameof(GetTrackInfo), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (TrackInfo is not null)
+            {
+                result.Id = TrackInfo.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             TrackInfo = result;
 #pragma warning restore BL0005
@@ -2319,8 +2453,9 @@ public partial class CSVLayer : IBlendLayer,
         }
         
         return TrackInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -2347,19 +2482,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "url");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Url = result;
+                Url = (string)result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Url)] = Url;
+                ModifiedParameters[nameof(Url)] = Url;
         }
          
         return Url;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UseViewTime property.
     /// </summary>
@@ -2386,19 +2523,21 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "useViewTime");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CSVLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "useViewTime");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             UseViewTime = result.Value.Value;
+                UseViewTime = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(UseViewTime)] = UseViewTime;
+                ModifiedParameters[nameof(UseViewTime)] = UseViewTime;
         }
          
         return UseViewTime;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -2438,8 +2577,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "attributeTableTemplate", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the BlendMode property after render.
     /// </summary>
@@ -2475,8 +2615,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "blendMode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Copyright property after render.
     /// </summary>
@@ -2512,8 +2653,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "copyright", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CustomParameters property after render.
     /// </summary>
@@ -2549,8 +2691,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "customParameters", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DefinitionExpression property after render.
     /// </summary>
@@ -2586,8 +2729,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "definitionExpression", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Delimiter property after render.
     /// </summary>
@@ -2623,8 +2767,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "delimiter", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DisplayField property after render.
     /// </summary>
@@ -2660,8 +2805,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "displayField", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DisplayFilterEnabled property after render.
     /// </summary>
@@ -2697,8 +2843,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "displayFilterEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DisplayFilterInfo property after render.
     /// </summary>
@@ -2707,11 +2854,6 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetDisplayFilterInfo(DisplayFilterInfo? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         DisplayFilterInfo = value;
 #pragma warning restore BL0005
@@ -2721,6 +2863,11 @@ public partial class CSVLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -2737,10 +2884,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setDisplayFilterInfo", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetDisplayFilterInfo), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Effect property after render.
     /// </summary>
@@ -2774,23 +2923,20 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setEffect", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetEffect), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ElevationInfo property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetElevationInfo(ElevationInfo? value)
+    public async Task SetElevationInfo(CSVLayerElevationInfo? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         ElevationInfo = value;
 #pragma warning restore BL0005
@@ -2800,6 +2946,11 @@ public partial class CSVLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -2816,10 +2967,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setElevationInfo", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetElevationInfo), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeatureEffect property after render.
     /// </summary>
@@ -2828,11 +2981,6 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetFeatureEffect(FeatureEffect? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         FeatureEffect = value;
 #pragma warning restore BL0005
@@ -2842,6 +2990,11 @@ public partial class CSVLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -2858,10 +3011,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setFeatureEffect", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetFeatureEffect), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeatureReduction property after render.
     /// </summary>
@@ -2897,8 +3052,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featureReduction", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Fields property after render.
     /// </summary>
@@ -2907,14 +3063,6 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetFields(IReadOnlyList<Field>? value)
     {
-        if (value is not null)
-        {
-            foreach (Field item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
 #pragma warning disable BL0005
         Fields = value;
 #pragma warning restore BL0005
@@ -2924,6 +3072,14 @@ public partial class CSVLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            foreach (Field item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
     
         try 
         {
@@ -2940,10 +3096,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setFields", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetFields), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelingInfo property after render.
     /// </summary>
@@ -2952,14 +3110,6 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetLabelingInfo(IReadOnlyList<Label>? value)
     {
-        if (value is not null)
-        {
-            foreach (Label item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
 #pragma warning disable BL0005
         LabelingInfo = value;
 #pragma warning restore BL0005
@@ -2969,6 +3119,14 @@ public partial class CSVLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            foreach (Label item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
     
         try 
         {
@@ -2985,10 +3143,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setLabelingInfo", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetLabelingInfo), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelsVisible property after render.
     /// </summary>
@@ -3024,8 +3184,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelsVisible", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LatitudeField property after render.
     /// </summary>
@@ -3061,8 +3222,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "latitudeField", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
@@ -3098,8 +3260,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "legendEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LongitudeField property after render.
     /// </summary>
@@ -3135,8 +3298,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "longitudeField", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -3172,8 +3336,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -3209,8 +3374,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OrderBy property after render.
     /// </summary>
@@ -3219,14 +3385,6 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetOrderBy(IReadOnlyList<OrderByInfo>? value)
     {
-        if (value is not null)
-        {
-            foreach (OrderByInfo item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
 #pragma warning disable BL0005
         OrderBy = value;
 #pragma warning restore BL0005
@@ -3236,6 +3394,14 @@ public partial class CSVLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            foreach (OrderByInfo item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
     
         try 
         {
@@ -3252,10 +3418,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setOrderBy", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetOrderBy), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OutFields property after render.
     /// </summary>
@@ -3291,8 +3459,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outFields", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
@@ -3328,8 +3497,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupTemplate property after render.
     /// </summary>
@@ -3338,11 +3508,6 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetPopupTemplate(PopupTemplate? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         PopupTemplate = value;
 #pragma warning restore BL0005
@@ -3352,6 +3517,11 @@ public partial class CSVLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -3368,10 +3538,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setPopupTemplate", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPopupTemplate), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
@@ -3380,11 +3552,6 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetPortalItem(PortalItem? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         PortalItem = value;
 #pragma warning restore BL0005
@@ -3394,6 +3561,11 @@ public partial class CSVLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -3410,10 +3582,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setPortalItem", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPortalItem), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RefreshInterval property after render.
     /// </summary>
@@ -3449,8 +3623,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "refreshInterval", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Renderer property after render.
     /// </summary>
@@ -3459,11 +3634,6 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetRenderer(Renderer? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Renderer = value;
 #pragma warning restore BL0005
@@ -3473,6 +3643,11 @@ public partial class CSVLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -3489,10 +3664,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setRenderer", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetRenderer), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ScreenSizePerspectiveEnabled property after render.
     /// </summary>
@@ -3528,8 +3705,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "screenSizePerspectiveEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SpatialReference property after render.
     /// </summary>
@@ -3538,11 +3716,6 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetSpatialReference(SpatialReference? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         SpatialReference = value;
 #pragma warning restore BL0005
@@ -3552,6 +3725,11 @@ public partial class CSVLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -3568,10 +3746,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setSpatialReference", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetSpatialReference), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeExtent property after render.
     /// </summary>
@@ -3580,11 +3760,6 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetTimeExtent(TimeExtent? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         TimeExtent = value;
 #pragma warning restore BL0005
@@ -3594,6 +3769,11 @@ public partial class CSVLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -3610,10 +3790,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setTimeExtent", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTimeExtent), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeInfo property after render.
     /// </summary>
@@ -3622,11 +3804,6 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetTimeInfo(TimeInfo? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         TimeInfo = value;
 #pragma warning restore BL0005
@@ -3636,6 +3813,11 @@ public partial class CSVLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -3652,10 +3834,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setTimeInfo", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTimeInfo), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeOffset property after render.
     /// </summary>
@@ -3664,11 +3848,6 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetTimeOffset(TimeInterval? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         TimeOffset = value;
 #pragma warning restore BL0005
@@ -3678,6 +3857,11 @@ public partial class CSVLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -3694,10 +3878,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setTimeOffset", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTimeOffset), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TrackInfo property after render.
     /// </summary>
@@ -3706,11 +3892,6 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetTrackInfo(TrackInfo? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         TrackInfo = value;
 #pragma warning restore BL0005
@@ -3720,6 +3901,11 @@ public partial class CSVLayer : IBlendLayer,
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -3736,10 +3922,12 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setTrackInfo", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTrackInfo), nameof(CSVLayer),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -3775,8 +3963,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UseViewTime property after render.
     /// </summary>
@@ -3812,8 +4001,9 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "useViewTime", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -3830,6 +4020,7 @@ public partial class CSVLayer : IBlendLayer,
             ? values
             : [..Fields, ..values];
         await SetFields(join);
+
     }
     
     /// <summary>
@@ -3844,6 +4035,7 @@ public partial class CSVLayer : IBlendLayer,
             ? values
             : [..LabelingInfo, ..values];
         await SetLabelingInfo(join);
+
     }
     
     /// <summary>
@@ -3858,6 +4050,7 @@ public partial class CSVLayer : IBlendLayer,
             ? values
             : [..OrderBy, ..values];
         await SetOrderBy(join);
+
     }
     
     /// <summary>
@@ -3872,6 +4065,7 @@ public partial class CSVLayer : IBlendLayer,
             ? values
             : [..OutFields, ..values];
         await SetOutFields(join);
+
     }
     
 #endregion
@@ -3892,6 +4086,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         await SetFields(Fields.Except(values).ToArray());
+
     }
     
     
@@ -3908,6 +4103,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         await SetLabelingInfo(LabelingInfo.Except(values).ToArray());
+
     }
     
     
@@ -3924,6 +4120,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         await SetOrderBy(OrderBy.Except(values).ToArray());
+
     }
     
     
@@ -3940,6 +4137,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         await SetOutFields(OutFields.Except(values).ToArray());
+
     }
     
 #endregion
@@ -3975,8 +4173,14 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference!.InvokeVoidAsync(
-            "refresh", 
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(Refresh), nameof(CSVLayer), 
             CancellationTokenSource.Token);
     }
     
@@ -3996,7 +4200,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReference<RefreshEvent>();
+        RefreshEvent? refreshEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<RefreshEvent>();
         if (refreshEvent is not null)
         {
             await OnRefresh.InvokeAsync(refreshEvent);
@@ -4037,7 +4241,7 @@ public partial class CSVLayer : IBlendLayer,
                 }
                 
                 return true;
-            case ElevationInfo elevationInfo:
+            case CSVLayerElevationInfo elevationInfo:
                 if (elevationInfo != ElevationInfo)
                 {
                     ElevationInfo = elevationInfo;
@@ -4210,7 +4414,7 @@ public partial class CSVLayer : IBlendLayer,
                 DisplayFilterInfo = null;
                 ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
                 return true;
-            case ElevationInfo _:
+            case CSVLayerElevationInfo:
                 ElevationInfo = null;
                 ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
                 return true;
@@ -4254,7 +4458,7 @@ public partial class CSVLayer : IBlendLayer,
                 TimeInfo = null;
                 ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
                 return true;
-            case TimeInterval _:
+            case TimeInterval:
                 TimeOffset = null;
                 ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
                 return true;

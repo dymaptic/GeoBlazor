@@ -33,7 +33,7 @@ public partial class ApplicationProperties : MapComponent
         AllowRender = false;
 #pragma warning disable BL0005
         Viewing = viewing;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -78,11 +78,18 @@ public partial class ApplicationProperties : MapComponent
             return Viewing;
         }
 
-        Viewing? result = await JsComponentReference.InvokeAsync<Viewing?>(
-            "getViewing", CancellationTokenSource.Token);
-        
+        Viewing? result = await JsComponentReference.InvokeJsMethod<Viewing?>(
+            IsServer, nameof(GetViewing), nameof(ApplicationProperties), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (Viewing is not null)
+            {
+                result.Id = Viewing.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Viewing = result;
 #pragma warning restore BL0005
@@ -90,8 +97,9 @@ public partial class ApplicationProperties : MapComponent
         }
         
         return Viewing;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -104,11 +112,6 @@ public partial class ApplicationProperties : MapComponent
     /// </param>
     public async Task SetViewing(Viewing? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Viewing = value;
 #pragma warning restore BL0005
@@ -118,6 +121,11 @@ public partial class ApplicationProperties : MapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -136,8 +144,9 @@ public partial class ApplicationProperties : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "viewing", value);
+
     }
-    
+
 #endregion
 
 

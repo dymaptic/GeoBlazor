@@ -35,7 +35,7 @@ public partial class ExpressionPopupContent
         {
             ExpressionInfo = expressionInfo;
         }
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -66,11 +66,18 @@ public partial class ExpressionPopupContent
             return ExpressionInfo;
         }
 
-        ElementExpressionInfo? result = await JsComponentReference.InvokeAsync<ElementExpressionInfo?>(
-            "getExpressionInfo", CancellationTokenSource.Token);
-        
+        ElementExpressionInfo? result = await JsComponentReference.InvokeJsMethod<ElementExpressionInfo?>(
+            IsServer, nameof(GetExpressionInfo), nameof(ExpressionPopupContent), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (ExpressionInfo is not null)
+            {
+                result.Id = ExpressionInfo.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             ExpressionInfo = result;
 #pragma warning restore BL0005
@@ -78,8 +85,9 @@ public partial class ExpressionPopupContent
         }
         
         return ExpressionInfo;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -92,11 +100,6 @@ public partial class ExpressionPopupContent
     /// </param>
     public async Task SetExpressionInfo(ElementExpressionInfo? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         ExpressionInfo = value;
 #pragma warning restore BL0005
@@ -106,6 +109,11 @@ public partial class ExpressionPopupContent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -124,8 +132,9 @@ public partial class ExpressionPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "expressionInfo", value);
+
     }
-    
+
 #endregion
 
 }

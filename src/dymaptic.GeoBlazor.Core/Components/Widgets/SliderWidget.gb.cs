@@ -23,9 +23,6 @@ public partial class SliderWidget
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
-    /// <param name="containerId">
-    ///     The ID of the container element for the widget. The widget will be rendered within this container.
-    /// </param>
     /// <param name="disabled">
     ///     When `true`, sets the slider to a disabled state so the user cannot interact
     ///     with it.
@@ -88,7 +85,9 @@ public partial class SliderWidget
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#snapOnClickEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="steps">
-    ///     Sets steps on the slider that restrict user input to specific values. If an array of numbers is passed to this property, the slider thumbs may only be moved to the positions specified in the array.
+    ///     Sets steps, or intervals, on the slider that restrict user
+    ///     input to specific values.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#steps">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="syncedSegmentsEnabled">
     ///     When `true`, all segments will sync together in updating thumb values when the user drags any segment.
@@ -139,26 +138,10 @@ public partial class SliderWidget
     ///     The visible elements that are displayed within the widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#visibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="doubleCollectionSteps">
-    ///     Sets steps, or intervals, on the slider that restrict user
-    ///     input to specific values.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#steps">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="doubleSteps">
-    ///     Sets steps, or intervals, on the slider that restrict user
-    ///     input to specific values.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#steps">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="icon">
     ///     Icon displayed in the widget's button.
     ///     default "caret-double-horizontal"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#icon">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="mapView">
-    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
-    /// </param>
-    /// <param name="position">
-    ///     The position of the widget in relation to the map view.
     /// </param>
     /// <param name="viewModel">
     ///     The view model for the Slider widget.
@@ -169,7 +152,6 @@ public partial class SliderWidget
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public SliderWidget(
-        string containerId,
         bool? disabled = null,
         bool? draggableSegmentsEnabled = null,
         double? effectiveMax = null,
@@ -182,7 +164,7 @@ public partial class SliderWidget
         double? precision = null,
         bool? rangeLabelInputsEnabled = null,
         bool? snapOnClickEnabled = null,
-        double[]? steps = null,
+        IReadOnlyList<double>? steps = null,
         bool? syncedSegmentsEnabled = null,
         bool? thumbsConstrained = null,
         IReadOnlyList<double>? values = null,
@@ -194,17 +176,12 @@ public partial class SliderWidget
         IReadOnlyList<TickConfig>? tickConfigs = null,
         bool? visible = null,
         SliderVisibleElements? visibleElements = null,
-        IReadOnlyList<double>? doubleCollectionSteps = null,
-        double? doubleSteps = null,
         string? icon = null,
-        MapView? mapView = null,
-        OverlayPosition? position = null,
         SliderViewModel? viewModel = null,
         string? widgetId = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
-        ContainerId = containerId;
         Disabled = disabled;
         DraggableSegmentsEnabled = draggableSegmentsEnabled;
         EffectiveMax = effectiveMax;
@@ -229,41 +206,15 @@ public partial class SliderWidget
         TickConfigs = tickConfigs;
         Visible = visible;
         VisibleElements = visibleElements;
-        DoubleCollectionSteps = doubleCollectionSteps;
-        DoubleSteps = doubleSteps;
         Icon = icon;
-        MapView = mapView;
-        Position = position;
         ViewModel = viewModel;
         WidgetId = widgetId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
 #region Public Properties / Blazor Parameters
 
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetdoublecollectionsteps-property">GeoBlazor Docs</a>
-    ///     Sets steps, or intervals, on the slider that restrict user
-    ///     input to specific values.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#steps">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<double>? DoubleCollectionSteps { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetdoublesteps-property">GeoBlazor Docs</a>
-    ///     Sets steps, or intervals, on the slider that restrict user
-    ///     input to specific values.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#steps">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? DoubleSteps { get; set; }
-    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgeteffectivesegmentelements-property">GeoBlazor Docs</a>
     ///     The HTML Element nodes representing the slider segment between the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#min">min</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#effectiveMin">effectiveMin</a>, and the segment between the
@@ -547,97 +498,21 @@ public partial class SliderWidget
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "disabled");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             Disabled = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Disabled)] = Disabled;
-        }
-         
-        return Disabled;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the DoubleCollectionSteps property.
-    /// </summary>
-    public async Task<IReadOnlyList<double>?> GetDoubleCollectionSteps()
-    {
-        if (CoreJsModule is null)
-        {
-            return DoubleCollectionSteps;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return DoubleCollectionSteps;
-        }
-
-        // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
-            CancellationTokenSource.Token, "steps");
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "disabled");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             DoubleCollectionSteps = result;
+                Disabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DoubleCollectionSteps)] = DoubleCollectionSteps;
+                ModifiedParameters[nameof(Disabled)] = Disabled;
         }
          
-        return DoubleCollectionSteps;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the DoubleSteps property.
-    /// </summary>
-    public async Task<double?> GetDoubleSteps()
-    {
-        if (CoreJsModule is null)
-        {
-            return DoubleSteps;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return DoubleSteps;
-        }
+        return Disabled;
 
-        // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "doubleSteps");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             DoubleSteps = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(DoubleSteps)] = DoubleSteps;
-        }
-         
-        return DoubleSteps;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DraggableSegmentsEnabled property.
     /// </summary>
@@ -664,19 +539,21 @@ public partial class SliderWidget
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "draggableSegmentsEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "draggableSegmentsEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             DraggableSegmentsEnabled = result.Value.Value;
+                DraggableSegmentsEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DraggableSegmentsEnabled)] = DraggableSegmentsEnabled;
+                ModifiedParameters[nameof(DraggableSegmentsEnabled)] = DraggableSegmentsEnabled;
         }
          
         return DraggableSegmentsEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the EffectiveMax property.
     /// </summary>
@@ -703,19 +580,21 @@ public partial class SliderWidget
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "effectiveMax");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "effectiveMax");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             EffectiveMax = result.Value.Value;
+                EffectiveMax = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(EffectiveMax)] = EffectiveMax;
+                ModifiedParameters[nameof(EffectiveMax)] = EffectiveMax;
         }
          
         return EffectiveMax;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the EffectiveMin property.
     /// </summary>
@@ -742,19 +621,21 @@ public partial class SliderWidget
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "effectiveMin");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "effectiveMin");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             EffectiveMin = result.Value.Value;
+                EffectiveMin = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(EffectiveMin)] = EffectiveMin;
+                ModifiedParameters[nameof(EffectiveMin)] = EffectiveMin;
         }
          
         return EffectiveMin;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the EffectiveSegmentElements property.
     /// </summary>
@@ -781,19 +662,21 @@ public partial class SliderWidget
         }
 
         // get the property value
-        IReadOnlyList<ElementReference>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ElementReference>?>("getProperty",
+        IReadOnlyList<ElementReference>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<ElementReference>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "effectiveSegmentElements");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             EffectiveSegmentElements = result;
+                EffectiveSegmentElements = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(EffectiveSegmentElements)] = EffectiveSegmentElements;
+                ModifiedParameters[nameof(EffectiveSegmentElements)] = EffectiveSegmentElements;
         }
          
         return EffectiveSegmentElements;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelElements property.
     /// </summary>
@@ -820,19 +703,21 @@ public partial class SliderWidget
         }
 
         // get the property value
-        IReadOnlyList<ElementReference>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ElementReference>?>("getProperty",
+        IReadOnlyList<ElementReference>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<ElementReference>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "labelElements");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LabelElements = result;
+                LabelElements = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LabelElements)] = LabelElements;
+                ModifiedParameters[nameof(LabelElements)] = LabelElements;
         }
          
         return LabelElements;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelInputsEnabled property.
     /// </summary>
@@ -859,19 +744,21 @@ public partial class SliderWidget
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "labelInputsEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "labelInputsEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             LabelInputsEnabled = result.Value.Value;
+                LabelInputsEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LabelInputsEnabled)] = LabelInputsEnabled;
+                ModifiedParameters[nameof(LabelInputsEnabled)] = LabelInputsEnabled;
         }
          
         return LabelInputsEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Labels property.
     /// </summary>
@@ -898,19 +785,21 @@ public partial class SliderWidget
         }
 
         // get the property value
-        LabelInfos? result = await JsComponentReference!.InvokeAsync<LabelInfos?>("getProperty",
+        LabelInfos? result = await JsComponentReference!.InvokeJsMethod<LabelInfos?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "labels");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Labels = result;
+                Labels = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Labels)] = Labels;
+                ModifiedParameters[nameof(Labels)] = Labels;
         }
          
         return Labels;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Layout property.
     /// </summary>
@@ -937,19 +826,21 @@ public partial class SliderWidget
         }
 
         // get the property value
-        JsNullableEnumWrapper<SliderLayout>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SliderLayout>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "layout");
-        if (result is { Value: not null })
+        SliderLayout? result = await JsComponentReference!.InvokeJsMethod<SliderLayout?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "layout");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Layout = (SliderLayout)result.Value.Value!;
+                Layout = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Layout)] = Layout;
+                ModifiedParameters[nameof(Layout)] = Layout;
         }
          
         return Layout;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Max property.
     /// </summary>
@@ -976,19 +867,21 @@ public partial class SliderWidget
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "max");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "max");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Max = result.Value.Value;
+                Max = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Max)] = Max;
+                ModifiedParameters[nameof(Max)] = Max;
         }
          
         return Max;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxLabelElement property.
     /// </summary>
@@ -1015,19 +908,21 @@ public partial class SliderWidget
         }
 
         // get the property value
-        JsNullableElementReferenceWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableElementReferenceWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "maxLabelElement");
-        if (result is { Value: not null })
+        ElementReference? result = await JsComponentReference!.InvokeJsMethod<ElementReference?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "maxLabelElement");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             MaxLabelElement = result.Value.Value;
+                MaxLabelElement = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MaxLabelElement)] = MaxLabelElement;
+                ModifiedParameters[nameof(MaxLabelElement)] = MaxLabelElement;
         }
          
         return MaxLabelElement;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Min property.
     /// </summary>
@@ -1054,19 +949,21 @@ public partial class SliderWidget
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "min");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "min");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Min = result.Value.Value;
+                Min = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Min)] = Min;
+                ModifiedParameters[nameof(Min)] = Min;
         }
          
         return Min;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinLabelElement property.
     /// </summary>
@@ -1093,19 +990,21 @@ public partial class SliderWidget
         }
 
         // get the property value
-        JsNullableElementReferenceWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableElementReferenceWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "minLabelElement");
-        if (result is { Value: not null })
+        ElementReference? result = await JsComponentReference!.InvokeJsMethod<ElementReference?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "minLabelElement");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             MinLabelElement = result.Value.Value;
+                MinLabelElement = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MinLabelElement)] = MinLabelElement;
+                ModifiedParameters[nameof(MinLabelElement)] = MinLabelElement;
         }
          
         return MinLabelElement;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Precision property.
     /// </summary>
@@ -1132,19 +1031,21 @@ public partial class SliderWidget
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "precision");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "precision");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Precision = result.Value.Value;
+                Precision = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Precision)] = Precision;
+                ModifiedParameters[nameof(Precision)] = Precision;
         }
          
         return Precision;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RangeLabelInputsEnabled property.
     /// </summary>
@@ -1171,19 +1072,21 @@ public partial class SliderWidget
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "rangeLabelInputsEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "rangeLabelInputsEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             RangeLabelInputsEnabled = result.Value.Value;
+                RangeLabelInputsEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RangeLabelInputsEnabled)] = RangeLabelInputsEnabled;
+                ModifiedParameters[nameof(RangeLabelInputsEnabled)] = RangeLabelInputsEnabled;
         }
          
         return RangeLabelInputsEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SegmentElements property.
     /// </summary>
@@ -1210,19 +1113,21 @@ public partial class SliderWidget
         }
 
         // get the property value
-        IReadOnlyList<ElementReference>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ElementReference>?>("getProperty",
+        IReadOnlyList<ElementReference>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<ElementReference>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "segmentElements");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SegmentElements = result;
+                SegmentElements = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SegmentElements)] = SegmentElements;
+                ModifiedParameters[nameof(SegmentElements)] = SegmentElements;
         }
          
         return SegmentElements;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SnapOnClickEnabled property.
     /// </summary>
@@ -1249,19 +1154,21 @@ public partial class SliderWidget
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "snapOnClickEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "snapOnClickEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SnapOnClickEnabled = result.Value.Value;
+                SnapOnClickEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SnapOnClickEnabled)] = SnapOnClickEnabled;
+                ModifiedParameters[nameof(SnapOnClickEnabled)] = SnapOnClickEnabled;
         }
          
         return SnapOnClickEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -1288,19 +1195,62 @@ public partial class SliderWidget
         }
 
         // get the property value
-        JsNullableEnumWrapper<SliderState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SliderState>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "state");
-        if (result is { Value: not null })
+        SliderState? result = await JsComponentReference!.InvokeJsMethod<SliderState?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "state");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             State = (SliderState)result.Value.Value!;
+                State = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(State)] = State;
+                ModifiedParameters[nameof(State)] = State;
         }
          
         return State;
+
     }
-    
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Steps property.
+    /// </summary>
+    public async Task<IReadOnlyList<double>?> GetSteps()
+    {
+        if (CoreJsModule is null)
+        {
+            return Steps;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Steps;
+        }
+
+        // get the property value
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "steps");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                Steps = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(Steps)] = Steps;
+        }
+         
+        return Steps;
+
+    }
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SyncedSegmentsEnabled property.
     /// </summary>
@@ -1327,19 +1277,21 @@ public partial class SliderWidget
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "syncedSegmentsEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "syncedSegmentsEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SyncedSegmentsEnabled = result.Value.Value;
+                SyncedSegmentsEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SyncedSegmentsEnabled)] = SyncedSegmentsEnabled;
+                ModifiedParameters[nameof(SyncedSegmentsEnabled)] = SyncedSegmentsEnabled;
         }
          
         return SyncedSegmentsEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ThumbElements property.
     /// </summary>
@@ -1366,19 +1318,21 @@ public partial class SliderWidget
         }
 
         // get the property value
-        IReadOnlyList<ElementReference>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ElementReference>?>("getProperty",
+        IReadOnlyList<ElementReference>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<ElementReference>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "thumbElements");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ThumbElements = result;
+                ThumbElements = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ThumbElements)] = ThumbElements;
+                ModifiedParameters[nameof(ThumbElements)] = ThumbElements;
         }
          
         return ThumbElements;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ThumbsConstrained property.
     /// </summary>
@@ -1405,19 +1359,21 @@ public partial class SliderWidget
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "thumbsConstrained");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "thumbsConstrained");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ThumbsConstrained = result.Value.Value;
+                ThumbsConstrained = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ThumbsConstrained)] = ThumbsConstrained;
+                ModifiedParameters[nameof(ThumbsConstrained)] = ThumbsConstrained;
         }
          
         return ThumbsConstrained;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TickConfigs property.
     /// </summary>
@@ -1443,11 +1399,16 @@ public partial class SliderWidget
             return TickConfigs;
         }
 
-        IReadOnlyList<TickConfig>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<TickConfig>?>(
-            "getTickConfigs", CancellationTokenSource.Token);
-        
+        IReadOnlyList<TickConfig>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<TickConfig>?>(
+            IsServer, nameof(GetTickConfigs), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (TickConfig item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             TickConfigs = result;
 #pragma warning restore BL0005
@@ -1455,8 +1416,9 @@ public partial class SliderWidget
         }
         
         return TickConfigs;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TickElements property.
     /// </summary>
@@ -1483,19 +1445,21 @@ public partial class SliderWidget
         }
 
         // get the property value
-        IReadOnlyList<IReadOnlyList<TickElementGroup>>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<IReadOnlyList<TickElementGroup>>?>("getProperty",
+        IReadOnlyList<IReadOnlyList<TickElementGroup>>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<IReadOnlyList<TickElementGroup>>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "tickElements");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             TickElements = result;
+                TickElements = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TickElements)] = TickElements;
+                ModifiedParameters[nameof(TickElements)] = TickElements;
         }
          
         return TickElements;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TrackElement property.
     /// </summary>
@@ -1522,19 +1486,21 @@ public partial class SliderWidget
         }
 
         // get the property value
-        JsNullableElementReferenceWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableElementReferenceWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "trackElement");
-        if (result is { Value: not null })
+        ElementReference? result = await JsComponentReference!.InvokeJsMethod<ElementReference?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "trackElement");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             TrackElement = result.Value.Value;
+                TrackElement = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TrackElement)] = TrackElement;
+                ModifiedParameters[nameof(TrackElement)] = TrackElement;
         }
          
         return TrackElement;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Values property.
     /// </summary>
@@ -1561,19 +1527,21 @@ public partial class SliderWidget
         }
 
         // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "values");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Values = result;
+                Values = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Values)] = Values;
+                ModifiedParameters[nameof(Values)] = Values;
         }
          
         return Values;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -1599,9 +1567,10 @@ public partial class SliderWidget
             return ViewModel;
         }
 
-        SliderViewModel? result = await JsComponentReference.InvokeAsync<SliderViewModel?>(
-            "getViewModel", CancellationTokenSource.Token);
-        
+        SliderViewModel? result = await JsComponentReference.InvokeJsMethod<SliderViewModel?>(
+            IsServer, nameof(GetViewModel), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (ViewModel is not null)
@@ -1617,8 +1586,9 @@ public partial class SliderWidget
         }
         
         return ViewModel;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibleElements property.
     /// </summary>
@@ -1644,11 +1614,18 @@ public partial class SliderWidget
             return VisibleElements;
         }
 
-        SliderVisibleElements? result = await JsComponentReference.InvokeAsync<SliderVisibleElements?>(
-            "getVisibleElements", CancellationTokenSource.Token);
-        
+        SliderVisibleElements? result = await JsComponentReference.InvokeJsMethod<SliderVisibleElements?>(
+            IsServer, nameof(GetVisibleElements), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (VisibleElements is not null)
+            {
+                result.Id = VisibleElements.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             VisibleElements = result;
 #pragma warning restore BL0005
@@ -1656,8 +1633,9 @@ public partial class SliderWidget
         }
         
         return VisibleElements;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -1697,82 +1675,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "disabled", value);
+
     }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the DoubleCollectionSteps property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetDoubleCollectionSteps(IReadOnlyList<double>? value)
-    {
-#pragma warning disable BL0005
-        DoubleCollectionSteps = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(DoubleCollectionSteps)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "steps", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the DoubleSteps property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetDoubleSteps(double? value)
-    {
-#pragma warning disable BL0005
-        DoubleSteps = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(DoubleSteps)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "steps", value);
-    }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DraggableSegmentsEnabled property after render.
     /// </summary>
@@ -1808,8 +1713,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "draggableSegmentsEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the EffectiveMax property after render.
     /// </summary>
@@ -1845,8 +1751,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "effectiveMax", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the EffectiveMin property after render.
     /// </summary>
@@ -1882,8 +1789,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "effectiveMin", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelInputsEnabled property after render.
     /// </summary>
@@ -1919,8 +1827,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelInputsEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Layout property after render.
     /// </summary>
@@ -1956,8 +1865,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layout", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Max property after render.
     /// </summary>
@@ -1993,8 +1903,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "max", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Min property after render.
     /// </summary>
@@ -2030,8 +1941,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "min", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Precision property after render.
     /// </summary>
@@ -2067,8 +1979,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "precision", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RangeLabelInputsEnabled property after render.
     /// </summary>
@@ -2104,8 +2017,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rangeLabelInputsEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SnapOnClickEnabled property after render.
     /// </summary>
@@ -2141,8 +2055,47 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "snapOnClickEnabled", value);
+
     }
+
+    /// <summary>
+    ///    Asynchronously set the value of the Steps property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetSteps(IReadOnlyList<double>? value)
+    {
+#pragma warning disable BL0005
+        Steps = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Steps)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
     
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "steps", value);
+
+    }
+
     /// <summary>
     ///    Asynchronously set the value of the SyncedSegmentsEnabled property after render.
     /// </summary>
@@ -2178,8 +2131,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "syncedSegmentsEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ThumbsConstrained property after render.
     /// </summary>
@@ -2215,8 +2169,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "thumbsConstrained", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TickConfigs property after render.
     /// </summary>
@@ -2225,14 +2180,6 @@ public partial class SliderWidget
     /// </param>
     public async Task SetTickConfigs(IReadOnlyList<TickConfig>? value)
     {
-        if (value is not null)
-        {
-            foreach (TickConfig item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
 #pragma warning disable BL0005
         TickConfigs = value;
 #pragma warning restore BL0005
@@ -2242,6 +2189,14 @@ public partial class SliderWidget
         {
             return;
         }
+        if (value is not null)
+        {
+            foreach (TickConfig item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
     
         try 
         {
@@ -2258,10 +2213,12 @@ public partial class SliderWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setTickConfigs", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTickConfigs), nameof(SliderWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Values property after render.
     /// </summary>
@@ -2297,8 +2254,9 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "values", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -2307,11 +2265,6 @@ public partial class SliderWidget
     /// </param>
     public async Task SetViewModel(SliderViewModel? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005
@@ -2321,6 +2274,11 @@ public partial class SliderWidget
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -2337,10 +2295,12 @@ public partial class SliderWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setViewModel", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetViewModel), nameof(SliderWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the VisibleElements property after render.
     /// </summary>
@@ -2349,11 +2309,6 @@ public partial class SliderWidget
     /// </param>
     public async Task SetVisibleElements(SliderVisibleElements? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         VisibleElements = value;
 #pragma warning restore BL0005
@@ -2363,6 +2318,11 @@ public partial class SliderWidget
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -2379,14 +2339,31 @@ public partial class SliderWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setVisibleElements", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetVisibleElements), nameof(SliderWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
 
+    /// <summary>
+    ///     Asynchronously adds elements to the Steps property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to add.
+    /// </param>
+    public async Task AddToSteps(params double[] values)
+    {
+        double[] join = Steps is null
+            ? values
+            : [..Steps, ..values];
+        await SetSteps(join);
+
+    }
+    
     /// <summary>
     ///     Asynchronously adds elements to the TickConfigs property.
     /// </summary>
@@ -2399,6 +2376,7 @@ public partial class SliderWidget
             ? values
             : [..TickConfigs, ..values];
         await SetTickConfigs(join);
+
     }
     
     /// <summary>
@@ -2413,12 +2391,30 @@ public partial class SliderWidget
             ? values
             : [..Values, ..values];
         await SetValues(join);
+
     }
     
 #endregion
 
 #region Remove From Collection Methods
 
+    
+    /// <summary>
+    ///     Asynchronously remove an element from the Steps property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to remove.
+    /// </param>
+    public async Task RemoveFromSteps(params double[] values)
+    {
+        if (Steps is null)
+        {
+            return;
+        }
+        await SetSteps(Steps.Except(values).ToArray());
+
+    }
+    
     
     /// <summary>
     ///     Asynchronously remove an element from the TickConfigs property.
@@ -2433,6 +2429,7 @@ public partial class SliderWidget
             return;
         }
         await SetTickConfigs(TickConfigs.Except(values).ToArray());
+
     }
     
     
@@ -2449,6 +2446,7 @@ public partial class SliderWidget
             return;
         }
         await SetValues(Values.Except(values).ToArray());
+
     }
     
 #endregion
@@ -2467,7 +2465,7 @@ public partial class SliderWidget
             return;
         }
     
-        SliderMaxChangeEvent? maxChangeEvent = await jsStreamRef.ReadJsStreamReference<SliderMaxChangeEvent>();
+        SliderMaxChangeEvent? maxChangeEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderMaxChangeEvent>();
         if (maxChangeEvent is not null)
         {
             await OnMaxChange.InvokeAsync(maxChangeEvent);
@@ -2499,7 +2497,7 @@ public partial class SliderWidget
             return;
         }
     
-        SliderMaxClickEvent? maxClickEvent = await jsStreamRef.ReadJsStreamReference<SliderMaxClickEvent>();
+        SliderMaxClickEvent? maxClickEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderMaxClickEvent>();
         if (maxClickEvent is not null)
         {
             await OnMaxClick.InvokeAsync(maxClickEvent);
@@ -2531,7 +2529,7 @@ public partial class SliderWidget
             return;
         }
     
-        SliderMinChangeEvent? minChangeEvent = await jsStreamRef.ReadJsStreamReference<SliderMinChangeEvent>();
+        SliderMinChangeEvent? minChangeEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderMinChangeEvent>();
         if (minChangeEvent is not null)
         {
             await OnMinChange.InvokeAsync(minChangeEvent);
@@ -2563,7 +2561,7 @@ public partial class SliderWidget
             return;
         }
     
-        SliderMinClickEvent? minClickEvent = await jsStreamRef.ReadJsStreamReference<SliderMinClickEvent>();
+        SliderMinClickEvent? minClickEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderMinClickEvent>();
         if (minClickEvent is not null)
         {
             await OnMinClick.InvokeAsync(minClickEvent);
@@ -2595,7 +2593,7 @@ public partial class SliderWidget
             return;
         }
     
-        SliderSegmentClickEvent? segmentClickEvent = await jsStreamRef.ReadJsStreamReference<SliderSegmentClickEvent>();
+        SliderSegmentClickEvent? segmentClickEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderSegmentClickEvent>();
         if (segmentClickEvent is not null)
         {
             await OnSegmentClick.InvokeAsync(segmentClickEvent);
@@ -2627,7 +2625,7 @@ public partial class SliderWidget
             return;
         }
     
-        SliderSegmentDragEvent? segmentDragEvent = await jsStreamRef.ReadJsStreamReference<SliderSegmentDragEvent>();
+        SliderSegmentDragEvent? segmentDragEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderSegmentDragEvent>();
         if (segmentDragEvent is not null)
         {
             await OnSegmentDrag.InvokeAsync(segmentDragEvent);
@@ -2659,7 +2657,7 @@ public partial class SliderWidget
             return;
         }
     
-        SliderThumbChangeEvent? thumbChangeEvent = await jsStreamRef.ReadJsStreamReference<SliderThumbChangeEvent>();
+        SliderThumbChangeEvent? thumbChangeEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderThumbChangeEvent>();
         if (thumbChangeEvent is not null)
         {
             await OnThumbChange.InvokeAsync(thumbChangeEvent);
@@ -2691,7 +2689,7 @@ public partial class SliderWidget
             return;
         }
     
-        SliderThumbClickEvent? thumbClickEvent = await jsStreamRef.ReadJsStreamReference<SliderThumbClickEvent>();
+        SliderThumbClickEvent? thumbClickEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderThumbClickEvent>();
         if (thumbClickEvent is not null)
         {
             await OnThumbClick.InvokeAsync(thumbClickEvent);
@@ -2723,7 +2721,7 @@ public partial class SliderWidget
             return;
         }
     
-        SliderThumbDragEvent? thumbDragEvent = await jsStreamRef.ReadJsStreamReference<SliderThumbDragEvent>();
+        SliderThumbDragEvent? thumbDragEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderThumbDragEvent>();
         if (thumbDragEvent is not null)
         {
             await OnThumbDrag.InvokeAsync(thumbDragEvent);
@@ -2755,7 +2753,7 @@ public partial class SliderWidget
             return;
         }
     
-        SliderTickClickEvent? tickClickEvent = await jsStreamRef.ReadJsStreamReference<SliderTickClickEvent>();
+        SliderTickClickEvent? tickClickEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderTickClickEvent>();
         if (tickClickEvent is not null)
         {
             await OnTickClick.InvokeAsync(tickClickEvent);
@@ -2787,7 +2785,7 @@ public partial class SliderWidget
             return;
         }
     
-        SliderTrackClickEvent? trackClickEvent = await jsStreamRef.ReadJsStreamReference<SliderTrackClickEvent>();
+        SliderTrackClickEvent? trackClickEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SliderTrackClickEvent>();
         if (trackClickEvent is not null)
         {
             await OnTrackClick.InvokeAsync(trackClickEvent);
@@ -2866,11 +2864,11 @@ public partial class SliderWidget
                 TickConfigs = TickConfigs?.Where(t => t != tickConfigs).ToList();
                 ModifiedParameters[nameof(TickConfigs)] = TickConfigs;
                 return true;
-            case SliderViewModel _:
+            case SliderViewModel:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
-            case SliderVisibleElements _:
+            case SliderVisibleElements:
                 VisibleElements = null;
                 ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
                 return true;

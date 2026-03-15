@@ -44,7 +44,7 @@ public partial class HeatmapRampStop : MapComponent
         Color = color;
         Label = label;
         Ratio = ratio;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -110,19 +110,21 @@ public partial class HeatmapRampStop : MapComponent
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HeatmapRampStop), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "color");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Color = result;
+                Color = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Color)] = Color;
+                ModifiedParameters[nameof(Color)] = Color;
         }
          
         return Color;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Label property.
     /// </summary>
@@ -149,19 +151,21 @@ public partial class HeatmapRampStop : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HeatmapRampStop), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "label");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Label = result;
+                Label = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Label)] = Label;
+                ModifiedParameters[nameof(Label)] = Label;
         }
          
         return Label;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Ratio property.
     /// </summary>
@@ -188,19 +192,21 @@ public partial class HeatmapRampStop : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "ratio");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HeatmapRampStop), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "ratio");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Ratio = result.Value.Value;
+                Ratio = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Ratio)] = Ratio;
+                ModifiedParameters[nameof(Ratio)] = Ratio;
         }
          
         return Ratio;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -240,8 +246,9 @@ public partial class HeatmapRampStop : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "color", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Label property after render.
     /// </summary>
@@ -277,8 +284,9 @@ public partial class HeatmapRampStop : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "label", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Ratio property after render.
     /// </summary>
@@ -314,8 +322,9 @@ public partial class HeatmapRampStop : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "ratio", value);
+
     }
-    
+
 #endregion
 
 }

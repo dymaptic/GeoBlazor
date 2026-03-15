@@ -39,7 +39,7 @@ public partial class DynamicMapLayer
 #pragma warning disable BL0005
         MapLayerId = mapLayerId;
         GdbVersion = gdbVersion;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -86,19 +86,21 @@ public partial class DynamicMapLayer
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DynamicMapLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "gdbVersion");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             GdbVersion = result;
+                GdbVersion = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(GdbVersion)] = GdbVersion;
+                ModifiedParameters[nameof(GdbVersion)] = GdbVersion;
         }
          
         return GdbVersion;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MapLayerId property.
     /// </summary>
@@ -125,19 +127,21 @@ public partial class DynamicMapLayer
         }
 
         // get the property value
-        JsNullableLongWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableLongWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "mapLayerId");
-        if (result is { Value: not null })
+        long? result = await JsComponentReference!.InvokeJsMethod<long?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DynamicMapLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "mapLayerId");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             MapLayerId = result.Value.Value!.Value;
+                MapLayerId = (long)result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MapLayerId)] = MapLayerId;
+                ModifiedParameters[nameof(MapLayerId)] = MapLayerId;
         }
          
         return MapLayerId;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -177,8 +181,9 @@ public partial class DynamicMapLayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "gdbVersion", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MapLayerId property after render.
     /// </summary>
@@ -214,8 +219,9 @@ public partial class DynamicMapLayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mapLayerId", value);
+
     }
-    
+
 #endregion
 
     /// <inheritdoc />

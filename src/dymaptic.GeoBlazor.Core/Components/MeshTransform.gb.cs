@@ -54,7 +54,7 @@ public partial class MeshTransform : MapComponent
         RotationAxis = rotationAxis;
         Scale = scale;
         Translation = translation;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -134,19 +134,21 @@ public partial class MeshTransform : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "rotationAngle");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshTransform), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "rotationAngle");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             RotationAngle = result.Value.Value;
+                RotationAngle = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RotationAngle)] = RotationAngle;
+                ModifiedParameters[nameof(RotationAngle)] = RotationAngle;
         }
          
         return RotationAngle;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RotationAxis property.
     /// </summary>
@@ -173,19 +175,21 @@ public partial class MeshTransform : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshTransform), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "rotationAxis");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             RotationAxis = result;
+                RotationAxis = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RotationAxis)] = RotationAxis;
+                ModifiedParameters[nameof(RotationAxis)] = RotationAxis;
         }
          
         return RotationAxis;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Scale property.
     /// </summary>
@@ -212,19 +216,21 @@ public partial class MeshTransform : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshTransform), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "scale");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Scale = result;
+                Scale = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Scale)] = Scale;
+                ModifiedParameters[nameof(Scale)] = Scale;
         }
          
         return Scale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Translation property.
     /// </summary>
@@ -251,19 +257,21 @@ public partial class MeshTransform : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshTransform), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "translation");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Translation = result;
+                Translation = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Translation)] = Translation;
+                ModifiedParameters[nameof(Translation)] = Translation;
         }
          
         return Translation;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -303,8 +311,9 @@ public partial class MeshTransform : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rotationAngle", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RotationAxis property after render.
     /// </summary>
@@ -340,8 +349,9 @@ public partial class MeshTransform : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rotationAxis", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Scale property after render.
     /// </summary>
@@ -377,8 +387,9 @@ public partial class MeshTransform : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "scale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Translation property after render.
     /// </summary>
@@ -414,8 +425,9 @@ public partial class MeshTransform : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "translation", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -432,6 +444,7 @@ public partial class MeshTransform : MapComponent
             ? values
             : [..RotationAxis, ..values];
         await SetRotationAxis(join);
+
     }
     
     /// <summary>
@@ -446,6 +459,7 @@ public partial class MeshTransform : MapComponent
             ? values
             : [..Scale, ..values];
         await SetScale(join);
+
     }
     
     /// <summary>
@@ -460,6 +474,7 @@ public partial class MeshTransform : MapComponent
             ? values
             : [..Translation, ..values];
         await SetTranslation(join);
+
     }
     
 #endregion
@@ -480,6 +495,7 @@ public partial class MeshTransform : MapComponent
             return;
         }
         await SetRotationAxis(RotationAxis.Except(values).ToArray());
+
     }
     
     
@@ -496,6 +512,7 @@ public partial class MeshTransform : MapComponent
             return;
         }
         await SetScale(Scale.Except(values).ToArray());
+
     }
     
     
@@ -512,6 +529,7 @@ public partial class MeshTransform : MapComponent
             return;
         }
         await SetTranslation(Translation.Except(values).ToArray());
+
     }
     
 #endregion

@@ -51,7 +51,7 @@ public partial class UniqueValue : MapComponent
         Value = value;
         Value2 = value2;
         Value3 = value3;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -126,19 +126,21 @@ public partial class UniqueValue : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValue), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "value");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Value = result;
+                Value = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Value)] = Value;
+                ModifiedParameters[nameof(Value)] = Value;
         }
          
         return Value;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Value2 property.
     /// </summary>
@@ -165,19 +167,21 @@ public partial class UniqueValue : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValue), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "value2");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Value2 = result;
+                Value2 = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Value2)] = Value2;
+                ModifiedParameters[nameof(Value2)] = Value2;
         }
          
         return Value2;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Value3 property.
     /// </summary>
@@ -204,19 +208,21 @@ public partial class UniqueValue : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValue), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "value3");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Value3 = result;
+                Value3 = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Value3)] = Value3;
+                ModifiedParameters[nameof(Value3)] = Value3;
         }
          
         return Value3;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -256,8 +262,9 @@ public partial class UniqueValue : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Value2 property after render.
     /// </summary>
@@ -293,8 +300,9 @@ public partial class UniqueValue : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value2", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Value3 property after render.
     /// </summary>
@@ -330,8 +338,9 @@ public partial class UniqueValue : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value3", value);
+
     }
-    
+
 #endregion
 
 }

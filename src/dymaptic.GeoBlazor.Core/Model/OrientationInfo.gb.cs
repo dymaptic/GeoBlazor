@@ -7,9 +7,6 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     An object containing properties specific to the orientation of an image attachment.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query-support-AttachmentInfo.html#OrientationInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-/// <param name="Id">
-///     The identifier for the orientation info.
-/// </param>
 /// <param name="Rotation">
 ///     The rotation value for the attached image.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query-support-AttachmentInfo.html#OrientationInfo">ArcGIS Maps SDK for JavaScript</a>
@@ -23,7 +20,6 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query-support-AttachmentInfo.html#OrientationInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record OrientationInfo(
-    long Id,
     double Rotation,
     bool Mirrored,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

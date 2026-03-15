@@ -37,7 +37,7 @@ public partial class FeaturesViewModelFetchFeaturesScreenPoint : MapComponent
 #pragma warning disable BL0005
         X = x;
         Y = y;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -93,19 +93,21 @@ public partial class FeaturesViewModelFetchFeaturesScreenPoint : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "x");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModelFetchFeaturesScreenPoint), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "x");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             X = result.Value.Value;
+                X = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(X)] = X;
+                ModifiedParameters[nameof(X)] = X;
         }
          
         return X;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Y property.
     /// </summary>
@@ -132,19 +134,21 @@ public partial class FeaturesViewModelFetchFeaturesScreenPoint : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "y");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModelFetchFeaturesScreenPoint), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "y");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Y = result.Value.Value;
+                Y = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Y)] = Y;
+                ModifiedParameters[nameof(Y)] = Y;
         }
          
         return Y;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -184,8 +188,9 @@ public partial class FeaturesViewModelFetchFeaturesScreenPoint : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "x", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Y property after render.
     /// </summary>
@@ -221,8 +226,9 @@ public partial class FeaturesViewModelFetchFeaturesScreenPoint : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "y", value);
+
     }
-    
+
 #endregion
 
 }

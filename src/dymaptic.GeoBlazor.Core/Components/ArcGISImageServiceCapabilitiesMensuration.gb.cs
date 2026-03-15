@@ -68,7 +68,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         SupportsHeightFromBaseAndTopShadow = supportsHeightFromBaseAndTopShadow;
         SupportsHeightFromTopAndTopShadow = supportsHeightFromTopAndTopShadow;
         SupportsPointOrCentroid = supportsPointOrCentroid;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -174,19 +174,21 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supports3D");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supports3D");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Supports3D = result.Value.Value;
+                Supports3D = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Supports3D)] = Supports3D;
+                ModifiedParameters[nameof(Supports3D)] = Supports3D;
         }
          
         return Supports3D;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsAreaAndPerimeter property.
     /// </summary>
@@ -213,19 +215,21 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsAreaAndPerimeter");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsAreaAndPerimeter");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsAreaAndPerimeter = result.Value.Value;
+                SupportsAreaAndPerimeter = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsAreaAndPerimeter)] = SupportsAreaAndPerimeter;
+                ModifiedParameters[nameof(SupportsAreaAndPerimeter)] = SupportsAreaAndPerimeter;
         }
          
         return SupportsAreaAndPerimeter;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsDistanceAndAngle property.
     /// </summary>
@@ -252,19 +256,21 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsDistanceAndAngle");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsDistanceAndAngle");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsDistanceAndAngle = result.Value.Value;
+                SupportsDistanceAndAngle = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsDistanceAndAngle)] = SupportsDistanceAndAngle;
+                ModifiedParameters[nameof(SupportsDistanceAndAngle)] = SupportsDistanceAndAngle;
         }
          
         return SupportsDistanceAndAngle;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsHeightFromBaseAndTop property.
     /// </summary>
@@ -291,19 +297,21 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsHeightFromBaseAndTop");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsHeightFromBaseAndTop");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsHeightFromBaseAndTop = result.Value.Value;
+                SupportsHeightFromBaseAndTop = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsHeightFromBaseAndTop)] = SupportsHeightFromBaseAndTop;
+                ModifiedParameters[nameof(SupportsHeightFromBaseAndTop)] = SupportsHeightFromBaseAndTop;
         }
          
         return SupportsHeightFromBaseAndTop;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsHeightFromBaseAndTopShadow property.
     /// </summary>
@@ -330,19 +338,21 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsHeightFromBaseAndTopShadow");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsHeightFromBaseAndTopShadow");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsHeightFromBaseAndTopShadow = result.Value.Value;
+                SupportsHeightFromBaseAndTopShadow = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsHeightFromBaseAndTopShadow)] = SupportsHeightFromBaseAndTopShadow;
+                ModifiedParameters[nameof(SupportsHeightFromBaseAndTopShadow)] = SupportsHeightFromBaseAndTopShadow;
         }
          
         return SupportsHeightFromBaseAndTopShadow;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsHeightFromTopAndTopShadow property.
     /// </summary>
@@ -369,19 +379,21 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsHeightFromTopAndTopShadow");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsHeightFromTopAndTopShadow");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsHeightFromTopAndTopShadow = result.Value.Value;
+                SupportsHeightFromTopAndTopShadow = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsHeightFromTopAndTopShadow)] = SupportsHeightFromTopAndTopShadow;
+                ModifiedParameters[nameof(SupportsHeightFromTopAndTopShadow)] = SupportsHeightFromTopAndTopShadow;
         }
          
         return SupportsHeightFromTopAndTopShadow;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsPointOrCentroid property.
     /// </summary>
@@ -408,19 +420,21 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsPointOrCentroid");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsPointOrCentroid");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsPointOrCentroid = result.Value.Value;
+                SupportsPointOrCentroid = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsPointOrCentroid)] = SupportsPointOrCentroid;
+                ModifiedParameters[nameof(SupportsPointOrCentroid)] = SupportsPointOrCentroid;
         }
          
         return SupportsPointOrCentroid;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -460,8 +474,9 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supports3D", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsAreaAndPerimeter property after render.
     /// </summary>
@@ -497,8 +512,9 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsAreaAndPerimeter", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsDistanceAndAngle property after render.
     /// </summary>
@@ -534,8 +550,9 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsDistanceAndAngle", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsHeightFromBaseAndTop property after render.
     /// </summary>
@@ -571,8 +588,9 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsHeightFromBaseAndTop", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsHeightFromBaseAndTopShadow property after render.
     /// </summary>
@@ -608,8 +626,9 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsHeightFromBaseAndTopShadow", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsHeightFromTopAndTopShadow property after render.
     /// </summary>
@@ -645,8 +664,9 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsHeightFromTopAndTopShadow", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsPointOrCentroid property after render.
     /// </summary>
@@ -682,8 +702,9 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsPointOrCentroid", value);
+
     }
-    
+
 #endregion
 
 }

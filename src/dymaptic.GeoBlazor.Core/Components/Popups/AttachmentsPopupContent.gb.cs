@@ -52,7 +52,7 @@ public partial class AttachmentsPopupContent
         Description = description;
         DisplayType = displayType;
         OrderByFields = orderByFields;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -98,19 +98,21 @@ public partial class AttachmentsPopupContent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsPopupContent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "description");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Description = result;
+                Description = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Description)] = Description;
+                ModifiedParameters[nameof(Description)] = Description;
         }
          
         return Description;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DisplayType property.
     /// </summary>
@@ -137,19 +139,21 @@ public partial class AttachmentsPopupContent
         }
 
         // get the property value
-        JsNullableEnumWrapper<AttachmentsPopupContentDisplayType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<AttachmentsPopupContentDisplayType>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "displayType");
-        if (result is { Value: not null })
+        AttachmentsPopupContentDisplayType? result = await JsComponentReference!.InvokeJsMethod<AttachmentsPopupContentDisplayType?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsPopupContent), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "displayType");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             DisplayType = (AttachmentsPopupContentDisplayType)result.Value.Value!;
+                DisplayType = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DisplayType)] = DisplayType;
+                ModifiedParameters[nameof(DisplayType)] = DisplayType;
         }
          
         return DisplayType;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the OrderByFields property.
     /// </summary>
@@ -175,11 +179,16 @@ public partial class AttachmentsPopupContent
             return OrderByFields;
         }
 
-        IReadOnlyList<AttachmentsOrderByInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<AttachmentsOrderByInfo>?>(
-            "getOrderByFields", CancellationTokenSource.Token);
-        
+        IReadOnlyList<AttachmentsOrderByInfo>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<AttachmentsOrderByInfo>?>(
+            IsServer, nameof(GetOrderByFields), nameof(AttachmentsPopupContent), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (AttachmentsOrderByInfo item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             OrderByFields = result;
 #pragma warning restore BL0005
@@ -187,8 +196,9 @@ public partial class AttachmentsPopupContent
         }
         
         return OrderByFields;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -215,19 +225,21 @@ public partial class AttachmentsPopupContent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsPopupContent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Title = result;
+                Title = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Title)] = Title;
+                ModifiedParameters[nameof(Title)] = Title;
         }
          
         return Title;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -267,8 +279,9 @@ public partial class AttachmentsPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "description", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DisplayType property after render.
     /// </summary>
@@ -304,8 +317,9 @@ public partial class AttachmentsPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "displayType", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the OrderByFields property after render.
     /// </summary>
@@ -314,14 +328,6 @@ public partial class AttachmentsPopupContent
     /// </param>
     public async Task SetOrderByFields(IReadOnlyList<AttachmentsOrderByInfo>? value)
     {
-        if (value is not null)
-        {
-            foreach (AttachmentsOrderByInfo item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
 #pragma warning disable BL0005
         OrderByFields = value;
 #pragma warning restore BL0005
@@ -331,6 +337,14 @@ public partial class AttachmentsPopupContent
         {
             return;
         }
+        if (value is not null)
+        {
+            foreach (AttachmentsOrderByInfo item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
     
         try 
         {
@@ -349,8 +363,9 @@ public partial class AttachmentsPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "orderByFields", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -386,8 +401,9 @@ public partial class AttachmentsPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -404,6 +420,7 @@ public partial class AttachmentsPopupContent
             ? values
             : [..OrderByFields, ..values];
         await SetOrderByFields(join);
+
     }
     
 #endregion
@@ -424,6 +441,7 @@ public partial class AttachmentsPopupContent
             return;
         }
         await SetOrderByFields(OrderByFields.Except(values).ToArray());
+
     }
     
 #endregion

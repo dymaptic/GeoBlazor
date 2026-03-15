@@ -19,8 +19,6 @@ public enum SpatialRelationship
     Overlaps,
     Touches,
     Within,
-    Relation,
-    Disjoint,
-    EqualTo
+    Relation
 #pragma warning restore CS1591
 }

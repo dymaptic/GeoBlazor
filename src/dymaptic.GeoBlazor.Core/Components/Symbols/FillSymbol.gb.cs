@@ -13,4 +13,91 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 public abstract partial class FillSymbol
 {
 
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Outline property.
+    /// </summary>
+    public async Task<Outline?> GetOutline()
+    {
+        if (CoreJsModule is null)
+        {
+            return Outline;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Outline;
+        }
+
+        // get the property value
+        Outline? result = await JsComponentReference!.InvokeJsMethod<Outline?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FillSymbol), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "outline");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                Outline = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(Outline)] = Outline;
+        }
+         
+        return Outline;
+
+    }
+
+#endregion
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the Outline property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetOutline(Outline? value)
+    {
+#pragma warning disable BL0005
+        Outline = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Outline)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "outline", value);
+
+    }
+
+#endregion
+
 }

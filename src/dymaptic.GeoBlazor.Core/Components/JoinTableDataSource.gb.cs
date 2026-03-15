@@ -56,7 +56,7 @@ public partial class JoinTableDataSource
         JoinType = joinType;
         LeftTableSource = leftTableSource;
         RightTableSource = rightTableSource;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -112,19 +112,21 @@ public partial class JoinTableDataSource
         }
 
         // get the property value
-        JsNullableEnumWrapper<DynamicJoinType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<DynamicJoinType>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "joinType");
-        if (result is { Value: not null })
+        DynamicJoinType? result = await JsComponentReference!.InvokeJsMethod<DynamicJoinType?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(JoinTableDataSource), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "joinType");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             JoinType = (DynamicJoinType)result.Value.Value!;
+                JoinType = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(JoinType)] = JoinType;
+                ModifiedParameters[nameof(JoinType)] = JoinType;
         }
          
         return JoinType;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LeftTableKey property.
     /// </summary>
@@ -151,19 +153,21 @@ public partial class JoinTableDataSource
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(JoinTableDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "leftTableKey");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LeftTableKey = result;
+                LeftTableKey = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LeftTableKey)] = LeftTableKey;
+                ModifiedParameters[nameof(LeftTableKey)] = LeftTableKey;
         }
          
         return LeftTableKey;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LeftTableSource property.
     /// </summary>
@@ -190,19 +194,21 @@ public partial class JoinTableDataSource
         }
 
         // get the property value
-        DynamicLayer? result = await JsComponentReference!.InvokeAsync<DynamicLayer?>("getProperty",
+        DynamicLayer? result = await JsComponentReference!.InvokeJsMethod<DynamicLayer?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(JoinTableDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "leftTableSource");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LeftTableSource = result;
+                LeftTableSource = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LeftTableSource)] = LeftTableSource;
+                ModifiedParameters[nameof(LeftTableSource)] = LeftTableSource;
         }
          
         return LeftTableSource;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RightTableKey property.
     /// </summary>
@@ -229,19 +235,21 @@ public partial class JoinTableDataSource
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(JoinTableDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "rightTableKey");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             RightTableKey = result;
+                RightTableKey = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RightTableKey)] = RightTableKey;
+                ModifiedParameters[nameof(RightTableKey)] = RightTableKey;
         }
          
         return RightTableKey;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RightTableSource property.
     /// </summary>
@@ -268,19 +276,21 @@ public partial class JoinTableDataSource
         }
 
         // get the property value
-        DynamicLayer? result = await JsComponentReference!.InvokeAsync<DynamicLayer?>("getProperty",
+        DynamicLayer? result = await JsComponentReference!.InvokeJsMethod<DynamicLayer?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(JoinTableDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "rightTableSource");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             RightTableSource = result;
+                RightTableSource = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RightTableSource)] = RightTableSource;
+                ModifiedParameters[nameof(RightTableSource)] = RightTableSource;
         }
          
         return RightTableSource;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -320,8 +330,9 @@ public partial class JoinTableDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "joinType", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LeftTableKey property after render.
     /// </summary>
@@ -357,8 +368,9 @@ public partial class JoinTableDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "leftTableKey", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LeftTableSource property after render.
     /// </summary>
@@ -394,8 +406,9 @@ public partial class JoinTableDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "leftTableSource", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RightTableKey property after render.
     /// </summary>
@@ -431,8 +444,9 @@ public partial class JoinTableDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rightTableKey", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RightTableSource property after render.
     /// </summary>
@@ -468,8 +482,9 @@ public partial class JoinTableDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rightTableSource", value);
+
     }
-    
+
 #endregion
 
 }

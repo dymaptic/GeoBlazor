@@ -8,7 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     The web scene is the core element of 3D mapping across ArcGIS.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class WebScene : IMapComponent
+public partial class WebScene
 {
 
     /// <summary>
@@ -35,11 +35,15 @@ public partial class WebScene : IMapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#authoringAppVersion">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="clippingArea">
-    ///     This property only applies to local scenes. Represents an optional clipping area used to define the bounds or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">Extent</a> of a local scene.
+    ///     *This property only applies to local scenes.*
+    ///     Represents an optional clipping area used to define the
+    ///     bounds or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">Extent</a> of a local scene.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#clippingArea">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="clippingEnabled">
-    ///     This property only applies to local scenes. Determines whether clipping using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#clippingArea">clippingArea</a> is enabled.
+    ///     *This property only applies to local scenes.*
+    ///     Determines whether clipping using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#clippingArea">clippingArea</a> is
+    ///     enabled.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#clippingEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -56,12 +60,10 @@ public partial class WebScene : IMapComponent
     ///     The initial view of the WebScene.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#initialViewProperties">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="portalItem">
-    ///     The portal item from which the WebScene is loaded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="presentation">
-    ///     Provides a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of slides that act as bookmarks for saving predefined <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">viewpoints</a> and visible layers.
+    ///     Provides a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of slides
+    ///     that act as bookmarks for saving predefined <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">viewpoints</a>
+    ///     and visible layers.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#presentation">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="thumbnailUrl">
@@ -81,7 +83,6 @@ public partial class WebScene : IMapComponent
         MapFloorInfo? floorInfo = null,
         HeightModelInfo? heightModelInfo = null,
         WebsceneInitialViewProperties? initialViewProperties = null,
-        PortalItem? portalItem = null,
         IPresentation? presentation = null,
         string? thumbnailUrl = null,
         WebSceneWidgets? widgets = null)
@@ -96,17 +97,17 @@ public partial class WebScene : IMapComponent
         FloorInfo = floorInfo;
         HeightModelInfo = heightModelInfo;
         InitialViewProperties = initialViewProperties;
-        PortalItem = portalItem;
         Presentation = presentation;
         ThumbnailUrl = thumbnailUrl;
         Widgets = widgets;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#websceneapplicationproperties-property">GeoBlazor Docs</a>
     ///     Configuration of application and UI elements.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#applicationProperties">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -116,6 +117,7 @@ public partial class WebScene : IMapComponent
     public WebsceneApplicationProperties? ApplicationProperties { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#websceneauthoringapp-property">GeoBlazor Docs</a>
     ///     The name of the application that authored the WebScene.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#authoringApp">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -125,6 +127,7 @@ public partial class WebScene : IMapComponent
     public string? AuthoringApp { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#websceneauthoringappversion-property">GeoBlazor Docs</a>
     ///     The version of the application that authored the WebScene.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#authoringAppVersion">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -134,7 +137,10 @@ public partial class WebScene : IMapComponent
     public string? AuthoringAppVersion { get; set; }
     
     /// <summary>
-    ///     This property only applies to local scenes. Represents an optional clipping area used to define the bounds or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">Extent</a> of a local scene.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#websceneclippingarea-property">GeoBlazor Docs</a>
+    ///     *This property only applies to local scenes.*
+    ///     Represents an optional clipping area used to define the
+    ///     bounds or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">Extent</a> of a local scene.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#clippingArea">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -143,7 +149,10 @@ public partial class WebScene : IMapComponent
     public Extent? ClippingArea { get; set; }
     
     /// <summary>
-    ///     This property only applies to local scenes. Determines whether clipping using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#clippingArea">clippingArea</a> is enabled.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#websceneclippingenabled-property">GeoBlazor Docs</a>
+    ///     *This property only applies to local scenes.*
+    ///     Determines whether clipping using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#clippingArea">clippingArea</a> is
+    ///     enabled.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#clippingEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -153,6 +162,7 @@ public partial class WebScene : IMapComponent
     public bool? ClippingEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#webscenefloorinfo-property">GeoBlazor Docs</a>
     ///     When a web scene is configured as floor-aware, it has a floorInfo property defined.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#floorInfo">ArcGIS Maps SDK for JavaScript</a>
@@ -163,6 +173,7 @@ public partial class WebScene : IMapComponent
     public MapFloorInfo? FloorInfo { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#websceneheightmodelinfo-property">GeoBlazor Docs</a>
     ///     The height model info of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">WebScene</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#heightModelInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -172,6 +183,7 @@ public partial class WebScene : IMapComponent
     public HeightModelInfo? HeightModelInfo { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#websceneinitialviewproperties-property">GeoBlazor Docs</a>
     ///     The initial view of the WebScene.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#initialViewProperties">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -181,6 +193,7 @@ public partial class WebScene : IMapComponent
     public WebsceneInitialViewProperties? InitialViewProperties { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#websceneloaded-property">GeoBlazor Docs</a>
     ///     Indicates whether the instance has loaded.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#loaded">ArcGIS Maps SDK for JavaScript</a>
@@ -191,6 +204,7 @@ public partial class WebScene : IMapComponent
     public bool? Loaded { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#websceneloaderror-property">GeoBlazor Docs</a>
     ///     The Error object returned if an error occurred while loading.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#loadError">ArcGIS Maps SDK for JavaScript</a>
@@ -201,8 +215,9 @@ public partial class WebScene : IMapComponent
     public Error? LoadError { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#websceneloadstatus-property">GeoBlazor Docs</a>
     ///     Represents the status of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#load">load</a> operation.
-    ///     default not-loaded
+    ///     default "not-loaded"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#loadStatus">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -211,7 +226,10 @@ public partial class WebScene : IMapComponent
     public LoadStatus? LoadStatus { get; protected set; }
     
     /// <summary>
-    ///     Provides a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of slides that act as bookmarks for saving predefined <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">viewpoints</a> and visible layers.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#webscenepresentation-property">GeoBlazor Docs</a>
+    ///     Provides a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of slides
+    ///     that act as bookmarks for saving predefined <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">viewpoints</a>
+    ///     and visible layers.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#presentation">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -220,6 +238,7 @@ public partial class WebScene : IMapComponent
     public IPresentation? Presentation { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#webscenesourceversion-property">GeoBlazor Docs</a>
     ///     The version of the source document from which the WebScene was read.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#sourceVersion">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -229,6 +248,7 @@ public partial class WebScene : IMapComponent
     public WebSceneSourceVersion? SourceVersion { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#webscenethumbnailurl-property">GeoBlazor Docs</a>
     ///     The URL to the thumbnail used for the web scene.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#thumbnailUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -238,6 +258,7 @@ public partial class WebScene : IMapComponent
     public string? ThumbnailUrl { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#webscenewidgets-property">GeoBlazor Docs</a>
     ///     The widgets object contains widgets that are exposed to the user.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#widgets">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -275,9 +296,10 @@ public partial class WebScene : IMapComponent
             return ApplicationProperties;
         }
 
-        WebsceneApplicationProperties? result = await JsComponentReference.InvokeAsync<WebsceneApplicationProperties?>(
-            "getApplicationProperties", CancellationTokenSource.Token);
-        
+        WebsceneApplicationProperties? result = await JsComponentReference.InvokeJsMethod<WebsceneApplicationProperties?>(
+            IsServer, nameof(GetApplicationProperties), nameof(WebScene), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -287,8 +309,9 @@ public partial class WebScene : IMapComponent
         }
         
         return ApplicationProperties;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AuthoringApp property.
     /// </summary>
@@ -315,19 +338,21 @@ public partial class WebScene : IMapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebScene), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "authoringApp");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             AuthoringApp = result;
+                AuthoringApp = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AuthoringApp)] = AuthoringApp;
+                ModifiedParameters[nameof(AuthoringApp)] = AuthoringApp;
         }
          
         return AuthoringApp;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AuthoringAppVersion property.
     /// </summary>
@@ -354,19 +379,21 @@ public partial class WebScene : IMapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebScene), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "authoringAppVersion");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             AuthoringAppVersion = result;
+                AuthoringAppVersion = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AuthoringAppVersion)] = AuthoringAppVersion;
+                ModifiedParameters[nameof(AuthoringAppVersion)] = AuthoringAppVersion;
         }
          
         return AuthoringAppVersion;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ClippingArea property.
     /// </summary>
@@ -392,15 +419,17 @@ public partial class WebScene : IMapComponent
             return ClippingArea;
         }
 
-        Extent? result = await JsComponentReference.InvokeAsync<Extent?>(
-            "getClippingArea", CancellationTokenSource.Token);
-        
+        Extent? result = await JsComponentReference.InvokeJsMethod<Extent?>(
+            IsServer, nameof(GetClippingArea), nameof(WebScene), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (ClippingArea is not null)
             {
                 result.Id = ClippingArea.Id;
             }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
             ClippingArea = result;
@@ -409,8 +438,9 @@ public partial class WebScene : IMapComponent
         }
         
         return ClippingArea;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ClippingEnabled property.
     /// </summary>
@@ -437,19 +467,21 @@ public partial class WebScene : IMapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "clippingEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebScene), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "clippingEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ClippingEnabled = result.Value.Value;
+                ClippingEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ClippingEnabled)] = ClippingEnabled;
+                ModifiedParameters[nameof(ClippingEnabled)] = ClippingEnabled;
         }
          
         return ClippingEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FloorInfo property.
     /// </summary>
@@ -475,9 +507,10 @@ public partial class WebScene : IMapComponent
             return FloorInfo;
         }
 
-        MapFloorInfo? result = await JsComponentReference.InvokeAsync<MapFloorInfo?>(
-            "getFloorInfo", CancellationTokenSource.Token);
-        
+        MapFloorInfo? result = await JsComponentReference.InvokeJsMethod<MapFloorInfo?>(
+            IsServer, nameof(GetFloorInfo), nameof(WebScene), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -487,8 +520,9 @@ public partial class WebScene : IMapComponent
         }
         
         return FloorInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the HeightModelInfo property.
     /// </summary>
@@ -514,9 +548,10 @@ public partial class WebScene : IMapComponent
             return HeightModelInfo;
         }
 
-        HeightModelInfo? result = await JsComponentReference.InvokeAsync<HeightModelInfo?>(
-            "getHeightModelInfo", CancellationTokenSource.Token);
-        
+        HeightModelInfo? result = await JsComponentReference.InvokeJsMethod<HeightModelInfo?>(
+            IsServer, nameof(GetHeightModelInfo), nameof(WebScene), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -526,8 +561,9 @@ public partial class WebScene : IMapComponent
         }
         
         return HeightModelInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the InitialViewProperties property.
     /// </summary>
@@ -553,9 +589,10 @@ public partial class WebScene : IMapComponent
             return InitialViewProperties;
         }
 
-        WebsceneInitialViewProperties? result = await JsComponentReference.InvokeAsync<WebsceneInitialViewProperties?>(
-            "getInitialViewProperties", CancellationTokenSource.Token);
-        
+        WebsceneInitialViewProperties? result = await JsComponentReference.InvokeJsMethod<WebsceneInitialViewProperties?>(
+            IsServer, nameof(GetInitialViewProperties), nameof(WebScene), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -565,8 +602,9 @@ public partial class WebScene : IMapComponent
         }
         
         return InitialViewProperties;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Loaded property.
     /// </summary>
@@ -593,19 +631,21 @@ public partial class WebScene : IMapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "loaded");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebScene), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "loaded");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Loaded = result.Value.Value;
+                Loaded = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Loaded)] = Loaded;
+                ModifiedParameters[nameof(Loaded)] = Loaded;
         }
          
         return Loaded;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LoadError property.
     /// </summary>
@@ -632,19 +672,21 @@ public partial class WebScene : IMapComponent
         }
 
         // get the property value
-        Error? result = await JsComponentReference!.InvokeAsync<Error?>("getProperty",
+        Error? result = await JsComponentReference!.InvokeJsMethod<Error?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebScene), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "loadError");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LoadError = result;
+                LoadError = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LoadError)] = LoadError;
+                ModifiedParameters[nameof(LoadError)] = LoadError;
         }
          
         return LoadError;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LoadStatus property.
     /// </summary>
@@ -671,19 +713,21 @@ public partial class WebScene : IMapComponent
         }
 
         // get the property value
-        JsNullableEnumWrapper<LoadStatus>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LoadStatus>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "loadStatus");
-        if (result is { Value: not null })
+        LoadStatus? result = await JsComponentReference!.InvokeJsMethod<LoadStatus?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebScene), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "loadStatus");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             LoadStatus = (LoadStatus)result.Value.Value!;
+                LoadStatus = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LoadStatus)] = LoadStatus;
+                ModifiedParameters[nameof(LoadStatus)] = LoadStatus;
         }
          
         return LoadStatus;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Presentation property.
     /// </summary>
@@ -709,20 +753,22 @@ public partial class WebScene : IMapComponent
             return Presentation;
         }
 
-        IPresentation? result = await JsComponentReference.InvokeAsync<IPresentation?>(
-            "getPresentation", CancellationTokenSource.Token);
-        
+        // get the property value
+        IPresentation? result = await JsComponentReference!.InvokeJsMethod<IPresentation?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebScene), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "presentation");
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Presentation = result;
+                Presentation = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Presentation)] = Presentation;
+                ModifiedParameters[nameof(Presentation)] = Presentation;
         }
-        
+         
         return Presentation;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceVersion property.
     /// </summary>
@@ -749,19 +795,21 @@ public partial class WebScene : IMapComponent
         }
 
         // get the property value
-        WebSceneSourceVersion? result = await JsComponentReference!.InvokeAsync<WebSceneSourceVersion?>("getProperty",
+        WebSceneSourceVersion? result = await JsComponentReference!.InvokeJsMethod<WebSceneSourceVersion?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebScene), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sourceVersion");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SourceVersion = result;
+                SourceVersion = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SourceVersion)] = SourceVersion;
+                ModifiedParameters[nameof(SourceVersion)] = SourceVersion;
         }
          
         return SourceVersion;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ThumbnailUrl property.
     /// </summary>
@@ -788,19 +836,21 @@ public partial class WebScene : IMapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebScene), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "thumbnailUrl");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ThumbnailUrl = result;
+                ThumbnailUrl = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ThumbnailUrl)] = ThumbnailUrl;
+                ModifiedParameters[nameof(ThumbnailUrl)] = ThumbnailUrl;
         }
          
         return ThumbnailUrl;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Widgets property.
     /// </summary>
@@ -826,11 +876,18 @@ public partial class WebScene : IMapComponent
             return Widgets;
         }
 
-        WebSceneWidgets? result = await JsComponentReference.InvokeAsync<WebSceneWidgets?>(
-            "getWidgets", CancellationTokenSource.Token);
-        
+        WebSceneWidgets? result = await JsComponentReference.InvokeJsMethod<WebSceneWidgets?>(
+            IsServer, nameof(GetWidgets), nameof(WebScene), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (Widgets is not null)
+            {
+                result.Id = Widgets.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Widgets = result;
 #pragma warning restore BL0005
@@ -838,8 +895,9 @@ public partial class WebScene : IMapComponent
         }
         
         return Widgets;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -877,10 +935,12 @@ public partial class WebScene : IMapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setApplicationProperties", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetApplicationProperties), nameof(WebScene),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the AuthoringApp property after render.
     /// </summary>
@@ -916,8 +976,9 @@ public partial class WebScene : IMapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "authoringApp", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the AuthoringAppVersion property after render.
     /// </summary>
@@ -953,8 +1014,9 @@ public partial class WebScene : IMapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "authoringAppVersion", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ClippingArea property after render.
     /// </summary>
@@ -963,14 +1025,6 @@ public partial class WebScene : IMapComponent
     /// </param>
     public async Task SetClippingArea(Extent? value)
     {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
 #pragma warning disable BL0005
         ClippingArea = value;
 #pragma warning restore BL0005
@@ -980,6 +1034,11 @@ public partial class WebScene : IMapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -996,10 +1055,12 @@ public partial class WebScene : IMapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setClippingArea", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetClippingArea), nameof(WebScene),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ClippingEnabled property after render.
     /// </summary>
@@ -1035,8 +1096,9 @@ public partial class WebScene : IMapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "clippingEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FloorInfo property after render.
     /// </summary>
@@ -1070,10 +1132,12 @@ public partial class WebScene : IMapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setFloorInfo", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetFloorInfo), nameof(WebScene),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the HeightModelInfo property after render.
     /// </summary>
@@ -1107,10 +1171,12 @@ public partial class WebScene : IMapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setHeightModelInfo", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetHeightModelInfo), nameof(WebScene),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the InitialViewProperties property after render.
     /// </summary>
@@ -1144,10 +1210,12 @@ public partial class WebScene : IMapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setInitialViewProperties", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetInitialViewProperties), nameof(WebScene),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Presentation property after render.
     /// </summary>
@@ -1181,10 +1249,11 @@ public partial class WebScene : IMapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setPresentation", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "presentation", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ThumbnailUrl property after render.
     /// </summary>
@@ -1220,8 +1289,9 @@ public partial class WebScene : IMapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "thumbnailUrl", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Widgets property after render.
     /// </summary>
@@ -1230,14 +1300,6 @@ public partial class WebScene : IMapComponent
     /// </param>
     public async Task SetWidgets(WebSceneWidgets? value)
     {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
 #pragma warning disable BL0005
         Widgets = value;
 #pragma warning restore BL0005
@@ -1247,6 +1309,11 @@ public partial class WebScene : IMapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -1263,20 +1330,23 @@ public partial class WebScene : IMapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setWidgets", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetWidgets), nameof(WebScene),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Public Methods
 
     /// <summary>
-    ///     Triggers the loading of the WebScene instance.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#load">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#websceneisfulfilled-method">GeoBlazor Docs</a>
+    ///     `isFulfilled()` may be used to verify if creating an instance of the class is fulfilled (either resolved or rejected).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#isFulfilled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
-    public async Task<object?> Load()
+    public async Task<bool?> IsFulfilled()
     {
         if (CoreJsModule is null)
         {
@@ -1298,12 +1368,112 @@ public partial class WebScene : IMapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<object?>(
-            "load", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsFulfilled), nameof(WebScene), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#websceneisrejected-method">GeoBlazor Docs</a>
+    ///     `isRejected()` may be used to verify if creating an instance of the class is rejected.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#isRejected">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task<bool?> IsRejected()
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsRejected), nameof(WebScene), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#websceneisresolved-method">GeoBlazor Docs</a>
+    ///     `isResolved()` may be used to verify if creating an instance of the class is resolved.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#isResolved">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task<bool?> IsResolved()
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(IsResolved), nameof(WebScene), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#websceneload-method">GeoBlazor Docs</a>
+    ///     Triggers the loading of the WebScene instance.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#load">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task<string?> Load()
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(Load), nameof(WebScene), View?.QueryResultsMaxSizeLimit, 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#websceneloadall-method">GeoBlazor Docs</a>
     ///     Loads all the externally loadable resources associated with the webscene.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#loadAll">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -1330,12 +1500,13 @@ public partial class WebScene : IMapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<WebScene?>(
-            "loadAll", 
+        return await JsComponentReference!.InvokeJsMethod<WebScene?>(
+            IsServer, nameof(LoadAll), nameof(WebScene), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#webscenesave-method">GeoBlazor Docs</a>
     ///     Saves the webscene to its associated portal item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#save">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -1365,18 +1536,20 @@ public partial class WebScene : IMapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<PortalItem?>(
-            "save", 
+        return await JsComponentReference!.InvokeJsMethod<PortalItem?>(
+            IsServer, nameof(Save), nameof(WebScene), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             options);
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#webscenesaveas-method">GeoBlazor Docs</a>
     ///     Saves the webscene to a new portal item.
+    ///     param options additional save options.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#saveAs">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="portalItem">
-    ///     The new portal item to which the scene will be saved.
+    ///     The new portal item to which the scene will be saved.  Portal item properties such as the title or description need to be explicitly set on the item and will not be automatically copied from the current associated scene portal item (if any).
     /// </param>
     /// <param name="options">
     ///     additional save options.
@@ -1405,15 +1578,17 @@ public partial class WebScene : IMapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<PortalItem?>(
-            "saveAs", 
+        return await JsComponentReference!.InvokeJsMethod<PortalItem?>(
+            IsServer, nameof(SaveAs), nameof(WebScene), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             portalItem,
             options);
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#websceneupdatefrom-method">GeoBlazor Docs</a>
     ///     Update properties of the WebScene related to the view.
+    ///     param options Update options.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#updateFrom">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="view">
@@ -1423,8 +1598,105 @@ public partial class WebScene : IMapComponent
     ///     Options for updating.
     /// </param>
     [ArcGISMethod]
-    public async Task<object?> UpdateFrom(SceneView view,
+    public async Task UpdateFrom(SceneView view,
         WebSceneUpdateFromOptions options)
+    {
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(UpdateFrom), nameof(WebScene), 
+            CancellationTokenSource.Token,
+            view,
+            options);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#websceneupdatethumbnail-method">GeoBlazor Docs</a>
+    ///     Update the thumbnail of the WebScene by taking a screenshot of the view.
+    ///     param options Update options.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#updateThumbnail">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="view">
+    ///     The view to update from.
+    /// </param>
+    /// <param name="options">
+    /// </param>
+    [ArcGISMethod]
+    public async Task UpdateThumbnail(SceneView view,
+        WebSceneUpdateThumbnailOptions options)
+    {
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(UpdateThumbnail), nameof(WebScene), 
+            CancellationTokenSource.Token,
+            view,
+            options);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebScene.html#webscenewhen-method">GeoBlazor Docs</a>
+    ///     `when()` may be leveraged once an instance of the class is created.
+    ///     param errback The function to execute when the promise fails.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#when">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="callback">
+    ///     The function to call when the promise resolves.
+    /// </param>
+    /// <param name="errback">
+    ///     The function to execute when the promise fails.
+    /// </param>
+    [ArcGISMethod]
+    public async Task<string?> When(Func<Task> callback,
+        Func<Task> errback)
     {
         if (CoreJsModule is null)
         {
@@ -1446,11 +1718,11 @@ public partial class WebScene : IMapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<object?>(
-            "updateFrom", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(When), nameof(WebScene), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
-            view,
-            options);
+            callback,
+            errback);
     }
     
 #endregion
@@ -1487,11 +1759,11 @@ public partial class WebScene : IMapComponent
     {
         switch (child)
         {
-            case Extent _:
+            case Extent:
                 ClippingArea = null;
                 ModifiedParameters[nameof(ClippingArea)] = ClippingArea;
                 return true;
-            case WebSceneWidgets _:
+            case WebSceneWidgets:
                 Widgets = null;
                 ModifiedParameters[nameof(Widgets)] = Widgets;
                 return true;

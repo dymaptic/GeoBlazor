@@ -56,7 +56,7 @@ public partial class ImageMediaInfo
         AltText = altText;
         Value = value;
         RefreshInterval = refreshInterval;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -102,19 +102,21 @@ public partial class ImageMediaInfo
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "refreshInterval");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageMediaInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "refreshInterval");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             RefreshInterval = result.Value.Value;
+                RefreshInterval = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
+                ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
         }
          
         return RefreshInterval;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Value property.
     /// </summary>
@@ -140,11 +142,18 @@ public partial class ImageMediaInfo
             return Value;
         }
 
-        ImageMediaInfoValue? result = await JsComponentReference.InvokeAsync<ImageMediaInfoValue?>(
-            "getValue", CancellationTokenSource.Token);
-        
+        ImageMediaInfoValue? result = await JsComponentReference.InvokeJsMethod<ImageMediaInfoValue?>(
+            IsServer, nameof(GetValue), nameof(ImageMediaInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (Value is not null)
+            {
+                result.Id = Value.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Value = result;
 #pragma warning restore BL0005
@@ -152,8 +161,9 @@ public partial class ImageMediaInfo
         }
         
         return Value;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -193,8 +203,9 @@ public partial class ImageMediaInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "refreshInterval", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Value property after render.
     /// </summary>
@@ -203,11 +214,6 @@ public partial class ImageMediaInfo
     /// </param>
     public async Task SetValue(ImageMediaInfoValue? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Value = value;
 #pragma warning restore BL0005
@@ -217,6 +223,11 @@ public partial class ImageMediaInfo
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -235,8 +246,9 @@ public partial class ImageMediaInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value", value);
+
     }
-    
+
 #endregion
 
 
@@ -263,7 +275,7 @@ public partial class ImageMediaInfo
     {
         switch (child)
         {
-            case ImageMediaInfoValue _:
+            case ImageMediaInfoValue:
                 Value = null;
                 ModifiedParameters[nameof(Value)] = Value;
                 return true;

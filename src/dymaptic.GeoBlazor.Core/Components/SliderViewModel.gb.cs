@@ -91,7 +91,7 @@ public partial class SliderViewModel
         Precision = precision;
         ThumbsConstrained = thumbsConstrained;
         Values = values;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -265,19 +265,21 @@ public partial class SliderViewModel
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "effectiveMax");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "effectiveMax");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             EffectiveMax = result.Value.Value;
+                EffectiveMax = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(EffectiveMax)] = EffectiveMax;
+                ModifiedParameters[nameof(EffectiveMax)] = EffectiveMax;
         }
          
         return EffectiveMax;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the EffectiveMin property.
     /// </summary>
@@ -304,19 +306,21 @@ public partial class SliderViewModel
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "effectiveMin");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "effectiveMin");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             EffectiveMin = result.Value.Value;
+                EffectiveMin = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(EffectiveMin)] = EffectiveMin;
+                ModifiedParameters[nameof(EffectiveMin)] = EffectiveMin;
         }
          
         return EffectiveMin;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Labels property.
     /// </summary>
@@ -343,19 +347,21 @@ public partial class SliderViewModel
         }
 
         // get the property value
-        LabelInfos? result = await JsComponentReference!.InvokeAsync<LabelInfos?>("getProperty",
+        LabelInfos? result = await JsComponentReference!.InvokeJsMethod<LabelInfos?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "labels");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Labels = result;
+                Labels = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Labels)] = Labels;
+                ModifiedParameters[nameof(Labels)] = Labels;
         }
          
         return Labels;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Max property.
     /// </summary>
@@ -382,19 +388,21 @@ public partial class SliderViewModel
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "max");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "max");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Max = result.Value.Value;
+                Max = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Max)] = Max;
+                ModifiedParameters[nameof(Max)] = Max;
         }
          
         return Max;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Min property.
     /// </summary>
@@ -421,19 +429,21 @@ public partial class SliderViewModel
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "min");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "min");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Min = result.Value.Value;
+                Min = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Min)] = Min;
+                ModifiedParameters[nameof(Min)] = Min;
         }
          
         return Min;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Precision property.
     /// </summary>
@@ -460,19 +470,21 @@ public partial class SliderViewModel
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "precision");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "precision");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Precision = result.Value.Value;
+                Precision = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Precision)] = Precision;
+                ModifiedParameters[nameof(Precision)] = Precision;
         }
          
         return Precision;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -499,19 +511,21 @@ public partial class SliderViewModel
         }
 
         // get the property value
-        JsNullableEnumWrapper<ViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ViewModelState>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "state");
-        if (result is { Value: not null })
+        ViewModelState? result = await JsComponentReference!.InvokeJsMethod<ViewModelState?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "state");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             State = (ViewModelState)result.Value.Value!;
+                State = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(State)] = State;
+                ModifiedParameters[nameof(State)] = State;
         }
          
         return State;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ThumbsConstrained property.
     /// </summary>
@@ -538,19 +552,21 @@ public partial class SliderViewModel
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "thumbsConstrained");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "thumbsConstrained");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ThumbsConstrained = result.Value.Value;
+                ThumbsConstrained = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ThumbsConstrained)] = ThumbsConstrained;
+                ModifiedParameters[nameof(ThumbsConstrained)] = ThumbsConstrained;
         }
          
         return ThumbsConstrained;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Values property.
     /// </summary>
@@ -577,19 +593,21 @@ public partial class SliderViewModel
         }
 
         // get the property value
-        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "values");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Values = result;
+                Values = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Values)] = Values;
+                ModifiedParameters[nameof(Values)] = Values;
         }
          
         return Values;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -629,8 +647,9 @@ public partial class SliderViewModel
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "effectiveMax", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the EffectiveMin property after render.
     /// </summary>
@@ -666,8 +685,9 @@ public partial class SliderViewModel
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "effectiveMin", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Max property after render.
     /// </summary>
@@ -703,8 +723,9 @@ public partial class SliderViewModel
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "max", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Min property after render.
     /// </summary>
@@ -740,8 +761,9 @@ public partial class SliderViewModel
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "min", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Precision property after render.
     /// </summary>
@@ -777,8 +799,9 @@ public partial class SliderViewModel
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "precision", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ThumbsConstrained property after render.
     /// </summary>
@@ -814,8 +837,9 @@ public partial class SliderViewModel
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "thumbsConstrained", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Values property after render.
     /// </summary>
@@ -851,8 +875,9 @@ public partial class SliderViewModel
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "values", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -869,6 +894,7 @@ public partial class SliderViewModel
             ? values
             : [..Values, ..values];
         await SetValues(join);
+
     }
     
 #endregion
@@ -889,6 +915,7 @@ public partial class SliderViewModel
             return;
         }
         await SetValues(Values.Except(values).ToArray());
+
     }
     
 #endregion
@@ -926,8 +953,8 @@ public partial class SliderViewModel
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "defaultInputFormatFunction", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(DefaultInputFormatFunction), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             value);
     }
@@ -963,8 +990,8 @@ public partial class SliderViewModel
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<double?>(
-            "defaultInputParseFunction", 
+        return await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(DefaultInputParseFunction), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             value);
     }
@@ -1000,8 +1027,8 @@ public partial class SliderViewModel
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "defaultLabelFormatFunction", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(DefaultLabelFormatFunction), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             value);
     }
@@ -1034,8 +1061,8 @@ public partial class SliderViewModel
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Bounds?>(
-            "getBounds", 
+        return await JsComponentReference!.InvokeJsMethod<Bounds?>(
+            IsServer, nameof(GetBounds), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
     
@@ -1070,8 +1097,8 @@ public partial class SliderViewModel
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "getBoundsForValueAtIndex", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GetBoundsForValueAtIndex), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             index);
     }
@@ -1116,8 +1143,8 @@ public partial class SliderViewModel
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "getLabelForValue", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GetLabelForValue), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             value,
             type,
@@ -1160,8 +1187,14 @@ public partial class SliderViewModel
             return;
         }
         
-        await JsComponentReference!.InvokeVoidAsync(
-            "setValue", 
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(SetValue), nameof(SliderViewModel), 
             CancellationTokenSource.Token,
             index,
             value);
@@ -1198,8 +1231,8 @@ public partial class SliderViewModel
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<double?>(
-            "toPrecision", 
+        return await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(ToPrecision), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             value);
     }

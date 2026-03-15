@@ -10,12 +10,12 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 public enum RendererType
 {
 #pragma warning disable CS1591
-    Simple,
-    UniqueValue,
-    PieChart,
     ClassBreaks,
     Dictionary,
     DotDensity,
-    Heatmap
+    Heatmap,
+    PieChart,
+    Simple,
+    UniqueValue
 #pragma warning restore CS1591
 }

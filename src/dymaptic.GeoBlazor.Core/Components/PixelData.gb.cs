@@ -39,7 +39,7 @@ public partial class PixelData : MapComponent
 #pragma warning disable BL0005
         Extent = extent;
         PixelBlock = pixelBlock;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -94,9 +94,10 @@ public partial class PixelData : MapComponent
             return Extent;
         }
 
-        Extent? result = await JsComponentReference.InvokeAsync<Extent?>(
-            "getExtent", CancellationTokenSource.Token);
-        
+        Extent? result = await JsComponentReference.InvokeJsMethod<Extent?>(
+            IsServer, nameof(GetExtent), nameof(PixelData), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (Extent is not null)
@@ -112,8 +113,9 @@ public partial class PixelData : MapComponent
         }
         
         return Extent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PixelBlock property.
     /// </summary>
@@ -139,9 +141,10 @@ public partial class PixelData : MapComponent
             return PixelBlock;
         }
 
-        PixelBlock? result = await JsComponentReference.InvokeAsync<PixelBlock?>(
-            "getPixelBlock", CancellationTokenSource.Token);
-        
+        PixelBlock? result = await JsComponentReference.InvokeJsMethod<PixelBlock?>(
+            IsServer, nameof(GetPixelBlock), nameof(PixelData), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (PixelBlock is not null)
@@ -157,8 +160,9 @@ public partial class PixelData : MapComponent
         }
         
         return PixelBlock;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -171,11 +175,6 @@ public partial class PixelData : MapComponent
     /// </param>
     public async Task SetExtent(Extent? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Extent = value;
 #pragma warning restore BL0005
@@ -185,6 +184,11 @@ public partial class PixelData : MapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -203,8 +207,9 @@ public partial class PixelData : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "extent", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PixelBlock property after render.
     /// </summary>
@@ -213,11 +218,6 @@ public partial class PixelData : MapComponent
     /// </param>
     public async Task SetPixelBlock(PixelBlock? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         PixelBlock = value;
 #pragma warning restore BL0005
@@ -227,6 +227,11 @@ public partial class PixelData : MapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -245,8 +250,9 @@ public partial class PixelData : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "pixelBlock", value);
+
     }
-    
+
 #endregion
 
 

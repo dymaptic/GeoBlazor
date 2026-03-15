@@ -44,7 +44,7 @@ public partial class HomeViewModel : IGoTo
 #pragma warning disable BL0005
         GoToOverride = goToOverride;
         Viewpoint = viewpoint;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -103,19 +103,21 @@ public partial class HomeViewModel : IGoTo
         }
 
         // get the property value
-        JsNullableEnumWrapper<HomeViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<HomeViewModelState>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "state");
-        if (result is { Value: not null })
+        HomeViewModelState? result = await JsComponentReference!.InvokeJsMethod<HomeViewModelState?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HomeViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "state");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             State = (HomeViewModelState)result.Value.Value!;
+                State = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(State)] = State;
+                ModifiedParameters[nameof(State)] = State;
         }
          
         return State;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Viewpoint property.
     /// </summary>
@@ -141,11 +143,18 @@ public partial class HomeViewModel : IGoTo
             return Viewpoint;
         }
 
-        Viewpoint? result = await JsComponentReference.InvokeAsync<Viewpoint?>(
-            "getViewpoint", CancellationTokenSource.Token);
-        
+        Viewpoint? result = await JsComponentReference.InvokeJsMethod<Viewpoint?>(
+            IsServer, nameof(GetViewpoint), nameof(HomeViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (Viewpoint is not null)
+            {
+                result.Id = Viewpoint.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Viewpoint = result;
 #pragma warning restore BL0005
@@ -153,8 +162,9 @@ public partial class HomeViewModel : IGoTo
         }
         
         return Viewpoint;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -167,11 +177,6 @@ public partial class HomeViewModel : IGoTo
     /// </param>
     public async Task SetViewpoint(Viewpoint? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Viewpoint = value;
 #pragma warning restore BL0005
@@ -181,6 +186,11 @@ public partial class HomeViewModel : IGoTo
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -197,10 +207,12 @@ public partial class HomeViewModel : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setViewpoint", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetViewpoint), nameof(HomeViewModel),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Public Methods
@@ -234,8 +246,14 @@ public partial class HomeViewModel : IGoTo
             return;
         }
         
-        await JsComponentReference!.InvokeVoidAsync(
-            "cancelGo", 
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(CancelGo), nameof(HomeViewModel), 
             CancellationTokenSource.Token);
     }
     
@@ -268,8 +286,14 @@ public partial class HomeViewModel : IGoTo
             return;
         }
         
-        await JsComponentReference!.InvokeVoidAsync(
-            "go", 
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(Go), nameof(HomeViewModel), 
             CancellationTokenSource.Token);
     }
     
@@ -289,7 +313,7 @@ public partial class HomeViewModel : IGoTo
             return;
         }
     
-        HomeViewModelGoEvent? goEvent = await jsStreamRef.ReadJsStreamReference<HomeViewModelGoEvent>();
+        HomeViewModelGoEvent? goEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<HomeViewModelGoEvent>();
         if (goEvent is not null)
         {
             await OnGo.InvokeAsync(goEvent);

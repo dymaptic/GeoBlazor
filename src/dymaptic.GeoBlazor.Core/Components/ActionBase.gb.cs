@@ -4,8 +4,10 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    Actions are customizable behavior which can be executed in certain widgets such as <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popups</a>, a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html">BasemapLayerList</a>, or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a>.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionBase.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ActionBase.html">GeoBlazor Docs</a>
+///     Actions are customizable behavior which can be executed in certain widgets such as <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popups</a>,
+///     a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html">BasemapLayerList</a>, or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionBase.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public abstract partial class ActionBase
 {
@@ -13,6 +15,7 @@ public abstract partial class ActionBase
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ActionBase.html#actionbaseactionid-property">GeoBlazor Docs</a>
     ///     The name of the ID assigned to this action.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionBase.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -22,6 +25,7 @@ public abstract partial class ActionBase
     public string? ActionId { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ActionBase.html#actionbaseicon-property">GeoBlazor Docs</a>
     ///     Calcite icon used for the action.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionBase.html#icon">ArcGIS Maps SDK for JavaScript</a>
@@ -44,27 +48,38 @@ public abstract partial class ActionBase
         {
             return ActionId;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return ActionId;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "actionId");
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActionBase), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "id");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ActionId = result;
+                ActionId = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ActionId)] = ActionId;
+                ModifiedParameters[nameof(ActionId)] = ActionId;
         }
          
         return ActionId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Active property.
     /// </summary>
@@ -74,27 +89,38 @@ public abstract partial class ActionBase
         {
             return Active;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return Active;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "active");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActionBase), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "active");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Active = result.Value.Value;
+                Active = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Active)] = Active;
+                ModifiedParameters[nameof(Active)] = Active;
         }
          
         return Active;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ClassName property.
     /// </summary>
@@ -104,27 +130,38 @@ public abstract partial class ActionBase
         {
             return ClassName;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return ClassName;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActionBase), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "className");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ClassName = result;
+                ClassName = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ClassName)] = ClassName;
+                ModifiedParameters[nameof(ClassName)] = ClassName;
         }
          
         return ClassName;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Disabled property.
     /// </summary>
@@ -134,27 +171,38 @@ public abstract partial class ActionBase
         {
             return Disabled;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return Disabled;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "disabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActionBase), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "disabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Disabled = result.Value.Value;
+                Disabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Disabled)] = Disabled;
+                ModifiedParameters[nameof(Disabled)] = Disabled;
         }
          
         return Disabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Icon property.
     /// </summary>
@@ -164,27 +212,38 @@ public abstract partial class ActionBase
         {
             return Icon;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return Icon;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActionBase), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "icon");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Icon = result;
+                Icon = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Icon)] = Icon;
+                ModifiedParameters[nameof(Icon)] = Icon;
         }
          
         return Icon;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -194,27 +253,38 @@ public abstract partial class ActionBase
         {
             return Title;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return Title;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActionBase), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Title = result;
+                Title = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Title)] = Title;
+                ModifiedParameters[nameof(Title)] = Title;
         }
          
         return Title;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -225,7 +295,7 @@ public abstract partial class ActionBase
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetActionId(string value)
+    public async Task SetActionId(string? value)
     {
 #pragma warning disable BL0005
         ActionId = value;
@@ -237,8 +307,15 @@ public abstract partial class ActionBase
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
@@ -246,16 +323,17 @@ public abstract partial class ActionBase
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "actionId", value);
+            JsComponentReference, "id", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Active property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetActive(bool value)
+    public async Task SetActive(bool? value)
     {
 #pragma warning disable BL0005
         Active = value;
@@ -267,8 +345,15 @@ public abstract partial class ActionBase
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
@@ -277,15 +362,16 @@ public abstract partial class ActionBase
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "active", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ClassName property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetClassName(string value)
+    public async Task SetClassName(string? value)
     {
 #pragma warning disable BL0005
         ClassName = value;
@@ -297,8 +383,15 @@ public abstract partial class ActionBase
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
@@ -307,15 +400,16 @@ public abstract partial class ActionBase
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "className", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Disabled property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDisabled(bool value)
+    public async Task SetDisabled(bool? value)
     {
 #pragma warning disable BL0005
         Disabled = value;
@@ -327,8 +421,15 @@ public abstract partial class ActionBase
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
@@ -337,15 +438,16 @@ public abstract partial class ActionBase
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "disabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Icon property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetIcon(string value)
+    public async Task SetIcon(string? value)
     {
 #pragma warning disable BL0005
         Icon = value;
@@ -357,8 +459,15 @@ public abstract partial class ActionBase
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
@@ -367,15 +476,16 @@ public abstract partial class ActionBase
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "icon", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(string value)
+    public async Task SetTitle(string? value)
     {
 #pragma warning disable BL0005
         Title = value;
@@ -387,8 +497,15 @@ public abstract partial class ActionBase
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
@@ -397,8 +514,9 @@ public abstract partial class ActionBase
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
     /// <inheritdoc />

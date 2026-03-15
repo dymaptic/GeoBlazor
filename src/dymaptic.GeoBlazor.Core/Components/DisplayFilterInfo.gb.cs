@@ -45,7 +45,7 @@ public partial class DisplayFilterInfo : MapComponent
         ActiveFilterId = activeFilterId;
         Filters = filters;
         Mode = mode;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -112,19 +112,21 @@ public partial class DisplayFilterInfo : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DisplayFilterInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "activeFilterId");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ActiveFilterId = result;
+                ActiveFilterId = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ActiveFilterId)] = ActiveFilterId;
+                ModifiedParameters[nameof(ActiveFilterId)] = ActiveFilterId;
         }
          
         return ActiveFilterId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Filters property.
     /// </summary>
@@ -151,19 +153,21 @@ public partial class DisplayFilterInfo : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<DisplayFilter>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<DisplayFilter>?>("getProperty",
+        IReadOnlyList<DisplayFilter>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<DisplayFilter>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DisplayFilterInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "filters");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Filters = result;
+                Filters = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Filters)] = Filters;
+                ModifiedParameters[nameof(Filters)] = Filters;
         }
          
         return Filters;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Mode property.
     /// </summary>
@@ -190,19 +194,21 @@ public partial class DisplayFilterInfo : MapComponent
         }
 
         // get the property value
-        JsNullableEnumWrapper<DisplayFilterInfoMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<DisplayFilterInfoMode>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "mode");
-        if (result is { Value: not null })
+        DisplayFilterInfoMode? result = await JsComponentReference!.InvokeJsMethod<DisplayFilterInfoMode?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DisplayFilterInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "mode");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Mode = (DisplayFilterInfoMode)result.Value.Value!;
+                Mode = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Mode)] = Mode;
+                ModifiedParameters[nameof(Mode)] = Mode;
         }
          
         return Mode;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -242,8 +248,9 @@ public partial class DisplayFilterInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "activeFilterId", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Filters property after render.
     /// </summary>
@@ -279,8 +286,9 @@ public partial class DisplayFilterInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "filters", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Mode property after render.
     /// </summary>
@@ -316,8 +324,9 @@ public partial class DisplayFilterInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mode", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -334,6 +343,7 @@ public partial class DisplayFilterInfo : MapComponent
             ? values
             : [..Filters, ..values];
         await SetFilters(join);
+
     }
     
 #endregion
@@ -354,6 +364,7 @@ public partial class DisplayFilterInfo : MapComponent
             return;
         }
         await SetFilters(Filters.Except(values).ToArray());
+
     }
     
 #endregion

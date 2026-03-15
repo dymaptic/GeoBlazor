@@ -92,7 +92,7 @@ public partial class BasemapLayerListWidgetVisibleElements
         ReferenceLayers = referenceLayers;
         StatusIndicators = statusIndicators;
         TemporaryLayerIndicators = temporaryLayerIndicators;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -198,19 +198,21 @@ public partial class BasemapLayerListWidgetVisibleElements
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "baseLayers");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "baseLayers");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             BaseLayers = result.Value.Value;
+                BaseLayers = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(BaseLayers)] = BaseLayers;
+                ModifiedParameters[nameof(BaseLayers)] = BaseLayers;
         }
          
         return BaseLayers;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CloseButton property.
     /// </summary>
@@ -237,19 +239,21 @@ public partial class BasemapLayerListWidgetVisibleElements
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "closeButton");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "closeButton");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             CloseButton = result.Value.Value;
+                CloseButton = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(CloseButton)] = CloseButton;
+                ModifiedParameters[nameof(CloseButton)] = CloseButton;
         }
          
         return CloseButton;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CollapseButton property.
     /// </summary>
@@ -276,19 +280,21 @@ public partial class BasemapLayerListWidgetVisibleElements
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "collapseButton");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "collapseButton");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             CollapseButton = result.Value.Value;
+                CollapseButton = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(CollapseButton)] = CollapseButton;
+                ModifiedParameters[nameof(CollapseButton)] = CollapseButton;
         }
          
         return CollapseButton;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the EditTitleButton property.
     /// </summary>
@@ -315,19 +321,21 @@ public partial class BasemapLayerListWidgetVisibleElements
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "editTitleButton");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "editTitleButton");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             EditTitleButton = result.Value.Value;
+                EditTitleButton = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(EditTitleButton)] = EditTitleButton;
+                ModifiedParameters[nameof(EditTitleButton)] = EditTitleButton;
         }
          
         return EditTitleButton;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Errors property.
     /// </summary>
@@ -354,19 +362,21 @@ public partial class BasemapLayerListWidgetVisibleElements
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "errors");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "errors");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Errors = result.Value.Value;
+                Errors = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Errors)] = Errors;
+                ModifiedParameters[nameof(Errors)] = Errors;
         }
          
         return Errors;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Filter property.
     /// </summary>
@@ -393,19 +403,21 @@ public partial class BasemapLayerListWidgetVisibleElements
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "filter");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "filter");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Filter = result.Value.Value;
+                Filter = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Filter)] = Filter;
+                ModifiedParameters[nameof(Filter)] = Filter;
         }
          
         return Filter;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Flow property.
     /// </summary>
@@ -432,19 +444,21 @@ public partial class BasemapLayerListWidgetVisibleElements
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "flow");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "flow");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Flow = result.Value.Value;
+                Flow = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Flow)] = Flow;
+                ModifiedParameters[nameof(Flow)] = Flow;
         }
          
         return Flow;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Heading property.
     /// </summary>
@@ -471,19 +485,21 @@ public partial class BasemapLayerListWidgetVisibleElements
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "heading");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "heading");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Heading = result.Value.Value;
+                Heading = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Heading)] = Heading;
+                ModifiedParameters[nameof(Heading)] = Heading;
         }
          
         return Heading;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ReferenceLayers property.
     /// </summary>
@@ -510,19 +526,21 @@ public partial class BasemapLayerListWidgetVisibleElements
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "referenceLayers");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "referenceLayers");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ReferenceLayers = result.Value.Value;
+                ReferenceLayers = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ReferenceLayers)] = ReferenceLayers;
+                ModifiedParameters[nameof(ReferenceLayers)] = ReferenceLayers;
         }
          
         return ReferenceLayers;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the StatusIndicators property.
     /// </summary>
@@ -549,19 +567,21 @@ public partial class BasemapLayerListWidgetVisibleElements
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "statusIndicators");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "statusIndicators");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             StatusIndicators = result.Value.Value;
+                StatusIndicators = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(StatusIndicators)] = StatusIndicators;
+                ModifiedParameters[nameof(StatusIndicators)] = StatusIndicators;
         }
          
         return StatusIndicators;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TemporaryLayerIndicators property.
     /// </summary>
@@ -588,19 +608,21 @@ public partial class BasemapLayerListWidgetVisibleElements
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "temporaryLayerIndicators");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "temporaryLayerIndicators");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             TemporaryLayerIndicators = result.Value.Value;
+                TemporaryLayerIndicators = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TemporaryLayerIndicators)] = TemporaryLayerIndicators;
+                ModifiedParameters[nameof(TemporaryLayerIndicators)] = TemporaryLayerIndicators;
         }
          
         return TemporaryLayerIndicators;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -640,8 +662,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "baseLayers", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CloseButton property after render.
     /// </summary>
@@ -677,8 +700,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "closeButton", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CollapseButton property after render.
     /// </summary>
@@ -714,8 +738,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "collapseButton", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the EditTitleButton property after render.
     /// </summary>
@@ -751,8 +776,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "editTitleButton", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Errors property after render.
     /// </summary>
@@ -788,8 +814,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "errors", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Filter property after render.
     /// </summary>
@@ -825,8 +852,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "filter", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Flow property after render.
     /// </summary>
@@ -862,8 +890,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "flow", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Heading property after render.
     /// </summary>
@@ -899,8 +928,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "heading", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ReferenceLayers property after render.
     /// </summary>
@@ -936,8 +966,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "referenceLayers", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the StatusIndicators property after render.
     /// </summary>
@@ -973,8 +1004,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "statusIndicators", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TemporaryLayerIndicators property after render.
     /// </summary>
@@ -1010,8 +1042,9 @@ public partial class BasemapLayerListWidgetVisibleElements
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "temporaryLayerIndicators", value);
+
     }
-    
+
 #endregion
 
 }

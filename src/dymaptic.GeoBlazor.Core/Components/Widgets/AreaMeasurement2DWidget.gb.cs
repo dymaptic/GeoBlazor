@@ -23,9 +23,6 @@ public partial class AreaMeasurement2DWidget
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
-    /// <param name="containerId">
-    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
-    /// </param>
     /// <param name="icon">
     ///     Icon which represents the widget.
     ///     default "measure-area"
@@ -34,12 +31,6 @@ public partial class AreaMeasurement2DWidget
     /// <param name="label">
     ///     The widget's default label.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D.html#label">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="mapView">
-    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
-    /// </param>
-    /// <param name="position">
-    ///     The position of the widget in relation to the map view.
     /// </param>
     /// <param name="snappingOptions">
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-snapping-SnappingOptions.html">SnappingOptions</a> for sketching.
@@ -67,11 +58,8 @@ public partial class AreaMeasurement2DWidget
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public AreaMeasurement2DWidget(
-        string? containerId = null,
         string? icon = null,
         string? label = null,
-        MapView? mapView = null,
-        OverlayPosition? position = null,
         SnappingOptions? snappingOptions = null,
         SystemOrAreaUnit? unit = null,
         IReadOnlyList<SystemOrAreaUnit>? unitOptions = null,
@@ -81,18 +69,15 @@ public partial class AreaMeasurement2DWidget
     {
         AllowRender = false;
 #pragma warning disable BL0005
-        ContainerId = containerId;
         Icon = icon;
         Label = label;
-        MapView = mapView;
-        Position = position;
         SnappingOptions = snappingOptions;
         Unit = unit;
         UnitOptions = unitOptions;
         ViewModel = viewModel;
         Visible = visible;
         WidgetId = widgetId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -167,11 +152,18 @@ public partial class AreaMeasurement2DWidget
             return SnappingOptions;
         }
 
-        SnappingOptions? result = await JsComponentReference.InvokeAsync<SnappingOptions?>(
-            "getSnappingOptions", CancellationTokenSource.Token);
-        
+        SnappingOptions? result = await JsComponentReference.InvokeJsMethod<SnappingOptions?>(
+            IsServer, nameof(GetSnappingOptions), nameof(AreaMeasurement2DWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (SnappingOptions is not null)
+            {
+                result.Id = SnappingOptions.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             SnappingOptions = result;
 #pragma warning restore BL0005
@@ -179,8 +171,9 @@ public partial class AreaMeasurement2DWidget
         }
         
         return SnappingOptions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Unit property.
     /// </summary>
@@ -207,19 +200,21 @@ public partial class AreaMeasurement2DWidget
         }
 
         // get the property value
-        JsNullableEnumWrapper<SystemOrAreaUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SystemOrAreaUnit>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "unit");
-        if (result is { Value: not null })
+        SystemOrAreaUnit? result = await JsComponentReference!.InvokeJsMethod<SystemOrAreaUnit?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AreaMeasurement2DWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "unit");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Unit = (SystemOrAreaUnit)result.Value.Value!;
+                Unit = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Unit)] = Unit;
+                ModifiedParameters[nameof(Unit)] = Unit;
         }
          
         return Unit;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UnitOptions property.
     /// </summary>
@@ -246,19 +241,21 @@ public partial class AreaMeasurement2DWidget
         }
 
         // get the property value
-        IReadOnlyList<SystemOrAreaUnit>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SystemOrAreaUnit>?>("getProperty",
+        IReadOnlyList<SystemOrAreaUnit>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<SystemOrAreaUnit>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AreaMeasurement2DWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "unitOptions");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             UnitOptions = result;
+                UnitOptions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(UnitOptions)] = UnitOptions;
+                ModifiedParameters[nameof(UnitOptions)] = UnitOptions;
         }
          
         return UnitOptions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -284,9 +281,10 @@ public partial class AreaMeasurement2DWidget
             return ViewModel;
         }
 
-        AreaMeasurement2DViewModel? result = await JsComponentReference.InvokeAsync<AreaMeasurement2DViewModel?>(
-            "getViewModel", CancellationTokenSource.Token);
-        
+        AreaMeasurement2DViewModel? result = await JsComponentReference.InvokeJsMethod<AreaMeasurement2DViewModel?>(
+            IsServer, nameof(GetViewModel), nameof(AreaMeasurement2DWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (ViewModel is not null)
@@ -302,8 +300,9 @@ public partial class AreaMeasurement2DWidget
         }
         
         return ViewModel;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -316,11 +315,6 @@ public partial class AreaMeasurement2DWidget
     /// </param>
     public async Task SetSnappingOptions(SnappingOptions? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         SnappingOptions = value;
 #pragma warning restore BL0005
@@ -330,6 +324,11 @@ public partial class AreaMeasurement2DWidget
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -346,10 +345,12 @@ public partial class AreaMeasurement2DWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setSnappingOptions", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetSnappingOptions), nameof(AreaMeasurement2DWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Unit property after render.
     /// </summary>
@@ -385,8 +386,9 @@ public partial class AreaMeasurement2DWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "unit", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UnitOptions property after render.
     /// </summary>
@@ -422,8 +424,9 @@ public partial class AreaMeasurement2DWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "unitOptions", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -432,11 +435,6 @@ public partial class AreaMeasurement2DWidget
     /// </param>
     public async Task SetViewModel(AreaMeasurement2DViewModel? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005
@@ -446,6 +444,11 @@ public partial class AreaMeasurement2DWidget
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -462,10 +465,12 @@ public partial class AreaMeasurement2DWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setViewModel", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetViewModel), nameof(AreaMeasurement2DWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -482,6 +487,7 @@ public partial class AreaMeasurement2DWidget
             ? values
             : [..UnitOptions, ..values];
         await SetUnitOptions(join);
+
     }
     
 #endregion
@@ -502,6 +508,7 @@ public partial class AreaMeasurement2DWidget
             return;
         }
         await SetUnitOptions(UnitOptions.Except(values).ToArray());
+
     }
     
 #endregion
@@ -550,7 +557,7 @@ public partial class AreaMeasurement2DWidget
                 SnappingOptions = null;
                 ModifiedParameters[nameof(SnappingOptions)] = SnappingOptions;
                 return true;
-            case AreaMeasurement2DViewModel _:
+            case AreaMeasurement2DViewModel:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;

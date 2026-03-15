@@ -38,7 +38,7 @@ public partial class RasterDataSource
 #pragma warning disable BL0005
         WorkspaceId = workspaceId;
         DataSourceName = dataSourceName;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -70,19 +70,21 @@ public partial class RasterDataSource
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "dataSourceName");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             DataSourceName = result;
+                DataSourceName = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DataSourceName)] = DataSourceName;
+                ModifiedParameters[nameof(DataSourceName)] = DataSourceName;
         }
          
         return DataSourceName;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the WorkspaceId property.
     /// </summary>
@@ -109,19 +111,21 @@ public partial class RasterDataSource
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "workspaceId");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             WorkspaceId = result;
+                WorkspaceId = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(WorkspaceId)] = WorkspaceId;
+                ModifiedParameters[nameof(WorkspaceId)] = WorkspaceId;
         }
          
         return WorkspaceId;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -161,8 +165,9 @@ public partial class RasterDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "dataSourceName", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the WorkspaceId property after render.
     /// </summary>
@@ -198,8 +203,9 @@ public partial class RasterDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "workspaceId", value);
+
     }
-    
+
 #endregion
 
 }

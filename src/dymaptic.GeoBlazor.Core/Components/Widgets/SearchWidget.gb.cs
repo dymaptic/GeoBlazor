@@ -61,9 +61,6 @@ public partial class SearchWidget : IGoTo
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#autoSelect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="containerId">
-    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
-    /// </param>
     /// <param name="disabled">
     ///     When true, the widget is visually withdrawn and cannot be interacted with.
     ///     default false
@@ -94,9 +91,6 @@ public partial class SearchWidget : IGoTo
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#locationEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="mapView">
-    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
-    /// </param>
     /// <param name="maxResults">
     ///     The maximum number of results returned by the widget if not specified by the source.
     ///     default 6
@@ -125,9 +119,6 @@ public partial class SearchWidget : IGoTo
     ///     It is possible to search a specified portal instance's <a target="_blank" href="http://enterprise.arcgis.com/en/portal/latest/administer/windows/configure-portal-to-geocode-addresses.htm">locator services</a>
     ///     Use this property to set this <a target="_blank" href="https://enterprise.arcgis.com/en/portal/">ArcGIS Portal</a> instance to search.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#portal">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="position">
-    ///     The position of the widget in relation to the map view.
     /// </param>
     /// <param name="resultGraphicEnabled">
     ///     Indicates if the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#resultGraphic">resultGraphic</a> will display at the
@@ -165,21 +156,18 @@ public partial class SearchWidget : IGoTo
         int? activeSourceIndex = null,
         string? allPlaceholder = null,
         bool? autoSelect = null,
-        string? containerId = null,
         bool? disabled = null,
         GoToOverride? goToOverride = null,
         string? icon = null,
         bool? includeDefaultSources = null,
         string? label = null,
         bool? locationEnabled = null,
-        MapView? mapView = null,
         int? maxResults = null,
         int? maxSuggestions = null,
         int? minSuggestCharacters = null,
         bool? popupEnabled = null,
         PopupTemplate? popupTemplate = null,
         Portal? portal = null,
-        OverlayPosition? position = null,
         bool? resultGraphicEnabled = null,
         bool? searchAllEnabled = null,
         string? searchTerm = null,
@@ -195,28 +183,25 @@ public partial class SearchWidget : IGoTo
         ActiveSourceIndex = activeSourceIndex;
         AllPlaceholder = allPlaceholder;
         AutoSelect = autoSelect;
-        ContainerId = containerId;
         Disabled = disabled;
         GoToOverride = goToOverride;
         Icon = icon;
         IncludeDefaultSources = includeDefaultSources;
         Label = label;
         LocationEnabled = locationEnabled;
-        MapView = mapView;
         MaxResults = maxResults;
         MaxSuggestions = maxSuggestions;
         MinSuggestCharacters = minSuggestCharacters;
         PopupEnabled = popupEnabled;
         PopupTemplate = popupTemplate;
         Portal = portal;
-        Position = position;
         ResultGraphicEnabled = resultGraphicEnabled;
         SearchAllEnabled = searchAllEnabled;
         SearchTerm = searchTerm;
         SuggestionsEnabled = suggestionsEnabled;
         Visible = visible;
         WidgetId = widgetId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -373,19 +358,21 @@ public partial class SearchWidget : IGoTo
         }
 
         // get the property value
-        JsNullableEnumWrapper<SearchMenu>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SearchMenu>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "activeMenu");
-        if (result is { Value: not null })
+        SearchMenu? result = await JsComponentReference!.InvokeJsMethod<SearchMenu?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "activeMenu");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ActiveMenu = (SearchMenu)result.Value.Value!;
+                ActiveMenu = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ActiveMenu)] = ActiveMenu;
+                ModifiedParameters[nameof(ActiveMenu)] = ActiveMenu;
         }
          
         return ActiveMenu;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ActiveSourceIndex property.
     /// </summary>
@@ -412,19 +399,21 @@ public partial class SearchWidget : IGoTo
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "activeSourceIndex");
-        if (result is { Value: not null })
+        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "activeSourceIndex");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ActiveSourceIndex = result.Value.Value;
+                ActiveSourceIndex = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ActiveSourceIndex)] = ActiveSourceIndex;
+                ModifiedParameters[nameof(ActiveSourceIndex)] = ActiveSourceIndex;
         }
          
         return ActiveSourceIndex;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AllPlaceholder property.
     /// </summary>
@@ -451,19 +440,21 @@ public partial class SearchWidget : IGoTo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "allPlaceholder");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             AllPlaceholder = result;
+                AllPlaceholder = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AllPlaceholder)] = AllPlaceholder;
+                ModifiedParameters[nameof(AllPlaceholder)] = AllPlaceholder;
         }
          
         return AllPlaceholder;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AutoSelect property.
     /// </summary>
@@ -490,19 +481,21 @@ public partial class SearchWidget : IGoTo
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "autoSelect");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "autoSelect");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             AutoSelect = result.Value.Value;
+                AutoSelect = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AutoSelect)] = AutoSelect;
+                ModifiedParameters[nameof(AutoSelect)] = AutoSelect;
         }
          
         return AutoSelect;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultSources property.
     /// </summary>
@@ -528,11 +521,16 @@ public partial class SearchWidget : IGoTo
             return DefaultSources;
         }
 
-        IReadOnlyList<SearchSource>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<SearchSource>?>(
-            "getDefaultSources", CancellationTokenSource.Token);
-        
+        IReadOnlyList<SearchSource>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<SearchSource>?>(
+            IsServer, nameof(GetDefaultSources), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (SearchSource item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             DefaultSources = result;
 #pragma warning restore BL0005
@@ -540,8 +538,9 @@ public partial class SearchWidget : IGoTo
         }
         
         return DefaultSources;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Disabled property.
     /// </summary>
@@ -568,19 +567,21 @@ public partial class SearchWidget : IGoTo
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "disabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "disabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Disabled = result.Value.Value;
+                Disabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Disabled)] = Disabled;
+                ModifiedParameters[nameof(Disabled)] = Disabled;
         }
          
         return Disabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IncludeDefaultSources property.
     /// </summary>
@@ -607,19 +608,21 @@ public partial class SearchWidget : IGoTo
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "includeDefaultSources");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "includeDefaultSources");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             IncludeDefaultSources = result.Value.Value;
+                IncludeDefaultSources = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(IncludeDefaultSources)] = IncludeDefaultSources;
+                ModifiedParameters[nameof(IncludeDefaultSources)] = IncludeDefaultSources;
         }
          
         return IncludeDefaultSources;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LocationEnabled property.
     /// </summary>
@@ -646,19 +649,21 @@ public partial class SearchWidget : IGoTo
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "locationEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "locationEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             LocationEnabled = result.Value.Value;
+                LocationEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LocationEnabled)] = LocationEnabled;
+                ModifiedParameters[nameof(LocationEnabled)] = LocationEnabled;
         }
          
         return LocationEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxResults property.
     /// </summary>
@@ -685,19 +690,21 @@ public partial class SearchWidget : IGoTo
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "maxResults");
-        if (result is { Value: not null })
+        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "maxResults");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             MaxResults = result.Value.Value;
+                MaxResults = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MaxResults)] = MaxResults;
+                ModifiedParameters[nameof(MaxResults)] = MaxResults;
         }
          
         return MaxResults;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxSuggestions property.
     /// </summary>
@@ -724,19 +731,21 @@ public partial class SearchWidget : IGoTo
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "maxSuggestions");
-        if (result is { Value: not null })
+        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "maxSuggestions");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             MaxSuggestions = result.Value.Value;
+                MaxSuggestions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MaxSuggestions)] = MaxSuggestions;
+                ModifiedParameters[nameof(MaxSuggestions)] = MaxSuggestions;
         }
          
         return MaxSuggestions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinSuggestCharacters property.
     /// </summary>
@@ -763,19 +772,21 @@ public partial class SearchWidget : IGoTo
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "minSuggestCharacters");
-        if (result is { Value: not null })
+        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "minSuggestCharacters");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             MinSuggestCharacters = result.Value.Value;
+                MinSuggestCharacters = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MinSuggestCharacters)] = MinSuggestCharacters;
+                ModifiedParameters[nameof(MinSuggestCharacters)] = MinSuggestCharacters;
         }
          
         return MinSuggestCharacters;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupEnabled property.
     /// </summary>
@@ -802,19 +813,21 @@ public partial class SearchWidget : IGoTo
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "popupEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "popupEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             PopupEnabled = result.Value.Value;
+                PopupEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
+                ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
         }
          
         return PopupEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupTemplate property.
     /// </summary>
@@ -840,11 +853,18 @@ public partial class SearchWidget : IGoTo
             return PopupTemplate;
         }
 
-        PopupTemplate? result = await JsComponentReference.InvokeAsync<PopupTemplate?>(
-            "getPopupTemplate", CancellationTokenSource.Token);
-        
+        PopupTemplate? result = await JsComponentReference.InvokeJsMethod<PopupTemplate?>(
+            IsServer, nameof(GetPopupTemplate), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (PopupTemplate is not null)
+            {
+                result.Id = PopupTemplate.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             PopupTemplate = result;
 #pragma warning restore BL0005
@@ -852,8 +872,9 @@ public partial class SearchWidget : IGoTo
         }
         
         return PopupTemplate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Portal property.
     /// </summary>
@@ -879,9 +900,10 @@ public partial class SearchWidget : IGoTo
             return Portal;
         }
 
-        Portal? result = await JsComponentReference.InvokeAsync<Portal?>(
-            "getPortal", CancellationTokenSource.Token);
-        
+        Portal? result = await JsComponentReference.InvokeJsMethod<Portal?>(
+            IsServer, nameof(GetPortal), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (Portal is not null)
@@ -897,8 +919,9 @@ public partial class SearchWidget : IGoTo
         }
         
         return Portal;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ResultGraphic property.
     /// </summary>
@@ -924,9 +947,10 @@ public partial class SearchWidget : IGoTo
             return ResultGraphic;
         }
 
-        Graphic? result = await JsComponentReference.InvokeAsync<Graphic?>(
-            "getResultGraphic", CancellationTokenSource.Token);
-        
+        Graphic? result = await JsComponentReference.InvokeJsMethod<Graphic?>(
+            IsServer, nameof(GetResultGraphic), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (ResultGraphic is not null)
@@ -942,8 +966,9 @@ public partial class SearchWidget : IGoTo
         }
         
         return ResultGraphic;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ResultGraphicEnabled property.
     /// </summary>
@@ -970,19 +995,21 @@ public partial class SearchWidget : IGoTo
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "resultGraphicEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "resultGraphicEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ResultGraphicEnabled = result.Value.Value;
+                ResultGraphicEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ResultGraphicEnabled)] = ResultGraphicEnabled;
+                ModifiedParameters[nameof(ResultGraphicEnabled)] = ResultGraphicEnabled;
         }
          
         return ResultGraphicEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Results property.
     /// </summary>
@@ -1009,19 +1036,21 @@ public partial class SearchWidget : IGoTo
         }
 
         // get the property value
-        IReadOnlyList<SearchResultResponse>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchResultResponse>?>("getProperty",
+        IReadOnlyList<SearchResultResponse>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<SearchResultResponse>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "results");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Results = result;
+                Results = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Results)] = Results;
+                ModifiedParameters[nameof(Results)] = Results;
         }
          
         return Results;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SearchAllEnabled property.
     /// </summary>
@@ -1048,19 +1077,21 @@ public partial class SearchWidget : IGoTo
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "searchAllEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "searchAllEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SearchAllEnabled = result.Value.Value;
+                SearchAllEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SearchAllEnabled)] = SearchAllEnabled;
+                ModifiedParameters[nameof(SearchAllEnabled)] = SearchAllEnabled;
         }
          
         return SearchAllEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SearchTerm property.
     /// </summary>
@@ -1087,19 +1118,21 @@ public partial class SearchWidget : IGoTo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "searchTerm");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SearchTerm = result;
+                SearchTerm = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SearchTerm)] = SearchTerm;
+                ModifiedParameters[nameof(SearchTerm)] = SearchTerm;
         }
          
         return SearchTerm;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SuggestionsEnabled property.
     /// </summary>
@@ -1126,19 +1159,21 @@ public partial class SearchWidget : IGoTo
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "suggestionsEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "suggestionsEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SuggestionsEnabled = result.Value.Value;
+                SuggestionsEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SuggestionsEnabled)] = SuggestionsEnabled;
+                ModifiedParameters[nameof(SuggestionsEnabled)] = SuggestionsEnabled;
         }
          
         return SuggestionsEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -1164,9 +1199,10 @@ public partial class SearchWidget : IGoTo
             return ViewModel;
         }
 
-        SearchViewModel? result = await JsComponentReference.InvokeAsync<SearchViewModel?>(
-            "getViewModel", CancellationTokenSource.Token);
-        
+        SearchViewModel? result = await JsComponentReference.InvokeJsMethod<SearchViewModel?>(
+            IsServer, nameof(GetViewModel), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (ViewModel is not null)
@@ -1176,14 +1212,15 @@ public partial class SearchWidget : IGoTo
             result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
-            ViewModel = result;
+            ViewModel = (SearchViewModel)result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ViewModel)] = ViewModel;
         }
         
         return ViewModel;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -1223,8 +1260,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "activeMenu", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ActiveSourceIndex property after render.
     /// </summary>
@@ -1260,8 +1298,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "activeSourceIndex", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the AllPlaceholder property after render.
     /// </summary>
@@ -1297,8 +1336,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "allPlaceholder", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the AutoSelect property after render.
     /// </summary>
@@ -1334,8 +1374,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "autoSelect", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Disabled property after render.
     /// </summary>
@@ -1371,8 +1412,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "disabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the IncludeDefaultSources property after render.
     /// </summary>
@@ -1408,8 +1450,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "includeDefaultSources", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LocationEnabled property after render.
     /// </summary>
@@ -1445,8 +1488,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "locationEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxResults property after render.
     /// </summary>
@@ -1482,8 +1526,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxResults", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxSuggestions property after render.
     /// </summary>
@@ -1519,8 +1564,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxSuggestions", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinSuggestCharacters property after render.
     /// </summary>
@@ -1556,8 +1602,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minSuggestCharacters", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
@@ -1593,8 +1640,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupTemplate property after render.
     /// </summary>
@@ -1603,11 +1651,6 @@ public partial class SearchWidget : IGoTo
     /// </param>
     public async Task SetPopupTemplate(PopupTemplate? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         PopupTemplate = value;
 #pragma warning restore BL0005
@@ -1617,6 +1660,11 @@ public partial class SearchWidget : IGoTo
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -1633,10 +1681,12 @@ public partial class SearchWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setPopupTemplate", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPopupTemplate), nameof(SearchWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Portal property after render.
     /// </summary>
@@ -1645,11 +1695,6 @@ public partial class SearchWidget : IGoTo
     /// </param>
     public async Task SetPortal(Portal? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Portal = value;
 #pragma warning restore BL0005
@@ -1659,6 +1704,11 @@ public partial class SearchWidget : IGoTo
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -1675,10 +1725,12 @@ public partial class SearchWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setPortal", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetPortal), nameof(SearchWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ResultGraphicEnabled property after render.
     /// </summary>
@@ -1714,8 +1766,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "resultGraphicEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SearchAllEnabled property after render.
     /// </summary>
@@ -1751,8 +1804,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "searchAllEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SearchTerm property after render.
     /// </summary>
@@ -1788,8 +1842,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "searchTerm", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Sources property after render.
     /// </summary>
@@ -1798,11 +1853,6 @@ public partial class SearchWidget : IGoTo
     /// </param>
     public async Task SetSources(IReadOnlyList<SearchSource> value)
     {
-        foreach (SearchSource item in value)
-        {
-            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        }
-        
 #pragma warning disable BL0005
         Sources = value;
 #pragma warning restore BL0005
@@ -1812,6 +1862,11 @@ public partial class SearchWidget : IGoTo
         {
             return;
         }
+        foreach (SearchSource item in value)
+        {
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        }
+        
     
         try 
         {
@@ -1828,10 +1883,12 @@ public partial class SearchWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setSources", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetSources), nameof(SearchWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SuggestionsEnabled property after render.
     /// </summary>
@@ -1867,8 +1924,9 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "suggestionsEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -1877,8 +1935,6 @@ public partial class SearchWidget : IGoTo
     /// </param>
     public async Task SetViewModel(SearchViewModel value)
     {
-        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005
@@ -1888,6 +1944,8 @@ public partial class SearchWidget : IGoTo
         {
             return;
         }
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        
     
         try 
         {
@@ -1904,10 +1962,12 @@ public partial class SearchWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setViewModel", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetViewModel), nameof(SearchWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -1924,6 +1984,7 @@ public partial class SearchWidget : IGoTo
             ? values
             : [..Sources, ..values];
         await SetSources(join);
+
     }
     
 #endregion
@@ -1944,6 +2005,7 @@ public partial class SearchWidget : IGoTo
             return;
         }
         await SetSources(Sources.Except(values).ToArray());
+
     }
     
 #endregion
@@ -1978,8 +2040,14 @@ public partial class SearchWidget : IGoTo
             return;
         }
         
-        await JsComponentReference!.InvokeVoidAsync(
-            "blur", 
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(Blur), nameof(SearchWidget), 
             CancellationTokenSource.Token);
     }
     
@@ -2011,8 +2079,14 @@ public partial class SearchWidget : IGoTo
             return;
         }
         
-        await JsComponentReference!.InvokeVoidAsync(
-            "clear", 
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(Clear), nameof(SearchWidget), 
             CancellationTokenSource.Token);
     }
     
@@ -2044,8 +2118,14 @@ public partial class SearchWidget : IGoTo
             return;
         }
         
-        await JsComponentReference!.InvokeVoidAsync(
-            "focus", 
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(Focus), nameof(SearchWidget), 
             CancellationTokenSource.Token);
     }
     
@@ -2065,7 +2145,7 @@ public partial class SearchWidget : IGoTo
             return;
         }
     
-        SearchBlurEvent? searchBlurEvent = await jsStreamRef.ReadJsStreamReference<SearchBlurEvent>();
+        SearchBlurEvent? searchBlurEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SearchBlurEvent>();
         if (searchBlurEvent is not null)
         {
             await OnSearchBlur.InvokeAsync(searchBlurEvent);
@@ -2097,7 +2177,7 @@ public partial class SearchWidget : IGoTo
             return;
         }
     
-        SearchClearEvent? searchClearEvent = await jsStreamRef.ReadJsStreamReference<SearchClearEvent>();
+        SearchClearEvent? searchClearEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SearchClearEvent>();
         if (searchClearEvent is not null)
         {
             await OnSearchClear.InvokeAsync(searchClearEvent);
@@ -2129,7 +2209,7 @@ public partial class SearchWidget : IGoTo
             return;
         }
     
-        SearchFocusEvent? searchFocusEvent = await jsStreamRef.ReadJsStreamReference<SearchFocusEvent>();
+        SearchFocusEvent? searchFocusEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SearchFocusEvent>();
         if (searchFocusEvent is not null)
         {
             await OnSearchFocus.InvokeAsync(searchFocusEvent);
@@ -2161,7 +2241,7 @@ public partial class SearchWidget : IGoTo
             return;
         }
     
-        SearchStartEvent? searchStartEvent = await jsStreamRef.ReadJsStreamReference<SearchStartEvent>();
+        SearchStartEvent? searchStartEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SearchStartEvent>();
         if (searchStartEvent is not null)
         {
             await OnSearchStart.InvokeAsync(searchStartEvent);
@@ -2193,7 +2273,7 @@ public partial class SearchWidget : IGoTo
             return;
         }
     
-        SearchSuggestStartEvent? suggestStartEvent = await jsStreamRef.ReadJsStreamReference<SearchSuggestStartEvent>();
+        SearchSuggestStartEvent? suggestStartEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<SearchSuggestStartEvent>();
         if (suggestStartEvent is not null)
         {
             await OnSuggestStart.InvokeAsync(suggestStartEvent);
@@ -2292,7 +2372,7 @@ public partial class SearchWidget : IGoTo
                 Sources = Sources?.Where(s => s != sources).ToList();
                 ModifiedParameters[nameof(Sources)] = Sources;
                 return true;
-            case SearchViewModel _:
+            case SearchViewModel:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;

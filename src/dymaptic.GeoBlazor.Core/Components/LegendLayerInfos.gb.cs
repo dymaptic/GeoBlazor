@@ -62,9 +62,10 @@ public partial class LegendLayerInfos : MapComponent
             return Layer;
         }
 
-        Layer? result = await JsComponentReference.InvokeAsync<Layer?>(
-            "getLayer", CancellationTokenSource.Token);
-        
+        Layer? result = await JsComponentReference.InvokeJsMethod<Layer?>(
+            IsServer, nameof(GetLayer), nameof(LegendLayerInfos), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (Layer is not null)
@@ -80,8 +81,9 @@ public partial class LegendLayerInfos : MapComponent
         }
         
         return Layer;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SublayerIds property.
     /// </summary>
@@ -108,19 +110,21 @@ public partial class LegendLayerInfos : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<long>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<long>?>("getProperty",
+        IReadOnlyList<long>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<long>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LegendLayerInfos), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sublayerIds");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SublayerIds = result;
+                SublayerIds = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SublayerIds)] = SublayerIds;
+                ModifiedParameters[nameof(SublayerIds)] = SublayerIds;
         }
          
         return SublayerIds;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -147,19 +151,21 @@ public partial class LegendLayerInfos : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LegendLayerInfos), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Title = result;
+                Title = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Title)] = Title;
+                ModifiedParameters[nameof(Title)] = Title;
         }
          
         return Title;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -172,11 +178,6 @@ public partial class LegendLayerInfos : MapComponent
     /// </param>
     public async Task SetLayer(Layer? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Layer = value;
 #pragma warning restore BL0005
@@ -186,6 +187,11 @@ public partial class LegendLayerInfos : MapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -204,8 +210,9 @@ public partial class LegendLayerInfos : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layer", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SublayerIds property after render.
     /// </summary>
@@ -241,8 +248,9 @@ public partial class LegendLayerInfos : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sublayerIds", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -278,8 +286,9 @@ public partial class LegendLayerInfos : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -296,6 +305,7 @@ public partial class LegendLayerInfos : MapComponent
             ? values
             : [..SublayerIds, ..values];
         await SetSublayerIds(join);
+
     }
     
 #endregion
@@ -316,6 +326,7 @@ public partial class LegendLayerInfos : MapComponent
             return;
         }
         await SetSublayerIds(SublayerIds.Except(values).ToArray());
+
     }
     
 #endregion

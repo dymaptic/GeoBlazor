@@ -12,21 +12,21 @@ public enum FieldType
 #pragma warning disable CS1591
     SmallInteger,
     Integer,
+    BigInteger,
     Single,
     Double,
     Long,
     String,
     Date,
+    DateOnly,
+    TimeOnly,
+    TimestampOffset,
     Oid,
     Geometry,
     Blob,
     Raster,
     Guid,
     GlobalId,
-    Xml,
-    BigInteger,
-    DateOnly,
-    TimeOnly,
-    TimestampOffset
+    Xml
 #pragma warning restore CS1591
 }

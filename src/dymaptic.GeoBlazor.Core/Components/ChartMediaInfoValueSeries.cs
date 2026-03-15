@@ -1,10 +1,21 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
 [ProtobufSerializable]
-public partial class ChartMediaInfoValueSeries : MapComponent, 
+public partial class ChartMediaInfoValueSeries : MapComponent,
     IProtobufSerializable<ChartMediaInfoValueSeriesSerializationRecord>
 {
-
+    /// <summary>
+    ///     Constructor for use in C# code.
+    /// </summary>
+    [CodeGenerationIgnore]
+    public ChartMediaInfoValueSeries(string? fieldName = null, string? tooltip = null, double? value = null)
+    {
+#pragma warning disable BL0005
+        FieldName = fieldName;
+        Tooltip = tooltip;
+        Value = value;
+#pragma warning restore BL0005
+    }
 
     /// <summary>
     ///     String value indicating the field's name for a series.

@@ -9,9 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public abstract partial class Layer : IHitTestItem,
-    IIntersectItem,
-    ISliceAnalysisExcludedLayers,
-    ISliceViewModelExcludedLayers
+    IIntersectItem
 {
 
 #region Public Properties / Blazor Parameters
@@ -56,19 +54,21 @@ public abstract partial class Layer : IHitTestItem,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Layer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "id");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ArcGISLayerId = result;
+                ArcGISLayerId = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ArcGISLayerId)] = ArcGISLayerId;
+                ModifiedParameters[nameof(ArcGISLayerId)] = ArcGISLayerId;
         }
          
         return ArcGISLayerId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ListMode property.
     /// </summary>
@@ -95,19 +95,62 @@ public abstract partial class Layer : IHitTestItem,
         }
 
         // get the property value
-        JsNullableEnumWrapper<ListMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ListMode>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "listMode");
-        if (result is { Value: not null })
+        ListMode? result = await JsComponentReference!.InvokeJsMethod<ListMode?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Layer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "listMode");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ListMode = (ListMode)result.Value.Value!;
+                ListMode = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ListMode)] = ListMode;
+                ModifiedParameters[nameof(ListMode)] = ListMode;
         }
          
         return ListMode;
+
     }
-    
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Loaded property.
+    /// </summary>
+    public async Task<bool?> GetLoaded()
+    {
+        if (CoreJsModule is null)
+        {
+            return Loaded;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Loaded;
+        }
+
+        // get the property value
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Layer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "loaded");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+                Loaded = result;
+#pragma warning restore BL0005
+                ModifiedParameters[nameof(Loaded)] = Loaded;
+        }
+         
+        return Loaded;
+
+    }
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PersistenceEnabled property.
     /// </summary>
@@ -134,19 +177,21 @@ public abstract partial class Layer : IHitTestItem,
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "persistenceEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Layer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "persistenceEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             PersistenceEnabled = result.Value.Value;
+                PersistenceEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PersistenceEnabled)] = PersistenceEnabled;
+                ModifiedParameters[nameof(PersistenceEnabled)] = PersistenceEnabled;
         }
          
         return PersistenceEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
@@ -173,19 +218,21 @@ public abstract partial class Layer : IHitTestItem,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Layer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Title = result;
+                Title = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Title)] = Title;
+                ModifiedParameters[nameof(Title)] = Title;
         }
          
         return Title;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the VisibilityTimeExtent property.
     /// </summary>
@@ -211,9 +258,10 @@ public abstract partial class Layer : IHitTestItem,
             return VisibilityTimeExtent;
         }
 
-        TimeExtent? result = await JsComponentReference.InvokeAsync<TimeExtent?>(
-            "getVisibilityTimeExtent", CancellationTokenSource.Token);
-        
+        TimeExtent? result = await JsComponentReference.InvokeJsMethod<TimeExtent?>(
+            IsServer, nameof(GetVisibilityTimeExtent), nameof(Layer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (VisibilityTimeExtent is not null)
@@ -229,8 +277,9 @@ public abstract partial class Layer : IHitTestItem,
         }
         
         return VisibilityTimeExtent;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -270,8 +319,9 @@ public abstract partial class Layer : IHitTestItem,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ListMode property after render.
     /// </summary>
@@ -307,8 +357,9 @@ public abstract partial class Layer : IHitTestItem,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "listMode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
@@ -344,8 +395,9 @@ public abstract partial class Layer : IHitTestItem,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the VisibilityTimeExtent property after render.
     /// </summary>
@@ -354,11 +406,6 @@ public abstract partial class Layer : IHitTestItem,
     /// </param>
     public async Task SetVisibilityTimeExtent(TimeExtent? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         VisibilityTimeExtent = value;
 #pragma warning restore BL0005
@@ -368,6 +415,11 @@ public abstract partial class Layer : IHitTestItem,
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -386,8 +438,9 @@ public abstract partial class Layer : IHitTestItem,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "visibilityTimeExtent", value);
+
     }
-    
+
 #endregion
 
 #region Public Methods
@@ -408,7 +461,7 @@ public abstract partial class Layer : IHitTestItem,
             return;
         }
     
-        LayerViewCreateEvent? createEvent = await jsStreamRef.ReadJsStreamReference<LayerViewCreateEvent>();
+        LayerViewCreateEvent? createEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<LayerViewCreateEvent>();
         if (createEvent is not null)
         {
             await OnCreate.InvokeAsync(createEvent);
@@ -440,7 +493,7 @@ public abstract partial class Layer : IHitTestItem,
             return;
         }
     
-        LayerViewCreateErrorEvent? createErrorEvent = await jsStreamRef.ReadJsStreamReference<LayerViewCreateErrorEvent>();
+        LayerViewCreateErrorEvent? createErrorEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<LayerViewCreateErrorEvent>();
         if (createErrorEvent is not null)
         {
             await OnCreateError.InvokeAsync(createErrorEvent);
@@ -473,7 +526,7 @@ public abstract partial class Layer : IHitTestItem,
             return;
         }
     
-        LayerViewDestroyEvent? destroyEvent = await jsStreamRef.ReadJsStreamReference<LayerViewDestroyEvent>();
+        LayerViewDestroyEvent? destroyEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<LayerViewDestroyEvent>();
         if (destroyEvent is not null)
         {
             await OnDestroy.InvokeAsync(destroyEvent);

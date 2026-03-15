@@ -40,7 +40,7 @@ public partial class TimeExtent
 #pragma warning disable BL0005
         Start = start;
         End = end;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -98,19 +98,21 @@ public partial class TimeExtent
         }
 
         // get the property value
-        JsNullableDateTimeWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDateTimeWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "end");
-        if (result is { Value: not null })
+        DateTime? result = await JsComponentReference!.InvokeJsMethod<DateTime?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TimeExtent), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "end");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             End = result.Value.Value;
+                End = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(End)] = End;
+                ModifiedParameters[nameof(End)] = End;
         }
          
         return End;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Start property.
     /// </summary>
@@ -137,19 +139,21 @@ public partial class TimeExtent
         }
 
         // get the property value
-        JsNullableDateTimeWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDateTimeWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "start");
-        if (result is { Value: not null })
+        DateTime? result = await JsComponentReference!.InvokeJsMethod<DateTime?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TimeExtent), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "start");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Start = result.Value.Value;
+                Start = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Start)] = Start;
+                ModifiedParameters[nameof(Start)] = Start;
         }
          
         return Start;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -189,8 +193,9 @@ public partial class TimeExtent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "end", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Start property after render.
     /// </summary>
@@ -226,8 +231,9 @@ public partial class TimeExtent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "start", value);
+
     }
-    
+
 #endregion
 
 }

@@ -38,7 +38,7 @@ public partial class MultidimensionalSubset
 #pragma warning disable BL0005
         AreaOfInterest = areaOfInterest;
         SubsetDefinitions = subsetDefinitions;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -113,11 +113,18 @@ public partial class MultidimensionalSubset
             return AreaOfInterest;
         }
 
-        Geometry? result = await JsComponentReference.InvokeAsync<Geometry?>(
-            "getAreaOfInterest", CancellationTokenSource.Token);
-        
+        Geometry? result = await JsComponentReference.InvokeJsMethod<Geometry?>(
+            IsServer, nameof(GetAreaOfInterest), nameof(MultidimensionalSubset), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (AreaOfInterest is not null)
+            {
+                result.Id = AreaOfInterest.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             AreaOfInterest = result;
 #pragma warning restore BL0005
@@ -125,8 +132,9 @@ public partial class MultidimensionalSubset
         }
         
         return AreaOfInterest;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Dimensions property.
     /// </summary>
@@ -153,19 +161,21 @@ public partial class MultidimensionalSubset
         }
 
         // get the property value
-        IReadOnlyList<SubsetDimension>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SubsetDimension>?>("getProperty",
+        IReadOnlyList<SubsetDimension>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<SubsetDimension>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MultidimensionalSubset), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "dimensions");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Dimensions = result;
+                Dimensions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Dimensions)] = Dimensions;
+                ModifiedParameters[nameof(Dimensions)] = Dimensions;
         }
          
         return Dimensions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SubsetDefinitions property.
     /// </summary>
@@ -191,11 +201,16 @@ public partial class MultidimensionalSubset
             return SubsetDefinitions;
         }
 
-        IReadOnlyList<DimensionalDefinition>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<DimensionalDefinition>?>(
-            "getSubsetDefinitions", CancellationTokenSource.Token);
-        
+        IReadOnlyList<DimensionalDefinition>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<DimensionalDefinition>?>(
+            IsServer, nameof(GetSubsetDefinitions), nameof(MultidimensionalSubset), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (DimensionalDefinition item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             SubsetDefinitions = result;
 #pragma warning restore BL0005
@@ -203,8 +218,9 @@ public partial class MultidimensionalSubset
         }
         
         return SubsetDefinitions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Variables property.
     /// </summary>
@@ -231,19 +247,21 @@ public partial class MultidimensionalSubset
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MultidimensionalSubset), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "variables");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Variables = result;
+                Variables = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Variables)] = Variables;
+                ModifiedParameters[nameof(Variables)] = Variables;
         }
          
         return Variables;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -256,11 +274,6 @@ public partial class MultidimensionalSubset
     /// </param>
     public async Task SetAreaOfInterest(Geometry? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         AreaOfInterest = value;
 #pragma warning restore BL0005
@@ -270,6 +283,11 @@ public partial class MultidimensionalSubset
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -288,8 +306,9 @@ public partial class MultidimensionalSubset
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "areaOfInterest", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SubsetDefinitions property after render.
     /// </summary>
@@ -298,14 +317,6 @@ public partial class MultidimensionalSubset
     /// </param>
     public async Task SetSubsetDefinitions(IReadOnlyList<DimensionalDefinition>? value)
     {
-        if (value is not null)
-        {
-            foreach (DimensionalDefinition item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
 #pragma warning disable BL0005
         SubsetDefinitions = value;
 #pragma warning restore BL0005
@@ -315,6 +326,14 @@ public partial class MultidimensionalSubset
         {
             return;
         }
+        if (value is not null)
+        {
+            foreach (DimensionalDefinition item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
     
         try 
         {
@@ -333,8 +352,9 @@ public partial class MultidimensionalSubset
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "subsetDefinitions", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -351,6 +371,7 @@ public partial class MultidimensionalSubset
             ? values
             : [..SubsetDefinitions, ..values];
         await SetSubsetDefinitions(join);
+
     }
     
 #endregion
@@ -371,6 +392,7 @@ public partial class MultidimensionalSubset
             return;
         }
         await SetSubsetDefinitions(SubsetDefinitions.Except(values).ToArray());
+
     }
     
 #endregion
@@ -408,7 +430,7 @@ public partial class MultidimensionalSubset
     {
         switch (child)
         {
-            case Geometry _:
+            case Geometry:
                 AreaOfInterest = null;
                 ModifiedParameters[nameof(AreaOfInterest)] = AreaOfInterest;
                 return true;

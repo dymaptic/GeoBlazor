@@ -16,5 +16,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#featuredGroups">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record PortalFeaturedGroups(
-    string Owner,
-    string Title);
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    string? Owner = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    string? Title = null);

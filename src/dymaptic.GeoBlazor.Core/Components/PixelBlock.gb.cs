@@ -75,7 +75,7 @@ public partial class PixelBlock : MapComponent
         Statistics = statistics;
         ValidPixelCount = validPixelCount;
         Width = width;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -192,19 +192,21 @@ public partial class PixelBlock : MapComponent
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "height");
-        if (result is { Value: not null })
+        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PixelBlock), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "height");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Height = result.Value.Value;
+                Height = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Height)] = Height;
+                ModifiedParameters[nameof(Height)] = Height;
         }
          
         return Height;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Mask property.
     /// </summary>
@@ -231,19 +233,21 @@ public partial class PixelBlock : MapComponent
         }
 
         // get the property value
-        Stream? result = await JsComponentReference!.InvokeAsync<Stream?>("getProperty",
+        Stream? result = await JsComponentReference!.InvokeJsMethod<Stream?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PixelBlock), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "mask");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Mask = result;
+                Mask = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Mask)] = Mask;
+                ModifiedParameters[nameof(Mask)] = Mask;
         }
          
         return Mask;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaskIsAlpha property.
     /// </summary>
@@ -270,19 +274,21 @@ public partial class PixelBlock : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "maskIsAlpha");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PixelBlock), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "maskIsAlpha");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             MaskIsAlpha = result.Value.Value;
+                MaskIsAlpha = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MaskIsAlpha)] = MaskIsAlpha;
+                ModifiedParameters[nameof(MaskIsAlpha)] = MaskIsAlpha;
         }
          
         return MaskIsAlpha;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Pixels property.
     /// </summary>
@@ -309,19 +315,21 @@ public partial class PixelBlock : MapComponent
         }
 
         // get the property value
-        Stream? result = await JsComponentReference!.InvokeAsync<Stream?>("getProperty",
+        Stream? result = await JsComponentReference!.InvokeJsMethod<Stream?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PixelBlock), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "pixels");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Pixels = result;
+                Pixels = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Pixels)] = Pixels;
+                ModifiedParameters[nameof(Pixels)] = Pixels;
         }
          
         return Pixels;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PixelType property.
     /// </summary>
@@ -348,19 +356,21 @@ public partial class PixelBlock : MapComponent
         }
 
         // get the property value
-        JsNullableEnumWrapper<PixelType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PixelType>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "pixelType");
-        if (result is { Value: not null })
+        PixelType? result = await JsComponentReference!.InvokeJsMethod<PixelType?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PixelBlock), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "pixelType");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             PixelType = (PixelType)result.Value.Value!;
+                PixelType = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PixelType)] = PixelType;
+                ModifiedParameters[nameof(PixelType)] = PixelType;
         }
          
         return PixelType;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Statistics property.
     /// </summary>
@@ -386,11 +396,16 @@ public partial class PixelBlock : MapComponent
             return Statistics;
         }
 
-        IReadOnlyList<PixelBlockStatistics>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<PixelBlockStatistics>?>(
-            "getStatistics", CancellationTokenSource.Token);
-        
+        IReadOnlyList<PixelBlockStatistics>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<PixelBlockStatistics>?>(
+            IsServer, nameof(GetStatistics), nameof(PixelBlock), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (PixelBlockStatistics item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             Statistics = result;
 #pragma warning restore BL0005
@@ -398,8 +413,9 @@ public partial class PixelBlock : MapComponent
         }
         
         return Statistics;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ValidPixelCount property.
     /// </summary>
@@ -426,19 +442,21 @@ public partial class PixelBlock : MapComponent
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "validPixelCount");
-        if (result is { Value: not null })
+        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PixelBlock), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "validPixelCount");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ValidPixelCount = result.Value.Value;
+                ValidPixelCount = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ValidPixelCount)] = ValidPixelCount;
+                ModifiedParameters[nameof(ValidPixelCount)] = ValidPixelCount;
         }
          
         return ValidPixelCount;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Width property.
     /// </summary>
@@ -465,19 +483,21 @@ public partial class PixelBlock : MapComponent
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "width");
-        if (result is { Value: not null })
+        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PixelBlock), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "width");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Width = result.Value.Value;
+                Width = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Width)] = Width;
+                ModifiedParameters[nameof(Width)] = Width;
         }
          
         return Width;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -517,8 +537,9 @@ public partial class PixelBlock : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "height", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Mask property after render.
     /// </summary>
@@ -554,8 +575,9 @@ public partial class PixelBlock : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mask", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaskIsAlpha property after render.
     /// </summary>
@@ -591,8 +613,9 @@ public partial class PixelBlock : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maskIsAlpha", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Pixels property after render.
     /// </summary>
@@ -628,8 +651,9 @@ public partial class PixelBlock : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "pixels", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PixelType property after render.
     /// </summary>
@@ -665,8 +689,9 @@ public partial class PixelBlock : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "pixelType", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Statistics property after render.
     /// </summary>
@@ -675,14 +700,6 @@ public partial class PixelBlock : MapComponent
     /// </param>
     public async Task SetStatistics(IReadOnlyList<PixelBlockStatistics>? value)
     {
-        if (value is not null)
-        {
-            foreach (PixelBlockStatistics item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
 #pragma warning disable BL0005
         Statistics = value;
 #pragma warning restore BL0005
@@ -692,6 +709,14 @@ public partial class PixelBlock : MapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            foreach (PixelBlockStatistics item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
     
         try 
         {
@@ -708,10 +733,12 @@ public partial class PixelBlock : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setStatistics", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetStatistics), nameof(PixelBlock),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ValidPixelCount property after render.
     /// </summary>
@@ -747,8 +774,9 @@ public partial class PixelBlock : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "validPixelCount", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Width property after render.
     /// </summary>
@@ -784,8 +812,9 @@ public partial class PixelBlock : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "width", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -802,6 +831,7 @@ public partial class PixelBlock : MapComponent
             ? values
             : [..Statistics, ..values];
         await SetStatistics(join);
+
     }
     
 #endregion
@@ -822,6 +852,7 @@ public partial class PixelBlock : MapComponent
             return;
         }
         await SetStatistics(Statistics.Except(values).ToArray());
+
     }
     
 #endregion
@@ -859,8 +890,14 @@ public partial class PixelBlock : MapComponent
             return;
         }
         
-        await JsComponentReference!.InvokeVoidAsync(
-            "addData", 
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(AddData), nameof(PixelBlock), 
             CancellationTokenSource.Token,
             planeData);
     }
@@ -894,8 +931,8 @@ public partial class PixelBlock : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Stream?>(
-            "getAsRGBA", 
+        return await JsComponentReference!.InvokeJsMethod<Stream?>(
+            IsServer, nameof(GetAsRGBA), nameof(PixelBlock), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
     
@@ -927,8 +964,8 @@ public partial class PixelBlock : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<float[]?>(
-            "getAsRGBAFloat", 
+        return await JsComponentReference!.InvokeJsMethod<float[]?>(
+            IsServer, nameof(GetAsRGBAFloat), nameof(PixelBlock), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
     
@@ -960,8 +997,8 @@ public partial class PixelBlock : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<int?>(
-            "getPlaneCount", 
+        return await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(GetPlaneCount), nameof(PixelBlock), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
     

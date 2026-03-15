@@ -20,7 +20,7 @@ public partial record PortalItemResource(
     PortalItem? PortalItem = null): IInteractiveRecord
 {
     /// <summary>
-    ///     Parameterless constructor
+    ///     Parameterless Constructor
     /// </summary>
     public PortalItemResource(): this(null, null)
     {
@@ -58,7 +58,11 @@ public partial record PortalItemResource(
     /// </summary>
     public IJSObjectReference? CoreJsModule { get; set; }
     
-
+    /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
+    /// </summary>
+    public bool IsServer { get; set; }
+    
     /// <summary>
     ///     Cancellation Token for async methods.
     /// </summary>
@@ -105,9 +109,14 @@ public partial record PortalItemResource(
             return null;
         }
         
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
-            "fetch", 
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(Fetch), nameof(PortalItemResource), null, 
             CancellationTokenSource.Token,
             responseType,
             options,
@@ -158,9 +167,14 @@ public partial record PortalItemResource(
             return null;
         }
         
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
-            "update", 
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(Update), nameof(PortalItemResource), null, 
             CancellationTokenSource.Token,
             content,
             options,

@@ -24,7 +24,7 @@ public partial record SubtypeSublayerApplyEditsOptions(
     bool? RollbackOnFailureEnabled = null)
 {
     /// <summary>
-    ///     Parameterless constructor
+    ///     Parameterless Constructor
     /// </summary>
     public SubtypeSublayerApplyEditsOptions(): this(null, null)
     {

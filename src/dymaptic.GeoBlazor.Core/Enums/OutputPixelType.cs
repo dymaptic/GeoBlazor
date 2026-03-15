@@ -10,19 +10,14 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 public enum OutputPixelType
 {
 #pragma warning disable CS1591
-    C128,
-    C64,
-    F32,
-    F64,
+    Unknown,
+    S8,
     S16,
     S32,
-    S8,
-    U1,
-    U16,
-    U2,
-    U32,
-    U4,
     U8,
-    Unknown
+    U16,
+    U32,
+    F32,
+    F64
 #pragma warning restore CS1591
 }

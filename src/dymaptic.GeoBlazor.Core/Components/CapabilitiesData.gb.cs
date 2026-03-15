@@ -54,7 +54,7 @@ public partial class CapabilitiesData : MapComponent
         SupportsAttachment = supportsAttachment;
         SupportsM = supportsM;
         SupportsZ = supportsZ;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -139,19 +139,21 @@ public partial class CapabilitiesData : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "isBranchVersioned");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesData), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "isBranchVersioned");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             IsBranchVersioned = result.Value.Value;
+                IsBranchVersioned = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(IsBranchVersioned)] = IsBranchVersioned;
+                ModifiedParameters[nameof(IsBranchVersioned)] = IsBranchVersioned;
         }
          
         return IsBranchVersioned;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsVersioned property.
     /// </summary>
@@ -178,19 +180,21 @@ public partial class CapabilitiesData : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "isVersioned");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesData), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "isVersioned");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             IsVersioned = result.Value.Value;
+                IsVersioned = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(IsVersioned)] = IsVersioned;
+                ModifiedParameters[nameof(IsVersioned)] = IsVersioned;
         }
          
         return IsVersioned;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsAttachment property.
     /// </summary>
@@ -217,19 +221,21 @@ public partial class CapabilitiesData : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsAttachment");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesData), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsAttachment");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsAttachment = result.Value.Value;
+                SupportsAttachment = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsAttachment)] = SupportsAttachment;
+                ModifiedParameters[nameof(SupportsAttachment)] = SupportsAttachment;
         }
          
         return SupportsAttachment;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsM property.
     /// </summary>
@@ -256,19 +262,21 @@ public partial class CapabilitiesData : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsM");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesData), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsM");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsM = result.Value.Value;
+                SupportsM = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsM)] = SupportsM;
+                ModifiedParameters[nameof(SupportsM)] = SupportsM;
         }
          
         return SupportsM;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsZ property.
     /// </summary>
@@ -295,19 +303,21 @@ public partial class CapabilitiesData : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsZ");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesData), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsZ");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsZ = result.Value.Value;
+                SupportsZ = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsZ)] = SupportsZ;
+                ModifiedParameters[nameof(SupportsZ)] = SupportsZ;
         }
          
         return SupportsZ;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -347,8 +357,9 @@ public partial class CapabilitiesData : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "isBranchVersioned", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the IsVersioned property after render.
     /// </summary>
@@ -384,8 +395,9 @@ public partial class CapabilitiesData : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "isVersioned", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsAttachment property after render.
     /// </summary>
@@ -421,8 +433,9 @@ public partial class CapabilitiesData : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsAttachment", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsM property after render.
     /// </summary>
@@ -458,8 +471,9 @@ public partial class CapabilitiesData : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsM", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsZ property after render.
     /// </summary>
@@ -495,8 +509,9 @@ public partial class CapabilitiesData : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsZ", value);
+
     }
-    
+
 #endregion
 
 }

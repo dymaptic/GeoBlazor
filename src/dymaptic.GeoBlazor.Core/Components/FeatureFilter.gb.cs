@@ -72,7 +72,7 @@ public partial class FeatureFilter
         TimeExtent = timeExtent;
         Units = units;
         Where = where;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -129,19 +129,21 @@ public partial class FeatureFilter
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "distance");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureFilter), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "distance");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Distance = result.Value.Value;
+                Distance = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Distance)] = Distance;
+                ModifiedParameters[nameof(Distance)] = Distance;
         }
          
         return Distance;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Geometry property.
     /// </summary>
@@ -167,11 +169,18 @@ public partial class FeatureFilter
             return Geometry;
         }
 
-        Geometry? result = await JsComponentReference.InvokeAsync<Geometry?>(
-            "getGeometry", CancellationTokenSource.Token);
-        
+        Geometry? result = await JsComponentReference.InvokeJsMethod<Geometry?>(
+            IsServer, nameof(GetGeometry), nameof(FeatureFilter), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (Geometry is not null)
+            {
+                result.Id = Geometry.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Geometry = result;
 #pragma warning restore BL0005
@@ -179,8 +188,9 @@ public partial class FeatureFilter
         }
         
         return Geometry;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ObjectIds property.
     /// </summary>
@@ -207,19 +217,21 @@ public partial class FeatureFilter
         }
 
         // get the property value
-        IReadOnlyList<ObjectId>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ObjectId>?>("getProperty",
+        IReadOnlyList<ObjectId>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<ObjectId>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureFilter), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "objectIds");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ObjectIds = result;
+                ObjectIds = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ObjectIds)] = ObjectIds;
+                ModifiedParameters[nameof(ObjectIds)] = ObjectIds;
         }
          
         return ObjectIds;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialRelationship property.
     /// </summary>
@@ -246,19 +258,21 @@ public partial class FeatureFilter
         }
 
         // get the property value
-        JsNullableEnumWrapper<SpatialRelationship>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SpatialRelationship>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "spatialRelationship");
-        if (result is { Value: not null })
+        SpatialRelationship? result = await JsComponentReference!.InvokeJsMethod<SpatialRelationship?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureFilter), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "spatialRelationship");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SpatialRelationship = (SpatialRelationship)result.Value.Value!;
+                SpatialRelationship = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SpatialRelationship)] = SpatialRelationship;
+                ModifiedParameters[nameof(SpatialRelationship)] = SpatialRelationship;
         }
          
         return SpatialRelationship;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeExtent property.
     /// </summary>
@@ -284,9 +298,10 @@ public partial class FeatureFilter
             return TimeExtent;
         }
 
-        TimeExtent? result = await JsComponentReference.InvokeAsync<TimeExtent?>(
-            "getTimeExtent", CancellationTokenSource.Token);
-        
+        TimeExtent? result = await JsComponentReference.InvokeJsMethod<TimeExtent?>(
+            IsServer, nameof(GetTimeExtent), nameof(FeatureFilter), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (TimeExtent is not null)
@@ -302,8 +317,9 @@ public partial class FeatureFilter
         }
         
         return TimeExtent;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Units property.
     /// </summary>
@@ -330,19 +346,21 @@ public partial class FeatureFilter
         }
 
         // get the property value
-        JsNullableEnumWrapper<QueryUnits>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<QueryUnits>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "units");
-        if (result is { Value: not null })
+        QueryUnits? result = await JsComponentReference!.InvokeJsMethod<QueryUnits?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureFilter), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "units");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Units = (QueryUnits)result.Value.Value!;
+                Units = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Units)] = Units;
+                ModifiedParameters[nameof(Units)] = Units;
         }
          
         return Units;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Where property.
     /// </summary>
@@ -369,19 +387,21 @@ public partial class FeatureFilter
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureFilter), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "where");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Where = result;
+                Where = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Where)] = Where;
+                ModifiedParameters[nameof(Where)] = Where;
         }
          
         return Where;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -421,8 +441,9 @@ public partial class FeatureFilter
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "distance", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Geometry property after render.
     /// </summary>
@@ -431,11 +452,6 @@ public partial class FeatureFilter
     /// </param>
     public async Task SetGeometry(Geometry? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Geometry = value;
 #pragma warning restore BL0005
@@ -445,6 +461,11 @@ public partial class FeatureFilter
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -461,10 +482,12 @@ public partial class FeatureFilter
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setGeometry", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetGeometry), nameof(FeatureFilter),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ObjectIds property after render.
     /// </summary>
@@ -500,8 +523,9 @@ public partial class FeatureFilter
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "objectIds", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SpatialRelationship property after render.
     /// </summary>
@@ -537,8 +561,9 @@ public partial class FeatureFilter
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "spatialRelationship", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeExtent property after render.
     /// </summary>
@@ -547,11 +572,6 @@ public partial class FeatureFilter
     /// </param>
     public async Task SetTimeExtent(TimeExtent? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         TimeExtent = value;
 #pragma warning restore BL0005
@@ -561,6 +581,11 @@ public partial class FeatureFilter
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -577,10 +602,12 @@ public partial class FeatureFilter
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setTimeExtent", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetTimeExtent), nameof(FeatureFilter),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Units property after render.
     /// </summary>
@@ -616,8 +643,9 @@ public partial class FeatureFilter
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "units", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Where property after render.
     /// </summary>
@@ -653,8 +681,9 @@ public partial class FeatureFilter
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "where", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -671,6 +700,7 @@ public partial class FeatureFilter
             ? values
             : [..ObjectIds, ..values];
         await SetObjectIds(join);
+
     }
     
 #endregion
@@ -691,6 +721,7 @@ public partial class FeatureFilter
             return;
         }
         await SetObjectIds(ObjectIds.Except(values).ToArray());
+
     }
     
 #endregion
@@ -726,8 +757,8 @@ public partial class FeatureFilter
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<Query?>(
-            "createQuery", 
+        return await JsComponentReference!.InvokeJsMethod<Query?>(
+            IsServer, nameof(CreateQuery), nameof(FeatureFilter), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
     

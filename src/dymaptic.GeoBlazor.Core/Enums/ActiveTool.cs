@@ -10,16 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 public enum ActiveTool
 {
 #pragma warning disable CS1591
-    Point,
-    Multipoint,
-    Polyline,
-    Polygon,
-    Circle,
-    Mesh,
-    Rectangle,
-    Move,
-    Transform,
-    Reshape,
     Area,
     Distance,
     DirectLine

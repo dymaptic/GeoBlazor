@@ -26,7 +26,7 @@ public partial record TopFilter(
     int? TopCount = null)
 {
     /// <summary>
-    ///     Parameterless constructor
+    ///     Parameterless Constructor
     /// </summary>
     public TopFilter(): this(null, null)
     {

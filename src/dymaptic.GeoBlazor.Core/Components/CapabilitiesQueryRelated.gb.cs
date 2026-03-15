@@ -50,7 +50,7 @@ public partial class CapabilitiesQueryRelated : MapComponent
         SupportsCount = supportsCount;
         SupportsOrderBy = supportsOrderBy;
         SupportsPagination = supportsPagination;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -126,19 +126,21 @@ public partial class CapabilitiesQueryRelated : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsCacheHint");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryRelated), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsCacheHint");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsCacheHint = result.Value.Value;
+                SupportsCacheHint = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsCacheHint)] = SupportsCacheHint;
+                ModifiedParameters[nameof(SupportsCacheHint)] = SupportsCacheHint;
         }
          
         return SupportsCacheHint;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsCount property.
     /// </summary>
@@ -165,19 +167,21 @@ public partial class CapabilitiesQueryRelated : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsCount");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryRelated), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsCount");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsCount = result.Value.Value;
+                SupportsCount = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsCount)] = SupportsCount;
+                ModifiedParameters[nameof(SupportsCount)] = SupportsCount;
         }
          
         return SupportsCount;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsOrderBy property.
     /// </summary>
@@ -204,19 +208,21 @@ public partial class CapabilitiesQueryRelated : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsOrderBy");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryRelated), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsOrderBy");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsOrderBy = result.Value.Value;
+                SupportsOrderBy = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsOrderBy)] = SupportsOrderBy;
+                ModifiedParameters[nameof(SupportsOrderBy)] = SupportsOrderBy;
         }
          
         return SupportsOrderBy;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SupportsPagination property.
     /// </summary>
@@ -243,19 +249,21 @@ public partial class CapabilitiesQueryRelated : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "supportsPagination");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryRelated), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "supportsPagination");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SupportsPagination = result.Value.Value;
+                SupportsPagination = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SupportsPagination)] = SupportsPagination;
+                ModifiedParameters[nameof(SupportsPagination)] = SupportsPagination;
         }
          
         return SupportsPagination;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -295,8 +303,9 @@ public partial class CapabilitiesQueryRelated : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsCacheHint", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsCount property after render.
     /// </summary>
@@ -332,8 +341,9 @@ public partial class CapabilitiesQueryRelated : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsCount", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsOrderBy property after render.
     /// </summary>
@@ -369,8 +379,9 @@ public partial class CapabilitiesQueryRelated : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsOrderBy", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SupportsPagination property after render.
     /// </summary>
@@ -406,8 +417,9 @@ public partial class CapabilitiesQueryRelated : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "supportsPagination", value);
+
     }
-    
+
 #endregion
 
 }

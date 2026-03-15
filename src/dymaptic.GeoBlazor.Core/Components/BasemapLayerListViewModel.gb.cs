@@ -114,11 +114,16 @@ public partial class BasemapLayerListViewModel
             return BaseItems;
         }
 
-        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ListItem>?>(
-            "getBaseItems", CancellationTokenSource.Token);
-        
+        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<ListItem>?>(
+            IsServer, nameof(GetBaseItems), nameof(BasemapLayerListViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (ListItem item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             BaseItems = result;
 #pragma warning restore BL0005
@@ -126,8 +131,9 @@ public partial class BasemapLayerListViewModel
         }
         
         return BaseItems;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the BasemapTitle property.
     /// </summary>
@@ -154,19 +160,21 @@ public partial class BasemapLayerListViewModel
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "basemapTitle");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             BasemapTitle = result;
+                BasemapTitle = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(BasemapTitle)] = BasemapTitle;
+                ModifiedParameters[nameof(BasemapTitle)] = BasemapTitle;
         }
          
         return BasemapTitle;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the CheckPublishStatusEnabled property.
     /// </summary>
@@ -193,19 +201,21 @@ public partial class BasemapLayerListViewModel
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "checkPublishStatusEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "checkPublishStatusEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             CheckPublishStatusEnabled = result.Value.Value;
+                CheckPublishStatusEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(CheckPublishStatusEnabled)] = CheckPublishStatusEnabled;
+                ModifiedParameters[nameof(CheckPublishStatusEnabled)] = CheckPublishStatusEnabled;
         }
          
         return CheckPublishStatusEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ListModeDisabled property.
     /// </summary>
@@ -232,19 +242,21 @@ public partial class BasemapLayerListViewModel
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "listModeDisabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "listModeDisabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ListModeDisabled = result.Value.Value;
+                ListModeDisabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ListModeDisabled)] = ListModeDisabled;
+                ModifiedParameters[nameof(ListModeDisabled)] = ListModeDisabled;
         }
          
         return ListModeDisabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ReferenceItems property.
     /// </summary>
@@ -270,11 +282,16 @@ public partial class BasemapLayerListViewModel
             return ReferenceItems;
         }
 
-        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ListItem>?>(
-            "getReferenceItems", CancellationTokenSource.Token);
-        
+        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<ListItem>?>(
+            IsServer, nameof(GetReferenceItems), nameof(BasemapLayerListViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (ListItem item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             ReferenceItems = result;
 #pragma warning restore BL0005
@@ -282,8 +299,9 @@ public partial class BasemapLayerListViewModel
         }
         
         return ReferenceItems;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -310,19 +328,21 @@ public partial class BasemapLayerListViewModel
         }
 
         // get the property value
-        JsNullableEnumWrapper<ViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ViewModelState>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "state");
-        if (result is { Value: not null })
+        ViewModelState? result = await JsComponentReference!.InvokeJsMethod<ViewModelState?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "state");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             State = (ViewModelState)result.Value.Value!;
+                State = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(State)] = State;
+                ModifiedParameters[nameof(State)] = State;
         }
          
         return State;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -362,8 +382,9 @@ public partial class BasemapLayerListViewModel
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "basemapTitle", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the CheckPublishStatusEnabled property after render.
     /// </summary>
@@ -399,8 +420,9 @@ public partial class BasemapLayerListViewModel
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "checkPublishStatusEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ListModeDisabled property after render.
     /// </summary>
@@ -436,8 +458,9 @@ public partial class BasemapLayerListViewModel
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "listModeDisabled", value);
+
     }
-    
+
 #endregion
 
 #region Public Methods
@@ -479,8 +502,14 @@ public partial class BasemapLayerListViewModel
             return;
         }
         
-        await JsComponentReference!.InvokeVoidAsync(
-            "triggerAction", 
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(TriggerAction), nameof(BasemapLayerListViewModel), 
             CancellationTokenSource.Token,
             action,
             item);

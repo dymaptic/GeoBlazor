@@ -20,7 +20,7 @@ public partial record GroundCreateElevationSamplerOptions(
     double? NoDataValue = null)
 {
     /// <summary>
-    ///     Parameterless constructor
+    ///     Parameterless Constructor
     /// </summary>
     public GroundCreateElevationSamplerOptions(): this(null, null)
     {

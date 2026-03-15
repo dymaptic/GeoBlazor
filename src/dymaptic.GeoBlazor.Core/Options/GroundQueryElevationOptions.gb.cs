@@ -25,7 +25,7 @@ public partial record GroundQueryElevationOptions(
     bool? ReturnSampleInfo = null)
 {
     /// <summary>
-    ///     Parameterless constructor
+    ///     Parameterless Constructor
     /// </summary>
     public GroundQueryElevationOptions(): this(null, null)
     {

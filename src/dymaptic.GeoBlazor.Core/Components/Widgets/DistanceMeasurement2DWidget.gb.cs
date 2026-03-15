@@ -23,9 +23,6 @@ public partial class DistanceMeasurement2DWidget : Widget
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
-    /// <param name="containerId">
-    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
-    /// </param>
     /// <param name="icon">
     ///     Icon which represents the widget.
     ///     default "measure-line"
@@ -34,12 +31,6 @@ public partial class DistanceMeasurement2DWidget : Widget
     /// <param name="label">
     ///     The widget's default label.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D.html#label">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="mapView">
-    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
-    /// </param>
-    /// <param name="position">
-    ///     The position of the widget in relation to the map view.
     /// </param>
     /// <param name="snappingOptions">
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-snapping-SnappingOptions.html">SnappingOptions</a> for sketching.
@@ -67,11 +58,8 @@ public partial class DistanceMeasurement2DWidget : Widget
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public DistanceMeasurement2DWidget(
-        string? containerId = null,
         string? icon = null,
         string? label = null,
-        MapView? mapView = null,
-        OverlayPosition? position = null,
         SnappingOptions? snappingOptions = null,
         SystemOrLengthUnit? unit = null,
         IReadOnlyList<SystemOrLengthUnit>? unitOptions = null,
@@ -81,18 +69,15 @@ public partial class DistanceMeasurement2DWidget : Widget
     {
         AllowRender = false;
 #pragma warning disable BL0005
-        ContainerId = containerId;
         Icon = icon;
         Label = label;
-        MapView = mapView;
-        Position = position;
         SnappingOptions = snappingOptions;
         Unit = unit;
         UnitOptions = unitOptions;
         ViewModel = viewModel;
         Visible = visible;
         WidgetId = widgetId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -170,11 +155,18 @@ public partial class DistanceMeasurement2DWidget : Widget
             return SnappingOptions;
         }
 
-        SnappingOptions? result = await JsComponentReference.InvokeAsync<SnappingOptions?>(
-            "getSnappingOptions", CancellationTokenSource.Token);
-        
+        SnappingOptions? result = await JsComponentReference.InvokeJsMethod<SnappingOptions?>(
+            IsServer, nameof(GetSnappingOptions), nameof(DistanceMeasurement2DWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (SnappingOptions is not null)
+            {
+                result.Id = SnappingOptions.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             SnappingOptions = result;
 #pragma warning restore BL0005
@@ -182,8 +174,9 @@ public partial class DistanceMeasurement2DWidget : Widget
         }
         
         return SnappingOptions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Unit property.
     /// </summary>
@@ -210,19 +203,21 @@ public partial class DistanceMeasurement2DWidget : Widget
         }
 
         // get the property value
-        JsNullableEnumWrapper<SystemOrLengthUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SystemOrLengthUnit>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "unit");
-        if (result is { Value: not null })
+        SystemOrLengthUnit? result = await JsComponentReference!.InvokeJsMethod<SystemOrLengthUnit?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DistanceMeasurement2DWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "unit");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Unit = (SystemOrLengthUnit)result.Value.Value!;
+                Unit = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Unit)] = Unit;
+                ModifiedParameters[nameof(Unit)] = Unit;
         }
          
         return Unit;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UnitOptions property.
     /// </summary>
@@ -249,19 +244,21 @@ public partial class DistanceMeasurement2DWidget : Widget
         }
 
         // get the property value
-        IReadOnlyList<SystemOrLengthUnit>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SystemOrLengthUnit>?>("getProperty",
+        IReadOnlyList<SystemOrLengthUnit>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<SystemOrLengthUnit>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DistanceMeasurement2DWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "unitOptions");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             UnitOptions = result;
+                UnitOptions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(UnitOptions)] = UnitOptions;
+                ModifiedParameters[nameof(UnitOptions)] = UnitOptions;
         }
          
         return UnitOptions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -287,9 +284,10 @@ public partial class DistanceMeasurement2DWidget : Widget
             return ViewModel;
         }
 
-        DistanceMeasurement2DViewModel? result = await JsComponentReference.InvokeAsync<DistanceMeasurement2DViewModel?>(
-            "getViewModel", CancellationTokenSource.Token);
-        
+        DistanceMeasurement2DViewModel? result = await JsComponentReference.InvokeJsMethod<DistanceMeasurement2DViewModel?>(
+            IsServer, nameof(GetViewModel), nameof(DistanceMeasurement2DWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (ViewModel is not null)
@@ -305,8 +303,9 @@ public partial class DistanceMeasurement2DWidget : Widget
         }
         
         return ViewModel;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -319,11 +318,6 @@ public partial class DistanceMeasurement2DWidget : Widget
     /// </param>
     public async Task SetSnappingOptions(SnappingOptions? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         SnappingOptions = value;
 #pragma warning restore BL0005
@@ -333,6 +327,11 @@ public partial class DistanceMeasurement2DWidget : Widget
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -349,10 +348,12 @@ public partial class DistanceMeasurement2DWidget : Widget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setSnappingOptions", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetSnappingOptions), nameof(DistanceMeasurement2DWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Unit property after render.
     /// </summary>
@@ -388,8 +389,9 @@ public partial class DistanceMeasurement2DWidget : Widget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "unit", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UnitOptions property after render.
     /// </summary>
@@ -425,8 +427,9 @@ public partial class DistanceMeasurement2DWidget : Widget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "unitOptions", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -435,11 +438,6 @@ public partial class DistanceMeasurement2DWidget : Widget
     /// </param>
     public async Task SetViewModel(DistanceMeasurement2DViewModel? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005
@@ -449,6 +447,11 @@ public partial class DistanceMeasurement2DWidget : Widget
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -465,10 +468,12 @@ public partial class DistanceMeasurement2DWidget : Widget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setViewModel", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetViewModel), nameof(DistanceMeasurement2DWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -485,6 +490,7 @@ public partial class DistanceMeasurement2DWidget : Widget
             ? values
             : [..UnitOptions, ..values];
         await SetUnitOptions(join);
+
     }
     
 #endregion
@@ -505,6 +511,7 @@ public partial class DistanceMeasurement2DWidget : Widget
             return;
         }
         await SetUnitOptions(UnitOptions.Except(values).ToArray());
+
     }
     
 #endregion
@@ -553,7 +560,7 @@ public partial class DistanceMeasurement2DWidget : Widget
                 SnappingOptions = null;
                 ModifiedParameters[nameof(SnappingOptions)] = SnappingOptions;
                 return true;
-            case DistanceMeasurement2DViewModel _:
+            case DistanceMeasurement2DViewModel:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;

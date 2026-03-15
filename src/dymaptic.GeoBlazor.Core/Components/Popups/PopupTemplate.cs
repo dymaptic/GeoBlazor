@@ -49,7 +49,7 @@ public partial class PopupTemplate : MapComponent, IProtobufSerializable<PopupTe
         bool? returnGeometry = null, IReadOnlyList<ActionBase>? actions = null)
     {
 #pragma warning disable BL0005
-        Title = title;
+        Title = title is not null ? (PopupTemplateTitle)title : null;
         StringContent = stringContent;
         OutFields = outFields;
         OverwriteActions = overwriteActions;
@@ -236,7 +236,7 @@ public partial class PopupTemplate : MapComponent, IProtobufSerializable<PopupTe
     /// <inheritdoc />
     public PopupTemplateSerializationRecord ToProtobuf()
     {
-        return new PopupTemplateSerializationRecord(Title, StringContent, OutFields,
+        return new PopupTemplateSerializationRecord(Title?.Titlestring, StringContent, OutFields,
             FieldInfos?.Select(f => f.ToProtobuf()),
             Content?.Select(c => c.ToProtobuf()),
             ExpressionInfos?.Select(e => e.ToProtobuf()), OverwriteActions,

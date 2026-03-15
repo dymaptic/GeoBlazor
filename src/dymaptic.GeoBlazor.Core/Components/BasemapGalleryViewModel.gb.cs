@@ -38,7 +38,7 @@ public partial class BasemapGalleryViewModel : MapComponent
 #pragma warning disable BL0005
         ActiveBasemap = activeBasemap;
         Source = source;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -125,9 +125,10 @@ public partial class BasemapGalleryViewModel : MapComponent
             return ActiveBasemap;
         }
 
-        Basemap? result = await JsComponentReference.InvokeAsync<Basemap?>(
-            "getActiveBasemap", CancellationTokenSource.Token);
-        
+        Basemap? result = await JsComponentReference.InvokeJsMethod<Basemap?>(
+            IsServer, nameof(GetActiveBasemap), nameof(BasemapGalleryViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (ActiveBasemap is not null)
@@ -143,8 +144,9 @@ public partial class BasemapGalleryViewModel : MapComponent
         }
         
         return ActiveBasemap;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ActiveBasemapIndex property.
     /// </summary>
@@ -171,19 +173,21 @@ public partial class BasemapGalleryViewModel : MapComponent
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "activeBasemapIndex");
-        if (result is { Value: not null })
+        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapGalleryViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "activeBasemapIndex");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ActiveBasemapIndex = result.Value.Value;
+                ActiveBasemapIndex = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ActiveBasemapIndex)] = ActiveBasemapIndex;
+                ModifiedParameters[nameof(ActiveBasemapIndex)] = ActiveBasemapIndex;
         }
          
         return ActiveBasemapIndex;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Items property.
     /// </summary>
@@ -209,11 +213,16 @@ public partial class BasemapGalleryViewModel : MapComponent
             return Items;
         }
 
-        IReadOnlyList<BasemapGalleryItem>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<BasemapGalleryItem>?>(
-            "getItems", CancellationTokenSource.Token);
-        
+        IReadOnlyList<BasemapGalleryItem>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<BasemapGalleryItem>?>(
+            IsServer, nameof(GetItems), nameof(BasemapGalleryViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (BasemapGalleryItem item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             Items = result;
 #pragma warning restore BL0005
@@ -221,8 +230,9 @@ public partial class BasemapGalleryViewModel : MapComponent
         }
         
         return Items;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Source property.
     /// </summary>
@@ -248,26 +258,22 @@ public partial class BasemapGalleryViewModel : MapComponent
             return Source;
         }
 
-        IBasemapGalleryWidgetSource? result = await JsComponentReference.InvokeAsync<IBasemapGalleryWidgetSource?>(
-            "getSource", CancellationTokenSource.Token);
-        
+        // get the property value
+        IBasemapGalleryWidgetSource? result = await JsComponentReference!.InvokeJsMethod<IBasemapGalleryWidgetSource?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapGalleryViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "source");
         if (result is not null)
         {
-            if (Source is not null)
-            {
-                result.Id = Source.Id;
-            }
-            ((MapComponent)result).UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
 #pragma warning disable BL0005
-            Source = result;
+                Source = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Source)] = Source;
+                ModifiedParameters[nameof(Source)] = Source;
         }
-        
+         
         return Source;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -294,19 +300,21 @@ public partial class BasemapGalleryViewModel : MapComponent
         }
 
         // get the property value
-        JsNullableEnumWrapper<BasemapGalleryViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BasemapGalleryViewModelState>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "state");
-        if (result is { Value: not null })
+        BasemapGalleryViewModelState? result = await JsComponentReference!.InvokeJsMethod<BasemapGalleryViewModelState?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapGalleryViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "state");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             State = (BasemapGalleryViewModelState)result.Value.Value!;
+                State = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(State)] = State;
+                ModifiedParameters[nameof(State)] = State;
         }
          
         return State;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -319,11 +327,6 @@ public partial class BasemapGalleryViewModel : MapComponent
     /// </param>
     public async Task SetActiveBasemap(Basemap? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         ActiveBasemap = value;
 #pragma warning restore BL0005
@@ -333,6 +336,11 @@ public partial class BasemapGalleryViewModel : MapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -349,10 +357,12 @@ public partial class BasemapGalleryViewModel : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setActiveBasemap", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetActiveBasemap), nameof(BasemapGalleryViewModel),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Source property after render.
     /// </summary>
@@ -361,11 +371,6 @@ public partial class BasemapGalleryViewModel : MapComponent
     /// </param>
     public async Task SetSource(IBasemapGalleryWidgetSource? value)
     {
-        if (value is not null)
-        {
-            ((MapComponent)value).UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Source = value;
 #pragma warning restore BL0005
@@ -393,8 +398,9 @@ public partial class BasemapGalleryViewModel : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "source", value);
+
     }
-    
+
 #endregion
 
 #region Public Methods
@@ -435,8 +441,8 @@ public partial class BasemapGalleryViewModel : MapComponent
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<bool?>(
-            "basemapEquals", 
+        return await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(BasemapEquals), nameof(BasemapGalleryViewModel), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             basemap1,
             basemap2);
@@ -458,14 +464,6 @@ public partial class BasemapGalleryViewModel : MapComponent
                 }
                 
                 return true;
-            case IBasemapGalleryWidgetSource source:
-                if (source != Source)
-                {
-                    Source = source;
-                    ModifiedParameters[nameof(Source)] = Source;
-                }
-                
-                return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
         }
@@ -476,13 +474,9 @@ public partial class BasemapGalleryViewModel : MapComponent
     {
         switch (child)
         {
-            case Basemap _:
+            case Basemap:
                 ActiveBasemap = null;
                 ModifiedParameters[nameof(ActiveBasemap)] = ActiveBasemap;
-                return true;
-            case IBasemapGalleryWidgetSource _:
-                Source = null;
-                ModifiedParameters[nameof(Source)] = Source;
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
@@ -494,7 +488,6 @@ public partial class BasemapGalleryViewModel : MapComponent
     {
     
         ActiveBasemap?.ValidateRequiredGeneratedChildren();
-        Source?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
       

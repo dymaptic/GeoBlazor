@@ -27,25 +27,19 @@ public partial class HeatmapRampElement : MapComponent,
     ///     The individual color stops rendered in the legend that correspond to the heatmap colorStops in the renderer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#HeatmapRampElement">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="rendererTitle">
-    ///     The title of the heatmap ramp as displayed in the legend.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#HeatmapRampElement">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="stringTitle">
+    /// <param name="title">
     ///     The title of the heatmap ramp as displayed in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#HeatmapRampElement">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public HeatmapRampElement(
         IReadOnlyList<HeatmapRampStop>? infos = null,
-        RendererTitle? rendererTitle = null,
-        string? stringTitle = null)
+        RendererTitle? title = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Infos = infos;
-        RendererTitle = rendererTitle;
-        StringTitle = stringTitle;
-#pragma warning restore BL0005    
+        Title = title;
+#pragma warning restore BL0005
     }
     
     
@@ -62,24 +56,14 @@ public partial class HeatmapRampElement : MapComponent,
     public IReadOnlyList<HeatmapRampStop>? Infos { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.HeatmapRampElement.html#heatmaprampelementrenderertitle-property">GeoBlazor Docs</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.HeatmapRampElement.html#heatmaprampelementtitle-property">GeoBlazor Docs</a>
     ///     The title of the heatmap ramp as displayed in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#HeatmapRampElement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public RendererTitle? RendererTitle { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.HeatmapRampElement.html#heatmaprampelementstringtitle-property">GeoBlazor Docs</a>
-    ///     The title of the heatmap ramp as displayed in the legend.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#HeatmapRampElement">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? StringTitle { get; set; }
+    public RendererTitle? Title { get; set; }
     
 #endregion
 
@@ -110,11 +94,16 @@ public partial class HeatmapRampElement : MapComponent,
             return Infos;
         }
 
-        IReadOnlyList<HeatmapRampStop>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<HeatmapRampStop>?>(
-            "getInfos", CancellationTokenSource.Token);
-        
+        IReadOnlyList<HeatmapRampStop>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<HeatmapRampStop>?>(
+            IsServer, nameof(GetInfos), nameof(HeatmapRampElement), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (HeatmapRampStop item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             Infos = result;
 #pragma warning restore BL0005
@@ -122,16 +111,17 @@ public partial class HeatmapRampElement : MapComponent,
         }
         
         return Infos;
+
     }
-    
+
     /// <summary>
-    ///     Asynchronously retrieve the current value of the RendererTitle property.
+    ///     Asynchronously retrieve the current value of the Title property.
     /// </summary>
-    public async Task<RendererTitle?> GetRendererTitle()
+    public async Task<RendererTitle?> GetTitle()
     {
         if (CoreJsModule is null)
         {
-            return RendererTitle;
+            return Title;
         }
         
         try 
@@ -146,62 +136,25 @@ public partial class HeatmapRampElement : MapComponent,
         
         if (JsComponentReference is null)
         {
-            return RendererTitle;
+            return Title;
         }
 
         // get the property value
-        RendererTitle? result = await JsComponentReference!.InvokeAsync<RendererTitle?>("getProperty",
+        RendererTitle? result = await JsComponentReference!.InvokeJsMethod<RendererTitle?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HeatmapRampElement), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             RendererTitle = result;
+                Title = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RendererTitle)] = RendererTitle;
+                ModifiedParameters[nameof(Title)] = Title;
         }
          
-        return RendererTitle;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the StringTitle property.
-    /// </summary>
-    public async Task<string?> GetStringTitle()
-    {
-        if (CoreJsModule is null)
-        {
-            return StringTitle;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return StringTitle;
-        }
+        return Title;
 
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "title");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             StringTitle = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(StringTitle)] = StringTitle;
-        }
-         
-        return StringTitle;
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -214,14 +167,6 @@ public partial class HeatmapRampElement : MapComponent,
     /// </param>
     public async Task SetInfos(IReadOnlyList<HeatmapRampStop>? value)
     {
-        if (value is not null)
-        {
-            foreach (HeatmapRampStop item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
 #pragma warning disable BL0005
         Infos = value;
 #pragma warning restore BL0005
@@ -231,6 +176,14 @@ public partial class HeatmapRampElement : MapComponent,
         {
             return;
         }
+        if (value is not null)
+        {
+            foreach (HeatmapRampStop item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
     
         try 
         {
@@ -249,20 +202,21 @@ public partial class HeatmapRampElement : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "infos", value);
+
     }
-    
+
     /// <summary>
-    ///    Asynchronously set the value of the RendererTitle property after render.
+    ///    Asynchronously set the value of the Title property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRendererTitle(RendererTitle? value)
+    public async Task SetTitle(RendererTitle? value)
     {
 #pragma warning disable BL0005
-        RendererTitle = value;
+        Title = value;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(RendererTitle)] = value;
+        ModifiedParameters[nameof(Title)] = value;
         
         if (CoreJsModule is null)
         {
@@ -286,45 +240,9 @@ public partial class HeatmapRampElement : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+
     }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the StringTitle property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetStringTitle(string? value)
-    {
-#pragma warning disable BL0005
-        StringTitle = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(StringTitle)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "title", value);
-    }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -341,6 +259,7 @@ public partial class HeatmapRampElement : MapComponent,
             ? values
             : [..Infos, ..values];
         await SetInfos(join);
+
     }
     
 #endregion
@@ -361,6 +280,7 @@ public partial class HeatmapRampElement : MapComponent,
             return;
         }
         await SetInfos(Infos.Except(values).ToArray());
+
     }
     
 #endregion

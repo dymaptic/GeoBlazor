@@ -25,20 +25,20 @@ public partial record RequestOptionsBody
     /// <param name="bodyElementReference">
     ///     Implementation of parent property Body as ElementReference.
     /// </param>
-    /// <param name="bodystring">
-    ///     Implementation of parent property Body as string.
-    /// </param>
     /// <param name="bodyobject">
     ///     Implementation of parent property Body as Dictionary<string, object?>.
     /// </param>
+    /// <param name="bodystring">
+    ///     Implementation of parent property Body as string.
+    /// </param>
     public RequestOptionsBody(
         ElementReference? bodyElementReference = null,
-        string? bodystring = null,
-        Dictionary<string, object?>? bodyobject = null)
+        Dictionary<string, object?>? bodyobject = null,
+        string? bodystring = null)
     {
         BodyElementReference = bodyElementReference;
-        Bodystring = bodystring;
         Bodyobject = bodyobject;
+        Bodystring = bodystring;
     }
     
     

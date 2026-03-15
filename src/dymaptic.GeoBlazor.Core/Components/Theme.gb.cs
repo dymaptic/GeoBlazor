@@ -39,7 +39,7 @@ public partial class Theme : MapComponent
 #pragma warning disable BL0005
         AccentColor = accentColor;
         TextColor = textColor;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -95,19 +95,21 @@ public partial class Theme : MapComponent
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Theme), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "accentColor");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             AccentColor = result;
+                AccentColor = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AccentColor)] = AccentColor;
+                ModifiedParameters[nameof(AccentColor)] = AccentColor;
         }
          
         return AccentColor;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TextColor property.
     /// </summary>
@@ -134,19 +136,21 @@ public partial class Theme : MapComponent
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Theme), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "textColor");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             TextColor = result;
+                TextColor = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TextColor)] = TextColor;
+                ModifiedParameters[nameof(TextColor)] = TextColor;
         }
          
         return TextColor;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -186,8 +190,9 @@ public partial class Theme : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "accentColor", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TextColor property after render.
     /// </summary>
@@ -223,8 +228,9 @@ public partial class Theme : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "textColor", value);
+
     }
-    
+
 #endregion
 
 }

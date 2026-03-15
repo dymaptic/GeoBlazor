@@ -34,7 +34,7 @@ public partial class KMLLayerView : LayerView
         AllowRender = false;
 #pragma warning disable BL0005
         Visible = visible;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -109,11 +109,16 @@ public partial class KMLLayerView : LayerView
             return AllVisibleMapImages;
         }
 
-        IReadOnlyList<KMLLayerViewMapImage>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<KMLLayerViewMapImage>?>(
-            "getAllVisibleMapImages", CancellationTokenSource.Token);
-        
+        IReadOnlyList<KMLLayerViewMapImage>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<KMLLayerViewMapImage>?>(
+            IsServer, nameof(GetAllVisibleMapImages), nameof(KMLLayerView), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (KMLLayerViewMapImage item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             AllVisibleMapImages = result;
 #pragma warning restore BL0005
@@ -121,8 +126,9 @@ public partial class KMLLayerView : LayerView
         }
         
         return AllVisibleMapImages;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AllVisiblePoints property.
     /// </summary>
@@ -148,9 +154,10 @@ public partial class KMLLayerView : LayerView
             return AllVisiblePoints;
         }
 
-        IReadOnlyList<Graphic>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Graphic>?>(
-            "getAllVisiblePoints", CancellationTokenSource.Token);
-        
+        IReadOnlyList<Graphic>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Graphic>?>(
+            IsServer, nameof(GetAllVisiblePoints), nameof(KMLLayerView), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             foreach (Graphic item in result)
@@ -164,8 +171,9 @@ public partial class KMLLayerView : LayerView
         }
         
         return AllVisiblePoints;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AllVisiblePolygons property.
     /// </summary>
@@ -191,9 +199,10 @@ public partial class KMLLayerView : LayerView
             return AllVisiblePolygons;
         }
 
-        IReadOnlyList<Graphic>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Graphic>?>(
-            "getAllVisiblePolygons", CancellationTokenSource.Token);
-        
+        IReadOnlyList<Graphic>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Graphic>?>(
+            IsServer, nameof(GetAllVisiblePolygons), nameof(KMLLayerView), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             foreach (Graphic item in result)
@@ -207,8 +216,9 @@ public partial class KMLLayerView : LayerView
         }
         
         return AllVisiblePolygons;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AllVisiblePolylines property.
     /// </summary>
@@ -234,9 +244,10 @@ public partial class KMLLayerView : LayerView
             return AllVisiblePolylines;
         }
 
-        IReadOnlyList<Graphic>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Graphic>?>(
-            "getAllVisiblePolylines", CancellationTokenSource.Token);
-        
+        IReadOnlyList<Graphic>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Graphic>?>(
+            IsServer, nameof(GetAllVisiblePolylines), nameof(KMLLayerView), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             foreach (Graphic item in result)
@@ -250,8 +261,9 @@ public partial class KMLLayerView : LayerView
         }
         
         return AllVisiblePolylines;
+
     }
-    
+
 #endregion
 
 }

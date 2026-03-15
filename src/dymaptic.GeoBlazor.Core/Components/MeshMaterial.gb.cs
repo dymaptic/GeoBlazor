@@ -79,7 +79,7 @@ public partial class MeshMaterial
         DoubleSided = doubleSided;
         NormalTexture = normalTexture;
         NormalTextureTransform = normalTextureTransform;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -200,19 +200,21 @@ public partial class MeshMaterial
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "alphaCutoff");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshMaterial), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "alphaCutoff");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             AlphaCutoff = result.Value.Value;
+                AlphaCutoff = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AlphaCutoff)] = AlphaCutoff;
+                ModifiedParameters[nameof(AlphaCutoff)] = AlphaCutoff;
         }
          
         return AlphaCutoff;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the AlphaMode property.
     /// </summary>
@@ -239,19 +241,21 @@ public partial class MeshMaterial
         }
 
         // get the property value
-        JsNullableEnumWrapper<AlphaMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<AlphaMode>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "alphaMode");
-        if (result is { Value: not null })
+        AlphaMode? result = await JsComponentReference!.InvokeJsMethod<AlphaMode?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshMaterial), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "alphaMode");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             AlphaMode = (AlphaMode)result.Value.Value!;
+                AlphaMode = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AlphaMode)] = AlphaMode;
+                ModifiedParameters[nameof(AlphaMode)] = AlphaMode;
         }
          
         return AlphaMode;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Color property.
     /// </summary>
@@ -278,19 +282,21 @@ public partial class MeshMaterial
         }
 
         // get the property value
-        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshMaterial), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "color");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Color = result;
+                Color = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Color)] = Color;
+                ModifiedParameters[nameof(Color)] = Color;
         }
          
         return Color;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ColorTexture property.
     /// </summary>
@@ -316,11 +322,18 @@ public partial class MeshMaterial
             return ColorTexture;
         }
 
-        MeshTexture? result = await JsComponentReference.InvokeAsync<MeshTexture?>(
-            "getColorTexture", CancellationTokenSource.Token);
-        
+        MeshTexture? result = await JsComponentReference.InvokeJsMethod<MeshTexture?>(
+            IsServer, nameof(GetColorTexture), nameof(MeshMaterial), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (ColorTexture is not null)
+            {
+                result.Id = ColorTexture.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             ColorTexture = result;
 #pragma warning restore BL0005
@@ -328,8 +341,9 @@ public partial class MeshMaterial
         }
         
         return ColorTexture;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ColorTextureTransform property.
     /// </summary>
@@ -355,11 +369,18 @@ public partial class MeshMaterial
             return ColorTextureTransform;
         }
 
-        MeshTextureTransform? result = await JsComponentReference.InvokeAsync<MeshTextureTransform?>(
-            "getColorTextureTransform", CancellationTokenSource.Token);
-        
+        MeshTextureTransform? result = await JsComponentReference.InvokeJsMethod<MeshTextureTransform?>(
+            IsServer, nameof(GetColorTextureTransform), nameof(MeshMaterial), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (ColorTextureTransform is not null)
+            {
+                result.Id = ColorTextureTransform.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             ColorTextureTransform = result;
 #pragma warning restore BL0005
@@ -367,8 +388,9 @@ public partial class MeshMaterial
         }
         
         return ColorTextureTransform;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DoubleSided property.
     /// </summary>
@@ -395,19 +417,21 @@ public partial class MeshMaterial
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "doubleSided");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshMaterial), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "doubleSided");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             DoubleSided = result.Value.Value;
+                DoubleSided = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DoubleSided)] = DoubleSided;
+                ModifiedParameters[nameof(DoubleSided)] = DoubleSided;
         }
          
         return DoubleSided;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NormalTexture property.
     /// </summary>
@@ -433,11 +457,18 @@ public partial class MeshMaterial
             return NormalTexture;
         }
 
-        MeshTexture? result = await JsComponentReference.InvokeAsync<MeshTexture?>(
-            "getNormalTexture", CancellationTokenSource.Token);
-        
+        MeshTexture? result = await JsComponentReference.InvokeJsMethod<MeshTexture?>(
+            IsServer, nameof(GetNormalTexture), nameof(MeshMaterial), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (NormalTexture is not null)
+            {
+                result.Id = NormalTexture.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             NormalTexture = result;
 #pragma warning restore BL0005
@@ -445,8 +476,9 @@ public partial class MeshMaterial
         }
         
         return NormalTexture;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NormalTextureTransform property.
     /// </summary>
@@ -472,11 +504,18 @@ public partial class MeshMaterial
             return NormalTextureTransform;
         }
 
-        MeshTextureTransform? result = await JsComponentReference.InvokeAsync<MeshTextureTransform?>(
-            "getNormalTextureTransform", CancellationTokenSource.Token);
-        
+        MeshTextureTransform? result = await JsComponentReference.InvokeJsMethod<MeshTextureTransform?>(
+            IsServer, nameof(GetNormalTextureTransform), nameof(MeshMaterial), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (NormalTextureTransform is not null)
+            {
+                result.Id = NormalTextureTransform.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             NormalTextureTransform = result;
 #pragma warning restore BL0005
@@ -484,8 +523,9 @@ public partial class MeshMaterial
         }
         
         return NormalTextureTransform;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -525,8 +565,9 @@ public partial class MeshMaterial
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "alphaCutoff", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the AlphaMode property after render.
     /// </summary>
@@ -562,8 +603,9 @@ public partial class MeshMaterial
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "alphaMode", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Color property after render.
     /// </summary>
@@ -599,8 +641,9 @@ public partial class MeshMaterial
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "color", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ColorTexture property after render.
     /// </summary>
@@ -609,11 +652,6 @@ public partial class MeshMaterial
     /// </param>
     public async Task SetColorTexture(MeshTexture? value)
     {
-        if (value is not null)
-        {
-            (value).UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         ColorTexture = value;
 #pragma warning restore BL0005
@@ -623,6 +661,11 @@ public partial class MeshMaterial
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -641,8 +684,9 @@ public partial class MeshMaterial
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "colorTexture", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ColorTextureTransform property after render.
     /// </summary>
@@ -651,11 +695,6 @@ public partial class MeshMaterial
     /// </param>
     public async Task SetColorTextureTransform(MeshTextureTransform? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         ColorTextureTransform = value;
 #pragma warning restore BL0005
@@ -665,6 +704,11 @@ public partial class MeshMaterial
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -683,8 +727,9 @@ public partial class MeshMaterial
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "colorTextureTransform", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DoubleSided property after render.
     /// </summary>
@@ -720,8 +765,9 @@ public partial class MeshMaterial
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "doubleSided", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the NormalTexture property after render.
     /// </summary>
@@ -730,11 +776,6 @@ public partial class MeshMaterial
     /// </param>
     public async Task SetNormalTexture(MeshTexture? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         NormalTexture = value;
 #pragma warning restore BL0005
@@ -744,6 +785,11 @@ public partial class MeshMaterial
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -762,8 +808,9 @@ public partial class MeshMaterial
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "normalTexture", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the NormalTextureTransform property after render.
     /// </summary>
@@ -772,11 +819,6 @@ public partial class MeshMaterial
     /// </param>
     public async Task SetNormalTextureTransform(MeshTextureTransform? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         NormalTextureTransform = value;
 #pragma warning restore BL0005
@@ -786,6 +828,11 @@ public partial class MeshMaterial
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -804,8 +851,9 @@ public partial class MeshMaterial
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "normalTextureTransform", value);
+
     }
-    
+
 #endregion
 
 }

@@ -65,7 +65,7 @@ public partial class TileInfo
         Origin = origin;
         Size = size;
         SpatialReference = spatialReference;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -151,19 +151,21 @@ public partial class TileInfo
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "dpi");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TileInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "dpi");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Dpi = result.Value.Value;
+                Dpi = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Dpi)] = Dpi;
+                ModifiedParameters[nameof(Dpi)] = Dpi;
         }
          
         return Dpi;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Format property.
     /// </summary>
@@ -190,19 +192,21 @@ public partial class TileInfo
         }
 
         // get the property value
-        JsNullableEnumWrapper<TileInfoFormat>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<TileInfoFormat>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "format");
-        if (result is { Value: not null })
+        TileInfoFormat? result = await JsComponentReference!.InvokeJsMethod<TileInfoFormat?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TileInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "format");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Format = (TileInfoFormat)result.Value.Value!;
+                Format = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Format)] = Format;
+                ModifiedParameters[nameof(Format)] = Format;
         }
          
         return Format;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IsWrappable property.
     /// </summary>
@@ -229,19 +233,21 @@ public partial class TileInfo
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "isWrappable");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TileInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "isWrappable");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             IsWrappable = result.Value.Value;
+                IsWrappable = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(IsWrappable)] = IsWrappable;
+                ModifiedParameters[nameof(IsWrappable)] = IsWrappable;
         }
          
         return IsWrappable;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Lods property.
     /// </summary>
@@ -267,11 +273,16 @@ public partial class TileInfo
             return Lods;
         }
 
-        IReadOnlyList<LOD>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<LOD>?>(
-            "getLods", CancellationTokenSource.Token);
-        
+        IReadOnlyList<LOD>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<LOD>?>(
+            IsServer, nameof(GetLods), nameof(TileInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (LOD item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             Lods = result;
 #pragma warning restore BL0005
@@ -279,8 +290,9 @@ public partial class TileInfo
         }
         
         return Lods;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Origin property.
     /// </summary>
@@ -306,9 +318,10 @@ public partial class TileInfo
             return Origin;
         }
 
-        Point? result = await JsComponentReference.InvokeAsync<Point?>(
-            "getOrigin", CancellationTokenSource.Token);
-        
+        Point? result = await JsComponentReference.InvokeJsMethod<Point?>(
+            IsServer, nameof(GetOrigin), nameof(TileInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (Origin is not null)
@@ -324,8 +337,9 @@ public partial class TileInfo
         }
         
         return Origin;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Size property.
     /// </summary>
@@ -352,19 +366,21 @@ public partial class TileInfo
         }
 
         // get the property value
-        IReadOnlyList<int>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<int>?>("getProperty",
+        IReadOnlyList<int>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<int>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TileInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "size");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Size = result;
+                Size = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Size)] = Size;
+                ModifiedParameters[nameof(Size)] = Size;
         }
          
         return Size;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
@@ -390,9 +406,10 @@ public partial class TileInfo
             return SpatialReference;
         }
 
-        SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
-            "getSpatialReference", CancellationTokenSource.Token);
-        
+        SpatialReference? result = await JsComponentReference.InvokeJsMethod<SpatialReference?>(
+            IsServer, nameof(GetSpatialReference), nameof(TileInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -402,8 +419,9 @@ public partial class TileInfo
         }
         
         return SpatialReference;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -443,8 +461,9 @@ public partial class TileInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "dpi", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Format property after render.
     /// </summary>
@@ -480,8 +499,9 @@ public partial class TileInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "format", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Lods property after render.
     /// </summary>
@@ -490,14 +510,6 @@ public partial class TileInfo
     /// </param>
     public async Task SetLods(IReadOnlyList<LOD>? value)
     {
-        if (value is not null)
-        {
-            foreach (LOD item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
 #pragma warning disable BL0005
         Lods = value;
 #pragma warning restore BL0005
@@ -507,6 +519,14 @@ public partial class TileInfo
         {
             return;
         }
+        if (value is not null)
+        {
+            foreach (LOD item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
     
         try 
         {
@@ -523,10 +543,12 @@ public partial class TileInfo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setLods", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetLods), nameof(TileInfo),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Origin property after render.
     /// </summary>
@@ -535,11 +557,6 @@ public partial class TileInfo
     /// </param>
     public async Task SetOrigin(Point? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Origin = value;
 #pragma warning restore BL0005
@@ -549,6 +566,11 @@ public partial class TileInfo
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -565,10 +587,12 @@ public partial class TileInfo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setOrigin", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetOrigin), nameof(TileInfo),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Size property after render.
     /// </summary>
@@ -604,8 +628,9 @@ public partial class TileInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "size", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SpatialReference property after render.
     /// </summary>
@@ -614,11 +639,6 @@ public partial class TileInfo
     /// </param>
     public async Task SetSpatialReference(SpatialReference? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         SpatialReference = value;
 #pragma warning restore BL0005
@@ -628,6 +648,11 @@ public partial class TileInfo
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -644,10 +669,12 @@ public partial class TileInfo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setSpatialReference", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetSpatialReference), nameof(TileInfo),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -664,6 +691,7 @@ public partial class TileInfo
             ? values
             : [..Lods, ..values];
         await SetLods(join);
+
     }
     
     /// <summary>
@@ -678,6 +706,7 @@ public partial class TileInfo
             ? values
             : [..Size, ..values];
         await SetSize(join);
+
     }
     
 #endregion
@@ -698,6 +727,7 @@ public partial class TileInfo
             return;
         }
         await SetLods(Lods.Except(values).ToArray());
+
     }
     
     
@@ -714,6 +744,7 @@ public partial class TileInfo
             return;
         }
         await SetSize(Size.Except(values).ToArray());
+
     }
     
 #endregion
@@ -751,8 +782,8 @@ public partial class TileInfo
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<int?>(
-            "scaleToZoom", 
+        return await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(ScaleToZoom), nameof(TileInfo), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             scale);
     }
@@ -788,8 +819,8 @@ public partial class TileInfo
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<double?>(
-            "zoomToScale", 
+        return await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(ZoomToScale), nameof(TileInfo), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             zoom);
     }
@@ -841,7 +872,7 @@ public partial class TileInfo
                 Lods = Lods?.Where(l => l != lods).ToList();
                 ModifiedParameters[nameof(Lods)] = Lods;
                 return true;
-            case Point _:
+            case Point:
                 Origin = null;
                 ModifiedParameters[nameof(Origin)] = Origin;
                 return true;

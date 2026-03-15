@@ -19,7 +19,7 @@ public partial record PixelBlockAddDataPlaneData(
     PixelBlockAddDataPlaneDataStatistics? Statistics = null)
 {
     /// <summary>
-    ///     Parameterless constructor
+    ///     Parameterless Constructor
     /// </summary>
     public PixelBlockAddDataPlaneData(): this(null, null)
     {

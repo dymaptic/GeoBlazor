@@ -5,7 +5,10 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMap.html">GeoBlazor Docs</a>
-///     Loads a <a target="_blank" href="https://doc.arcgis.com/en/arcgis-online/create-maps/make-your-first-map.htm">WebMap</a> from <a target="_blank" href="https://www.arcgis.com/home/">ArcGIS Online</a> or <a target="_blank" href="https://enterprise.arcgis.com/en/portal/latest/administer/windows/what-is-portal-for-arcgis-.htm">ArcGIS Enterprise portal</a> into a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>.
+///     Loads a <a target="_blank" href="https://doc.arcgis.com/en/arcgis-online/create-maps/make-your-first-map.htm">WebMap</a>
+///     from <a target="_blank" href="https://www.arcgis.com/home/">ArcGIS Online</a> or
+///     <a target="_blank" href="https://enterprise.arcgis.com/en/portal/latest/administer/windows/what-is-portal-for-arcgis-.htm">ArcGIS Enterprise portal</a>
+///     into a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class WebMap
@@ -24,23 +27,23 @@ public partial class WebMap
     /// </summary>
     /// <param name="applicationProperties">
     ///     The applicationProperties contains the viewing properties of the WebMap.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#applicationProperties">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebDocument2D.html#applicationProperties">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="authoringApp">
     ///     The name of the application that authored the WebMap.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#authoringApp">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebDocument2D.html#authoringApp">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="authoringAppVersion">
     ///     The version of the application that authored the WebMap.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#authoringAppVersion">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebDocument2D.html#authoringAppVersion">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="bookmarks">
     ///     An array of saved geographic extents that allow end users to quickly navigate to a particular area of interest.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#bookmarks">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebDocument2D.html#bookmarks">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="floorInfo">
     ///     When a web map is configured as floor-aware, it has a floorInfo property defined.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#floorInfo">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebDocument2D.html#floorInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="geotriggersInfo">
     ///     Information relating to a list of Geotriggers.
@@ -48,11 +51,11 @@ public partial class WebMap
     /// </param>
     /// <param name="initialViewProperties">
     ///     The initial view of the WebMap.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#initialViewProperties">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebDocument2D.html#initialViewProperties">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="portalItem">
-    ///     The portal item from which the WebMap is loaded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
+    /// <param name="ipsInfo">
+    ///     Contains indoor positioning system information for the map.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#ipsInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="presentation">
     ///     Provides multiple slides.
@@ -60,7 +63,7 @@ public partial class WebMap
     /// </param>
     /// <param name="thumbnailUrl">
     ///     The URL to the thumbnail used for the webmap.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#thumbnailUrl">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebDocument2D.html#thumbnailUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="utilityNetworks">
     ///     The utilityNetworks object contains a collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-networks-UtilityNetwork.html">UtilityNetworks</a> saved on the web map.
@@ -68,7 +71,7 @@ public partial class WebMap
     /// </param>
     /// <param name="widgets">
     ///     The widgets object contains widgets that are exposed to the user.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#widgets">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebDocument2D.html#widgets">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public WebMap(
         ApplicationProperties? applicationProperties = null,
@@ -78,8 +81,8 @@ public partial class WebMap
         MapFloorInfo? floorInfo = null,
         GeotriggersInfo? geotriggersInfo = null,
         InitialViewProperties? initialViewProperties = null,
-        PortalItem? portalItem = null,
-        object? presentation = null,
+        IIPSInfo? ipsInfo = null,
+        string? presentation = null,
         string? thumbnailUrl = null,
         IReadOnlyList<IUtilityNetwork>? utilityNetworks = null,
         WebMapWidgets? widgets = null)
@@ -93,63 +96,19 @@ public partial class WebMap
         FloorInfo = floorInfo;
         GeotriggersInfo = geotriggersInfo;
         InitialViewProperties = initialViewProperties;
-        PortalItem = portalItem;
+        IpsInfo = ipsInfo;
         Presentation = presentation;
         ThumbnailUrl = thumbnailUrl;
         UtilityNetworks = utilityNetworks;
         Widgets = widgets;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     The applicationProperties contains the viewing properties of the WebMap.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#applicationProperties">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ApplicationProperties? ApplicationProperties { get; set; }
-    
-    /// <summary>
-    ///     The name of the application that authored the WebMap.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#authoringApp">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? AuthoringApp { get; set; }
-    
-    /// <summary>
-    ///     The version of the application that authored the WebMap.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#authoringAppVersion">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? AuthoringAppVersion { get; set; }
-    
-    /// <summary>
-    ///     An array of saved geographic extents that allow end users to quickly navigate to a particular area of interest.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#bookmarks">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<Bookmark>? Bookmarks { get; set; }
-    
-    /// <summary>
-    ///     When a web map is configured as floor-aware, it has a floorInfo property defined.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#floorInfo">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public MapFloorInfo? FloorInfo { get; set; }
-    
-    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMap.html#webmapgeotriggersinfo-property">GeoBlazor Docs</a>
     ///     Information relating to a list of Geotriggers.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#geotriggersInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -159,54 +118,27 @@ public partial class WebMap
     public GeotriggersInfo? GeotriggersInfo { get; set; }
     
     /// <summary>
-    ///     The initial view of the WebMap.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#initialViewProperties">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMap.html#webmapipsinfo-property">GeoBlazor Docs</a>
+    ///     Contains indoor positioning system information for the map.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#ipsInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public InitialViewProperties? InitialViewProperties { get; set; }
+    public IIPSInfo? IpsInfo { get; set; }
     
     /// <summary>
-    ///     Indicates whether the instance has loaded.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#loaded">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public bool? Loaded { get; protected set; }
-    
-    /// <summary>
-    ///     The Error object returned if an error occurred while loading.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#loadError">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public Error? LoadError { get; protected set; }
-    
-    /// <summary>
-    ///     Represents the status of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#load">load</a> operation.
-    ///     default not-loaded
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#loadStatus">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public LoadStatus? LoadStatus { get; protected set; }
-    
-    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMap.html#webmappresentation-property">GeoBlazor Docs</a>
     ///     Provides multiple slides.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#presentation">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public object? Presentation { get; set; }
+    public string? Presentation { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMap.html#webmapsourceversion-property">GeoBlazor Docs</a>
     ///     The version of the source document from which the WebMap was read.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#sourceVersion">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -216,15 +148,7 @@ public partial class WebMap
     public WebMapSourceVersion? SourceVersion { get; protected set; }
     
     /// <summary>
-    ///     The URL to the thumbnail used for the webmap.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#thumbnailUrl">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? ThumbnailUrl { get; set; }
-    
-    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WebMap.html#webmaputilitynetworks-property">GeoBlazor Docs</a>
     ///     The utilityNetworks object contains a collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-networks-UtilityNetwork.html">UtilityNetworks</a> saved on the web map.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#utilityNetworks">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -233,214 +157,10 @@ public partial class WebMap
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<IUtilityNetwork>? UtilityNetworks { get; set; }
     
-    /// <summary>
-    ///     The widgets object contains widgets that are exposed to the user.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#widgets">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public WebMapWidgets? Widgets { get; set; }
-    
 #endregion
 
 #region Property Getters
 
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ApplicationProperties property.
-    /// </summary>
-    public async Task<ApplicationProperties?> GetApplicationProperties()
-    {
-        if (CoreJsModule is null)
-        {
-            return ApplicationProperties;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return ApplicationProperties;
-        }
-
-        ApplicationProperties? result = await JsComponentReference.InvokeAsync<ApplicationProperties?>(
-            "getApplicationProperties", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            ApplicationProperties = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(ApplicationProperties)] = ApplicationProperties;
-        }
-        
-        return ApplicationProperties;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the AuthoringApp property.
-    /// </summary>
-    public async Task<string?> GetAuthoringApp()
-    {
-        if (CoreJsModule is null)
-        {
-            return AuthoringApp;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return AuthoringApp;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "authoringApp");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             AuthoringApp = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(AuthoringApp)] = AuthoringApp;
-        }
-         
-        return AuthoringApp;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the AuthoringAppVersion property.
-    /// </summary>
-    public async Task<string?> GetAuthoringAppVersion()
-    {
-        if (CoreJsModule is null)
-        {
-            return AuthoringAppVersion;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return AuthoringAppVersion;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "authoringAppVersion");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             AuthoringAppVersion = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(AuthoringAppVersion)] = AuthoringAppVersion;
-        }
-         
-        return AuthoringAppVersion;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Bookmarks property.
-    /// </summary>
-    public async Task<IReadOnlyList<Bookmark>?> GetBookmarks()
-    {
-        if (CoreJsModule is null)
-        {
-            return Bookmarks;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Bookmarks;
-        }
-
-        IReadOnlyList<Bookmark>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Bookmark>?>(
-            "getBookmarks", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Bookmarks = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
-        }
-        
-        return Bookmarks;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the FloorInfo property.
-    /// </summary>
-    public async Task<MapFloorInfo?> GetFloorInfo()
-    {
-        if (CoreJsModule is null)
-        {
-            return FloorInfo;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return FloorInfo;
-        }
-
-        MapFloorInfo? result = await JsComponentReference.InvokeAsync<MapFloorInfo?>(
-            "getFloorInfo", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            FloorInfo = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(FloorInfo)] = FloorInfo;
-        }
-        
-        return FloorInfo;
-    }
-    
     /// <summary>
     ///     Asynchronously retrieve the current value of the GeotriggersInfo property.
     /// </summary>
@@ -466,9 +186,10 @@ public partial class WebMap
             return GeotriggersInfo;
         }
 
-        GeotriggersInfo? result = await JsComponentReference.InvokeAsync<GeotriggersInfo?>(
-            "getGeotriggersInfo", CancellationTokenSource.Token);
-        
+        GeotriggersInfo? result = await JsComponentReference.InvokeJsMethod<GeotriggersInfo?>(
+            IsServer, nameof(GetGeotriggersInfo), nameof(WebMap), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -478,16 +199,17 @@ public partial class WebMap
         }
         
         return GeotriggersInfo;
+
     }
-    
+
     /// <summary>
-    ///     Asynchronously retrieve the current value of the InitialViewProperties property.
+    ///     Asynchronously retrieve the current value of the IpsInfo property.
     /// </summary>
-    public async Task<InitialViewProperties?> GetInitialViewProperties()
+    public async Task<IPSInfo?> GetIpsInfo()
     {
         if (CoreJsModule is null)
         {
-            return InitialViewProperties;
+            return IpsInfo;
         }
         
         try 
@@ -502,144 +224,35 @@ public partial class WebMap
         
         if (JsComponentReference is null)
         {
-            return InitialViewProperties;
+            return IpsInfo;
         }
 
-        InitialViewProperties? result = await JsComponentReference.InvokeAsync<InitialViewProperties?>(
-            "getInitialViewProperties", CancellationTokenSource.Token);
-        
+        IPSInfo? result = await JsComponentReference.InvokeJsMethod<IPSInfo?>(
+            IsServer, nameof(GetIpsInfo), nameof(WebMap), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (IpsInfo is not null)
+            {
+                result.Id = IpsInfo.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
-            InitialViewProperties = result;
+            IpsInfo = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(InitialViewProperties)] = InitialViewProperties;
+            ModifiedParameters[nameof(IpsInfo)] = IpsInfo;
         }
         
-        return InitialViewProperties;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Loaded property.
-    /// </summary>
-    public async Task<bool?> GetLoaded()
-    {
-        if (CoreJsModule is null)
-        {
-            return Loaded;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Loaded;
-        }
+        return IpsInfo;
 
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "loaded");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             Loaded = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Loaded)] = Loaded;
-        }
-         
-        return Loaded;
     }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the LoadError property.
-    /// </summary>
-    public async Task<Error?> GetLoadError()
-    {
-        if (CoreJsModule is null)
-        {
-            return LoadError;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return LoadError;
-        }
 
-        // get the property value
-        Error? result = await JsComponentReference!.InvokeAsync<Error?>("getProperty",
-            CancellationTokenSource.Token, "loadError");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             LoadError = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(LoadError)] = LoadError;
-        }
-         
-        return LoadError;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the LoadStatus property.
-    /// </summary>
-    public async Task<LoadStatus?> GetLoadStatus()
-    {
-        if (CoreJsModule is null)
-        {
-            return LoadStatus;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return LoadStatus;
-        }
-
-        // get the property value
-        JsNullableEnumWrapper<LoadStatus>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LoadStatus>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "loadStatus");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             LoadStatus = (LoadStatus)result.Value.Value!;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(LoadStatus)] = LoadStatus;
-        }
-         
-        return LoadStatus;
-    }
-    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Presentation property.
     /// </summary>
-    public async Task<object?> GetPresentation()
+    public async Task<string?> GetPresentation()
     {
         if (CoreJsModule is null)
         {
@@ -662,19 +275,21 @@ public partial class WebMap
         }
 
         // get the property value
-        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebMap), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "presentation");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Presentation = result;
+                Presentation = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Presentation)] = Presentation;
+                ModifiedParameters[nameof(Presentation)] = Presentation;
         }
          
         return Presentation;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceVersion property.
     /// </summary>
@@ -701,58 +316,21 @@ public partial class WebMap
         }
 
         // get the property value
-        WebMapSourceVersion? result = await JsComponentReference!.InvokeAsync<WebMapSourceVersion?>("getProperty",
+        WebMapSourceVersion? result = await JsComponentReference!.InvokeJsMethod<WebMapSourceVersion?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebMap), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sourceVersion");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SourceVersion = result;
+                SourceVersion = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SourceVersion)] = SourceVersion;
+                ModifiedParameters[nameof(SourceVersion)] = SourceVersion;
         }
          
         return SourceVersion;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ThumbnailUrl property.
-    /// </summary>
-    public async Task<string?> GetThumbnailUrl()
-    {
-        if (CoreJsModule is null)
-        {
-            return ThumbnailUrl;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return ThumbnailUrl;
-        }
 
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "thumbnailUrl");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             ThumbnailUrl = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(ThumbnailUrl)] = ThumbnailUrl;
-        }
-         
-        return ThumbnailUrl;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UtilityNetworks property.
     /// </summary>
@@ -779,266 +357,25 @@ public partial class WebMap
         }
 
         // get the property value
-        IReadOnlyList<IUtilityNetwork>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<IUtilityNetwork>?>("getProperty",
+        IReadOnlyList<IUtilityNetwork>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<IUtilityNetwork>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebMap), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "utilityNetworks");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             UtilityNetworks = result;
+                UtilityNetworks = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(UtilityNetworks)] = UtilityNetworks;
+                ModifiedParameters[nameof(UtilityNetworks)] = UtilityNetworks;
         }
          
         return UtilityNetworks;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Widgets property.
-    /// </summary>
-    public async Task<WebMapWidgets?> GetWidgets()
-    {
-        if (CoreJsModule is null)
-        {
-            return Widgets;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Widgets;
-        }
 
-        WebMapWidgets? result = await JsComponentReference.InvokeAsync<WebMapWidgets?>(
-            "getWidgets", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            Widgets = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Widgets)] = Widgets;
-        }
-        
-        return Widgets;
     }
-    
+
 #endregion
 
 #region Property Setters
 
-    /// <summary>
-    ///    Asynchronously set the value of the ApplicationProperties property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetApplicationProperties(ApplicationProperties? value)
-    {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
-#pragma warning disable BL0005
-        ApplicationProperties = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ApplicationProperties)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setApplicationProperties", 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the AuthoringApp property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetAuthoringApp(string? value)
-    {
-#pragma warning disable BL0005
-        AuthoringApp = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(AuthoringApp)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "authoringApp", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the AuthoringAppVersion property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetAuthoringAppVersion(string? value)
-    {
-#pragma warning disable BL0005
-        AuthoringAppVersion = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(AuthoringAppVersion)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "authoringAppVersion", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Bookmarks property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetBookmarks(IReadOnlyList<Bookmark>? value)
-    {
-        if (value is not null)
-        {
-            foreach (Bookmark item in value)
-            {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
-            }
-        }
-        
-#pragma warning disable BL0005
-        Bookmarks = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Bookmarks)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setBookmarks", 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the FloorInfo property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetFloorInfo(MapFloorInfo? value)
-    {
-#pragma warning disable BL0005
-        FloorInfo = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(FloorInfo)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setFloorInfo", 
-            CancellationTokenSource.Token, value);
-    }
-    
     /// <summary>
     ///    Asynchronously set the value of the GeotriggersInfo property after render.
     /// </summary>
@@ -1072,28 +409,34 @@ public partial class WebMap
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setGeotriggersInfo", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetGeotriggersInfo), nameof(WebMap),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
-    ///    Asynchronously set the value of the InitialViewProperties property after render.
+    ///    Asynchronously set the value of the IpsInfo property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetInitialViewProperties(InitialViewProperties? value)
+    public async Task SetIpsInfo(IPSInfo? value)
     {
-        
 #pragma warning disable BL0005
-        InitialViewProperties = value;
+        IpsInfo = value;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(InitialViewProperties)] = value;
+        ModifiedParameters[nameof(IpsInfo)] = value;
         
         if (CoreJsModule is null)
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -1110,17 +453,19 @@ public partial class WebMap
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setInitialViewProperties", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetIpsInfo), nameof(WebMap),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Presentation property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPresentation(object? value)
+    public async Task SetPresentation(string? value)
     {
 #pragma warning disable BL0005
         Presentation = value;
@@ -1149,45 +494,9 @@ public partial class WebMap
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "presentation", value);
+
     }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the ThumbnailUrl property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetThumbnailUrl(string? value)
-    {
-#pragma warning disable BL0005
-        ThumbnailUrl = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ThumbnailUrl)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "thumbnailUrl", value);
-    }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UtilityNetworks property after render.
     /// </summary>
@@ -1223,71 +532,13 @@ public partial class WebMap
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "utilityNetworks", value);
+
     }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Widgets property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetWidgets(WebMapWidgets? value)
-    {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
-#pragma warning disable BL0005
-        Widgets = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Widgets)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setWidgets", 
-            CancellationTokenSource.Token, value);
-    }
-    
+
 #endregion
 
 #region Add to Collection Methods
 
-    /// <summary>
-    ///     Asynchronously adds elements to the Bookmarks property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to add.
-    /// </param>
-    public async Task AddToBookmarks(params Bookmark[] values)
-    {
-        Bookmark[] join = Bookmarks is null
-            ? values
-            : [..Bookmarks, ..values];
-        await SetBookmarks(join);
-    }
-    
     /// <summary>
     ///     Asynchronously adds elements to the UtilityNetworks property.
     /// </summary>
@@ -1300,28 +551,13 @@ public partial class WebMap
             ? values
             : [..UtilityNetworks, ..values];
         await SetUtilityNetworks(join);
+
     }
     
 #endregion
 
 #region Remove From Collection Methods
 
-    
-    /// <summary>
-    ///     Asynchronously remove an element from the Bookmarks property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to remove.
-    /// </param>
-    public async Task RemoveFromBookmarks(params Bookmark[] values)
-    {
-        if (Bookmarks is null)
-        {
-            return;
-        }
-        await SetBookmarks(Bookmarks.Except(values).ToArray());
-    }
-    
     
     /// <summary>
     ///     Asynchronously remove an element from the UtilityNetworks property.
@@ -1336,192 +572,7 @@ public partial class WebMap
             return;
         }
         await SetUtilityNetworks(UtilityNetworks.Except(values).ToArray());
-    }
-    
-#endregion
 
-#region Public Methods
-
-    /// <summary>
-    ///     Triggers the loading of the WebMap instance.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#load">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISMethod]
-    public async Task<object?> Load()
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<object?>(
-            "load", 
-            CancellationTokenSource.Token);
-    }
-    
-    /// <summary>
-    ///     Loads all the externally loadable resources associated with the webmap.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#loadAll">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISMethod]
-    public async Task<WebMap?> LoadAll()
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<WebMap?>(
-            "loadAll", 
-            CancellationTokenSource.Token);
-    }
-    
-    /// <summary>
-    ///     Saves the webmap to its associated portal item.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#save">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="options">
-    ///     Additional options.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<PortalItem?> Save(WebMapSaveOptions options)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<PortalItem?>(
-            "save", 
-            CancellationTokenSource.Token,
-            options);
-    }
-    
-    /// <summary>
-    ///     Saves the webmap to a new <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">portal item</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#saveAs">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="portalItem">
-    ///     The new portal item to which the webmap will be saved.
-    /// </param>
-    /// <param name="options">
-    ///     Additional save options.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<PortalItem?> SaveAs(PortalItem portalItem,
-        WebMapSaveAsOptions options)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<PortalItem?>(
-            "saveAs", 
-            CancellationTokenSource.Token,
-            portalItem,
-            options);
-    }
-    
-    /// <summary>
-    ///     Update properties of the WebMap related to the view.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#updateFrom">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="view">
-    ///     The view to update from.
-    /// </param>
-    /// <param name="options">
-    ///     Update options.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<object?> UpdateFrom(MapView view,
-        WebMapUpdateFromOptions options)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<object?>(
-            "updateFrom", 
-            CancellationTokenSource.Token,
-            view,
-            options);
     }
     
 #endregion
@@ -1532,28 +583,11 @@ public partial class WebMap
     {
         switch (child)
         {
-            case ApplicationProperties applicationProperties:
-                if (applicationProperties != ApplicationProperties)
+            case IPSInfo ipsInfo:
+                if (ipsInfo != IpsInfo)
                 {
-                    ApplicationProperties = applicationProperties;
-                    ModifiedParameters[nameof(ApplicationProperties)] = ApplicationProperties;
-                }
-                
-                return true;
-            case Bookmark bookmarks:
-                Bookmarks ??= [];
-                if (!Bookmarks.Contains(bookmarks))
-                {
-                    Bookmarks = [..Bookmarks, bookmarks];
-                    ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
-                }
-                
-                return true;
-            case WebMapWidgets widgets:
-                if (widgets != Widgets)
-                {
-                    Widgets = widgets;
-                    ModifiedParameters[nameof(Widgets)] = Widgets;
+                    IpsInfo = ipsInfo;
+                    ModifiedParameters[nameof(IpsInfo)] = IpsInfo;
                 }
                 
                 return true;
@@ -1567,17 +601,9 @@ public partial class WebMap
     {
         switch (child)
         {
-            case ApplicationProperties _:
-                ApplicationProperties = null;
-                ModifiedParameters[nameof(ApplicationProperties)] = ApplicationProperties;
-                return true;
-            case Bookmark bookmarks:
-                Bookmarks = Bookmarks?.Where(b => b != bookmarks).ToList();
-                ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
-                return true;
-            case WebMapWidgets _:
-                Widgets = null;
-                ModifiedParameters[nameof(Widgets)] = Widgets;
+            case IPSInfo:
+                IpsInfo = null;
+                ModifiedParameters[nameof(IpsInfo)] = IpsInfo;
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
@@ -1588,15 +614,7 @@ public partial class WebMap
     public override void ValidateRequiredGeneratedChildren()
     {
     
-        ApplicationProperties?.ValidateRequiredGeneratedChildren();
-        if (Bookmarks is not null)
-        {
-            foreach (Bookmark child in Bookmarks)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        Widgets?.ValidateRequiredGeneratedChildren();
+        IpsInfo?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
       

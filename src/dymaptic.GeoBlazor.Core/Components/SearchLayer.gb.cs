@@ -44,7 +44,7 @@ public partial class SearchLayer : MapComponent
         Field = field;
         SearchLayerId = searchLayerId;
         SubLayer = subLayer;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -109,11 +109,18 @@ public partial class SearchLayer : MapComponent
             return Field;
         }
 
-        SearchLayerField? result = await JsComponentReference.InvokeAsync<SearchLayerField?>(
-            "getField", CancellationTokenSource.Token);
-        
+        SearchLayerField? result = await JsComponentReference.InvokeJsMethod<SearchLayerField?>(
+            IsServer, nameof(GetField), nameof(SearchLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (Field is not null)
+            {
+                result.Id = Field.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Field = result;
 #pragma warning restore BL0005
@@ -121,8 +128,9 @@ public partial class SearchLayer : MapComponent
         }
         
         return Field;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SearchLayerId property.
     /// </summary>
@@ -149,19 +157,21 @@ public partial class SearchLayer : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "id");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SearchLayerId = result;
+                SearchLayerId = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SearchLayerId)] = SearchLayerId;
+                ModifiedParameters[nameof(SearchLayerId)] = SearchLayerId;
         }
          
         return SearchLayerId;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SubLayer property.
     /// </summary>
@@ -188,19 +198,21 @@ public partial class SearchLayer : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "subLayer");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "subLayer");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SubLayer = result.Value.Value;
+                SubLayer = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SubLayer)] = SubLayer;
+                ModifiedParameters[nameof(SubLayer)] = SubLayer;
         }
          
         return SubLayer;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -213,11 +225,6 @@ public partial class SearchLayer : MapComponent
     /// </param>
     public async Task SetField(SearchLayerField? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Field = value;
 #pragma warning restore BL0005
@@ -227,6 +234,11 @@ public partial class SearchLayer : MapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -245,8 +257,9 @@ public partial class SearchLayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SearchLayerId property after render.
     /// </summary>
@@ -282,8 +295,9 @@ public partial class SearchLayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "id", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SubLayer property after render.
     /// </summary>
@@ -319,8 +333,9 @@ public partial class SearchLayer : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "subLayer", value);
+
     }
-    
+
 #endregion
 
 
@@ -347,7 +362,7 @@ public partial class SearchLayer : MapComponent
     {
         switch (child)
         {
-            case SearchLayerField _:
+            case SearchLayerField:
                 Field = null;
                 ModifiedParameters[nameof(Field)] = Field;
                 return true;

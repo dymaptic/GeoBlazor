@@ -10,12 +10,12 @@ export default class WebDocument2DWrapper extends WebDocument2DGenerated {
     
 }
 
-export async function buildJsWebDocument2D(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsWebDocument2D(dotNetObject: any): Promise<any> {
     let { buildJsWebDocument2DGenerated } = await import('./webDocument2D.gb');
-    return await buildJsWebDocument2DGenerated(dotNetObject, layerId, viewId);
+    return buildJsWebDocument2DGenerated(dotNetObject);
 }     
 
-export async function buildDotNetWebDocument2D(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetWebDocument2D(jsObject: any): Promise<any> {
     let { buildDotNetWebDocument2DGenerated } = await import('./webDocument2D.gb');
-    return await buildDotNetWebDocument2DGenerated(jsObject);
+    return buildDotNetWebDocument2DGenerated(jsObject);
 }

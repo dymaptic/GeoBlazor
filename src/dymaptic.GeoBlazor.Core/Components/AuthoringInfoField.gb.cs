@@ -51,7 +51,7 @@ public partial class AuthoringInfoField
         Field = field;
         Label = label;
         NormalizationField = normalizationField;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -126,11 +126,16 @@ public partial class AuthoringInfoField
             return ClassBreakInfos;
         }
 
-        IReadOnlyList<AuthoringInfoField1ClassBreakInfos>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<AuthoringInfoField1ClassBreakInfos>?>(
-            "getClassBreakInfos", CancellationTokenSource.Token);
-        
+        IReadOnlyList<AuthoringInfoField1ClassBreakInfos>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<AuthoringInfoField1ClassBreakInfos>?>(
+            IsServer, nameof(GetClassBreakInfos), nameof(AuthoringInfoField), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (AuthoringInfoField1ClassBreakInfos item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             ClassBreakInfos = result;
 #pragma warning restore BL0005
@@ -138,8 +143,9 @@ public partial class AuthoringInfoField
         }
         
         return ClassBreakInfos;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Field property.
     /// </summary>
@@ -166,19 +172,21 @@ public partial class AuthoringInfoField
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfoField), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "field");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Field = result;
+                Field = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Field)] = Field;
+                ModifiedParameters[nameof(Field)] = Field;
         }
          
         return Field;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Label property.
     /// </summary>
@@ -205,19 +213,21 @@ public partial class AuthoringInfoField
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfoField), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "label");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Label = result;
+                Label = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Label)] = Label;
+                ModifiedParameters[nameof(Label)] = Label;
         }
          
         return Label;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NormalizationField property.
     /// </summary>
@@ -244,19 +254,21 @@ public partial class AuthoringInfoField
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfoField), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "normalizationField");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             NormalizationField = result;
+                NormalizationField = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(NormalizationField)] = NormalizationField;
+                ModifiedParameters[nameof(NormalizationField)] = NormalizationField;
         }
          
         return NormalizationField;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -269,14 +281,6 @@ public partial class AuthoringInfoField
     /// </param>
     public async Task SetClassBreakInfos(IReadOnlyList<AuthoringInfoField1ClassBreakInfos>? value)
     {
-        if (value is not null)
-        {
-            foreach (AuthoringInfoField1ClassBreakInfos item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
 #pragma warning disable BL0005
         ClassBreakInfos = value;
 #pragma warning restore BL0005
@@ -286,6 +290,14 @@ public partial class AuthoringInfoField
         {
             return;
         }
+        if (value is not null)
+        {
+            foreach (AuthoringInfoField1ClassBreakInfos item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
     
         try 
         {
@@ -304,8 +316,9 @@ public partial class AuthoringInfoField
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "classBreakInfos", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Field property after render.
     /// </summary>
@@ -341,8 +354,9 @@ public partial class AuthoringInfoField
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Label property after render.
     /// </summary>
@@ -378,8 +392,9 @@ public partial class AuthoringInfoField
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "label", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the NormalizationField property after render.
     /// </summary>
@@ -415,8 +430,9 @@ public partial class AuthoringInfoField
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "normalizationField", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -433,6 +449,7 @@ public partial class AuthoringInfoField
             ? values
             : [..ClassBreakInfos, ..values];
         await SetClassBreakInfos(join);
+
     }
     
 #endregion
@@ -453,6 +470,7 @@ public partial class AuthoringInfoField
             return;
         }
         await SetClassBreakInfos(ClassBreakInfos.Except(values).ToArray());
+
     }
     
 #endregion

@@ -50,7 +50,7 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
         Width = width;
         X = x;
         Y = y;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -126,19 +126,21 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "height");
-        if (result is { Value: not null })
+        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarkOptionsScreenshotSettingsArea), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "height");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Height = result.Value.Value;
+                Height = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Height)] = Height;
+                ModifiedParameters[nameof(Height)] = Height;
         }
          
         return Height;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Width property.
     /// </summary>
@@ -165,19 +167,21 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "width");
-        if (result is { Value: not null })
+        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarkOptionsScreenshotSettingsArea), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "width");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Width = result.Value.Value;
+                Width = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Width)] = Width;
+                ModifiedParameters[nameof(Width)] = Width;
         }
          
         return Width;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the X property.
     /// </summary>
@@ -204,19 +208,21 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "x");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarkOptionsScreenshotSettingsArea), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "x");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             X = result.Value.Value;
+                X = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(X)] = X;
+                ModifiedParameters[nameof(X)] = X;
         }
          
         return X;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Y property.
     /// </summary>
@@ -243,19 +249,21 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "y");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarkOptionsScreenshotSettingsArea), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "y");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Y = result.Value.Value;
+                Y = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Y)] = Y;
+                ModifiedParameters[nameof(Y)] = Y;
         }
          
         return Y;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -295,8 +303,9 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "height", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Width property after render.
     /// </summary>
@@ -332,8 +341,9 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "width", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the X property after render.
     /// </summary>
@@ -369,8 +379,9 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "x", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Y property after render.
     /// </summary>
@@ -406,8 +417,9 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "y", value);
+
     }
-    
+
 #endregion
 
 }

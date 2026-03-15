@@ -9,11 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Events;
 /// <param name="Error">
 ///     The Error object that occurred while locating.
 /// </param>
-/// <param name="StringError">
-///     The Error object that occurred while locating.
-/// </param>
 public partial record LocateViewModelLocateErrorEvent(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    Error? Error = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? StringError = null);
+    Error? Error = null);

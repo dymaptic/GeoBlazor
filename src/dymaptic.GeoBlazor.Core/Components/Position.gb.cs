@@ -38,7 +38,7 @@ public partial class Position : MapComponent
 #pragma warning disable BL0005
         Coordinate = coordinate;
         Location = location;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -94,19 +94,21 @@ public partial class Position : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Position), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "coordinate");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Coordinate = result;
+                Coordinate = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Coordinate)] = Coordinate;
+                ModifiedParameters[nameof(Coordinate)] = Coordinate;
         }
          
         return Coordinate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Location property.
     /// </summary>
@@ -132,9 +134,10 @@ public partial class Position : MapComponent
             return Location;
         }
 
-        Point? result = await JsComponentReference.InvokeAsync<Point?>(
-            "getLocation", CancellationTokenSource.Token);
-        
+        Point? result = await JsComponentReference.InvokeJsMethod<Point?>(
+            IsServer, nameof(GetLocation), nameof(Position), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (Location is not null)
@@ -150,8 +153,9 @@ public partial class Position : MapComponent
         }
         
         return Location;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -191,8 +195,9 @@ public partial class Position : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "coordinate", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Location property after render.
     /// </summary>
@@ -201,11 +206,6 @@ public partial class Position : MapComponent
     /// </param>
     public async Task SetLocation(Point? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Location = value;
 #pragma warning restore BL0005
@@ -215,6 +215,11 @@ public partial class Position : MapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -233,8 +238,9 @@ public partial class Position : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "location", value);
+
     }
-    
+
 #endregion
 
 
@@ -261,7 +267,7 @@ public partial class Position : MapComponent
     {
         switch (child)
         {
-            case Point _:
+            case Point:
                 Location = null;
                 ModifiedParameters[nameof(Location)] = Location;
                 return true;

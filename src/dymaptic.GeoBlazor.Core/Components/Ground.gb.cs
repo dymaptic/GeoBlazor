@@ -11,7 +11,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class Ground : MapComponent,
     IIntersectItem,
-    ILayerParent,
     IMeshUtilsSource
 {
 
@@ -151,9 +150,9 @@ public partial class Ground : MapComponent,
         }
 
         IReadOnlyList<Layer>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Layer>?>(
-            IsServer, nameof(GetLayers), nameof(Ground), View?.QueryResultsMaxSizeLimit, 
+            IsServer, nameof(GetLayers), nameof(Ground), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
             foreach (Layer item in result)
@@ -237,9 +236,9 @@ public partial class Ground : MapComponent,
         }
 
         GroundNavigationConstraint? result = await JsComponentReference.InvokeJsMethod<GroundNavigationConstraint?>(
-            IsServer, nameof(GetNavigationConstraint), nameof(Ground), View?.QueryResultsMaxSizeLimit, 
+            IsServer, nameof(GetNavigationConstraint), nameof(Ground), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token);
-        
+
         if (result is not null)
         {
             if (NavigationConstraint is not null)

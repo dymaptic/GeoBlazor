@@ -38,7 +38,7 @@ public partial class ImageMediaInfoValue
 #pragma warning disable BL0005
         LinkURL = linkURL;
         SourceURL = sourceURL;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -70,19 +70,21 @@ public partial class ImageMediaInfoValue
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageMediaInfoValue), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "linkURL");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LinkURL = result;
+                LinkURL = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LinkURL)] = LinkURL;
+                ModifiedParameters[nameof(LinkURL)] = LinkURL;
         }
          
         return LinkURL;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceURL property.
     /// </summary>
@@ -109,19 +111,21 @@ public partial class ImageMediaInfoValue
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageMediaInfoValue), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sourceURL");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SourceURL = result;
+                SourceURL = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SourceURL)] = SourceURL;
+                ModifiedParameters[nameof(SourceURL)] = SourceURL;
         }
          
         return SourceURL;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -161,8 +165,9 @@ public partial class ImageMediaInfoValue
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "linkURL", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SourceURL property after render.
     /// </summary>
@@ -198,8 +203,9 @@ public partial class ImageMediaInfoValue
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "sourceURL", value);
+
     }
-    
+
 #endregion
 
 }

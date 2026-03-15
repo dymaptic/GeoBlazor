@@ -44,7 +44,7 @@ public partial class RotationVariable
     /// </param>
     /// <param name="legendOptions">
     ///     An object providing options for displaying the visual variable in
-    ///     the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-legend/">Legend</a>.
+    ///     the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#legendOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="valueExpression">
@@ -73,7 +73,7 @@ public partial class RotationVariable
         LegendOptions = legendOptions;
         ValueExpression = valueExpression;
         ValueExpressionTitle = valueExpressionTitle;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -120,19 +120,21 @@ public partial class RotationVariable
         }
 
         // get the property value
-        JsNullableEnumWrapper<Axis>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Axis>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "axis");
-        if (result is { Value: not null })
+        Axis? result = await JsComponentReference!.InvokeJsMethod<Axis?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RotationVariable), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "axis");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Axis = (Axis)result.Value.Value!;
+                Axis = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Axis)] = Axis;
+                ModifiedParameters[nameof(Axis)] = Axis;
         }
          
         return Axis;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RotationType property.
     /// </summary>
@@ -159,19 +161,21 @@ public partial class RotationVariable
         }
 
         // get the property value
-        JsNullableEnumWrapper<RotationType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<RotationType>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "rotationType");
-        if (result is { Value: not null })
+        RotationType? result = await JsComponentReference!.InvokeJsMethod<RotationType?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RotationVariable), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "rotationType");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             RotationType = (RotationType)result.Value.Value!;
+                RotationType = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RotationType)] = RotationType;
+                ModifiedParameters[nameof(RotationType)] = RotationType;
         }
          
         return RotationType;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -211,8 +215,9 @@ public partial class RotationVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "axis", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RotationType property after render.
     /// </summary>
@@ -248,8 +253,9 @@ public partial class RotationVariable
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rotationType", value);
+
     }
-    
+
 #endregion
 
 }

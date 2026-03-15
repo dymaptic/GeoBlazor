@@ -93,7 +93,7 @@ public partial class TrackInfo : MapComponent
         PreviousObservations = previousObservations;
         TimeField = timeField;
         TrackLines = trackLines;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -236,19 +236,21 @@ public partial class TrackInfo : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "enabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TrackInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "enabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Enabled = result.Value.Value;
+                Enabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Enabled)] = Enabled;
+                ModifiedParameters[nameof(Enabled)] = Enabled;
         }
          
         return Enabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Fields property.
     /// </summary>
@@ -274,11 +276,16 @@ public partial class TrackInfo : MapComponent
             return Fields;
         }
 
-        IReadOnlyList<AggregateField>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<AggregateField>?>(
-            "getFields", CancellationTokenSource.Token);
-        
+        IReadOnlyList<AggregateField>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<AggregateField>?>(
+            IsServer, nameof(GetFields), nameof(TrackInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (AggregateField item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             Fields = result;
 #pragma warning restore BL0005
@@ -286,8 +293,9 @@ public partial class TrackInfo : MapComponent
         }
         
         return Fields;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LatestObservations property.
     /// </summary>
@@ -313,11 +321,18 @@ public partial class TrackInfo : MapComponent
             return LatestObservations;
         }
 
-        TrackPartInfo? result = await JsComponentReference.InvokeAsync<TrackPartInfo?>(
-            "getLatestObservations", CancellationTokenSource.Token);
-        
+        TrackPartInfo? result = await JsComponentReference.InvokeJsMethod<TrackPartInfo?>(
+            IsServer, nameof(GetLatestObservations), nameof(TrackInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (LatestObservations is not null)
+            {
+                result.Id = LatestObservations.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             LatestObservations = result;
 #pragma warning restore BL0005
@@ -325,8 +340,9 @@ public partial class TrackInfo : MapComponent
         }
         
         return LatestObservations;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxDisplayDuration property.
     /// </summary>
@@ -352,11 +368,18 @@ public partial class TrackInfo : MapComponent
             return MaxDisplayDuration;
         }
 
-        TimeInterval? result = await JsComponentReference.InvokeAsync<TimeInterval?>(
-            "getMaxDisplayDuration", CancellationTokenSource.Token);
-        
+        TimeInterval? result = await JsComponentReference.InvokeJsMethod<TimeInterval?>(
+            IsServer, nameof(GetMaxDisplayDuration), nameof(TrackInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (MaxDisplayDuration is not null)
+            {
+                result.Id = MaxDisplayDuration.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             MaxDisplayDuration = result;
 #pragma warning restore BL0005
@@ -364,8 +387,9 @@ public partial class TrackInfo : MapComponent
         }
         
         return MaxDisplayDuration;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxDisplayObservationsPerTrack property.
     /// </summary>
@@ -392,19 +416,21 @@ public partial class TrackInfo : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "maxDisplayObservationsPerTrack");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TrackInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "maxDisplayObservationsPerTrack");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             MaxDisplayObservationsPerTrack = result.Value.Value;
+                MaxDisplayObservationsPerTrack = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MaxDisplayObservationsPerTrack)] = MaxDisplayObservationsPerTrack;
+                ModifiedParameters[nameof(MaxDisplayObservationsPerTrack)] = MaxDisplayObservationsPerTrack;
         }
          
         return MaxDisplayObservationsPerTrack;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupEnabled property.
     /// </summary>
@@ -431,19 +457,21 @@ public partial class TrackInfo : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "popupEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TrackInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "popupEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             PopupEnabled = result.Value.Value;
+                PopupEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
+                ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
         }
          
         return PopupEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupTemplate property.
     /// </summary>
@@ -469,11 +497,18 @@ public partial class TrackInfo : MapComponent
             return PopupTemplate;
         }
 
-        PopupTemplate? result = await JsComponentReference.InvokeAsync<PopupTemplate?>(
-            "getPopupTemplate", CancellationTokenSource.Token);
-        
+        PopupTemplate? result = await JsComponentReference.InvokeJsMethod<PopupTemplate?>(
+            IsServer, nameof(GetPopupTemplate), nameof(TrackInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (PopupTemplate is not null)
+            {
+                result.Id = PopupTemplate.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             PopupTemplate = result;
 #pragma warning restore BL0005
@@ -481,8 +516,9 @@ public partial class TrackInfo : MapComponent
         }
         
         return PopupTemplate;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PreviousObservations property.
     /// </summary>
@@ -508,11 +544,18 @@ public partial class TrackInfo : MapComponent
             return PreviousObservations;
         }
 
-        TrackPartInfo? result = await JsComponentReference.InvokeAsync<TrackPartInfo?>(
-            "getPreviousObservations", CancellationTokenSource.Token);
-        
+        TrackPartInfo? result = await JsComponentReference.InvokeJsMethod<TrackPartInfo?>(
+            IsServer, nameof(GetPreviousObservations), nameof(TrackInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (PreviousObservations is not null)
+            {
+                result.Id = PreviousObservations.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             PreviousObservations = result;
 #pragma warning restore BL0005
@@ -520,8 +563,9 @@ public partial class TrackInfo : MapComponent
         }
         
         return PreviousObservations;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TimeField property.
     /// </summary>
@@ -548,19 +592,21 @@ public partial class TrackInfo : MapComponent
         }
 
         // get the property value
-        JsNullableEnumWrapper<TimeField>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<TimeField>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "timeField");
-        if (result is { Value: not null })
+        TimeField? result = await JsComponentReference!.InvokeJsMethod<TimeField?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TrackInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "timeField");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             TimeField = (TimeField)result.Value.Value!;
+                TimeField = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TimeField)] = TimeField;
+                ModifiedParameters[nameof(TimeField)] = TimeField;
         }
          
         return TimeField;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the TrackLines property.
     /// </summary>
@@ -586,11 +632,18 @@ public partial class TrackInfo : MapComponent
             return TrackLines;
         }
 
-        TrackPartInfo? result = await JsComponentReference.InvokeAsync<TrackPartInfo?>(
-            "getTrackLines", CancellationTokenSource.Token);
-        
+        TrackPartInfo? result = await JsComponentReference.InvokeJsMethod<TrackPartInfo?>(
+            IsServer, nameof(GetTrackLines), nameof(TrackInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (TrackLines is not null)
+            {
+                result.Id = TrackLines.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             TrackLines = result;
 #pragma warning restore BL0005
@@ -598,8 +651,9 @@ public partial class TrackInfo : MapComponent
         }
         
         return TrackLines;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -639,8 +693,9 @@ public partial class TrackInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "enabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Fields property after render.
     /// </summary>
@@ -649,14 +704,6 @@ public partial class TrackInfo : MapComponent
     /// </param>
     public async Task SetFields(IReadOnlyList<AggregateField>? value)
     {
-        if (value is not null)
-        {
-            foreach (AggregateField item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
 #pragma warning disable BL0005
         Fields = value;
 #pragma warning restore BL0005
@@ -666,6 +713,14 @@ public partial class TrackInfo : MapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            foreach (AggregateField item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
     
         try 
         {
@@ -684,8 +739,9 @@ public partial class TrackInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "fields", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LatestObservations property after render.
     /// </summary>
@@ -694,11 +750,6 @@ public partial class TrackInfo : MapComponent
     /// </param>
     public async Task SetLatestObservations(TrackPartInfo? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         LatestObservations = value;
 #pragma warning restore BL0005
@@ -708,6 +759,11 @@ public partial class TrackInfo : MapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -726,8 +782,9 @@ public partial class TrackInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "latestObservations", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxDisplayDuration property after render.
     /// </summary>
@@ -736,11 +793,6 @@ public partial class TrackInfo : MapComponent
     /// </param>
     public async Task SetMaxDisplayDuration(TimeInterval? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         MaxDisplayDuration = value;
 #pragma warning restore BL0005
@@ -750,6 +802,11 @@ public partial class TrackInfo : MapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -768,8 +825,9 @@ public partial class TrackInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxDisplayDuration", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxDisplayObservationsPerTrack property after render.
     /// </summary>
@@ -805,8 +863,9 @@ public partial class TrackInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxDisplayObservationsPerTrack", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
@@ -842,8 +901,9 @@ public partial class TrackInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupTemplate property after render.
     /// </summary>
@@ -852,11 +912,6 @@ public partial class TrackInfo : MapComponent
     /// </param>
     public async Task SetPopupTemplate(PopupTemplate? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         PopupTemplate = value;
 #pragma warning restore BL0005
@@ -866,6 +921,11 @@ public partial class TrackInfo : MapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -884,8 +944,9 @@ public partial class TrackInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupTemplate", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PreviousObservations property after render.
     /// </summary>
@@ -894,11 +955,6 @@ public partial class TrackInfo : MapComponent
     /// </param>
     public async Task SetPreviousObservations(TrackPartInfo? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         PreviousObservations = value;
 #pragma warning restore BL0005
@@ -908,6 +964,11 @@ public partial class TrackInfo : MapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -926,8 +987,9 @@ public partial class TrackInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "previousObservations", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TimeField property after render.
     /// </summary>
@@ -963,8 +1025,9 @@ public partial class TrackInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "timeField", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the TrackLines property after render.
     /// </summary>
@@ -973,11 +1036,6 @@ public partial class TrackInfo : MapComponent
     /// </param>
     public async Task SetTrackLines(TrackPartInfo? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         TrackLines = value;
 #pragma warning restore BL0005
@@ -987,6 +1045,11 @@ public partial class TrackInfo : MapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -1005,8 +1068,9 @@ public partial class TrackInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "trackLines", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -1023,6 +1087,7 @@ public partial class TrackInfo : MapComponent
             ? values
             : [..Fields, ..values];
         await SetFields(join);
+
     }
     
 #endregion
@@ -1043,6 +1108,7 @@ public partial class TrackInfo : MapComponent
             return;
         }
         await SetFields(Fields.Except(values).ToArray());
+
     }
     
 #endregion
@@ -1092,7 +1158,7 @@ public partial class TrackInfo : MapComponent
                 Fields = Fields?.Where(f => f != fields).ToList();
                 ModifiedParameters[nameof(Fields)] = Fields;
                 return true;
-            case TimeInterval _:
+            case TimeInterval:
                 MaxDisplayDuration = null;
                 ModifiedParameters[nameof(MaxDisplayDuration)] = MaxDisplayDuration;
                 return true;

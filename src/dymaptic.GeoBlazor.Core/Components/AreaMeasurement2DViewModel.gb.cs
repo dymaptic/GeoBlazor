@@ -45,7 +45,7 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
         SnappingOptions = snappingOptions;
         Unit = unit;
         UnitOptions = unitOptions;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -141,11 +141,18 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
             return Measurement;
         }
 
-        AreaMeasurement2DViewModelMeasurement? result = await JsComponentReference.InvokeAsync<AreaMeasurement2DViewModelMeasurement?>(
-            "getMeasurement", CancellationTokenSource.Token);
-        
+        AreaMeasurement2DViewModelMeasurement? result = await JsComponentReference.InvokeJsMethod<AreaMeasurement2DViewModelMeasurement?>(
+            IsServer, nameof(GetMeasurement), nameof(AreaMeasurement2DViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (Measurement is not null)
+            {
+                result.Id = Measurement.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Measurement = result;
 #pragma warning restore BL0005
@@ -153,8 +160,9 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
         }
         
         return Measurement;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MeasurementLabel property.
     /// </summary>
@@ -180,11 +188,18 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
             return MeasurementLabel;
         }
 
-        AreaMeasurement2DViewModelMeasurementLabel? result = await JsComponentReference.InvokeAsync<AreaMeasurement2DViewModelMeasurementLabel?>(
-            "getMeasurementLabel", CancellationTokenSource.Token);
-        
+        AreaMeasurement2DViewModelMeasurementLabel? result = await JsComponentReference.InvokeJsMethod<AreaMeasurement2DViewModelMeasurementLabel?>(
+            IsServer, nameof(GetMeasurementLabel), nameof(AreaMeasurement2DViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (MeasurementLabel is not null)
+            {
+                result.Id = MeasurementLabel.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             MeasurementLabel = result;
 #pragma warning restore BL0005
@@ -192,8 +207,9 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
         }
         
         return MeasurementLabel;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SnappingOptions property.
     /// </summary>
@@ -219,20 +235,28 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
             return SnappingOptions;
         }
 
-        SnappingOptions? result = await JsComponentReference.InvokeAsync<SnappingOptions?>(
-            "getSnappingOptions", CancellationTokenSource.Token);
-        
+        SnappingOptions? result = await JsComponentReference.InvokeJsMethod<SnappingOptions?>(
+            IsServer, nameof(GetSnappingOptions), nameof(AreaMeasurement2DViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (SnappingOptions is not null)
+            {
+                result.Id = SnappingOptions.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
-            SnappingOptions = result;
+            SnappingOptions = (SnappingOptions)result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(SnappingOptions)] = SnappingOptions;
         }
         
         return SnappingOptions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
@@ -259,19 +283,21 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
         }
 
         // get the property value
-        JsNullableEnumWrapper<MeasurementViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<MeasurementViewModelState>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "state");
-        if (result is { Value: not null })
+        MeasurementViewModelState? result = await JsComponentReference!.InvokeJsMethod<MeasurementViewModelState?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AreaMeasurement2DViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "state");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             State = (MeasurementViewModelState)result.Value.Value!;
+                State = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(State)] = State;
+                ModifiedParameters[nameof(State)] = State;
         }
          
         return State;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Unit property.
     /// </summary>
@@ -298,19 +324,21 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
         }
 
         // get the property value
-        JsNullableEnumWrapper<SystemOrAreaUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SystemOrAreaUnit>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "unit");
-        if (result is { Value: not null })
+        SystemOrAreaUnit? result = await JsComponentReference!.InvokeJsMethod<SystemOrAreaUnit?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AreaMeasurement2DViewModel), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "unit");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Unit = (SystemOrAreaUnit)result.Value.Value!;
+                Unit = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Unit)] = Unit;
+                ModifiedParameters[nameof(Unit)] = Unit;
         }
          
         return Unit;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UnitOptions property.
     /// </summary>
@@ -337,19 +365,21 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
         }
 
         // get the property value
-        IReadOnlyList<SystemOrAreaUnit>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SystemOrAreaUnit>?>("getProperty",
+        IReadOnlyList<SystemOrAreaUnit>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<SystemOrAreaUnit>?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AreaMeasurement2DViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "unitOptions");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             UnitOptions = result;
+                UnitOptions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(UnitOptions)] = UnitOptions;
+                ModifiedParameters[nameof(UnitOptions)] = UnitOptions;
         }
          
         return UnitOptions;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -362,8 +392,6 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
     /// </param>
     public async Task SetSnappingOptions(SnappingOptions value)
     {
-        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        
 #pragma warning disable BL0005
         SnappingOptions = value;
 #pragma warning restore BL0005
@@ -373,6 +401,8 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
         {
             return;
         }
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        
     
         try 
         {
@@ -389,10 +419,12 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setSnappingOptions", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetSnappingOptions), nameof(AreaMeasurement2DViewModel),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Unit property after render.
     /// </summary>
@@ -428,8 +460,9 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "unit", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UnitOptions property after render.
     /// </summary>
@@ -465,8 +498,9 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "unitOptions", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -483,6 +517,7 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
             ? values
             : [..UnitOptions, ..values];
         await SetUnitOptions(join);
+
     }
     
 #endregion
@@ -503,6 +538,7 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
             return;
         }
         await SetUnitOptions(UnitOptions.Except(values).ToArray());
+
     }
     
 #endregion
@@ -537,8 +573,14 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference!.InvokeVoidAsync(
-            "clear", 
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(Clear), nameof(AreaMeasurement2DViewModel), 
             CancellationTokenSource.Token);
     }
     
@@ -570,8 +612,14 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference!.InvokeVoidAsync(
-            "start", 
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(Start), nameof(AreaMeasurement2DViewModel), 
             CancellationTokenSource.Token);
     }
     

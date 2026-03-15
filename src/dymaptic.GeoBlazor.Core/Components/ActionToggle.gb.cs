@@ -4,8 +4,11 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    A customizable toggle used in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget that performs a specific action(s) which can be toggled on/off.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ActionToggle.html">GeoBlazor Docs</a>
+///     A customizable toggle used in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget
+///     that performs a specific action(s) which can be toggled
+///     on/off.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class ActionToggle
 {
@@ -27,9 +30,7 @@ public partial class ActionToggle
     /// </param>
     /// <param name="actionId">
     ///     The name of the ID assigned to this action.
-    /// </param>
-    /// <param name="callbackFunction">
-    ///     The action function to perform on click.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionBase.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="value">
     ///     Indicates the value of whether the action is toggled on/off.
@@ -48,9 +49,12 @@ public partial class ActionToggle
     /// </param>
     /// <param name="visible">
     ///     Indicates if the action is visible.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionBase.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="className">
-    ///     This adds a CSS class to the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">ActionButton's</a> node.
+    ///     This adds a CSS class to the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">ActionButton's</a>
+    ///     node.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionBase.html#className">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="icon">
@@ -61,7 +65,6 @@ public partial class ActionToggle
     public ActionToggle(
         string? title = null,
         string? actionId = null,
-        Func<Task>? callbackFunction = null,
         bool? value = null,
         bool? active = null,
         bool? disabled = null,
@@ -72,24 +75,14 @@ public partial class ActionToggle
         AllowRender = false;
 #pragma warning disable BL0005
         Title = title;
-        if (actionId is not null)
-        {
-            ActionId = actionId;
-        }
-        if (callbackFunction is not null)
-        {
-            CallbackFunction = callbackFunction;
-        }
+        ActionId = actionId;
         Value = value;
         Active = active;
         Disabled = disabled;
-        if (visible is not null)
-        {
-            Visible = visible.Value;
-        }
+        Visible = visible;
         ClassName = className;
         Icon = icon;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -104,27 +97,38 @@ public partial class ActionToggle
         {
             return Value;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return Value;
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "value");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActionToggle), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "value");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Value = result.Value.Value;
+                Value = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Value)] = Value;
+                ModifiedParameters[nameof(Value)] = Value;
         }
          
         return Value;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -135,7 +139,7 @@ public partial class ActionToggle
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValue(bool value)
+    public async Task SetValue(bool? value)
     {
 #pragma warning disable BL0005
         Value = value;
@@ -147,8 +151,15 @@ public partial class ActionToggle
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
@@ -157,8 +168,9 @@ public partial class ActionToggle
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value", value);
+
     }
-    
+
 #endregion
 
 }

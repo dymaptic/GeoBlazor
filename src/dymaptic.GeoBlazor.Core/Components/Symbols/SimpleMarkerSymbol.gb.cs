@@ -83,7 +83,7 @@ public partial class SimpleMarkerSymbol : ISymbol2D,
         Xoffset = xoffset;
         Yoffset = yoffset;
         Path = path;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -139,19 +139,21 @@ public partial class SimpleMarkerSymbol : ISymbol2D,
         }
 
         // get the property value
-        Outline? result = await JsComponentReference!.InvokeAsync<Outline?>("getProperty",
+        Outline? result = await JsComponentReference!.InvokeJsMethod<Outline?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SimpleMarkerSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "outline");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Outline = result;
+                Outline = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Outline)] = Outline;
+                ModifiedParameters[nameof(Outline)] = Outline;
         }
          
         return Outline;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Path property.
     /// </summary>
@@ -178,19 +180,21 @@ public partial class SimpleMarkerSymbol : ISymbol2D,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SimpleMarkerSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "path");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Path = result;
+                Path = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Path)] = Path;
+                ModifiedParameters[nameof(Path)] = Path;
         }
          
         return Path;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Size property.
     /// </summary>
@@ -217,19 +221,21 @@ public partial class SimpleMarkerSymbol : ISymbol2D,
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SimpleMarkerSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "size");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Size = result;
+                Size = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Size)] = Size;
+                ModifiedParameters[nameof(Size)] = Size;
         }
          
         return Size;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Style property.
     /// </summary>
@@ -256,19 +262,21 @@ public partial class SimpleMarkerSymbol : ISymbol2D,
         }
 
         // get the property value
-        JsNullableEnumWrapper<SimpleMarkerSymbolStyle>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SimpleMarkerSymbolStyle>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "style");
-        if (result is { Value: not null })
+        SimpleMarkerSymbolStyle? result = await JsComponentReference!.InvokeJsMethod<SimpleMarkerSymbolStyle?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SimpleMarkerSymbol), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "style");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Style = (SimpleMarkerSymbolStyle)result.Value.Value!;
+                Style = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Style)] = Style;
+                ModifiedParameters[nameof(Style)] = Style;
         }
          
         return Style;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -308,8 +316,9 @@ public partial class SimpleMarkerSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outline", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Path property after render.
     /// </summary>
@@ -345,8 +354,9 @@ public partial class SimpleMarkerSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "path", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Size property after render.
     /// </summary>
@@ -382,8 +392,9 @@ public partial class SimpleMarkerSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "size", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Style property after render.
     /// </summary>
@@ -419,8 +430,9 @@ public partial class SimpleMarkerSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "style", value);
+
     }
-    
+
 #endregion
 
 

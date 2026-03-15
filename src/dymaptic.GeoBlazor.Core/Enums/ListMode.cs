@@ -11,7 +11,6 @@ public enum ListMode
 {
 #pragma warning disable CS1591
     Show,
-    Hide,
-    HideChildren
+    Hide
 #pragma warning restore CS1591
 }

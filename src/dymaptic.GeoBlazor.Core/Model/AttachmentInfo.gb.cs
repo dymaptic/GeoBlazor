@@ -16,9 +16,6 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     The global identifier for the attachment.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query-support-AttachmentInfo.html#globalId">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="Id">
-///     The identifier for the attachment.
-/// </param>
 /// <param name="Keywords">
 ///     Keywords used for the attachments.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query-support-AttachmentInfo.html#keywords">ArcGIS Maps SDK for JavaScript</a>
@@ -58,7 +55,6 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public partial record AttachmentInfo(
     string ContentType,
     string GlobalId,
-    long Id,
     string Keywords,
     string Name,
     OrientationInfo OrientationInfo,

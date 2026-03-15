@@ -75,7 +75,7 @@ public partial class SnappingOptions
         FeatureSources = featureSources;
         GridEnabled = gridEnabled;
         SelfEnabled = selfEnabled;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -143,19 +143,21 @@ public partial class SnappingOptions
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "attributeRulesEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SnappingOptions), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "attributeRulesEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             AttributeRulesEnabled = result.Value.Value;
+                AttributeRulesEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AttributeRulesEnabled)] = AttributeRulesEnabled;
+                ModifiedParameters[nameof(AttributeRulesEnabled)] = AttributeRulesEnabled;
         }
          
         return AttributeRulesEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Distance property.
     /// </summary>
@@ -182,19 +184,21 @@ public partial class SnappingOptions
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "distance");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SnappingOptions), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "distance");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Distance = result.Value.Value;
+                Distance = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Distance)] = Distance;
+                ModifiedParameters[nameof(Distance)] = Distance;
         }
          
         return Distance;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Enabled property.
     /// </summary>
@@ -221,19 +225,21 @@ public partial class SnappingOptions
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "enabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SnappingOptions), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "enabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Enabled = result.Value.Value;
+                Enabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Enabled)] = Enabled;
+                ModifiedParameters[nameof(Enabled)] = Enabled;
         }
          
         return Enabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureEnabled property.
     /// </summary>
@@ -260,19 +266,21 @@ public partial class SnappingOptions
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "featureEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SnappingOptions), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "featureEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             FeatureEnabled = result.Value.Value;
+                FeatureEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FeatureEnabled)] = FeatureEnabled;
+                ModifiedParameters[nameof(FeatureEnabled)] = FeatureEnabled;
         }
          
         return FeatureEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureSources property.
     /// </summary>
@@ -298,11 +306,16 @@ public partial class SnappingOptions
             return FeatureSources;
         }
 
-        IReadOnlyList<FeatureSnappingLayerSource>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<FeatureSnappingLayerSource>?>(
-            "getFeatureSources", CancellationTokenSource.Token);
-        
+        IReadOnlyList<FeatureSnappingLayerSource>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<FeatureSnappingLayerSource>?>(
+            IsServer, nameof(GetFeatureSources), nameof(SnappingOptions), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (FeatureSnappingLayerSource item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             FeatureSources = result;
 #pragma warning restore BL0005
@@ -310,8 +323,9 @@ public partial class SnappingOptions
         }
         
         return FeatureSources;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the GridEnabled property.
     /// </summary>
@@ -338,19 +352,21 @@ public partial class SnappingOptions
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "gridEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SnappingOptions), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "gridEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             GridEnabled = result.Value.Value;
+                GridEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(GridEnabled)] = GridEnabled;
+                ModifiedParameters[nameof(GridEnabled)] = GridEnabled;
         }
          
         return GridEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SelfEnabled property.
     /// </summary>
@@ -377,19 +393,21 @@ public partial class SnappingOptions
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "selfEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SnappingOptions), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "selfEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SelfEnabled = result.Value.Value;
+                SelfEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SelfEnabled)] = SelfEnabled;
+                ModifiedParameters[nameof(SelfEnabled)] = SelfEnabled;
         }
          
         return SelfEnabled;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -429,8 +447,9 @@ public partial class SnappingOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "attributeRulesEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Distance property after render.
     /// </summary>
@@ -466,8 +485,9 @@ public partial class SnappingOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "distance", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Enabled property after render.
     /// </summary>
@@ -503,8 +523,9 @@ public partial class SnappingOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "enabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeatureEnabled property after render.
     /// </summary>
@@ -540,8 +561,9 @@ public partial class SnappingOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featureEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the FeatureSources property after render.
     /// </summary>
@@ -550,14 +572,6 @@ public partial class SnappingOptions
     /// </param>
     public async Task SetFeatureSources(IReadOnlyList<FeatureSnappingLayerSource>? value)
     {
-        if (value is not null)
-        {
-            foreach (FeatureSnappingLayerSource item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
 #pragma warning disable BL0005
         FeatureSources = value;
 #pragma warning restore BL0005
@@ -567,6 +581,14 @@ public partial class SnappingOptions
         {
             return;
         }
+        if (value is not null)
+        {
+            foreach (FeatureSnappingLayerSource item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
     
         try 
         {
@@ -585,8 +607,9 @@ public partial class SnappingOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "featureSources", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the GridEnabled property after render.
     /// </summary>
@@ -622,8 +645,9 @@ public partial class SnappingOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "gridEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SelfEnabled property after render.
     /// </summary>
@@ -659,8 +683,9 @@ public partial class SnappingOptions
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "selfEnabled", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -677,6 +702,7 @@ public partial class SnappingOptions
             ? values
             : [..FeatureSources, ..values];
         await SetFeatureSources(join);
+
     }
     
 #endregion
@@ -697,6 +723,7 @@ public partial class SnappingOptions
             return;
         }
         await SetFeatureSources(FeatureSources.Except(values).ToArray());
+
     }
     
 #endregion

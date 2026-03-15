@@ -34,7 +34,7 @@ public partial class DotDensityTitle
 #pragma warning disable BL0005
         Unit = unit;
         Value = value;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -88,19 +88,21 @@ public partial class DotDensityTitle
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DotDensityTitle), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "unit");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Unit = result;
+                Unit = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Unit)] = Unit;
+                ModifiedParameters[nameof(Unit)] = Unit;
         }
          
         return Unit;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Value property.
     /// </summary>
@@ -127,19 +129,21 @@ public partial class DotDensityTitle
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "value");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DotDensityTitle), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "value");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Value = result.Value.Value;
+                Value = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Value)] = Value;
+                ModifiedParameters[nameof(Value)] = Value;
         }
          
         return Value;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -179,8 +183,9 @@ public partial class DotDensityTitle
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "unit", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Value property after render.
     /// </summary>
@@ -216,8 +221,9 @@ public partial class DotDensityTitle
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value", value);
+
     }
-    
+
 #endregion
 
 }

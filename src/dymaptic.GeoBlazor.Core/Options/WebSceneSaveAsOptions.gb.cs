@@ -19,7 +19,7 @@ public partial record WebSceneSaveAsOptions(
     bool? IgnoreUnsupported = null)
 {
     /// <summary>
-    ///     Parameterless constructor
+    ///     Parameterless Constructor
     /// </summary>
     public WebSceneSaveAsOptions(): this(null, null)
     {

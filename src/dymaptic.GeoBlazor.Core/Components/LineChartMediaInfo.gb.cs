@@ -51,7 +51,7 @@ public partial class LineChartMediaInfo : IChartMediaInfo
         Caption = caption;
         AltText = altText;
         Value = value;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -96,11 +96,18 @@ public partial class LineChartMediaInfo : IChartMediaInfo
             return Value;
         }
 
-        ChartMediaInfoValue? result = await JsComponentReference.InvokeAsync<ChartMediaInfoValue?>(
-            "getValue", CancellationTokenSource.Token);
-        
+        ChartMediaInfoValue? result = await JsComponentReference.InvokeJsMethod<ChartMediaInfoValue?>(
+            IsServer, nameof(GetValue), nameof(LineChartMediaInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (Value is not null)
+            {
+                result.Id = Value.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Value = result;
 #pragma warning restore BL0005
@@ -108,8 +115,9 @@ public partial class LineChartMediaInfo : IChartMediaInfo
         }
         
         return Value;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -122,11 +130,6 @@ public partial class LineChartMediaInfo : IChartMediaInfo
     /// </param>
     public async Task SetValue(ChartMediaInfoValue? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Value = value;
 #pragma warning restore BL0005
@@ -136,6 +139,11 @@ public partial class LineChartMediaInfo : IChartMediaInfo
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -154,8 +162,9 @@ public partial class LineChartMediaInfo : IChartMediaInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "value", value);
+
     }
-    
+
 #endregion
 
 
@@ -182,7 +191,7 @@ public partial class LineChartMediaInfo : IChartMediaInfo
     {
         switch (child)
         {
-            case ChartMediaInfoValue _:
+            case ChartMediaInfoValue:
                 Value = null;
                 ModifiedParameters[nameof(Value)] = Value;
                 return true;

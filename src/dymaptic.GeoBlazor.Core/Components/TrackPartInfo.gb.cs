@@ -53,7 +53,7 @@ public partial class TrackPartInfo : MapComponent
         LabelsVisible = labelsVisible;
         Renderer = renderer;
         Visible = visible;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -120,11 +120,16 @@ public partial class TrackPartInfo : MapComponent
             return LabelingInfo;
         }
 
-        IReadOnlyList<Label>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Label>?>(
-            "getLabelingInfo", CancellationTokenSource.Token);
-        
+        IReadOnlyList<Label>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Label>?>(
+            IsServer, nameof(GetLabelingInfo), nameof(TrackPartInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            foreach (Label item in result)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
 #pragma warning disable BL0005
             LabelingInfo = result;
 #pragma warning restore BL0005
@@ -132,8 +137,9 @@ public partial class TrackPartInfo : MapComponent
         }
         
         return LabelingInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelsVisible property.
     /// </summary>
@@ -160,19 +166,21 @@ public partial class TrackPartInfo : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "labelsVisible");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TrackPartInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "labelsVisible");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             LabelsVisible = result.Value.Value;
+                LabelsVisible = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
+                ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
         }
          
         return LabelsVisible;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Renderer property.
     /// </summary>
@@ -198,11 +206,18 @@ public partial class TrackPartInfo : MapComponent
             return Renderer;
         }
 
-        Renderer? result = await JsComponentReference.InvokeAsync<Renderer?>(
-            "getRenderer", CancellationTokenSource.Token);
-        
+        Renderer? result = await JsComponentReference.InvokeJsMethod<Renderer?>(
+            IsServer, nameof(GetRenderer), nameof(TrackPartInfo), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
+            if (Renderer is not null)
+            {
+                result.Id = Renderer.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Renderer = result;
 #pragma warning restore BL0005
@@ -210,8 +225,9 @@ public partial class TrackPartInfo : MapComponent
         }
         
         return Renderer;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -224,14 +240,6 @@ public partial class TrackPartInfo : MapComponent
     /// </param>
     public async Task SetLabelingInfo(IReadOnlyList<Label>? value)
     {
-        if (value is not null)
-        {
-            foreach (Label item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
-        }
-        
 #pragma warning disable BL0005
         LabelingInfo = value;
 #pragma warning restore BL0005
@@ -241,6 +249,14 @@ public partial class TrackPartInfo : MapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            foreach (Label item in value)
+            {
+                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            }
+        }
+        
     
         try 
         {
@@ -259,8 +275,9 @@ public partial class TrackPartInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelingInfo", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelsVisible property after render.
     /// </summary>
@@ -296,8 +313,9 @@ public partial class TrackPartInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelsVisible", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Renderer property after render.
     /// </summary>
@@ -306,11 +324,6 @@ public partial class TrackPartInfo : MapComponent
     /// </param>
     public async Task SetRenderer(Renderer? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Renderer = value;
 #pragma warning restore BL0005
@@ -320,6 +333,11 @@ public partial class TrackPartInfo : MapComponent
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -338,8 +356,9 @@ public partial class TrackPartInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "renderer", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -356,6 +375,7 @@ public partial class TrackPartInfo : MapComponent
             ? values
             : [..LabelingInfo, ..values];
         await SetLabelingInfo(join);
+
     }
     
 #endregion
@@ -376,6 +396,7 @@ public partial class TrackPartInfo : MapComponent
             return;
         }
         await SetLabelingInfo(LabelingInfo.Except(values).ToArray());
+
     }
     
 #endregion

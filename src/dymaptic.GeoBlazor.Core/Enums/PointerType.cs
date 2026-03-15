@@ -11,7 +11,6 @@ public enum PointerType
 {
 #pragma warning disable CS1591
     Mouse,
-    Pen,
     Touch
 #pragma warning restore CS1591
 }

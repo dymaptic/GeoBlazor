@@ -1,6 +1,5 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-[CodeGenerationIgnore]
 public partial class WebScene : Map, IPortalLayer
 {
 

@@ -38,7 +38,7 @@ public partial class SearchTableField : MapComponent
 #pragma warning disable BL0005
         ExactMatch = exactMatch;
         Name = name;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -94,19 +94,21 @@ public partial class SearchTableField : MapComponent
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "exactMatch");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchTableField), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "exactMatch");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ExactMatch = result.Value.Value;
+                ExactMatch = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ExactMatch)] = ExactMatch;
+                ModifiedParameters[nameof(ExactMatch)] = ExactMatch;
         }
          
         return ExactMatch;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Name property.
     /// </summary>
@@ -133,19 +135,21 @@ public partial class SearchTableField : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchTableField), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Name = result;
+                Name = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Name)] = Name;
+                ModifiedParameters[nameof(Name)] = Name;
         }
          
         return Name;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -185,8 +189,9 @@ public partial class SearchTableField : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "exactMatch", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Name property after render.
     /// </summary>
@@ -222,8 +227,9 @@ public partial class SearchTableField : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "name", value);
+
     }
-    
+
 #endregion
 
 }

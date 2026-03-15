@@ -76,7 +76,7 @@ public partial class PictureMarkerSymbol : ISymbol2D,
         Xoffset = xoffset;
         Yoffset = yoffset;
         Color = color;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -123,19 +123,21 @@ public partial class PictureMarkerSymbol : ISymbol2D,
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PictureMarkerSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "height");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Height = result;
+                Height = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Height)] = Height;
+                ModifiedParameters[nameof(Height)] = Height;
         }
          
         return Height;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
@@ -162,19 +164,21 @@ public partial class PictureMarkerSymbol : ISymbol2D,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PictureMarkerSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "url");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Url = result;
+                Url = (string)result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Url)] = Url;
+                ModifiedParameters[nameof(Url)] = Url;
         }
          
         return Url;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Width property.
     /// </summary>
@@ -201,19 +205,21 @@ public partial class PictureMarkerSymbol : ISymbol2D,
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PictureMarkerSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "width");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Width = result;
+                Width = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Width)] = Width;
+                ModifiedParameters[nameof(Width)] = Width;
         }
          
         return Width;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -253,8 +259,9 @@ public partial class PictureMarkerSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "height", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
@@ -290,8 +297,9 @@ public partial class PictureMarkerSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "url", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Width property after render.
     /// </summary>
@@ -327,8 +335,9 @@ public partial class PictureMarkerSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "width", value);
+
     }
-    
+
 #endregion
 
     /// <inheritdoc />

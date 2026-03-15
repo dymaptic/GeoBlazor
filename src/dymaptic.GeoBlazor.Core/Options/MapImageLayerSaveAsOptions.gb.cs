@@ -15,7 +15,7 @@ public partial record MapImageLayerSaveAsOptions(
     bool? IgnoreUnsupported = null)
 {
     /// <summary>
-    ///     Parameterless constructor
+    ///     Parameterless Constructor
     /// </summary>
     public MapImageLayerSaveAsOptions(): this(null, null)
     {

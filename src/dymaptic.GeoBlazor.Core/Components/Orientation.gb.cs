@@ -32,7 +32,7 @@ public partial class Orientation : MapComponent
         AllowRender = false;
 #pragma warning disable BL0005
         Z = z;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -78,19 +78,21 @@ public partial class Orientation : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "z");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Orientation), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "z");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Z = result.Value.Value;
+                Z = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Z)] = Z;
+                ModifiedParameters[nameof(Z)] = Z;
         }
          
         return Z;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -130,8 +132,9 @@ public partial class Orientation : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "z", value);
+
     }
-    
+
 #endregion
 
 }

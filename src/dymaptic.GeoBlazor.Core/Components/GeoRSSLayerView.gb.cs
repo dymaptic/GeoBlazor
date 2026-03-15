@@ -34,7 +34,7 @@ public partial class GeoRSSLayerView : LayerView
         AllowRender = false;
 #pragma warning disable BL0005
         Visible = visible;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     

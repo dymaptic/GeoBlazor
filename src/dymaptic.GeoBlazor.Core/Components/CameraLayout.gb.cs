@@ -54,7 +54,7 @@ public partial class CameraLayout : MapComponent
         Columns = columns;
         Row = row;
         Rows = rows;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -134,19 +134,21 @@ public partial class CameraLayout : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "column");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CameraLayout), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "column");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Column = result.Value.Value;
+                Column = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Column)] = Column;
+                ModifiedParameters[nameof(Column)] = Column;
         }
          
         return Column;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Columns property.
     /// </summary>
@@ -173,19 +175,21 @@ public partial class CameraLayout : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "columns");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CameraLayout), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "columns");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Columns = result.Value.Value;
+                Columns = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Columns)] = Columns;
+                ModifiedParameters[nameof(Columns)] = Columns;
         }
          
         return Columns;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Row property.
     /// </summary>
@@ -212,19 +216,21 @@ public partial class CameraLayout : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "row");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CameraLayout), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "row");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Row = result.Value.Value;
+                Row = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Row)] = Row;
+                ModifiedParameters[nameof(Row)] = Row;
         }
          
         return Row;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Rows property.
     /// </summary>
@@ -251,19 +257,21 @@ public partial class CameraLayout : MapComponent
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "rows");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CameraLayout), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "rows");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Rows = result.Value.Value;
+                Rows = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Rows)] = Rows;
+                ModifiedParameters[nameof(Rows)] = Rows;
         }
          
         return Rows;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -303,8 +311,9 @@ public partial class CameraLayout : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "column", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Columns property after render.
     /// </summary>
@@ -340,8 +349,9 @@ public partial class CameraLayout : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "columns", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Row property after render.
     /// </summary>
@@ -377,8 +387,9 @@ public partial class CameraLayout : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "row", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Rows property after render.
     /// </summary>
@@ -414,8 +425,9 @@ public partial class CameraLayout : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rows", value);
+
     }
-    
+
 #endregion
 
 }

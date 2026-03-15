@@ -16,9 +16,16 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-2d-layers-BaseLayerView2D.html#ScreenPoint">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record ScreenPoint(
-    double? X,
-    double? Y)
+    double? X = null,
+    double? Y = null)
 {
+    /// <summary>
+    ///     Parameterless Constructor
+    /// </summary>
+    public ScreenPoint(): this(null, null)
+    {
+    }
+    
     /// <summary>
     ///     The x coordinate.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-2d-layers-BaseLayerView2D.html#ScreenPoint">ArcGIS Maps SDK for JavaScript</a>

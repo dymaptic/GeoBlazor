@@ -4,8 +4,12 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    A customizable button that performs a specific action(s) used in widgets such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a>, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html">BasemapLayerList</a>.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ActionButton.html">GeoBlazor Docs</a>
+///     A customizable button that performs a specific action(s) used
+///     in widgets such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a>,
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a>, and
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html">BasemapLayerList</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class ActionButton
 {
@@ -31,12 +35,11 @@ public partial class ActionButton
     /// </param>
     /// <param name="actionId">
     ///     The name of the ID assigned to this action.
-    /// </param>
-    /// <param name="callbackFunction">
-    ///     The action function to perform on click.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionBase.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="className">
-    ///     This adds a CSS class to the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">ActionButton's</a> node.
+    ///     This adds a CSS class to the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">ActionButton's</a>
+    ///     node.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionBase.html#className">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="active">
@@ -51,6 +54,8 @@ public partial class ActionButton
     /// </param>
     /// <param name="visible">
     ///     Indicates if the action is visible.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionBase.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="icon">
     ///     Calcite icon used for the action.
@@ -61,7 +66,6 @@ public partial class ActionButton
         string? title = null,
         string? image = null,
         string? actionId = null,
-        Func<Task>? callbackFunction = null,
         string? className = null,
         bool? active = null,
         bool? disabled = null,
@@ -72,23 +76,13 @@ public partial class ActionButton
 #pragma warning disable BL0005
         Title = title;
         Image = image;
-        if (actionId is not null)
-        {
-            ActionId = actionId;
-        }
-        if (callbackFunction is not null)
-        {
-            CallbackFunction = callbackFunction;
-        }
+        ActionId = actionId;
         ClassName = className;
         Active = active;
         Disabled = disabled;
-        if (visible is not null)
-        {
-            Visible = visible.Value;
-        }
+        Visible = visible;
         Icon = icon;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -103,27 +97,38 @@ public partial class ActionButton
         {
             return Image;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return Image;
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActionButton), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "image");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Image = result;
+                Image = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Image)] = Image;
+                ModifiedParameters[nameof(Image)] = Image;
         }
          
         return Image;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -134,7 +139,7 @@ public partial class ActionButton
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetImage(string value)
+    public async Task SetImage(string? value)
     {
 #pragma warning disable BL0005
         Image = value;
@@ -146,8 +151,15 @@ public partial class ActionButton
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
@@ -156,8 +168,9 @@ public partial class ActionButton
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "image", value);
+
     }
-    
+
 #endregion
 
 }

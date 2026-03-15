@@ -10,7 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 public enum OrderBy
 {
 #pragma warning disable CS1591
-    Asc,
-    Desc
+    ASC,
+    DESC
 #pragma warning restore CS1591
 }

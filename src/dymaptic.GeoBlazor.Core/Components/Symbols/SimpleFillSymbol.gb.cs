@@ -48,7 +48,7 @@ public partial class SimpleFillSymbol : ISymbol2D,
         Outline = outline;
         Color = color;
         Style = style;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -80,19 +80,21 @@ public partial class SimpleFillSymbol : ISymbol2D,
         }
 
         // get the property value
-        JsNullableEnumWrapper<SimpleFillSymbolStyle>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SimpleFillSymbolStyle>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "style");
-        if (result is { Value: not null })
+        SimpleFillSymbolStyle? result = await JsComponentReference!.InvokeJsMethod<SimpleFillSymbolStyle?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SimpleFillSymbol), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "style");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Style = (SimpleFillSymbolStyle)result.Value.Value!;
+                Style = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Style)] = Style;
+                ModifiedParameters[nameof(Style)] = Style;
         }
          
         return Style;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -132,8 +134,9 @@ public partial class SimpleFillSymbol : ISymbol2D,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "style", value);
+
     }
-    
+
 #endregion
 
 }

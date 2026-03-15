@@ -45,7 +45,7 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
         NaturalLog = naturalLog;
         PercentOfTotal = percentOfTotal;
         SquareRoot = squareRoot;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -126,19 +126,21 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "field");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedNormalizationTypes), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "field");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Field = result.Value.Value;
+                Field = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Field)] = Field;
+                ModifiedParameters[nameof(Field)] = Field;
         }
          
         return Field;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Log property.
     /// </summary>
@@ -165,19 +167,21 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "log");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedNormalizationTypes), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "log");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Log = result.Value.Value;
+                Log = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Log)] = Log;
+                ModifiedParameters[nameof(Log)] = Log;
         }
          
         return Log;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the NaturalLog property.
     /// </summary>
@@ -204,19 +208,21 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "naturalLog");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedNormalizationTypes), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "naturalLog");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             NaturalLog = result.Value.Value;
+                NaturalLog = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(NaturalLog)] = NaturalLog;
+                ModifiedParameters[nameof(NaturalLog)] = NaturalLog;
         }
          
         return NaturalLog;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PercentOfTotal property.
     /// </summary>
@@ -243,19 +249,21 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "percentOfTotal");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedNormalizationTypes), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "percentOfTotal");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             PercentOfTotal = result.Value.Value;
+                PercentOfTotal = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PercentOfTotal)] = PercentOfTotal;
+                ModifiedParameters[nameof(PercentOfTotal)] = PercentOfTotal;
         }
          
         return PercentOfTotal;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the SquareRoot property.
     /// </summary>
@@ -282,19 +290,21 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "squareRoot");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedNormalizationTypes), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "squareRoot");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             SquareRoot = result.Value.Value;
+                SquareRoot = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SquareRoot)] = SquareRoot;
+                ModifiedParameters[nameof(SquareRoot)] = SquareRoot;
         }
          
         return SquareRoot;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -334,8 +344,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "field", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Log property after render.
     /// </summary>
@@ -371,8 +382,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "log", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the NaturalLog property after render.
     /// </summary>
@@ -408,8 +420,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "naturalLog", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PercentOfTotal property after render.
     /// </summary>
@@ -445,8 +458,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "percentOfTotal", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the SquareRoot property after render.
     /// </summary>
@@ -482,8 +496,9 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "squareRoot", value);
+
     }
-    
+
 #endregion
 
 }

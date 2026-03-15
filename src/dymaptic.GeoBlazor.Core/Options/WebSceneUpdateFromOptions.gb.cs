@@ -35,7 +35,7 @@ public partial record WebSceneUpdateFromOptions(
     bool? WidgetsExcluded = null)
 {
     /// <summary>
-    ///     Parameterless constructor
+    ///     Parameterless Constructor
     /// </summary>
     public WebSceneUpdateFromOptions(): this(null, null)
     {

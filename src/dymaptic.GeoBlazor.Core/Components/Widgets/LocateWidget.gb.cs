@@ -23,9 +23,6 @@ public partial class LocateWidget : IGoTo
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
-    /// <param name="containerId">
-    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
-    /// </param>
     /// <param name="geolocationOptions">
     ///     The browser's Geolocation API Position options for locating.
     ///     default null
@@ -55,17 +52,11 @@ public partial class LocateWidget : IGoTo
     ///     The widget's default label.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="mapView">
-    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
-    /// </param>
     /// <param name="popupEnabled">
     ///     Indicates whether to display the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a> of the result graphic from the
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#locate">locate()</a> method.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="position">
-    ///     The position of the widget in relation to the map view.
     /// </param>
     /// <param name="scale">
     ///     Indicates the scale to set on the view when navigating to the position of the geolocated
@@ -87,16 +78,13 @@ public partial class LocateWidget : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public LocateWidget(
-        string? containerId = null,
         string? geolocationOptions = null,
         bool? goToLocationEnabled = null,
         GoToOverride? goToOverride = null,
         Graphic? graphic = null,
         string? icon = null,
         string? label = null,
-        MapView? mapView = null,
         bool? popupEnabled = null,
-        OverlayPosition? position = null,
         int? scale = null,
         LocateViewModel? viewModel = null,
         bool? visible = null,
@@ -104,21 +92,18 @@ public partial class LocateWidget : IGoTo
     {
         AllowRender = false;
 #pragma warning disable BL0005
-        ContainerId = containerId;
         GeolocationOptions = geolocationOptions;
         GoToLocationEnabled = goToLocationEnabled;
         GoToOverride = goToOverride;
         Graphic = graphic;
         Icon = icon;
         Label = label;
-        MapView = mapView;
         PopupEnabled = popupEnabled;
-        Position = position;
         Scale = scale;
         ViewModel = viewModel;
         Visible = visible;
         WidgetId = widgetId;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -208,19 +193,21 @@ public partial class LocateWidget : IGoTo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocateWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "geolocationOptions");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             GeolocationOptions = result;
+                GeolocationOptions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(GeolocationOptions)] = GeolocationOptions;
+                ModifiedParameters[nameof(GeolocationOptions)] = GeolocationOptions;
         }
          
         return GeolocationOptions;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the GoToLocationEnabled property.
     /// </summary>
@@ -247,19 +234,21 @@ public partial class LocateWidget : IGoTo
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "goToLocationEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocateWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "goToLocationEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             GoToLocationEnabled = result.Value.Value;
+                GoToLocationEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(GoToLocationEnabled)] = GoToLocationEnabled;
+                ModifiedParameters[nameof(GoToLocationEnabled)] = GoToLocationEnabled;
         }
          
         return GoToLocationEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Graphic property.
     /// </summary>
@@ -285,9 +274,10 @@ public partial class LocateWidget : IGoTo
             return Graphic;
         }
 
-        Graphic? result = await JsComponentReference.InvokeAsync<Graphic?>(
-            "getGraphic", CancellationTokenSource.Token);
-        
+        Graphic? result = await JsComponentReference.InvokeJsMethod<Graphic?>(
+            IsServer, nameof(GetGraphic), nameof(LocateWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (Graphic is not null)
@@ -303,8 +293,9 @@ public partial class LocateWidget : IGoTo
         }
         
         return Graphic;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the PopupEnabled property.
     /// </summary>
@@ -331,19 +322,21 @@ public partial class LocateWidget : IGoTo
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "popupEnabled");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocateWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "popupEnabled");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             PopupEnabled = result.Value.Value;
+                PopupEnabled = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
+                ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
         }
          
         return PopupEnabled;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Scale property.
     /// </summary>
@@ -370,19 +363,21 @@ public partial class LocateWidget : IGoTo
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "scale");
-        if (result is { Value: not null })
+        int? result = await JsComponentReference!.InvokeJsMethod<int?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocateWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "scale");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             Scale = result.Value.Value;
+                Scale = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Scale)] = Scale;
+                ModifiedParameters[nameof(Scale)] = Scale;
         }
          
         return Scale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
@@ -408,9 +403,10 @@ public partial class LocateWidget : IGoTo
             return ViewModel;
         }
 
-        LocateViewModel? result = await JsComponentReference.InvokeAsync<LocateViewModel?>(
-            "getViewModel", CancellationTokenSource.Token);
-        
+        LocateViewModel? result = await JsComponentReference.InvokeJsMethod<LocateViewModel?>(
+            IsServer, nameof(GetViewModel), nameof(LocateWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (ViewModel is not null)
@@ -426,8 +422,9 @@ public partial class LocateWidget : IGoTo
         }
         
         return ViewModel;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -467,8 +464,9 @@ public partial class LocateWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "geolocationOptions", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the GoToLocationEnabled property after render.
     /// </summary>
@@ -504,8 +502,9 @@ public partial class LocateWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "goToLocationEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Graphic property after render.
     /// </summary>
@@ -514,11 +513,6 @@ public partial class LocateWidget : IGoTo
     /// </param>
     public async Task SetGraphic(Graphic? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Graphic = value;
 #pragma warning restore BL0005
@@ -528,6 +522,11 @@ public partial class LocateWidget : IGoTo
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -544,10 +543,12 @@ public partial class LocateWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setGraphic", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetGraphic), nameof(LocateWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
@@ -583,8 +584,9 @@ public partial class LocateWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "popupEnabled", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Scale property after render.
     /// </summary>
@@ -620,8 +622,9 @@ public partial class LocateWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "scale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
@@ -630,11 +633,6 @@ public partial class LocateWidget : IGoTo
     /// </param>
     public async Task SetViewModel(LocateViewModel? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005
@@ -644,6 +642,11 @@ public partial class LocateWidget : IGoTo
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -660,10 +663,12 @@ public partial class LocateWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setViewModel", 
+        await JsComponentReference.InvokeVoidJsMethod(IsServer,
+            nameof(SetViewModel), nameof(LocateWidget),
             CancellationTokenSource.Token, value);
+ 
     }
-    
+
 #endregion
 
 #region Public Methods
@@ -697,8 +702,14 @@ public partial class LocateWidget : IGoTo
             return;
         }
         
-        await JsComponentReference!.InvokeVoidAsync(
-            "cancelLocate", 
+        if (AbortManager is null || AbortManager.Disposed)
+        {
+            AbortManager = new AbortManager(CoreJsModule);
+        }
+        
+        
+        await JsComponentReference!.InvokeVoidJsMethod(IsServer,
+            nameof(CancelLocate), nameof(LocateWidget), 
             CancellationTokenSource.Token);
     }
     
@@ -730,8 +741,8 @@ public partial class LocateWidget : IGoTo
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "locate", 
+        return await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(Locate), nameof(LocateWidget), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
     
@@ -751,7 +762,7 @@ public partial class LocateWidget : IGoTo
             return;
         }
     
-        LocateEvent? locateEvent = await jsStreamRef.ReadJsStreamReference<LocateEvent>();
+        LocateEvent? locateEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<LocateEvent>();
         if (locateEvent is not null)
         {
             await OnLocate.InvokeAsync(locateEvent);
@@ -783,7 +794,7 @@ public partial class LocateWidget : IGoTo
             return;
         }
     
-        LocateErrorEvent? locateErrorEvent = await jsStreamRef.ReadJsStreamReference<LocateErrorEvent>();
+        LocateErrorEvent? locateErrorEvent = await jsStreamRef.ReadJsStreamReferenceAsJSON<LocateErrorEvent>();
         if (locateErrorEvent is not null)
         {
             await OnLocateError.InvokeAsync(locateErrorEvent);
@@ -849,7 +860,7 @@ public partial class LocateWidget : IGoTo
                 Graphic = null;
                 ModifiedParameters[nameof(Graphic)] = Graphic;
                 return true;
-            case LocateViewModel _:
+            case LocateViewModel:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;

@@ -53,7 +53,7 @@ public partial class FeatureEffect
         ExcludedLabelsVisible = excludedLabelsVisible;
         Filter = filter;
         IncludedEffect = includedEffect;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -109,9 +109,10 @@ public partial class FeatureEffect
             return ExcludedEffect;
         }
 
-        IReadOnlyList<Effect>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Effect>?>(
-            "getExcludedEffect", CancellationTokenSource.Token);
-        
+        IReadOnlyList<Effect>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Effect>?>(
+            IsServer, nameof(GetExcludedEffect), nameof(FeatureEffect), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -121,8 +122,9 @@ public partial class FeatureEffect
         }
         
         return ExcludedEffect;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the ExcludedLabelsVisible property.
     /// </summary>
@@ -149,19 +151,21 @@ public partial class FeatureEffect
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "excludedLabelsVisible");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureEffect), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "excludedLabelsVisible");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             ExcludedLabelsVisible = result.Value.Value;
+                ExcludedLabelsVisible = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ExcludedLabelsVisible)] = ExcludedLabelsVisible;
+                ModifiedParameters[nameof(ExcludedLabelsVisible)] = ExcludedLabelsVisible;
         }
          
         return ExcludedLabelsVisible;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Filter property.
     /// </summary>
@@ -187,9 +191,10 @@ public partial class FeatureEffect
             return Filter;
         }
 
-        FeatureFilter? result = await JsComponentReference.InvokeAsync<FeatureFilter?>(
-            "getFilter", CancellationTokenSource.Token);
-        
+        FeatureFilter? result = await JsComponentReference.InvokeJsMethod<FeatureFilter?>(
+            IsServer, nameof(GetFilter), nameof(FeatureEffect), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
             if (Filter is not null)
@@ -205,8 +210,9 @@ public partial class FeatureEffect
         }
         
         return Filter;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the IncludedEffect property.
     /// </summary>
@@ -232,9 +238,10 @@ public partial class FeatureEffect
             return IncludedEffect;
         }
 
-        IReadOnlyList<Effect>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Effect>?>(
-            "getIncludedEffect", CancellationTokenSource.Token);
-        
+        IReadOnlyList<Effect>? result = await JsComponentReference.InvokeJsMethod<IReadOnlyList<Effect>?>(
+            IsServer, nameof(GetIncludedEffect), nameof(FeatureEffect), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -244,8 +251,9 @@ public partial class FeatureEffect
         }
         
         return IncludedEffect;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -285,8 +293,9 @@ public partial class FeatureEffect
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "excludedEffect", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the ExcludedLabelsVisible property after render.
     /// </summary>
@@ -322,8 +331,9 @@ public partial class FeatureEffect
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "excludedLabelsVisible", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Filter property after render.
     /// </summary>
@@ -332,11 +342,6 @@ public partial class FeatureEffect
     /// </param>
     public async Task SetFilter(FeatureFilter? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         Filter = value;
 #pragma warning restore BL0005
@@ -346,6 +351,11 @@ public partial class FeatureEffect
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -364,8 +374,9 @@ public partial class FeatureEffect
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "filter", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the IncludedEffect property after render.
     /// </summary>
@@ -401,8 +412,9 @@ public partial class FeatureEffect
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "includedEffect", value);
+
     }
-    
+
 #endregion
 
 #region Add to Collection Methods
@@ -419,6 +431,7 @@ public partial class FeatureEffect
             ? values
             : [..ExcludedEffect, ..values];
         await SetExcludedEffect(join);
+
     }
     
     /// <summary>
@@ -433,6 +446,7 @@ public partial class FeatureEffect
             ? values
             : [..IncludedEffect, ..values];
         await SetIncludedEffect(join);
+
     }
     
 #endregion
@@ -453,6 +467,7 @@ public partial class FeatureEffect
             return;
         }
         await SetExcludedEffect(ExcludedEffect.Except(values).ToArray());
+
     }
     
     
@@ -469,6 +484,7 @@ public partial class FeatureEffect
             return;
         }
         await SetIncludedEffect(IncludedEffect.Except(values).ToArray());
+
     }
     
 #endregion
@@ -497,7 +513,7 @@ public partial class FeatureEffect
     {
         switch (child)
         {
-            case FeatureFilter _:
+            case FeatureFilter:
                 Filter = null;
                 ModifiedParameters[nameof(Filter)] = Filter;
                 return true;

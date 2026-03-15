@@ -119,7 +119,7 @@ public partial class Label
         RepeatLabelDistance = repeatLabelDistance;
         UseCodedValues = useCodedValues;
         Where = where;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -187,19 +187,21 @@ public partial class Label
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "allowOverrun");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Label), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "allowOverrun");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             AllowOverrun = result.Value.Value;
+                AllowOverrun = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AllowOverrun)] = AllowOverrun;
+                ModifiedParameters[nameof(AllowOverrun)] = AllowOverrun;
         }
          
         return AllowOverrun;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the DeconflictionStrategy property.
     /// </summary>
@@ -226,19 +228,21 @@ public partial class Label
         }
 
         // get the property value
-        JsNullableEnumWrapper<DeconflictionStrategy>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<DeconflictionStrategy>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "deconflictionStrategy");
-        if (result is { Value: not null })
+        DeconflictionStrategy? result = await JsComponentReference!.InvokeJsMethod<DeconflictionStrategy?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Label), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "deconflictionStrategy");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             DeconflictionStrategy = (DeconflictionStrategy)result.Value.Value!;
+                DeconflictionStrategy = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DeconflictionStrategy)] = DeconflictionStrategy;
+                ModifiedParameters[nameof(DeconflictionStrategy)] = DeconflictionStrategy;
         }
          
         return DeconflictionStrategy;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelExpression property.
     /// </summary>
@@ -265,19 +269,21 @@ public partial class Label
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Label), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "labelExpression");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LabelExpression = result;
+                LabelExpression = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LabelExpression)] = LabelExpression;
+                ModifiedParameters[nameof(LabelExpression)] = LabelExpression;
         }
          
         return LabelExpression;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelExpressionInfo property.
     /// </summary>
@@ -303,9 +309,10 @@ public partial class Label
             return LabelExpressionInfo;
         }
 
-        LabelExpressionInfo? result = await JsComponentReference.InvokeAsync<LabelExpressionInfo?>(
-            "getLabelExpressionInfo", CancellationTokenSource.Token);
-        
+        LabelExpressionInfo? result = await JsComponentReference.InvokeJsMethod<LabelExpressionInfo?>(
+            IsServer, nameof(GetLabelExpressionInfo), nameof(Label), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -315,8 +322,9 @@ public partial class Label
         }
         
         return LabelExpressionInfo;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelPlacement property.
     /// </summary>
@@ -343,19 +351,21 @@ public partial class Label
         }
 
         // get the property value
-        JsNullableEnumWrapper<LabelPlacement>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LabelPlacement>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "labelPlacement");
-        if (result is { Value: not null })
+        LabelPlacement? result = await JsComponentReference!.InvokeJsMethod<LabelPlacement?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Label), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "labelPlacement");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             LabelPlacement = (LabelPlacement)result.Value.Value!;
+                LabelPlacement = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LabelPlacement)] = LabelPlacement;
+                ModifiedParameters[nameof(LabelPlacement)] = LabelPlacement;
         }
          
         return LabelPlacement;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelPosition property.
     /// </summary>
@@ -382,19 +392,21 @@ public partial class Label
         }
 
         // get the property value
-        JsNullableEnumWrapper<LabelPosition>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LabelPosition>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "labelPosition");
-        if (result is { Value: not null })
+        LabelPosition? result = await JsComponentReference!.InvokeJsMethod<LabelPosition?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Label), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "labelPosition");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             LabelPosition = (LabelPosition)result.Value.Value!;
+                LabelPosition = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LabelPosition)] = LabelPosition;
+                ModifiedParameters[nameof(LabelPosition)] = LabelPosition;
         }
          
         return LabelPosition;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MaxScale property.
     /// </summary>
@@ -421,19 +433,21 @@ public partial class Label
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "maxScale");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Label), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "maxScale");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             MaxScale = result.Value.Value;
+                MaxScale = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MaxScale)] = MaxScale;
+                ModifiedParameters[nameof(MaxScale)] = MaxScale;
         }
          
         return MaxScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the MinScale property.
     /// </summary>
@@ -460,19 +474,21 @@ public partial class Label
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "minScale");
-        if (result is { Value: not null })
+        double? result = await JsComponentReference!.InvokeJsMethod<double?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Label), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "minScale");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             MinScale = result.Value.Value;
+                MinScale = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MinScale)] = MinScale;
+                ModifiedParameters[nameof(MinScale)] = MinScale;
         }
          
         return MinScale;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RepeatLabel property.
     /// </summary>
@@ -499,19 +515,21 @@ public partial class Label
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "repeatLabel");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Label), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "repeatLabel");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             RepeatLabel = result.Value.Value;
+                RepeatLabel = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RepeatLabel)] = RepeatLabel;
+                ModifiedParameters[nameof(RepeatLabel)] = RepeatLabel;
         }
          
         return RepeatLabel;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the RepeatLabelDistance property.
     /// </summary>
@@ -538,19 +556,21 @@ public partial class Label
         }
 
         // get the property value
-        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Label), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "repeatLabelDistance");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             RepeatLabelDistance = result;
+                RepeatLabelDistance = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RepeatLabelDistance)] = RepeatLabelDistance;
+                ModifiedParameters[nameof(RepeatLabelDistance)] = RepeatLabelDistance;
         }
          
         return RepeatLabelDistance;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the UseCodedValues property.
     /// </summary>
@@ -577,19 +597,21 @@ public partial class Label
         }
 
         // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "useCodedValues");
-        if (result is { Value: not null })
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Label), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, "useCodedValues");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-             UseCodedValues = result.Value.Value;
+                UseCodedValues = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(UseCodedValues)] = UseCodedValues;
+                ModifiedParameters[nameof(UseCodedValues)] = UseCodedValues;
         }
          
         return UseCodedValues;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Where property.
     /// </summary>
@@ -616,19 +638,21 @@ public partial class Label
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Label), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "where");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Where = result;
+                Where = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Where)] = Where;
+                ModifiedParameters[nameof(Where)] = Where;
         }
          
         return Where;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -668,8 +692,9 @@ public partial class Label
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "allowOverrun", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the DeconflictionStrategy property after render.
     /// </summary>
@@ -705,8 +730,9 @@ public partial class Label
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "deconflictionStrategy", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelExpression property after render.
     /// </summary>
@@ -742,8 +768,9 @@ public partial class Label
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelExpression", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelExpressionInfo property after render.
     /// </summary>
@@ -752,11 +779,6 @@ public partial class Label
     /// </param>
     public async Task SetLabelExpressionInfo(LabelExpressionInfo? value)
     {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
 #pragma warning disable BL0005
         LabelExpressionInfo = value;
 #pragma warning restore BL0005
@@ -766,6 +788,11 @@ public partial class Label
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -782,10 +809,11 @@ public partial class Label
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setLabelExpressionInfo", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "labelExpressionInfo", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelPlacement property after render.
     /// </summary>
@@ -821,8 +849,9 @@ public partial class Label
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelPlacement", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the LabelPosition property after render.
     /// </summary>
@@ -858,8 +887,9 @@ public partial class Label
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "labelPosition", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
@@ -895,8 +925,9 @@ public partial class Label
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "maxScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
@@ -932,8 +963,9 @@ public partial class Label
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RepeatLabel property after render.
     /// </summary>
@@ -969,8 +1001,9 @@ public partial class Label
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "repeatLabel", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the RepeatLabelDistance property after render.
     /// </summary>
@@ -1006,8 +1039,9 @@ public partial class Label
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "repeatLabelDistance", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the UseCodedValues property after render.
     /// </summary>
@@ -1043,8 +1077,9 @@ public partial class Label
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "useCodedValues", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the Where property after render.
     /// </summary>
@@ -1080,8 +1115,9 @@ public partial class Label
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "where", value);
+
     }
-    
+
 #endregion
 
 

@@ -44,7 +44,7 @@ public partial class TableDataSource
         WorkspaceId = workspaceId;
         DataSourceName = dataSourceName;
         GdbVersion = gdbVersion;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -76,19 +76,21 @@ public partial class TableDataSource
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TableDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "dataSourceName");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             DataSourceName = result;
+                DataSourceName = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DataSourceName)] = DataSourceName;
+                ModifiedParameters[nameof(DataSourceName)] = DataSourceName;
         }
          
         return DataSourceName;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the GdbVersion property.
     /// </summary>
@@ -115,19 +117,21 @@ public partial class TableDataSource
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TableDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "gdbVersion");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             GdbVersion = result;
+                GdbVersion = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(GdbVersion)] = GdbVersion;
+                ModifiedParameters[nameof(GdbVersion)] = GdbVersion;
         }
          
         return GdbVersion;
+
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the WorkspaceId property.
     /// </summary>
@@ -154,19 +158,21 @@ public partial class TableDataSource
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        string? result = await JsComponentReference!.InvokeJsMethod<string?>(
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TableDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "workspaceId");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             WorkspaceId = result;
+                WorkspaceId = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(WorkspaceId)] = WorkspaceId;
+                ModifiedParameters[nameof(WorkspaceId)] = WorkspaceId;
         }
          
         return WorkspaceId;
+
     }
-    
+
 #endregion
 
 #region Property Setters
@@ -206,8 +212,9 @@ public partial class TableDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "dataSourceName", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the GdbVersion property after render.
     /// </summary>
@@ -243,8 +250,9 @@ public partial class TableDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "gdbVersion", value);
+
     }
-    
+
     /// <summary>
     ///    Asynchronously set the value of the WorkspaceId property after render.
     /// </summary>
@@ -280,8 +288,9 @@ public partial class TableDataSource
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "workspaceId", value);
+
     }
-    
+
 #endregion
 
 }

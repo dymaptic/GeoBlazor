@@ -26,7 +26,7 @@ public partial record GeographicTransformationStep(
     string? Wkt = null): IInteractiveRecord
 {
     /// <summary>
-    ///     Parameterless constructor
+    ///     Parameterless Constructor
     /// </summary>
     public GeographicTransformationStep(): this(null, null)
     {
@@ -52,7 +52,11 @@ public partial record GeographicTransformationStep(
     /// </summary>
     public IJSObjectReference? CoreJsModule { get; set; }
     
-
+    /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
+    /// </summary>
+    public bool IsServer { get; set; }
+    
     /// <summary>
     ///     Cancellation Token for async methods.
     /// </summary>
@@ -87,8 +91,8 @@ public partial record GeographicTransformationStep(
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<GeographicTransformationStep?>(
-            "getInverse", 
+        return await JsComponentReference!.InvokeJsMethod<GeographicTransformationStep?>(
+            IsServer, nameof(GetInverse), nameof(GeographicTransformationStep), null, 
             CancellationTokenSource.Token);
     }
     
