@@ -2,14 +2,6 @@
 import ISliceAnalysisExcludedLayerGenerated from './iSliceAnalysisExcludedLayer.gb';
 import SliceAnalysisExcludedLayer = __esri.SliceAnalysisExcludedLayer;
 
-export default class ISliceAnalysisExcludedLayerWrapper extends ISliceAnalysisExcludedLayerGenerated {
-
-    constructor(layer: SliceAnalysisExcludedLayer) {
-        super(layer);
-    }
-    
-}
-
 export async function buildJsISliceAnalysisExcludedLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsISliceAnalysisExcludedLayerGenerated } = await import('./iSliceAnalysisExcludedLayer.gb');
     return await buildJsISliceAnalysisExcludedLayerGenerated(dotNetObject, layerId, viewId);

@@ -2,14 +2,6 @@
 import IEditorGetTemplatesForLayerGenerated from './iEditorGetTemplatesForLayer.gb';
 import EditorGetTemplatesForLayer = __esri.EditorGetTemplatesForLayer;
 
-export default class IEditorGetTemplatesForLayerWrapper extends IEditorGetTemplatesForLayerGenerated {
-
-    constructor(layer: EditorGetTemplatesForLayer) {
-        super(layer);
-    }
-    
-}
-
 export async function buildJsIEditorGetTemplatesForLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsIEditorGetTemplatesForLayerGenerated } = await import('./iEditorGetTemplatesForLayer.gb');
     return await buildJsIEditorGetTemplatesForLayerGenerated(dotNetObject, layerId, viewId);

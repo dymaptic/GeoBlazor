@@ -2,14 +2,6 @@
 import IInputBaseLayerGenerated from './iInputBaseLayer.gb';
 import InputBaseLayer = __esri.InputBaseLayer;
 
-export default class IInputBaseLayerWrapper extends IInputBaseLayerGenerated {
-
-    constructor(layer: InputBaseLayer) {
-        super(layer);
-    }
-    
-}
-
 export async function buildJsIInputBaseLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsIInputBaseLayerGenerated } = await import('./iInputBaseLayer.gb');
     return await buildJsIInputBaseLayerGenerated(dotNetObject, layerId, viewId);
