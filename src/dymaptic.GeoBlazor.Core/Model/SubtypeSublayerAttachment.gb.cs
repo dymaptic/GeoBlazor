@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SubtypeSublayerAttachment.html">GeoBlazor Docs</a>
-///     Union type of<see cref="ElementReference" />, and <see cref="Dictionary<string, object?>" />
+///     Union type of <see cref="ElementReference" />, and <see cref="object" />
 /// </summary>
 [JsonConverter(typeof(UnionConverter<SubtypeSublayerAttachment>))]
 public partial record SubtypeSublayerAttachment
@@ -25,15 +25,10 @@ public partial record SubtypeSublayerAttachment
     /// <param name="attachmentElementReference">
     ///     Implementation of parent property Attachment as ElementReference.
     /// </param>
-    /// <param name="attachmentobject">
-    ///     Implementation of parent property Attachment as Dictionary<string, object?>.
-    /// </param>
     public SubtypeSublayerAttachment(
-        ElementReference? attachmentElementReference = null,
-        Dictionary<string, object?>? attachmentobject = null)
+        ElementReference? attachmentElementReference = null)
     {
         AttachmentElementReference = attachmentElementReference;
-        Attachmentobject = attachmentobject;
     }
     
     
@@ -46,15 +41,6 @@ public partial record SubtypeSublayerAttachment
     /// </param>
     public static implicit operator SubtypeSublayerAttachment(ElementReference attachmentElementReference) =>
         new(attachmentElementReference: attachmentElementReference);
-
-    /// <summary>
-    ///     Implicit conversion between <see cref="Dictionary<string, object?>" /> and <see cref="SubtypeSublayerAttachment" />.
-    /// </summary>
-    /// <param name="attachmentobject">
-    ///     The Dictionary<string, object?> to use as the value.
-    /// </param>
-    public static implicit operator SubtypeSublayerAttachment(Dictionary<string, object?> attachmentobject) =>
-        new(attachmentobject: attachmentobject);
 
 #endregion
 #region Public Properties / Blazor Parameters
@@ -70,12 +56,12 @@ public partial record SubtypeSublayerAttachment
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SubtypeSublayerAttachment.html#subtypesublayerattachmentattachmentobject-property">GeoBlazor Docs</a>
-    ///     Implementation of parent property Attachment as Dictionary<string, object?>.
+    ///     Implementation of parent property Attachment as Object.
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Dictionary<string, object?>? Attachmentobject { get; set; }
+    public Dictionary<string, object?>? AttachmentObject { get; set; }
     
 #endregion
 

@@ -42,11 +42,6 @@ internal class LayerConverter : JsonConverter<Layer>
                     return JsonSerializer.Deserialize<KMLLayer>(ref cloneReader, newOptions);
                 case "wcs":
                     return JsonSerializer.Deserialize<WCSLayer>(ref cloneReader, newOptions);
-#pragma warning disable CS0618 // Type or member is obsolete
-                case "bing-maps":
-#pragma warning disable CS0618 // Type or member is obsolete
-                    return JsonSerializer.Deserialize<BingMapsLayer>(ref cloneReader, newOptions);
-#pragma warning restore CS0618 // Type or member is obsolete
                 case "imagery":
                     return JsonSerializer.Deserialize<ImageryLayer>(ref cloneReader, newOptions);
                 case "map-image":

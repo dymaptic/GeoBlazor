@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.PopupTemplateTitle.html">GeoBlazor Docs</a>
-///     Union type of<see cref="string" />, and <see cref="Func<Task>" />
+///     Union type of <see cref="string" />, and <see cref="Task" />
 /// </summary>
 [JsonConverter(typeof(UnionConverter<PopupTemplateTitle>))]
 public partial record PopupTemplateTitle
@@ -22,17 +22,17 @@ public partial record PopupTemplateTitle
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
-    /// <param name="titlestring">
-    ///     Implementation of parent property Title as string.
+    /// <param name="titleString">
+    ///     Implementation of parent property Title as String.
     /// </param>
     /// <param name="titleTask">
-    ///     Implementation of parent property Title as Func<Task>.
+    ///     Implementation of parent property Title as Task.
     /// </param>
     public PopupTemplateTitle(
-        string? titlestring = null,
+        string? titleString = null,
         Func<Task>? titleTask = null)
     {
-        Titlestring = titlestring;
+        TitleString = titleString;
         TitleTask = titleTask;
     }
     
@@ -41,17 +41,17 @@ public partial record PopupTemplateTitle
     /// <summary>
     ///     Implicit conversion between <see cref="string" /> and <see cref="PopupTemplateTitle" />.
     /// </summary>
-    /// <param name="titlestring">
+    /// <param name="titleString">
     ///     The string to use as the value.
     /// </param>
-    public static implicit operator PopupTemplateTitle(string titlestring) =>
-        new(titlestring: titlestring);
+    public static implicit operator PopupTemplateTitle(string titleString) =>
+        new(titleString: titleString);
 
     /// <summary>
-    ///     Implicit conversion between <see cref="Func<Task>" /> and <see cref="PopupTemplateTitle" />.
+    ///     Implicit conversion between <see cref="Task" /> and <see cref="PopupTemplateTitle" />.
     /// </summary>
     /// <param name="titleTask">
-    ///     The Func<Task> to use as the value.
+    ///     The Task to use as the value.
     /// </param>
     public static implicit operator PopupTemplateTitle(Func<Task> titleTask) =>
         new(titleTask: titleTask);
@@ -61,16 +61,16 @@ public partial record PopupTemplateTitle
 
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.PopupTemplateTitle.html#popuptemplatetitletitlestring-property">GeoBlazor Docs</a>
-    ///     Implementation of parent property Title as string.
+    ///     Implementation of parent property Title as String.
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Titlestring { get; set; }
+    public string? TitleString { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.PopupTemplateTitle.html#popuptemplatetitletitletask-property">GeoBlazor Docs</a>
-    ///     Implementation of parent property Title as Func<Task>.
+    ///     Implementation of parent property Title as Task.
     /// </summary>
     [ArcGISProperty]
     [Parameter]

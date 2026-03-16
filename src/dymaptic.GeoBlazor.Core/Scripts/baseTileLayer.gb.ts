@@ -338,10 +338,6 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: 
             });
     
             return jsBaseTileLayer;
-
-        case 'bing-maps': 
-            let { buildJsBingMapsLayer } = await import('./bingMapsLayer');
-            return await buildJsBingMapsLayer(dotNetObject, layerId, viewId);
         default: 
             return sanitize(dotNetObject);
     }
@@ -455,10 +451,6 @@ export async function buildDotNetBaseTileLayerGenerated(jsObject: any, layerId: 
                 arcGisObjectRefs[dotNetBaseTileLayer.id] ??= jsObject;
             }
             return dotNetBaseTileLayer;
-
-        case 'bing-maps': 
-            let { buildDotNetBingMapsLayer } = await import('./bingMapsLayer');
-            return await buildDotNetBingMapsLayer(jsObject, layerId, viewId);
         default: 
             return removeCircularReferences(jsObject);
     }

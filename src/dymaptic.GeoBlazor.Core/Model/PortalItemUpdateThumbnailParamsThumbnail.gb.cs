@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.PortalItemUpdateThumbnailParamsThumbnail.html">GeoBlazor Docs</a>
-///     Union type of<see cref="Stream" />, and <see cref="string" />
+///     Union type of <see cref="Stream" />, and <see cref="string" />
 /// </summary>
 [JsonConverter(typeof(UnionConverter<PortalItemUpdateThumbnailParamsThumbnail>))]
 public partial record PortalItemUpdateThumbnailParamsThumbnail
@@ -25,15 +25,10 @@ public partial record PortalItemUpdateThumbnailParamsThumbnail
     /// <param name="thumbnailStream">
     ///     Implementation of parent property Thumbnail as Stream.
     /// </param>
-    /// <param name="thumbnailstring">
-    ///     Implementation of parent property Thumbnail as string.
-    /// </param>
     public PortalItemUpdateThumbnailParamsThumbnail(
-        Stream? thumbnailStream = null,
-        string? thumbnailstring = null)
+        Stream? thumbnailStream = null)
     {
         ThumbnailStream = thumbnailStream;
-        Thumbnailstring = thumbnailstring;
     }
     
     
@@ -46,15 +41,6 @@ public partial record PortalItemUpdateThumbnailParamsThumbnail
     /// </param>
     public static implicit operator PortalItemUpdateThumbnailParamsThumbnail(Stream thumbnailStream) =>
         new(thumbnailStream: thumbnailStream);
-
-    /// <summary>
-    ///     Implicit conversion between <see cref="string" /> and <see cref="PortalItemUpdateThumbnailParamsThumbnail" />.
-    /// </summary>
-    /// <param name="thumbnailstring">
-    ///     The string to use as the value.
-    /// </param>
-    public static implicit operator PortalItemUpdateThumbnailParamsThumbnail(string thumbnailstring) =>
-        new(thumbnailstring: thumbnailstring);
 
 #endregion
 #region Public Properties / Blazor Parameters
@@ -70,12 +56,12 @@ public partial record PortalItemUpdateThumbnailParamsThumbnail
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.PortalItemUpdateThumbnailParamsThumbnail.html#portalitemupdatethumbnailparamsthumbnailthumbnailstring-property">GeoBlazor Docs</a>
-    ///     Implementation of parent property Thumbnail as string.
+    ///     Implementation of parent property Thumbnail as String.
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Thumbnailstring { get; set; }
+    public string? ThumbnailString { get; set; }
     
 #endregion
 

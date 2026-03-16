@@ -25,9 +25,6 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
         case 'base-tile':
             let {buildJsBaseTileLayer} = await import('./baseTileLayer');
             return await buildJsBaseTileLayer(dotNetObject, layerId, viewId);
-        case 'bing-maps':
-            let {buildJsBingMapsLayer} = await import('./bingMapsLayer');
-            return await buildJsBingMapsLayer(dotNetObject, layerId, viewId);
         case 'csv':
             let {buildJsCSVLayer} = await import('./cSVLayer');
             return await buildJsCSVLayer(dotNetObject, layerId, viewId);
@@ -401,9 +398,6 @@ export async function buildDotNetLayer(jsObject: any, layerId: string | null, vi
         case 'base-tile':
             let {buildDotNetBaseTileLayer} = await import('./baseTileLayer');
             return await buildDotNetBaseTileLayer(jsObject, layerId, viewId);
-        case 'bing-maps':
-            let {buildDotNetBingMapsLayer} = await import('./bingMapsLayer');
-            return await buildDotNetBingMapsLayer(jsObject, layerId, viewId);
         case 'csv':
             let {buildDotNetCSVLayer} = await import('./cSVLayer');
             return await buildDotNetCSVLayer(jsObject, layerId, viewId);
@@ -705,9 +699,6 @@ export async function buildJsLayerWrapper(jsLayer: any): Promise<any> {
         case 'base-tile':
             let {default: BaseTileLayerWrapper} = await import('./baseTileLayer');
             return new BaseTileLayerWrapper(jsLayer);
-        case 'bing-maps':
-            let {default: BingMapsLayerWrapper} = await import('./bingMapsLayer');
-            return new BingMapsLayerWrapper(jsLayer);
         case 'csv':
             let {default: CSVLayerWrapper} = await import('./cSVLayer');
             return new CSVLayerWrapper(jsLayer);

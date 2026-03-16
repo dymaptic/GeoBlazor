@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SizeRampElementTitle.html">GeoBlazor Docs</a>
-///     Union type of<see cref="string" />, <see cref="RampTitle" />, and <see cref="ClusterTitle" />
+///     Union type of <see cref="string" />, <see cref="RampTitle" />, and <see cref="ClusterTitle" />
 /// </summary>
 [JsonConverter(typeof(UnionConverter<SizeRampElementTitle>))]
 public partial record SizeRampElementTitle
@@ -28,17 +28,12 @@ public partial record SizeRampElementTitle
     /// <param name="titleRampTitle">
     ///     Implementation of parent property Title as RampTitle.
     /// </param>
-    /// <param name="titlestring">
-    ///     Implementation of parent property Title as string.
-    /// </param>
     public SizeRampElementTitle(
         ClusterTitle? titleClusterTitle = null,
-        RampTitle? titleRampTitle = null,
-        string? titlestring = null)
+        RampTitle? titleRampTitle = null)
     {
         TitleClusterTitle = titleClusterTitle;
         TitleRampTitle = titleRampTitle;
-        Titlestring = titlestring;
     }
     
     
@@ -60,15 +55,6 @@ public partial record SizeRampElementTitle
     /// </param>
     public static implicit operator SizeRampElementTitle(RampTitle titleRampTitle) =>
         new(titleRampTitle: titleRampTitle);
-
-    /// <summary>
-    ///     Implicit conversion between <see cref="string" /> and <see cref="SizeRampElementTitle" />.
-    /// </summary>
-    /// <param name="titlestring">
-    ///     The string to use as the value.
-    /// </param>
-    public static implicit operator SizeRampElementTitle(string titlestring) =>
-        new(titlestring: titlestring);
 
 #endregion
 #region Public Properties / Blazor Parameters
@@ -93,12 +79,12 @@ public partial record SizeRampElementTitle
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SizeRampElementTitle.html#sizerampelementtitletitlestring-property">GeoBlazor Docs</a>
-    ///     Implementation of parent property Title as string.
+    ///     Implementation of parent property Title as String.
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Titlestring { get; set; }
+    public string? TitleString { get; set; }
     
 #endregion
 

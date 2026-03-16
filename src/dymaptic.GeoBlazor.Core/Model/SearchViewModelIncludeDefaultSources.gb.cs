@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SearchViewModelIncludeDefaultSources.html">GeoBlazor Docs</a>
-///     Union type of<see cref="bool" />, and <see cref="Func<Task>" />
+///     Union type of <see cref="bool" />, and <see cref="Task" />
 /// </summary>
 [JsonConverter(typeof(UnionConverter<SearchViewModelIncludeDefaultSources>))]
 public partial record SearchViewModelIncludeDefaultSources
@@ -22,36 +22,22 @@ public partial record SearchViewModelIncludeDefaultSources
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
-    /// <param name="includeDefaultSourcesbool">
-    ///     Implementation of parent property IncludeDefaultSources as bool.
-    /// </param>
     /// <param name="includeDefaultSourcesTask">
-    ///     Implementation of parent property IncludeDefaultSources as Func<Task>.
+    ///     Implementation of parent property IncludeDefaultSources as Task.
     /// </param>
     public SearchViewModelIncludeDefaultSources(
-        bool? includeDefaultSourcesbool = null,
         Func<Task>? includeDefaultSourcesTask = null)
     {
-        IncludeDefaultSourcesbool = includeDefaultSourcesbool;
         IncludeDefaultSourcesTask = includeDefaultSourcesTask;
     }
     
     
 #region Union Conversion Operators
     /// <summary>
-    ///     Implicit conversion between <see cref="bool" /> and <see cref="SearchViewModelIncludeDefaultSources" />.
-    /// </summary>
-    /// <param name="includeDefaultSourcesbool">
-    ///     The bool to use as the value.
-    /// </param>
-    public static implicit operator SearchViewModelIncludeDefaultSources(bool includeDefaultSourcesbool) =>
-        new(includeDefaultSourcesbool: includeDefaultSourcesbool);
-
-    /// <summary>
-    ///     Implicit conversion between <see cref="Func<Task>" /> and <see cref="SearchViewModelIncludeDefaultSources" />.
+    ///     Implicit conversion between <see cref="Task" /> and <see cref="SearchViewModelIncludeDefaultSources" />.
     /// </summary>
     /// <param name="includeDefaultSourcesTask">
-    ///     The Func<Task> to use as the value.
+    ///     The Task to use as the value.
     /// </param>
     public static implicit operator SearchViewModelIncludeDefaultSources(Func<Task> includeDefaultSourcesTask) =>
         new(includeDefaultSourcesTask: includeDefaultSourcesTask);
@@ -61,16 +47,16 @@ public partial record SearchViewModelIncludeDefaultSources
 
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SearchViewModelIncludeDefaultSources.html#searchviewmodelincludedefaultsourcesincludedefaultsourcesbool-property">GeoBlazor Docs</a>
-    ///     Implementation of parent property IncludeDefaultSources as bool.
+    ///     Implementation of parent property IncludeDefaultSources as Bool.
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? IncludeDefaultSourcesbool { get; set; }
+    public bool? IncludeDefaultSourcesBool { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SearchViewModelIncludeDefaultSources.html#searchviewmodelincludedefaultsourcesincludedefaultsourcestask-property">GeoBlazor Docs</a>
-    ///     Implementation of parent property IncludeDefaultSources as Func<Task>.
+    ///     Implementation of parent property IncludeDefaultSources as Task.
     /// </summary>
     [ArcGISProperty]
     [Parameter]

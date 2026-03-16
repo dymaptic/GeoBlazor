@@ -11,7 +11,6 @@ public enum LayerType
     BaseDynamic,
     BaseElevation,
     BaseTile,
-    BingMaps,
     BuildingScene,
     CatalogDynamicGroup,
     CatalogFootprint,

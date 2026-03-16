@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FieldColumnTemplateFieldValueFormatFunctionFieldColumnTemplateFieldValueFormatFunction.html">GeoBlazor Docs</a>
-///     Union type of<see cref="string" />, <see cref="double" />, and <see cref="ElementReference" />
+///     Union type of <see cref="string" />, <see cref="double" />, and <see cref="ElementReference" />
 /// </summary>
 [JsonConverter(typeof(UnionConverter<FieldColumnTemplateFieldValueFormatFunctionFieldColumnTemplateFieldValueFormatFunction>))]
 public partial record FieldColumnTemplateFieldValueFormatFunctionFieldColumnTemplateFieldValueFormatFunction
@@ -22,36 +22,17 @@ public partial record FieldColumnTemplateFieldValueFormatFunctionFieldColumnTemp
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
-    /// <param name="fieldColumnTemplateFieldValueFormatFunctiondouble">
-    ///     Implementation of parent property FieldColumnTemplateFieldValueFormatFunction as double.
-    /// </param>
     /// <param name="fieldColumnTemplateFieldValueFormatFunctionElementReference">
     ///     Implementation of parent property FieldColumnTemplateFieldValueFormatFunction as ElementReference.
     /// </param>
-    /// <param name="fieldColumnTemplateFieldValueFormatFunctionstring">
-    ///     Implementation of parent property FieldColumnTemplateFieldValueFormatFunction as string.
-    /// </param>
     public FieldColumnTemplateFieldValueFormatFunctionFieldColumnTemplateFieldValueFormatFunction(
-        double? fieldColumnTemplateFieldValueFormatFunctiondouble = null,
-        ElementReference? fieldColumnTemplateFieldValueFormatFunctionElementReference = null,
-        string? fieldColumnTemplateFieldValueFormatFunctionstring = null)
+        ElementReference? fieldColumnTemplateFieldValueFormatFunctionElementReference = null)
     {
-        FieldColumnTemplateFieldValueFormatFunctiondouble = fieldColumnTemplateFieldValueFormatFunctiondouble;
         FieldColumnTemplateFieldValueFormatFunctionElementReference = fieldColumnTemplateFieldValueFormatFunctionElementReference;
-        FieldColumnTemplateFieldValueFormatFunctionstring = fieldColumnTemplateFieldValueFormatFunctionstring;
     }
     
     
 #region Union Conversion Operators
-    /// <summary>
-    ///     Implicit conversion between <see cref="double" /> and <see cref="FieldColumnTemplateFieldValueFormatFunctionFieldColumnTemplateFieldValueFormatFunction" />.
-    /// </summary>
-    /// <param name="fieldColumnTemplateFieldValueFormatFunctiondouble">
-    ///     The double to use as the value.
-    /// </param>
-    public static implicit operator FieldColumnTemplateFieldValueFormatFunctionFieldColumnTemplateFieldValueFormatFunction(double fieldColumnTemplateFieldValueFormatFunctiondouble) =>
-        new(fieldColumnTemplateFieldValueFormatFunctiondouble: fieldColumnTemplateFieldValueFormatFunctiondouble);
-
     /// <summary>
     ///     Implicit conversion between <see cref="ElementReference" /> and <see cref="FieldColumnTemplateFieldValueFormatFunctionFieldColumnTemplateFieldValueFormatFunction" />.
     /// </summary>
@@ -61,26 +42,17 @@ public partial record FieldColumnTemplateFieldValueFormatFunctionFieldColumnTemp
     public static implicit operator FieldColumnTemplateFieldValueFormatFunctionFieldColumnTemplateFieldValueFormatFunction(ElementReference fieldColumnTemplateFieldValueFormatFunctionElementReference) =>
         new(fieldColumnTemplateFieldValueFormatFunctionElementReference: fieldColumnTemplateFieldValueFormatFunctionElementReference);
 
-    /// <summary>
-    ///     Implicit conversion between <see cref="string" /> and <see cref="FieldColumnTemplateFieldValueFormatFunctionFieldColumnTemplateFieldValueFormatFunction" />.
-    /// </summary>
-    /// <param name="fieldColumnTemplateFieldValueFormatFunctionstring">
-    ///     The string to use as the value.
-    /// </param>
-    public static implicit operator FieldColumnTemplateFieldValueFormatFunctionFieldColumnTemplateFieldValueFormatFunction(string fieldColumnTemplateFieldValueFormatFunctionstring) =>
-        new(fieldColumnTemplateFieldValueFormatFunctionstring: fieldColumnTemplateFieldValueFormatFunctionstring);
-
 #endregion
 #region Public Properties / Blazor Parameters
 
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FieldColumnTemplateFieldValueFormatFunctionFieldColumnTemplateFieldValueFormatFunction.html#fieldcolumntemplatefieldvalueformatfunctionfieldcolumntemplatefieldvalueformatfunctionfieldcolumntemplatefieldvalueformatfunctiondouble-property">GeoBlazor Docs</a>
-    ///     Implementation of parent property FieldColumnTemplateFieldValueFormatFunction as double.
+    ///     Implementation of parent property FieldColumnTemplateFieldValueFormatFunction as Double.
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? FieldColumnTemplateFieldValueFormatFunctiondouble { get; set; }
+    public double? FieldColumnTemplateFieldValueFormatFunctionDouble { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FieldColumnTemplateFieldValueFormatFunctionFieldColumnTemplateFieldValueFormatFunction.html#fieldcolumntemplatefieldvalueformatfunctionfieldcolumntemplatefieldvalueformatfunctionfieldcolumntemplatefieldvalueformatfunctionelementreference-property">GeoBlazor Docs</a>
@@ -93,12 +65,12 @@ public partial record FieldColumnTemplateFieldValueFormatFunctionFieldColumnTemp
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FieldColumnTemplateFieldValueFormatFunctionFieldColumnTemplateFieldValueFormatFunction.html#fieldcolumntemplatefieldvalueformatfunctionfieldcolumntemplatefieldvalueformatfunctionfieldcolumntemplatefieldvalueformatfunctionstring-property">GeoBlazor Docs</a>
-    ///     Implementation of parent property FieldColumnTemplateFieldValueFormatFunction as string.
+    ///     Implementation of parent property FieldColumnTemplateFieldValueFormatFunction as String.
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? FieldColumnTemplateFieldValueFormatFunctionstring { get; set; }
+    public string? FieldColumnTemplateFieldValueFormatFunctionString { get; set; }
     
 #endregion
 

@@ -1,5 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
+/// <summary>
+///     Union type for <see cref="ElementReference" /> and a Dictionary of HTML Form Data.
+/// </summary>
 [JsonConverter(typeof(UnionConverter<FormElementOrData>))]
 public record FormElementOrData
 {

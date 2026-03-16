@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FeatureViewModelContent.html">GeoBlazor Docs</a>
-///     Union type ofIReadOnlyCollection of <see cref="PopupContent" />, <see cref="Widget" />, <see cref="ElementReference" />, and <see cref="string" />
+///     Union type of IReadOnlyCollection of <see cref="PopupContent" />, <see cref="Widget" />, <see cref="ElementReference" />, and <see cref="string" />
 /// </summary>
 [JsonConverter(typeof(UnionConverter<FeatureViewModelContent>))]
 public partial record FeatureViewModelContent
@@ -26,10 +26,7 @@ public partial record FeatureViewModelContent
     ///     Implementation of parent property Content as ElementReference.
     /// </param>
     /// <param name="contentPopupContentCollection">
-    ///     Implementation of parent property Content as IReadOnlyList<PopupContent>.
-    /// </param>
-    /// <param name="contentstring">
-    ///     Implementation of parent property Content as string.
+    ///     Implementation of parent property Content as collection of PopupContent.
     /// </param>
     /// <param name="contentWidget">
     ///     Implementation of parent property Content as Widget.
@@ -37,12 +34,10 @@ public partial record FeatureViewModelContent
     public FeatureViewModelContent(
         ElementReference? contentElementReference = null,
         IReadOnlyList<PopupContent>? contentPopupContentCollection = null,
-        string? contentstring = null,
         Widget? contentWidget = null)
     {
         ContentElementReference = contentElementReference;
         ContentPopupContentCollection = contentPopupContentCollection;
-        Contentstring = contentstring;
         ContentWidget = contentWidget;
     }
     
@@ -61,7 +56,7 @@ public partial record FeatureViewModelContent
     ///     Implicit conversion between a <see cref="PopupContent" /> Array and <see cref="FeatureViewModelContent" />.
     /// </summary>
     /// <param name="contentPopupContentCollectionArray">
-    ///     The PopupContent[] to use as the value.
+    ///     The Array of PopupContent to use as the value.
     /// </param>
     public static implicit operator FeatureViewModelContent(PopupContent[] contentPopupContentCollectionArray) =>
         new(contentPopupContentCollection: contentPopupContentCollectionArray);
@@ -70,19 +65,10 @@ public partial record FeatureViewModelContent
     ///     Implicit conversion between a List of <see cref="PopupContent" /> and <see cref="FeatureViewModelContent" />.
     /// </summary>
     /// <param name="contentPopupContentCollectionList">
-    ///     The List<PopupContent> to use as the value.
+    ///     The List Of PopupContent to use as the value.
     /// </param>
     public static implicit operator FeatureViewModelContent(List<PopupContent> contentPopupContentCollectionList) =>
         new(contentPopupContentCollection: contentPopupContentCollectionList);
-
-    /// <summary>
-    ///     Implicit conversion between <see cref="string" /> and <see cref="FeatureViewModelContent" />.
-    /// </summary>
-    /// <param name="contentstring">
-    ///     The string to use as the value.
-    /// </param>
-    public static implicit operator FeatureViewModelContent(string contentstring) =>
-        new(contentstring: contentstring);
 
     /// <summary>
     ///     Implicit conversion between <see cref="Widget" /> and <see cref="FeatureViewModelContent" />.
@@ -107,7 +93,7 @@ public partial record FeatureViewModelContent
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FeatureViewModelContent.html#featureviewmodelcontentcontentpopupcontentcollection-property">GeoBlazor Docs</a>
-    ///     Implementation of parent property Content as IReadOnlyList<PopupContent>.
+    ///     Implementation of parent property Content as collection of PopupContent.
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -116,12 +102,12 @@ public partial record FeatureViewModelContent
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FeatureViewModelContent.html#featureviewmodelcontentcontentstring-property">GeoBlazor Docs</a>
-    ///     Implementation of parent property Content as string.
+    ///     Implementation of parent property Content as String.
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Contentstring { get; set; }
+    public string? ContentString { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FeatureViewModelContent.html#featureviewmodelcontentcontentwidget-property">GeoBlazor Docs</a>

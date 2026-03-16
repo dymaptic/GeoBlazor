@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FieldValueFormatFunctionFieldValueFormatFunction.html">GeoBlazor Docs</a>
-///     Union type of<see cref="string" />, <see cref="double" />, and <see cref="ElementReference" />
+///     Union type of <see cref="string" />, <see cref="double" />, and <see cref="ElementReference" />
 /// </summary>
 [JsonConverter(typeof(UnionConverter<FieldValueFormatFunctionFieldValueFormatFunction>))]
 public partial record FieldValueFormatFunctionFieldValueFormatFunction
@@ -22,36 +22,17 @@ public partial record FieldValueFormatFunctionFieldValueFormatFunction
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
-    /// <param name="fieldValueFormatFunctiondouble">
-    ///     Implementation of parent property FieldValueFormatFunction as double.
-    /// </param>
     /// <param name="fieldValueFormatFunctionElementReference">
     ///     Implementation of parent property FieldValueFormatFunction as ElementReference.
     /// </param>
-    /// <param name="fieldValueFormatFunctionstring">
-    ///     Implementation of parent property FieldValueFormatFunction as string.
-    /// </param>
     public FieldValueFormatFunctionFieldValueFormatFunction(
-        double? fieldValueFormatFunctiondouble = null,
-        ElementReference? fieldValueFormatFunctionElementReference = null,
-        string? fieldValueFormatFunctionstring = null)
+        ElementReference? fieldValueFormatFunctionElementReference = null)
     {
-        FieldValueFormatFunctiondouble = fieldValueFormatFunctiondouble;
         FieldValueFormatFunctionElementReference = fieldValueFormatFunctionElementReference;
-        FieldValueFormatFunctionstring = fieldValueFormatFunctionstring;
     }
     
     
 #region Union Conversion Operators
-    /// <summary>
-    ///     Implicit conversion between <see cref="double" /> and <see cref="FieldValueFormatFunctionFieldValueFormatFunction" />.
-    /// </summary>
-    /// <param name="fieldValueFormatFunctiondouble">
-    ///     The double to use as the value.
-    /// </param>
-    public static implicit operator FieldValueFormatFunctionFieldValueFormatFunction(double fieldValueFormatFunctiondouble) =>
-        new(fieldValueFormatFunctiondouble: fieldValueFormatFunctiondouble);
-
     /// <summary>
     ///     Implicit conversion between <see cref="ElementReference" /> and <see cref="FieldValueFormatFunctionFieldValueFormatFunction" />.
     /// </summary>
@@ -61,26 +42,17 @@ public partial record FieldValueFormatFunctionFieldValueFormatFunction
     public static implicit operator FieldValueFormatFunctionFieldValueFormatFunction(ElementReference fieldValueFormatFunctionElementReference) =>
         new(fieldValueFormatFunctionElementReference: fieldValueFormatFunctionElementReference);
 
-    /// <summary>
-    ///     Implicit conversion between <see cref="string" /> and <see cref="FieldValueFormatFunctionFieldValueFormatFunction" />.
-    /// </summary>
-    /// <param name="fieldValueFormatFunctionstring">
-    ///     The string to use as the value.
-    /// </param>
-    public static implicit operator FieldValueFormatFunctionFieldValueFormatFunction(string fieldValueFormatFunctionstring) =>
-        new(fieldValueFormatFunctionstring: fieldValueFormatFunctionstring);
-
 #endregion
 #region Public Properties / Blazor Parameters
 
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FieldValueFormatFunctionFieldValueFormatFunction.html#fieldvalueformatfunctionfieldvalueformatfunctionfieldvalueformatfunctiondouble-property">GeoBlazor Docs</a>
-    ///     Implementation of parent property FieldValueFormatFunction as double.
+    ///     Implementation of parent property FieldValueFormatFunction as Double.
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? FieldValueFormatFunctiondouble { get; set; }
+    public double? FieldValueFormatFunctionDouble { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FieldValueFormatFunctionFieldValueFormatFunction.html#fieldvalueformatfunctionfieldvalueformatfunctionfieldvalueformatfunctionelementreference-property">GeoBlazor Docs</a>
@@ -93,12 +65,12 @@ public partial record FieldValueFormatFunctionFieldValueFormatFunction
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FieldValueFormatFunctionFieldValueFormatFunction.html#fieldvalueformatfunctionfieldvalueformatfunctionfieldvalueformatfunctionstring-property">GeoBlazor Docs</a>
-    ///     Implementation of parent property FieldValueFormatFunction as string.
+    ///     Implementation of parent property FieldValueFormatFunction as String.
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? FieldValueFormatFunctionstring { get; set; }
+    public string? FieldValueFormatFunctionString { get; set; }
     
 #endregion
 

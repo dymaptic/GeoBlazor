@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SubtypeSublayerEditsDeleteFeatures.html">GeoBlazor Docs</a>
-///     Union type ofIReadOnlyCollection of <see cref="Graphic" />, and IReadOnlyCollection of <see cref="string" />
+///     Union type of IReadOnlyCollection of <see cref="Graphic" />, and IReadOnlyCollection of <see cref="string" />
 /// </summary>
 [JsonConverter(typeof(UnionConverter<SubtypeSublayerEditsDeleteFeatures>))]
 public partial record SubtypeSublayerEditsDeleteFeatures
@@ -23,17 +23,12 @@ public partial record SubtypeSublayerEditsDeleteFeatures
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="deleteFeaturesGraphicCollection">
-    ///     Implementation of parent property DeleteFeatures as IReadOnlyCollection<Graphic>.
-    /// </param>
-    /// <param name="deleteFeaturesstringCollection">
-    ///     Implementation of parent property DeleteFeatures as IReadOnlyCollection<string>.
+    ///     Implementation of parent property DeleteFeatures as collection of Graphic.
     /// </param>
     public SubtypeSublayerEditsDeleteFeatures(
-        IReadOnlyCollection<Graphic>? deleteFeaturesGraphicCollection = null,
-        IReadOnlyCollection<string>? deleteFeaturesstringCollection = null)
+        IReadOnlyCollection<Graphic>? deleteFeaturesGraphicCollection = null)
     {
         DeleteFeaturesGraphicCollection = deleteFeaturesGraphicCollection;
-        DeleteFeaturesstringCollection = deleteFeaturesstringCollection;
     }
     
     
@@ -42,7 +37,7 @@ public partial record SubtypeSublayerEditsDeleteFeatures
     ///     Implicit conversion between a <see cref="Graphic" /> Array and <see cref="SubtypeSublayerEditsDeleteFeatures" />.
     /// </summary>
     /// <param name="deleteFeaturesGraphicCollectionArray">
-    ///     The Graphic[] to use as the value.
+    ///     The Array of Graphic to use as the value.
     /// </param>
     public static implicit operator SubtypeSublayerEditsDeleteFeatures(Graphic[] deleteFeaturesGraphicCollectionArray) =>
         new(deleteFeaturesGraphicCollection: deleteFeaturesGraphicCollectionArray);
@@ -51,35 +46,17 @@ public partial record SubtypeSublayerEditsDeleteFeatures
     ///     Implicit conversion between a List of <see cref="Graphic" /> and <see cref="SubtypeSublayerEditsDeleteFeatures" />.
     /// </summary>
     /// <param name="deleteFeaturesGraphicCollectionList">
-    ///     The List<Graphic> to use as the value.
+    ///     The List Of Graphic to use as the value.
     /// </param>
     public static implicit operator SubtypeSublayerEditsDeleteFeatures(List<Graphic> deleteFeaturesGraphicCollectionList) =>
         new(deleteFeaturesGraphicCollection: deleteFeaturesGraphicCollectionList);
-
-    /// <summary>
-    ///     Implicit conversion between a <see cref="string" /> Array and <see cref="SubtypeSublayerEditsDeleteFeatures" />.
-    /// </summary>
-    /// <param name="deleteFeaturesstringCollectionArray">
-    ///     The string[] to use as the value.
-    /// </param>
-    public static implicit operator SubtypeSublayerEditsDeleteFeatures(string[] deleteFeaturesstringCollectionArray) =>
-        new(deleteFeaturesstringCollection: deleteFeaturesstringCollectionArray);
-
-    /// <summary>
-    ///     Implicit conversion between a List of <see cref="string" /> and <see cref="SubtypeSublayerEditsDeleteFeatures" />.
-    /// </summary>
-    /// <param name="deleteFeaturesstringCollectionList">
-    ///     The List<string> to use as the value.
-    /// </param>
-    public static implicit operator SubtypeSublayerEditsDeleteFeatures(List<string> deleteFeaturesstringCollectionList) =>
-        new(deleteFeaturesstringCollection: deleteFeaturesstringCollectionList);
 
 #endregion
 #region Public Properties / Blazor Parameters
 
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SubtypeSublayerEditsDeleteFeatures.html#subtypesublayereditsdeletefeaturesdeletefeaturesgraphiccollection-property">GeoBlazor Docs</a>
-    ///     Implementation of parent property DeleteFeatures as IReadOnlyCollection<Graphic>.
+    ///     Implementation of parent property DeleteFeatures as collection of Graphic.
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -88,12 +65,12 @@ public partial record SubtypeSublayerEditsDeleteFeatures
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SubtypeSublayerEditsDeleteFeatures.html#subtypesublayereditsdeletefeaturesdeletefeaturesstringcollection-property">GeoBlazor Docs</a>
-    ///     Implementation of parent property DeleteFeatures as IReadOnlyCollection<string>.
+    ///     Implementation of parent property DeleteFeatures as collection of String.
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyCollection<string>? DeleteFeaturesstringCollection { get; set; }
+    public IReadOnlyCollection<string>? DeleteFeaturesStringCollection { get; set; }
     
 #endregion
 

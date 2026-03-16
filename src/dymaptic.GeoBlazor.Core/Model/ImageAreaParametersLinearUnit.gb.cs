@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ImageAreaParametersLinearUnit.html">GeoBlazor Docs</a>
-///     Union type of<see cref="LengthUnit" />, and <see cref="string" />
+///     Union type of <see cref="LengthUnit" />, and <see cref="string" />
 /// </summary>
 [JsonConverter(typeof(UnionConverter<ImageAreaParametersLinearUnit>))]
 public partial record ImageAreaParametersLinearUnit
@@ -25,15 +25,10 @@ public partial record ImageAreaParametersLinearUnit
     /// <param name="linearUnitLengthUnit">
     ///     Implementation of parent property LinearUnit as LengthUnit.
     /// </param>
-    /// <param name="linearUnitstring">
-    ///     Implementation of parent property LinearUnit as string.
-    /// </param>
     public ImageAreaParametersLinearUnit(
-        LengthUnit? linearUnitLengthUnit = null,
-        string? linearUnitstring = null)
+        LengthUnit? linearUnitLengthUnit = null)
     {
         LinearUnitLengthUnit = linearUnitLengthUnit;
-        LinearUnitstring = linearUnitstring;
     }
     
     
@@ -46,15 +41,6 @@ public partial record ImageAreaParametersLinearUnit
     /// </param>
     public static implicit operator ImageAreaParametersLinearUnit(LengthUnit linearUnitLengthUnit) =>
         new(linearUnitLengthUnit: linearUnitLengthUnit);
-
-    /// <summary>
-    ///     Implicit conversion between <see cref="string" /> and <see cref="ImageAreaParametersLinearUnit" />.
-    /// </summary>
-    /// <param name="linearUnitstring">
-    ///     The string to use as the value.
-    /// </param>
-    public static implicit operator ImageAreaParametersLinearUnit(string linearUnitstring) =>
-        new(linearUnitstring: linearUnitstring);
 
 #endregion
 #region Public Properties / Blazor Parameters
@@ -70,12 +56,12 @@ public partial record ImageAreaParametersLinearUnit
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ImageAreaParametersLinearUnit.html#imageareaparameterslinearunitlinearunitstring-property">GeoBlazor Docs</a>
-    ///     Implementation of parent property LinearUnit as string.
+    ///     Implementation of parent property LinearUnit as String.
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? LinearUnitstring { get; set; }
+    public string? LinearUnitString { get; set; }
     
 #endregion
 

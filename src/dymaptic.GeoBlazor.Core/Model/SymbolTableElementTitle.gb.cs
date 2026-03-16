@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SymbolTableElementTitle.html">GeoBlazor Docs</a>
-///     Union type of<see cref="string" />, <see cref="RendererTitle" />, and <see cref="DotDensityTitle" />
+///     Union type of <see cref="string" />, <see cref="RendererTitle" />, and <see cref="DotDensityTitle" />
 /// </summary>
 [JsonConverter(typeof(UnionConverter<SymbolTableElementTitle>))]
 public partial record SymbolTableElementTitle
@@ -28,17 +28,12 @@ public partial record SymbolTableElementTitle
     /// <param name="titleRendererTitle">
     ///     Implementation of parent property Title as RendererTitle.
     /// </param>
-    /// <param name="titlestring">
-    ///     Implementation of parent property Title as string.
-    /// </param>
     public SymbolTableElementTitle(
         DotDensityTitle? titleDotDensityTitle = null,
-        RendererTitle? titleRendererTitle = null,
-        string? titlestring = null)
+        RendererTitle? titleRendererTitle = null)
     {
         TitleDotDensityTitle = titleDotDensityTitle;
         TitleRendererTitle = titleRendererTitle;
-        Titlestring = titlestring;
     }
     
     
@@ -60,15 +55,6 @@ public partial record SymbolTableElementTitle
     /// </param>
     public static implicit operator SymbolTableElementTitle(RendererTitle titleRendererTitle) =>
         new(titleRendererTitle: titleRendererTitle);
-
-    /// <summary>
-    ///     Implicit conversion between <see cref="string" /> and <see cref="SymbolTableElementTitle" />.
-    /// </summary>
-    /// <param name="titlestring">
-    ///     The string to use as the value.
-    /// </param>
-    public static implicit operator SymbolTableElementTitle(string titlestring) =>
-        new(titlestring: titlestring);
 
 #endregion
 #region Public Properties / Blazor Parameters
@@ -93,12 +79,12 @@ public partial record SymbolTableElementTitle
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SymbolTableElementTitle.html#symboltableelementtitletitlestring-property">GeoBlazor Docs</a>
-    ///     Implementation of parent property Title as string.
+    ///     Implementation of parent property Title as String.
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Titlestring { get; set; }
+    public string? TitleString { get; set; }
     
 #endregion
 

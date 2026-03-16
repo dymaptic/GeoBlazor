@@ -43,10 +43,6 @@ export async function buildJsISliceExcludedLayerGenerated(dotNetObject: any, lay
         return await buildJsKMLLayer(dotNetObject, layerId, viewId);
     }
 
-    if (Object.hasOwn(dotNetObject, "bingLogo")) {
-        let { buildJsBingMapsLayer } = await import('./bingMapsLayer');
-        return await buildJsBingMapsLayer(dotNetObject, layerId, viewId);
-    }
 
     if (Object.hasOwn(dotNetObject, "lineSymbol")) {
         let { buildJsGeoRSSLayer } = await import('./geoRSSLayer');
@@ -190,11 +186,6 @@ export async function buildDotNetISliceExcludedLayerGenerated(jsObject: any, lay
     if (Object.hasOwn(jsObject, "sublayers")) {
         let { buildDotNetKMLLayer } = await import('./kMLLayer');
         return await buildDotNetKMLLayer(jsObject, layerId, viewId);
-    }
-
-    if (Object.hasOwn(jsObject, "bingLogo")) {
-        let { buildDotNetBingMapsLayer } = await import('./bingMapsLayer');
-        return await buildDotNetBingMapsLayer(jsObject, layerId, viewId);
     }
 
     if (Object.hasOwn(jsObject, "lineSymbol")) {

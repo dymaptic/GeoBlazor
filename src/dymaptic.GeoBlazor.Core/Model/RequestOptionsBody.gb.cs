@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.RequestOptionsBody.html">GeoBlazor Docs</a>
-///     Union type of<see cref="Dictionary<string, object?>" />, <see cref="ElementReference" />, and <see cref="string" />
+///     Union type of <see cref="object" />, <see cref="ElementReference" />, and <see cref="string" />
 /// </summary>
 [JsonConverter(typeof(UnionConverter<RequestOptionsBody>))]
 public partial record RequestOptionsBody
@@ -25,20 +25,10 @@ public partial record RequestOptionsBody
     /// <param name="bodyElementReference">
     ///     Implementation of parent property Body as ElementReference.
     /// </param>
-    /// <param name="bodyobject">
-    ///     Implementation of parent property Body as Dictionary<string, object?>.
-    /// </param>
-    /// <param name="bodystring">
-    ///     Implementation of parent property Body as string.
-    /// </param>
     public RequestOptionsBody(
-        ElementReference? bodyElementReference = null,
-        Dictionary<string, object?>? bodyobject = null,
-        string? bodystring = null)
+        ElementReference? bodyElementReference = null)
     {
         BodyElementReference = bodyElementReference;
-        Bodyobject = bodyobject;
-        Bodystring = bodystring;
     }
     
     
@@ -51,24 +41,6 @@ public partial record RequestOptionsBody
     /// </param>
     public static implicit operator RequestOptionsBody(ElementReference bodyElementReference) =>
         new(bodyElementReference: bodyElementReference);
-
-    /// <summary>
-    ///     Implicit conversion between <see cref="Dictionary<string, object?>" /> and <see cref="RequestOptionsBody" />.
-    /// </summary>
-    /// <param name="bodyobject">
-    ///     The Dictionary<string, object?> to use as the value.
-    /// </param>
-    public static implicit operator RequestOptionsBody(Dictionary<string, object?> bodyobject) =>
-        new(bodyobject: bodyobject);
-
-    /// <summary>
-    ///     Implicit conversion between <see cref="string" /> and <see cref="RequestOptionsBody" />.
-    /// </summary>
-    /// <param name="bodystring">
-    ///     The string to use as the value.
-    /// </param>
-    public static implicit operator RequestOptionsBody(string bodystring) =>
-        new(bodystring: bodystring);
 
 #endregion
 #region Public Properties / Blazor Parameters
@@ -84,21 +56,21 @@ public partial record RequestOptionsBody
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.RequestOptionsBody.html#requestoptionsbodybodyobject-property">GeoBlazor Docs</a>
-    ///     Implementation of parent property Body as Dictionary<string, object?>.
+    ///     Implementation of parent property Body as Object.
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Dictionary<string, object?>? Bodyobject { get; set; }
+    public Dictionary<string, object?>? BodyObject { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.RequestOptionsBody.html#requestoptionsbodybodystring-property">GeoBlazor Docs</a>
-    ///     Implementation of parent property Body as string.
+    ///     Implementation of parent property Body as String.
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Bodystring { get; set; }
+    public string? BodyString { get; set; }
     
 #endregion
 

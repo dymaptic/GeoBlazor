@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FeatureTableWidgetTitle.html">GeoBlazor Docs</a>
-///     Union type of<see cref="string" />, and <see cref="Func<Task>" />
+///     Union type of <see cref="string" />, and <see cref="Task" />
 /// </summary>
 [JsonConverter(typeof(UnionConverter<FeatureTableWidgetTitle>))]
 public partial record FeatureTableWidgetTitle
@@ -22,36 +22,22 @@ public partial record FeatureTableWidgetTitle
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
-    /// <param name="titlestring">
-    ///     Implementation of parent property Title as string.
-    /// </param>
     /// <param name="titleTask">
-    ///     Implementation of parent property Title as Func<Task>.
+    ///     Implementation of parent property Title as Task.
     /// </param>
     public FeatureTableWidgetTitle(
-        string? titlestring = null,
         Func<Task>? titleTask = null)
     {
-        Titlestring = titlestring;
         TitleTask = titleTask;
     }
     
     
 #region Union Conversion Operators
     /// <summary>
-    ///     Implicit conversion between <see cref="string" /> and <see cref="FeatureTableWidgetTitle" />.
-    /// </summary>
-    /// <param name="titlestring">
-    ///     The string to use as the value.
-    /// </param>
-    public static implicit operator FeatureTableWidgetTitle(string titlestring) =>
-        new(titlestring: titlestring);
-
-    /// <summary>
-    ///     Implicit conversion between <see cref="Func<Task>" /> and <see cref="FeatureTableWidgetTitle" />.
+    ///     Implicit conversion between <see cref="Task" /> and <see cref="FeatureTableWidgetTitle" />.
     /// </summary>
     /// <param name="titleTask">
-    ///     The Func<Task> to use as the value.
+    ///     The Task to use as the value.
     /// </param>
     public static implicit operator FeatureTableWidgetTitle(Func<Task> titleTask) =>
         new(titleTask: titleTask);
@@ -61,16 +47,16 @@ public partial record FeatureTableWidgetTitle
 
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FeatureTableWidgetTitle.html#featuretablewidgettitletitlestring-property">GeoBlazor Docs</a>
-    ///     Implementation of parent property Title as string.
+    ///     Implementation of parent property Title as String.
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Titlestring { get; set; }
+    public string? TitleString { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FeatureTableWidgetTitle.html#featuretablewidgettitletitletask-property">GeoBlazor Docs</a>
-    ///     Implementation of parent property Title as Func<Task>.
+    ///     Implementation of parent property Title as Task.
     /// </summary>
     [ArcGISProperty]
     [Parameter]
