@@ -129,6 +129,10 @@ Known issue: ESBuild compilation conflicts with MSBuild static file analysis may
 - ArcGIS Maps SDK for JavaScript (v4.33)
 - ESBuild for TypeScript compilation
 
+## RAG Semantic Search
+
+A local MCP RAG server is available in the parent CodeGen repository (`mcp-rag-server/`). When connected, use `search_code(query)` and `search_docs(query)` to find relevant code and documentation across the entire GeoBlazor ecosystem (CodeGen, Core, and Pro). Use `rag_status()` to check if the index is populated; if empty, run `index_directory("D:/dymaptic.GeoBlazor.CodeGen")` first. See the parent CLAUDE.md for full details.
+
 ## Environment Notes
 
 **See parent CLAUDE.md for full environment details.** Key points:

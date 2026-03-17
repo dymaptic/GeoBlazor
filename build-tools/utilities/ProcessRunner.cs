@@ -7,6 +7,9 @@ namespace Utilities;
 
 public static partial class ProcessRunner
 {
+    public static bool FormatOutput =>
+        !string.Equals(Environment.GetEnvironmentVariable("FORMAT_OUTPUT"), "false", StringComparison.OrdinalIgnoreCase);
+
     /// <summary>
     ///     Runs an npm command using PowerShell 7 for cross-platform compatibility.
     ///     Output is captured and also written to the Trace listeners.
@@ -22,7 +25,7 @@ public static partial class ProcessRunner
     {
         return RunCommand(workingDirectory, "pwsh", "-Command",
             environmentVariables, cancellationToken,
-            ["Error"],
+            ["ERR!"],
             $"\"npm {command} {string.Join(" ", args.Where(a => !string.IsNullOrWhiteSpace(a)))}\"");
     }
 
@@ -98,66 +101,12 @@ public static partial class ProcessRunner
                         {
                             string line = e.Data;
 
-                            Console.Write("| ");
-                            int lineSpace = windowWidth - 3;
-
-                            if (stepHeaderRegex.Match(line) is { Success: true } headerMatch && lineWasEmpty)
+                            if (FormatOutput)
                             {
-                                string indents = headerMatch.Groups["indents"].Value;
-
-                                Console.BackgroundColor = (indents.Length == 0 ? 0 : indents.Length / 2) switch
-                                {
-                                    0 => ConsoleColor.DarkBlue,
-                                    1 => ConsoleColor.DarkGreen,
-                                    _ => ConsoleColor.DarkYellow
-                                };
-                                Console.ForegroundColor = ConsoleColor.White;
-                                string header = headerMatch.Groups["header"].Value;
-                                string timestamp = headerMatch.Groups["timestamp"].Value;
-                                int buffer = windowWidth - indents.Length - header.Length - timestamp.Length - 3;
-
-                                while (buffer < 0)
-                                {
-                                    buffer += windowWidth;
-                                }
-
-                                Console.Write($"{indents}{header}{new string(' ', buffer)}{timestamp}");
-                                Console.ResetColor();
-                                Console.WriteLine();
-                            }
-                            else if (stepFooterRegex.Match(line) is { Success: true } footerMatch)
-                            {
-                                string indents = footerMatch.Groups["indents"].Value;
-
-                                Console.BackgroundColor = (indents.Length == 0 ? 0 : indents.Length / 2) switch
-                                {
-                                    0 => ConsoleColor.Blue,
-                                    1 => ConsoleColor.Green,
-                                    _ => ConsoleColor.Yellow
-                                };
-                                Console.BackgroundColor = ConsoleColor.DarkGray;
-                                Console.ForegroundColor = ConsoleColor.White;
-                                string footer = footerMatch.Groups["footer"].Value;
-                                int buffer = windowWidth - indents.Length - footer.Length - 3;
-
-                                while (buffer < 0)
-                                {
-                                    buffer += windowWidth;
-                                }
-
-                                Console.Write($"{indents}{footer}{new string(' ', buffer)}");
-                                Console.ResetColor();
-                                Console.WriteLine();
+                                WriteFormattedLine(line, lineWasEmpty, windowWidth);
                             }
                             else
                             {
-                                while (line.Length > lineSpace)
-                                {
-                                    Console.WriteLine(line[..lineSpace]);
-                                    Console.Write("|  ");
-                                    line = line[lineSpace..];
-                                }
-
                                 Console.WriteLine(line);
                             }
 
@@ -178,9 +127,16 @@ public static partial class ProcessRunner
                     {
                         if (e.Data != null)
                         {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine($"| {e.Data}");
-                            Console.ResetColor();
+                            if (FormatOutput)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine($"| {e.Data}");
+                                Console.ResetColor();
+                            }
+                            else
+                            {
+                                Console.WriteLine(e.Data);
+                            }
 
                             foreach (string triggerWord in failureTriggerWords)
                             {
@@ -233,6 +189,72 @@ public static partial class ProcessRunner
         await ResilienceSetup.AppRetryPipeline.ExecuteAsync(task, context);
 
         ResilienceContextPool.Shared.Return(context);
+    }
+
+    private static void WriteFormattedLine(string line, bool lineWasEmpty, int windowWidth)
+    {
+        Console.Write("| ");
+        int lineSpace = windowWidth - 3;
+
+        if (stepHeaderRegex.Match(line) is { Success: true } headerMatch && lineWasEmpty)
+        {
+            string indents = headerMatch.Groups["indents"].Value;
+
+            Console.BackgroundColor = (indents.Length == 0 ? 0 : indents.Length / 2) switch
+            {
+                0 => ConsoleColor.DarkBlue,
+                1 => ConsoleColor.DarkGreen,
+                _ => ConsoleColor.DarkYellow
+            };
+            Console.ForegroundColor = ConsoleColor.White;
+            string header = headerMatch.Groups["header"].Value;
+            string timestamp = headerMatch.Groups["timestamp"].Value;
+            int buffer = windowWidth - indents.Length - header.Length - timestamp.Length - 3;
+
+            while (buffer < 0)
+            {
+                buffer += windowWidth;
+            }
+
+            Console.Write($"{indents}{header}{new string(' ', buffer)}{timestamp}");
+            Console.ResetColor();
+            Console.WriteLine();
+        }
+        else if (stepFooterRegex.Match(line) is { Success: true } footerMatch)
+        {
+            string indents = footerMatch.Groups["indents"].Value;
+
+            Console.BackgroundColor = (indents.Length == 0 ? 0 : indents.Length / 2) switch
+            {
+                0 => ConsoleColor.Blue,
+                1 => ConsoleColor.Green,
+                _ => ConsoleColor.Yellow
+            };
+            Console.BackgroundColor = ConsoleColor.DarkGray;
+            Console.ForegroundColor = ConsoleColor.White;
+            string footer = footerMatch.Groups["footer"].Value;
+            int buffer = windowWidth - indents.Length - footer.Length - 3;
+
+            while (buffer < 0)
+            {
+                buffer += windowWidth;
+            }
+
+            Console.Write($"{indents}{footer}{new string(' ', buffer)}");
+            Console.ResetColor();
+            Console.WriteLine();
+        }
+        else
+        {
+            while (line.Length > lineSpace)
+            {
+                Console.WriteLine(line[..lineSpace]);
+                Console.Write("|  ");
+                line = line[lineSpace..];
+            }
+
+            Console.WriteLine(line);
+        }
     }
 
     [GeneratedRegex(@"^(?<indents>[|\s]*?)(?<header>\d+\.\s.*?)\s*(?<timestamp>[\d\:]+)", RegexOptions.Compiled)]
