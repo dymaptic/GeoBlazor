@@ -6,7 +6,7 @@ public abstract partial class Domain : MapComponent
     /// <summary>
     ///     The domain type.
     /// </summary>
-    public abstract string Type { get; }
+    public abstract DomainType Type { get; }
 
     /// <summary>
     ///     The domain name.

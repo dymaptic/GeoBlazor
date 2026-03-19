@@ -292,6 +292,12 @@ public partial class Field
 
         if (result is not null)
         {
+            if (Domain is not null)
+            {
+                result.Id = Domain.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
 #pragma warning disable BL0005
             Domain = result;
 #pragma warning restore BL0005
@@ -642,6 +648,11 @@ public partial class Field
         {
             return;
         }
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
     
         try 
         {
@@ -855,6 +866,39 @@ public partial class Field
 
 #endregion
 
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Domain domain:
+                if (domain != Domain)
+                {
+                    Domain = domain;
+                    ModifiedParameters[nameof(Domain)] = Domain;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Domain _:
+                Domain = null;
+                ModifiedParameters[nameof(Domain)] = Domain;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
     /// <inheritdoc />
     public override void ValidateRequiredGeneratedChildren()
     {
@@ -863,6 +907,7 @@ public partial class Field
         {
             throw new MissingRequiredChildElementException(nameof(Field), nameof(Type));
         }
+        Domain?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
       

@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SizeRampElementTitle.html">GeoBlazor Docs</a>
-///     Union type of <see cref="string" />, <see cref="RampTitle" />, and <see cref="ClusterTitle" />
+///     Union type of <see cref="string" />, <see cref="RampTitle" />, and <see cref="ClusterTitle" /> for use with the Title property of the <see cref="SizeRampElement" /> class.
 /// </summary>
 [JsonConverter(typeof(UnionConverter<SizeRampElementTitle>))]
 public partial record SizeRampElementTitle
@@ -64,7 +64,6 @@ public partial record SizeRampElementTitle
     ///     Implementation of parent property Title as ClusterTitle.
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ClusterTitle? TitleClusterTitle { get; set; }
     
@@ -73,7 +72,6 @@ public partial record SizeRampElementTitle
     ///     Implementation of parent property Title as RampTitle.
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public RampTitle? TitleRampTitle { get; set; }
     
@@ -82,7 +80,6 @@ public partial record SizeRampElementTitle
     ///     Implementation of parent property Title as String.
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? TitleString { get; set; }
     

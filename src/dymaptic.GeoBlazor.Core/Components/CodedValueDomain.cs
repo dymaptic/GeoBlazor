@@ -38,7 +38,7 @@ public class CodedValueDomain<T> : Domain
     }
     
     /// <inheritdoc/>
-    public override string Type => "coded-value";
+    public override DomainType Type => DomainType.CodedValue;
     
         
     /// <summary>

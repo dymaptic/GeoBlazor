@@ -880,51 +880,6 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
 
         return result;
     }
-
-    private async Task<FeatureEditsResult?> SendEdits(GraphicSerializationRecord[] graphics,
-        string editType, FeatureEditOptions? options, FeatureEditsResult? currentResults,
-        IJSObjectReference abortSignal, CancellationToken cancellationToken)
-    {
-        if (cancellationToken.IsCancellationRequested ||
-            CancellationTokenSource.Token.IsCancellationRequested)
-        {
-            return null;
-        }
-
-        GraphicCollectionSerializationRecord collection = new(graphics);
-        MemoryStream ms = new();
-        Serializer.Serialize(ms, collection);
-
-        if (cancellationToken.IsCancellationRequested ||
-            CancellationTokenSource.Token.IsCancellationRequested)
-        {
-            await ms.DisposeAsync();
-
-            return null;
-        }
-
-        ms.Seek(0, SeekOrigin.Begin);
-
-        FeatureEditsResult result;
-
-        if (View!.IsWebAssembly)
-        {
-            result = await JsComponentReference!.InvokeAsync<FeatureEditsResult>("applyGraphicEditsSynchronously",
-                cancellationToken, ms.ToArray(), editType, options, abortSignal);
-            await ms.DisposeAsync();
-            await Task.Delay(1, cancellationToken);
-        }
-        else
-        {
-            using DotNetStreamReference streamRef = new(ms);
-
-            result = await JsComponentReference!.InvokeAsync<FeatureEditsResult>("applyGraphicEditsFromStream",
-                cancellationToken, streamRef, editType, options,
-                View!.Id, abortSignal);
-        }
-
-        return result.Concat(currentResults);
-    }
 }
 
 /// <summary>

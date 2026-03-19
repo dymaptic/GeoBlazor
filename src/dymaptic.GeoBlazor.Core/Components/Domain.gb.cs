@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Domain.html">GeoBlazor Docs</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Domain.html">GeoBlazor Docs</a>
 ///     Domains define constraints on a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">layer</a>
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Field.html">field</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html">ArcGIS Maps SDK for JavaScript</a>
@@ -41,7 +41,7 @@ public abstract partial class Domain
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Domain), null,
+            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Domain), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {

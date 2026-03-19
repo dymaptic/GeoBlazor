@@ -44,7 +44,7 @@ public class RangeDomain : Domain
     }
 
     /// <inheritdoc />
-    public override string Type => "range";
+    public override DomainType Type => DomainType.Range;
 
 
 #region Public Properties / Blazor Parameters

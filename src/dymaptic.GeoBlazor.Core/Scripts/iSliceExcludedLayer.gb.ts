@@ -43,7 +43,6 @@ export async function buildJsISliceExcludedLayerGenerated(dotNetObject: any, lay
         return await buildJsKMLLayer(dotNetObject, layerId, viewId);
     }
 
-
     if (Object.hasOwn(dotNetObject, "lineSymbol")) {
         let { buildJsGeoRSSLayer } = await import('./geoRSSLayer');
         return await buildJsGeoRSSLayer(dotNetObject, layerId, viewId);

@@ -169,9 +169,7 @@ export default class GeoJSONLayerGenerated extends BaseComponent {
     
     // region methods
     async applyEdits(edits: any): Promise<any> {
-        let { buildJsGeoJSONLayerApplyEditsEdits } = await import('./geoJSONLayerApplyEditsEdits');
-        let jsEdits = await buildJsGeoJSONLayerApplyEditsEdits(edits, this.layerId, this.viewId) as any;
-        return await this.layer.applyEdits(jsEdits);
+        return await this.layer.applyEdits(edits);
     }
 
     async cancelLoad(): Promise<void> {

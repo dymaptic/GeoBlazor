@@ -241,14 +241,6 @@ export default class FeatureLayerGenerated extends BaseComponent {
             attachment);
     }
 
-    async applyEdits(edits: any,
-        options: any): Promise<any> {
-        let { buildJsFeatureEdits } = await import('./featureEdits');
-        let jsEdits = await buildJsFeatureEdits(edits, this.layerId, this.viewId) as any;
-        return await this.layer.applyEdits(jsEdits,
-            options);
-    }
-
     async cancelLoad(): Promise<void> {
         this.layer.cancelLoad();
     }

@@ -32,5 +32,5 @@ public class InheritedDomain : Domain
     }
     
     /// <inheritdoc/>
-    public override string Type => "inherited";
+    public override DomainType Type => DomainType.Inherited;
 }

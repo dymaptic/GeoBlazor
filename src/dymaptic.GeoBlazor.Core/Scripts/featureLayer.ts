@@ -19,6 +19,7 @@ import {buildDotNetPopupTemplate} from './popupTemplate';
 import {buildJsGraphic} from "./graphic";
 import {buildDotNetQuery} from "./query";
 import CreatePopupTemplateOptions = __esri.CreatePopupTemplateOptions;
+import { buildJsAttachmentEdit } from './attachmentEdit';
 
 export default class FeatureLayerWrapper extends FeatureLayerGenerated {
 
@@ -144,117 +145,6 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
             count: result.count,
             extent: buildDotNetExtent(result.extent)
         };
-    }
-
-    async applyEdits(edits: any, options: any): Promise<any> {
-        
-    }
-
-    async applyGraphicEditsFromStream(streamRef: any, editType: string, options: any,
-                                      abortSignal: AbortSignal): Promise<any> {
-        if (abortSignal.aborted) {
-            return;
-        }
-        let graphics = await getGraphicsFromProtobufStream(streamRef) as any[];
-        let result = await this.applyGraphicEdits(graphics, editType, options, abortSignal);
-        return result;
-    }
-
-    async applyGraphicEditsSynchronously(graphicsArray: Uint8Array, editType: string, options: any,
-                                         abortSignal: AbortSignal): Promise<any> {
-        if (abortSignal.aborted) {
-            return;
-        }
-        let graphics = decodeProtobufGraphics(graphicsArray);
-        let result = await this.applyGraphicEdits(graphics, editType, options, abortSignal);
-        return result;
-    }
-
-    async applyGraphicEdits(graphics: any[], editType: string, options: any, abortSignal: AbortSignal): Promise<any> {
-        let jsGraphics: Graphic[] = [];
-        if (editType === 'add' || editType === 'update') {
-            // add needs built, update needs property checking
-            for (const g of graphics) {
-                let jsGraphic = buildJsGraphic(g) as Graphic;
-                jsGraphics.push(jsGraphic);
-            }
-        } else {
-            // delete can just be looked up if they exist
-            for (const g of graphics) {
-                let jsGraphic = lookupJsGraphicById(g.id, g.layerId, g.viewId)
-                    ?? buildJsGraphic(g) as Graphic;
-                jsGraphics.push(jsGraphic);
-            }
-        }
-        if (abortSignal.aborted) {
-            return;
-        }
-        let featureEdits = {};
-        switch (editType) {
-            case 'add':
-                featureEdits['addFeatures'] = jsGraphics;
-                break;
-            case 'update':
-                featureEdits['updateFeatures'] = jsGraphics;
-                break;
-            case 'delete':
-                featureEdits['deleteFeatures'] = jsGraphics;
-                break;
-        }
-        let result: __esri.EditsResult;
-        if (hasValue(options)) {
-            result = await this.layer.applyEdits(featureEdits, options);
-        } else {
-            result = await this.layer.applyEdits(featureEdits);
-        }
-        if (abortSignal.aborted) return;
-        let {buildDotNetEditsResult} = await import('./editsResult');
-        return buildDotNetEditsResult(result, this.geoBlazorId as string, this.viewId);
-    }
-
-    async applyAttachmentEdits(edits: any, options: any, abortSignal: AbortSignal): Promise<any> {
-        if (abortSignal.aborted) return;
-        let addAttachments = edits.addAttachments?.map(e => {
-            if (hasValue(e.feature)) {
-                return {
-                    feature: lookupJsGraphicById(e.feature.id, this.geoBlazorId, this.viewId),
-                    attachment: e.attachment
-                }
-            } else {
-                return {
-                    feature: e.objectId ?? e.globalId,
-                    attachment: e.attachment
-                }
-            }
-        });
-        let updateAttachments = edits.updateAttachments?.map(e => {
-            if (hasValue(e.feature)) {
-                return {
-                    feature: lookupJsGraphicById(e.feature.id, this.geoBlazorId, this.viewId),
-                    attachment: e.attachment
-                }
-            } else {
-                return {
-                    feature: e.objectId ?? e.globalId,
-                    attachment: e.attachment
-                }
-            }
-        });
-        let jsEdits = {
-            addAttachments: addAttachments,
-            updateAttachments: updateAttachments,
-            deleteAttachments: edits.deleteAttachments
-        };
-        let result: __esri.EditsResult;
-        if (options !== null) {
-            result = await this.layer.applyEdits(jsEdits, options);
-        } else {
-            result = await this.layer.applyEdits(jsEdits);
-        }
-        if (abortSignal.aborted) return;
-
-        let {buildDotNetEditsResult} = await import('./editsResult');
-        return buildDotNetEditsResult(result, this.geoBlazorId as string, this.viewId);
     }
 
     async getFeatureReduction(): Promise<any> {

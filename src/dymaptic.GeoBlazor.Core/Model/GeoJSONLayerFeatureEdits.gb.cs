@@ -3,7 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.GeoJSONLayerApplyEditsEdits.html">GeoBlazor Docs</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.GeoJSONLayerFeatureEdits.html">GeoBlazor Docs</a>
 ///     
 /// </summary>
 /// <param name="AddFeatures">

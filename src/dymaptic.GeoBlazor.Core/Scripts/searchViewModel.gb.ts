@@ -53,9 +53,6 @@ export default class SearchViewModelGenerated extends BaseComponent {
         if (hasValue(dotNetObject.autoSelect)) {
             this.component.autoSelect = dotNetObject.autoSelect;
         }
-        if (hasValue(dotNetObject.includeDefaultSources)) {
-            this.component.includeDefaultSources = dotNetObject.includeDefaultSources;
-        }
         if (hasValue(dotNetObject.locationEnabled)) {
             this.component.locationEnabled = dotNetObject.locationEnabled;
         }
@@ -363,7 +360,6 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.autoSelect)) {
         properties.autoSelect = dotNetObject.autoSelect;
     }
-    
     if (hasValue(dotNetObject.locationEnabled)) {
         properties.locationEnabled = dotNetObject.locationEnabled;
     }

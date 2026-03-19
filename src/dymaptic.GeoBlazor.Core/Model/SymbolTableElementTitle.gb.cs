@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SymbolTableElementTitle.html">GeoBlazor Docs</a>
-///     Union type of <see cref="string" />, <see cref="RendererTitle" />, and <see cref="DotDensityTitle" />
+///     Union type of <see cref="string" />, <see cref="RendererTitle" />, and <see cref="DotDensityTitle" /> for use with the Title property of the <see cref="SymbolTableElement" /> class.
 /// </summary>
 [JsonConverter(typeof(UnionConverter<SymbolTableElementTitle>))]
 public partial record SymbolTableElementTitle
@@ -64,7 +64,6 @@ public partial record SymbolTableElementTitle
     ///     Implementation of parent property Title as DotDensityTitle.
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public DotDensityTitle? TitleDotDensityTitle { get; set; }
     
@@ -73,7 +72,6 @@ public partial record SymbolTableElementTitle
     ///     Implementation of parent property Title as RendererTitle.
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public RendererTitle? TitleRendererTitle { get; set; }
     
@@ -82,7 +80,6 @@ public partial record SymbolTableElementTitle
     ///     Implementation of parent property Title as String.
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? TitleString { get; set; }
     

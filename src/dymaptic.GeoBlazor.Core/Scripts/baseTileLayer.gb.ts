@@ -338,6 +338,7 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: 
             });
     
             return jsBaseTileLayer;
+
         default: 
             return sanitize(dotNetObject);
     }
@@ -451,6 +452,7 @@ export async function buildDotNetBaseTileLayerGenerated(jsObject: any, layerId: 
                 arcGisObjectRefs[dotNetBaseTileLayer.id] ??= jsObject;
             }
             return dotNetBaseTileLayer;
+
         default: 
             return removeCircularReferences(jsObject);
     }
