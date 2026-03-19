@@ -5,18 +5,14 @@ export async function buildJsIInputBaseLayerGenerated(dotNetObject: any, layerId
         return null;
     }
     
-    try {
-        // ts-ignore: GeoBlazor Pro only
-        if (Pro && Object.hasOwn(dotNetObject, "capabilities")) {
+    if (Pro && Object.hasOwn(dotNetObject, "capabilities")) {
+        try {
+            // @ts-ignore GeoBlazor Pro only
             let { buildJsSubtypeSublayer } = await import('./subtypeSublayer');
             return await buildJsSubtypeSublayer(dotNetObject, layerId, viewId);
+        } catch (e) {
+            // continue to next/default implementation
         }
-    } catch (e) {
-        // continue to next/default implementation
-    }
-
-    } catch (e) {
-        // continue to next/default implementation
     }
 
     if (Object.hasOwn(dotNetObject, "charts")) {
@@ -24,18 +20,14 @@ export async function buildJsIInputBaseLayerGenerated(dotNetObject: any, layerId
         return await buildJsFeatureLayer(dotNetObject, layerId, viewId);
     }
 
-    try {
-        // ts-ignore: GeoBlazor Pro only
-        if (Pro && Object.hasOwn(dotNetObject, "definitionExpression")) {
+    if (Pro && Object.hasOwn(dotNetObject, "definitionExpression")) {
+        try {
+            // @ts-ignore GeoBlazor Pro only
             let { buildJsSceneLayer } = await import('./sceneLayer');
             return await buildJsSceneLayer(dotNetObject, layerId, viewId);
+        } catch (e) {
+            // continue to next/default implementation
         }
-    } catch (e) {
-        // continue to next/default implementation
-    }
-
-    } catch (e) {
-        // continue to next/default implementation
     }
 
     if (Object.hasOwn(dotNetObject, "dateFieldsTimeZone")) {
@@ -51,8 +43,13 @@ export async function buildDotNetIInputBaseLayerGenerated(jsObject: any, layerId
     }
     
     if (Pro && Object.hasOwn(jsObject, "capabilities")) {
-        let { buildDotNetSubtypeSublayer } = await import('./subtypeSublayer');
-        return await buildDotNetSubtypeSublayer(jsObject, layerId, viewId);
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildDotNetSubtypeSublayer } = await import('./subtypeSublayer');
+            return await buildDotNetSubtypeSublayer(jsObject, layerId, viewId);
+        } catch {
+            // continue to next/default implementation
+        }
     }
 
     if (Object.hasOwn(jsObject, "charts")) {
@@ -61,8 +58,13 @@ export async function buildDotNetIInputBaseLayerGenerated(jsObject: any, layerId
     }
 
     if (Pro && Object.hasOwn(jsObject, "definitionExpression")) {
-        let { buildDotNetSceneLayer } = await import('./sceneLayer');
-        return await buildDotNetSceneLayer(jsObject, layerId, viewId);
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildDotNetSceneLayer } = await import('./sceneLayer');
+            return await buildDotNetSceneLayer(jsObject, layerId, viewId);
+        } catch {
+            // continue to next/default implementation
+        }
     }
 
     if (Object.hasOwn(jsObject, "dateFieldsTimeZone")) {

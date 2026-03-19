@@ -545,6 +545,7 @@ export async function buildDotNetWebTileLayerGenerated(jsObject: any, layerId: s
         case 'open-street-map':
             let { buildDotNetOpenStreetMapLayer } = await import('./openStreetMapLayer');
             return await buildDotNetOpenStreetMapLayer(jsObject, layerId, viewId);
+
         default: 
             return removeCircularReferences(jsObject);
     }

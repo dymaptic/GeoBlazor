@@ -5,32 +5,24 @@ export async function buildJsBaseImageMeasureParametersGenerated(dotNetObject: a
         return null;
     }
     
-    try {
-        // ts-ignore: GeoBlazor Pro only
-        if (Pro && Object.hasOwn(dotNetObject, "linearUnit")) {
+    if (Pro && Object.hasOwn(dotNetObject, "linearUnit")) {
+        try {
+            // @ts-ignore GeoBlazor Pro only
             let { buildJsImageHeightParameters } = await import('./imageHeightParameters');
             return await buildJsImageHeightParameters(dotNetObject, layerId, viewId);
+        } catch (e) {
+            // continue to next/default implementation
         }
-    } catch (e) {
-        // continue to next/default implementation
     }
 
-    } catch (e) {
-        // continue to next/default implementation
-    }
-
-    try {
-        // ts-ignore: GeoBlazor Pro only
-        if (Pro && Object.hasOwn(dotNetObject, "is3D")) {
+    if (Pro && Object.hasOwn(dotNetObject, "is3D")) {
+        try {
+            // @ts-ignore GeoBlazor Pro only
             let { buildJsImagePointParameters } = await import('./imagePointParameters');
             return await buildJsImagePointParameters(dotNetObject, layerId, viewId);
+        } catch (e) {
+            // continue to next/default implementation
         }
-    } catch (e) {
-        // continue to next/default implementation
-    }
-
-    } catch (e) {
-        // continue to next/default implementation
     }
 
     if (Object.hasOwn(dotNetObject, "mosaicRule")) {
@@ -38,32 +30,24 @@ export async function buildJsBaseImageMeasureParametersGenerated(dotNetObject: a
         return await buildJsBaseImageMeasureParameters(dotNetObject, layerId, viewId);
     }
 
-    try {
-        // ts-ignore: GeoBlazor Pro only
-        if (Pro && Object.hasOwn(dotNetObject, "areaUnit")) {
+    if (Pro && Object.hasOwn(dotNetObject, "areaUnit")) {
+        try {
+            // @ts-ignore GeoBlazor Pro only
             let { buildJsImageAreaParameters } = await import('./imageAreaParameters');
             return await buildJsImageAreaParameters(dotNetObject, layerId, viewId);
+        } catch (e) {
+            // continue to next/default implementation
         }
-    } catch (e) {
-        // continue to next/default implementation
     }
 
-    } catch (e) {
-        // continue to next/default implementation
-    }
-
-    try {
-        // ts-ignore: GeoBlazor Pro only
-        if (Pro && Object.hasOwn(dotNetObject, "angularUnit")) {
+    if (Pro && Object.hasOwn(dotNetObject, "angularUnit")) {
+        try {
+            // @ts-ignore GeoBlazor Pro only
             let { buildJsImageDistanceParameters } = await import('./imageDistanceParameters');
             return await buildJsImageDistanceParameters(dotNetObject, layerId, viewId);
+        } catch (e) {
+            // continue to next/default implementation
         }
-    } catch (e) {
-        // continue to next/default implementation
-    }
-
-    } catch (e) {
-        // continue to next/default implementation
     }
 
     return sanitize(dotNetObject);
@@ -74,13 +58,23 @@ export async function buildDotNetBaseImageMeasureParametersGenerated(jsObject: a
     }
     
     if (Pro && Object.hasOwn(jsObject, "linearUnit")) {
-        let { buildDotNetImageHeightParameters } = await import('./imageHeightParameters');
-        return await buildDotNetImageHeightParameters(jsObject, layerId, viewId);
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildDotNetImageHeightParameters } = await import('./imageHeightParameters');
+            return await buildDotNetImageHeightParameters(jsObject, layerId, viewId);
+        } catch {
+            // continue to next/default implementation
+        }
     }
 
     if (Pro && Object.hasOwn(jsObject, "is3D")) {
-        let { buildDotNetImagePointParameters } = await import('./imagePointParameters');
-        return await buildDotNetImagePointParameters(jsObject, layerId, viewId);
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildDotNetImagePointParameters } = await import('./imagePointParameters');
+            return await buildDotNetImagePointParameters(jsObject, layerId, viewId);
+        } catch {
+            // continue to next/default implementation
+        }
     }
 
     if (Object.hasOwn(jsObject, "mosaicRule")) {
@@ -89,13 +83,23 @@ export async function buildDotNetBaseImageMeasureParametersGenerated(jsObject: a
     }
 
     if (Pro && Object.hasOwn(jsObject, "areaUnit")) {
-        let { buildDotNetImageAreaParameters } = await import('./imageAreaParameters');
-        return await buildDotNetImageAreaParameters(jsObject, layerId, viewId);
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildDotNetImageAreaParameters } = await import('./imageAreaParameters');
+            return await buildDotNetImageAreaParameters(jsObject, layerId, viewId);
+        } catch {
+            // continue to next/default implementation
+        }
     }
 
     if (Pro && Object.hasOwn(jsObject, "angularUnit")) {
-        let { buildDotNetImageDistanceParameters } = await import('./imageDistanceParameters');
-        return await buildDotNetImageDistanceParameters(jsObject, layerId, viewId);
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildDotNetImageDistanceParameters } = await import('./imageDistanceParameters');
+            return await buildDotNetImageDistanceParameters(jsObject, layerId, viewId);
+        } catch {
+            // continue to next/default implementation
+        }
     }
 
     return sanitize(jsObject);

@@ -27,9 +27,11 @@ export async function buildDotNetFillSymbolGenerated(jsObject: any): Promise<any
         case 'simple-fill':
             let { buildDotNetSimpleFillSymbol } = await import('./simpleFillSymbol');
             return await buildDotNetSimpleFillSymbol(jsObject);
+
         case 'picture-fill':
             let { buildDotNetPictureFillSymbol } = await import('./pictureFillSymbol');
             return await buildDotNetPictureFillSymbol(jsObject);
+
         default: 
             return removeCircularReferences(jsObject);
     }

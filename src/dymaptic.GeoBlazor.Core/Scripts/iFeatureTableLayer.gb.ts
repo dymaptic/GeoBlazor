@@ -5,18 +5,14 @@ export async function buildJsIFeatureTableLayerGenerated(dotNetObject: any, laye
         return null;
     }
     
-    try {
-        // ts-ignore: GeoBlazor Pro only
-        if (Pro && Object.hasOwn(dotNetObject, "type")) {
+    if (Pro && Object.hasOwn(dotNetObject, "type")) {
+        try {
+            // @ts-ignore GeoBlazor Pro only
             let { buildJsSceneLayer } = await import('./sceneLayer');
             return await buildJsSceneLayer(dotNetObject, layerId, viewId);
+        } catch (e) {
+            // continue to next/default implementation
         }
-    } catch (e) {
-        // continue to next/default implementation
-    }
-
-    } catch (e) {
-        // continue to next/default implementation
     }
 
     if (Object.hasOwn(dotNetObject, "mosaicRule")) {
@@ -34,18 +30,14 @@ export async function buildJsIFeatureTableLayerGenerated(dotNetObject: any, laye
         return await buildJsWFSLayer(dotNetObject, layerId, viewId);
     }
 
-    try {
-        // ts-ignore: GeoBlazor Pro only
-        if (Pro && Object.hasOwn(dotNetObject, "charts")) {
+    if (Pro && Object.hasOwn(dotNetObject, "charts")) {
+        try {
+            // @ts-ignore GeoBlazor Pro only
             let { buildJsCatalogFootprintLayer } = await import('./catalogFootprintLayer');
             return await buildJsCatalogFootprintLayer(dotNetObject, layerId, viewId);
+        } catch (e) {
+            // continue to next/default implementation
         }
-    } catch (e) {
-        // continue to next/default implementation
-    }
-
-    } catch (e) {
-        // continue to next/default implementation
     }
 
     if (Object.hasOwn(dotNetObject, "delimiter")) {
@@ -66,8 +58,13 @@ export async function buildDotNetIFeatureTableLayerGenerated(jsObject: any, laye
     }
     
     if (Pro && Object.hasOwn(jsObject, "type")) {
-        let { buildDotNetSceneLayer } = await import('./sceneLayer');
-        return await buildDotNetSceneLayer(jsObject, layerId, viewId);
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildDotNetSceneLayer } = await import('./sceneLayer');
+            return await buildDotNetSceneLayer(jsObject, layerId, viewId);
+        } catch {
+            // continue to next/default implementation
+        }
     }
 
     if (Object.hasOwn(jsObject, "mosaicRule")) {
@@ -86,8 +83,13 @@ export async function buildDotNetIFeatureTableLayerGenerated(jsObject: any, laye
     }
 
     if (Pro && Object.hasOwn(jsObject, "charts")) {
-        let { buildDotNetCatalogFootprintLayer } = await import('./catalogFootprintLayer');
-        return await buildDotNetCatalogFootprintLayer(jsObject, layerId, viewId);
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildDotNetCatalogFootprintLayer } = await import('./catalogFootprintLayer');
+            return await buildDotNetCatalogFootprintLayer(jsObject, layerId, viewId);
+        } catch {
+            // continue to next/default implementation
+        }
     }
 
     if (Object.hasOwn(jsObject, "delimiter")) {
