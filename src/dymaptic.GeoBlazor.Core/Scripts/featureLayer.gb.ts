@@ -241,6 +241,16 @@ export default class FeatureLayerGenerated extends BaseComponent {
             attachment);
     }
 
+    async applyEdits(edits: any,
+        options: any): Promise<any> {
+        let { buildJsFeatureEdits } = await import('./featureEdits');
+        let jsEdits = await buildJsFeatureEdits(edits, this.layerId, this.viewId) as any;
+        let result = await this.layer.applyEdits(jsEdits,
+            options) as any;
+        let { buildDotNetFeatureEditsResult } = await import('./featureEditsResult');
+        return await buildDotNetFeatureEditsResult(result, this.layerId, this.viewId);
+    }
+
     async cancelLoad(): Promise<void> {
         this.layer.cancelLoad();
     }
@@ -248,8 +258,16 @@ export default class FeatureLayerGenerated extends BaseComponent {
     async createLayerView(view: any,
         signal: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.layer.createLayerView(view,
-            options);
+        let result = await this.layer.createLayerView(view,
+            options) as any;
+        let { buildDotNetLayerView } = await import('./layerView');
+        return await buildDotNetLayerView(result, this.layerId, this.viewId);
+    }
+
+    async createQuery(): Promise<any> {
+        let result = this.layer.createQuery() as any;
+        let { buildDotNetQuery } = await import('./query');
+        return await buildDotNetQuery(result);
     }
 
     async deleteAttachments(feature: any,
@@ -302,7 +320,7 @@ export default class FeatureLayerGenerated extends BaseComponent {
     }
 
     async save(options: any): Promise<any> {
-        let result = await this.layer.save(options);
+        let result = await this.layer.save(options) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
@@ -312,7 +330,7 @@ export default class FeatureLayerGenerated extends BaseComponent {
         let { buildJsPortalItem } = await import('./portalItem');
         let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
         let result = await this.layer.saveAs(jsPortalItem,
-            options);
+            options) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }

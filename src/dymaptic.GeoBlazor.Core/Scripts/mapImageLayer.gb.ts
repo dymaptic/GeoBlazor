@@ -138,12 +138,14 @@ export default class MapImageLayerGenerated extends BaseComponent {
     async createLayerView(view: any,
         signal: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.layer.createLayerView(view,
-            options);
+        let result = await this.layer.createLayerView(view,
+            options) as any;
+        let { buildDotNetLayerView } = await import('./layerView');
+        return await buildDotNetLayerView(result, this.layerId, this.viewId);
     }
 
     async createServiceSublayers(): Promise<any> {
-        let result = this.layer.createServiceSublayers();
+        let result = this.layer.createServiceSublayers() as any;
         let { buildDotNetSublayer } = await import('./sublayer');
         return await Promise.all(result.map(async i => await buildDotNetSublayer(i, this.layerId, this.viewId)));
     }
@@ -153,7 +155,7 @@ export default class MapImageLayerGenerated extends BaseComponent {
     }
 
     async findSublayerById(id: any): Promise<any> {
-        let result = this.layer.findSublayerById(id);
+        let result = this.layer.findSublayerById(id) as any;
         let { buildDotNetSublayer } = await import('./sublayer');
         return await buildDotNetSublayer(result, this.layerId, this.viewId);
     }
@@ -171,7 +173,7 @@ export default class MapImageLayerGenerated extends BaseComponent {
     }
 
     async loadAll(): Promise<any> {
-        let result = await this.layer.loadAll();
+        let result = await this.layer.loadAll() as any;
         let { buildDotNetMapImageLayer } = await import('./mapImageLayer');
         return await buildDotNetMapImageLayer(result, this.layerId, this.viewId);
     }
@@ -181,7 +183,7 @@ export default class MapImageLayerGenerated extends BaseComponent {
     }
 
     async save(options: any): Promise<any> {
-        let result = await this.layer.save(options);
+        let result = await this.layer.save(options) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
@@ -191,7 +193,7 @@ export default class MapImageLayerGenerated extends BaseComponent {
         let { buildJsPortalItem } = await import('./portalItem');
         let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
         let result = await this.layer.saveAs(jsPortalItem,
-            options);
+            options) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }

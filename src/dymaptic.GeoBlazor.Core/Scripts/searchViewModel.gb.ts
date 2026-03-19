@@ -101,24 +101,32 @@ export default class SearchViewModelGenerated extends BaseComponent {
 
     async search(searchItem: any,
         options: any): Promise<any> {
-        return await this.component.search(searchItem,
-            options);
+        let result = await this.component.search(searchItem,
+            options) as any;
+        let { buildDotNetSearchResponse } = await import('./searchResponse');
+        return await buildDotNetSearchResponse(result, this.viewId);
     }
 
     async searchNearby(options: any): Promise<any> {
-        return await this.component.searchNearby(options);
+        let result = await this.component.searchNearby(options) as any;
+        let { buildDotNetSearchResponse } = await import('./searchResponse');
+        return await buildDotNetSearchResponse(result, this.viewId);
     }
 
     async select(value: any): Promise<any> {
-        return await this.component.select(value);
+        let result = await this.component.select(value) as any;
+        let { buildDotNetSearchResult } = await import('./searchResult');
+        return buildDotNetSearchResult(result, this.layerId, this.viewId);
     }
 
     async suggest(value: any,
         suggestionDelay: any,
         options: any): Promise<any> {
-        return await this.component.suggest(value,
+        let result = await this.component.suggest(value,
             suggestionDelay,
-            options);
+            options) as any;
+        let { buildDotNetSuggestResponse } = await import('./suggestResponse');
+        return await buildDotNetSuggestResponse(result, this.viewId);
     }
 
     async when(callback: any,

@@ -83,13 +83,13 @@ export default class WebMapGenerated extends BaseComponent {
     }
 
     async loadAll(): Promise<any> {
-        let result = await this.component.loadAll();
+        let result = await this.component.loadAll() as any;
         let { buildDotNetWebDocument2D } = await import('./webDocument2D');
         return await buildDotNetWebDocument2D(result, this.layerId, this.viewId);
     }
 
     async save(options: any): Promise<any> {
-        let result = await this.component.save(options);
+        let result = await this.component.save(options) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
@@ -99,7 +99,7 @@ export default class WebMapGenerated extends BaseComponent {
         let { buildJsPortalItem } = await import('./portalItem');
         let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
         let result = await this.component.saveAs(jsPortalItem,
-            options);
+            options) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }

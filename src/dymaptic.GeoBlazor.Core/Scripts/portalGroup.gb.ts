@@ -73,8 +73,10 @@ export default class PortalGroupGenerated extends BaseComponent {
         let options = { signal: signal };
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
-        return await this.component.queryItems(jsQueryParams,
-            options);
+        let result = await this.component.queryItems(jsQueryParams,
+            options) as any;
+        let { buildDotNetPortalQueryResult } = await import('./portalQueryResult');
+        return await buildDotNetPortalQueryResult(result, this.layerId, this.viewId);
     }
 
     // region properties

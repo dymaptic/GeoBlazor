@@ -226,7 +226,7 @@ export default class PortalGenerated extends BaseComponent {
         signal: AbortSignal): Promise<any> {
         options.signal = signal;
         let result = await this.component.fetchBasemaps(basemapGalleryGroupQuery,
-            options);
+            options) as any;
         let { buildDotNetBasemap } = await import('./basemap');
         return await Promise.all(result.map(async i => await buildDotNetBasemap(i, this.layerId, this.viewId)));
     }
@@ -243,14 +243,14 @@ export default class PortalGenerated extends BaseComponent {
 
     async fetchDefault3DBasemap(signal: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        let result = await this.component.fetchDefault3DBasemap(options);
+        let result = await this.component.fetchDefault3DBasemap(options) as any;
         let { buildDotNetBasemap } = await import('./basemap');
         return await buildDotNetBasemap(result, this.layerId, this.viewId);
     }
 
     async fetchFeaturedGroups(signal: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        let result = await this.component.fetchFeaturedGroups(options);
+        let result = await this.component.fetchFeaturedGroups(options) as any;
         let { buildDotNetPortalGroup } = await import('./portalGroup');
         return await Promise.all(result.map(async i => await buildDotNetPortalGroup(i, this.layerId, this.viewId)));
     }
@@ -282,8 +282,10 @@ export default class PortalGenerated extends BaseComponent {
         let options = { signal: signal };
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
-        return await this.component.queryGroups(jsQueryParams,
-            options);
+        let result = await this.component.queryGroups(jsQueryParams,
+            options) as any;
+        let { buildDotNetPortalQueryResult } = await import('./portalQueryResult');
+        return await buildDotNetPortalQueryResult(result, this.layerId, this.viewId);
     }
 
     async queryItems(queryParams: any,
@@ -291,8 +293,10 @@ export default class PortalGenerated extends BaseComponent {
         let options = { signal: signal };
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
-        return await this.component.queryItems(jsQueryParams,
-            options);
+        let result = await this.component.queryItems(jsQueryParams,
+            options) as any;
+        let { buildDotNetPortalQueryResult } = await import('./portalQueryResult');
+        return await buildDotNetPortalQueryResult(result, this.layerId, this.viewId);
     }
 
     async queryUsers(queryParams: any,
@@ -300,8 +304,10 @@ export default class PortalGenerated extends BaseComponent {
         let options = { signal: signal };
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
-        return await this.component.queryUsers(jsQueryParams,
-            options);
+        let result = await this.component.queryUsers(jsQueryParams,
+            options) as any;
+        let { buildDotNetPortalQueryResult } = await import('./portalQueryResult');
+        return await buildDotNetPortalQueryResult(result, this.layerId, this.viewId);
     }
 
     async when(callback: any,

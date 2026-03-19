@@ -51,7 +51,7 @@ export default class PointGenerated extends BaseComponent {
     async copy(other: any): Promise<any> {
         let { buildJsPoint } = await import('./point');
         let jsOther = buildJsPoint(other) as any;
-        let result = this.component.copy(jsOther);
+        let result = this.component.copy(jsOther) as any;
         let { buildDotNetPoint } = await import('./point');
         return buildDotNetPoint(result);
     }
@@ -63,7 +63,7 @@ export default class PointGenerated extends BaseComponent {
     }
 
     async normalize(): Promise<any> {
-        let result = this.component.normalize();
+        let result = this.component.normalize() as any;
         let { buildDotNetPoint } = await import('./point');
         return buildDotNetPoint(result);
     }

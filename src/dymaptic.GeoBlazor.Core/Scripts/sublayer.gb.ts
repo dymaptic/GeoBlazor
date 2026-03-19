@@ -88,17 +88,21 @@ export default class SublayerGenerated extends BaseComponent {
     }
 
     async createFeatureLayer(): Promise<any> {
-        let result = await this.component.createFeatureLayer();
+        let result = await this.component.createFeatureLayer() as any;
         let { buildDotNetFeatureLayer } = await import('./featureLayer');
         return await buildDotNetFeatureLayer(result, this.layerId, this.viewId);
     }
 
     async createPopupTemplate(options: any): Promise<any> {
-        return this.component.createPopupTemplate(options);
+        let result = this.component.createPopupTemplate(options) as any;
+        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
+        return await buildDotNetPopupTemplate(result);
     }
 
     async createQuery(): Promise<any> {
-        return this.component.createQuery();
+        let result = this.component.createQuery() as any;
+        let { buildDotNetQuery } = await import('./query');
+        return await buildDotNetQuery(result);
     }
 
     async getFeatureType(feature: any): Promise<any> {
@@ -115,15 +119,19 @@ export default class SublayerGenerated extends BaseComponent {
                 jsFeature = null;
             }
         }
-        return this.component.getFeatureType(jsFeature);
+        let result = this.component.getFeatureType(jsFeature) as any;
+        let { buildDotNetFeatureType } = await import('./featureType');
+        return await buildDotNetFeatureType(result);
     }
 
     async getFieldDomain(fieldName: any,
         options: any): Promise<any> {
         let { buildJsSublayerGetFieldDomainOptions } = await import('./sublayerGetFieldDomainOptions');
         let jsOptions = await buildJsSublayerGetFieldDomainOptions(options, this.layerId, this.viewId) as any;
-        return this.component.getFieldDomain(fieldName,
-            jsOptions);
+        let result = this.component.getFieldDomain(fieldName,
+            jsOptions) as any;
+        let { buildDotNetDomain } = await import('./domain');
+        return buildDotNetDomain(result);
     }
 
     async isFulfilled(): Promise<any> {
@@ -159,8 +167,10 @@ export default class SublayerGenerated extends BaseComponent {
         let options = { signal: signal };
         let { buildJsQuery } = await import('./query');
         let jsQuery = buildJsQuery(query) as any;
-        return await this.component.queryFeatures(jsQuery,
-            options);
+        let result = await this.component.queryFeatures(jsQuery,
+            options) as any;
+        let { buildDotNetFeatureSet } = await import('./featureSet');
+        return await buildDotNetFeatureSet(result, this.layerId, this.viewId);
     }
 
     async queryObjectIds(query: any,

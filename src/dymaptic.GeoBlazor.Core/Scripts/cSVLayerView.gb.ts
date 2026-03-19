@@ -42,11 +42,15 @@ export default class CSVLayerViewGenerated extends BaseComponent {
     
     // region methods
     async createAggregateQuery(): Promise<any> {
-        return this.component.createAggregateQuery();
+        let result = this.component.createAggregateQuery() as any;
+        let { buildDotNetQuery } = await import('./query');
+        return await buildDotNetQuery(result);
     }
 
     async createQuery(): Promise<any> {
-        return this.component.createQuery();
+        let result = this.component.createQuery() as any;
+        let { buildDotNetQuery } = await import('./query');
+        return await buildDotNetQuery(result);
     }
 
     async highlight(target: any,
@@ -72,8 +76,10 @@ export default class CSVLayerViewGenerated extends BaseComponent {
         let options = { signal: signal };
         let { buildJsQuery } = await import('./query');
         let jsQuery = buildJsQuery(query) as any;
-        return await this.component.queryAggregates(jsQuery,
-            options);
+        let result = await this.component.queryAggregates(jsQuery,
+            options) as any;
+        let { buildDotNetFeatureSet } = await import('./featureSet');
+        return await buildDotNetFeatureSet(result, this.layerId, this.viewId);
     }
 
     async queryAttributeBins(binsQuery: any,
@@ -106,8 +112,10 @@ export default class CSVLayerViewGenerated extends BaseComponent {
         let options = { signal: signal };
         let { buildJsQuery } = await import('./query');
         let jsQuery = buildJsQuery(query) as any;
-        return await this.component.queryFeatures(jsQuery,
-            options);
+        let result = await this.component.queryFeatures(jsQuery,
+            options) as any;
+        let { buildDotNetFeatureSet } = await import('./featureSet');
+        return await buildDotNetFeatureSet(result, this.layerId, this.viewId);
     }
 
     async queryObjectIds(query: any,

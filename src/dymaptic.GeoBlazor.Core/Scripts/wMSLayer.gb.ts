@@ -142,8 +142,10 @@ export default class WMSLayerGenerated extends BaseComponent {
     async createLayerView(view: any,
         signal: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.layer.createLayerView(view,
-            options);
+        let result = await this.layer.createLayerView(view,
+            options) as any;
+        let { buildDotNetLayerView } = await import('./layerView');
+        return await buildDotNetLayerView(result, this.layerId, this.viewId);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -151,11 +153,15 @@ export default class WMSLayerGenerated extends BaseComponent {
     }
 
     async findSublayerById(id: any): Promise<any> {
-        return this.layer.findSublayerById(id);
+        let result = this.layer.findSublayerById(id) as any;
+        let { buildDotNetWMSSublayer } = await import('./wMSSublayer');
+        return await buildDotNetWMSSublayer(result, this.viewId);
     }
 
     async findSublayerByName(name: any): Promise<any> {
-        return this.layer.findSublayerByName(name);
+        let result = this.layer.findSublayerByName(name) as any;
+        let { buildDotNetWMSSublayer } = await import('./wMSSublayer');
+        return await buildDotNetWMSSublayer(result, this.viewId);
     }
 
     async isFulfilled(): Promise<any> {

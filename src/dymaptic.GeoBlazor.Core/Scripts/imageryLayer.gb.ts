@@ -184,8 +184,19 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        return await this.layer.computeAngles(jsParameters,
-            requestOptions);
+        let result = await this.layer.computeAngles(jsParameters,
+            requestOptions) as any;
+        if (!Pro) {
+            return null;
+        }
+        
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildDotNetImageAngleResult } = await import('./imageAngleResult');
+            return await buildDotNetImageAngleResult(result, this.layerId, this.viewId);
+        } catch {
+            throw new Error('Method ComputeAngles not available in GeoBlazor Core');
+        }
     }
 
     async computeHistograms(parameters: any,
@@ -254,12 +265,16 @@ export default class ImageryLayerGenerated extends BaseComponent {
     async createLayerView(view: any,
         signal: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.layer.createLayerView(view,
-            options);
+        let result = await this.layer.createLayerView(view,
+            options) as any;
+        let { buildDotNetLayerView } = await import('./layerView');
+        return await buildDotNetLayerView(result, this.layerId, this.viewId);
     }
 
     async createPopupTemplate(options: any): Promise<any> {
-        return this.layer.createPopupTemplate(options);
+        let result = this.layer.createPopupTemplate(options) as any;
+        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
+        return await buildDotNetPopupTemplate(result);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -299,8 +314,19 @@ export default class ImageryLayerGenerated extends BaseComponent {
         requestOptions.signal = signal;
         let { buildJsFindImagesParameters } = await import('./findImagesParameters');
         let jsParameters = await buildJsFindImagesParameters(parameters, this.layerId, this.viewId) as any;
-        return await this.layer.findImages(jsParameters,
-            requestOptions);
+        let result = await this.layer.findImages(jsParameters,
+            requestOptions) as any;
+        if (!Pro) {
+            return null;
+        }
+        
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildDotNetFindImagesResult } = await import('./findImagesResult');
+            return await buildDotNetFindImagesResult(result, this.layerId, this.viewId);
+        } catch {
+            throw new Error('Method FindImages not available in GeoBlazor Core');
+        }
     }
 
     async generateRasterInfo(rasterFunction: any,
@@ -308,8 +334,10 @@ export default class ImageryLayerGenerated extends BaseComponent {
         let options = { signal: signal };
         let { buildJsRasterFunction } = await import('./rasterFunction');
         let jsRasterFunction = await buildJsRasterFunction(rasterFunction) as any;
-        return await this.layer.generateRasterInfo(jsRasterFunction,
-            options);
+        let result = await this.layer.generateRasterInfo(jsRasterFunction,
+            options) as any;
+        let { buildDotNetRasterInfo } = await import('./rasterInfo');
+        return await buildDotNetRasterInfo(result, this.viewId);
     }
 
     async getCatalogItemICSInfo(rasterId: any,
@@ -322,8 +350,10 @@ export default class ImageryLayerGenerated extends BaseComponent {
     async getCatalogItemRasterInfo(rasterId: any,
         signal: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.layer.getCatalogItemRasterInfo(rasterId,
-            options);
+        let result = await this.layer.getCatalogItemRasterInfo(rasterId,
+            options) as any;
+        let { buildDotNetRasterInfo } = await import('./rasterInfo');
+        return await buildDotNetRasterInfo(result, this.viewId);
     }
 
     async getImageUrl(parameters: any,
@@ -351,8 +381,19 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        return await this.layer.getSamples(jsParameters,
-            requestOptions);
+        let result = await this.layer.getSamples(jsParameters,
+            requestOptions) as any;
+        if (!Pro) {
+            return null;
+        }
+        
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildDotNetImageSampleResult } = await import('./imageSampleResult');
+            return await buildDotNetImageSampleResult(result, this.layerId, this.viewId);
+        } catch {
+            throw new Error('Method GetSamples not available in GeoBlazor Core');
+        }
     }
 
     async identify(parameters: any,
@@ -372,8 +413,19 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        return await this.layer.identify(jsParameters,
-            requestOptions);
+        let result = await this.layer.identify(jsParameters,
+            requestOptions) as any;
+        if (!Pro) {
+            return null;
+        }
+        
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildDotNetImageIdentifyResult } = await import('./imageIdentifyResult');
+            return await buildDotNetImageIdentifyResult(result, this.layerId, this.viewId);
+        } catch {
+            throw new Error('Method Identify not available in GeoBlazor Core');
+        }
     }
 
     async imageToMap(parameters: any,
@@ -393,8 +445,10 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        return await this.layer.imageToMap(jsParameters,
-            requestOptions);
+        let result = await this.layer.imageToMap(jsParameters,
+            requestOptions) as any;
+        let { buildDotNetGeometry } = await import('./geometry');
+        return buildDotNetGeometry(result);
     }
 
     async imageToMapMultiray(parameters: any,
@@ -414,8 +468,10 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        return await this.layer.imageToMapMultiray(jsParameters,
-            requestOptions);
+        let result = await this.layer.imageToMapMultiray(jsParameters,
+            requestOptions) as any;
+        let { buildDotNetGeometry } = await import('./geometry');
+        return buildDotNetGeometry(result);
     }
 
     async isFulfilled(): Promise<any> {
@@ -447,8 +503,10 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        return await this.layer.mapToImage(jsParameters,
-            requestOptions);
+        let result = await this.layer.mapToImage(jsParameters,
+            requestOptions) as any;
+        let { buildDotNetGeometry } = await import('./geometry');
+        return buildDotNetGeometry(result);
     }
 
     async measureAreaAndPerimeter(parameters: any,
@@ -489,8 +547,19 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        return await this.layer.measureAreaFromImage(jsParameters,
-            requestOptions);
+        let result = await this.layer.measureAreaFromImage(jsParameters,
+            requestOptions) as any;
+        if (!Pro) {
+            return null;
+        }
+        
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildDotNetMeasureAreaFromImageResult } = await import('./measureAreaFromImageResult');
+            return await buildDotNetMeasureAreaFromImageResult(result, this.layerId, this.viewId);
+        } catch {
+            throw new Error('Method MeasureAreaFromImage not available in GeoBlazor Core');
+        }
     }
 
     async measureDistanceAndAngle(parameters: any,
@@ -552,8 +621,19 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        return await this.layer.measureLengthFromImage(jsParameters,
-            requestOptions);
+        let result = await this.layer.measureLengthFromImage(jsParameters,
+            requestOptions) as any;
+        if (!Pro) {
+            return null;
+        }
+        
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildDotNetMeasureLengthFromImageResult } = await import('./measureLengthFromImageResult');
+            return await buildDotNetMeasureLengthFromImageResult(result, this.layerId, this.viewId);
+        } catch {
+            throw new Error('Method MeasureLengthFromImage not available in GeoBlazor Core');
+        }
     }
 
     async measurePointOrCentroid(parameters: any,
@@ -573,8 +653,19 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        return await this.layer.measurePointOrCentroid(jsParameters,
-            requestOptions);
+        let result = await this.layer.measurePointOrCentroid(jsParameters,
+            requestOptions) as any;
+        if (!Pro) {
+            return null;
+        }
+        
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildDotNetImagePointResult } = await import('./imagePointResult');
+            return await buildDotNetImagePointResult(result, this.layerId, this.viewId);
+        } catch {
+            throw new Error('Method MeasurePointOrCentroid not available in GeoBlazor Core');
+        }
     }
 
     async queryBoundary(parameters: any,
@@ -594,8 +685,19 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        return await this.layer.queryBoundary(jsParameters,
-            requestOptions);
+        let result = await this.layer.queryBoundary(jsParameters,
+            requestOptions) as any;
+        if (!Pro) {
+            return null;
+        }
+        
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildDotNetImageBoundaryResult } = await import('./imageBoundaryResult');
+            return await buildDotNetImageBoundaryResult(result, this.layerId, this.viewId);
+        } catch {
+            throw new Error('Method QueryBoundary not available in GeoBlazor Core');
+        }
     }
 
     async queryGPSInfo(parameters: any,
@@ -615,8 +717,19 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        return await this.layer.queryGPSInfo(jsParameters,
-            requestOptions);
+        let result = await this.layer.queryGPSInfo(jsParameters,
+            requestOptions) as any;
+        if (!Pro) {
+            return null;
+        }
+        
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildDotNetImageGPSInfoResult } = await import('./imageGPSInfoResult');
+            return await buildDotNetImageGPSInfoResult(result, this.layerId, this.viewId);
+        } catch {
+            throw new Error('Method QueryGPSInfo not available in GeoBlazor Core');
+        }
     }
 
     async queryObjectIds(query: any,
@@ -645,8 +758,10 @@ export default class ImageryLayerGenerated extends BaseComponent {
         requestOptions.signal = signal;
         let { buildJsQuery } = await import('./query');
         let jsQuery = buildJsQuery(query) as any;
-        return await this.layer.queryRasters(jsQuery,
-            requestOptions);
+        let result = await this.layer.queryRasters(jsQuery,
+            requestOptions) as any;
+        let { buildDotNetFeatureSet } = await import('./featureSet');
+        return await buildDotNetFeatureSet(result, this.layerId, this.viewId);
     }
 
     async redraw(): Promise<void> {
@@ -658,7 +773,7 @@ export default class ImageryLayerGenerated extends BaseComponent {
     }
 
     async save(options: any): Promise<any> {
-        let result = await this.layer.save(options);
+        let result = await this.layer.save(options) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
@@ -681,7 +796,7 @@ export default class ImageryLayerGenerated extends BaseComponent {
             }
         }
         let result = await this.layer.saveAs(jsPortalItem,
-            jsOptions);
+            jsOptions) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }

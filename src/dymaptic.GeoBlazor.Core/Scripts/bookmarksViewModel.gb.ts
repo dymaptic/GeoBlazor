@@ -43,7 +43,9 @@ export default class BookmarksViewModelGenerated extends BaseComponent {
     async createBookmark(options: any): Promise<any> {
         let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
         let jsOptions = await buildJsBookmarkOptions(options, this.layerId, this.viewId) as any;
-        return await this.component.createBookmark(jsOptions);
+        let result = await this.component.createBookmark(jsOptions) as any;
+        let { buildDotNetBookmark } = await import('./bookmark');
+        return await buildDotNetBookmark(result);
     }
 
     async editBookmark(bookmark: any,
@@ -52,8 +54,10 @@ export default class BookmarksViewModelGenerated extends BaseComponent {
         let jsBookmark = await buildJsBookmark(bookmark) as any;
         let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
         let jsOptions = await buildJsBookmarkOptions(options, this.layerId, this.viewId) as any;
-        return await this.component.editBookmark(jsBookmark,
-            jsOptions);
+        let result = await this.component.editBookmark(jsBookmark,
+            jsOptions) as any;
+        let { buildDotNetBookmark } = await import('./bookmark');
+        return await buildDotNetBookmark(result);
     }
 
     async goTo(bookmark: any): Promise<any> {

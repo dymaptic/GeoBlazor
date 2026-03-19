@@ -86,8 +86,10 @@ export default class WebTileLayerGenerated extends BaseComponent {
     async createLayerView(view: any,
         signal: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.layer.createLayerView(view,
-            options);
+        let result = await this.layer.createLayerView(view,
+            options) as any;
+        let { buildDotNetLayerView } = await import('./layerView');
+        return await buildDotNetLayerView(result, this.layerId, this.viewId);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -402,7 +404,7 @@ export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: s
     
             return jsWebTileLayer;
 
-        case 'open-street-map': 
+        case 'open-street-map':
             let { buildJsOpenStreetMapLayer } = await import('./openStreetMapLayer');
             return await buildJsOpenStreetMapLayer(dotNetObject, layerId, viewId);
         default: 
@@ -540,7 +542,7 @@ export async function buildDotNetWebTileLayerGenerated(jsObject: any, layerId: s
             }
             return dotNetWebTileLayer;
 
-        case 'open-street-map': 
+        case 'open-street-map':
             let { buildDotNetOpenStreetMapLayer } = await import('./openStreetMapLayer');
             return await buildDotNetOpenStreetMapLayer(jsObject, layerId, viewId);
         default: 

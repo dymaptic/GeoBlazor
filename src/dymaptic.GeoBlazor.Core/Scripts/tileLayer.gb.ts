@@ -102,12 +102,14 @@ export default class TileLayerGenerated extends BaseComponent {
     async createLayerView(view: any,
         signal: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.layer.createLayerView(view,
-            options);
+        let result = await this.layer.createLayerView(view,
+            options) as any;
+        let { buildDotNetLayerView } = await import('./layerView');
+        return await buildDotNetLayerView(result, this.layerId, this.viewId);
     }
 
     async createServiceSublayers(): Promise<any> {
-        let result = this.layer.createServiceSublayers();
+        let result = this.layer.createServiceSublayers() as any;
         let { buildDotNetSublayer } = await import('./sublayer');
         return await Promise.all(result.map(async i => await buildDotNetSublayer(i, this.layerId, this.viewId)));
     }
@@ -128,7 +130,7 @@ export default class TileLayerGenerated extends BaseComponent {
     }
 
     async findSublayerById(id: any): Promise<any> {
-        let result = this.layer.findSublayerById(id);
+        let result = this.layer.findSublayerById(id) as any;
         let { buildDotNetSublayer } = await import('./sublayer');
         return await buildDotNetSublayer(result, this.layerId, this.viewId);
     }
@@ -154,7 +156,7 @@ export default class TileLayerGenerated extends BaseComponent {
     }
 
     async loadAll(): Promise<any> {
-        let result = await this.layer.loadAll();
+        let result = await this.layer.loadAll() as any;
         let { buildDotNetTileLayer } = await import('./tileLayer');
         return await buildDotNetTileLayer(result, this.layerId, this.viewId);
     }

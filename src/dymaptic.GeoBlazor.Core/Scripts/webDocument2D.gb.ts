@@ -70,13 +70,13 @@ export default class WebDocument2DGenerated extends BaseComponent {
     }
 
     async loadAll(): Promise<any> {
-        let result = await this.component.loadAll();
+        let result = await this.component.loadAll() as any;
         let { buildDotNetWebDocument2D } = await import('./webDocument2D');
         return await buildDotNetWebDocument2D(result, this.layerId, this.viewId);
     }
 
     async save(options: any): Promise<any> {
-        let result = await this.component.save(options);
+        let result = await this.component.save(options) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
@@ -86,7 +86,7 @@ export default class WebDocument2DGenerated extends BaseComponent {
         let { buildJsPortalItem } = await import('./portalItem');
         let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
         let result = await this.component.saveAs(jsPortalItem,
-            options);
+            options) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
@@ -273,14 +273,14 @@ export async function buildJsWebDocument2DGenerated(dotNetObject: any, layerId: 
         return null;
     }
     
-    if (Object.hasOwn(dotNetObject, "presentation")) {
-        let { buildJsWebMap } = await import('./webMap');
-        return await buildJsWebMap(dotNetObject, layerId, viewId);
-    }
-
     if (Object.hasOwn(dotNetObject, "authoringApp")) {
         let { buildJsWebDocument2D } = await import('./webDocument2D');
         return await buildJsWebDocument2D(dotNetObject, layerId, viewId);
+    }
+
+    if (Object.hasOwn(dotNetObject, "presentation")) {
+        let { buildJsWebMap } = await import('./webMap');
+        return await buildJsWebMap(dotNetObject, layerId, viewId);
     }
 
     return sanitize(dotNetObject);
@@ -290,14 +290,14 @@ export async function buildDotNetWebDocument2DGenerated(jsObject: any, layerId: 
         return null;
     }
     
-    if (Object.hasOwn(jsObject, "presentation")) {
-        let { buildDotNetWebMap } = await import('./webMap');
-        return await buildDotNetWebMap(jsObject, layerId, viewId);
-    }
-
     if (Object.hasOwn(jsObject, "authoringApp")) {
         let { buildDotNetWebDocument2D } = await import('./webDocument2D');
         return await buildDotNetWebDocument2D(jsObject, layerId, viewId);
+    }
+
+    if (Object.hasOwn(jsObject, "presentation")) {
+        let { buildDotNetWebMap } = await import('./webMap');
+        return await buildDotNetWebMap(jsObject, layerId, viewId);
     }
 
     return sanitize(jsObject);

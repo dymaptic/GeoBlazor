@@ -5,14 +5,14 @@ export async function buildJsITimeSliderDocumentGenerated(dotNetObject: any, lay
         return null;
     }
     
-    if (Object.hasOwn(dotNetObject, "presentation")) {
-        let { buildJsWebMap } = await import('./webMap');
-        return await buildJsWebMap(dotNetObject, layerId, viewId);
-    }
-
     if (Object.hasOwn(dotNetObject, "authoringApp")) {
         let { buildJsWebScene } = await import('./webScene');
         return await buildJsWebScene(dotNetObject, layerId, viewId);
+    }
+
+    if (Object.hasOwn(dotNetObject, "presentation")) {
+        let { buildJsWebMap } = await import('./webMap');
+        return await buildJsWebMap(dotNetObject, layerId, viewId);
     }
 
     return sanitize(dotNetObject);
@@ -22,14 +22,14 @@ export async function buildDotNetITimeSliderDocumentGenerated(jsObject: any, lay
         return null;
     }
     
-    if (Object.hasOwn(jsObject, "presentation")) {
-        let { buildDotNetWebMap } = await import('./webMap');
-        return await buildDotNetWebMap(jsObject, layerId, viewId);
-    }
-
     if (Object.hasOwn(jsObject, "authoringApp")) {
         let { buildDotNetWebScene } = await import('./webScene');
         return await buildDotNetWebScene(jsObject, layerId, viewId);
+    }
+
+    if (Object.hasOwn(jsObject, "presentation")) {
+        let { buildDotNetWebMap } = await import('./webMap');
+        return await buildDotNetWebMap(jsObject, layerId, viewId);
     }
 
     return sanitize(jsObject);

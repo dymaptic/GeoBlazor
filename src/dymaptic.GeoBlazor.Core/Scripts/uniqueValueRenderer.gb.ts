@@ -86,7 +86,9 @@ export default class UniqueValueRendererGenerated extends BaseComponent {
                 jsGraphic = null;
             }
         }
-        return await this.component.getUniqueValueInfo(jsGraphic);
+        let result = await this.component.getUniqueValueInfo(jsGraphic) as any;
+        let { buildDotNetUniqueValueInfo } = await import('./uniqueValueInfo');
+        return await buildDotNetUniqueValueInfo(result, this.viewId);
     }
 
     async removeUniqueValueInfo(value: any): Promise<void> {

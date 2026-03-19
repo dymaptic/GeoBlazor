@@ -44,7 +44,9 @@ export default class FeatureFilterGenerated extends BaseComponent {
     
     // region methods
     async createQuery(): Promise<any> {
-        return this.component.createQuery();
+        let result = this.component.createQuery() as any;
+        let { buildDotNetQuery } = await import('./query');
+        return await buildDotNetQuery(result);
     }
 
     // region properties

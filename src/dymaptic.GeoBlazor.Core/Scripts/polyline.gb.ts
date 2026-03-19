@@ -36,7 +36,7 @@ export default class PolylineGenerated extends BaseComponent {
     async addPath(points: any): Promise<any> {
         let { buildJsPoint } = await import('./point');
         let jsPoints = points.map(i => buildJsPoint(i)) as any;
-        let result = this.component.addPath(jsPoints);
+        let result = this.component.addPath(jsPoints) as any;
         let { buildDotNetPolyline } = await import('./polyline');
         return buildDotNetPolyline(result);
     }
@@ -44,7 +44,7 @@ export default class PolylineGenerated extends BaseComponent {
     async getPoint(pathIndex: any,
         pointIndex: any): Promise<any> {
         let result = this.component.getPoint(pathIndex,
-            pointIndex);
+            pointIndex) as any;
         let { buildDotNetPoint } = await import('./point');
         return buildDotNetPoint(result);
     }
@@ -56,13 +56,13 @@ export default class PolylineGenerated extends BaseComponent {
         let jsPoint = buildJsPoint(point) as any;
         let result = this.component.insertPoint(pathIndex,
             pointIndex,
-            jsPoint);
+            jsPoint) as any;
         let { buildDotNetPolyline } = await import('./polyline');
         return buildDotNetPolyline(result);
     }
 
     async removePath(index: any): Promise<any> {
-        let result = this.component.removePath(index);
+        let result = this.component.removePath(index) as any;
         let { buildDotNetPoint } = await import('./point');
         return result.map(i => buildDotNetPoint(i));
     }
@@ -70,7 +70,7 @@ export default class PolylineGenerated extends BaseComponent {
     async removePoint(pathIndex: any,
         pointIndex: any): Promise<any> {
         let result = this.component.removePoint(pathIndex,
-            pointIndex);
+            pointIndex) as any;
         let { buildDotNetPoint } = await import('./point');
         return buildDotNetPoint(result);
     }
@@ -82,7 +82,7 @@ export default class PolylineGenerated extends BaseComponent {
         let jsPoint = buildJsPoint(point) as any;
         let result = this.component.setPoint(pathIndex,
             pointIndex,
-            jsPoint);
+            jsPoint) as any;
         let { buildDotNetPolyline } = await import('./polyline');
         return buildDotNetPolyline(result);
     }

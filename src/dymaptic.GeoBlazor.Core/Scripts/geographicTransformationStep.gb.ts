@@ -30,7 +30,7 @@ export default class GeographicTransformationStepGenerated extends BaseComponent
     
     // region methods
     async getInverse(): Promise<any> {
-        let result = this.component.getInverse();
+        let result = this.component.getInverse() as any;
         let { buildDotNetGeographicTransformationStep } = await import('./geographicTransformationStep');
         return await buildDotNetGeographicTransformationStep(result, this.layerId, this.viewId);
     }

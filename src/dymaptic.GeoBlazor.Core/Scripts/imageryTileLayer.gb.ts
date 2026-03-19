@@ -158,12 +158,16 @@ export default class ImageryTileLayerGenerated extends BaseComponent {
     async createLayerView(view: any,
         signal: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.layer.createLayerView(view,
-            options);
+        let result = await this.layer.createLayerView(view,
+            options) as any;
+        let { buildDotNetLayerView } = await import('./layerView');
+        return await buildDotNetLayerView(result, this.layerId, this.viewId);
     }
 
     async createPopupTemplate(options: any): Promise<any> {
-        return this.layer.createPopupTemplate(options);
+        let result = this.layer.createPopupTemplate(options) as any;
+        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
+        return await buildDotNetPopupTemplate(result);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -178,10 +182,12 @@ export default class ImageryTileLayerGenerated extends BaseComponent {
         options.signal = signal;
         let { buildJsExtent } = await import('./extent');
         let jsExtent = buildJsExtent(extent) as any;
-        return await this.layer.fetchPixels(jsExtent,
+        let result = await this.layer.fetchPixels(jsExtent,
             width,
             height,
-            options);
+            options) as any;
+        let { buildDotNetPixelData } = await import('./pixelData');
+        return await buildDotNetPixelData(result, this.layerId, this.viewId);
     }
 
     async fetchTile(level: any,
@@ -200,8 +206,10 @@ export default class ImageryTileLayerGenerated extends BaseComponent {
         let options = { signal: signal };
         let { buildJsRasterFunction } = await import('./rasterFunction');
         let jsRasterFunction = await buildJsRasterFunction(rasterFunction) as any;
-        return await this.layer.generateRasterInfo(jsRasterFunction,
-            options);
+        let result = await this.layer.generateRasterInfo(jsRasterFunction,
+            options) as any;
+        let { buildDotNetRasterInfo } = await import('./rasterInfo');
+        return await buildDotNetRasterInfo(result, this.viewId);
     }
 
     async getSamples(parameters: any,
@@ -221,8 +229,19 @@ export default class ImageryTileLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        return await this.layer.getSamples(jsParameters,
-            requestOptions);
+        let result = await this.layer.getSamples(jsParameters,
+            requestOptions) as any;
+        if (!Pro) {
+            return null;
+        }
+        
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildDotNetImageSampleResult } = await import('./imageSampleResult');
+            return await buildDotNetImageSampleResult(result, this.layerId, this.viewId);
+        } catch {
+            throw new Error('Method GetSamples not available in GeoBlazor Core');
+        }
     }
 
     async identify(point: any,
@@ -233,8 +252,10 @@ export default class ImageryTileLayerGenerated extends BaseComponent {
         let jsPoint = buildJsPoint(point) as any;
         let { buildJsRasterIdentifyOptions } = await import('./rasterIdentifyOptions');
         let jsOptions = await buildJsRasterIdentifyOptions(options, this.layerId, this.viewId) as any;
-        return await this.layer.identify(jsPoint,
-            jsOptions);
+        let result = await this.layer.identify(jsPoint,
+            jsOptions) as any;
+        let { buildDotNetRasterIdentifyResult } = await import('./rasterIdentifyResult');
+        return await buildDotNetRasterIdentifyResult(result, this.layerId, this.viewId);
     }
 
     async isFulfilled(): Promise<any> {
@@ -250,7 +271,7 @@ export default class ImageryTileLayerGenerated extends BaseComponent {
     }
 
     async save(options: any): Promise<any> {
-        let result = await this.layer.save(options);
+        let result = await this.layer.save(options) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
@@ -273,7 +294,7 @@ export default class ImageryTileLayerGenerated extends BaseComponent {
             }
         }
         let result = await this.layer.saveAs(jsPortalItem,
-            jsOptions);
+            jsOptions) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }

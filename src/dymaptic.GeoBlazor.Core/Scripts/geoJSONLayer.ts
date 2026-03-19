@@ -12,11 +12,6 @@ export default class GeoJSONLayerWrapper extends GeoJSONLayerGenerated {
         super(layer);
     }
 
-    async createQuery(): Promise<DotNetQuery> {
-        let jsQuery = this.layer.createQuery();
-        return await buildDotNetQuery(jsQuery, this.viewId);
-    }
-
     async load(signal: AbortSignal): Promise<any> {
         let options = {signal: signal};
         let result = await this.layer.load(options);

@@ -106,12 +106,14 @@ export default class FeaturesViewModelGenerated extends BaseComponent {
 
     async fetchFeatures(screenPoint: any,
         options: any): Promise<any> {
-        return await this.component.fetchFeatures(screenPoint,
-            options);
+        let result = await this.component.fetchFeatures(screenPoint,
+            options) as any;
+        let { buildDotNetFetchPopupFeaturesResult } = await import('./fetchPopupFeaturesResult');
+        return await buildDotNetFetchPopupFeaturesResult(result, this.layerId, this.viewId);
     }
 
     async next(): Promise<any> {
-        let result = this.component.next();
+        let result = this.component.next() as any;
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
         return await buildDotNetFeaturesViewModel(result, this.layerId, this.viewId);
     }
@@ -121,7 +123,7 @@ export default class FeaturesViewModelGenerated extends BaseComponent {
     }
 
     async previous(): Promise<any> {
-        let result = this.component.previous();
+        let result = this.component.previous() as any;
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
         return await buildDotNetFeaturesViewModel(result, this.layerId, this.viewId);
     }
@@ -359,13 +361,13 @@ export async function buildJsFeaturesViewModelGenerated(dotNetObject: any, layer
         return null;
     }
     
-    let { buildJsPopupViewModel } = await import('./popupViewModel');
-    return await buildJsPopupViewModel(dotNetObject, layerId, viewId);
-
     if (Object.hasOwn(dotNetObject, "active")) {
         let { buildJsFeaturesViewModel } = await import('./featuresViewModel');
         return await buildJsFeaturesViewModel(dotNetObject, layerId, viewId);
     }
+
+    let { buildJsPopupViewModel } = await import('./popupViewModel');
+    return await buildJsPopupViewModel(dotNetObject, layerId, viewId);
 
 }
 export async function buildDotNetFeaturesViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
@@ -373,12 +375,12 @@ export async function buildDotNetFeaturesViewModelGenerated(jsObject: any, layer
         return null;
     }
     
-    let { buildDotNetPopupViewModel } = await import('./popupViewModel');
-    return await buildDotNetPopupViewModel(jsObject, layerId, viewId);
-
     if (Object.hasOwn(jsObject, "active")) {
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
         return await buildDotNetFeaturesViewModel(jsObject, layerId, viewId);
     }
+
+    let { buildDotNetPopupViewModel } = await import('./popupViewModel');
+    return await buildDotNetPopupViewModel(jsObject, layerId, viewId);
 
 }

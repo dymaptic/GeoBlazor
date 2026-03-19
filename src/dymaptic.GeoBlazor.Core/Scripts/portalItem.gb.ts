@@ -146,7 +146,7 @@ export default class PortalItemGenerated extends BaseComponent {
         signal: AbortSignal): Promise<any> {
         let options = { signal: signal };
         let result = await this.component.fetchRelatedItems(parameters,
-            options);
+            options) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await Promise.all(result.map(async i => await buildDotNetPortalItem(i, this.layerId, this.viewId)));
     }
@@ -154,8 +154,10 @@ export default class PortalItemGenerated extends BaseComponent {
     async fetchResources(parameters: any,
         signal: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.component.fetchResources(parameters,
-            options);
+        let result = await this.component.fetchResources(parameters,
+            options) as any;
+        let { buildDotNetFetchResourcesResult } = await import('./fetchResourcesResult');
+        return await buildDotNetFetchResourcesResult(result, this.layerId, this.viewId);
     }
 
     async getThumbnailUrl(width: any): Promise<any> {
@@ -180,7 +182,7 @@ export default class PortalItemGenerated extends BaseComponent {
     }
 
     async reload(): Promise<any> {
-        let result = await this.component.reload();
+        let result = await this.component.reload() as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
@@ -200,7 +202,7 @@ export default class PortalItemGenerated extends BaseComponent {
     }
 
     async update(parameters: any): Promise<any> {
-        let result = await this.component.update(parameters);
+        let result = await this.component.update(parameters) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }

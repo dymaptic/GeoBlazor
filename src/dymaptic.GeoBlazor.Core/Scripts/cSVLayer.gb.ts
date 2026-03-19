@@ -174,16 +174,22 @@ export default class CSVLayerGenerated extends BaseComponent {
     async createLayerView(view: any,
         signal: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.layer.createLayerView(view,
-            options);
+        let result = await this.layer.createLayerView(view,
+            options) as any;
+        let { buildDotNetLayerView } = await import('./layerView');
+        return await buildDotNetLayerView(result, this.layerId, this.viewId);
     }
 
     async createPopupTemplate(options: any): Promise<any> {
-        return this.layer.createPopupTemplate(options);
+        let result = this.layer.createPopupTemplate(options) as any;
+        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
+        return await buildDotNetPopupTemplate(result);
     }
 
     async createQuery(): Promise<any> {
-        return this.layer.createQuery();
+        let result = this.layer.createQuery() as any;
+        let { buildDotNetQuery } = await import('./query');
+        return await buildDotNetQuery(result);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -191,7 +197,9 @@ export default class CSVLayerGenerated extends BaseComponent {
     }
 
     async getField(fieldName: any): Promise<any> {
-        return this.layer.getField(fieldName);
+        let result = this.layer.getField(fieldName) as any;
+        let { buildDotNetField } = await import('./field');
+        return buildDotNetField(result);
     }
 
     async getFieldDomain(fieldName: any,
@@ -209,8 +217,10 @@ export default class CSVLayerGenerated extends BaseComponent {
                 jsOptions = null;
             }
         }
-        return this.layer.getFieldDomain(fieldName,
-            jsOptions);
+        let result = this.layer.getFieldDomain(fieldName,
+            jsOptions) as any;
+        let { buildDotNetDomain } = await import('./domain');
+        return buildDotNetDomain(result);
     }
 
     async isFulfilled(): Promise<any> {
@@ -255,8 +265,10 @@ export default class CSVLayerGenerated extends BaseComponent {
         let options = { signal: signal };
         let { buildJsQuery } = await import('./query');
         let jsQuery = buildJsQuery(query) as any;
-        return await this.layer.queryFeatures(jsQuery,
-            options);
+        let result = await this.layer.queryFeatures(jsQuery,
+            options) as any;
+        let { buildDotNetFeatureSet } = await import('./featureSet');
+        return await buildDotNetFeatureSet(result, this.layerId, this.viewId);
     }
 
     async queryObjectIds(query: any,

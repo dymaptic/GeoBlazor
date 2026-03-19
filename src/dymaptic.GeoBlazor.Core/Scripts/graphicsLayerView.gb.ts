@@ -46,7 +46,9 @@ export default class GraphicsLayerViewGenerated extends BaseComponent {
     }
 
     async queryGraphics(): Promise<any> {
-        return await this.component.queryGraphics();
+        let result = await this.component.queryGraphics() as any;
+        let { buildDotNetGraphic } = await import('./graphic');
+        return result.map(i => buildDotNetGraphic(i, this.layerId, this.viewId));
     }
 
     async when(callback: any,

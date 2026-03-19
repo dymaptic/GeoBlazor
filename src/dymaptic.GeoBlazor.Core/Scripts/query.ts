@@ -138,7 +138,7 @@ export function buildJsQuery(dotNetQuery: any): Query | undefined {
     return currentQuery ? jsObject : new Query(jsObject);
 }
 
-export async function buildDotNetQuery(jsQuery: any, viewId: string | null): Promise<DotNetQuery> {
+export async function buildDotNetQuery(jsQuery: any): Promise<DotNetQuery> {
     let dotNetQuery: any = {};
 
     if (hasValue(jsQuery.geometry)) {
@@ -291,18 +291,6 @@ export async function buildDotNetQuery(jsQuery: any, viewId: string | null): Pro
 
     if (hasValue(jsQuery.where)) {
         dotNetQuery.where = jsQuery.where;
-    }
-
-    if (hasValue(viewId)) {
-        let dotNetRef = dotNetRefs[viewId!];
-        if (hasValue(dotNetRef)) {
-            try {
-                dotNetQuery.id = await dotNetRef.invokeMethodAsync('GetId');
-                jsObjectRefs[dotNetQuery.id] = jsQuery;
-            } catch (e) {
-                console.error('Error invoking GetId for Query', e);
-            }
-        }
     }
 
     return dotNetQuery as DotNetQuery;

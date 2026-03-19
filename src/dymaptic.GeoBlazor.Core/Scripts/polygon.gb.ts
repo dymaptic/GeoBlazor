@@ -36,7 +36,7 @@ export default class PolygonGenerated extends BaseComponent {
     async addRing(points: any): Promise<any> {
         let { buildJsPoint } = await import('./point');
         let jsPoints = points.map(i => buildJsPoint(i)) as any;
-        let result = this.component.addRing(jsPoints);
+        let result = this.component.addRing(jsPoints) as any;
         let { buildDotNetPolygon } = await import('./polygon');
         return buildDotNetPolygon(result);
     }
@@ -50,7 +50,7 @@ export default class PolygonGenerated extends BaseComponent {
     async getPoint(ringIndex: any,
         pointIndex: any): Promise<any> {
         let result = this.component.getPoint(ringIndex,
-            pointIndex);
+            pointIndex) as any;
         let { buildDotNetPoint } = await import('./point');
         return buildDotNetPoint(result);
     }
@@ -62,7 +62,7 @@ export default class PolygonGenerated extends BaseComponent {
         let jsPoint = buildJsPoint(point) as any;
         let result = this.component.insertPoint(ringIndex,
             pointIndex,
-            jsPoint);
+            jsPoint) as any;
         let { buildDotNetPolygon } = await import('./polygon');
         return buildDotNetPolygon(result);
     }
@@ -76,13 +76,13 @@ export default class PolygonGenerated extends BaseComponent {
     async removePoint(ringIndex: any,
         pointIndex: any): Promise<any> {
         let result = this.component.removePoint(ringIndex,
-            pointIndex);
+            pointIndex) as any;
         let { buildDotNetPoint } = await import('./point');
         return buildDotNetPoint(result);
     }
 
     async removeRing(index: any): Promise<any> {
-        let result = this.component.removeRing(index);
+        let result = this.component.removeRing(index) as any;
         let { buildDotNetPoint } = await import('./point');
         return result.map(i => buildDotNetPoint(i));
     }
@@ -94,7 +94,7 @@ export default class PolygonGenerated extends BaseComponent {
         let jsPoint = buildJsPoint(point) as any;
         let result = this.component.setPoint(ringIndex,
             pointIndex,
-            jsPoint);
+            jsPoint) as any;
         let { buildDotNetPolygon } = await import('./polygon');
         return buildDotNetPolygon(result);
     }

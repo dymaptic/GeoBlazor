@@ -62,7 +62,7 @@ export default class GroundGenerated extends BaseComponent {
     }
 
     async loadAll(): Promise<any> {
-        let result = await this.component.loadAll();
+        let result = await this.component.loadAll() as any;
         let { buildDotNetGround } = await import('./ground');
         return await buildDotNetGround(result, this.layerId, this.viewId);
     }
@@ -73,8 +73,10 @@ export default class GroundGenerated extends BaseComponent {
         options.signal = signal;
         let { buildJsGeometry } = await import('./geometry');
         let jsGeometry = buildJsGeometry(geometry) as any;
-        return await this.component.queryElevation(jsGeometry,
-            options);
+        let result = await this.component.queryElevation(jsGeometry,
+            options) as any;
+        let { buildDotNetElevationQueryResult } = await import('./elevationQueryResult');
+        return await buildDotNetElevationQueryResult(result, this.viewId);
     }
 
     async when(callback: any,

@@ -58,8 +58,10 @@ export default class FeatureLayerViewGenerated extends BaseComponent {
         let options = { signal: signal };
         let { buildJsQuery } = await import('./query');
         let jsQuery = buildJsQuery(query) as any;
-        return await this.component.queryAggregates(jsQuery,
-            options);
+        let result = await this.component.queryAggregates(jsQuery,
+            options) as any;
+        let { buildDotNetFeatureSet } = await import('./featureSet');
+        return await buildDotNetFeatureSet(result, this.layerId, this.viewId);
     }
 
     async queryAttributeBins(binsQuery: any,

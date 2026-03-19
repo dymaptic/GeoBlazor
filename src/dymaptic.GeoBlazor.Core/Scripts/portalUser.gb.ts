@@ -71,7 +71,7 @@ export default class PortalUserGenerated extends BaseComponent {
     async addItem(parameters: any): Promise<any> {
         let { buildJsPortalUserAddItemParams } = await import('./portalUserAddItemParams');
         let jsparameters = await buildJsPortalUserAddItemParams(parameters, this.layerId, this.viewId) as any;
-        let result = await this.component.addItem(jsparameters);
+        let result = await this.component.addItem(jsparameters) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
@@ -88,16 +88,20 @@ export default class PortalUserGenerated extends BaseComponent {
         permanentDelete: any): Promise<any> {
         let { buildJsPortalItem } = await import('./portalItem');
         let jsItems = await Promise.all(await items.map(async i => await buildJsPortalItem(i, this.layerId, this.viewId))) as any;
-        return await this.component.deleteItems(jsItems,
-            permanentDelete);
+        let result = await this.component.deleteItems(jsItems,
+            permanentDelete) as any;
+        let { buildDotNetDeleteItemsResult } = await import('./deleteItemsResult');
+        return await Promise.all(result.map(async i => await buildDotNetDeleteItemsResult(i, this.layerId, this.viewId)));
     }
 
     async fetchFolders(): Promise<any> {
-        return await this.component.fetchFolders();
+        let result = await this.component.fetchFolders() as any;
+        let { buildDotNetPortalFolder } = await import('./portalFolder');
+        return await Promise.all(result.map(async i => await buildDotNetPortalFolder(i, this.viewId)));
     }
 
     async fetchGroups(): Promise<any> {
-        let result = await this.component.fetchGroups();
+        let result = await this.component.fetchGroups() as any;
         let { buildDotNetPortalGroup } = await import('./portalGroup');
         return await Promise.all(result.map(async i => await buildDotNetPortalGroup(i, this.layerId, this.viewId)));
     }
@@ -105,7 +109,9 @@ export default class PortalUserGenerated extends BaseComponent {
     async fetchItems(parameters: any): Promise<any> {
         let { buildJsPortalUserFetchItemsParams } = await import('./portalUserFetchItemsParams');
         let jsparameters = await buildJsPortalUserFetchItemsParams(parameters, this.layerId, this.viewId) as any;
-        return await this.component.fetchItems(jsparameters);
+        let result = await this.component.fetchItems(jsparameters) as any;
+        let { buildDotNetFetchItemsResult } = await import('./fetchItemsResult');
+        return await buildDotNetFetchItemsResult(result, this.layerId, this.viewId);
     }
 
     async fetchTags(): Promise<any> {
@@ -119,7 +125,9 @@ export default class PortalUserGenerated extends BaseComponent {
     async queryFavorites(queryParams: any): Promise<any> {
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
-        return await this.component.queryFavorites(jsQueryParams);
+        let result = await this.component.queryFavorites(jsQueryParams) as any;
+        let { buildDotNetPortalQueryResult } = await import('./portalQueryResult');
+        return await buildDotNetPortalQueryResult(result, this.layerId, this.viewId);
     }
 
     async restoreItem(item: any,

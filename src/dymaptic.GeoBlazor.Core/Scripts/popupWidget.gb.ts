@@ -111,7 +111,7 @@ export default class PopupWidgetGenerated extends BaseComponent {
     }
 
     async next(): Promise<any> {
-        let result = this.widget.next();
+        let result = this.widget.next() as any;
         let { buildDotNetPopupViewModel } = await import('./popupViewModel');
         return await buildDotNetPopupViewModel(result, this.layerId, this.viewId);
     }
@@ -121,7 +121,7 @@ export default class PopupWidgetGenerated extends BaseComponent {
     }
 
     async previous(): Promise<any> {
-        let result = this.widget.previous();
+        let result = this.widget.previous() as any;
         let { buildDotNetPopupViewModel } = await import('./popupViewModel');
         return await buildDotNetPopupViewModel(result, this.layerId, this.viewId);
     }

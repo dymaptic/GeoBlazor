@@ -110,12 +110,14 @@ export default class PopupViewModelGenerated extends BaseComponent {
 
     async fetchFeatures(screenPoint: any,
         options: any): Promise<any> {
-        return await this.component.fetchFeatures(screenPoint,
-            options);
+        let result = await this.component.fetchFeatures(screenPoint,
+            options) as any;
+        let { buildDotNetFetchPopupFeaturesResult } = await import('./fetchPopupFeaturesResult');
+        return await buildDotNetFetchPopupFeaturesResult(result, this.layerId, this.viewId);
     }
 
     async next(): Promise<any> {
-        let result = this.component.next();
+        let result = this.component.next() as any;
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
         return await buildDotNetFeaturesViewModel(result, this.layerId, this.viewId);
     }
@@ -125,7 +127,7 @@ export default class PopupViewModelGenerated extends BaseComponent {
     }
 
     async previous(): Promise<any> {
-        let result = this.component.previous();
+        let result = this.component.previous() as any;
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
         return await buildDotNetFeaturesViewModel(result, this.layerId, this.viewId);
     }

@@ -11,11 +11,6 @@ export default class GeoJSONLayerViewWrapper extends GeoJSONLayerViewGenerated {
         super(component);
     }
 
-    async createQuery(): Promise<DotNetQuery> {
-        let jsQuery = this.component.createQuery();
-        return await buildDotNetQuery(jsQuery, this.viewId);
-    }
-
     highlightByGeoBlazorId(geoBlazorId: string): any {
         let graphic = lookupJsGraphicById(geoBlazorId, this.layerId, this.viewId);
         if (hasValue(graphic)) {

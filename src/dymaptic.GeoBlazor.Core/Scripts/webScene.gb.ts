@@ -79,13 +79,13 @@ export default class WebSceneGenerated extends BaseComponent {
     }
 
     async loadAll(): Promise<any> {
-        let result = await this.component.loadAll();
+        let result = await this.component.loadAll() as any;
         let { buildDotNetWebScene } = await import('./webScene');
         return await buildDotNetWebScene(result, this.layerId, this.viewId);
     }
 
     async save(options: any): Promise<any> {
-        let result = await this.component.save(options);
+        let result = await this.component.save(options) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
@@ -97,7 +97,7 @@ export default class WebSceneGenerated extends BaseComponent {
         let { buildJsWebSceneSaveAsOptions } = await import('./webSceneSaveAsOptions');
         let jsOptions = await buildJsWebSceneSaveAsOptions(options, this.layerId, this.viewId) as any;
         let result = await this.component.saveAs(jsPortalItem,
-            jsOptions);
+            jsOptions) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }

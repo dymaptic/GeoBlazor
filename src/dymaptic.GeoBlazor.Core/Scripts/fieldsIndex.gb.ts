@@ -25,7 +25,9 @@ export default class FieldsIndexGenerated extends BaseComponent {
     
     // region methods
     async get(fieldName: any): Promise<any> {
-        return this.component.get(fieldName);
+        let result = this.component.get(fieldName) as any;
+        let { buildDotNetField } = await import('./field');
+        return buildDotNetField(result);
     }
 
     async getTimeZone(fieldOrFieldName: any): Promise<any> {
