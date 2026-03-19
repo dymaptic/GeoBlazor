@@ -146,6 +146,10 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         };
     }
 
+    async applyEdits(edits: any, options: any): Promise<any> {
+        
+    }
+
     async applyGraphicEditsFromStream(streamRef: any, editType: string, options: any,
                                       abortSignal: AbortSignal): Promise<any> {
         if (abortSignal.aborted) {

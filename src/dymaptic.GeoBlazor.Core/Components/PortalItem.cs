@@ -250,4 +250,90 @@ public partial class PortalItem : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [CodeGenerationIgnore]
     public bool? ExcludeApiKey { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemupdatethumbnail-method">GeoBlazor Docs</a>
+    ///     Updates the item's thumbnail on the portal.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#updateThumbnail">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="thumbnailStream">
+    ///     A File or Data stream of the thumbnail source.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#updateThumbnail">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="filename">
+    ///     The file name used for the thumbnail in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#thumbnailUrl">thumbnailUrl</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#updateThumbnail">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    [ArcGISMethod]
+    [CodeGenerationIgnore]
+    public async Task<PortalItem?> UpdateThumbnail(Stream? thumbnailStream,
+        string? filename)
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+
+        return await JsComponentReference!.InvokeJsMethod<PortalItem?>(IsServer, nameof(UpdateThumbnail),
+            nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, thumbnailStream, filename);
+    }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemupdatethumbnail-method">GeoBlazor Docs</a>
+    ///     Updates the item's thumbnail on the portal.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#updateThumbnail">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="thumbnailUrl">
+    ///     A URL to the thumbnail source.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#updateThumbnail">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="filename">
+    ///     The file name used for the thumbnail in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#thumbnailUrl">thumbnailUrl</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#updateThumbnail">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    [ArcGISMethod]
+    [CodeGenerationIgnore]
+    public async Task<PortalItem?> UpdateThumbnail(string? thumbnailUrl,
+        string? filename)
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+
+        return await JsComponentReference!.InvokeJsMethod<PortalItem?>(IsServer, nameof(UpdateThumbnail),
+            nameof(PortalItem), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, thumbnailUrl, filename);
+    }
 }

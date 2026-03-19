@@ -8,6 +8,25 @@ export default class PortalItemWrapper extends PortalItemGenerated {
     constructor(component: PortalItem) {
         super(component);
     }
+
+    async updateThumbnail(thumbnail: any, filename: string | null): Promise<any> {
+        let parameters: any = {};
+        if (thumbnail instanceof ArrayBuffer) {
+            parameters = {
+                thumbnail: new Blob([thumbnail]),
+                filename: filename
+            };
+        } else {
+            parameters = {
+                thumbnail: thumbnail,
+                filename: filename
+            };
+        }
+        
+        let result = await this.component.updateThumbnail(parameters);
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
+    }
 }
 
 export async function buildJsPortalItem(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {

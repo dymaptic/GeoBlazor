@@ -122,11 +122,12 @@ public static class JsSyncManager
             || returnTypeIsProtobuf 
             || (returnType?.IsAssignableTo(typeof(Stream)) == true))
         {
-            Type? protoReturnType = null;
             string? protoReturnTypeName = null;
 
             if (returnTypeIsProtobuf)
             {
+                Type? protoReturnType;
+
                 if (methodRecord.ReturnValue!.SingleType is not null)
                 {
                     ProtoCollectionTypes.TryGetValue(methodRecord.ReturnValue.SingleType,
@@ -380,6 +381,12 @@ public static class JsSyncManager
         if (paramType.IsAssignableTo(typeof(IJSObjectReference)))
         {
             return ["JsObject", parameterValue];
+        }
+
+        if (parameterValue is Stream streamVal)
+        {
+            DotNetStreamReference streamRef = new(streamVal);
+            return ["StreamReference", streamRef];
         }
 
         if (paramType.IsEnum)

@@ -129,8 +129,12 @@ export default class BaseComponent implements IPropertyWrapper {
 
     async parseDotNetStream(typeName: string, streamRef: any, isArrayType: boolean): Promise<any> {
         let arrayBuffer: ArrayBuffer = await streamRef.arrayBuffer();
-        let uint8 = new Uint8Array(arrayBuffer);
+        if (typeName === "StreamReference") {
+            // don't deserialize this parameter further, it was passed as an intentional stream
+            return arrayBuffer;
+        }
 
+        let uint8 = new Uint8Array(arrayBuffer);
         return this.parseDotNetUint8Array(typeName, uint8, isArrayType);
     }
 

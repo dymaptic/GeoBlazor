@@ -3,6 +3,34 @@ namespace dymaptic.GeoBlazor.Core.Components;
 public partial class SearchViewModel : MapComponent
 {
     // Add custom code to this file to override generated code
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodelincludedefaultsources-property">GeoBlazor Docs</a>
+    ///     Indicates whether or not to include <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#defaultSources">defaultSources</a> in the Search UI.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#includeDefaultSources">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [CodeGenerationIgnore]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Func<SourcesHandlerOptions, ValueTask<IReadOnlyCollection<SearchSource>?>>? IncludeDefaultSourcesFunction { get; set; }
+
+    /// <summary>
+    ///     For internal use only.
+    /// </summary>
+    [CodeGenerationIgnore]
+    public bool HasIncludeDefaultSourcesFunction => IncludeDefaultSourcesFunction is not null;
+
+    [JSInvokable]
+    [CodeGenerationIgnore]
+    public async Task<IReadOnlyCollection<SearchSource>?> OnJsIncludeDefaultSearchSource(SourcesHandlerOptions sourcesHandlerOptions)
+    {
+        if (IncludeDefaultSourcesFunction is not null)
+        {
+            return await IncludeDefaultSourcesFunction.Invoke(sourcesHandlerOptions);
+        }
+
+        return null;
+    }
+
     /// <summary>
     ///     This function provides the ability to override either the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GoTo.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>

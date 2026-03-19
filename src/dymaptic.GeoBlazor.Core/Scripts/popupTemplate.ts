@@ -72,6 +72,13 @@ export function buildJsPopupTemplate(dotNetObject: any, layerId: string | null, 
     }
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
+    } else if (hasValue(dotNetObject.hasTitleFunction) && dotNetObject.hasTitleFunction) {
+        properties.title = async (evt) => {
+            let popupRef = await getPopupRef(dotNetObject.id, viewId);
+            if (!hasValue(popupRef)) return null;
+            return await popupRef
+                .invokeMethodAsync("OnJsTitleFunction", buildDotNetGraphic(evt.graphic, layerId, viewId));
+        }
     }
 
     let jsPopupTemplate = new PopupTemplate(properties);

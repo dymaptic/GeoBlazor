@@ -759,7 +759,9 @@ public record PopupTemplateSerializationRecord : MapComponentSerializationRecord
         bool? OverwriteActions = null,
         bool? ReturnGeometry = null,
         IEnumerable<ActionBaseSerializationRecord>? Actions = null,
-        string? Id = null)
+        string? Id = null,
+        bool? HasTitleFunction = null,
+        bool? HasContentFunction = null)
     {
         this.Title = Title;
         this.StringContent = StringContent;
@@ -771,6 +773,8 @@ public record PopupTemplateSerializationRecord : MapComponentSerializationRecord
         this.ReturnGeometry = ReturnGeometry;
         this.Actions = Actions;
         this.Id = Id;
+        this.HasTitleFunction = HasTitleFunction;
+        this.HasContentFunction = HasContentFunction;
     }
 
     /// <summary>
@@ -842,6 +846,20 @@ public record PopupTemplateSerializationRecord : MapComponentSerializationRecord
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(10)]
     public string? Id { get; init; }
+
+    /// <summary>
+    ///     Whether or not there is a function to generate the title
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(11)]
+    public bool? HasTitleFunction { get; init; }
+
+    /// <summary>
+    ///     Whether or not there is a function to generate the content
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(12)]
+    public bool? HasContentFunction { get; init; }
 
     /// <inheritdoc />
     [ProtoMember(1000)]

@@ -49,7 +49,7 @@ public partial class PopupTemplate : MapComponent, IProtobufSerializable<PopupTe
         bool? returnGeometry = null, IReadOnlyList<ActionBase>? actions = null)
     {
 #pragma warning disable BL0005
-        Title = title is not null ? (PopupTemplateTitle)title : null;
+        Title = title;
         StringContent = stringContent;
         OutFields = outFields;
         OverwriteActions = overwriteActions;
@@ -76,6 +76,34 @@ public partial class PopupTemplate : MapComponent, IProtobufSerializable<PopupTe
         }
 #pragma warning restore BL0005
     }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#popuptemplatetitle-property">GeoBlazor Docs</a>
+    ///     String template for the title of the popup.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html#title">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [CodeGenerationIgnore]
+    public string? Title { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#popuptemplatetitle-property">GeoBlazor Docs</a>
+    ///     A function that returns the title for the popup.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html#title">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [CodeGenerationIgnore]
+    public Func<Graphic, ValueTask<string?>>? TitleFunction { get; set; }
+
+    /// <summary>
+    ///     For internal use only
+    /// </summary>
+    [CodeGenerationIgnore]
+    public bool HasTitleFunction => TitleFunction is not null;
 
     /// <summary>
     ///     The template for defining and formatting a popup's content, provided as a simple string.
@@ -149,12 +177,29 @@ public partial class PopupTemplate : MapComponent, IProtobufSerializable<PopupTe
     [JsonIgnore]
     [CodeGenerationIgnore]
     public EventCallback<PopupTriggerActionEvent> OnTriggerAction { get; set; }
-    
+
+    /// <summary>
+    ///     JS-invokable method that triggers a custom <see cref="TitleFunction"/> for building the popup content.
+    ///     Should not be called by consuming code.
+    /// </summary>
+    [JSInvokable]
+    [CodeGenerationIgnore]
+    public async Task<string?> OnJsTitleFunction(Graphic graphic)
+    {
+        if (TitleFunction is not null)
+        {
+            Title = await TitleFunction.Invoke(graphic);
+        }
+
+        return Title;
+    }
+
     /// <summary>
     ///     JS-invokable method that triggers a custom <see cref="ContentFunction"/> for building the popup content.
     ///     Should not be called by consuming code.
     /// </summary>
     [JSInvokable]
+    [CodeGenerationIgnore]
     public async Task<PopupContent[]?> OnJsContentFunction(Graphic graphic)
     {
         PopupContent[]? content = null;
@@ -163,7 +208,7 @@ public partial class PopupTemplate : MapComponent, IProtobufSerializable<PopupTe
         {
             content = await ContentFunction.Invoke(graphic);
         }
-        
+
         return content;
     }
 
@@ -236,10 +281,11 @@ public partial class PopupTemplate : MapComponent, IProtobufSerializable<PopupTe
     /// <inheritdoc />
     public PopupTemplateSerializationRecord ToProtobuf()
     {
-        return new PopupTemplateSerializationRecord(Title?.TitleString, StringContent, OutFields,
+        return new PopupTemplateSerializationRecord(Title, StringContent, OutFields,
             FieldInfos?.Select(f => f.ToProtobuf()),
             Content?.Select(c => c.ToProtobuf()),
             ExpressionInfos?.Select(e => e.ToProtobuf()), OverwriteActions,
-            ReturnGeometry, Actions?.Select(a => a.ToProtobuf()), Id.ToString());
+            ReturnGeometry, Actions?.Select(a => a.ToProtobuf()), Id.ToString(),
+            HasTitleFunction, HasContentFunction);
     }
 }

@@ -6,3 +6,4 @@
 Rule ID | Category | Severity | Notes
 --------|----------|----------|-------
 GeoBlazor_AUC | Usage | Error | ComponentConstructorValidator
+GeoBlazor_RPC | Usage | Warning | ParameterConversionAnalyzer

@@ -3838,49 +3838,6 @@ public partial class PortalItem
     }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemupdatethumbnail-method">GeoBlazor Docs</a>
-    ///     Updates the item's thumbnail on the portal.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#updateThumbnail">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="thumbnail">
-    ///     A URL, Data URI, Blob, or File.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#updateThumbnail">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="filename">
-    ///     The file name used for the thumbnail in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#thumbnailUrl">thumbnailUrl</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#updateThumbnail">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    [ArcGISMethod]
-    public async Task<PortalItem?> UpdateThumbnail(PortalItemUpdateThumbnailParamsThumbnail? thumbnail,
-        string? filename)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeJsMethod<PortalItem?>(
-            IsServer, nameof(UpdateThumbnail), nameof(PortalItem), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token,
-            new { thumbnail, filename });
-    }
-    
-    /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemwhen-method">GeoBlazor Docs</a>
     ///     `when()` may be leveraged once an instance of the class is created.
     ///     param errback The function to execute when the promise fails.

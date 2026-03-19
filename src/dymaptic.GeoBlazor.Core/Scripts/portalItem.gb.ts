@@ -205,12 +205,6 @@ export default class PortalItemGenerated extends BaseComponent {
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
-    async updateThumbnail(parameters: any): Promise<any> {
-        let result = await this.component.updateThumbnail(parameters);
-        let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
-    }
-
     async when(callback: any,
         errback: any): Promise<any> {
         return await this.component.when(callback,

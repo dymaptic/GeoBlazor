@@ -166,7 +166,7 @@ public partial class SearchViewModel : IGoTo
         int? suggestionCount = null,
         double? suggestionDelay = null,
         bool? suggestionsEnabled = null,
-        SearchViewModelIncludeDefaultSources? includeDefaultSources = null)
+        bool? includeDefaultSources = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -306,7 +306,7 @@ public partial class SearchViewModel : IGoTo
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public SearchViewModelIncludeDefaultSources? IncludeDefaultSources { get; set; }
+    public bool? IncludeDefaultSources { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodellocationenabled-property">GeoBlazor Docs</a>
@@ -971,7 +971,7 @@ public partial class SearchViewModel : IGoTo
     /// <summary>
     ///     Asynchronously retrieve the current value of the IncludeDefaultSources property.
     /// </summary>
-    public async Task<SearchViewModelIncludeDefaultSources?> GetIncludeDefaultSources()
+    public async Task<bool?> GetIncludeDefaultSources()
     {
         if (CoreJsModule is null)
         {
@@ -994,7 +994,7 @@ public partial class SearchViewModel : IGoTo
         }
 
         // get the property value
-        SearchViewModelIncludeDefaultSources? result = await JsComponentReference!.InvokeJsMethod<SearchViewModelIncludeDefaultSources?>(
+        bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
             IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "includeDefaultSources");
         if (result is not null)
@@ -2265,7 +2265,7 @@ public partial class SearchViewModel : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetIncludeDefaultSources(SearchViewModelIncludeDefaultSources? value)
+    public async Task SetIncludeDefaultSources(bool? value)
     {
 #pragma warning disable BL0005
         IncludeDefaultSources = value;

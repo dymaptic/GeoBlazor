@@ -363,9 +363,7 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.autoSelect)) {
         properties.autoSelect = dotNetObject.autoSelect;
     }
-    if (hasValue(dotNetObject.includeDefaultSources)) {
-        properties.includeDefaultSources = dotNetObject.includeDefaultSources;
-    }
+    
     if (hasValue(dotNetObject.locationEnabled)) {
         properties.locationEnabled = dotNetObject.locationEnabled;
     }
@@ -550,10 +548,6 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
     
     if (hasValue(jsObject.autoSelect)) {
         dotNetSearchViewModel.autoSelect = jsObject.autoSelect;
-    }
-    
-    if (hasValue(jsObject.includeDefaultSources)) {
-        dotNetSearchViewModel.includeDefaultSources = removeCircularReferences(jsObject.includeDefaultSources);
     }
     
     if (hasValue(jsObject.locationEnabled)) {

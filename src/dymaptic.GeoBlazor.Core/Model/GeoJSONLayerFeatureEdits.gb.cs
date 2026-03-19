@@ -18,15 +18,15 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     An array or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">collection</a> of features, or objects to be deleted.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-public partial record GeoJSONLayerApplyEditsEdits(
+public partial record GeoJSONLayerFeatureEdits(
     IReadOnlyCollection<Graphic>? AddFeatures = null,
     IReadOnlyCollection<Graphic>? UpdateFeatures = null,
-    GeoJSONLayerApplyEditsEditsDeleteFeatures? DeleteFeatures = null)
+    IReadOnlyCollection<Graphic>? DeleteFeatures = null)
 {
     /// <summary>
     ///     Parameterless Constructor
     /// </summary>
-    public GeoJSONLayerApplyEditsEdits(): this(null, null)
+    public GeoJSONLayerFeatureEdits(): this(null, null)
     {
     }
     
@@ -46,6 +46,6 @@ public partial record GeoJSONLayerApplyEditsEdits(
     ///     An array or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">collection</a> of features, or objects to be deleted.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public GeoJSONLayerApplyEditsEditsDeleteFeatures? DeleteFeatures { get; set; } = DeleteFeatures;
+    public IReadOnlyCollection<Graphic>? DeleteFeatures { get; set; } = DeleteFeatures;
     
 }

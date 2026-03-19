@@ -80,16 +80,6 @@ public partial class PopupTemplate
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<string>? OutFields { get; set; }
     
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#popuptemplatetitle-property">GeoBlazor Docs</a>
-    ///     The template for defining how to format the title used in a popup.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html#title">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public PopupTemplateTitle? Title { get; set; }
-    
 #endregion
 
 #region Property Getters
@@ -485,47 +475,6 @@ public partial class PopupTemplate
 
     }
 
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Title property.
-    /// </summary>
-    public async Task<PopupTemplateTitle?> GetTitle()
-    {
-        if (CoreJsModule is null)
-        {
-            return Title;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Title;
-        }
-
-        // get the property value
-        PopupTemplateTitle? result = await JsComponentReference!.InvokeJsMethod<PopupTemplateTitle?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupTemplate), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token, "title");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-                Title = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(Title)] = Title;
-        }
-         
-        return Title;
-
-    }
-
 #endregion
 
 #region Property Setters
@@ -915,7 +864,7 @@ public partial class PopupTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(PopupTemplateTitle? value)
+    public async Task SetTitle(string? value)
     {
 #pragma warning disable BL0005
         Title = value;

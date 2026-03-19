@@ -353,6 +353,8 @@ message PopupTemplate {
    bool returnGeometry = 8;
    repeated ActionBase actions = 9;
    string id = 10;
+   bool hasTitleFunction = 11;
+   bool hasContentFunction = 12;
    bool isNull = 1000;
 }
 message PopupTemplateCollection {

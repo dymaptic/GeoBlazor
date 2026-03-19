@@ -337,130 +337,29 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
             await Load(cancellationToken);
         }
 
-        FeatureEditsResult emptyResult = new FeatureEditsResult([],
-            [],
-            [],
-            [],
-            [],
-            [],
-            []);
-
-        if (cancellationToken.IsCancellationRequested ||
-            CancellationTokenSource.Token.IsCancellationRequested)
-        {
-            return emptyResult;
-        }
-
-        Graphic[] addedFeatures = edits.AddFeatures?.ToArray() ?? [];
-        Graphic[] updatedFeatures = edits.UpdateFeatures?.ToArray() ?? [];
-        Graphic[] deletedFeatures = edits.DeleteFeatures?.ToArray() ?? [];
-        long? editMoment = null;
-        int chunkSize = View!.GraphicSerializationChunkSize ?? (View.IsMaui ? 100 : 200);
-        AbortManager ??= new AbortManager(CoreJsModule!);
-
-        FeatureEditsResult? addFeatureResults = null;
-        FeatureEditsResult? updateFeatureResults = null;
-        FeatureEditsResult? deleteFeatureResults = null;
-        List<EditedFeatureResult> editedFeatureResults = [];
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-
-        for (var index = 0; index < addedFeatures.Length; index += chunkSize)
-        {
-            int skip = index;
-
-            addFeatureResults =
-                await SendEdits(addedFeatures.Skip(skip)
-                        .Take(chunkSize)
-                        .Select(g => g.ToProtobuf())
-                        .ToArray(), "add",
-                    options, addFeatureResults, abortSignal, cancellationToken);
-            editMoment ??= addFeatureResults?.EditMoment;
-        }
-
-        for (var index = 0; index < updatedFeatures.Length; index += chunkSize)
-        {
-            int skip = index;
-
-            updateFeatureResults =
-                await SendEdits(updatedFeatures.Skip(skip)
-                        .Take(chunkSize)
-                        .Select(g => g.ToProtobuf())
-                        .ToArray(), "update",
-                    options, updateFeatureResults, abortSignal, cancellationToken);
-            editMoment ??= updateFeatureResults?.EditMoment;
-        }
-
-        for (var index = 0; index < deletedFeatures.Length; index += chunkSize)
-        {
-            int skip = index;
-
-            deleteFeatureResults =
-                await SendEdits(deletedFeatures.Skip(skip)
-                        .Take(chunkSize)
-                        .Select(g => g.ToProtobuf())
-                        .ToArray(), "delete",
-                    options, deleteFeatureResults, abortSignal, cancellationToken);
-            editMoment ??= deleteFeatureResults?.EditMoment;
-        }
-
-        if (addFeatureResults?.EditedFeatureResults is not null)
-        {
-            editedFeatureResults.AddRange(addFeatureResults.EditedFeatureResults);
-        }
-
-        if (updateFeatureResults?.EditedFeatureResults is not null)
-        {
-            editedFeatureResults.AddRange(updateFeatureResults.EditedFeatureResults);
-        }
-
-        if (deleteFeatureResults?.EditedFeatureResults is not null)
-        {
-            editedFeatureResults.AddRange(deleteFeatureResults.EditedFeatureResults);
-        }
-
-        FeatureEditsResult? attachmentResults = null;
-
-        if (edits.AddAttachments?.Any() == true ||
-            edits.UpdateAttachments?.Any() == true ||
-            edits.DeleteAttachments?.Any() == true)
-        {
-            FeatureEdits attachmentEdits = new()
-            {
-                AddAttachments = edits.AddAttachments,
-                UpdateAttachments = edits.UpdateAttachments,
-                DeleteAttachments = edits.DeleteAttachments
-            };
-
-            attachmentResults = await JsComponentReference!.InvokeAsync<FeatureEditsResult>("applyAttachmentEdits",
-                cancellationToken, attachmentEdits, options, View!.Id,
-                abortSignal);
-            editMoment ??= attachmentResults.EditMoment;
-
-            if (attachmentResults.EditedFeatureResults is not null)
-            {
-                editedFeatureResults.AddRange(attachmentResults.EditedFeatureResults);
-            }
-        }
+        FeatureEditsResult? result = await JsComponentReference!.InvokeJsMethod<FeatureEditsResult?>(IsServer,
+            nameof(ApplyEdits), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token, edits, options);
 
         if (Source is not null)
         {
             // update the in-memory collections:
             Source = Source
-                .Except(deletedFeatures)
-                .Except(updatedFeatures)
-                .Concat(addedFeatures)
-                .Concat(updatedFeatures)
+                .Except(edits.DeleteFeatures ?? [])
+                .Except(edits.UpdateFeatures ?? [])
+                .Concat(edits.AddFeatures ?? [])
+                .Concat(edits.UpdateFeatures ?? [])
                 .ToList();
         }
 
-        return new FeatureEditsResult(addFeatureResults?.AddFeatureResults ?? [],
-            updateFeatureResults?.UpdateFeatureResults ?? [],
-            deleteFeatureResults?.DeleteFeatureResults ?? [],
-            attachmentResults?.AddAttachmentResults ?? [],
-            attachmentResults?.UpdateAttachmentResults ?? [],
-            attachmentResults?.DeleteAttachmentResults ?? [],
-            editedFeatureResults.ToArray(),
-            editMoment);
+        return new FeatureEditsResult(result?.AddFeatureResults ?? [],
+            result?.UpdateFeatureResults ?? [],
+            result?.DeleteFeatureResults ?? [],
+            result?.AddAttachmentResults ?? [],
+            result?.UpdateAttachmentResults ?? [],
+            result?.DeleteAttachmentResults ?? [],
+            result?.EditedFeatureResults,
+            result?.EditMoment);
     }
 
     /// <summary>
