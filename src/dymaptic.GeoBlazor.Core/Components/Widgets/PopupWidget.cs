@@ -3,6 +3,198 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 public partial class PopupWidget : Widget
 {
     /// <summary>
+    ///     Parameterless constructor for use as a Razor Component.
+    /// </summary>
+    [ActivatorUtilitiesConstructor]
+    public PopupWidget()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
+    /// </summary>
+    /// <param name="actions">
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">action</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">action toggle</a> objects.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#actions">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="alignment">
+    ///     Position of the popup in relation to the selected feature.
+    ///     default "auto"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#alignment">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="autoCloseEnabled">
+    ///     This closes the popup when the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a> camera or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">Viewpoint</a> changes.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#autoCloseEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="containerId">
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    /// </param>
+    /// <param name="defaultPopupTemplateEnabled">
+    ///     Enables automatic creation of a popup template for layers that have popups enabled but no
+    ///     popupTemplate defined.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#defaultPopupTemplateEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="dockEnabled">
+    ///     Indicates whether the placement of the popup is docked to the side of the view.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#dockEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="dockOptions">
+    ///     Docking the popup allows for a better user experience, particularly when opening
+    ///     popups in apps on mobile devices.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#dockOptions">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="features">
+    ///     An array of features associated with the popup.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#features">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="goToOverride">
+    ///     This function provides the ability to override either the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="headingLevel">
+    ///     Indicates the heading level to use for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#title">title</a> of the popup.
+    ///     default 2
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#headingLevel">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="highlightEnabled">
+    ///     Highlight the selected popup feature using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#highlights">highlights</a>
+    ///     set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#highlights">highlights</a>
+    ///     set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#highlightEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="htmlContent">
+    ///     The content of the popup.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="icon">
+    ///     Icon displayed in the widget's button.
+    ///     default "popup"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#icon">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="initialDisplayMode">
+    ///     Indicates whether to initially display a list of features, or the content for one feature.
+    ///     default "feature"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#initialDisplayMode">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="label">
+    ///     The widget's default label.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#label">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="location">
+    ///     Point used to position the popup.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#location">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="mapView">
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </param>
+    /// <param name="position">
+    ///     The position of the widget in relation to the map view.
+    /// </param>
+    /// <param name="promises">
+    ///     An array of pending Promises that have not yet been fulfilled.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#promises">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="selectedFeatureIndex">
+    ///     Index of the feature that is <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedFeature">selected</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedFeatureIndex">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="stringContent">
+    ///     The content of the popup.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="title">
+    ///     The title of the popup.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#title">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="viewModel">
+    ///     This is a class that contains all the logic
+    ///     (properties and methods) that controls this widget's behavior.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="visible">
+    ///     Indicates whether the widget is visible.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#visible">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="visibleElements">
+    ///     The visible elements that are displayed within the widget.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#visibleElements">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="widgetContent">
+    ///     The content of the popup.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="widgetId">
+    ///     The unique ID assigned to the widget when the widget is created.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    public PopupWidget(IReadOnlyList<ActionBase>? actions = null,
+        PopupAlignment? alignment = null,
+        bool? autoCloseEnabled = null,
+        string? containerId = null,
+        bool? defaultPopupTemplateEnabled = null,
+        bool? dockEnabled = null,
+        PopupDockOptions? dockOptions = null,
+        IReadOnlyList<Graphic>? features = null,
+        GoToOverride? goToOverride = null,
+        int? headingLevel = null,
+        bool? highlightEnabled = null,
+        ElementReference? htmlContent = null,
+        string? icon = null,
+        InitialDisplayMode? initialDisplayMode = null,
+        string? label = null,
+        Point? location = null,
+        MapView? mapView = null,
+        OverlayPosition? position = null,
+        string? promises = null,
+        int? selectedFeatureIndex = null,
+        string? stringContent = null,
+        string? title = null,
+        PopupViewModel? viewModel = null,
+        bool? visible = null,
+        PopupVisibleElements? visibleElements = null,
+        Widget? widgetContent = null,
+        string? widgetId = null)
+    {
+        AllowRender = false;
+#pragma warning disable BL0005
+        Actions = actions;
+        Alignment = alignment;
+        AutoCloseEnabled = autoCloseEnabled;
+        ContainerId = containerId;
+        DefaultPopupTemplateEnabled = defaultPopupTemplateEnabled;
+        DockEnabled = dockEnabled;
+        DockOptions = dockOptions;
+        Features = features;
+        GoToOverride = goToOverride;
+        HeadingLevel = headingLevel;
+        HighlightEnabled = highlightEnabled;
+        HtmlContent = htmlContent;
+        Icon = icon;
+        InitialDisplayMode = initialDisplayMode;
+        Label = label;
+        Location = location;
+        MapView = mapView;
+        Position = position;
+        Promises = promises;
+        SelectedFeatureIndex = selectedFeatureIndex;
+        StringContent = stringContent;
+        Title = title;
+        ViewModel = viewModel;
+        Visible = visible;
+        VisibleElements = visibleElements;
+        WidgetContent = widgetContent;
+        WidgetId = widgetId;
+#pragma warning restore BL0005
+    }
+
+    /// <summary>
     ///     Defines actions that may be executed by clicking the icon or image symbolizing them in the popup. By default, every popup has a zoom-to action styled with a magnifying glass icon. When this icon is clicked, the view zooms in four LODs and centers on the selected feature.
     /// </summary>
     [CodeGenerationIgnore]
@@ -44,10 +236,37 @@ public partial class PopupWidget : Widget
     public bool? CollapseEnabled { get; set; }
 
     /// <summary>
-    ///     The html string content of the popup. When set directly on the Popup, this content is static and cannot use fields to set content templates. To set a template for the content based on field or attribute names, see <see cref="PopupTemplate.Content" />.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgethtmlcontent-property">GeoBlazor Docs</a>
+    ///     The content of the popup as a string of HTML or plain text.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
+    [ArcGISProperty]
     [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [CodeGenerationIgnore]
     public string? StringContent { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetcontent-property">GeoBlazor Docs</a>
+    ///     The content of the popup as a <see cref="Widget" />.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [CodeGenerationIgnore]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Widget? WidgetContent { get; set; }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgethtmlcontent-property">GeoBlazor Docs</a>
+    ///     The content of the popup as an HTML element reference.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [CodeGenerationIgnore]
+    public ElementReference? HtmlContent { get; set; }
 
     /// <summary>
     ///     Enables automatic creation of a popup template for layers that have popups enabled but no popupTemplate defined.

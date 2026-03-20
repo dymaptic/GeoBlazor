@@ -92,11 +92,11 @@
     }
     @if (_showDistanceMeasurement)
     {
-        <MeasurementWidget ActiveTool="ActiveTool.Distance" Label="Measure Widget" LinearUnit="SystemOrLengthUnit.NauticalMiles" Position="OverlayPosition.TopLeft" />
+        <MeasurementWidget ActiveTool="MeasurementTool.Distance" Label="Measure Widget" LinearUnit="SystemOrLengthUnit.NauticalMiles" Position="OverlayPosition.TopLeft" />
     }
     @if (_showAreaMeasurement)
     {
-        <MeasurementWidget ActiveTool="ActiveTool.Area" Label="Test Area" AreaUnit="SystemOrAreaUnit.SquareMeters" Position="OverlayPosition.TopLeft"/>
+        <MeasurementWidget ActiveTool="MeasurementTool.Area" Label="Test Area" AreaUnit="SystemOrAreaUnit.SquareMeters" Position="OverlayPosition.TopLeft"/>
     }
     @if (_showBookmarks)
     {

@@ -10,8 +10,8 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 public enum AuthMode
 {
 #pragma warning disable CS1591
-    Anonymous,
     Auto,
+    Anonymous,
     Immediate,
     NoPrompt
 #pragma warning restore CS1591

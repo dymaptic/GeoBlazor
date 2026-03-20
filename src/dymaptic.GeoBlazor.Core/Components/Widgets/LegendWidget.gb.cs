@@ -59,6 +59,11 @@ public partial class LegendWidget
     ///     Specifies a subset of the layers to display in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="style">
+    ///     Indicates the style of the legend.
+    ///     default "classic"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="mapView">
     ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
     /// </param>
@@ -91,11 +96,6 @@ public partial class LegendWidget
     ///     The unique ID assigned to the widget when the widget is created.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="style">
-    ///     Indicates the style of the legend.
-    ///     default "classic"
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     public LegendWidget(
         IReadOnlyList<ActiveLayerInfo>? activeLayerInfos = null,
         bool? basemapLegendVisible = null,
@@ -105,14 +105,14 @@ public partial class LegendWidget
         string? icon = null,
         string? label = null,
         IReadOnlyList<LegendLayerInfos>? layerInfos = null,
+        LegendStyle? style = null,
         MapView? mapView = null,
         OverlayPosition? position = null,
         bool? respectLayerDefinitionExpression = null,
         bool? respectLayerVisibility = null,
         LegendViewModel? viewModel = null,
         bool? visible = null,
-        string? widgetId = null,
-        LegendStyle? style = null)
+        string? widgetId = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005

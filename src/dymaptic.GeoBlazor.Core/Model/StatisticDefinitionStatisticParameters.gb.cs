@@ -17,7 +17,6 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-StatisticDefinition.html#statisticParameters">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record StatisticDefinitionStatisticParameters(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     OrderBy? OrderBy = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Value = null);

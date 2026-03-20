@@ -68,7 +68,7 @@ public partial class MeasurementWidget
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public MeasurementWidget(
-        ActiveTool? activeTool = null,
+        MeasurementTool? activeTool = null,
         SystemOrAreaUnit? areaUnit = null,
         string? containerId = null,
         string? icon = null,
@@ -147,7 +147,7 @@ public partial class MeasurementWidget
     /// <summary>
     ///     Asynchronously retrieve the current value of the ActiveTool property.
     /// </summary>
-    public async Task<ActiveTool?> GetActiveTool()
+    public async Task<MeasurementTool?> GetActiveTool()
     {
         if (CoreJsModule is null)
         {
@@ -170,7 +170,7 @@ public partial class MeasurementWidget
         }
 
         // get the property value
-        ActiveTool? result = await JsComponentReference!.InvokeJsMethod<ActiveTool?>(
+        MeasurementTool? result = await JsComponentReference!.InvokeJsMethod<MeasurementTool?>(
             IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeasurementWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "activeTool");
         if (result is not null)
@@ -365,7 +365,7 @@ public partial class MeasurementWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetActiveTool(ActiveTool? value)
+    public async Task SetActiveTool(MeasurementTool? value)
     {
 #pragma warning disable BL0005
         ActiveTool = value;

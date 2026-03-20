@@ -40,6 +40,38 @@ public class EnumToKebabCaseStringConverter<T> : JsonConverter<T> where T : notn
     }
 }
 
+internal class EnumToUpperCaseStringConverter<T> : JsonConverter<T> where T : notnull
+{
+    /// <inheritdoc />
+    public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        string? value = reader.GetString()?
+            .Replace("esri", string.Empty, StringComparison.OrdinalIgnoreCase)
+            .Replace(typeof(T).Name, string.Empty, StringComparison.OrdinalIgnoreCase);
+
+        try
+        {
+            return string.IsNullOrWhiteSpace(value) ? default! : (T)Enum.Parse(typeof(T), value, true);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(
+                "Error parsing enum value. If this error persists, please report to geoblazor@dymaptic.com.");
+            Debug.WriteLine(ex);
+
+            return default!;
+        }
+    }
+
+    /// <inheritdoc />
+    public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+    {
+        string? stringVal = Enum.GetName(typeof(T), value);
+        string resultString = stringVal!.ToUpperInvariant();
+        writer.WriteStringValue(resultString);
+    }
+}
+
 internal class GeometryTypeConverter : EnumToKebabCaseStringConverter<GeometryType>
 {
     public override GeometryType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

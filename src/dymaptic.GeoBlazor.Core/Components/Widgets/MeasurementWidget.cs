@@ -10,7 +10,7 @@ public partial class MeasurementWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ActiveTool? ActiveTool { get; set; }
+    public MeasurementTool? ActiveTool { get; set; }
 
 
 }

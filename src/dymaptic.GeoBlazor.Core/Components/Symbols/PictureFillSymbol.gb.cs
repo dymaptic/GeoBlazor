@@ -48,6 +48,14 @@ public partial class PictureFillSymbol : ISymbol2D,
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-PictureFillSymbol.html#yoffset">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="xscale">
+    ///     The scale factor on the x axis of the symbol.
+    ///     Default Value:1
+    /// </param>
+    /// <param name="yscale">
+    ///     The scale factor on the y axis of the symbol.
+    ///     Default Value:1
+    /// </param>
     /// <param name="outline">
     ///     The outline of the polygon.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-FillSymbol.html#outline">ArcGIS Maps SDK for JavaScript</a>
@@ -63,6 +71,8 @@ public partial class PictureFillSymbol : ISymbol2D,
         Dimension? height = null,
         Dimension? xoffset = null,
         Dimension? yoffset = null,
+        double? xscale = null,
+        double? yscale = null,
         Outline? outline = null,
         MapColor? color = null)
     {
@@ -73,6 +83,8 @@ public partial class PictureFillSymbol : ISymbol2D,
         Height = height;
         Xoffset = xoffset;
         Yoffset = yoffset;
+        Xscale = xscale;
+        Yscale = yscale;
         Outline = outline;
         Color = color;
 #pragma warning restore BL0005

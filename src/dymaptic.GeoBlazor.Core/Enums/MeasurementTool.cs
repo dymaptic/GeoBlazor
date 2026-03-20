@@ -6,8 +6,8 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.ActiveTool.html">GeoBlazor Docs</a>
 ///     Specifies the current measurement tool to display.
 /// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<ActiveTool>))]
-public enum ActiveTool
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<MeasurementTool>))]
+public enum MeasurementTool
 {
 #pragma warning disable CS1591
     Area,

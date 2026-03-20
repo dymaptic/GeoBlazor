@@ -10,33 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class LegendStyle
-{
-
-    /// <summary>
-    ///     Parameterless constructor for use as a Razor Component.
-    /// </summary>
-    [ActivatorUtilitiesConstructor]
-    public LegendStyle()
-    {
-    }
-
-    /// <summary>
-    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
-    /// </summary>
-    /// <param name="layout">
-    ///     When a `card` type is specified, you can specify one of the following layout options.
-    ///     default stack
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    public LegendStyle(
-        LegendStyleLayout? layout = null)
-    {
-        AllowRender = false;
-#pragma warning disable BL0005
-        Layout = layout;
-#pragma warning restore BL0005
-    }
-    
+{ 
     
 #region Property Getters
 

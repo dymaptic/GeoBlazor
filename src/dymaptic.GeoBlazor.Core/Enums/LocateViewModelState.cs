@@ -15,7 +15,7 @@ public enum LocateViewModelState
     Disabled,
     Ready,
     Locating,
-    FeatureUnsupported,
-    Error
+    Error,
+    FeatureUnsupported
 #pragma warning restore CS1591
 }

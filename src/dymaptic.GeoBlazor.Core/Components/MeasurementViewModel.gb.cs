@@ -36,7 +36,7 @@ public partial class MeasurementViewModel : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement-MeasurementViewModel.html#linearUnit">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public MeasurementViewModel(
-        ActiveTool? activeTool = null,
+        MeasurementTool? activeTool = null,
         SystemOrAreaUnit? areaUnit = null,
         SystemOrLengthUnit? linearUnit = null)
     {
@@ -60,7 +60,7 @@ public partial class MeasurementViewModel : MapComponent
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ActiveTool? ActiveTool { get; set; }
+    public MeasurementTool? ActiveTool { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeasurementViewModel.html#measurementviewmodelactiveviewmodel-property">GeoBlazor Docs</a>
@@ -110,7 +110,7 @@ public partial class MeasurementViewModel : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the ActiveTool property.
     /// </summary>
-    public async Task<ActiveTool?> GetActiveTool()
+    public async Task<MeasurementTool?> GetActiveTool()
     {
         if (CoreJsModule is null)
         {
@@ -133,7 +133,7 @@ public partial class MeasurementViewModel : MapComponent
         }
 
         // get the property value
-        ActiveTool? result = await JsComponentReference!.InvokeJsMethod<ActiveTool?>(
+        MeasurementTool? result = await JsComponentReference!.InvokeJsMethod<MeasurementTool?>(
             IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeasurementViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "activeTool");
         if (result is not null)
@@ -328,7 +328,7 @@ public partial class MeasurementViewModel : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetActiveTool(ActiveTool? value)
+    public async Task SetActiveTool(MeasurementTool? value)
     {
 #pragma warning disable BL0005
         ActiveTool = value;

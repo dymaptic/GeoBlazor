@@ -4,13 +4,13 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.NoDataInterpretation.html">GeoBlazor Docs</a>
-///     The interpretation of no data values in the raster dataset.
+///     The interpretation of the no data setting.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<NoDataInterpretation>))]
 public enum NoDataInterpretation
 {
 #pragma warning disable CS1591
-    MatchAny,
-    MatchAll
+    Any,
+    All
 #pragma warning restore CS1591
 }

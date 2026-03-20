@@ -11,7 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 public enum LegendStyleType
 {
 #pragma warning disable CS1591
-    Classic,
-    Card
+    Card,
+    Classic
 #pragma warning restore CS1591
 }

@@ -14,7 +14,7 @@ public enum LoadStatus
 #pragma warning disable CS1591
     NotLoaded,
     Loading,
-    Loaded,
-    Failed
+    Failed,
+    Loaded
 #pragma warning restore CS1591
 }
