@@ -404,8 +404,8 @@ message Symbol {
    double lineWidth = 23;
    bool rotated = 24;
    string verticalAlignment = 25;
-   double xScale = 26;
-   double yScale = 27;
+   double xscale = 26;
+   double yscale = 27;
    string id = 28;
    string name = 29;
    string portalUrl = 30;
