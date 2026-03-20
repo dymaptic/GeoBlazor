@@ -157,46 +157,6 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     }
 
     /// <summary>
-    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work. This powerful capability allows you to apply css filter-like functions to layers to create custom visual effects to enhance the cartographic quality of your maps. This is done by applying the desired effect to the layer's effect property as a string or an array of objects to set scale dependent effects.
-    /// </summary>
-    /// <param name="effect">
-    ///     The effect to apply to the layer.
-    /// </param>
-    public async Task SetEffect(Effect? effect)
-    {
-        await JsComponentReference!.InvokeVoidAsync("setEffect", effect);
-    }
-
-    /// <summary>
-    /// Returns the Field instance for a field name (case-insensitive).
-    /// </summary>
-    /// <param name="fieldName">the field name (case-insensitive).</param>
-    [ArcGISMethod]
-    public async Task<Field?> GetField(string fieldName)
-    {
-        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-
-        if (JsComponentReference is null) return null;
-
-        return await JsComponentReference!.InvokeAsync<Field?>("getField", fieldName);
-    }
-
-    /// <summary>
-    /// Returns the Domain associated with the given field name. The domain can be either a CodedValueDomain or RangeDomain.
-    /// </summary>
-    [CodeGenerationIgnore]
-    public async Task<Domain?> GetFieldDomain(string fieldName, Graphic? feature = null)
-    {
-        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-
-        if (JsComponentReference is null) return null;
-
-        return await JsComponentReference!.InvokeAsync<Domain?>("getFieldDomain", fieldName, feature);
-    }
-
-    /// <summary>
     ///    Describes the layer's supported capabilities.
     /// </summary>
     public async Task<FeatureLayerCapabilities?> GetCapabilities()

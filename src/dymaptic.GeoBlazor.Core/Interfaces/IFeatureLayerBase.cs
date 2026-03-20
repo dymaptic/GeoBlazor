@@ -9,10 +9,4 @@ public partial interface IFeatureLayerBase
     /// <param name="fieldName">the field name (case-insensitive).</param>
     [ArcGISMethod]
     Task<Field?> GetField(string fieldName);
-
-    /// <summary>
-    /// Returns the Domain associated with the given field name. The domain can be either a CodedValueDomain or RangeDomain.
-    /// </summary>
-    [CodeGenerationIgnore]
-    Task<Domain?> GetFieldDomain(string fieldName, Graphic? feature = null);
 }

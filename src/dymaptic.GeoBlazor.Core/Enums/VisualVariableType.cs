@@ -10,9 +10,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 public enum VisualVariableType
 {
 #pragma warning disable CS1591
-    Color,
-    Opacity,
+    Size,
     Rotation,
-    Size
+    Color,
+    Opacity
 #pragma warning restore CS1591
 }

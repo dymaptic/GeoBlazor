@@ -11,9 +11,9 @@ public enum StretchType
 {
 #pragma warning disable CS1591
     None,
+    MinMax,
     StandardDeviation,
     HistogramEqualization,
-    MinMax,
     PercentClip,
     Sigmoid
 #pragma warning restore CS1591

@@ -16,6 +16,10 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     The global identifier for the attachment.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query-support-AttachmentInfo.html#globalId">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="AttachmentInfoId">
+///     The identifier for the attachment.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query-support-AttachmentInfo.html#id">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 /// <param name="Keywords">
 ///     Keywords used for the attachments.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query-support-AttachmentInfo.html#keywords">ArcGIS Maps SDK for JavaScript</a>
@@ -48,13 +52,10 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query-support-AttachmentInfo.html#ExifInfo">ExifInfo</a> for the attachment.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query-support-AttachmentInfo.html#exifInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="AttachmentInfoId">
-///     The identifier for the attachment.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query-support-AttachmentInfo.html#id">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 public partial record AttachmentInfo(
     string ContentType,
     string GlobalId,
+    long? AttachmentInfoId,
     string Keywords,
     string Name,
     OrientationInfo OrientationInfo,
@@ -63,6 +64,4 @@ public partial record AttachmentInfo(
     int Size,
     string Url,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyCollection<ExifInfo>? ExifInfo = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    long? AttachmentInfoId = null);
+    IReadOnlyCollection<ExifInfo>? ExifInfo = null);

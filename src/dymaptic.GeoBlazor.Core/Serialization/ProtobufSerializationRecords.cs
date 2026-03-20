@@ -1091,13 +1091,13 @@ public record SymbolSerializationRecord : MapComponentSerializationRecord<Symbol
     ///     The X scale of a picture fill symbol.
     /// </summary>
     [ProtoMember(26)]
-    public double? XScale { get; init; }
+    public double? Xscale { get; init; }
 
     /// <summary>
     ///     The Y scale of a picture fill symbol.
     /// </summary>
     [ProtoMember(27)]
-    public double? YScale { get; init; }
+    public double? Yscale { get; init; }
 
     /// <summary>
     ///     The unique identifier.

@@ -7,40 +7,41 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     Time dimension information.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#TimeDimension">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-/// <param name="MultipleValues">
-///     Indicates whether multiple values of the dimension may be requested.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#TimeDimension">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 /// <param name="Name">
 ///     Name of dimensional axis.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#TimeDimension">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
-/// <param name="NearestValue">
-///     Indicates whether the nearest value of the dimension will be returned in response to a request for a nearby value.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#TimeDimension">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Units">
 ///     Units of dimensional axis.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#TimeDimension">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="Default">
-///     Default value(s) for the time dimension.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#TimeDimension">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 /// <param name="Extent">
 ///     Available value(s) for the time dimension.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#TimeDimension">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="Default">
+///     Default value(s) for the time dimension.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#TimeDimension">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="MultipleValues">
+///     Indicates whether multiple values of the dimension may be requested.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#TimeDimension">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="NearestValue">
+///     Indicates whether the nearest value of the dimension will be returned in response to a request for a nearby value.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#TimeDimension">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 public partial record TimeDimension(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    string? Name = null,
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    string? Units = null,
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    TimeDimensionInterval[]? Extent = null,
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    TimeDimensionInterval[]? Default = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? MultipleValues = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? Name = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    bool? NearestValue = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? Units = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    TimeDimensionInterval[]? Default = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    TimeDimensionInterval[]? Extent = null) : IWMSLayerDimension;
+    bool? NearestValue = null
+    ) : IWMSLayerDimension;

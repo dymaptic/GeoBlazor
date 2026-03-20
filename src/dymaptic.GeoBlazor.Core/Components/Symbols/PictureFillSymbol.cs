@@ -44,8 +44,8 @@ public partial class PictureFillSymbol : FillSymbol
             Height = Height?.Points,
             Xoffset = Xoffset?.Points,
             Yoffset = Yoffset?.Points,
-            XScale = XScale,
-            YScale = YScale,
+            Xscale = Xscale,
+            Yscale = Yscale,
             Outline = Outline?.ToProtobuf()
         };
     }
