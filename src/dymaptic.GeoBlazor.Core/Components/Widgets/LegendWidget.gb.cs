@@ -124,6 +124,7 @@ public partial class LegendWidget
         Icon = icon;
         Label = label;
         LayerInfos = layerInfos;
+        Style = style;
         MapView = mapView;
         Position = position;
         RespectLayerDefinitionExpression = respectLayerDefinitionExpression;
@@ -131,7 +132,6 @@ public partial class LegendWidget
         ViewModel = viewModel;
         Visible = visible;
         WidgetId = widgetId;
-        Style = style;
 #pragma warning restore BL0005
     }
     

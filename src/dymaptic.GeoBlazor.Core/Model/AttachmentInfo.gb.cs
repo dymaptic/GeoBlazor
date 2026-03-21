@@ -55,7 +55,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public partial record AttachmentInfo(
     string ContentType,
     string GlobalId,
-    long? AttachmentInfoId,
+    long AttachmentInfoId,
     string Keywords,
     string Name,
     OrientationInfo OrientationInfo,

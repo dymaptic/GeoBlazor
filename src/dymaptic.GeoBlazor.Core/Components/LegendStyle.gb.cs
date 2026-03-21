@@ -10,8 +10,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class LegendStyle
-{ 
-    
+{
+
 #region Property Getters
 
     /// <summary>

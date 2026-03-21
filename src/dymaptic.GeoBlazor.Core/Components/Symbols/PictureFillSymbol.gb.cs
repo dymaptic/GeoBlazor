@@ -50,11 +50,13 @@ public partial class PictureFillSymbol : ISymbol2D,
     /// </param>
     /// <param name="xscale">
     ///     The scale factor on the x axis of the symbol.
-    ///     Default Value:1
+    ///     default 1
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-PictureFillSymbol.html#xscale">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="yscale">
     ///     The scale factor on the y axis of the symbol.
-    ///     Default Value:1
+    ///     default 1
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-PictureFillSymbol.html#yscale">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="outline">
     ///     The outline of the polygon.

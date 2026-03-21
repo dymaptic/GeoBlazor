@@ -34,14 +34,13 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public partial record TimeDimension(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Name = null,
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Units = null,
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     TimeDimensionInterval[]? Extent = null,
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     TimeDimensionInterval[]? Default = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? MultipleValues = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    bool? NearestValue = null
-    ) : IWMSLayerDimension;
+    bool? NearestValue = null) : IWMSLayerDimension;

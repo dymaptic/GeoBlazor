@@ -7,6 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///     The interpretation of the no data setting.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<NoDataInterpretation>))]
+[CodeGenerationIgnore]
 public enum NoDataInterpretation
 {
 #pragma warning disable CS1591

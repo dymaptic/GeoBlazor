@@ -11,7 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 public partial class FeaturesViewModel : MapComponent,
     IGoTo
 {
-    
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>

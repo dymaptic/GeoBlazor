@@ -564,4 +564,25 @@ public partial interface IFeatureLayerBase : IMapComponent
 
 #endregion
 
+#region Public Methods
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerBase.html#ifeaturelayerbasegetfielddomain-method">GeoBlazor Docs</a>
+    ///     Returns the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html">Domain</a> associated with the given field name.
+    ///     param options An object specifying additional options. See the object specification table below for the required properties of this object.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#getFieldDomain">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="fieldName">
+    ///     Name of the field.
+    /// </param>
+    /// <param name="feature">
+    ///     The feature to which the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html">Domain</a> is assigned.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#getFieldDomain">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    [ArcGISMethod]
+    Task<Domain?> GetFieldDomain(string fieldName,
+        Graphic feature);
+    
+#endregion
+
 }

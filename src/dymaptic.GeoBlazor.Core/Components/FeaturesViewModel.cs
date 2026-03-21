@@ -6,6 +6,7 @@ public partial class FeaturesViewModel : IViewModel
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
     [ActivatorUtilitiesConstructor]
+    [CodeGenerationIgnore]
     public FeaturesViewModel()
     {
     }
@@ -139,6 +140,7 @@ public partial class FeaturesViewModel : IViewModel
     ///     The information to display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#content">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    [CodeGenerationIgnore]
     public FeaturesViewModel(IReadOnlyList<ActionBase>? actions = null,
         Graphic? activeFeature = null,
         bool? autoCloseEnabled = null,

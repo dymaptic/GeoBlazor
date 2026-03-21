@@ -79,6 +79,12 @@ public partial record RequestOptions(
     public bool? CacheBust { get; set; } = CacheBust;
     
     /// <summary>
+    ///     If uploading a file, specify the form data or element used to submit the file here.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public RequestOptionsBody? Body { get; set; } = Body;
+    
+    /// <summary>
     ///     Headers to use for the request.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -119,11 +125,5 @@ public partial record RequestOptions(
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public bool? WithCredentials { get; set; } = WithCredentials;
-    
-    /// <summary>
-    ///     If uploading a file, specify the form data or element used to submit the file here.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public RequestOptionsBody? Body { get; set; } = Body;
     
 }

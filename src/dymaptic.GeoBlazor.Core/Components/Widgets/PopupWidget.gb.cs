@@ -10,7 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 /// </summary>
 public partial class PopupWidget : IGoTo
 {
-    
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -23,6 +23,16 @@ public partial class PopupWidget : IGoTo
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public bool? Active { get; protected set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetcontent-property">GeoBlazor Docs</a>
+    ///     The content of the popup.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Widget? Content { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetcurrentdockposition-property">GeoBlazor Docs</a>
@@ -368,6 +378,53 @@ public partial class PopupWidget : IGoTo
         }
          
         return Collapsed;
+
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Content property.
+    /// </summary>
+    public async Task<Widget?> GetContent()
+    {
+        if (CoreJsModule is null)
+        {
+            return Content;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Content;
+        }
+
+        Widget? result = await JsComponentReference.InvokeJsMethod<Widget?>(
+            IsServer, nameof(GetContent), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+            if (Content is not null)
+            {
+                result.Id = Content.Id;
+            }
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+            
+#pragma warning disable BL0005
+            Content = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Content)] = Content;
+        }
+        
+        return Content;
 
     }
 
@@ -2023,6 +2080,10 @@ public partial class PopupWidget : IGoTo
     
 #endregion
 
+#region Event Handlers
+
+#endregion
+
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
@@ -2030,10 +2091,10 @@ public partial class PopupWidget : IGoTo
         switch (child)
         {
             case Widget content:
-                if (content != WidgetContent)
+                if (content != Content)
                 {
-                    WidgetContent = content;
-                    ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
+                    Content = content;
+                    ModifiedParameters[nameof(Content)] = Content;
                     if (MapRendered)
                     {
                         await UpdateWidget();
@@ -2113,8 +2174,8 @@ public partial class PopupWidget : IGoTo
         switch (child)
         {
             case Widget:
-                WidgetContent = null;
-                ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
+                Content = null;
+                ModifiedParameters[nameof(Content)] = Content;
                 return true;
             case PopupDockOptions:
                 DockOptions = null;
@@ -2145,7 +2206,7 @@ public partial class PopupWidget : IGoTo
     public override void ValidateRequiredGeneratedChildren()
     {
     
-        WidgetContent?.ValidateRequiredGeneratedChildren();
+        Content?.ValidateRequiredGeneratedChildren();
         DockOptions?.ValidateRequiredGeneratedChildren();
         if (Features is not null)
         {

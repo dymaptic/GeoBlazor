@@ -12,13 +12,11 @@ public enum FieldType
 #pragma warning disable CS1591
     SmallInteger,
     Integer,
-
     Single,
     Double,
     Long,
     String,
     Date,
-
     Oid,
     Geometry,
     Blob,

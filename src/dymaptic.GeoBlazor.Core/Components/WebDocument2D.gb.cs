@@ -1313,11 +1313,10 @@ public partial class WebDocument2D : Map
     ///     Saves the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebLinkChart.html">WebLinkChart</a> to its associated portal item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebDocument2D.html#save">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    /// <param name="options">
-    ///     Additional options.
+    /// <param name="ignoreUnsupported">
     /// </param>
     [ArcGISMethod]
-    public async Task<PortalItem?> Save(WebDocument2DSaveOptions options)
+    public async Task<PortalItem?> Save(bool ignoreUnsupported)
     {
         if (CoreJsModule is null)
         {
@@ -1342,7 +1341,7 @@ public partial class WebDocument2D : Map
         return await JsComponentReference!.InvokeJsMethod<PortalItem?>(
             IsServer, nameof(Save), nameof(WebDocument2D), null, 
             CancellationTokenSource.Token,
-            options);
+            new { ignoreUnsupported  });
     }
     
     /// <summary>

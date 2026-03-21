@@ -6,6 +6,7 @@ public partial class PopupWidget : Widget
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
     [ActivatorUtilitiesConstructor]
+    [CodeGenerationIgnore]
     public PopupWidget()
     {
     }
@@ -134,6 +135,7 @@ public partial class PopupWidget : Widget
     ///     The unique ID assigned to the widget when the widget is created.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    [CodeGenerationIgnore]
     public PopupWidget(IReadOnlyList<ActionBase>? actions = null,
         PopupAlignment? alignment = null,
         bool? autoCloseEnabled = null,

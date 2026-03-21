@@ -20,6 +20,6 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query-support-AttachmentInfo.html#OrientationInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record OrientationInfo(
-    long? OrientationInfoId,
+    long OrientationInfoId,
     double Rotation,
     bool Mirrored);

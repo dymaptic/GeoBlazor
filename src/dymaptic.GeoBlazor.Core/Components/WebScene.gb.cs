@@ -10,7 +10,109 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class WebScene : ITimeSliderDocument,
     ITimeUtilsDocument
-{    
+{
+
+    /// <summary>
+    ///     Parameterless constructor for use as a Razor Component.
+    /// </summary>
+    [ActivatorUtilitiesConstructor]
+    public WebScene()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
+    /// </summary>
+    /// <param name="applicationProperties">
+    ///     Configuration of application and UI elements.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#applicationProperties">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="authoringApp">
+    ///     The name of the application that authored the WebScene.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#authoringApp">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="authoringAppVersion">
+    ///     The version of the application that authored the WebScene.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#authoringAppVersion">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="clippingArea">
+    ///     *This property only applies to local scenes.*
+    ///     Represents an optional clipping area used to define the
+    ///     bounds or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">Extent</a> of a local scene.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#clippingArea">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="clippingEnabled">
+    ///     *This property only applies to local scenes.*
+    ///     Determines whether clipping using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#clippingArea">clippingArea</a> is
+    ///     enabled.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#clippingEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="floorInfo">
+    ///     When a web scene is configured as floor-aware, it has a floorInfo property defined.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#floorInfo">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="heightModelInfo">
+    ///     The height model info of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">WebScene</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#heightModelInfo">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="initialViewProperties">
+    ///     The initial view of the WebScene.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#initialViewProperties">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="portalItem">
+    ///     The portal item from which the WebScene is loaded.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="presentation">
+    ///     Provides a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of slides
+    ///     that act as bookmarks for saving predefined <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">viewpoints</a>
+    ///     and visible layers.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#presentation">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="thumbnailUrl">
+    ///     The URL to the thumbnail used for the web scene.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#thumbnailUrl">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="widgets">
+    ///     The widgets object contains widgets that are exposed to the user.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#widgets">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    public WebScene(
+        WebsceneApplicationProperties? applicationProperties = null,
+        string? authoringApp = null,
+        string? authoringAppVersion = null,
+        Extent? clippingArea = null,
+        bool? clippingEnabled = null,
+        MapFloorInfo? floorInfo = null,
+        HeightModelInfo? heightModelInfo = null,
+        WebsceneInitialViewProperties? initialViewProperties = null,
+        PortalItem? portalItem = null,
+        IPresentation? presentation = null,
+        string? thumbnailUrl = null,
+        WebSceneWidgets? widgets = null)
+    {
+        AllowRender = false;
+#pragma warning disable BL0005
+        ApplicationProperties = applicationProperties;
+        AuthoringApp = authoringApp;
+        AuthoringAppVersion = authoringAppVersion;
+        ClippingArea = clippingArea;
+        ClippingEnabled = clippingEnabled;
+        FloorInfo = floorInfo;
+        HeightModelInfo = heightModelInfo;
+        InitialViewProperties = initialViewProperties;
+        if (portalItem is not null)
+        {
+            PortalItem = portalItem;
+        }
+        Presentation = presentation;
+        ThumbnailUrl = thumbnailUrl;
+        Widgets = widgets;
+#pragma warning restore BL0005
+    }
+    
     
 #region Public Properties / Blazor Parameters
 
@@ -1418,11 +1520,12 @@ public partial class WebScene : ITimeSliderDocument,
     ///     Saves the webscene to its associated portal item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#save">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    /// <param name="options">
-    ///     Additional options.
+    /// <param name="ignoreUnsupported">
+    ///     When `true`, the scene will save even if it contains unsupported content (layers, renderers, symbols).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#save">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     [ArcGISMethod]
-    public async Task<PortalItem?> Save(WebSceneSaveOptions options)
+    public async Task<PortalItem?> Save(bool ignoreUnsupported)
     {
         if (CoreJsModule is null)
         {
@@ -1447,7 +1550,7 @@ public partial class WebScene : ITimeSliderDocument,
         return await JsComponentReference!.InvokeJsMethod<PortalItem?>(
             IsServer, nameof(Save), nameof(WebScene), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
-            options);
+            new { ignoreUnsupported  });
     }
     
     /// <summary>
@@ -1551,11 +1654,11 @@ public partial class WebScene : ITimeSliderDocument,
     /// <param name="view">
     ///     The view to update from.
     /// </param>
-    /// <param name="options">
+    /// <param name="size">
     /// </param>
     [ArcGISMethod]
     public async Task UpdateThumbnail(SceneView view,
-        WebSceneUpdateThumbnailOptions options)
+        WebSceneThumbnailSize size)
     {
         if (CoreJsModule is null)
         {
@@ -1587,7 +1690,7 @@ public partial class WebScene : ITimeSliderDocument,
             nameof(UpdateThumbnail), nameof(WebScene), 
             CancellationTokenSource.Token,
             view,
-            options);
+            new { size  });
     }
     
     /// <summary>

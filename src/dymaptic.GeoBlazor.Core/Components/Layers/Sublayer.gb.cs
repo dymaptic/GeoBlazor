@@ -2602,13 +2602,13 @@ public partial class Sublayer
     /// <param name="fieldName">
     ///     Name of the field.
     /// </param>
-    /// <param name="options">
-    ///     An object specifying additional options. See the
-    ///     object specification table below for the required properties of this object.
+    /// <param name="feature">
+    ///     The feature to which the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html">Domain</a> is assigned.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#getFieldDomain">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     [ArcGISMethod]
     public async Task<Domain?> GetFieldDomain(string fieldName,
-        SublayerGetFieldDomainOptions options)
+        Graphic feature)
     {
         if (CoreJsModule is null)
         {
@@ -2634,7 +2634,7 @@ public partial class Sublayer
             IsServer, nameof(GetFieldDomain), nameof(Sublayer), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token,
             fieldName,
-            options);
+            new { feature  });
     }
     
     /// <summary>
