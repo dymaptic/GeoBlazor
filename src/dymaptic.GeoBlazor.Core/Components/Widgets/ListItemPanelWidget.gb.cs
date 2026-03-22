@@ -102,7 +102,7 @@ public partial class ListItemPanelWidget
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Content = (IReadOnlyList<ListItemPanelContent>)result;
+                Content = result;
 #pragma warning restore BL0005
                 ModifiedParameters[nameof(Content)] = Content;
         }

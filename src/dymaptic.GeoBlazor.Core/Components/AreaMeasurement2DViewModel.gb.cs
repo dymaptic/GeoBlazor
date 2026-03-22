@@ -248,7 +248,7 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
             result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
-            SnappingOptions = (SnappingOptions)result;
+            SnappingOptions = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(SnappingOptions)] = SnappingOptions;
         }
@@ -431,7 +431,7 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUnit(SystemOrAreaUnit? value)
+    public async Task SetUnit(SystemOrAreaUnit value)
     {
 #pragma warning disable BL0005
         Unit = value;
@@ -469,7 +469,7 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUnitOptions(IReadOnlyList<SystemOrAreaUnit>? value)
+    public async Task SetUnitOptions(IReadOnlyList<SystemOrAreaUnit> value)
     {
 #pragma warning disable BL0005
         UnitOptions = value;

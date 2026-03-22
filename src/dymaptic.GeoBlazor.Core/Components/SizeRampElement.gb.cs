@@ -165,7 +165,7 @@ public partial class SizeRampElement : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetInfos(IReadOnlyList<SizeRampStop>? value)
+    public async Task SetInfos(IReadOnlyList<SizeRampStop> value)
     {
 #pragma warning disable BL0005
         Infos = value;
@@ -176,12 +176,9 @@ public partial class SizeRampElement : MapComponent,
         {
             return;
         }
-        if (value is not null)
+        foreach (SizeRampStop item in value)
         {
-            foreach (SizeRampStop item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     

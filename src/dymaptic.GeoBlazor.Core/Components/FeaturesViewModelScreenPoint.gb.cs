@@ -154,7 +154,7 @@ public partial class FeaturesViewModelScreenPoint : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetX(double? value)
+    public async Task SetX(double value)
     {
 #pragma warning disable BL0005
         X = value;
@@ -192,7 +192,7 @@ public partial class FeaturesViewModelScreenPoint : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetY(double? value)
+    public async Task SetY(double value)
     {
 #pragma warning disable BL0005
         Y = value;

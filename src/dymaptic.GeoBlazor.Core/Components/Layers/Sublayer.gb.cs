@@ -2493,7 +2493,7 @@ public partial class Sublayer
     ///     Options for creating the popup template.
     /// </param>
     [ArcGISMethod]
-    public async Task<PopupTemplate?> CreatePopupTemplate(CreatePopupTemplateOptions options)
+    public async Task<PopupTemplate?> CreatePopupTemplate(CreatePopupTemplateOptions? options)
     {
         if (CoreJsModule is null)
         {
@@ -2565,7 +2565,7 @@ public partial class Sublayer
     ///     A feature from this Sublayer.
     /// </param>
     [ArcGISMethod]
-    public async Task<FeatureType?> GetFeatureType(Graphic feature)
+    public async Task<FeatureType?> GetFeatureType(Graphic? feature)
     {
         if (CoreJsModule is null)
         {
@@ -2608,7 +2608,7 @@ public partial class Sublayer
     /// </param>
     [ArcGISMethod]
     public async Task<Domain?> GetFieldDomain(string fieldName,
-        Graphic feature)
+        Graphic? feature)
     {
         if (CoreJsModule is null)
         {
@@ -2850,7 +2850,7 @@ public partial class Sublayer
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<int?> QueryFeatureCount(Query query,
+    public async Task<int?> QueryFeatureCount(Query? query,
         CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
@@ -2903,7 +2903,7 @@ public partial class Sublayer
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<FeatureSet?> QueryFeatures(Query query,
+    public async Task<FeatureSet?> QueryFeatures(Query? query,
         CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
@@ -2957,7 +2957,7 @@ public partial class Sublayer
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<ObjectId[]?> QueryObjectIds(Query query,
+    public async Task<ObjectId[]?> QueryObjectIds(Query? query,
         CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
@@ -3118,8 +3118,8 @@ public partial class Sublayer
     ///     The function to execute when the promise fails.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> When(Func<Task> callback,
-        Func<Task> errback)
+    public async Task<string?> When(Func<Task>? callback,
+        Func<Task>? errback)
     {
         if (CoreJsModule is null)
         {

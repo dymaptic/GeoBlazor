@@ -1227,7 +1227,7 @@ public partial class SearchWidget : IGoTo
             result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
             
 #pragma warning disable BL0005
-            ViewModel = (SearchViewModel)result;
+            ViewModel = result;
 #pragma warning restore BL0005
             ModifiedParameters[nameof(ViewModel)] = ViewModel;
         }

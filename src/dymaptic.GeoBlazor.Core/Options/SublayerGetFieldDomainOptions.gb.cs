@@ -17,6 +17,6 @@ public partial record SublayerGetFieldDomainOptions(
     ///     The feature to which the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html">Domain</a> is assigned.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#getFieldDomain">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public Graphic? Feature { get; set; } = Feature;
+    public Graphic Feature { get; set; } = Feature;
     
 }

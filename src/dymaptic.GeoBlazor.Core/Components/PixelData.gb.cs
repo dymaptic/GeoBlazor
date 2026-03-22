@@ -173,7 +173,7 @@ public partial class PixelData : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetExtent(Extent? value)
+    public async Task SetExtent(Extent value)
     {
 #pragma warning disable BL0005
         Extent = value;
@@ -184,10 +184,7 @@ public partial class PixelData : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

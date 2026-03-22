@@ -611,7 +611,7 @@ public partial class Ground : MapComponent,
     /// </param>
     [ArcGISMethod]
     public async Task<IElevationSampler?> CreateElevationSampler(Extent extent,
-        GroundCreateElevationSamplerOptions options,
+        GroundCreateElevationSamplerOptions? options,
         CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
@@ -848,7 +848,7 @@ public partial class Ground : MapComponent,
     /// </param>
     [ArcGISMethod]
     public async Task<ElevationQueryResult?> QueryElevation(Geometry geometry,
-        GroundQueryElevationOptions options,
+        GroundQueryElevationOptions? options,
         CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
@@ -902,8 +902,8 @@ public partial class Ground : MapComponent,
     ///     The function to execute when the promise fails.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> When(Func<Task> callback,
-        Func<Task> errback)
+    public async Task<string?> When(Func<Task>? callback,
+        Func<Task>? errback)
     {
         if (CoreJsModule is null)
         {

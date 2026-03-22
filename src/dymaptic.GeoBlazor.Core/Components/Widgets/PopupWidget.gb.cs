@@ -1928,7 +1928,7 @@ public partial class PopupWidget : IGoTo
     ///     Defines the location and content of the popup when opened.
     /// </param>
     [ArcGISMethod]
-    public async Task Open(PopupOpenOptions options)
+    public async Task Open(PopupOpenOptions? options)
     {
         if (CoreJsModule is null)
         {

@@ -393,8 +393,8 @@ public partial class LayerView
     ///     The function to execute when the promise fails.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> When(Func<Task> callback,
-        Func<Task> errback)
+    public async Task<string?> When(Func<Task>? callback,
+        Func<Task>? errback)
     {
         if (CoreJsModule is null)
         {

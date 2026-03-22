@@ -102,7 +102,7 @@ public partial class LabelExpressionInfo
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Expression = (string)result;
+                Expression = result;
 #pragma warning restore BL0005
                 ModifiedParameters[nameof(Expression)] = Expression;
         }

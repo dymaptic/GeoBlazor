@@ -326,12 +326,12 @@ public partial interface IFeatureLayerBase : IMapComponent
     /// <summary>
     ///    Asynchronously set the value of the HasM property after render.
     /// </summary>
-    Task SetHasM(bool? value);
+    Task SetHasM(bool value);
     
     /// <summary>
     ///    Asynchronously set the value of the HasZ property after render.
     /// </summary>
-    Task SetHasZ(bool? value);
+    Task SetHasZ(bool value);
     
     /// <summary>
     ///    Asynchronously set the value of the HistoricMoment property after render.
@@ -581,7 +581,7 @@ public partial interface IFeatureLayerBase : IMapComponent
     /// </param>
     [ArcGISMethod]
     Task<Domain?> GetFieldDomain(string fieldName,
-        Graphic feature);
+        Graphic? feature);
     
 #endregion
 

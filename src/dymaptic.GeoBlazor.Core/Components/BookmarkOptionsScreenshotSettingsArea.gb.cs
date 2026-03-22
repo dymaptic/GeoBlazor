@@ -274,7 +274,7 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHeight(int? value)
+    public async Task SetHeight(int value)
     {
 #pragma warning disable BL0005
         Height = value;
@@ -312,7 +312,7 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetWidth(int? value)
+    public async Task SetWidth(int value)
     {
 #pragma warning disable BL0005
         Width = value;
@@ -350,7 +350,7 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetX(double? value)
+    public async Task SetX(double value)
     {
 #pragma warning disable BL0005
         X = value;
@@ -388,7 +388,7 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetY(double? value)
+    public async Task SetY(double value)
     {
 #pragma warning disable BL0005
         Y = value;

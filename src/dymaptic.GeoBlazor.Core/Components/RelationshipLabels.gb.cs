@@ -274,7 +274,7 @@ public partial class RelationshipLabels : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBottom(string? value)
+    public async Task SetBottom(string value)
     {
 #pragma warning disable BL0005
         Bottom = value;
@@ -312,7 +312,7 @@ public partial class RelationshipLabels : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLeft(string? value)
+    public async Task SetLeft(string value)
     {
 #pragma warning disable BL0005
         Left = value;
@@ -350,7 +350,7 @@ public partial class RelationshipLabels : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRight(string? value)
+    public async Task SetRight(string value)
     {
 #pragma warning disable BL0005
         Right = value;
@@ -388,7 +388,7 @@ public partial class RelationshipLabels : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTop(string? value)
+    public async Task SetTop(string value)
     {
 #pragma warning disable BL0005
         Top = value;

@@ -161,7 +161,7 @@ public partial class BasemapStyle
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Name = result;
+                Name = result.Value;
 #pragma warning restore BL0005
                 ModifiedParameters[nameof(Name)] = Name;
         }

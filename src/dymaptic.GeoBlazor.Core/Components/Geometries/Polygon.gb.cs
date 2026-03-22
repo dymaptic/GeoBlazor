@@ -92,7 +92,7 @@ public partial class Polygon
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Rings = (IReadOnlyList<MapPath>)result;
+                Rings = result;
 #pragma warning restore BL0005
                 ModifiedParameters[nameof(Rings)] = Rings;
         }

@@ -192,7 +192,7 @@ public partial class DotDensityTitle
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValue(double? value)
+    public async Task SetValue(double value)
     {
 #pragma warning disable BL0005
         Value = value;

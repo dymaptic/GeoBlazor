@@ -677,7 +677,7 @@ public partial class LocatorSearchSource
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Url = (string)result;
+                Url = result;
 #pragma warning restore BL0005
                 ModifiedParameters[nameof(Url)] = Url;
         }

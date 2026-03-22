@@ -218,7 +218,7 @@ public partial class ColorRampStop : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetColor(MapColor? value)
+    public async Task SetColor(MapColor value)
     {
 #pragma warning disable BL0005
         Color = value;

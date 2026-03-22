@@ -217,7 +217,7 @@ public partial class HeatmapRampStop : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetColor(MapColor? value)
+    public async Task SetColor(MapColor value)
     {
 #pragma warning disable BL0005
         Color = value;
@@ -255,7 +255,7 @@ public partial class HeatmapRampStop : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabel(string? value)
+    public async Task SetLabel(string value)
     {
 #pragma warning disable BL0005
         Label = value;
@@ -293,7 +293,7 @@ public partial class HeatmapRampStop : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRatio(double? value)
+    public async Task SetRatio(double value)
     {
 #pragma warning disable BL0005
         Ratio = value;

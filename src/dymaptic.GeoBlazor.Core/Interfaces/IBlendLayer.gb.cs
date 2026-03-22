@@ -33,7 +33,7 @@ public partial interface IBlendLayer : IMapComponent
     /// <summary>
     ///    Asynchronously set the value of the BlendMode property after render.
     /// </summary>
-    Task SetBlendMode(BlendMode? value);
+    Task SetBlendMode(BlendMode value);
     
     /// <summary>
     ///    Asynchronously set the value of the Effect property after render.

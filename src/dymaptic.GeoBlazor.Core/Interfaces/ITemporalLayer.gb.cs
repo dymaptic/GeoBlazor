@@ -64,7 +64,7 @@ public partial interface ITemporalLayer : IMapComponent
     /// <summary>
     ///    Asynchronously set the value of the UseViewTime property after render.
     /// </summary>
-    Task SetUseViewTime(bool? value);
+    Task SetUseViewTime(bool value);
     
 #endregion
 

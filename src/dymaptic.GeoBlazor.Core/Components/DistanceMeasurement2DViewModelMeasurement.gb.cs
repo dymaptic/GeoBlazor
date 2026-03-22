@@ -166,7 +166,7 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetGeometry(Polyline? value)
+    public async Task SetGeometry(Polyline value)
     {
 #pragma warning disable BL0005
         Geometry = value;
@@ -177,10 +177,7 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -209,7 +206,7 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLength(double? value)
+    public async Task SetLength(double value)
     {
 #pragma warning disable BL0005
         Length = value;

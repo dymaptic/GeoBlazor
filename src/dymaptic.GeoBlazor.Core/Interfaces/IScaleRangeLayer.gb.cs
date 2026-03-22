@@ -33,12 +33,12 @@ public partial interface IScaleRangeLayer : IMapComponent
     /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
-    Task SetMaxScale(double? value);
+    Task SetMaxScale(double value);
     
     /// <summary>
     ///    Asynchronously set the value of the MinScale property after render.
     /// </summary>
-    Task SetMinScale(double? value);
+    Task SetMinScale(double value);
     
 #endregion
 

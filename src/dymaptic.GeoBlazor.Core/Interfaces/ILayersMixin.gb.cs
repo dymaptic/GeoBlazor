@@ -71,7 +71,7 @@ public partial interface ILayersMixin : IMapComponent
     /// </param>
     [ArcGISMethod]
     Task Add(Layer layer,
-        int index);
+        int? index);
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ILayersMixin.html#ilayersmixinaddmany-method">GeoBlazor Docs</a>
@@ -87,7 +87,7 @@ public partial interface ILayersMixin : IMapComponent
     /// </param>
     [ArcGISMethod]
     Task AddMany(IReadOnlyCollection<Layer> layers,
-        int index);
+        int? index);
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ILayersMixin.html#ilayersmixinfindlayerbyid-method">GeoBlazor Docs</a>

@@ -165,7 +165,7 @@ public partial class OpacityRampElement : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetInfos(IReadOnlyList<OpacityRampStop>? value)
+    public async Task SetInfos(IReadOnlyList<OpacityRampStop> value)
     {
 #pragma warning disable BL0005
         Infos = value;
@@ -176,12 +176,9 @@ public partial class OpacityRampElement : MapComponent,
         {
             return;
         }
-        if (value is not null)
+        foreach (OpacityRampStop item in value)
         {
-            foreach (OpacityRampStop item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     

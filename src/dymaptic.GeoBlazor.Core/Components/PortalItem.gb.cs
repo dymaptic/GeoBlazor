@@ -3141,7 +3141,7 @@ public partial class PortalItem
     [ArcGISMethod]
     public async Task<string?> AddResource(PortalItemResource resource,
         Stream content,
-        PortalItemAddResourceOptions options,
+        PortalItemAddResourceOptions? options,
         CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
@@ -3268,7 +3268,7 @@ public partial class PortalItem
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> FetchData(ResponseType responseType,
+    public async Task<string?> FetchData(ResponseType? responseType,
         CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
@@ -3373,8 +3373,8 @@ public partial class PortalItem
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<PortalItem[]?> FetchRelatedItems(string? relationshipType,
-        RelationshipDirection? direction,
+    public async Task<PortalItem[]?> FetchRelatedItems(string relationshipType,
+        RelationshipDirection direction,
         CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
@@ -3492,7 +3492,7 @@ public partial class PortalItem
     ///     The desired image width.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> GetThumbnailUrl(int width)
+    public async Task<string?> GetThumbnailUrl(int? width)
     {
         if (CoreJsModule is null)
         {
@@ -3850,8 +3850,8 @@ public partial class PortalItem
     ///     The function to execute when the promise fails.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> When(Func<Task> callback,
-        Func<Task> errback)
+    public async Task<string?> When(Func<Task>? callback,
+        Func<Task>? errback)
     {
         if (CoreJsModule is null)
         {

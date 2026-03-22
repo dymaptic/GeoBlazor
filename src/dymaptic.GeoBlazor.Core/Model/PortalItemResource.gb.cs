@@ -85,8 +85,8 @@ public partial record PortalItemResource(
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> Fetch(ResponseType responseType,
-        PortalItemResourceFetchOptions options,
+    public async Task<string?> Fetch(ResponseType? responseType,
+        PortalItemResourceFetchOptions? options,
         CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
@@ -144,7 +144,7 @@ public partial record PortalItemResource(
     /// </param>
     [ArcGISMethod]
     public async Task<string?> Update(Stream content,
-        PortalItemResourceUpdateOptions options,
+        PortalItemResourceUpdateOptions? options,
         CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)

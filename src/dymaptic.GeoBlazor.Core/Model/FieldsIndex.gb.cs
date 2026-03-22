@@ -19,7 +19,7 @@ public partial record FieldsIndex(
     ///     default []
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FieldsIndex.html#dateFields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public IReadOnlyList<Field>? DateFields { get; set; } = DateFields;
+    public IReadOnlyList<Field> DateFields { get; set; } = DateFields;
     
     /// <summary>
     ///     Represents the JavaScript component reference.
@@ -61,7 +61,7 @@ public partial record FieldsIndex(
     ///     The name of the field. The name is case-insensitive.
     /// </param>
     [ArcGISMethod]
-    public async Task<Field?> Get(string fieldName)
+    public async Task<Field?> Get(string? fieldName)
     {
         if (CoreJsModule is null)
         {
@@ -172,7 +172,7 @@ public partial record FieldsIndex(
     ///     The name of the field.
     /// </param>
     [ArcGISMethod]
-    public async Task<bool?> IsDateField(string fieldName)
+    public async Task<bool?> IsDateField(string? fieldName)
     {
         if (CoreJsModule is null)
         {

@@ -160,7 +160,7 @@ public partial class AreaMeasurement2DViewModelMeasurementLabel : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetArea(string? value)
+    public async Task SetArea(string value)
     {
 #pragma warning disable BL0005
         Area = value;
@@ -198,7 +198,7 @@ public partial class AreaMeasurement2DViewModelMeasurementLabel : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPerimeter(string? value)
+    public async Task SetPerimeter(string value)
     {
 #pragma warning disable BL0005
         Perimeter = value;

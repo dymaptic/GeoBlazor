@@ -418,8 +418,8 @@ public partial class BasemapGalleryViewModel : MapComponent
     ///     The basemap to compare against <code>basemap1</code>.
     /// </param>
     [ArcGISMethod]
-    public async Task<bool?> BasemapEquals(Basemap basemap1,
-        Basemap basemap2)
+    public async Task<bool?> BasemapEquals(Basemap? basemap1,
+        Basemap? basemap2)
     {
         if (CoreJsModule is null)
         {

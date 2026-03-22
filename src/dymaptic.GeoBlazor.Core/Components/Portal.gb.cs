@@ -6425,8 +6425,8 @@ public partial class Portal
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<Basemap[]?> FetchBasemaps(string basemapGalleryGroupQuery,
-        PortalFetchBasemapsOptions options,
+    public async Task<Basemap[]?> FetchBasemaps(string? basemapGalleryGroupQuery,
+        PortalFetchBasemapsOptions? options,
         CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
@@ -7070,8 +7070,8 @@ public partial class Portal
     ///     The function to execute when the promise fails.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> When(Func<Task> callback,
-        Func<Task> errback)
+    public async Task<string?> When(Func<Task>? callback,
+        Func<Task>? errback)
     {
         if (CoreJsModule is null)
         {

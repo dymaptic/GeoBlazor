@@ -1316,7 +1316,7 @@ public partial class WebDocument2D : Map
     /// <param name="ignoreUnsupported">
     /// </param>
     [ArcGISMethod]
-    public async Task<PortalItem?> Save(bool ignoreUnsupported)
+    public async Task<PortalItem?> Save(bool? ignoreUnsupported)
     {
         if (CoreJsModule is null)
         {
@@ -1357,7 +1357,7 @@ public partial class WebDocument2D : Map
     /// </param>
     [ArcGISMethod]
     public async Task<PortalItem?> SaveAs(PortalItem portalItem,
-        WebDocument2DSaveAsOptions options)
+        WebDocument2DSaveAsOptions? options)
     {
         if (CoreJsModule is null)
         {
@@ -1400,7 +1400,7 @@ public partial class WebDocument2D : Map
     /// </param>
     [ArcGISMethod]
     public async Task<string?> UpdateFrom(MapView view,
-        WebDocument2DUpdateFromOptions options)
+        WebDocument2DUpdateFromOptions? options)
     {
         if (CoreJsModule is null)
         {
@@ -1442,8 +1442,8 @@ public partial class WebDocument2D : Map
     ///     The function to execute when the promise fails.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> When(Func<Task> callback,
-        Func<Task> errback)
+    public async Task<string?> When(Func<Task>? callback,
+        Func<Task>? errback)
     {
         if (CoreJsModule is null)
         {

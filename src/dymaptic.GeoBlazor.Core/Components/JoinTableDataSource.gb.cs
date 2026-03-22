@@ -377,7 +377,7 @@ public partial class JoinTableDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLeftTableSource(DynamicLayer? value)
+    public async Task SetLeftTableSource(DynamicLayer value)
     {
 #pragma warning disable BL0005
         LeftTableSource = value;
@@ -453,7 +453,7 @@ public partial class JoinTableDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRightTableSource(DynamicLayer? value)
+    public async Task SetRightTableSource(DynamicLayer value)
     {
 #pragma warning disable BL0005
         RightTableSource = value;

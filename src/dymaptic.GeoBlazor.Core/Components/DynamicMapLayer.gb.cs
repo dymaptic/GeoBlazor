@@ -133,7 +133,7 @@ public partial class DynamicMapLayer
         if (result is not null)
         {
 #pragma warning disable BL0005
-                MapLayerId = (long)result;
+                MapLayerId = result.Value;
 #pragma warning restore BL0005
                 ModifiedParameters[nameof(MapLayerId)] = MapLayerId;
         }

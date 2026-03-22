@@ -1747,7 +1747,7 @@ public partial class PortalUser : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#addItem">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     [ArcGISMethod]
-    public async Task<PortalItem?> AddItem(PortalItem? item,
+    public async Task<PortalItem?> AddItem(PortalItem item,
         string? data,
         PortalFolder? folder)
     {
@@ -1791,7 +1791,7 @@ public partial class PortalUser : MapComponent
     /// </param>
     [ArcGISMethod]
     public async Task<string?> DeleteItem(PortalItem item,
-        bool permanentDelete)
+        bool? permanentDelete)
     {
         if (CoreJsModule is null)
         {
@@ -1834,7 +1834,7 @@ public partial class PortalUser : MapComponent
     /// </param>
     [ArcGISMethod]
     public async Task<DeleteItemsResult[]?> DeleteItems(IReadOnlyCollection<PortalItem> items,
-        bool permanentDelete)
+        bool? permanentDelete)
     {
         if (CoreJsModule is null)
         {
@@ -2043,7 +2043,7 @@ public partial class PortalUser : MapComponent
     ///     The desired image width.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> GetThumbnailUrl(int width)
+    public async Task<string?> GetThumbnailUrl(int? width)
     {
         if (CoreJsModule is null)
         {
@@ -2081,7 +2081,7 @@ public partial class PortalUser : MapComponent
     ///     The input query parameters defined in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>. This object may be <a target="_blank" href="https://developers.arcgis.com/javascript/latest/autocasting/">autocast</a>.
     /// </param>
     [ArcGISMethod]
-    public async Task<PortalQueryResult?> QueryFavorites(PortalQueryParams queryParams)
+    public async Task<PortalQueryResult?> QueryFavorites(PortalQueryParams? queryParams)
     {
         if (CoreJsModule is null)
         {
@@ -2124,7 +2124,7 @@ public partial class PortalUser : MapComponent
     /// </param>
     [ArcGISMethod]
     public async Task<string?> RestoreItem(PortalItem item,
-        PortalFolder folder)
+        PortalFolder? folder)
     {
         if (CoreJsModule is null)
         {

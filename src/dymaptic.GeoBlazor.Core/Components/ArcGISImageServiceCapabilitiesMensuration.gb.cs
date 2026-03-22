@@ -445,7 +445,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupports3D(bool? value)
+    public async Task SetSupports3D(bool value)
     {
 #pragma warning disable BL0005
         Supports3D = value;
@@ -483,7 +483,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsAreaAndPerimeter(bool? value)
+    public async Task SetSupportsAreaAndPerimeter(bool value)
     {
 #pragma warning disable BL0005
         SupportsAreaAndPerimeter = value;
@@ -521,7 +521,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsDistanceAndAngle(bool? value)
+    public async Task SetSupportsDistanceAndAngle(bool value)
     {
 #pragma warning disable BL0005
         SupportsDistanceAndAngle = value;
@@ -559,7 +559,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsHeightFromBaseAndTop(bool? value)
+    public async Task SetSupportsHeightFromBaseAndTop(bool value)
     {
 #pragma warning disable BL0005
         SupportsHeightFromBaseAndTop = value;
@@ -597,7 +597,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsHeightFromBaseAndTopShadow(bool? value)
+    public async Task SetSupportsHeightFromBaseAndTopShadow(bool value)
     {
 #pragma warning disable BL0005
         SupportsHeightFromBaseAndTopShadow = value;
@@ -635,7 +635,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsHeightFromTopAndTopShadow(bool? value)
+    public async Task SetSupportsHeightFromTopAndTopShadow(bool value)
     {
 #pragma warning disable BL0005
         SupportsHeightFromTopAndTopShadow = value;
@@ -673,7 +673,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsPointOrCentroid(bool? value)
+    public async Task SetSupportsPointOrCentroid(bool value)
     {
 #pragma warning disable BL0005
         SupportsPointOrCentroid = value;

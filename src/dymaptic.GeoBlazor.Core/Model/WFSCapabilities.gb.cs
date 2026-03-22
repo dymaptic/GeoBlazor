@@ -30,12 +30,12 @@ public partial record WFSCapabilities(
     ///     An array of featureTypes (or layers) available in the WFS service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSCapabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public IReadOnlyCollection<WFSFeatureType>? FeatureTypes { get; set; } = FeatureTypes;
+    public IReadOnlyCollection<WFSFeatureType> FeatureTypes { get; set; } = FeatureTypes;
     
     /// <summary>
     ///     Information about the operations needed to consume the WFS service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSCapabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public WFSOperations? Operations { get; set; } = Operations;
+    public WFSOperations Operations { get; set; } = Operations;
     
 }

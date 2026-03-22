@@ -100,7 +100,7 @@ public partial class ClusterTitle : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetShowCount(bool? value)
+    public async Task SetShowCount(bool value)
     {
 #pragma warning disable BL0005
         ShowCount = value;

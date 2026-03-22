@@ -165,7 +165,7 @@ public partial class HeatmapRampElement : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetInfos(IReadOnlyList<HeatmapRampStop>? value)
+    public async Task SetInfos(IReadOnlyList<HeatmapRampStop> value)
     {
 #pragma warning disable BL0005
         Infos = value;
@@ -176,12 +176,9 @@ public partial class HeatmapRampElement : MapComponent,
         {
             return;
         }
-        if (value is not null)
+        foreach (HeatmapRampStop item in value)
         {
-            foreach (HeatmapRampStop item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     

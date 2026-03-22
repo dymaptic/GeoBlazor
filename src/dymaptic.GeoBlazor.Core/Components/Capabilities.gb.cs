@@ -619,7 +619,7 @@ public partial class Capabilities : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAnalytics(CapabilitiesAnalytics? value)
+    public async Task SetAnalytics(CapabilitiesAnalytics value)
     {
 #pragma warning disable BL0005
         Analytics = value;
@@ -630,10 +630,7 @@ public partial class Capabilities : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -705,7 +702,7 @@ public partial class Capabilities : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetData(CapabilitiesData? value)
+    public async Task SetData(CapabilitiesData value)
     {
 #pragma warning disable BL0005
         Data = value;
@@ -716,10 +713,7 @@ public partial class Capabilities : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -748,7 +742,7 @@ public partial class Capabilities : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetEditing(CapabilitiesEditing? value)
+    public async Task SetEditing(CapabilitiesEditing value)
     {
 #pragma warning disable BL0005
         Editing = value;
@@ -759,10 +753,7 @@ public partial class Capabilities : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -791,7 +782,7 @@ public partial class Capabilities : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMetadata(CapabilitiesMetadata? value)
+    public async Task SetMetadata(CapabilitiesMetadata value)
     {
 #pragma warning disable BL0005
         Metadata = value;
@@ -802,10 +793,7 @@ public partial class Capabilities : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -834,7 +822,7 @@ public partial class Capabilities : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOperations(CapabilitiesOperations? value)
+    public async Task SetOperations(CapabilitiesOperations value)
     {
 #pragma warning disable BL0005
         Operations = value;
@@ -845,10 +833,7 @@ public partial class Capabilities : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -877,7 +862,7 @@ public partial class Capabilities : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetQuery(CapabilitiesQuery? value)
+    public async Task SetQuery(CapabilitiesQuery value)
     {
 #pragma warning disable BL0005
         Query = value;
@@ -915,7 +900,7 @@ public partial class Capabilities : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetQueryAttributeBins(CapabilitiesQueryAttributeBins? value)
+    public async Task SetQueryAttributeBins(CapabilitiesQueryAttributeBins value)
     {
 #pragma warning disable BL0005
         QueryAttributeBins = value;
@@ -926,10 +911,7 @@ public partial class Capabilities : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -958,7 +940,7 @@ public partial class Capabilities : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetQueryRelated(CapabilitiesQueryRelated? value)
+    public async Task SetQueryRelated(CapabilitiesQueryRelated value)
     {
 #pragma warning disable BL0005
         QueryRelated = value;
@@ -969,10 +951,7 @@ public partial class Capabilities : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -1001,7 +980,7 @@ public partial class Capabilities : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetQueryTopFeatures(CapabilitiesQueryTopFeatures? value)
+    public async Task SetQueryTopFeatures(CapabilitiesQueryTopFeatures value)
     {
 #pragma warning disable BL0005
         QueryTopFeatures = value;
@@ -1012,10 +991,7 @@ public partial class Capabilities : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

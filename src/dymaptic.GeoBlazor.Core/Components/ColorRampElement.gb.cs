@@ -165,7 +165,7 @@ public partial class ColorRampElement : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetInfos(IReadOnlyList<ColorRampStop>? value)
+    public async Task SetInfos(IReadOnlyList<ColorRampStop> value)
     {
 #pragma warning disable BL0005
         Infos = value;
@@ -176,12 +176,9 @@ public partial class ColorRampElement : MapComponent,
         {
             return;
         }
-        if (value is not null)
+        foreach (ColorRampStop item in value)
         {
-            foreach (ColorRampStop item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     

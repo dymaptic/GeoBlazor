@@ -30,12 +30,12 @@ public partial record ScreenPoint(
     ///     The x coordinate.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-2d-layers-BaseLayerView2D.html#ScreenPoint">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public double? X { get; set; } = X;
+    public double X { get; set; } = X;
     
     /// <summary>
     ///     The y coordinate.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-2d-layers-BaseLayerView2D.html#ScreenPoint">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public double? Y { get; set; } = Y;
+    public double Y { get; set; } = Y;
     
 }

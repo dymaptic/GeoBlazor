@@ -30,7 +30,7 @@ public partial interface IDisplayFilteredLayer : IMapComponent
     /// <summary>
     ///    Asynchronously set the value of the DisplayFilterEnabled property after render.
     /// </summary>
-    Task SetDisplayFilterEnabled(bool? value);
+    Task SetDisplayFilterEnabled(bool value);
     
     /// <summary>
     ///    Asynchronously set the value of the DisplayFilterInfo property after render.

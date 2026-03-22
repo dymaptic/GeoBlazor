@@ -218,7 +218,7 @@ public partial class SymbolTableElement : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetInfos(IReadOnlyList<ISymbolTableElementType>? value)
+    public async Task SetInfos(IReadOnlyList<ISymbolTableElementType> value)
     {
 #pragma warning disable BL0005
         Infos = value;

@@ -160,7 +160,7 @@ public partial class DynamicDataLayerFields : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAlias(string? value)
+    public async Task SetAlias(string value)
     {
 #pragma warning disable BL0005
         Alias = value;
@@ -198,7 +198,7 @@ public partial class DynamicDataLayerFields : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetName(string? value)
+    public async Task SetName(string value)
     {
 #pragma warning disable BL0005
         Name = value;

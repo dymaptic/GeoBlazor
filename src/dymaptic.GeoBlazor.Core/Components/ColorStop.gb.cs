@@ -98,7 +98,7 @@ public partial class ColorStop
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Color = (MapColor)result;
+                Color = result;
 #pragma warning restore BL0005
                 ModifiedParameters[nameof(Color)] = Color;
         }

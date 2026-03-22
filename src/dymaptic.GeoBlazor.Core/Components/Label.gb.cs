@@ -106,10 +106,7 @@ public partial class Label
         LabelPlacement = labelPlacement;
         LabelExpression = labelExpression;
         LabelExpressionInfo = labelExpressionInfo;
-        if (symbol is not null)
-        {
-            Symbol = symbol;
-        }
+        Symbol = symbol;
         AllowOverrun = allowOverrun;
         DeconflictionStrategy = deconflictionStrategy;
         LabelPosition = labelPosition;
@@ -663,7 +660,7 @@ public partial class Label
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAllowOverrun(bool? value)
+    public async Task SetAllowOverrun(bool value)
     {
 #pragma warning disable BL0005
         AllowOverrun = value;

@@ -1119,9 +1119,9 @@ public partial class SliderViewModel
     ///     The index of the label.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> GetLabelForValue(double value,
-        SliderViewModelType type,
-        int index)
+    public async Task<string?> GetLabelForValue(double? value,
+        SliderViewModelType? type,
+        int? index)
     {
         if (CoreJsModule is null)
         {

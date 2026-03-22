@@ -280,7 +280,7 @@ public partial class KMLLayerViewMapImage : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetExtent(Extent? value)
+    public async Task SetExtent(Extent value)
     {
 #pragma warning disable BL0005
         Extent = value;
@@ -291,10 +291,7 @@ public partial class KMLLayerViewMapImage : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -323,7 +320,7 @@ public partial class KMLLayerViewMapImage : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHref(string? value)
+    public async Task SetHref(string value)
     {
 #pragma warning disable BL0005
         Href = value;
@@ -361,7 +358,7 @@ public partial class KMLLayerViewMapImage : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetKMLLayerViewMapImageId(long? value)
+    public async Task SetKMLLayerViewMapImageId(long value)
     {
 #pragma warning disable BL0005
         KMLLayerViewMapImageId = value;
@@ -399,7 +396,7 @@ public partial class KMLLayerViewMapImage : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRotation(double? value)
+    public async Task SetRotation(double value)
     {
 #pragma warning disable BL0005
         Rotation = value;

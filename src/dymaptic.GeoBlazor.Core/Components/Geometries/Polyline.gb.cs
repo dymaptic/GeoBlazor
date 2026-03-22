@@ -89,7 +89,7 @@ public partial class Polyline
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Paths = (IReadOnlyList<MapPath>)result;
+                Paths = result;
 #pragma warning restore BL0005
                 ModifiedParameters[nameof(Paths)] = Paths;
         }

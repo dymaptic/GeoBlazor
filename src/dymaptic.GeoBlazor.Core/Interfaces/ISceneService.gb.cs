@@ -57,7 +57,7 @@ public partial interface ISceneService : IMapComponent
     /// <summary>
     ///    Asynchronously set the value of the SceneServiceLayerId property after render.
     /// </summary>
-    Task SetSceneServiceLayerId(long? value);
+    Task SetSceneServiceLayerId(long value);
     
     /// <summary>
     ///    Asynchronously set the value of the SpatialReference property after render.

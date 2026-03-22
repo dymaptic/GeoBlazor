@@ -2973,7 +2973,7 @@ public partial class FeaturesViewModel : MapComponent,
     ///     Defines the location and content of the popup when opened.
     /// </param>
     [ArcGISMethod]
-    public async Task Open(GoToOptions options)
+    public async Task Open(GoToOptions? options)
     {
         if (CoreJsModule is null)
         {

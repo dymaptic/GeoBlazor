@@ -290,7 +290,7 @@ public partial class Extent
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Xmax = (double)result;
+                Xmax = result;
 #pragma warning restore BL0005
                 ModifiedParameters[nameof(Xmax)] = Xmax;
         }
@@ -331,7 +331,7 @@ public partial class Extent
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Xmin = (double)result;
+                Xmin = result;
 #pragma warning restore BL0005
                 ModifiedParameters[nameof(Xmin)] = Xmin;
         }
@@ -372,7 +372,7 @@ public partial class Extent
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Ymax = (double)result;
+                Ymax = result;
 #pragma warning restore BL0005
                 ModifiedParameters[nameof(Ymax)] = Ymax;
         }
@@ -413,7 +413,7 @@ public partial class Extent
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Ymin = (double)result;
+                Ymin = result;
 #pragma warning restore BL0005
                 ModifiedParameters[nameof(Ymin)] = Ymin;
         }
@@ -936,7 +936,7 @@ public partial class Extent
     ///     The input extent to intersect.
     /// </param>
     [ArcGISMethod]
-    public async Task<Extent?> Intersection(Extent extent)
+    public async Task<Extent?> Intersection(Extent? extent)
     {
         if (CoreJsModule is null)
         {
@@ -973,7 +973,7 @@ public partial class Extent
     ///     The geometry used to test the intersection. It can be a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">Point</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">Polyline</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html">Polygon</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">Extent</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Multipoint.html">Multipoint</a>.
     /// </param>
     [ArcGISMethod]
-    public async Task<bool?> Intersects(Geometry geometry)
+    public async Task<bool?> Intersects(Geometry? geometry)
     {
         if (CoreJsModule is null)
         {
@@ -1053,7 +1053,7 @@ public partial class Extent
     [ArcGISMethod]
     public async Task<Extent?> Offset(double dx,
         double dy,
-        double dz)
+        double? dz)
     {
         if (CoreJsModule is null)
         {

@@ -53,7 +53,7 @@ public partial interface IGeolocationPositioning : IMapComponent
     /// <summary>
     ///    Asynchronously set the value of the GoToLocationEnabled property after render.
     /// </summary>
-    Task SetGoToLocationEnabled(bool? value);
+    Task SetGoToLocationEnabled(bool value);
     
     /// <summary>
     ///    Asynchronously set the value of the Graphic property after render.

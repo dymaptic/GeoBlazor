@@ -57,10 +57,7 @@ public partial class MapFont
     {
         AllowRender = false;
 #pragma warning disable BL0005
-        if (size is not null)
-        {
-            Size = size;
-        }
+        Size = size;
         Family = family;
         Style = style;
         Weight = weight;

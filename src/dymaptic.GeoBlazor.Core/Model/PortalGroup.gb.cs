@@ -221,7 +221,7 @@ public partial record PortalGroup(
     ///     The desired image width.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> GetThumbnailUrl(int width)
+    public async Task<string?> GetThumbnailUrl(int? width)
     {
         if (CoreJsModule is null)
         {
@@ -263,7 +263,7 @@ public partial record PortalGroup(
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<PortalQueryResult?> QueryItems(PortalQueryParams queryParams,
+    public async Task<PortalQueryResult?> QueryItems(PortalQueryParams? queryParams,
         CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)

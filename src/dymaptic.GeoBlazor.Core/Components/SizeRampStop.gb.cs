@@ -394,7 +394,7 @@ public partial class SizeRampStop : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabel(string? value)
+    public async Task SetLabel(string value)
     {
 #pragma warning disable BL0005
         Label = value;
@@ -546,7 +546,7 @@ public partial class SizeRampStop : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSymbol(Symbol? value)
+    public async Task SetSymbol(Symbol value)
     {
 #pragma warning disable BL0005
         Symbol = value;
@@ -557,10 +557,7 @@ public partial class SizeRampStop : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

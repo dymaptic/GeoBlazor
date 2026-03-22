@@ -559,7 +559,7 @@ public partial class CapabilitiesEditing : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsDeleteByAnonymous(bool? value)
+    public async Task SetSupportsDeleteByAnonymous(bool value)
     {
 #pragma warning disable BL0005
         SupportsDeleteByAnonymous = value;
@@ -597,7 +597,7 @@ public partial class CapabilitiesEditing : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsDeleteByOthers(bool? value)
+    public async Task SetSupportsDeleteByOthers(bool value)
     {
 #pragma warning disable BL0005
         SupportsDeleteByOthers = value;
@@ -635,7 +635,7 @@ public partial class CapabilitiesEditing : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsGeometryUpdate(bool? value)
+    public async Task SetSupportsGeometryUpdate(bool value)
     {
 #pragma warning disable BL0005
         SupportsGeometryUpdate = value;
@@ -673,7 +673,7 @@ public partial class CapabilitiesEditing : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsGlobalId(bool? value)
+    public async Task SetSupportsGlobalId(bool value)
     {
 #pragma warning disable BL0005
         SupportsGlobalId = value;
@@ -711,7 +711,7 @@ public partial class CapabilitiesEditing : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsRollbackOnFailure(bool? value)
+    public async Task SetSupportsRollbackOnFailure(bool value)
     {
 #pragma warning disable BL0005
         SupportsRollbackOnFailure = value;
@@ -749,7 +749,7 @@ public partial class CapabilitiesEditing : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsUpdateByAnonymous(bool? value)
+    public async Task SetSupportsUpdateByAnonymous(bool value)
     {
 #pragma warning disable BL0005
         SupportsUpdateByAnonymous = value;
@@ -787,7 +787,7 @@ public partial class CapabilitiesEditing : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsUpdateByOthers(bool? value)
+    public async Task SetSupportsUpdateByOthers(bool value)
     {
 #pragma warning disable BL0005
         SupportsUpdateByOthers = value;
@@ -825,7 +825,7 @@ public partial class CapabilitiesEditing : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsUpdateWithoutM(bool? value)
+    public async Task SetSupportsUpdateWithoutM(bool value)
     {
 #pragma warning disable BL0005
         SupportsUpdateWithoutM = value;
@@ -863,7 +863,7 @@ public partial class CapabilitiesEditing : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsUploadWithItemId(bool? value)
+    public async Task SetSupportsUploadWithItemId(bool value)
     {
 #pragma warning disable BL0005
         SupportsUploadWithItemId = value;

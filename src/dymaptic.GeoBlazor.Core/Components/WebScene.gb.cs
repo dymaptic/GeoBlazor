@@ -1525,7 +1525,7 @@ public partial class WebScene : ITimeSliderDocument,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#save">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     [ArcGISMethod]
-    public async Task<PortalItem?> Save(bool ignoreUnsupported)
+    public async Task<PortalItem?> Save(bool? ignoreUnsupported)
     {
         if (CoreJsModule is null)
         {
@@ -1567,7 +1567,7 @@ public partial class WebScene : ITimeSliderDocument,
     /// </param>
     [ArcGISMethod]
     public async Task<PortalItem?> SaveAs(PortalItem portalItem,
-        WebSceneSaveAsOptions options)
+        WebSceneSaveAsOptions? options)
     {
         if (CoreJsModule is null)
         {
@@ -1610,7 +1610,7 @@ public partial class WebScene : ITimeSliderDocument,
     /// </param>
     [ArcGISMethod]
     public async Task UpdateFrom(SceneView view,
-        WebSceneUpdateFromOptions options)
+        WebSceneUpdateFromOptions? options)
     {
         if (CoreJsModule is null)
         {
@@ -1658,7 +1658,7 @@ public partial class WebScene : ITimeSliderDocument,
     /// </param>
     [ArcGISMethod]
     public async Task UpdateThumbnail(SceneView view,
-        WebSceneThumbnailSize size)
+        WebSceneThumbnailSize? size)
     {
         if (CoreJsModule is null)
         {
@@ -1706,8 +1706,8 @@ public partial class WebScene : ITimeSliderDocument,
     ///     The function to execute when the promise fails.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> When(Func<Task> callback,
-        Func<Task> errback)
+    public async Task<string?> When(Func<Task>? callback,
+        Func<Task>? errback)
     {
         if (CoreJsModule is null)
         {

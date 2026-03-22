@@ -31,10 +31,7 @@ public partial class ExpressionPopupContent
     {
         AllowRender = false;
 #pragma warning disable BL0005
-        if (expressionInfo is not null)
-        {
-            ExpressionInfo = expressionInfo;
-        }
+        ExpressionInfo = expressionInfo;
 #pragma warning restore BL0005
     }
     

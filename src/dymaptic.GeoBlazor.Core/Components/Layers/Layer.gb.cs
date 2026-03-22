@@ -292,7 +292,7 @@ public abstract partial class Layer : IHitTestItem,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetArcGISLayerId(string? value)
+    public async Task SetArcGISLayerId(string value)
     {
 #pragma warning disable BL0005
         ArcGISLayerId = value;

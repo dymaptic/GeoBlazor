@@ -341,9 +341,9 @@ public partial class LayerListViewModel : MapComponent
     ///     The new index to move the <code>targetItem</code> to. If moving the item as a child to a parent item, then specify the index of the item within that parent.
     /// </param>
     [ArcGISMethod]
-    public async Task MoveListItem(ListItem targetItem,
-        ListItem fromParentItem,
-        ListItem toParentItem,
+    public async Task MoveListItem(ListItem? targetItem,
+        ListItem? fromParentItem,
+        ListItem? toParentItem,
         int newIndex)
     {
         if (CoreJsModule is null)

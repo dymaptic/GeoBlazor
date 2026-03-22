@@ -71,7 +71,7 @@ public partial interface IArcGISMapService : IMapComponent
     /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
-    Task SetLegendEnabled(bool? value);
+    Task SetLegendEnabled(bool value);
     
 #endregion
 

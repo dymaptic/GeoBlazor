@@ -617,7 +617,7 @@ public partial class BookmarksViewModel : IGoTo
     ///     Specifies how new bookmarks will be created. Can be used to enable/disable taking screenshots or capturing the extent when a new bookmark is added.
     /// </param>
     [ArcGISMethod]
-    public async Task<Bookmark?> CreateBookmark(BookmarkOptions options)
+    public async Task<Bookmark?> CreateBookmark(BookmarkOptions? options)
     {
         if (CoreJsModule is null)
         {
@@ -660,8 +660,8 @@ public partial class BookmarksViewModel : IGoTo
     ///     If not specified, the <a href="#defaultEditOptions">defaultEditOptions</a> will be used.
     /// </param>
     [ArcGISMethod]
-    public async Task<Bookmark?> EditBookmark(Bookmark bookmark,
-        BookmarkOptions options)
+    public async Task<Bookmark?> EditBookmark(Bookmark? bookmark,
+        BookmarkOptions? options)
     {
         if (CoreJsModule is null)
         {

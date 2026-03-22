@@ -61,7 +61,7 @@ public partial class Graphic : IHitTestItem,
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Attributes = (AttributesDictionary)result;
+                Attributes = result;
 #pragma warning restore BL0005
                 ModifiedParameters[nameof(Attributes)] = Attributes;
         }

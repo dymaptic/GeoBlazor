@@ -779,7 +779,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsAutoInterval(bool? value)
+    public async Task SetSupportsAutoInterval(bool value)
     {
 #pragma warning disable BL0005
         SupportsAutoInterval = value;
@@ -817,7 +817,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsDate(bool? value)
+    public async Task SetSupportsDate(bool value)
     {
 #pragma warning disable BL0005
         SupportsDate = value;
@@ -855,7 +855,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsFirstDayOfWeek(bool? value)
+    public async Task SetSupportsFirstDayOfWeek(bool value)
     {
 #pragma warning disable BL0005
         SupportsFirstDayOfWeek = value;
@@ -893,7 +893,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsFixedBoundaries(bool? value)
+    public async Task SetSupportsFixedBoundaries(bool value)
     {
 #pragma warning disable BL0005
         SupportsFixedBoundaries = value;
@@ -931,7 +931,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsFixedInterval(bool? value)
+    public async Task SetSupportsFixedInterval(bool value)
     {
 #pragma warning disable BL0005
         SupportsFixedInterval = value;
@@ -969,7 +969,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsNormalization(bool? value)
+    public async Task SetSupportsNormalization(bool value)
     {
 #pragma warning disable BL0005
         SupportsNormalization = value;
@@ -1007,7 +1007,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsReturnFullIntervalBin(bool? value)
+    public async Task SetSupportsReturnFullIntervalBin(bool value)
     {
 #pragma warning disable BL0005
         SupportsReturnFullIntervalBin = value;
@@ -1045,7 +1045,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsSnapToData(bool? value)
+    public async Task SetSupportsSnapToData(bool value)
     {
 #pragma warning disable BL0005
         SupportsSnapToData = value;
@@ -1083,7 +1083,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsSplitBy(bool? value)
+    public async Task SetSupportsSplitBy(bool value)
     {
 #pragma warning disable BL0005
         SupportsSplitBy = value;
@@ -1121,7 +1121,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsStackBy(bool? value)
+    public async Task SetSupportsStackBy(bool value)
     {
 #pragma warning disable BL0005
         SupportsStackBy = value;

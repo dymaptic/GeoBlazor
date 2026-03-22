@@ -201,7 +201,7 @@ public partial class TickConfig
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Mode = (TickConfigMode)result;
+                Mode = result;
 #pragma warning restore BL0005
                 ModifiedParameters[nameof(Mode)] = Mode;
         }
@@ -337,7 +337,7 @@ public partial class TickConfig
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValues(IReadOnlyList<double>? value)
+    public async Task SetValues(IReadOnlyList<double> value)
     {
 #pragma warning disable BL0005
         Values = value;

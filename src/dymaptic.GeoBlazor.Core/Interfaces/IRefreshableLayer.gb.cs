@@ -25,7 +25,7 @@ public partial interface IRefreshableLayer : IMapComponent
     /// <summary>
     ///    Asynchronously set the value of the RefreshInterval property after render.
     /// </summary>
-    Task SetRefreshInterval(double? value);
+    Task SetRefreshInterval(double value);
     
 #endregion
 
