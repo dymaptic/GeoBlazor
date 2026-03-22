@@ -259,7 +259,7 @@ public partial class OrderByInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOrder(SortOrder? value)
+    public async Task SetOrder(SortOrder value)
     {
 #pragma warning disable BL0005
         Order = value;

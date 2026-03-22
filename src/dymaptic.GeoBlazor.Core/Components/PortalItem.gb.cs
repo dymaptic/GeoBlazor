@@ -1879,7 +1879,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAccess(PortalItemAccess? value)
+    public async Task SetAccess(PortalItemAccess value)
     {
 #pragma warning disable BL0005
         Access = value;
@@ -2607,7 +2607,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPortal(Portal? value)
+    public async Task SetPortal(Portal value)
     {
 #pragma warning disable BL0005
         Portal = value;
@@ -2618,10 +2618,7 @@ public partial class PortalItem
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -2841,7 +2838,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTypeKeywords(IReadOnlyList<string>? value)
+    public async Task SetTypeKeywords(IReadOnlyList<string> value)
     {
 #pragma warning disable BL0005
         TypeKeywords = value;

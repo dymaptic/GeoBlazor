@@ -256,7 +256,7 @@ public partial class ScaleBarWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStyle(ScaleBarWidgetStyle? value)
+    public async Task SetStyle(ScaleBarWidgetStyle value)
     {
 #pragma warning disable BL0005
         Style = value;
@@ -294,7 +294,7 @@ public partial class ScaleBarWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUnit(ScaleUnit? value)
+    public async Task SetUnit(ScaleUnit value)
     {
 #pragma warning disable BL0005
         Unit = value;
@@ -332,7 +332,7 @@ public partial class ScaleBarWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetViewModel(ScaleBarViewModel? value)
+    public async Task SetViewModel(ScaleBarViewModel value)
     {
 #pragma warning disable BL0005
         ViewModel = value;
@@ -343,10 +343,7 @@ public partial class ScaleBarWidget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

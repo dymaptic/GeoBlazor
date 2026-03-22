@@ -403,7 +403,7 @@ public partial class MeasurementWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAreaUnit(SystemOrAreaUnit? value)
+    public async Task SetAreaUnit(SystemOrAreaUnit value)
     {
 #pragma warning disable BL0005
         AreaUnit = value;
@@ -441,7 +441,7 @@ public partial class MeasurementWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLinearUnit(SystemOrLengthUnit? value)
+    public async Task SetLinearUnit(SystemOrLengthUnit value)
     {
 #pragma warning disable BL0005
         LinearUnit = value;
@@ -479,7 +479,7 @@ public partial class MeasurementWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetViewModel(MeasurementViewModel? value)
+    public async Task SetViewModel(MeasurementViewModel value)
     {
 #pragma warning disable BL0005
         ViewModel = value;
@@ -490,10 +490,7 @@ public partial class MeasurementWidget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

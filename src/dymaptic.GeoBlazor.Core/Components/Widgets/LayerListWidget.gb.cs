@@ -1010,7 +1010,7 @@ public partial class LayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCollapsed(bool? value)
+    public async Task SetCollapsed(bool value)
     {
 #pragma warning disable BL0005
         Collapsed = value;
@@ -1048,7 +1048,7 @@ public partial class LayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDragEnabled(bool? value)
+    public async Task SetDragEnabled(bool value)
     {
 #pragma warning disable BL0005
         DragEnabled = value;
@@ -1086,7 +1086,7 @@ public partial class LayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFilterPlaceholder(string? value)
+    public async Task SetFilterPlaceholder(string value)
     {
 #pragma warning disable BL0005
         FilterPlaceholder = value;
@@ -1124,7 +1124,7 @@ public partial class LayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFilterText(string? value)
+    public async Task SetFilterText(string value)
     {
 #pragma warning disable BL0005
         FilterText = value;
@@ -1162,7 +1162,7 @@ public partial class LayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHeadingLevel(double? value)
+    public async Task SetHeadingLevel(double value)
     {
 #pragma warning disable BL0005
         HeadingLevel = value;
@@ -1239,7 +1239,7 @@ public partial class LayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinDragEnabledItems(double? value)
+    public async Task SetMinDragEnabledItems(double value)
     {
 #pragma warning disable BL0005
         MinDragEnabledItems = value;
@@ -1277,7 +1277,7 @@ public partial class LayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinFilterItems(double? value)
+    public async Task SetMinFilterItems(double value)
     {
 #pragma warning disable BL0005
         MinFilterItems = value;
@@ -1315,7 +1315,7 @@ public partial class LayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSelectedItems(IReadOnlyList<ListItem>? value)
+    public async Task SetSelectedItems(IReadOnlyList<ListItem> value)
     {
 #pragma warning disable BL0005
         SelectedItems = value;
@@ -1326,12 +1326,9 @@ public partial class LayerListWidget
         {
             return;
         }
-        if (value is not null)
+        foreach (ListItem item in value)
         {
-            foreach (ListItem item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     
@@ -1362,7 +1359,7 @@ public partial class LayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSelectionMode(SelectionMode? value)
+    public async Task SetSelectionMode(SelectionMode value)
     {
 #pragma warning disable BL0005
         SelectionMode = value;
@@ -1400,7 +1397,7 @@ public partial class LayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetViewModel(LayerListViewModel? value)
+    public async Task SetViewModel(LayerListViewModel value)
     {
 #pragma warning disable BL0005
         ViewModel = value;
@@ -1411,10 +1408,7 @@ public partial class LayerListWidget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -1444,7 +1438,7 @@ public partial class LayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetVisibilityAppearance(VisibilityAppearance? value)
+    public async Task SetVisibilityAppearance(VisibilityAppearance value)
     {
 #pragma warning disable BL0005
         VisibilityAppearance = value;
@@ -1482,7 +1476,7 @@ public partial class LayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetVisibleElements(LayerListVisibleElements? value)
+    public async Task SetVisibleElements(LayerListVisibleElements value)
     {
 #pragma warning disable BL0005
         VisibleElements = value;
@@ -1493,10 +1487,7 @@ public partial class LayerListWidget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

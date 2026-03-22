@@ -337,7 +337,7 @@ public partial class RasterPresetRenderer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBandIds(IReadOnlyList<long>? value)
+    public async Task SetBandIds(IReadOnlyList<long> value)
     {
 #pragma warning disable BL0005
         BandIds = value;
@@ -375,7 +375,7 @@ public partial class RasterPresetRenderer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMethod(Method? value)
+    public async Task SetMethod(Method value)
     {
 #pragma warning disable BL0005
         Method = value;
@@ -413,7 +413,7 @@ public partial class RasterPresetRenderer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetName(string? value)
+    public async Task SetName(string value)
     {
 #pragma warning disable BL0005
         Name = value;
@@ -451,7 +451,7 @@ public partial class RasterPresetRenderer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRenderer(Renderer? value)
+    public async Task SetRenderer(Renderer value)
     {
 #pragma warning disable BL0005
         Renderer = value;
@@ -462,10 +462,7 @@ public partial class RasterPresetRenderer : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -494,7 +491,7 @@ public partial class RasterPresetRenderer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValue(string? value)
+    public async Task SetValue(string value)
     {
 #pragma warning disable BL0005
         Value = value;

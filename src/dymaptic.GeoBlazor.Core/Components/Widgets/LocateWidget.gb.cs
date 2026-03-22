@@ -488,7 +488,7 @@ public partial class LocateWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetGoToLocationEnabled(bool? value)
+    public async Task SetGoToLocationEnabled(bool value)
     {
 #pragma warning disable BL0005
         GoToLocationEnabled = value;
@@ -526,7 +526,7 @@ public partial class LocateWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetGraphic(Graphic? value)
+    public async Task SetGraphic(Graphic value)
     {
 #pragma warning disable BL0005
         Graphic = value;
@@ -537,10 +537,7 @@ public partial class LocateWidget : IGoTo
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -570,7 +567,7 @@ public partial class LocateWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPopupEnabled(bool? value)
+    public async Task SetPopupEnabled(bool value)
     {
 #pragma warning disable BL0005
         PopupEnabled = value;
@@ -646,7 +643,7 @@ public partial class LocateWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetViewModel(LocateViewModel? value)
+    public async Task SetViewModel(LocateViewModel value)
     {
 #pragma warning disable BL0005
         ViewModel = value;
@@ -657,10 +654,7 @@ public partial class LocateWidget : IGoTo
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

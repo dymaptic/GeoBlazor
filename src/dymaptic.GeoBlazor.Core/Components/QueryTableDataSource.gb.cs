@@ -291,7 +291,7 @@ public partial class QueryTableDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetGeometryType(FeatureGeometryType? value)
+    public async Task SetGeometryType(FeatureGeometryType value)
     {
 #pragma warning disable BL0005
         GeometryType = value;
@@ -329,7 +329,7 @@ public partial class QueryTableDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOidFields(string? value)
+    public async Task SetOidFields(string value)
     {
 #pragma warning disable BL0005
         OidFields = value;
@@ -367,7 +367,7 @@ public partial class QueryTableDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetQuery(string? value)
+    public async Task SetQuery(string value)
     {
 #pragma warning disable BL0005
         Query = value;
@@ -445,7 +445,7 @@ public partial class QueryTableDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetWorkspaceId(string? value)
+    public async Task SetWorkspaceId(string value)
     {
 #pragma warning disable BL0005
         WorkspaceId = value;

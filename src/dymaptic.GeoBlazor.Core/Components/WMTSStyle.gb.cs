@@ -388,7 +388,7 @@ public partial class WMTSStyle : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetWMTSStyleId(string? value)
+    public async Task SetWMTSStyleId(string value)
     {
 #pragma warning disable BL0005
         WMTSStyleId = value;

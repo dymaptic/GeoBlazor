@@ -432,7 +432,7 @@ public partial class TileInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDpi(double? value)
+    public async Task SetDpi(double value)
     {
 #pragma warning disable BL0005
         Dpi = value;
@@ -470,7 +470,7 @@ public partial class TileInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFormat(TileInfoFormat? value)
+    public async Task SetFormat(TileInfoFormat value)
     {
 #pragma warning disable BL0005
         Format = value;
@@ -508,7 +508,7 @@ public partial class TileInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLods(IReadOnlyList<LOD>? value)
+    public async Task SetLods(IReadOnlyList<LOD> value)
     {
 #pragma warning disable BL0005
         Lods = value;
@@ -519,12 +519,9 @@ public partial class TileInfo
         {
             return;
         }
-        if (value is not null)
+        foreach (LOD item in value)
         {
-            foreach (LOD item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     
@@ -555,7 +552,7 @@ public partial class TileInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOrigin(Point? value)
+    public async Task SetOrigin(Point value)
     {
 #pragma warning disable BL0005
         Origin = value;
@@ -566,10 +563,7 @@ public partial class TileInfo
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -599,7 +593,7 @@ public partial class TileInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSize(IReadOnlyList<int>? value)
+    public async Task SetSize(IReadOnlyList<int> value)
     {
 #pragma warning disable BL0005
         Size = value;
@@ -637,7 +631,7 @@ public partial class TileInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSpatialReference(SpatialReference? value)
+    public async Task SetSpatialReference(SpatialReference value)
     {
 #pragma warning disable BL0005
         SpatialReference = value;
@@ -648,10 +642,7 @@ public partial class TileInfo
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

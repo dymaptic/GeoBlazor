@@ -848,7 +848,7 @@ public partial class LocatorSearchSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLocalSearchDisabled(bool? value)
+    public async Task SetLocalSearchDisabled(bool value)
     {
 #pragma warning disable BL0005
         LocalSearchDisabled = value;
@@ -924,7 +924,7 @@ public partial class LocatorSearchSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetName(string? value)
+    public async Task SetName(string value)
     {
 #pragma warning disable BL0005
         Name = value;
@@ -962,7 +962,7 @@ public partial class LocatorSearchSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSearchTemplate(string? value)
+    public async Task SetSearchTemplate(string value)
     {
 #pragma warning disable BL0005
         SearchTemplate = value;

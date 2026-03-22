@@ -74,7 +74,7 @@ public partial class ActionToggle
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValue(bool? value)
+    public async Task SetValue(bool value)
     {
 #pragma warning disable BL0005
         Value = value;

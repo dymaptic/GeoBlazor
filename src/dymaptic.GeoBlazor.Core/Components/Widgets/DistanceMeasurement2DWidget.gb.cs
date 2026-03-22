@@ -331,7 +331,7 @@ public partial class DistanceMeasurement2DWidget : Widget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSnappingOptions(SnappingOptions? value)
+    public async Task SetSnappingOptions(SnappingOptions value)
     {
 #pragma warning disable BL0005
         SnappingOptions = value;
@@ -342,10 +342,7 @@ public partial class DistanceMeasurement2DWidget : Widget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -375,7 +372,7 @@ public partial class DistanceMeasurement2DWidget : Widget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUnit(SystemOrLengthUnit? value)
+    public async Task SetUnit(SystemOrLengthUnit value)
     {
 #pragma warning disable BL0005
         Unit = value;
@@ -413,7 +410,7 @@ public partial class DistanceMeasurement2DWidget : Widget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUnitOptions(IReadOnlyList<SystemOrLengthUnit>? value)
+    public async Task SetUnitOptions(IReadOnlyList<SystemOrLengthUnit> value)
     {
 #pragma warning disable BL0005
         UnitOptions = value;
@@ -451,7 +448,7 @@ public partial class DistanceMeasurement2DWidget : Widget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetViewModel(DistanceMeasurement2DViewModel? value)
+    public async Task SetViewModel(DistanceMeasurement2DViewModel value)
     {
 #pragma warning disable BL0005
         ViewModel = value;
@@ -462,10 +459,7 @@ public partial class DistanceMeasurement2DWidget : Widget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

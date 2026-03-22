@@ -772,7 +772,7 @@ public partial class RasterStretchRenderer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetComputeGamma(bool? value)
+    public async Task SetComputeGamma(bool value)
     {
 #pragma warning disable BL0005
         ComputeGamma = value;
@@ -848,7 +848,7 @@ public partial class RasterStretchRenderer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDynamicRangeAdjustment(bool? value)
+    public async Task SetDynamicRangeAdjustment(bool value)
     {
 #pragma warning disable BL0005
         DynamicRangeAdjustment = value;
@@ -886,7 +886,7 @@ public partial class RasterStretchRenderer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetGamma(IReadOnlyList<double>? value)
+    public async Task SetGamma(IReadOnlyList<double> value)
     {
 #pragma warning disable BL0005
         Gamma = value;
@@ -1152,7 +1152,7 @@ public partial class RasterStretchRenderer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUseGamma(bool? value)
+    public async Task SetUseGamma(bool value)
     {
 #pragma warning disable BL0005
         UseGamma = value;

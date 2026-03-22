@@ -95,7 +95,7 @@ public partial class ExpressionPopupContent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetExpressionInfo(ElementExpressionInfo? value)
+    public async Task SetExpressionInfo(ElementExpressionInfo value)
     {
 #pragma warning disable BL0005
         ExpressionInfo = value;
@@ -106,10 +106,7 @@ public partial class ExpressionPopupContent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

@@ -1787,7 +1787,7 @@ public partial class Sublayer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabelsVisible(bool? value)
+    public async Task SetLabelsVisible(bool value)
     {
 #pragma warning disable BL0005
         LabelsVisible = value;
@@ -1825,7 +1825,7 @@ public partial class Sublayer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLegendEnabled(bool? value)
+    public async Task SetLegendEnabled(bool value)
     {
 #pragma warning disable BL0005
         LegendEnabled = value;
@@ -1863,7 +1863,7 @@ public partial class Sublayer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetListMode(ListMode? value)
+    public async Task SetListMode(ListMode value)
     {
 #pragma warning disable BL0005
         ListMode = value;
@@ -1901,7 +1901,7 @@ public partial class Sublayer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxScale(double? value)
+    public async Task SetMaxScale(double value)
     {
 #pragma warning disable BL0005
         MaxScale = value;
@@ -1939,7 +1939,7 @@ public partial class Sublayer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinScale(double? value)
+    public async Task SetMinScale(double value)
     {
 #pragma warning disable BL0005
         MinScale = value;
@@ -1977,7 +1977,7 @@ public partial class Sublayer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOpacity(double? value)
+    public async Task SetOpacity(double value)
     {
 #pragma warning disable BL0005
         Opacity = value;
@@ -2062,7 +2062,7 @@ public partial class Sublayer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPopupEnabled(bool? value)
+    public async Task SetPopupEnabled(bool value)
     {
 #pragma warning disable BL0005
         PopupEnabled = value;
@@ -2188,7 +2188,7 @@ public partial class Sublayer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSource(DynamicLayer? value)
+    public async Task SetSource(DynamicLayer value)
     {
 #pragma warning disable BL0005
         Source = value;
@@ -2226,7 +2226,7 @@ public partial class Sublayer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSublayerId(long? value)
+    public async Task SetSublayerId(long value)
     {
 #pragma warning disable BL0005
         SublayerId = value;

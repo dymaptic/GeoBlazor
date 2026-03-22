@@ -698,7 +698,7 @@ public partial class Label
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDeconflictionStrategy(DeconflictionStrategy? value)
+    public async Task SetDeconflictionStrategy(DeconflictionStrategy value)
     {
 #pragma warning disable BL0005
         DeconflictionStrategy = value;
@@ -817,7 +817,7 @@ public partial class Label
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabelPlacement(LabelPlacement? value)
+    public async Task SetLabelPlacement(LabelPlacement value)
     {
 #pragma warning disable BL0005
         LabelPlacement = value;
@@ -855,7 +855,7 @@ public partial class Label
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabelPosition(LabelPosition? value)
+    public async Task SetLabelPosition(LabelPosition value)
     {
 #pragma warning disable BL0005
         LabelPosition = value;
@@ -893,7 +893,7 @@ public partial class Label
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxScale(double? value)
+    public async Task SetMaxScale(double value)
     {
 #pragma warning disable BL0005
         MaxScale = value;
@@ -931,7 +931,7 @@ public partial class Label
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinScale(double? value)
+    public async Task SetMinScale(double value)
     {
 #pragma warning disable BL0005
         MinScale = value;
@@ -969,7 +969,7 @@ public partial class Label
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRepeatLabel(bool? value)
+    public async Task SetRepeatLabel(bool value)
     {
 #pragma warning disable BL0005
         RepeatLabel = value;
@@ -1045,7 +1045,7 @@ public partial class Label
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUseCodedValues(bool? value)
+    public async Task SetUseCodedValues(bool value)
     {
 #pragma warning disable BL0005
         UseCodedValues = value;

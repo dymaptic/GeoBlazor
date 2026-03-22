@@ -1892,7 +1892,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetActions(IReadOnlyList<ActionBase>? value)
+    public async Task SetActions(IReadOnlyList<ActionBase> value)
     {
 #pragma warning disable BL0005
         Actions = value;
@@ -1903,12 +1903,9 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return;
         }
-        if (value is not null)
+        foreach (ActionBase item in value)
         {
-            foreach (ActionBase item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     
@@ -1983,7 +1980,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAutoCloseEnabled(bool? value)
+    public async Task SetAutoCloseEnabled(bool value)
     {
 #pragma warning disable BL0005
         AutoCloseEnabled = value;
@@ -2021,7 +2018,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBrowseClusterEnabled(bool? value)
+    public async Task SetBrowseClusterEnabled(bool value)
     {
 #pragma warning disable BL0005
         BrowseClusterEnabled = value;
@@ -2103,7 +2100,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDefaultPopupTemplateEnabled(bool? value)
+    public async Task SetDefaultPopupTemplateEnabled(bool value)
     {
 #pragma warning disable BL0005
         DefaultPopupTemplateEnabled = value;
@@ -2141,7 +2138,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFeatureMenuOpen(bool? value)
+    public async Task SetFeatureMenuOpen(bool value)
     {
 #pragma warning disable BL0005
         FeatureMenuOpen = value;
@@ -2255,7 +2252,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFeatures(IReadOnlyList<Graphic>? value)
+    public async Task SetFeatures(IReadOnlyList<Graphic> value)
     {
 #pragma warning disable BL0005
         Features = value;
@@ -2266,12 +2263,9 @@ public partial class FeaturesViewModel : MapComponent,
         {
             return;
         }
-        if (value is not null)
+        foreach (Graphic item in value)
         {
-            foreach (Graphic item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     
@@ -2302,7 +2296,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFeaturesPerPage(double? value)
+    public async Task SetFeaturesPerPage(double value)
     {
 #pragma warning disable BL0005
         FeaturesPerPage = value;
@@ -2384,7 +2378,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHighlightEnabled(bool? value)
+    public async Task SetHighlightEnabled(bool value)
     {
 #pragma warning disable BL0005
         HighlightEnabled = value;
@@ -2422,7 +2416,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetIncludeDefaultActions(bool? value)
+    public async Task SetIncludeDefaultActions(bool value)
     {
 #pragma warning disable BL0005
         IncludeDefaultActions = value;
@@ -2460,7 +2454,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetInitialDisplayMode(InitialDisplayMode? value)
+    public async Task SetInitialDisplayMode(InitialDisplayMode value)
     {
 #pragma warning disable BL0005
         InitialDisplayMode = value;
@@ -2586,7 +2580,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetScreenLocationEnabled(bool? value)
+    public async Task SetScreenLocationEnabled(bool value)
     {
 #pragma warning disable BL0005
         ScreenLocationEnabled = value;
@@ -2624,7 +2618,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSelectedFeatureIndex(int? value)
+    public async Task SetSelectedFeatureIndex(int value)
     {
 #pragma warning disable BL0005
         SelectedFeatureIndex = value;
@@ -2706,7 +2700,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTimeZone(string? value)
+    public async Task SetTimeZone(string value)
     {
 #pragma warning disable BL0005
         TimeZone = value;
@@ -2782,7 +2776,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUpdateLocationEnabled(bool? value)
+    public async Task SetUpdateLocationEnabled(bool value)
     {
 #pragma warning disable BL0005
         UpdateLocationEnabled = value;

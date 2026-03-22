@@ -223,7 +223,7 @@ public partial class SearchLayer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetField(SearchLayerField? value)
+    public async Task SetField(SearchLayerField value)
     {
 #pragma warning disable BL0005
         Field = value;
@@ -234,10 +234,7 @@ public partial class SearchLayer : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -266,7 +263,7 @@ public partial class SearchLayer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSearchLayerId(string? value)
+    public async Task SetSearchLayerId(string value)
     {
 #pragma warning disable BL0005
         SearchLayerId = value;

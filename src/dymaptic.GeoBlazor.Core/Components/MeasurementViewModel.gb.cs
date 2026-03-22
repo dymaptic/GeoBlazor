@@ -366,7 +366,7 @@ public partial class MeasurementViewModel : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAreaUnit(SystemOrAreaUnit? value)
+    public async Task SetAreaUnit(SystemOrAreaUnit value)
     {
 #pragma warning disable BL0005
         AreaUnit = value;
@@ -404,7 +404,7 @@ public partial class MeasurementViewModel : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLinearUnit(SystemOrLengthUnit? value)
+    public async Task SetLinearUnit(SystemOrLengthUnit value)
     {
 #pragma warning disable BL0005
         LinearUnit = value;

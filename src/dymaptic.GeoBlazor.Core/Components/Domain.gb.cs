@@ -65,7 +65,7 @@ public abstract partial class Domain
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetName(string? value)
+    public async Task SetName(string value)
     {
 #pragma warning disable BL0005
         Name = value;

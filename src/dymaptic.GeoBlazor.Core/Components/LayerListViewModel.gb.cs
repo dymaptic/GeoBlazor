@@ -247,7 +247,7 @@ public partial class LayerListViewModel : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCheckPublishStatusEnabled(bool? value)
+    public async Task SetCheckPublishStatusEnabled(bool value)
     {
 #pragma warning disable BL0005
         CheckPublishStatusEnabled = value;
@@ -285,7 +285,7 @@ public partial class LayerListViewModel : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetListModeDisabled(bool? value)
+    public async Task SetListModeDisabled(bool value)
     {
 #pragma warning disable BL0005
         ListModeDisabled = value;

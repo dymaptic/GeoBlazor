@@ -342,7 +342,7 @@ public partial class RasterFunction : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFunctionArguments(string? value)
+    public async Task SetFunctionArguments(string value)
     {
 #pragma warning disable BL0005
         FunctionArguments = value;
@@ -418,7 +418,7 @@ public partial class RasterFunction : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOutputPixelType(OutputPixelType? value)
+    public async Task SetOutputPixelType(OutputPixelType value)
     {
 #pragma warning disable BL0005
         OutputPixelType = value;

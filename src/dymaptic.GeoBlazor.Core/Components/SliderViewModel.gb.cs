@@ -770,7 +770,7 @@ public partial class SliderViewModel
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPrecision(double? value)
+    public async Task SetPrecision(double value)
     {
 #pragma warning disable BL0005
         Precision = value;
@@ -808,7 +808,7 @@ public partial class SliderViewModel
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetThumbsConstrained(bool? value)
+    public async Task SetThumbsConstrained(bool value)
     {
 #pragma warning disable BL0005
         ThumbsConstrained = value;

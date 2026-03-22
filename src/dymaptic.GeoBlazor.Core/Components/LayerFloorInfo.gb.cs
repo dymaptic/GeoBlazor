@@ -89,7 +89,7 @@ public partial class LayerFloorInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFloorField(string? value)
+    public async Task SetFloorField(string value)
     {
 #pragma warning disable BL0005
         FloorField = value;

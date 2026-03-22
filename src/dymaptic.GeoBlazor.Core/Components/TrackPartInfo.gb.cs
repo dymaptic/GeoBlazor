@@ -284,7 +284,7 @@ public partial class TrackPartInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabelsVisible(bool? value)
+    public async Task SetLabelsVisible(bool value)
     {
 #pragma warning disable BL0005
         LabelsVisible = value;

@@ -174,7 +174,7 @@ public partial class ImageMediaInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRefreshInterval(double? value)
+    public async Task SetRefreshInterval(double value)
     {
 #pragma warning disable BL0005
         RefreshInterval = value;

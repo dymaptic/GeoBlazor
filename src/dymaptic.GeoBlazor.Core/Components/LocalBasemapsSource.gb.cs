@@ -159,7 +159,7 @@ public partial class LocalBasemapsSource : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBasemaps(IReadOnlyList<Basemap>? value)
+    public async Task SetBasemaps(IReadOnlyList<Basemap> value)
     {
 #pragma warning disable BL0005
         Basemaps = value;
@@ -170,12 +170,9 @@ public partial class LocalBasemapsSource : MapComponent
         {
             return;
         }
-        if (value is not null)
+        foreach (Basemap item in value)
         {
-            foreach (Basemap item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     

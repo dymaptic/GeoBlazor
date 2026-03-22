@@ -1387,7 +1387,7 @@ public partial class PortalUser : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPortalUserId(string? value)
+    public async Task SetPortalUserId(string value)
     {
 #pragma warning disable BL0005
         PortalUserId = value;
@@ -1463,7 +1463,7 @@ public partial class PortalUser : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPrivileges(IReadOnlyList<string>? value)
+    public async Task SetPrivileges(IReadOnlyList<string> value)
     {
 #pragma warning disable BL0005
         Privileges = value;
@@ -1653,7 +1653,7 @@ public partial class PortalUser : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUsername(string? value)
+    public async Task SetUsername(string value)
     {
 #pragma warning disable BL0005
         Username = value;

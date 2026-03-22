@@ -46,7 +46,7 @@ public partial record FindImagesParameters(
     ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">point</a> geometry with `z` value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesParameters.html#fromGeometry">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public Point? FromGeometry { get; set; } = FromGeometry;
+    public Point FromGeometry { get; set; } = FromGeometry;
     
     /// <summary>
     ///     The maximum image count.
@@ -64,7 +64,7 @@ public partial record FindImagesParameters(
     ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">point</a> geometry with `z` value that defines the target geometry's location.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesParameters.html#toGeometry">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public Point? ToGeometry { get; set; } = ToGeometry;
+    public Point ToGeometry { get; set; } = ToGeometry;
     
     /// <summary>
     ///     A where clause for the query.

@@ -290,7 +290,7 @@ public partial class GraphicsLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBlendMode(BlendMode? value)
+    public async Task SetBlendMode(BlendMode value)
     {
 #pragma warning disable BL0005
         BlendMode = value;
@@ -411,7 +411,7 @@ public partial class GraphicsLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxScale(double? value)
+    public async Task SetMaxScale(double value)
     {
 #pragma warning disable BL0005
         MaxScale = value;
@@ -449,7 +449,7 @@ public partial class GraphicsLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinScale(double? value)
+    public async Task SetMinScale(double value)
     {
 #pragma warning disable BL0005
         MinScale = value;
@@ -487,7 +487,7 @@ public partial class GraphicsLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetScreenSizePerspectiveEnabled(bool? value)
+    public async Task SetScreenSizePerspectiveEnabled(bool value)
     {
 #pragma warning disable BL0005
         ScreenSizePerspectiveEnabled = value;

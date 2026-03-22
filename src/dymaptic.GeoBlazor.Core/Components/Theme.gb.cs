@@ -161,7 +161,7 @@ public partial class Theme : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAccentColor(MapColor? value)
+    public async Task SetAccentColor(MapColor value)
     {
 #pragma warning disable BL0005
         AccentColor = value;
@@ -199,7 +199,7 @@ public partial class Theme : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTextColor(MapColor? value)
+    public async Task SetTextColor(MapColor value)
     {
 #pragma warning disable BL0005
         TextColor = value;

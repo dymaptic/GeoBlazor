@@ -957,7 +957,7 @@ public partial class WebScene : ITimeSliderDocument,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAuthoringApp(string? value)
+    public async Task SetAuthoringApp(string value)
     {
 #pragma warning disable BL0005
         AuthoringApp = value;
@@ -995,7 +995,7 @@ public partial class WebScene : ITimeSliderDocument,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAuthoringAppVersion(string? value)
+    public async Task SetAuthoringAppVersion(string value)
     {
 #pragma warning disable BL0005
         AuthoringAppVersion = value;
@@ -1077,7 +1077,7 @@ public partial class WebScene : ITimeSliderDocument,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetClippingEnabled(bool? value)
+    public async Task SetClippingEnabled(bool value)
     {
 #pragma warning disable BL0005
         ClippingEnabled = value;
@@ -1193,7 +1193,7 @@ public partial class WebScene : ITimeSliderDocument,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetInitialViewProperties(WebsceneInitialViewProperties? value)
+    public async Task SetInitialViewProperties(WebsceneInitialViewProperties value)
     {
 #pragma warning disable BL0005
         InitialViewProperties = value;
@@ -1232,7 +1232,7 @@ public partial class WebScene : ITimeSliderDocument,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPresentation(IPresentation? value)
+    public async Task SetPresentation(IPresentation value)
     {
 #pragma warning disable BL0005
         Presentation = value;

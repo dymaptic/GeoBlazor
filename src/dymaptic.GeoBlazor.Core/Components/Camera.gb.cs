@@ -353,7 +353,7 @@ public partial class Camera : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFov(double? value)
+    public async Task SetFov(double value)
     {
 #pragma warning disable BL0005
         Fov = value;
@@ -391,7 +391,7 @@ public partial class Camera : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHeading(double? value)
+    public async Task SetHeading(double value)
     {
 #pragma warning disable BL0005
         Heading = value;
@@ -429,7 +429,7 @@ public partial class Camera : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLayout(CameraLayout? value)
+    public async Task SetLayout(CameraLayout value)
     {
 #pragma warning disable BL0005
         Layout = value;
@@ -440,10 +440,7 @@ public partial class Camera : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -472,7 +469,7 @@ public partial class Camera : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPosition(Point? value)
+    public async Task SetPosition(Point value)
     {
 #pragma warning disable BL0005
         Position = value;
@@ -483,10 +480,7 @@ public partial class Camera : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -515,7 +509,7 @@ public partial class Camera : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTilt(double? value)
+    public async Task SetTilt(double value)
     {
 #pragma warning disable BL0005
         Tilt = value;

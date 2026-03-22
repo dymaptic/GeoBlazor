@@ -1207,7 +1207,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOrderByClassesEnabled(bool? value)
+    public async Task SetOrderByClassesEnabled(bool value)
     {
 #pragma warning disable BL0005
         OrderByClassesEnabled = value;

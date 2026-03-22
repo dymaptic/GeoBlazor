@@ -445,7 +445,7 @@ public partial class WebMapFloorFilter : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetEnabled(bool? value)
+    public async Task SetEnabled(bool value)
     {
 #pragma warning disable BL0005
         Enabled = value;
@@ -559,7 +559,7 @@ public partial class WebMapFloorFilter : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLongNames(bool? value)
+    public async Task SetLongNames(bool value)
     {
 #pragma warning disable BL0005
         LongNames = value;
@@ -597,7 +597,7 @@ public partial class WebMapFloorFilter : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinimized(bool? value)
+    public async Task SetMinimized(bool value)
     {
 #pragma warning disable BL0005
         Minimized = value;
@@ -635,7 +635,7 @@ public partial class WebMapFloorFilter : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPinnedLevels(bool? value)
+    public async Task SetPinnedLevels(bool value)
     {
 #pragma warning disable BL0005
         PinnedLevels = value;

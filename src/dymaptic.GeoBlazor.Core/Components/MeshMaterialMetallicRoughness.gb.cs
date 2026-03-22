@@ -718,7 +718,7 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMetallic(double? value)
+    public async Task SetMetallic(double value)
     {
 #pragma warning disable BL0005
         Metallic = value;
@@ -885,7 +885,7 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRoughness(double? value)
+    public async Task SetRoughness(double value)
     {
 #pragma warning disable BL0005
         Roughness = value;

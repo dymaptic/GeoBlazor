@@ -257,7 +257,7 @@ public partial class DisplayFilterInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFilters(IReadOnlyList<DisplayFilter>? value)
+    public async Task SetFilters(IReadOnlyList<DisplayFilter> value)
     {
 #pragma warning disable BL0005
         Filters = value;
@@ -295,7 +295,7 @@ public partial class DisplayFilterInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMode(DisplayFilterInfoMode? value)
+    public async Task SetMode(DisplayFilterInfoMode value)
     {
 #pragma warning disable BL0005
         Mode = value;

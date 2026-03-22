@@ -136,7 +136,7 @@ public partial class RasterDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDataSourceName(string? value)
+    public async Task SetDataSourceName(string value)
     {
 #pragma warning disable BL0005
         DataSourceName = value;
@@ -174,7 +174,7 @@ public partial class RasterDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetWorkspaceId(string? value)
+    public async Task SetWorkspaceId(string value)
     {
 #pragma warning disable BL0005
         WorkspaceId = value;

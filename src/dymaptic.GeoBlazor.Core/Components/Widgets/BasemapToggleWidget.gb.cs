@@ -368,7 +368,7 @@ public partial class BasemapToggleWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetViewModel(BasemapToggleViewModel? value)
+    public async Task SetViewModel(BasemapToggleViewModel value)
     {
 #pragma warning disable BL0005
         ViewModel = value;
@@ -379,10 +379,7 @@ public partial class BasemapToggleWidget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -412,7 +409,7 @@ public partial class BasemapToggleWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetVisibleElements(BasemapToggleVisibleElements? value)
+    public async Task SetVisibleElements(BasemapToggleVisibleElements value)
     {
 #pragma warning disable BL0005
         VisibleElements = value;
@@ -423,10 +420,7 @@ public partial class BasemapToggleWidget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

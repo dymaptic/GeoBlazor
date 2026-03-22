@@ -508,7 +508,7 @@ public partial class PixelBlock : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHeight(int? value)
+    public async Task SetHeight(int value)
     {
 #pragma warning disable BL0005
         Height = value;
@@ -584,7 +584,7 @@ public partial class PixelBlock : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaskIsAlpha(bool? value)
+    public async Task SetMaskIsAlpha(bool value)
     {
 #pragma warning disable BL0005
         MaskIsAlpha = value;
@@ -622,7 +622,7 @@ public partial class PixelBlock : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPixels(Stream? value)
+    public async Task SetPixels(Stream value)
     {
 #pragma warning disable BL0005
         Pixels = value;
@@ -660,7 +660,7 @@ public partial class PixelBlock : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPixelType(PixelType? value)
+    public async Task SetPixelType(PixelType value)
     {
 #pragma warning disable BL0005
         PixelType = value;
@@ -783,7 +783,7 @@ public partial class PixelBlock : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetWidth(int? value)
+    public async Task SetWidth(int value)
     {
 #pragma warning disable BL0005
         Width = value;

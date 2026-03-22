@@ -494,7 +494,7 @@ public partial class SizeVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAxis(VisualAxis? value)
+    public async Task SetAxis(VisualAxis value)
     {
 #pragma warning disable BL0005
         Axis = value;
@@ -883,7 +883,7 @@ public partial class SizeVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValueUnit(VisualValueUnit? value)
+    public async Task SetValueUnit(VisualValueUnit value)
     {
 #pragma warning disable BL0005
         ValueUnit = value;

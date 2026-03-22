@@ -2025,7 +2025,7 @@ public partial class SearchViewModel : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetActiveSourceIndex(int? value)
+    public async Task SetActiveSourceIndex(int value)
     {
 #pragma warning disable BL0005
         ActiveSourceIndex = value;
@@ -2101,7 +2101,7 @@ public partial class SearchViewModel : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAutoNavigate(bool? value)
+    public async Task SetAutoNavigate(bool value)
     {
 #pragma warning disable BL0005
         AutoNavigate = value;
@@ -2139,7 +2139,7 @@ public partial class SearchViewModel : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAutoSelect(bool? value)
+    public async Task SetAutoSelect(bool value)
     {
 #pragma warning disable BL0005
         AutoSelect = value;
@@ -2221,7 +2221,7 @@ public partial class SearchViewModel : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDefaultSymbols(SearchViewModelDefaultSymbols? value)
+    public async Task SetDefaultSymbols(SearchViewModelDefaultSymbols value)
     {
 #pragma warning disable BL0005
         DefaultSymbols = value;
@@ -2232,10 +2232,7 @@ public partial class SearchViewModel : IGoTo
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -2265,7 +2262,7 @@ public partial class SearchViewModel : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetIncludeDefaultSources(bool? value)
+    public async Task SetIncludeDefaultSources(bool value)
     {
 #pragma warning disable BL0005
         IncludeDefaultSources = value;
@@ -2303,7 +2300,7 @@ public partial class SearchViewModel : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLocationEnabled(bool? value)
+    public async Task SetLocationEnabled(bool value)
     {
 #pragma warning disable BL0005
         LocationEnabled = value;
@@ -2341,7 +2338,7 @@ public partial class SearchViewModel : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxInputLength(double? value)
+    public async Task SetMaxInputLength(double value)
     {
 #pragma warning disable BL0005
         MaxInputLength = value;
@@ -2379,7 +2376,7 @@ public partial class SearchViewModel : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxResults(double? value)
+    public async Task SetMaxResults(double value)
     {
 #pragma warning disable BL0005
         MaxResults = value;
@@ -2417,7 +2414,7 @@ public partial class SearchViewModel : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxSuggestions(double? value)
+    public async Task SetMaxSuggestions(double value)
     {
 #pragma warning disable BL0005
         MaxSuggestions = value;
@@ -2455,7 +2452,7 @@ public partial class SearchViewModel : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinSuggestCharacters(double? value)
+    public async Task SetMinSuggestCharacters(double value)
     {
 #pragma warning disable BL0005
         MinSuggestCharacters = value;
@@ -2493,7 +2490,7 @@ public partial class SearchViewModel : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPopupEnabled(bool? value)
+    public async Task SetPopupEnabled(bool value)
     {
 #pragma warning disable BL0005
         PopupEnabled = value;
@@ -2657,7 +2654,7 @@ public partial class SearchViewModel : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetResultGraphicEnabled(bool? value)
+    public async Task SetResultGraphicEnabled(bool value)
     {
 #pragma warning disable BL0005
         ResultGraphicEnabled = value;
@@ -2695,7 +2692,7 @@ public partial class SearchViewModel : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSearchAllEnabled(bool? value)
+    public async Task SetSearchAllEnabled(bool value)
     {
 #pragma warning disable BL0005
         SearchAllEnabled = value;
@@ -2733,7 +2730,7 @@ public partial class SearchViewModel : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSearchTerm(string? value)
+    public async Task SetSearchTerm(string value)
     {
 #pragma warning disable BL0005
         SearchTerm = value;
@@ -2771,7 +2768,7 @@ public partial class SearchViewModel : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSources(IReadOnlyList<SearchSource>? value)
+    public async Task SetSources(IReadOnlyList<SearchSource> value)
     {
 #pragma warning disable BL0005
         Sources = value;
@@ -2782,12 +2779,9 @@ public partial class SearchViewModel : IGoTo
         {
             return;
         }
-        if (value is not null)
+        foreach (SearchSource item in value)
         {
-            foreach (SearchSource item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     
@@ -2856,7 +2850,7 @@ public partial class SearchViewModel : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSuggestionDelay(double? value)
+    public async Task SetSuggestionDelay(double value)
     {
 #pragma warning disable BL0005
         SuggestionDelay = value;
@@ -2894,7 +2888,7 @@ public partial class SearchViewModel : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSuggestionsEnabled(bool? value)
+    public async Task SetSuggestionsEnabled(bool value)
     {
 #pragma warning disable BL0005
         SuggestionsEnabled = value;

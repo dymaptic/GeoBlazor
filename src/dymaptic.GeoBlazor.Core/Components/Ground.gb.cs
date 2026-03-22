@@ -349,7 +349,7 @@ public partial class Ground : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLayers(IReadOnlyList<Layer>? value)
+    public async Task SetLayers(IReadOnlyList<Layer> value)
     {
 #pragma warning disable BL0005
         Layers = value;
@@ -360,12 +360,9 @@ public partial class Ground : MapComponent,
         {
             return;
         }
-        if (value is not null)
+        foreach (Layer item in value)
         {
-            foreach (Layer item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     
@@ -440,7 +437,7 @@ public partial class Ground : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOpacity(double? value)
+    public async Task SetOpacity(double value)
     {
 #pragma warning disable BL0005
         Opacity = value;

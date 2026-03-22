@@ -420,7 +420,7 @@ public partial class BaseTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBlendMode(BlendMode? value)
+    public async Task SetBlendMode(BlendMode value)
     {
 #pragma warning disable BL0005
         BlendMode = value;
@@ -458,7 +458,7 @@ public partial class BaseTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxScale(double? value)
+    public async Task SetMaxScale(double value)
     {
 #pragma warning disable BL0005
         MaxScale = value;
@@ -496,7 +496,7 @@ public partial class BaseTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinScale(double? value)
+    public async Task SetMinScale(double value)
     {
 #pragma warning disable BL0005
         MinScale = value;
@@ -534,7 +534,7 @@ public partial class BaseTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRefreshInterval(double? value)
+    public async Task SetRefreshInterval(double value)
     {
 #pragma warning disable BL0005
         RefreshInterval = value;
@@ -572,7 +572,7 @@ public partial class BaseTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSpatialReference(SpatialReference? value)
+    public async Task SetSpatialReference(SpatialReference value)
     {
 #pragma warning disable BL0005
         SpatialReference = value;
@@ -583,10 +583,7 @@ public partial class BaseTileLayer : IBlendLayer,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -616,7 +613,7 @@ public partial class BaseTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTileInfo(TileInfo? value)
+    public async Task SetTileInfo(TileInfo value)
     {
 #pragma warning disable BL0005
         TileInfo = value;
@@ -627,10 +624,7 @@ public partial class BaseTileLayer : IBlendLayer,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

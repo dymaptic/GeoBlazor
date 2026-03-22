@@ -384,7 +384,7 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSnappingOptions(SnappingOptions? value)
+    public async Task SetSnappingOptions(SnappingOptions value)
     {
 #pragma warning disable BL0005
         SnappingOptions = value;
@@ -395,10 +395,7 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -428,7 +425,7 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUnit(SystemOrLengthUnit? value)
+    public async Task SetUnit(SystemOrLengthUnit value)
     {
 #pragma warning disable BL0005
         Unit = value;
@@ -466,7 +463,7 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUnitOptions(IReadOnlyList<SystemOrLengthUnit>? value)
+    public async Task SetUnitOptions(IReadOnlyList<SystemOrLengthUnit> value)
     {
 #pragma warning disable BL0005
         UnitOptions = value;

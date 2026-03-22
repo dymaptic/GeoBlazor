@@ -499,7 +499,7 @@ public partial class PopupVisibleElements
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetActionBar(bool? value)
+    public async Task SetActionBar(bool value)
     {
 #pragma warning disable BL0005
         ActionBar = value;
@@ -537,7 +537,7 @@ public partial class PopupVisibleElements
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCloseButton(bool? value)
+    public async Task SetCloseButton(bool value)
     {
 #pragma warning disable BL0005
         CloseButton = value;
@@ -575,7 +575,7 @@ public partial class PopupVisibleElements
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCollapseButton(bool? value)
+    public async Task SetCollapseButton(bool value)
     {
 #pragma warning disable BL0005
         CollapseButton = value;
@@ -613,7 +613,7 @@ public partial class PopupVisibleElements
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFeatureListLayerTitle(bool? value)
+    public async Task SetFeatureListLayerTitle(bool value)
     {
 #pragma warning disable BL0005
         FeatureListLayerTitle = value;
@@ -651,7 +651,7 @@ public partial class PopupVisibleElements
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFeatureMenuHeading(bool? value)
+    public async Task SetFeatureMenuHeading(bool value)
     {
 #pragma warning disable BL0005
         FeatureMenuHeading = value;
@@ -689,7 +689,7 @@ public partial class PopupVisibleElements
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFeatureNavigation(bool? value)
+    public async Task SetFeatureNavigation(bool value)
     {
 #pragma warning disable BL0005
         FeatureNavigation = value;
@@ -727,7 +727,7 @@ public partial class PopupVisibleElements
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHeading(bool? value)
+    public async Task SetHeading(bool value)
     {
 #pragma warning disable BL0005
         Heading = value;
@@ -765,7 +765,7 @@ public partial class PopupVisibleElements
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSpinner(bool? value)
+    public async Task SetSpinner(bool value)
     {
 #pragma warning disable BL0005
         Spinner = value;

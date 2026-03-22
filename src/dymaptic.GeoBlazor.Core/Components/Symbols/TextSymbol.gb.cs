@@ -832,7 +832,7 @@ public partial class TextSymbol : ISymbol2D
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAngle(double? value)
+    public async Task SetAngle(double value)
     {
 #pragma warning disable BL0005
         Angle = value;
@@ -984,7 +984,7 @@ public partial class TextSymbol : ISymbol2D
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFont(MapFont? value)
+    public async Task SetFont(MapFont value)
     {
 #pragma warning disable BL0005
         Font = value;
@@ -995,10 +995,7 @@ public partial class TextSymbol : ISymbol2D
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -1103,7 +1100,7 @@ public partial class TextSymbol : ISymbol2D
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHorizontalAlignment(HorizontalAlignment? value)
+    public async Task SetHorizontalAlignment(HorizontalAlignment value)
     {
 #pragma warning disable BL0005
         HorizontalAlignment = value;
@@ -1141,7 +1138,7 @@ public partial class TextSymbol : ISymbol2D
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetKerning(bool? value)
+    public async Task SetKerning(bool value)
     {
 #pragma warning disable BL0005
         Kerning = value;
@@ -1179,7 +1176,7 @@ public partial class TextSymbol : ISymbol2D
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLineHeight(double? value)
+    public async Task SetLineHeight(double value)
     {
 #pragma warning disable BL0005
         LineHeight = value;
@@ -1217,7 +1214,7 @@ public partial class TextSymbol : ISymbol2D
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLineWidth(Dimension? value)
+    public async Task SetLineWidth(Dimension value)
     {
 #pragma warning disable BL0005
         LineWidth = value;
@@ -1255,7 +1252,7 @@ public partial class TextSymbol : ISymbol2D
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRotated(bool? value)
+    public async Task SetRotated(bool value)
     {
 #pragma warning disable BL0005
         Rotated = value;
@@ -1293,7 +1290,7 @@ public partial class TextSymbol : ISymbol2D
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetText(string? value)
+    public async Task SetText(string value)
     {
 #pragma warning disable BL0005
         Text = value;
@@ -1331,7 +1328,7 @@ public partial class TextSymbol : ISymbol2D
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetVerticalAlignment(VerticalAlignment? value)
+    public async Task SetVerticalAlignment(VerticalAlignment value)
     {
 #pragma warning disable BL0005
         VerticalAlignment = value;
@@ -1369,7 +1366,7 @@ public partial class TextSymbol : ISymbol2D
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetXoffset(Dimension? value)
+    public async Task SetXoffset(Dimension value)
     {
 #pragma warning disable BL0005
         Xoffset = value;
@@ -1407,7 +1404,7 @@ public partial class TextSymbol : ISymbol2D
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetYoffset(Dimension? value)
+    public async Task SetYoffset(Dimension value)
     {
 #pragma warning disable BL0005
         Yoffset = value;

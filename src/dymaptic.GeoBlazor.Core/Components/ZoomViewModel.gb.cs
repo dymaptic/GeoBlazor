@@ -212,7 +212,7 @@ public partial class ZoomViewModel : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCanZoomIn(bool? value)
+    public async Task SetCanZoomIn(bool value)
     {
 #pragma warning disable BL0005
         CanZoomIn = value;
@@ -250,7 +250,7 @@ public partial class ZoomViewModel : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCanZoomOut(bool? value)
+    public async Task SetCanZoomOut(bool value)
     {
 #pragma warning disable BL0005
         CanZoomOut = value;

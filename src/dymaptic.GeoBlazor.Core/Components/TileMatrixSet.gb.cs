@@ -315,7 +315,7 @@ public partial class TileMatrixSet : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTileMatrixSetId(string? value)
+    public async Task SetTileMatrixSetId(string value)
     {
 #pragma warning disable BL0005
         TileMatrixSetId = value;

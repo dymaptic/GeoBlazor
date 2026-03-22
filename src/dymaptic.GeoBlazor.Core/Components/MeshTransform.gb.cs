@@ -282,7 +282,7 @@ public partial class MeshTransform : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRotationAngle(double? value)
+    public async Task SetRotationAngle(double value)
     {
 #pragma warning disable BL0005
         RotationAngle = value;
@@ -320,7 +320,7 @@ public partial class MeshTransform : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRotationAxis(IReadOnlyList<double>? value)
+    public async Task SetRotationAxis(IReadOnlyList<double> value)
     {
 #pragma warning disable BL0005
         RotationAxis = value;
@@ -358,7 +358,7 @@ public partial class MeshTransform : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetScale(IReadOnlyList<double>? value)
+    public async Task SetScale(IReadOnlyList<double> value)
     {
 #pragma warning disable BL0005
         Scale = value;
@@ -396,7 +396,7 @@ public partial class MeshTransform : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTranslation(IReadOnlyList<double>? value)
+    public async Task SetTranslation(IReadOnlyList<double> value)
     {
 #pragma warning disable BL0005
         Translation = value;

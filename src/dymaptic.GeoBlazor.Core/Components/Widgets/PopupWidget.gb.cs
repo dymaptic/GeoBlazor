@@ -1087,7 +1087,7 @@ public partial class PopupWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetActions(IReadOnlyList<ActionBase>? value)
+    public async Task SetActions(IReadOnlyList<ActionBase> value)
     {
 #pragma warning disable BL0005
         Actions = value;
@@ -1098,12 +1098,9 @@ public partial class PopupWidget : IGoTo
         {
             return;
         }
-        if (value is not null)
+        foreach (ActionBase item in value)
         {
-            foreach (ActionBase item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     
@@ -1134,7 +1131,7 @@ public partial class PopupWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAlignment(PopupAlignment? value)
+    public async Task SetAlignment(PopupAlignment value)
     {
 #pragma warning disable BL0005
         Alignment = value;
@@ -1172,7 +1169,7 @@ public partial class PopupWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAutoCloseEnabled(bool? value)
+    public async Task SetAutoCloseEnabled(bool value)
     {
 #pragma warning disable BL0005
         AutoCloseEnabled = value;
@@ -1210,7 +1207,7 @@ public partial class PopupWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDefaultPopupTemplateEnabled(bool? value)
+    public async Task SetDefaultPopupTemplateEnabled(bool value)
     {
 #pragma warning disable BL0005
         DefaultPopupTemplateEnabled = value;
@@ -1248,7 +1245,7 @@ public partial class PopupWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDockEnabled(bool? value)
+    public async Task SetDockEnabled(bool value)
     {
 #pragma warning disable BL0005
         DockEnabled = value;
@@ -1286,7 +1283,7 @@ public partial class PopupWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDockOptions(PopupDockOptions? value)
+    public async Task SetDockOptions(PopupDockOptions value)
     {
 #pragma warning disable BL0005
         DockOptions = value;
@@ -1297,10 +1294,7 @@ public partial class PopupWidget : IGoTo
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -1330,7 +1324,7 @@ public partial class PopupWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFeatures(IReadOnlyList<Graphic>? value)
+    public async Task SetFeatures(IReadOnlyList<Graphic> value)
     {
 #pragma warning disable BL0005
         Features = value;
@@ -1341,12 +1335,9 @@ public partial class PopupWidget : IGoTo
         {
             return;
         }
-        if (value is not null)
+        foreach (Graphic item in value)
         {
-            foreach (Graphic item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     
@@ -1377,7 +1368,7 @@ public partial class PopupWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHeadingLevel(int? value)
+    public async Task SetHeadingLevel(int value)
     {
 #pragma warning disable BL0005
         HeadingLevel = value;
@@ -1415,7 +1406,7 @@ public partial class PopupWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHighlightEnabled(bool? value)
+    public async Task SetHighlightEnabled(bool value)
     {
 #pragma warning disable BL0005
         HighlightEnabled = value;
@@ -1453,7 +1444,7 @@ public partial class PopupWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetInitialDisplayMode(InitialDisplayMode? value)
+    public async Task SetInitialDisplayMode(InitialDisplayMode value)
     {
 #pragma warning disable BL0005
         InitialDisplayMode = value;
@@ -1535,7 +1526,7 @@ public partial class PopupWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPromises(string? value)
+    public async Task SetPromises(string value)
     {
 #pragma warning disable BL0005
         Promises = value;
@@ -1573,7 +1564,7 @@ public partial class PopupWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSelectedFeatureIndex(int? value)
+    public async Task SetSelectedFeatureIndex(int value)
     {
 #pragma warning disable BL0005
         SelectedFeatureIndex = value;
@@ -1649,7 +1640,7 @@ public partial class PopupWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetViewModel(PopupViewModel? value)
+    public async Task SetViewModel(PopupViewModel value)
     {
 #pragma warning disable BL0005
         ViewModel = value;
@@ -1660,10 +1651,7 @@ public partial class PopupWidget : IGoTo
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -1693,7 +1681,7 @@ public partial class PopupWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetVisibleElements(PopupVisibleElements? value)
+    public async Task SetVisibleElements(PopupVisibleElements value)
     {
 #pragma warning disable BL0005
         VisibleElements = value;
@@ -1704,10 +1692,7 @@ public partial class PopupWidget : IGoTo
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

@@ -429,7 +429,7 @@ public partial class PictureFillSymbol : ISymbol2D,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHeight(Dimension? value)
+    public async Task SetHeight(Dimension value)
     {
 #pragma warning disable BL0005
         Height = value;
@@ -505,7 +505,7 @@ public partial class PictureFillSymbol : ISymbol2D,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetWidth(Dimension? value)
+    public async Task SetWidth(Dimension value)
     {
 #pragma warning disable BL0005
         Width = value;
@@ -543,7 +543,7 @@ public partial class PictureFillSymbol : ISymbol2D,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetXoffset(Dimension? value)
+    public async Task SetXoffset(Dimension value)
     {
 #pragma warning disable BL0005
         Xoffset = value;
@@ -581,7 +581,7 @@ public partial class PictureFillSymbol : ISymbol2D,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetXscale(double? value)
+    public async Task SetXscale(double value)
     {
 #pragma warning disable BL0005
         Xscale = value;
@@ -619,7 +619,7 @@ public partial class PictureFillSymbol : ISymbol2D,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetYoffset(Dimension? value)
+    public async Task SetYoffset(Dimension value)
     {
 #pragma warning disable BL0005
         Yoffset = value;
@@ -657,7 +657,7 @@ public partial class PictureFillSymbol : ISymbol2D,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetYscale(double? value)
+    public async Task SetYscale(double value)
     {
 #pragma warning disable BL0005
         Yscale = value;

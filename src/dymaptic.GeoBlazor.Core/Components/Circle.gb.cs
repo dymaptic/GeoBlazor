@@ -314,7 +314,7 @@ public partial class Circle : Polygon
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetGeodesic(bool? value)
+    public async Task SetGeodesic(bool value)
     {
 #pragma warning disable BL0005
         Geodesic = value;
@@ -352,7 +352,7 @@ public partial class Circle : Polygon
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetNumberOfPoints(int? value)
+    public async Task SetNumberOfPoints(int value)
     {
 #pragma warning disable BL0005
         NumberOfPoints = value;
@@ -390,7 +390,7 @@ public partial class Circle : Polygon
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRadius(double? value)
+    public async Task SetRadius(double value)
     {
 #pragma warning disable BL0005
         Radius = value;
@@ -428,7 +428,7 @@ public partial class Circle : Polygon
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRadiusUnit(RadiusUnit? value)
+    public async Task SetRadiusUnit(RadiusUnit value)
     {
 #pragma warning disable BL0005
         RadiusUnit = value;

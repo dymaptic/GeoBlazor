@@ -265,7 +265,7 @@ public partial class PortalBasemapsSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPortal(Portal? value)
+    public async Task SetPortal(Portal value)
     {
 #pragma warning disable BL0005
         Portal = value;
@@ -276,10 +276,7 @@ public partial class PortalBasemapsSource
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

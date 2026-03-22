@@ -201,7 +201,7 @@ public abstract partial class Geometry
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHasM(bool? value)
+    public async Task SetHasM(bool value)
     {
 #pragma warning disable BL0005
         HasM = value;
@@ -239,7 +239,7 @@ public abstract partial class Geometry
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHasZ(bool? value)
+    public async Task SetHasZ(bool value)
     {
 #pragma warning disable BL0005
         HasZ = value;
@@ -277,7 +277,7 @@ public abstract partial class Geometry
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSpatialReference(SpatialReference? value)
+    public async Task SetSpatialReference(SpatialReference value)
     {
 #pragma warning disable BL0005
         SpatialReference = value;
@@ -288,10 +288,7 @@ public abstract partial class Geometry
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

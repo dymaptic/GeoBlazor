@@ -580,7 +580,7 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaximumNumberOfFeatures(double? value)
+    public async Task SetMaximumNumberOfFeatures(double value)
     {
 #pragma warning disable BL0005
         MaximumNumberOfFeatures = value;
@@ -618,7 +618,7 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaximumNumberOfFeaturesExceeded(bool? value)
+    public async Task SetMaximumNumberOfFeaturesExceeded(bool value)
     {
 #pragma warning disable BL0005
         MaximumNumberOfFeaturesExceeded = value;

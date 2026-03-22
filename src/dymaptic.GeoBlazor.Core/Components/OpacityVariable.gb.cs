@@ -222,7 +222,7 @@ public partial class OpacityVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStops(IReadOnlyList<OpacityStop>? value)
+    public async Task SetStops(IReadOnlyList<OpacityStop> value)
     {
 #pragma warning disable BL0005
         Stops = value;
@@ -233,12 +233,9 @@ public partial class OpacityVariable
         {
             return;
         }
-        if (value is not null)
+        foreach (OpacityStop item in value)
         {
-            foreach (OpacityStop item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     

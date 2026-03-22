@@ -1701,7 +1701,7 @@ public partial class MapImageLayer : IArcGISMapService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBlendMode(BlendMode? value)
+    public async Task SetBlendMode(BlendMode value)
     {
 #pragma warning disable BL0005
         BlendMode = value;
@@ -1815,7 +1815,7 @@ public partial class MapImageLayer : IArcGISMapService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDpi(double? value)
+    public async Task SetDpi(double value)
     {
 #pragma warning disable BL0005
         Dpi = value;
@@ -1930,7 +1930,7 @@ public partial class MapImageLayer : IArcGISMapService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetImageFormat(MapImageFormat? value)
+    public async Task SetImageFormat(MapImageFormat value)
     {
 #pragma warning disable BL0005
         ImageFormat = value;
@@ -1968,7 +1968,7 @@ public partial class MapImageLayer : IArcGISMapService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetImageMaxHeight(int? value)
+    public async Task SetImageMaxHeight(int value)
     {
 #pragma warning disable BL0005
         ImageMaxHeight = value;
@@ -2006,7 +2006,7 @@ public partial class MapImageLayer : IArcGISMapService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetImageMaxWidth(int? value)
+    public async Task SetImageMaxWidth(int value)
     {
 #pragma warning disable BL0005
         ImageMaxWidth = value;
@@ -2044,7 +2044,7 @@ public partial class MapImageLayer : IArcGISMapService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetImageTransparency(bool? value)
+    public async Task SetImageTransparency(bool value)
     {
 #pragma warning disable BL0005
         ImageTransparency = value;
@@ -2082,7 +2082,7 @@ public partial class MapImageLayer : IArcGISMapService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLegendEnabled(bool? value)
+    public async Task SetLegendEnabled(bool value)
     {
 #pragma warning disable BL0005
         LegendEnabled = value;
@@ -2120,7 +2120,7 @@ public partial class MapImageLayer : IArcGISMapService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxScale(double? value)
+    public async Task SetMaxScale(double value)
     {
 #pragma warning disable BL0005
         MaxScale = value;
@@ -2158,7 +2158,7 @@ public partial class MapImageLayer : IArcGISMapService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinScale(double? value)
+    public async Task SetMinScale(double value)
     {
 #pragma warning disable BL0005
         MinScale = value;
@@ -2196,7 +2196,7 @@ public partial class MapImageLayer : IArcGISMapService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPersistenceEnabled(bool? value)
+    public async Task SetPersistenceEnabled(bool value)
     {
 #pragma warning disable BL0005
         PersistenceEnabled = value;
@@ -2278,7 +2278,7 @@ public partial class MapImageLayer : IArcGISMapService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRefreshInterval(double? value)
+    public async Task SetRefreshInterval(double value)
     {
 #pragma warning disable BL0005
         RefreshInterval = value;
@@ -2580,7 +2580,7 @@ public partial class MapImageLayer : IArcGISMapService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUseViewTime(bool? value)
+    public async Task SetUseViewTime(bool value)
     {
 #pragma warning disable BL0005
         UseViewTime = value;

@@ -165,7 +165,7 @@ public partial class TimeInterval
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUnit(TemporalTime? value)
+    public async Task SetUnit(TemporalTime value)
     {
 #pragma warning disable BL0005
         Unit = value;
@@ -203,7 +203,7 @@ public partial class TimeInterval
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValue(double? value)
+    public async Task SetValue(double value)
     {
 #pragma warning disable BL0005
         Value = value;

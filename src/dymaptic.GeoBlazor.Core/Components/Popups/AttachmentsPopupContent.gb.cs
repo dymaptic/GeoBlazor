@@ -288,7 +288,7 @@ public partial class AttachmentsPopupContent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDisplayType(AttachmentsPopupContentDisplayType? value)
+    public async Task SetDisplayType(AttachmentsPopupContentDisplayType value)
     {
 #pragma warning disable BL0005
         DisplayType = value;

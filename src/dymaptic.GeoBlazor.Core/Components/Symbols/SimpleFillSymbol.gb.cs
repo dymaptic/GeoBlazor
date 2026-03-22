@@ -105,7 +105,7 @@ public partial class SimpleFillSymbol : ISymbol2D,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStyle(SimpleFillSymbolStyle? value)
+    public async Task SetStyle(SimpleFillSymbolStyle value)
     {
 #pragma warning disable BL0005
         Style = value;

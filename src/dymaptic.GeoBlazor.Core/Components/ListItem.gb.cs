@@ -989,7 +989,7 @@ public partial class ListItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetActionsOpen(bool? value)
+    public async Task SetActionsOpen(bool value)
     {
 #pragma warning disable BL0005
         ActionsOpen = value;
@@ -1027,7 +1027,7 @@ public partial class ListItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetChildrenSortable(bool? value)
+    public async Task SetChildrenSortable(bool value)
     {
 #pragma warning disable BL0005
         ChildrenSortable = value;
@@ -1065,7 +1065,7 @@ public partial class ListItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHidden(bool? value)
+    public async Task SetHidden(bool value)
     {
 #pragma warning disable BL0005
         Hidden = value;
@@ -1147,7 +1147,7 @@ public partial class ListItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetListModeDisabled(bool? value)
+    public async Task SetListModeDisabled(bool value)
     {
 #pragma warning disable BL0005
         ListModeDisabled = value;
@@ -1185,7 +1185,7 @@ public partial class ListItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOpen(bool? value)
+    public async Task SetOpen(bool value)
     {
 #pragma warning disable BL0005
         Open = value;
@@ -1223,7 +1223,7 @@ public partial class ListItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSortable(bool? value)
+    public async Task SetSortable(bool value)
     {
 #pragma warning disable BL0005
         Sortable = value;
@@ -1261,7 +1261,7 @@ public partial class ListItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(string? value)
+    public async Task SetTitle(string value)
     {
 #pragma warning disable BL0005
         Title = value;

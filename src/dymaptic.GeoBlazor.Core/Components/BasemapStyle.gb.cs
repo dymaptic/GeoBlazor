@@ -417,7 +417,7 @@ public partial class BasemapStyle
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetServiceUrl(string? value)
+    public async Task SetServiceUrl(string value)
     {
 #pragma warning disable BL0005
         ServiceUrl = value;

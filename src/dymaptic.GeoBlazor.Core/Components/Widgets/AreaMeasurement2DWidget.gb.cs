@@ -328,7 +328,7 @@ public partial class AreaMeasurement2DWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSnappingOptions(SnappingOptions? value)
+    public async Task SetSnappingOptions(SnappingOptions value)
     {
 #pragma warning disable BL0005
         SnappingOptions = value;
@@ -339,10 +339,7 @@ public partial class AreaMeasurement2DWidget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -372,7 +369,7 @@ public partial class AreaMeasurement2DWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUnit(SystemOrAreaUnit? value)
+    public async Task SetUnit(SystemOrAreaUnit value)
     {
 #pragma warning disable BL0005
         Unit = value;
@@ -410,7 +407,7 @@ public partial class AreaMeasurement2DWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUnitOptions(IReadOnlyList<SystemOrAreaUnit>? value)
+    public async Task SetUnitOptions(IReadOnlyList<SystemOrAreaUnit> value)
     {
 #pragma warning disable BL0005
         UnitOptions = value;
@@ -448,7 +445,7 @@ public partial class AreaMeasurement2DWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetViewModel(AreaMeasurement2DViewModel? value)
+    public async Task SetViewModel(AreaMeasurement2DViewModel value)
     {
 #pragma warning disable BL0005
         ViewModel = value;
@@ -459,10 +456,7 @@ public partial class AreaMeasurement2DWidget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

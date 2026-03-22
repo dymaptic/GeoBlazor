@@ -364,7 +364,7 @@ public partial class ListItemPanelWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDisabled(bool? value)
+    public async Task SetDisabled(bool value)
     {
 #pragma warning disable BL0005
         Disabled = value;
@@ -402,7 +402,7 @@ public partial class ListItemPanelWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFlowEnabled(bool? value)
+    public async Task SetFlowEnabled(bool value)
     {
 #pragma warning disable BL0005
         FlowEnabled = value;
@@ -478,7 +478,7 @@ public partial class ListItemPanelWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOpen(bool? value)
+    public async Task SetOpen(bool value)
     {
 #pragma warning disable BL0005
         Open = value;
@@ -516,7 +516,7 @@ public partial class ListItemPanelWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(string? value)
+    public async Task SetTitle(string value)
     {
 #pragma warning disable BL0005
         Title = value;

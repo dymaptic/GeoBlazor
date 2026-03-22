@@ -854,7 +854,7 @@ public partial class WebDocument2D : Map
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBookmarks(IReadOnlyList<Bookmark>? value)
+    public async Task SetBookmarks(IReadOnlyList<Bookmark> value)
     {
 #pragma warning disable BL0005
         Bookmarks = value;
@@ -865,12 +865,9 @@ public partial class WebDocument2D : Map
         {
             return;
         }
-        if (value is not null)
+        foreach (Bookmark item in value)
         {
-            foreach (Bookmark item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     
@@ -940,7 +937,7 @@ public partial class WebDocument2D : Map
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetInitialViewProperties(InitialViewProperties? value)
+    public async Task SetInitialViewProperties(InitialViewProperties value)
     {
 #pragma warning disable BL0005
         InitialViewProperties = value;

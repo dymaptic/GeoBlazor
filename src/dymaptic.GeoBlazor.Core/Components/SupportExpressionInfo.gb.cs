@@ -220,7 +220,7 @@ public partial class SupportExpressionInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetExpression(string? value)
+    public async Task SetExpression(string value)
     {
 #pragma warning disable BL0005
         Expression = value;
@@ -258,7 +258,7 @@ public partial class SupportExpressionInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetReturnType(SupportExpressionInfoReturnType? value)
+    public async Task SetReturnType(SupportExpressionInfoReturnType value)
     {
 #pragma warning disable BL0005
         ReturnType = value;

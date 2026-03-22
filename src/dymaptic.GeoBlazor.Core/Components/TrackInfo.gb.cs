@@ -664,7 +664,7 @@ public partial class TrackInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetEnabled(bool? value)
+    public async Task SetEnabled(bool value)
     {
 #pragma warning disable BL0005
         Enabled = value;
@@ -702,7 +702,7 @@ public partial class TrackInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFields(IReadOnlyList<AggregateField>? value)
+    public async Task SetFields(IReadOnlyList<AggregateField> value)
     {
 #pragma warning disable BL0005
         Fields = value;
@@ -713,12 +713,9 @@ public partial class TrackInfo : MapComponent
         {
             return;
         }
-        if (value is not null)
+        foreach (AggregateField item in value)
         {
-            foreach (AggregateField item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     
@@ -748,7 +745,7 @@ public partial class TrackInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLatestObservations(TrackPartInfo? value)
+    public async Task SetLatestObservations(TrackPartInfo value)
     {
 #pragma warning disable BL0005
         LatestObservations = value;
@@ -759,10 +756,7 @@ public partial class TrackInfo : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -834,7 +828,7 @@ public partial class TrackInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxDisplayObservationsPerTrack(double? value)
+    public async Task SetMaxDisplayObservationsPerTrack(double value)
     {
 #pragma warning disable BL0005
         MaxDisplayObservationsPerTrack = value;
@@ -872,7 +866,7 @@ public partial class TrackInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPopupEnabled(bool? value)
+    public async Task SetPopupEnabled(bool value)
     {
 #pragma warning disable BL0005
         PopupEnabled = value;
@@ -953,7 +947,7 @@ public partial class TrackInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPreviousObservations(TrackPartInfo? value)
+    public async Task SetPreviousObservations(TrackPartInfo value)
     {
 #pragma warning disable BL0005
         PreviousObservations = value;
@@ -964,10 +958,7 @@ public partial class TrackInfo : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -996,7 +987,7 @@ public partial class TrackInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTimeField(TimeField? value)
+    public async Task SetTimeField(TimeField value)
     {
 #pragma warning disable BL0005
         TimeField = value;
@@ -1034,7 +1025,7 @@ public partial class TrackInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTrackLines(TrackPartInfo? value)
+    public async Task SetTrackLines(TrackPartInfo value)
     {
 #pragma warning disable BL0005
         TrackLines = value;
@@ -1045,10 +1036,7 @@ public partial class TrackInfo : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

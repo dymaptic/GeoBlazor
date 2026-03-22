@@ -221,7 +221,7 @@ public partial class AlgorithmicColorRamp
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFromColor(MapColor? value)
+    public async Task SetFromColor(MapColor value)
     {
 #pragma warning disable BL0005
         FromColor = value;
@@ -259,7 +259,7 @@ public partial class AlgorithmicColorRamp
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetToColor(MapColor? value)
+    public async Task SetToColor(MapColor value)
     {
 #pragma warning disable BL0005
         ToColor = value;

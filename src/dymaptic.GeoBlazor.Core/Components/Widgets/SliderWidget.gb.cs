@@ -1661,7 +1661,7 @@ public partial class SliderWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDisabled(bool? value)
+    public async Task SetDisabled(bool value)
     {
 #pragma warning disable BL0005
         Disabled = value;
@@ -1699,7 +1699,7 @@ public partial class SliderWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDraggableSegmentsEnabled(bool? value)
+    public async Task SetDraggableSegmentsEnabled(bool value)
     {
 #pragma warning disable BL0005
         DraggableSegmentsEnabled = value;
@@ -1813,7 +1813,7 @@ public partial class SliderWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabelInputsEnabled(bool? value)
+    public async Task SetLabelInputsEnabled(bool value)
     {
 #pragma warning disable BL0005
         LabelInputsEnabled = value;
@@ -1851,7 +1851,7 @@ public partial class SliderWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLayout(SliderLayout? value)
+    public async Task SetLayout(SliderLayout value)
     {
 #pragma warning disable BL0005
         Layout = value;
@@ -1965,7 +1965,7 @@ public partial class SliderWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPrecision(double? value)
+    public async Task SetPrecision(double value)
     {
 #pragma warning disable BL0005
         Precision = value;
@@ -2003,7 +2003,7 @@ public partial class SliderWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRangeLabelInputsEnabled(bool? value)
+    public async Task SetRangeLabelInputsEnabled(bool value)
     {
 #pragma warning disable BL0005
         RangeLabelInputsEnabled = value;
@@ -2041,7 +2041,7 @@ public partial class SliderWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSnapOnClickEnabled(bool? value)
+    public async Task SetSnapOnClickEnabled(bool value)
     {
 #pragma warning disable BL0005
         SnapOnClickEnabled = value;
@@ -2117,7 +2117,7 @@ public partial class SliderWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSyncedSegmentsEnabled(bool? value)
+    public async Task SetSyncedSegmentsEnabled(bool value)
     {
 #pragma warning disable BL0005
         SyncedSegmentsEnabled = value;
@@ -2155,7 +2155,7 @@ public partial class SliderWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetThumbsConstrained(bool? value)
+    public async Task SetThumbsConstrained(bool value)
     {
 #pragma warning disable BL0005
         ThumbsConstrained = value;
@@ -2193,7 +2193,7 @@ public partial class SliderWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTickConfigs(IReadOnlyList<TickConfig>? value)
+    public async Task SetTickConfigs(IReadOnlyList<TickConfig> value)
     {
 #pragma warning disable BL0005
         TickConfigs = value;
@@ -2204,12 +2204,9 @@ public partial class SliderWidget
         {
             return;
         }
-        if (value is not null)
+        foreach (TickConfig item in value)
         {
-            foreach (TickConfig item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     
@@ -2278,7 +2275,7 @@ public partial class SliderWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetViewModel(SliderViewModel? value)
+    public async Task SetViewModel(SliderViewModel value)
     {
 #pragma warning disable BL0005
         ViewModel = value;
@@ -2289,10 +2286,7 @@ public partial class SliderWidget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -2322,7 +2316,7 @@ public partial class SliderWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetVisibleElements(SliderVisibleElements? value)
+    public async Task SetVisibleElements(SliderVisibleElements value)
     {
 #pragma warning disable BL0005
         VisibleElements = value;
@@ -2333,10 +2327,7 @@ public partial class SliderWidget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

@@ -153,7 +153,7 @@ public partial class FeatureSnappingLayerSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetEnabled(bool? value)
+    public async Task SetEnabled(bool value)
     {
 #pragma warning disable BL0005
         Enabled = value;

@@ -669,7 +669,7 @@ public partial class PopupTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLastEditInfoEnabled(bool? value)
+    public async Task SetLastEditInfoEnabled(bool value)
     {
 #pragma warning disable BL0005
         LastEditInfoEnabled = value;
@@ -788,7 +788,7 @@ public partial class PopupTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOverwriteActions(bool? value)
+    public async Task SetOverwriteActions(bool value)
     {
 #pragma warning disable BL0005
         OverwriteActions = value;
@@ -826,7 +826,7 @@ public partial class PopupTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetReturnGeometry(bool? value)
+    public async Task SetReturnGeometry(bool value)
     {
 #pragma warning disable BL0005
         ReturnGeometry = value;
@@ -864,7 +864,7 @@ public partial class PopupTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(string? value)
+    public async Task SetTitle(string value)
     {
 #pragma warning disable BL0005
         Title = value;

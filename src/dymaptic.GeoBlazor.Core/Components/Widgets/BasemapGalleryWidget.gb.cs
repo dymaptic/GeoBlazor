@@ -435,7 +435,7 @@ public partial class BasemapGalleryWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDisabled(bool? value)
+    public async Task SetDisabled(bool value)
     {
 #pragma warning disable BL0005
         Disabled = value;
@@ -473,7 +473,7 @@ public partial class BasemapGalleryWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHeadingLevel(double? value)
+    public async Task SetHeadingLevel(double value)
     {
 #pragma warning disable BL0005
         HeadingLevel = value;
@@ -511,7 +511,7 @@ public partial class BasemapGalleryWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSource(IBasemapGalleryWidgetSource? value)
+    public async Task SetSource(IBasemapGalleryWidgetSource value)
     {
 #pragma warning disable BL0005
         Source = value;
@@ -549,7 +549,7 @@ public partial class BasemapGalleryWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetViewModel(BasemapGalleryViewModel? value)
+    public async Task SetViewModel(BasemapGalleryViewModel value)
     {
 #pragma warning disable BL0005
         ViewModel = value;
@@ -560,10 +560,7 @@ public partial class BasemapGalleryWidget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

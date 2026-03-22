@@ -1174,7 +1174,7 @@ public abstract partial class SearchSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPrefix(string? value)
+    public async Task SetPrefix(string value)
     {
 #pragma warning disable BL0005
         Prefix = value;
@@ -1293,7 +1293,7 @@ public abstract partial class SearchSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSuffix(string? value)
+    public async Task SetSuffix(string value)
     {
 #pragma warning disable BL0005
         Suffix = value;
@@ -1369,7 +1369,7 @@ public abstract partial class SearchSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetWithinViewEnabled(bool? value)
+    public async Task SetWithinViewEnabled(bool value)
     {
 #pragma warning disable BL0005
         WithinViewEnabled = value;

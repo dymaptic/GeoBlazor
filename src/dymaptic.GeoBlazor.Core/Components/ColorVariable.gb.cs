@@ -222,7 +222,7 @@ public partial class ColorVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStops(IReadOnlyList<ColorStop>? value)
+    public async Task SetStops(IReadOnlyList<ColorStop> value)
     {
 #pragma warning disable BL0005
         Stops = value;
@@ -233,12 +233,9 @@ public partial class ColorVariable
         {
             return;
         }
-        if (value is not null)
+        foreach (ColorStop item in value)
         {
-            foreach (ColorStop item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     

@@ -555,7 +555,7 @@ public partial class Basemap
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSpatialReference(SpatialReference? value)
+    public async Task SetSpatialReference(SpatialReference value)
     {
 #pragma warning disable BL0005
         SpatialReference = value;
@@ -566,10 +566,7 @@ public partial class Basemap
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -681,7 +678,7 @@ public partial class Basemap
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(string? value)
+    public async Task SetTitle(string value)
     {
 #pragma warning disable BL0005
         Title = value;

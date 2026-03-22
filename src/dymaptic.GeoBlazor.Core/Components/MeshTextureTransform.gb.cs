@@ -224,7 +224,7 @@ public partial class MeshTextureTransform : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOffset(IReadOnlyList<double>? value)
+    public async Task SetOffset(IReadOnlyList<double> value)
     {
 #pragma warning disable BL0005
         Offset = value;
@@ -262,7 +262,7 @@ public partial class MeshTextureTransform : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRotation(double? value)
+    public async Task SetRotation(double value)
     {
 #pragma warning disable BL0005
         Rotation = value;
@@ -300,7 +300,7 @@ public partial class MeshTextureTransform : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetScale(IReadOnlyList<double>? value)
+    public async Task SetScale(IReadOnlyList<double> value)
     {
 #pragma warning disable BL0005
         Scale = value;

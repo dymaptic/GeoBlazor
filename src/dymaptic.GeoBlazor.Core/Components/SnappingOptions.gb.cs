@@ -418,7 +418,7 @@ public partial class SnappingOptions
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAttributeRulesEnabled(bool? value)
+    public async Task SetAttributeRulesEnabled(bool value)
     {
 #pragma warning disable BL0005
         AttributeRulesEnabled = value;
@@ -456,7 +456,7 @@ public partial class SnappingOptions
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDistance(double? value)
+    public async Task SetDistance(double value)
     {
 #pragma warning disable BL0005
         Distance = value;
@@ -494,7 +494,7 @@ public partial class SnappingOptions
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetEnabled(bool? value)
+    public async Task SetEnabled(bool value)
     {
 #pragma warning disable BL0005
         Enabled = value;
@@ -532,7 +532,7 @@ public partial class SnappingOptions
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFeatureEnabled(bool? value)
+    public async Task SetFeatureEnabled(bool value)
     {
 #pragma warning disable BL0005
         FeatureEnabled = value;
@@ -570,7 +570,7 @@ public partial class SnappingOptions
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFeatureSources(IReadOnlyList<FeatureSnappingLayerSource>? value)
+    public async Task SetFeatureSources(IReadOnlyList<FeatureSnappingLayerSource> value)
     {
 #pragma warning disable BL0005
         FeatureSources = value;
@@ -581,12 +581,9 @@ public partial class SnappingOptions
         {
             return;
         }
-        if (value is not null)
+        foreach (FeatureSnappingLayerSource item in value)
         {
-            foreach (FeatureSnappingLayerSource item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     
@@ -616,7 +613,7 @@ public partial class SnappingOptions
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetGridEnabled(bool? value)
+    public async Task SetGridEnabled(bool value)
     {
 #pragma warning disable BL0005
         GridEnabled = value;
@@ -654,7 +651,7 @@ public partial class SnappingOptions
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSelfEnabled(bool? value)
+    public async Task SetSelfEnabled(bool value)
     {
 #pragma warning disable BL0005
         SelfEnabled = value;

@@ -326,7 +326,7 @@ public partial class PortalFolder : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPortalFolderId(string? value)
+    public async Task SetPortalFolderId(string value)
     {
 #pragma warning disable BL0005
         PortalFolderId = value;

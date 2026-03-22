@@ -212,7 +212,7 @@ public partial class ZoomWidget : Widget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLayout(WidgetLayout? value)
+    public async Task SetLayout(WidgetLayout value)
     {
 #pragma warning disable BL0005
         Layout = value;
@@ -250,7 +250,7 @@ public partial class ZoomWidget : Widget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetViewModel(ZoomViewModel? value)
+    public async Task SetViewModel(ZoomViewModel value)
     {
 #pragma warning disable BL0005
         ViewModel = value;
@@ -261,10 +261,7 @@ public partial class ZoomWidget : Widget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

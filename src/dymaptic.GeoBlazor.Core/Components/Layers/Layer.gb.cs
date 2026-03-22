@@ -330,7 +330,7 @@ public abstract partial class Layer : IHitTestItem,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetListMode(ListMode? value)
+    public async Task SetListMode(ListMode value)
     {
 #pragma warning disable BL0005
         ListMode = value;

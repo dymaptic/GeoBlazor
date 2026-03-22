@@ -726,7 +726,7 @@ public partial class ActiveLayerInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHideLayersNotInCurrentView(bool? value)
+    public async Task SetHideLayersNotInCurrentView(bool value)
     {
 #pragma warning disable BL0005
         HideLayersNotInCurrentView = value;
@@ -764,7 +764,7 @@ public partial class ActiveLayerInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLayer(Layer? value)
+    public async Task SetLayer(Layer value)
     {
 #pragma warning disable BL0005
         Layer = value;
@@ -775,10 +775,7 @@ public partial class ActiveLayerInfo : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -807,7 +804,7 @@ public partial class ActiveLayerInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLayerView(LayerView? value)
+    public async Task SetLayerView(LayerView value)
     {
 #pragma warning disable BL0005
         LayerView = value;
@@ -818,10 +815,7 @@ public partial class ActiveLayerInfo : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -850,7 +844,7 @@ public partial class ActiveLayerInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLegendElements(IReadOnlyList<ILegendElement>? value)
+    public async Task SetLegendElements(IReadOnlyList<ILegendElement> value)
     {
 #pragma warning disable BL0005
         LegendElements = value;
@@ -861,12 +855,9 @@ public partial class ActiveLayerInfo : MapComponent
         {
             return;
         }
-        if (value is not null)
+        foreach (ILegendElement item in value)
         {
-            foreach (ILegendElement item in value)
-            {
-                ((MapComponent)item).UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            ((MapComponent)item).UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     
@@ -896,7 +887,7 @@ public partial class ActiveLayerInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRespectLayerVisibility(bool? value)
+    public async Task SetRespectLayerVisibility(bool value)
     {
 #pragma warning disable BL0005
         RespectLayerVisibility = value;
@@ -934,7 +925,7 @@ public partial class ActiveLayerInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSublayerIds(IReadOnlyList<long>? value)
+    public async Task SetSublayerIds(IReadOnlyList<long> value)
     {
 #pragma warning disable BL0005
         SublayerIds = value;

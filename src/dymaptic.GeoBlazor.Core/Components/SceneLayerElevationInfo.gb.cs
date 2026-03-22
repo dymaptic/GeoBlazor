@@ -217,7 +217,7 @@ public partial class SceneLayerElevationInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMode(ElevationInfoMode? value)
+    public async Task SetMode(ElevationInfoMode value)
     {
 #pragma warning disable BL0005
         Mode = value;

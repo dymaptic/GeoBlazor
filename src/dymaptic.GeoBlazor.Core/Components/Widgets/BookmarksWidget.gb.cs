@@ -666,7 +666,7 @@ public partial class BookmarksWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBookmarks(IReadOnlyList<Bookmark>? value)
+    public async Task SetBookmarks(IReadOnlyList<Bookmark> value)
     {
 #pragma warning disable BL0005
         Bookmarks = value;
@@ -677,12 +677,9 @@ public partial class BookmarksWidget : IGoTo
         {
             return;
         }
-        if (value is not null)
+        foreach (Bookmark item in value)
         {
-            foreach (Bookmark item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     
@@ -713,7 +710,7 @@ public partial class BookmarksWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDefaultCreateOptions(BookmarkOptions? value)
+    public async Task SetDefaultCreateOptions(BookmarkOptions value)
     {
 #pragma warning disable BL0005
         DefaultCreateOptions = value;
@@ -752,7 +749,7 @@ public partial class BookmarksWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDefaultEditOptions(BookmarkOptions? value)
+    public async Task SetDefaultEditOptions(BookmarkOptions value)
     {
 #pragma warning disable BL0005
         DefaultEditOptions = value;
@@ -791,7 +788,7 @@ public partial class BookmarksWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDisabled(bool? value)
+    public async Task SetDisabled(bool value)
     {
 #pragma warning disable BL0005
         Disabled = value;
@@ -829,7 +826,7 @@ public partial class BookmarksWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDragEnabled(bool? value)
+    public async Task SetDragEnabled(bool value)
     {
 #pragma warning disable BL0005
         DragEnabled = value;
@@ -867,7 +864,7 @@ public partial class BookmarksWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFilterPlaceholder(string? value)
+    public async Task SetFilterPlaceholder(string value)
     {
 #pragma warning disable BL0005
         FilterPlaceholder = value;
@@ -905,7 +902,7 @@ public partial class BookmarksWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFilterText(string? value)
+    public async Task SetFilterText(string value)
     {
 #pragma warning disable BL0005
         FilterText = value;
@@ -943,7 +940,7 @@ public partial class BookmarksWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHeadingLevel(int? value)
+    public async Task SetHeadingLevel(int value)
     {
 #pragma warning disable BL0005
         HeadingLevel = value;
@@ -981,7 +978,7 @@ public partial class BookmarksWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetViewModel(BookmarksViewModel? value)
+    public async Task SetViewModel(BookmarksViewModel value)
     {
 #pragma warning disable BL0005
         ViewModel = value;
@@ -992,10 +989,7 @@ public partial class BookmarksWidget : IGoTo
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -1025,7 +1019,7 @@ public partial class BookmarksWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetVisibleElements(BookmarksVisibleElements? value)
+    public async Task SetVisibleElements(BookmarksVisibleElements value)
     {
 #pragma warning disable BL0005
         VisibleElements = value;
@@ -1036,10 +1030,7 @@ public partial class BookmarksWidget : IGoTo
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

@@ -213,7 +213,7 @@ public partial class BasemapGalleryItem : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBasemap(Basemap? value)
+    public async Task SetBasemap(Basemap value)
     {
 #pragma warning disable BL0005
         Basemap = value;
@@ -224,10 +224,7 @@ public partial class BasemapGalleryItem : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

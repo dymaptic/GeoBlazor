@@ -366,7 +366,7 @@ public partial class MeshVertexAttributes : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPosition(double[]? value)
+    public async Task SetPosition(double[] value)
     {
 #pragma warning disable BL0005
         Position = value;

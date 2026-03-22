@@ -214,7 +214,7 @@ public partial class ElementExpressionInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetExpression(string? value)
+    public async Task SetExpression(string value)
     {
 #pragma warning disable BL0005
         Expression = value;

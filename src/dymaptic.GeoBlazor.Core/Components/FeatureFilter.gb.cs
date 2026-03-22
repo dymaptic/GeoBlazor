@@ -532,7 +532,7 @@ public partial class FeatureFilter
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSpatialRelationship(SpatialRelationship? value)
+    public async Task SetSpatialRelationship(SpatialRelationship value)
     {
 #pragma warning disable BL0005
         SpatialRelationship = value;

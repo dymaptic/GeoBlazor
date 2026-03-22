@@ -1039,7 +1039,7 @@ public partial class BasemapLayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBaseFilterText(string? value)
+    public async Task SetBaseFilterText(string value)
     {
 #pragma warning disable BL0005
         BaseFilterText = value;
@@ -1153,7 +1153,7 @@ public partial class BasemapLayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCollapsed(bool? value)
+    public async Task SetCollapsed(bool value)
     {
 #pragma warning disable BL0005
         Collapsed = value;
@@ -1191,7 +1191,7 @@ public partial class BasemapLayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDragEnabled(bool? value)
+    public async Task SetDragEnabled(bool value)
     {
 #pragma warning disable BL0005
         DragEnabled = value;
@@ -1229,7 +1229,7 @@ public partial class BasemapLayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetEditingTitle(bool? value)
+    public async Task SetEditingTitle(bool value)
     {
 #pragma warning disable BL0005
         EditingTitle = value;
@@ -1267,7 +1267,7 @@ public partial class BasemapLayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFilterPlaceholder(string? value)
+    public async Task SetFilterPlaceholder(string value)
     {
 #pragma warning disable BL0005
         FilterPlaceholder = value;
@@ -1305,7 +1305,7 @@ public partial class BasemapLayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHeadingLevel(int? value)
+    public async Task SetHeadingLevel(int value)
     {
 #pragma warning disable BL0005
         HeadingLevel = value;
@@ -1343,7 +1343,7 @@ public partial class BasemapLayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinFilterItems(double? value)
+    public async Task SetMinFilterItems(double value)
     {
 #pragma warning disable BL0005
         MinFilterItems = value;
@@ -1381,7 +1381,7 @@ public partial class BasemapLayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetReferenceFilterText(string? value)
+    public async Task SetReferenceFilterText(string value)
     {
 #pragma warning disable BL0005
         ReferenceFilterText = value;
@@ -1419,7 +1419,7 @@ public partial class BasemapLayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSelectedItems(IReadOnlyList<ListItem>? value)
+    public async Task SetSelectedItems(IReadOnlyList<ListItem> value)
     {
 #pragma warning disable BL0005
         SelectedItems = value;
@@ -1430,12 +1430,9 @@ public partial class BasemapLayerListWidget
         {
             return;
         }
-        if (value is not null)
+        foreach (ListItem item in value)
         {
-            foreach (ListItem item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     
@@ -1466,7 +1463,7 @@ public partial class BasemapLayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSelectionMode(SelectionMode? value)
+    public async Task SetSelectionMode(SelectionMode value)
     {
 #pragma warning disable BL0005
         SelectionMode = value;
@@ -1504,7 +1501,7 @@ public partial class BasemapLayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetViewModel(BasemapLayerListViewModel? value)
+    public async Task SetViewModel(BasemapLayerListViewModel value)
     {
 #pragma warning disable BL0005
         ViewModel = value;
@@ -1515,10 +1512,7 @@ public partial class BasemapLayerListWidget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -1548,7 +1542,7 @@ public partial class BasemapLayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetVisibilityAppearance(VisibilityAppearance? value)
+    public async Task SetVisibilityAppearance(VisibilityAppearance value)
     {
 #pragma warning disable BL0005
         VisibilityAppearance = value;
@@ -1586,7 +1580,7 @@ public partial class BasemapLayerListWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetVisibleElements(BasemapLayerListWidgetVisibleElements? value)
+    public async Task SetVisibleElements(BasemapLayerListWidgetVisibleElements value)
     {
 #pragma warning disable BL0005
         VisibleElements = value;
@@ -1597,10 +1591,7 @@ public partial class BasemapLayerListWidget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

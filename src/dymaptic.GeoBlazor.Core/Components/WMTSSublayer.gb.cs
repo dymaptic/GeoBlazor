@@ -689,7 +689,7 @@ public partial class WMTSSublayer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDescription(string? value)
+    public async Task SetDescription(string value)
     {
 #pragma warning disable BL0005
         Description = value;
@@ -770,7 +770,7 @@ public partial class WMTSSublayer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetImageFormat(string? value)
+    public async Task SetImageFormat(string value)
     {
 #pragma warning disable BL0005
         ImageFormat = value;
@@ -846,7 +846,7 @@ public partial class WMTSSublayer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStyleId(string? value)
+    public async Task SetStyleId(string value)
     {
 #pragma warning disable BL0005
         StyleId = value;
@@ -930,7 +930,7 @@ public partial class WMTSSublayer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTileMatrixSetId(string? value)
+    public async Task SetTileMatrixSetId(string value)
     {
 #pragma warning disable BL0005
         TileMatrixSetId = value;
@@ -1052,7 +1052,7 @@ public partial class WMTSSublayer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetWMTSSublayerId(string? value)
+    public async Task SetWMTSSublayerId(string value)
     {
 #pragma warning disable BL0005
         WMTSSublayerId = value;

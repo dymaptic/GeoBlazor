@@ -224,7 +224,7 @@ public partial class FieldInfoFormat
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDigitSeparator(bool? value)
+    public async Task SetDigitSeparator(bool value)
     {
 #pragma warning disable BL0005
         DigitSeparator = value;

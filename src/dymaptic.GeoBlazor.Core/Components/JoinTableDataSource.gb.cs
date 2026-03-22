@@ -301,7 +301,7 @@ public partial class JoinTableDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetJoinType(DynamicJoinType? value)
+    public async Task SetJoinType(DynamicJoinType value)
     {
 #pragma warning disable BL0005
         JoinType = value;
@@ -339,7 +339,7 @@ public partial class JoinTableDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLeftTableKey(string? value)
+    public async Task SetLeftTableKey(string value)
     {
 #pragma warning disable BL0005
         LeftTableKey = value;
@@ -415,7 +415,7 @@ public partial class JoinTableDataSource
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRightTableKey(string? value)
+    public async Task SetRightTableKey(string value)
     {
 #pragma warning disable BL0005
         RightTableKey = value;

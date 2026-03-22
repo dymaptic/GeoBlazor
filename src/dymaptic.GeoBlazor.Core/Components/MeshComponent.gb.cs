@@ -352,7 +352,7 @@ public partial class MeshComponent : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetShading(MeshShading? value)
+    public async Task SetShading(MeshShading value)
     {
 #pragma warning disable BL0005
         Shading = value;

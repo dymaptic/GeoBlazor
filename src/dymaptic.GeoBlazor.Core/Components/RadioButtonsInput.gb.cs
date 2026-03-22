@@ -175,7 +175,7 @@ public partial class RadioButtonsInput
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetShowNoValueOption(bool? value)
+    public async Task SetShowNoValueOption(bool value)
     {
 #pragma warning disable BL0005
         ShowNoValueOption = value;

@@ -2364,7 +2364,7 @@ public partial class WFSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBlendMode(BlendMode? value)
+    public async Task SetBlendMode(BlendMode value)
     {
 #pragma warning disable BL0005
         BlendMode = value;
@@ -2554,7 +2554,7 @@ public partial class WFSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDisplayFilterEnabled(bool? value)
+    public async Task SetDisplayFilterEnabled(bool value)
     {
 #pragma warning disable BL0005
         DisplayFilterEnabled = value;
@@ -2801,7 +2801,7 @@ public partial class WFSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFields(IReadOnlyList<Field>? value)
+    public async Task SetFields(IReadOnlyList<Field> value)
     {
 #pragma warning disable BL0005
         Fields = value;
@@ -2812,12 +2812,9 @@ public partial class WFSLayer : Layer,
         {
             return;
         }
-        if (value is not null)
+        foreach (Field item in value)
         {
-            foreach (Field item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     
@@ -2895,7 +2892,7 @@ public partial class WFSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabelsVisible(bool? value)
+    public async Task SetLabelsVisible(bool value)
     {
 #pragma warning disable BL0005
         LabelsVisible = value;
@@ -2933,7 +2930,7 @@ public partial class WFSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLegendEnabled(bool? value)
+    public async Task SetLegendEnabled(bool value)
     {
 #pragma warning disable BL0005
         LegendEnabled = value;
@@ -2971,7 +2968,7 @@ public partial class WFSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxPageCount(int? value)
+    public async Task SetMaxPageCount(int value)
     {
 #pragma warning disable BL0005
         MaxPageCount = value;
@@ -3009,7 +3006,7 @@ public partial class WFSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxRecordCount(int? value)
+    public async Task SetMaxRecordCount(int value)
     {
 #pragma warning disable BL0005
         MaxRecordCount = value;
@@ -3047,7 +3044,7 @@ public partial class WFSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxScale(double? value)
+    public async Task SetMaxScale(double value)
     {
 #pragma warning disable BL0005
         MaxScale = value;
@@ -3085,7 +3082,7 @@ public partial class WFSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinScale(double? value)
+    public async Task SetMinScale(double value)
     {
 #pragma warning disable BL0005
         MinScale = value;
@@ -3284,7 +3281,7 @@ public partial class WFSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPersistenceEnabled(bool? value)
+    public async Task SetPersistenceEnabled(bool value)
     {
 #pragma warning disable BL0005
         PersistenceEnabled = value;
@@ -3322,7 +3319,7 @@ public partial class WFSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPopupEnabled(bool? value)
+    public async Task SetPopupEnabled(bool value)
     {
 #pragma warning disable BL0005
         PopupEnabled = value;
@@ -3448,7 +3445,7 @@ public partial class WFSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRefreshInterval(double? value)
+    public async Task SetRefreshInterval(double value)
     {
 #pragma warning disable BL0005
         RefreshInterval = value;
@@ -3486,7 +3483,7 @@ public partial class WFSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRenderer(Renderer? value)
+    public async Task SetRenderer(Renderer value)
     {
 #pragma warning disable BL0005
         Renderer = value;
@@ -3497,10 +3494,7 @@ public partial class WFSLayer : Layer,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -3530,7 +3524,7 @@ public partial class WFSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetScreenSizePerspectiveEnabled(bool? value)
+    public async Task SetScreenSizePerspectiveEnabled(bool value)
     {
 #pragma warning disable BL0005
         ScreenSizePerspectiveEnabled = value;
@@ -3568,7 +3562,7 @@ public partial class WFSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSpatialReference(SpatialReference? value)
+    public async Task SetSpatialReference(SpatialReference value)
     {
 #pragma warning disable BL0005
         SpatialReference = value;
@@ -3579,10 +3573,7 @@ public partial class WFSLayer : Layer,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

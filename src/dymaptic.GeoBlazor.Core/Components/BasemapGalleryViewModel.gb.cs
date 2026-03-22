@@ -369,7 +369,7 @@ public partial class BasemapGalleryViewModel : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSource(IBasemapGalleryWidgetSource? value)
+    public async Task SetSource(IBasemapGalleryWidgetSource value)
     {
 #pragma warning disable BL0005
         Source = value;

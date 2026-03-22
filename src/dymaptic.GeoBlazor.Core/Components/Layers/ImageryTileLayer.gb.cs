@@ -1777,7 +1777,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBlendMode(BlendMode? value)
+    public async Task SetBlendMode(BlendMode value)
     {
 #pragma warning disable BL0005
         BlendMode = value;
@@ -1853,7 +1853,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCustomParameters(Dictionary<string, object>? value)
+    public async Task SetCustomParameters(Dictionary<string, object> value)
     {
 #pragma warning disable BL0005
         CustomParameters = value;
@@ -1930,7 +1930,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetInterpolation(PixelInterpolation? value)
+    public async Task SetInterpolation(PixelInterpolation value)
     {
 #pragma warning disable BL0005
         Interpolation = value;
@@ -1968,7 +1968,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLegendEnabled(bool? value)
+    public async Task SetLegendEnabled(bool value)
     {
 #pragma warning disable BL0005
         LegendEnabled = value;
@@ -2006,7 +2006,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxScale(double? value)
+    public async Task SetMaxScale(double value)
     {
 #pragma warning disable BL0005
         MaxScale = value;
@@ -2044,7 +2044,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinScale(double? value)
+    public async Task SetMinScale(double value)
     {
 #pragma warning disable BL0005
         MinScale = value;
@@ -2173,7 +2173,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPersistenceEnabled(bool? value)
+    public async Task SetPersistenceEnabled(bool value)
     {
 #pragma warning disable BL0005
         PersistenceEnabled = value;
@@ -2211,7 +2211,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPopupEnabled(bool? value)
+    public async Task SetPopupEnabled(bool value)
     {
 #pragma warning disable BL0005
         PopupEnabled = value;
@@ -2686,7 +2686,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUrl(string? value)
+    public async Task SetUrl(string value)
     {
 #pragma warning disable BL0005
         Url = value;
@@ -2724,7 +2724,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUseViewTime(bool? value)
+    public async Task SetUseViewTime(bool value)
     {
 #pragma warning disable BL0005
         UseViewTime = value;

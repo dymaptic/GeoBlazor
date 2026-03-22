@@ -1335,7 +1335,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBlendMode(BlendMode? value)
+    public async Task SetBlendMode(BlendMode value)
     {
 #pragma warning disable BL0005
         BlendMode = value;
@@ -1488,7 +1488,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLegendEnabled(bool? value)
+    public async Task SetLegendEnabled(bool value)
     {
 #pragma warning disable BL0005
         LegendEnabled = value;
@@ -1526,7 +1526,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxScale(double? value)
+    public async Task SetMaxScale(double value)
     {
 #pragma warning disable BL0005
         MaxScale = value;
@@ -1564,7 +1564,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinScale(double? value)
+    public async Task SetMinScale(double value)
     {
 #pragma warning disable BL0005
         MinScale = value;
@@ -1602,7 +1602,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPersistenceEnabled(bool? value)
+    public async Task SetPersistenceEnabled(bool value)
     {
 #pragma warning disable BL0005
         PersistenceEnabled = value;
@@ -1684,7 +1684,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRefreshInterval(double? value)
+    public async Task SetRefreshInterval(double value)
     {
 #pragma warning disable BL0005
         RefreshInterval = value;
@@ -1722,7 +1722,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetResampling(bool? value)
+    public async Task SetResampling(bool value)
     {
 #pragma warning disable BL0005
         Resampling = value;
@@ -1807,7 +1807,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTileInfo(TileInfo? value)
+    public async Task SetTileInfo(TileInfo value)
     {
 #pragma warning disable BL0005
         TileInfo = value;
@@ -1818,10 +1818,7 @@ public partial class TileLayer : IAPIKeyMixin,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -1851,7 +1848,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTileServers(IReadOnlyList<string>? value)
+    public async Task SetTileServers(IReadOnlyList<string> value)
     {
 #pragma warning disable BL0005
         TileServers = value;

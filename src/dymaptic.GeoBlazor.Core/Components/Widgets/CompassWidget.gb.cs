@@ -160,7 +160,7 @@ public partial class CompassWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetViewModel(CompassViewModel? value)
+    public async Task SetViewModel(CompassViewModel value)
     {
 #pragma warning disable BL0005
         ViewModel = value;
@@ -171,10 +171,7 @@ public partial class CompassWidget : IGoTo
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

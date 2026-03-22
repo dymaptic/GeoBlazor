@@ -405,7 +405,7 @@ public partial class LegendViewModel : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetActiveLayerInfos(IReadOnlyList<ActiveLayerInfo>? value)
+    public async Task SetActiveLayerInfos(IReadOnlyList<ActiveLayerInfo> value)
     {
 #pragma warning disable BL0005
         ActiveLayerInfos = value;
@@ -416,12 +416,9 @@ public partial class LegendViewModel : MapComponent
         {
             return;
         }
-        if (value is not null)
+        foreach (ActiveLayerInfo item in value)
         {
-            foreach (ActiveLayerInfo item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     
@@ -451,7 +448,7 @@ public partial class LegendViewModel : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBasemapLegendVisible(bool? value)
+    public async Task SetBasemapLegendVisible(bool value)
     {
 #pragma warning disable BL0005
         BasemapLegendVisible = value;
@@ -489,7 +486,7 @@ public partial class LegendViewModel : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHideLayersNotInCurrentView(bool? value)
+    public async Task SetHideLayersNotInCurrentView(bool value)
     {
 #pragma warning disable BL0005
         HideLayersNotInCurrentView = value;
@@ -527,7 +524,7 @@ public partial class LegendViewModel : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLayerInfos(IReadOnlyList<LegendViewModelLayerInfos>? value)
+    public async Task SetLayerInfos(IReadOnlyList<LegendViewModelLayerInfos> value)
     {
 #pragma warning disable BL0005
         LayerInfos = value;
@@ -538,12 +535,9 @@ public partial class LegendViewModel : MapComponent
         {
             return;
         }
-        if (value is not null)
+        foreach (LegendViewModelLayerInfos item in value)
         {
-            foreach (LegendViewModelLayerInfos item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     
@@ -573,7 +567,7 @@ public partial class LegendViewModel : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRespectLayerVisibility(bool? value)
+    public async Task SetRespectLayerVisibility(bool value)
     {
 #pragma warning disable BL0005
         RespectLayerVisibility = value;

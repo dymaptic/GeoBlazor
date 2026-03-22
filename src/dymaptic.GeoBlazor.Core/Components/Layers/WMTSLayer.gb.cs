@@ -945,7 +945,7 @@ public partial class WMTSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetActiveLayer(WMTSSublayer? value)
+    public async Task SetActiveLayer(WMTSSublayer value)
     {
 #pragma warning disable BL0005
         ActiveLayer = value;
@@ -956,10 +956,7 @@ public partial class WMTSLayer : Layer,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -989,7 +986,7 @@ public partial class WMTSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBlendMode(BlendMode? value)
+    public async Task SetBlendMode(BlendMode value)
     {
 #pragma warning disable BL0005
         BlendMode = value;
@@ -1027,7 +1024,7 @@ public partial class WMTSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCopyright(string? value)
+    public async Task SetCopyright(string value)
     {
 #pragma warning disable BL0005
         Copyright = value;
@@ -1180,7 +1177,7 @@ public partial class WMTSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxScale(double? value)
+    public async Task SetMaxScale(double value)
     {
 #pragma warning disable BL0005
         MaxScale = value;
@@ -1218,7 +1215,7 @@ public partial class WMTSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinScale(double? value)
+    public async Task SetMinScale(double value)
     {
 #pragma warning disable BL0005
         MinScale = value;
@@ -1256,7 +1253,7 @@ public partial class WMTSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPersistenceEnabled(bool? value)
+    public async Task SetPersistenceEnabled(bool value)
     {
 #pragma warning disable BL0005
         PersistenceEnabled = value;
@@ -1338,7 +1335,7 @@ public partial class WMTSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRefreshInterval(double? value)
+    public async Task SetRefreshInterval(double value)
     {
 #pragma warning disable BL0005
         RefreshInterval = value;
@@ -1376,7 +1373,7 @@ public partial class WMTSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetServiceMode(ServiceMode? value)
+    public async Task SetServiceMode(ServiceMode value)
     {
 #pragma warning disable BL0005
         ServiceMode = value;
@@ -1461,7 +1458,7 @@ public partial class WMTSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUrl(string? value)
+    public async Task SetUrl(string value)
     {
 #pragma warning disable BL0005
         Url = value;
@@ -1499,7 +1496,7 @@ public partial class WMTSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetVersion(string? value)
+    public async Task SetVersion(string value)
     {
 #pragma warning disable BL0005
         Version = value;

@@ -355,7 +355,7 @@ public partial class ChartMediaInfoValue
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFields(IReadOnlyList<string>? value)
+    public async Task SetFields(IReadOnlyList<string> value)
     {
 #pragma warning disable BL0005
         Fields = value;
@@ -431,7 +431,7 @@ public partial class ChartMediaInfoValue
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSeries(IReadOnlyList<ChartMediaInfoValueSeries>? value)
+    public async Task SetSeries(IReadOnlyList<ChartMediaInfoValueSeries> value)
     {
 #pragma warning disable BL0005
         Series = value;
@@ -442,12 +442,9 @@ public partial class ChartMediaInfoValue
         {
             return;
         }
-        if (value is not null)
+        foreach (ChartMediaInfoValueSeries item in value)
         {
-            foreach (ChartMediaInfoValueSeries item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     

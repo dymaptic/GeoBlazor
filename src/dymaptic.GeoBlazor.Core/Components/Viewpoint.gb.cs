@@ -310,7 +310,7 @@ public partial class Viewpoint
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRotation(double? value)
+    public async Task SetRotation(double value)
     {
 #pragma warning disable BL0005
         Rotation = value;
@@ -348,7 +348,7 @@ public partial class Viewpoint
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetScale(double? value)
+    public async Task SetScale(double value)
     {
 #pragma warning disable BL0005
         Scale = value;

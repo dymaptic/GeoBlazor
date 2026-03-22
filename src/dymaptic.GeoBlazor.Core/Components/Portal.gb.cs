@@ -3942,7 +3942,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAllSSL(bool? value)
+    public async Task SetAllSSL(bool value)
     {
 #pragma warning disable BL0005
         AllSSL = value;
@@ -3980,7 +3980,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAuthMode(AuthMode? value)
+    public async Task SetAuthMode(AuthMode value)
     {
 #pragma warning disable BL0005
         AuthMode = value;
@@ -4170,7 +4170,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCanListApps(bool? value)
+    public async Task SetCanListApps(bool value)
     {
 #pragma warning disable BL0005
         CanListApps = value;
@@ -4208,7 +4208,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCanListData(bool? value)
+    public async Task SetCanListData(bool value)
     {
 #pragma warning disable BL0005
         CanListData = value;
@@ -4246,7 +4246,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCanListPreProvisionedItems(bool? value)
+    public async Task SetCanListPreProvisionedItems(bool value)
     {
 #pragma warning disable BL0005
         CanListPreProvisionedItems = value;
@@ -4284,7 +4284,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCanProvisionDirectPurchase(bool? value)
+    public async Task SetCanProvisionDirectPurchase(bool value)
     {
 #pragma warning disable BL0005
         CanProvisionDirectPurchase = value;
@@ -4322,7 +4322,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCanSearchPublic(bool? value)
+    public async Task SetCanSearchPublic(bool value)
     {
 #pragma warning disable BL0005
         CanSearchPublic = value;
@@ -4360,7 +4360,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCanShareBingPublic(bool? value)
+    public async Task SetCanShareBingPublic(bool value)
     {
 #pragma warning disable BL0005
         CanShareBingPublic = value;
@@ -4398,7 +4398,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCanSharePublic(bool? value)
+    public async Task SetCanSharePublic(bool value)
     {
 #pragma warning disable BL0005
         CanSharePublic = value;
@@ -4436,7 +4436,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCanSignInArcGIS(bool? value)
+    public async Task SetCanSignInArcGIS(bool value)
     {
 #pragma warning disable BL0005
         CanSignInArcGIS = value;
@@ -4474,7 +4474,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCanSignInIDP(bool? value)
+    public async Task SetCanSignInIDP(bool value)
     {
 #pragma warning disable BL0005
         CanSignInIDP = value;
@@ -4550,7 +4550,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCommentsEnabled(bool? value)
+    public async Task SetCommentsEnabled(bool value)
     {
 #pragma warning disable BL0005
         CommentsEnabled = value;
@@ -5012,7 +5012,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHasCategorySchema(bool? value)
+    public async Task SetHasCategorySchema(bool value)
     {
 #pragma warning disable BL0005
         HasCategorySchema = value;
@@ -5050,7 +5050,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHasClassificationSchema(bool? value)
+    public async Task SetHasClassificationSchema(bool value)
     {
 #pragma warning disable BL0005
         HasClassificationSchema = value;
@@ -5316,7 +5316,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetIsPortal(bool? value)
+    public async Task SetIsPortal(bool value)
     {
 #pragma warning disable BL0005
         IsPortal = value;
@@ -5354,7 +5354,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetIsReadOnly(bool? value)
+    public async Task SetIsReadOnly(bool value)
     {
 #pragma warning disable BL0005
         IsReadOnly = value;
@@ -5658,7 +5658,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPortalProperties(PortalProperties? value)
+    public async Task SetPortalProperties(PortalProperties value)
     {
 #pragma warning disable BL0005
         PortalProperties = value;
@@ -5697,7 +5697,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRecycleBinEnabled(bool? value)
+    public async Task SetRecycleBinEnabled(bool value)
     {
 #pragma warning disable BL0005
         RecycleBinEnabled = value;
@@ -5811,7 +5811,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetShowHomePageDescription(bool? value)
+    public async Task SetShowHomePageDescription(bool value)
     {
 #pragma warning disable BL0005
         ShowHomePageDescription = value;
@@ -5849,7 +5849,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsHostedServices(bool? value)
+    public async Task SetSupportsHostedServices(bool value)
     {
 #pragma warning disable BL0005
         SupportsHostedServices = value;
@@ -6001,7 +6001,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUrl(string? value)
+    public async Task SetUrl(string value)
     {
 #pragma warning disable BL0005
         Url = value;
@@ -6077,7 +6077,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUse3dBasemaps(bool? value)
+    public async Task SetUse3dBasemaps(bool value)
     {
 #pragma warning disable BL0005
         Use3dBasemaps = value;
@@ -6115,7 +6115,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUseDefault3dBasemap(bool? value)
+    public async Task SetUseDefault3dBasemap(bool value)
     {
 #pragma warning disable BL0005
         UseDefault3dBasemap = value;
@@ -6153,7 +6153,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUseStandardizedQuery(bool? value)
+    public async Task SetUseStandardizedQuery(bool value)
     {
 #pragma warning disable BL0005
         UseStandardizedQuery = value;
@@ -6191,7 +6191,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUseVectorBasemaps(bool? value)
+    public async Task SetUseVectorBasemaps(bool value)
     {
 #pragma warning disable BL0005
         UseVectorBasemaps = value;

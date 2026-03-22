@@ -160,7 +160,7 @@ public partial class WFSLayerElevationInfoFeatureExpressionInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetExpression(string? value)
+    public async Task SetExpression(string value)
     {
 #pragma warning disable BL0005
         Expression = value;
@@ -198,7 +198,7 @@ public partial class WFSLayerElevationInfoFeatureExpressionInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(string? value)
+    public async Task SetTitle(string value)
     {
 #pragma warning disable BL0005
         Title = value;

@@ -377,7 +377,7 @@ public partial class KMLSublayer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetKMLSublayerId(long? value)
+    public async Task SetKMLSublayerId(long value)
     {
 #pragma warning disable BL0005
         KMLSublayerId = value;

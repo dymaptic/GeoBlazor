@@ -1751,7 +1751,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBlendMode(BlendMode? value)
+    public async Task SetBlendMode(BlendMode value)
     {
 #pragma warning disable BL0005
         BlendMode = value;
@@ -1827,7 +1827,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCoverageId(string? value)
+    public async Task SetCoverageId(string value)
     {
 #pragma warning disable BL0005
         CoverageId = value;
@@ -1865,7 +1865,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCoverageInfo(CoverageInfo? value)
+    public async Task SetCoverageInfo(CoverageInfo value)
     {
 #pragma warning disable BL0005
         CoverageInfo = value;
@@ -1904,7 +1904,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCustomParameters(Dictionary<string, object>? value)
+    public async Task SetCustomParameters(Dictionary<string, object> value)
     {
 #pragma warning disable BL0005
         CustomParameters = value;
@@ -1981,7 +1981,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetInterpolation(Interpolation? value)
+    public async Task SetInterpolation(Interpolation value)
     {
 #pragma warning disable BL0005
         Interpolation = value;
@@ -2019,7 +2019,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLegendEnabled(bool? value)
+    public async Task SetLegendEnabled(bool value)
     {
 #pragma warning disable BL0005
         LegendEnabled = value;
@@ -2057,7 +2057,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxScale(double? value)
+    public async Task SetMaxScale(double value)
     {
 #pragma warning disable BL0005
         MaxScale = value;
@@ -2095,7 +2095,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinScale(double? value)
+    public async Task SetMinScale(double value)
     {
 #pragma warning disable BL0005
         MinScale = value;
@@ -2262,7 +2262,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPersistenceEnabled(bool? value)
+    public async Task SetPersistenceEnabled(bool value)
     {
 #pragma warning disable BL0005
         PersistenceEnabled = value;
@@ -2300,7 +2300,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPopupEnabled(bool? value)
+    public async Task SetPopupEnabled(bool value)
     {
 #pragma warning disable BL0005
         PopupEnabled = value;
@@ -2596,7 +2596,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUrl(string? value)
+    public async Task SetUrl(string value)
     {
 #pragma warning disable BL0005
         Url = value;
@@ -2634,7 +2634,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUseViewTime(bool? value)
+    public async Task SetUseViewTime(bool value)
     {
 #pragma warning disable BL0005
         UseViewTime = value;
@@ -2672,7 +2672,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetVersion(string? value)
+    public async Task SetVersion(string value)
     {
 #pragma warning disable BL0005
         Version = value;

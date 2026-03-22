@@ -148,7 +148,7 @@ public abstract partial class MarkerSymbol
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAngle(double? value)
+    public async Task SetAngle(double value)
     {
 #pragma warning disable BL0005
         Angle = value;
@@ -186,7 +186,7 @@ public abstract partial class MarkerSymbol
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetXoffset(Dimension? value)
+    public async Task SetXoffset(Dimension value)
     {
 #pragma warning disable BL0005
         Xoffset = value;
@@ -224,7 +224,7 @@ public abstract partial class MarkerSymbol
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetYoffset(Dimension? value)
+    public async Task SetYoffset(Dimension value)
     {
 #pragma warning disable BL0005
         Yoffset = value;

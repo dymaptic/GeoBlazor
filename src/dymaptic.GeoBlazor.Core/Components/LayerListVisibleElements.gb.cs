@@ -559,7 +559,7 @@ public partial class LayerListVisibleElements : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCatalogLayerList(bool? value)
+    public async Task SetCatalogLayerList(bool value)
     {
 #pragma warning disable BL0005
         CatalogLayerList = value;
@@ -597,7 +597,7 @@ public partial class LayerListVisibleElements : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCloseButton(bool? value)
+    public async Task SetCloseButton(bool value)
     {
 #pragma warning disable BL0005
         CloseButton = value;
@@ -635,7 +635,7 @@ public partial class LayerListVisibleElements : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCollapseButton(bool? value)
+    public async Task SetCollapseButton(bool value)
     {
 #pragma warning disable BL0005
         CollapseButton = value;
@@ -673,7 +673,7 @@ public partial class LayerListVisibleElements : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetErrors(bool? value)
+    public async Task SetErrors(bool value)
     {
 #pragma warning disable BL0005
         Errors = value;
@@ -711,7 +711,7 @@ public partial class LayerListVisibleElements : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFilter(bool? value)
+    public async Task SetFilter(bool value)
     {
 #pragma warning disable BL0005
         Filter = value;
@@ -749,7 +749,7 @@ public partial class LayerListVisibleElements : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFlow(bool? value)
+    public async Task SetFlow(bool value)
     {
 #pragma warning disable BL0005
         Flow = value;
@@ -787,7 +787,7 @@ public partial class LayerListVisibleElements : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHeading(bool? value)
+    public async Task SetHeading(bool value)
     {
 #pragma warning disable BL0005
         Heading = value;
@@ -825,7 +825,7 @@ public partial class LayerListVisibleElements : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStatusIndicators(bool? value)
+    public async Task SetStatusIndicators(bool value)
     {
 #pragma warning disable BL0005
         StatusIndicators = value;
@@ -863,7 +863,7 @@ public partial class LayerListVisibleElements : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTemporaryLayerIndicators(bool? value)
+    public async Task SetTemporaryLayerIndicators(bool value)
     {
 #pragma warning disable BL0005
         TemporaryLayerIndicators = value;

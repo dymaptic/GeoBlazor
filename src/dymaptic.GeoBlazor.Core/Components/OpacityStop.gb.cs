@@ -222,7 +222,7 @@ public partial class OpacityStop
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOpacity(double? value)
+    public async Task SetOpacity(double value)
     {
 #pragma warning disable BL0005
         Opacity = value;
@@ -260,7 +260,7 @@ public partial class OpacityStop
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValue(double? value)
+    public async Task SetValue(double value)
     {
 #pragma warning disable BL0005
         Value = value;

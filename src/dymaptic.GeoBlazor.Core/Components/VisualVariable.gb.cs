@@ -219,7 +219,7 @@ public abstract partial class VisualVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetField(string? value)
+    public async Task SetField(string value)
     {
 #pragma warning disable BL0005
         Field = value;

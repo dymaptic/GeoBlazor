@@ -194,7 +194,7 @@ public partial class UniqueValueInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValue(string? value)
+    public async Task SetValue(string value)
     {
 #pragma warning disable BL0005
         Value = value;

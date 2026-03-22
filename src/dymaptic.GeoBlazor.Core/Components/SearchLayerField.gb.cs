@@ -160,7 +160,7 @@ public partial class SearchLayerField : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetExactMatch(bool? value)
+    public async Task SetExactMatch(bool value)
     {
 #pragma warning disable BL0005
         ExactMatch = value;

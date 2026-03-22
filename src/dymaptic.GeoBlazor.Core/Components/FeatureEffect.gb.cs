@@ -302,7 +302,7 @@ public partial class FeatureEffect
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetExcludedLabelsVisible(bool? value)
+    public async Task SetExcludedLabelsVisible(bool value)
     {
 #pragma warning disable BL0005
         ExcludedLabelsVisible = value;

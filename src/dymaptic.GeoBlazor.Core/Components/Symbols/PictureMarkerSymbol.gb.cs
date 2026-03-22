@@ -230,7 +230,7 @@ public partial class PictureMarkerSymbol : ISymbol2D,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHeight(Dimension? value)
+    public async Task SetHeight(Dimension value)
     {
 #pragma warning disable BL0005
         Height = value;
@@ -306,7 +306,7 @@ public partial class PictureMarkerSymbol : ISymbol2D,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetWidth(Dimension? value)
+    public async Task SetWidth(Dimension value)
     {
 #pragma warning disable BL0005
         Width = value;

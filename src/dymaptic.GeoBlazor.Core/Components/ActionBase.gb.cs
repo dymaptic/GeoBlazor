@@ -333,7 +333,7 @@ public abstract partial class ActionBase
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetActive(bool? value)
+    public async Task SetActive(bool value)
     {
 #pragma warning disable BL0005
         Active = value;
@@ -409,7 +409,7 @@ public abstract partial class ActionBase
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDisabled(bool? value)
+    public async Task SetDisabled(bool value)
     {
 #pragma warning disable BL0005
         Disabled = value;

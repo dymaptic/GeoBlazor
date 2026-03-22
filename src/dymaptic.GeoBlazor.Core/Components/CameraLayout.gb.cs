@@ -282,7 +282,7 @@ public partial class CameraLayout : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetColumn(double? value)
+    public async Task SetColumn(double value)
     {
 #pragma warning disable BL0005
         Column = value;
@@ -320,7 +320,7 @@ public partial class CameraLayout : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetColumns(double? value)
+    public async Task SetColumns(double value)
     {
 #pragma warning disable BL0005
         Columns = value;
@@ -358,7 +358,7 @@ public partial class CameraLayout : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRow(double? value)
+    public async Task SetRow(double value)
     {
 #pragma warning disable BL0005
         Row = value;
@@ -396,7 +396,7 @@ public partial class CameraLayout : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRows(double? value)
+    public async Task SetRows(double value)
     {
 #pragma warning disable BL0005
         Rows = value;

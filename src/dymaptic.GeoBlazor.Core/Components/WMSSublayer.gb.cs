@@ -815,7 +815,7 @@ public partial class WMSSublayer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDescription(string? value)
+    public async Task SetDescription(string value)
     {
 #pragma warning disable BL0005
         Description = value;
@@ -853,7 +853,7 @@ public partial class WMSSublayer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFullExtent(Extent? value)
+    public async Task SetFullExtent(Extent value)
     {
 #pragma warning disable BL0005
         FullExtent = value;
@@ -864,10 +864,7 @@ public partial class WMSSublayer : MapComponent
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -896,7 +893,7 @@ public partial class WMSSublayer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLegendEnabled(bool? value)
+    public async Task SetLegendEnabled(bool value)
     {
 #pragma warning disable BL0005
         LegendEnabled = value;
@@ -972,7 +969,7 @@ public partial class WMSSublayer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxScale(double? value)
+    public async Task SetMaxScale(double value)
     {
 #pragma warning disable BL0005
         MaxScale = value;
@@ -1010,7 +1007,7 @@ public partial class WMSSublayer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinScale(double? value)
+    public async Task SetMinScale(double value)
     {
 #pragma warning disable BL0005
         MinScale = value;
@@ -1048,7 +1045,7 @@ public partial class WMSSublayer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetName(string? value)
+    public async Task SetName(string value)
     {
 #pragma warning disable BL0005
         Name = value;
@@ -1086,7 +1083,7 @@ public partial class WMSSublayer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPopupEnabled(bool? value)
+    public async Task SetPopupEnabled(bool value)
     {
 #pragma warning disable BL0005
         PopupEnabled = value;
@@ -1124,7 +1121,7 @@ public partial class WMSSublayer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetQueryable(bool? value)
+    public async Task SetQueryable(bool value)
     {
 #pragma warning disable BL0005
         Queryable = value;
@@ -1238,7 +1235,7 @@ public partial class WMSSublayer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetWMSSublayerId(long? value)
+    public async Task SetWMSSublayerId(long value)
     {
 #pragma warning disable BL0005
         WMSSublayerId = value;

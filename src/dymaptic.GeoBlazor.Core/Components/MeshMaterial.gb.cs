@@ -536,7 +536,7 @@ public partial class MeshMaterial
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAlphaCutoff(double? value)
+    public async Task SetAlphaCutoff(double value)
     {
 #pragma warning disable BL0005
         AlphaCutoff = value;
@@ -574,7 +574,7 @@ public partial class MeshMaterial
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAlphaMode(AlphaMode? value)
+    public async Task SetAlphaMode(AlphaMode value)
     {
 #pragma warning disable BL0005
         AlphaMode = value;
@@ -736,7 +736,7 @@ public partial class MeshMaterial
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDoubleSided(bool? value)
+    public async Task SetDoubleSided(bool value)
     {
 #pragma warning disable BL0005
         DoubleSided = value;

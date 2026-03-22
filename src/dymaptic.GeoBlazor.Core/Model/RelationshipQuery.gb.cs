@@ -115,7 +115,7 @@ public partial record RelationshipQuery(
     ///     Specify the number of decimal places for the geometries returned by the query operation.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#geometryPrecision">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public double? GeometryPrecision { get; set; } = GeometryPrecision;
+    public double GeometryPrecision { get; set; } = GeometryPrecision;
     
     /// <summary>
     ///     The historic moment to query.
@@ -127,13 +127,13 @@ public partial record RelationshipQuery(
     ///     The maximum allowable offset used for generalizing geometries returned by the query operation.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#maxAllowableOffset">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public double? MaxAllowableOffset { get; set; } = MaxAllowableOffset;
+    public double MaxAllowableOffset { get; set; } = MaxAllowableOffset;
     
     /// <summary>
     ///     The number of features to retrieve.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#num">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public int? Num { get; set; } = Num;
+    public int Num { get; set; } = Num;
     
     /// <summary>
     ///     An array of objectIds for the features in the layer/table being queried.
@@ -163,32 +163,32 @@ public partial record RelationshipQuery(
     ///     The ID of the relationship to be queried.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#relationshipId">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public long? RelationshipId { get; set; } = RelationshipId;
+    public long RelationshipId { get; set; } = RelationshipId;
     
     /// <summary>
     ///     If `true`, each feature in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSet</a> includes the geometry.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#returnGeometry">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public bool? ReturnGeometry { get; set; } = ReturnGeometry;
+    public bool ReturnGeometry { get; set; } = ReturnGeometry;
     
     /// <summary>
     ///     If `true`, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#returnGeometry">returnGeometry</a> is `true`, then m-values are included in the geometry.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#returnM">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public bool? ReturnM { get; set; } = ReturnM;
+    public bool ReturnM { get; set; } = ReturnM;
     
     /// <summary>
     ///     If `true`, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#returnGeometry">returnGeometry</a> is `true`, then z-values are included in the geometry.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#returnZ">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public bool? ReturnZ { get; set; } = ReturnZ;
+    public bool ReturnZ { get; set; } = ReturnZ;
     
     /// <summary>
     ///     The zero-based index indicating where to begin retrieving features.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#start">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public int? Start { get; set; } = Start;
+    public int Start { get; set; } = Start;
     
     /// <summary>
     ///     The definition expression to be applied to the related table or layer.

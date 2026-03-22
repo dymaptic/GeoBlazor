@@ -219,7 +219,7 @@ public abstract partial class MediaInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCaption(string? value)
+    public async Task SetCaption(string value)
     {
 #pragma warning disable BL0005
         Caption = value;
@@ -257,7 +257,7 @@ public abstract partial class MediaInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(string? value)
+    public async Task SetTitle(string value)
     {
 #pragma warning disable BL0005
         Title = value;

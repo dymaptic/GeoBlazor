@@ -132,7 +132,7 @@ public partial record AttachmentQuery(
     ///     An array of objectIds of the features to be queried for attachments.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html#objectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public IReadOnlyCollection<ObjectId>? ObjectIds { get; set; } = ObjectIds;
+    public IReadOnlyCollection<ObjectId> ObjectIds { get; set; } = ObjectIds;
     
     /// <summary>
     ///     An array of one or more `attachmentInfo` field names on which the returned queried attachments will be sorted.
@@ -146,7 +146,7 @@ public partial record AttachmentQuery(
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttachmentQuery.html#returnMetadata">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public bool? ReturnMetadata { get; set; } = ReturnMetadata;
+    public bool ReturnMetadata { get; set; } = ReturnMetadata;
     
     /// <summary>
     ///     The file size of the attachment is specified in bytes.

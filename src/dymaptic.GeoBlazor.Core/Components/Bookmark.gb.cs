@@ -267,7 +267,7 @@ public partial class Bookmark
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetName(string? value)
+    public async Task SetName(string value)
     {
 #pragma warning disable BL0005
         Name = value;
@@ -386,7 +386,7 @@ public partial class Bookmark
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetViewpoint(Viewpoint? value)
+    public async Task SetViewpoint(Viewpoint value)
     {
 #pragma warning disable BL0005
         Viewpoint = value;
@@ -397,10 +397,7 @@ public partial class Bookmark
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

@@ -440,7 +440,7 @@ public partial class HighlightOptions
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetColor(MapColor? value)
+    public async Task SetColor(MapColor value)
     {
 #pragma warning disable BL0005
         Color = value;
@@ -478,7 +478,7 @@ public partial class HighlightOptions
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFillOpacity(double? value)
+    public async Task SetFillOpacity(double value)
     {
 #pragma warning disable BL0005
         FillOpacity = value;
@@ -554,7 +554,7 @@ public partial class HighlightOptions
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHaloOpacity(double? value)
+    public async Task SetHaloOpacity(double value)
     {
 #pragma warning disable BL0005
         HaloOpacity = value;
@@ -592,7 +592,7 @@ public partial class HighlightOptions
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetName(string? value)
+    public async Task SetName(string value)
     {
 #pragma warning disable BL0005
         Name = value;
@@ -630,7 +630,7 @@ public partial class HighlightOptions
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetShadowColor(MapColor? value)
+    public async Task SetShadowColor(MapColor value)
     {
 #pragma warning disable BL0005
         ShadowColor = value;
@@ -668,7 +668,7 @@ public partial class HighlightOptions
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetShadowDifference(double? value)
+    public async Task SetShadowDifference(double value)
     {
 #pragma warning disable BL0005
         ShadowDifference = value;
@@ -706,7 +706,7 @@ public partial class HighlightOptions
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetShadowOpacity(double? value)
+    public async Task SetShadowOpacity(double value)
     {
 #pragma warning disable BL0005
         ShadowOpacity = value;

@@ -152,7 +152,7 @@ public partial class DynamicMapLayer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetGdbVersion(string? value)
+    public async Task SetGdbVersion(string value)
     {
 #pragma warning disable BL0005
         GdbVersion = value;

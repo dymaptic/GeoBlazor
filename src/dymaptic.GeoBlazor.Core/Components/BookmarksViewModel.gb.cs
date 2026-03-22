@@ -401,7 +401,7 @@ public partial class BookmarksViewModel : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBookmarks(IReadOnlyList<Bookmark>? value)
+    public async Task SetBookmarks(IReadOnlyList<Bookmark> value)
     {
 #pragma warning disable BL0005
         Bookmarks = value;
@@ -412,12 +412,9 @@ public partial class BookmarksViewModel : IGoTo
         {
             return;
         }
-        if (value is not null)
+        foreach (Bookmark item in value)
         {
-            foreach (Bookmark item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     
@@ -448,7 +445,7 @@ public partial class BookmarksViewModel : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCapabilities(BookmarksCapabilities? value)
+    public async Task SetCapabilities(BookmarksCapabilities value)
     {
 #pragma warning disable BL0005
         Capabilities = value;
@@ -459,10 +456,7 @@ public partial class BookmarksViewModel : IGoTo
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -492,7 +486,7 @@ public partial class BookmarksViewModel : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDefaultCreateOptions(BookmarkOptions? value)
+    public async Task SetDefaultCreateOptions(BookmarkOptions value)
     {
 #pragma warning disable BL0005
         DefaultCreateOptions = value;
@@ -531,7 +525,7 @@ public partial class BookmarksViewModel : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDefaultEditOptions(BookmarkOptions? value)
+    public async Task SetDefaultEditOptions(BookmarkOptions value)
     {
 #pragma warning disable BL0005
         DefaultEditOptions = value;

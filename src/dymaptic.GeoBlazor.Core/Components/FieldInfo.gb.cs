@@ -499,7 +499,7 @@ public partial class FieldInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetIsEditable(bool? value)
+    public async Task SetIsEditable(bool value)
     {
 #pragma warning disable BL0005
         IsEditable = value;
@@ -613,7 +613,7 @@ public partial class FieldInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStringFieldOption(StringFieldOption? value)
+    public async Task SetStringFieldOption(StringFieldOption value)
     {
 #pragma warning disable BL0005
         StringFieldOption = value;

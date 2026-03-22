@@ -367,7 +367,7 @@ public partial class RelationshipPopupContent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDisplayCount(int? value)
+    public async Task SetDisplayCount(int value)
     {
 #pragma warning disable BL0005
         DisplayCount = value;
@@ -405,7 +405,7 @@ public partial class RelationshipPopupContent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDisplayType(string? value)
+    public async Task SetDisplayType(string value)
     {
 #pragma warning disable BL0005
         DisplayType = value;
@@ -489,7 +489,7 @@ public partial class RelationshipPopupContent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRelationshipId(long? value)
+    public async Task SetRelationshipId(long value)
     {
 #pragma warning disable BL0005
         RelationshipId = value;

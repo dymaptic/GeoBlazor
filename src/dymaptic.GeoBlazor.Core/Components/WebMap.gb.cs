@@ -451,7 +451,7 @@ public partial class WebMap : ITimeSliderDocument,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPresentation(string? value)
+    public async Task SetPresentation(string value)
     {
 #pragma warning disable BL0005
         Presentation = value;

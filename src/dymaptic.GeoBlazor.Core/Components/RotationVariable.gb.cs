@@ -186,7 +186,7 @@ public partial class RotationVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAxis(Axis? value)
+    public async Task SetAxis(Axis value)
     {
 #pragma warning disable BL0005
         Axis = value;
@@ -224,7 +224,7 @@ public partial class RotationVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRotationType(RotationType? value)
+    public async Task SetRotationType(RotationType value)
     {
 #pragma warning disable BL0005
         RotationType = value;

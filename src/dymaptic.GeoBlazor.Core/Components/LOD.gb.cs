@@ -244,7 +244,7 @@ public partial class LOD
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLevel(int? value)
+    public async Task SetLevel(int value)
     {
 #pragma warning disable BL0005
         Level = value;
@@ -320,7 +320,7 @@ public partial class LOD
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetResolution(double? value)
+    public async Task SetResolution(double value)
     {
 #pragma warning disable BL0005
         Resolution = value;
@@ -358,7 +358,7 @@ public partial class LOD
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetScale(double? value)
+    public async Task SetScale(double value)
     {
 #pragma warning disable BL0005
         Scale = value;

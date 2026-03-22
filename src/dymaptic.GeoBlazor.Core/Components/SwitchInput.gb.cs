@@ -136,7 +136,7 @@ public partial class SwitchInput
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOffValue(string? value)
+    public async Task SetOffValue(string value)
     {
 #pragma warning disable BL0005
         OffValue = value;
@@ -174,7 +174,7 @@ public partial class SwitchInput
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOnValue(string? value)
+    public async Task SetOnValue(string value)
     {
 #pragma warning disable BL0005
         OnValue = value;

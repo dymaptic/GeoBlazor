@@ -1927,7 +1927,7 @@ public partial class WMSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBlendMode(BlendMode? value)
+    public async Task SetBlendMode(BlendMode value)
     {
 #pragma warning disable BL0005
         BlendMode = value;
@@ -2317,7 +2317,7 @@ public partial class WMSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetImageMaxHeight(int? value)
+    public async Task SetImageMaxHeight(int value)
     {
 #pragma warning disable BL0005
         ImageMaxHeight = value;
@@ -2355,7 +2355,7 @@ public partial class WMSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetImageMaxWidth(int? value)
+    public async Task SetImageMaxWidth(int value)
     {
 #pragma warning disable BL0005
         ImageMaxWidth = value;
@@ -2393,7 +2393,7 @@ public partial class WMSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetImageTransparency(bool? value)
+    public async Task SetImageTransparency(bool value)
     {
 #pragma warning disable BL0005
         ImageTransparency = value;
@@ -2431,7 +2431,7 @@ public partial class WMSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLegendEnabled(bool? value)
+    public async Task SetLegendEnabled(bool value)
     {
 #pragma warning disable BL0005
         LegendEnabled = value;
@@ -2469,7 +2469,7 @@ public partial class WMSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxScale(double? value)
+    public async Task SetMaxScale(double value)
     {
 #pragma warning disable BL0005
         MaxScale = value;
@@ -2507,7 +2507,7 @@ public partial class WMSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinScale(double? value)
+    public async Task SetMinScale(double value)
     {
 #pragma warning disable BL0005
         MinScale = value;
@@ -2545,7 +2545,7 @@ public partial class WMSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPersistenceEnabled(bool? value)
+    public async Task SetPersistenceEnabled(bool value)
     {
 #pragma warning disable BL0005
         PersistenceEnabled = value;
@@ -2627,7 +2627,7 @@ public partial class WMSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRefreshInterval(double? value)
+    public async Task SetRefreshInterval(double value)
     {
 #pragma warning disable BL0005
         RefreshInterval = value;
@@ -2665,7 +2665,7 @@ public partial class WMSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSpatialReference(SpatialReference? value)
+    public async Task SetSpatialReference(SpatialReference value)
     {
 #pragma warning disable BL0005
         SpatialReference = value;
@@ -2676,10 +2676,7 @@ public partial class WMSLayer : Layer,
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -2747,7 +2744,7 @@ public partial class WMSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSublayers(IReadOnlyList<WMSSublayer>? value)
+    public async Task SetSublayers(IReadOnlyList<WMSSublayer> value)
     {
 #pragma warning disable BL0005
         Sublayers = value;
@@ -2758,12 +2755,9 @@ public partial class WMSLayer : Layer,
         {
             return;
         }
-        if (value is not null)
+        foreach (WMSSublayer item in value)
         {
-            foreach (WMSSublayer item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     
@@ -2926,7 +2920,7 @@ public partial class WMSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUrl(string? value)
+    public async Task SetUrl(string value)
     {
 #pragma warning disable BL0005
         Url = value;
@@ -2964,7 +2958,7 @@ public partial class WMSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUseViewTime(bool? value)
+    public async Task SetUseViewTime(bool value)
     {
 #pragma warning disable BL0005
         UseViewTime = value;
@@ -3002,7 +2996,7 @@ public partial class WMSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetVersion(string? value)
+    public async Task SetVersion(string value)
     {
 #pragma warning disable BL0005
         Version = value;

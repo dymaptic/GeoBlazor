@@ -339,7 +339,7 @@ public partial class Search : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAddressSearchEnabled(bool? value)
+    public async Task SetAddressSearchEnabled(bool value)
     {
 #pragma warning disable BL0005
         AddressSearchEnabled = value;
@@ -377,7 +377,7 @@ public partial class Search : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetEnabled(bool? value)
+    public async Task SetEnabled(bool value)
     {
 #pragma warning disable BL0005
         Enabled = value;
@@ -453,7 +453,7 @@ public partial class Search : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLayers(IReadOnlyList<SearchLayer>? value)
+    public async Task SetLayers(IReadOnlyList<SearchLayer> value)
     {
 #pragma warning disable BL0005
         Layers = value;
@@ -464,12 +464,9 @@ public partial class Search : MapComponent
         {
             return;
         }
-        if (value is not null)
+        foreach (SearchLayer item in value)
         {
-            foreach (SearchLayer item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     
@@ -499,7 +496,7 @@ public partial class Search : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTables(IReadOnlyList<SearchTable>? value)
+    public async Task SetTables(IReadOnlyList<SearchTable> value)
     {
 #pragma warning disable BL0005
         Tables = value;
@@ -510,12 +507,9 @@ public partial class Search : MapComponent
         {
             return;
         }
-        if (value is not null)
+        foreach (SearchTable item in value)
         {
-            foreach (SearchTable item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     

@@ -642,7 +642,7 @@ public partial class LegendWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetActiveLayerInfos(IReadOnlyList<ActiveLayerInfo>? value)
+    public async Task SetActiveLayerInfos(IReadOnlyList<ActiveLayerInfo> value)
     {
 #pragma warning disable BL0005
         ActiveLayerInfos = value;
@@ -653,12 +653,9 @@ public partial class LegendWidget
         {
             return;
         }
-        if (value is not null)
+        foreach (ActiveLayerInfo item in value)
         {
-            foreach (ActiveLayerInfo item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     
@@ -689,7 +686,7 @@ public partial class LegendWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBasemapLegendVisible(bool? value)
+    public async Task SetBasemapLegendVisible(bool value)
     {
 #pragma warning disable BL0005
         BasemapLegendVisible = value;
@@ -727,7 +724,7 @@ public partial class LegendWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHeadingLevel(double? value)
+    public async Task SetHeadingLevel(double value)
     {
 #pragma warning disable BL0005
         HeadingLevel = value;
@@ -765,7 +762,7 @@ public partial class LegendWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHideLayersNotInCurrentView(bool? value)
+    public async Task SetHideLayersNotInCurrentView(bool value)
     {
 #pragma warning disable BL0005
         HideLayersNotInCurrentView = value;
@@ -803,7 +800,7 @@ public partial class LegendWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLayerInfos(IReadOnlyList<LegendLayerInfos>? value)
+    public async Task SetLayerInfos(IReadOnlyList<LegendLayerInfos> value)
     {
 #pragma warning disable BL0005
         LayerInfos = value;
@@ -814,12 +811,9 @@ public partial class LegendWidget
         {
             return;
         }
-        if (value is not null)
+        foreach (LegendLayerInfos item in value)
         {
-            foreach (LegendLayerInfos item in value)
-            {
-                item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            }
+            item.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         }
         
     
@@ -850,7 +844,7 @@ public partial class LegendWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRespectLayerDefinitionExpression(bool? value)
+    public async Task SetRespectLayerDefinitionExpression(bool value)
     {
 #pragma warning disable BL0005
         RespectLayerDefinitionExpression = value;
@@ -888,7 +882,7 @@ public partial class LegendWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRespectLayerVisibility(bool? value)
+    public async Task SetRespectLayerVisibility(bool value)
     {
 #pragma warning disable BL0005
         RespectLayerVisibility = value;
@@ -926,7 +920,7 @@ public partial class LegendWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStyle(LegendStyle? value)
+    public async Task SetStyle(LegendStyle value)
     {
 #pragma warning disable BL0005
         Style = value;
@@ -937,10 +931,7 @@ public partial class LegendWidget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 
@@ -970,7 +961,7 @@ public partial class LegendWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetViewModel(LegendViewModel? value)
+    public async Task SetViewModel(LegendViewModel value)
     {
 #pragma warning disable BL0005
         ViewModel = value;
@@ -981,10 +972,7 @@ public partial class LegendWidget
         {
             return;
         }
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
+        value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
         
     
         try 

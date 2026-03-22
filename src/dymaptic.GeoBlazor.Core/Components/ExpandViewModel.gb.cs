@@ -277,7 +277,7 @@ public partial class ExpandViewModel : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAutoCollapse(bool? value)
+    public async Task SetAutoCollapse(bool value)
     {
 #pragma warning disable BL0005
         AutoCollapse = value;
@@ -315,7 +315,7 @@ public partial class ExpandViewModel : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetExpanded(bool? value)
+    public async Task SetExpanded(bool value)
     {
 #pragma warning disable BL0005
         Expanded = value;
