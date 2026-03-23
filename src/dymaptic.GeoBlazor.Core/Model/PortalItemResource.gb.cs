@@ -36,7 +36,7 @@ public partial record PortalItemResource(
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">portal item</a> that owns the resource.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public PortalItem PortalItem { get; set; } = PortalItem;
+    public PortalItem? PortalItem { get; set; } = PortalItem;
     
     /// <summary>
     ///     Represents the JavaScript component reference.

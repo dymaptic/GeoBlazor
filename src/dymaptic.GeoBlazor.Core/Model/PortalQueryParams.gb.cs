@@ -84,7 +84,7 @@ public partial record PortalQueryParams(
     ///     default 10
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html#num">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public double Num { get; set; } = Num;
+    public double? Num { get; set; } = Num;
     
     /// <summary>
     ///     The query string used for the search.
@@ -103,13 +103,13 @@ public partial record PortalQueryParams(
     ///     default "asc"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html#sortOrder">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public PortalQuerySortOrder SortOrder { get; set; } = SortOrder;
+    public PortalQuerySortOrder? SortOrder { get; set; } = SortOrder;
     
     /// <summary>
     ///     The index of the first entry in the result set response.
     ///     default 1
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html#start">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public double Start { get; set; } = Start;
+    public double? Start { get; set; } = Start;
     
 }

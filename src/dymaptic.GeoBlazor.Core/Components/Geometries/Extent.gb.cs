@@ -290,7 +290,7 @@ public partial class Extent
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Xmax = result;
+                Xmax = result.Value;
 #pragma warning restore BL0005
                 ModifiedParameters[nameof(Xmax)] = Xmax;
         }
@@ -331,7 +331,7 @@ public partial class Extent
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Xmin = result;
+                Xmin = result.Value;
 #pragma warning restore BL0005
                 ModifiedParameters[nameof(Xmin)] = Xmin;
         }
@@ -372,7 +372,7 @@ public partial class Extent
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Ymax = result;
+                Ymax = result.Value;
 #pragma warning restore BL0005
                 ModifiedParameters[nameof(Ymax)] = Ymax;
         }
@@ -413,7 +413,7 @@ public partial class Extent
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Ymin = result;
+                Ymin = result.Value;
 #pragma warning restore BL0005
                 ModifiedParameters[nameof(Ymin)] = Ymin;
         }

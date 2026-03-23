@@ -82,7 +82,7 @@ public partial class AlgorithmicColorRamp
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Algorithm = result;
+                Algorithm = result.Value;
 #pragma warning restore BL0005
                 ModifiedParameters[nameof(Algorithm)] = Algorithm;
         }

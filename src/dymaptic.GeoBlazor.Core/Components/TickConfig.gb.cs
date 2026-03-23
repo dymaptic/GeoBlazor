@@ -201,7 +201,7 @@ public partial class TickConfig
         if (result is not null)
         {
 #pragma warning disable BL0005
-                Mode = result;
+                Mode = result.Value;
 #pragma warning restore BL0005
                 ModifiedParameters[nameof(Mode)] = Mode;
         }

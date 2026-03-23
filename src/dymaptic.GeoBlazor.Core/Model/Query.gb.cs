@@ -303,7 +303,7 @@ public partial record Query(
     ///     default 1
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#maxRecordCountFactor">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public int MaxRecordCountFactor { get; set; } = MaxRecordCountFactor;
+    public int? MaxRecordCountFactor { get; set; } = MaxRecordCountFactor;
     
     /// <summary>
     ///     Parameter dictates how the geometry of a multipatch feature will be returned.
@@ -385,14 +385,14 @@ public partial record Query(
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#returnCentroid">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public bool ReturnCentroid { get; set; } = ReturnCentroid;
+    public bool? ReturnCentroid { get; set; } = ReturnCentroid;
     
     /// <summary>
     ///     If `true` then the query returns distinct values based on the field(s) specified in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outFields">outFields</a>.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#returnDistinctValues">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public bool ReturnDistinctValues { get; set; } = ReturnDistinctValues;
+    public bool? ReturnDistinctValues { get; set; } = ReturnDistinctValues;
     
     /// <summary>
     ///     If `true`, then all features are returned for each tile request, even if they exceed the
@@ -400,14 +400,14 @@ public partial record Query(
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#returnExceededLimitFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public bool ReturnExceededLimitFeatures { get; set; } = ReturnExceededLimitFeatures;
+    public bool? ReturnExceededLimitFeatures { get; set; } = ReturnExceededLimitFeatures;
     
     /// <summary>
     ///     If `true`, each feature in the returned <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSet</a> includes the geometry.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#returnGeometry">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public bool ReturnGeometry { get; set; } = ReturnGeometry;
+    public bool? ReturnGeometry { get; set; } = ReturnGeometry;
     
     /// <summary>
     ///     If `true`, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#returnGeometry">returnGeometry</a> is `true`, then m-values are included in the geometry.
@@ -420,7 +420,7 @@ public partial record Query(
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#returnQueryGeometry">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public bool ReturnQueryGeometry { get; set; } = ReturnQueryGeometry;
+    public bool? ReturnQueryGeometry { get; set; } = ReturnQueryGeometry;
     
     /// <summary>
     ///     If `true`, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#returnGeometry">returnGeometry</a> is `true`, then z-values are included in the geometry.
@@ -433,7 +433,7 @@ public partial record Query(
     ///     default intersects
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#spatialRelationship">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public SpatialRelationship SpatialRelationship { get; set; } = SpatialRelationship;
+    public SpatialRelationship? SpatialRelationship { get; set; } = SpatialRelationship;
     
     /// <summary>
     ///     This parameter can be either standard SQL92 `standard` or it can use the native SQL of the underlying datastore `native`.

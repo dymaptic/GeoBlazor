@@ -74,7 +74,7 @@ public partial record Relationship(
     ///     number of objects in the destination <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html#cardinality">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public Cardinality Cardinality { get; set; } = Cardinality;
+    public Cardinality? Cardinality { get; set; } = Cardinality;
     
     /// <summary>
     ///     The globally unique identifier for the relationship.
@@ -86,19 +86,19 @@ public partial record Relationship(
     ///     Indicates whether the relationship is composite.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html#composite">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public bool Composite { get; set; } = Composite;
+    public bool? Composite { get; set; } = Composite;
     
     /// <summary>
     ///     The field used to establish the relate within the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html#keyField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public string KeyField { get; set; } = KeyField;
+    public string? KeyField { get; set; } = KeyField;
     
     /// <summary>
     ///     The key field in an attributed relationship class table that matches the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html#keyField">keyField</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html#keyFieldInRelationshipTable">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public string KeyFieldInRelationshipTable { get; set; } = KeyFieldInRelationshipTable;
+    public string? KeyFieldInRelationshipTable { get; set; } = KeyFieldInRelationshipTable;
     
     /// <summary>
     ///     The name of the relationship.
@@ -110,24 +110,24 @@ public partial record Relationship(
     ///     The unique ID of the related <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html#relatedTableId">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public long RelatedTableId { get; set; } = RelatedTableId;
+    public long? RelatedTableId { get; set; } = RelatedTableId;
     
     /// <summary>
     ///     The unique ID for the relationship.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public long RelationshipId { get; set; } = RelationshipId;
+    public long? RelationshipId { get; set; } = RelationshipId;
     
     /// <summary>
     ///     The relationship table id.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html#relationshipTableId">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public long RelationshipTableId { get; set; } = RelationshipTableId;
+    public long? RelationshipTableId { get; set; } = RelationshipTableId;
     
     /// <summary>
     ///     Indicates whether the table participating in the relationship is the `origin` or `destination` table.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html#role">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public Role Role { get; set; } = Role;
+    public Role? Role { get; set; } = Role;
     
 }

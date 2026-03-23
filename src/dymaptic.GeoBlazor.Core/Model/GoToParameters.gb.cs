@@ -30,6 +30,6 @@ public partial record GoToParameters(
     /// <summary>
     ///     
     /// </summary>
-    public GoToTarget Target { get; set; } = Target;
+    public GoToTarget? Target { get; set; } = Target;
     
 }

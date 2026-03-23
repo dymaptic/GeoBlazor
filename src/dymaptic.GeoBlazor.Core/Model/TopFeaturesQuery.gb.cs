@@ -142,14 +142,14 @@ public partial record TopFeaturesQuery(
     ///     Specifies the number of decimal places for geometries returned by the query operation.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html#geometryPrecision">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public double GeometryPrecision { get; set; } = GeometryPrecision;
+    public double? GeometryPrecision { get; set; } = GeometryPrecision;
     
     /// <summary>
     ///     The maximum distance in units of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html#outSpatialReference">outSpatialReference</a> used for
     ///     generalizing geometries returned by the query operation.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html#maxAllowableOffset">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public double MaxAllowableOffset { get; set; } = MaxAllowableOffset;
+    public double? MaxAllowableOffset { get; set; } = MaxAllowableOffset;
     
     /// <summary>
     ///     The number of features to retrieve.
@@ -187,26 +187,26 @@ public partial record TopFeaturesQuery(
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html#returnGeometry">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public bool ReturnGeometry { get; set; } = ReturnGeometry;
+    public bool? ReturnGeometry { get; set; } = ReturnGeometry;
     
     /// <summary>
     ///     If `true`, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html#returnGeometry">returnGeometry</a> is `true`, then m-values are included in the geometry.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html#returnM">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public bool ReturnM { get; set; } = ReturnM;
+    public bool? ReturnM { get; set; } = ReturnM;
     
     /// <summary>
     ///     If `true`, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html#returnGeometry">returnGeometry</a> is `true`, then z-values are included in the geometry.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html#returnZ">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public bool ReturnZ { get; set; } = ReturnZ;
+    public bool? ReturnZ { get; set; } = ReturnZ;
     
     /// <summary>
     ///     For spatial queries, this parameter defines the spatial relationship to query features in the layer or layer view against the input <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html#geometry">geometry</a>.
     ///     default intersects
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html#spatialRelationship">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public SpatialRelationship SpatialRelationship { get; set; } = SpatialRelationship;
+    public SpatialRelationship? SpatialRelationship { get; set; } = SpatialRelationship;
     
     /// <summary>
     ///     The zero-based index indicating where to begin retrieving features.
@@ -225,7 +225,7 @@ public partial record TopFeaturesQuery(
     ///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html#topCount">topCount</a> criteria used in generating the result.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html#topFilter">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public TopFilter TopFilter { get; set; } = TopFilter;
+    public TopFilter? TopFilter { get; set; } = TopFilter;
     
     /// <summary>
     ///     The unit for calculating the buffer distance when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html#distance">distance</a> is specified in spatial queries.

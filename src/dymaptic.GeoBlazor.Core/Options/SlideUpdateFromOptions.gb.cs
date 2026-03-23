@@ -17,6 +17,6 @@ public partial record SlideUpdateFromOptions(
     ///     Screenshot options to use.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webscene-Slide.html#updateFrom">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public SlideUpdateFromOptionsScreenshot Screenshot { get; set; } = Screenshot;
+    public SlideUpdateFromOptionsScreenshot? Screenshot { get; set; } = Screenshot;
     
 }
