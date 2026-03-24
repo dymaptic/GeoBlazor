@@ -156,11 +156,13 @@ export default class ImageryLayerGenerated extends BaseComponent {
     
     // region methods
     async calculateVolume(parameters: any,
-        requestOptions: any,
-        signal: AbortSignal): Promise<any> {
+        requestOptions?: any | null,
+        signal?: AbortSignal): Promise<any> {
         requestOptions.signal = signal;
-        return await this.layer.calculateVolume(parameters,
-            requestOptions);
+        let paramList: any[] = [];
+        paramList.push(parameters);
+        paramList.push(requestOptions);
+        return await this.layer.calculateVolume(...paramList as [any, any]);
     }
 
     async cancelLoad(): Promise<void> {
@@ -168,9 +170,10 @@ export default class ImageryLayerGenerated extends BaseComponent {
     }
 
     async computeAngles(parameters: any,
-        requestOptions: any,
-        signal: AbortSignal): Promise<any> {
+        requestOptions?: any | null,
+        signal?: AbortSignal): Promise<any> {
         requestOptions.signal = signal;
+        let paramList: any[] = [];
         let jsParameters: any;
         if (!Pro) {
             jsParameters = null;
@@ -184,8 +187,9 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        let result = await this.layer.computeAngles(jsParameters,
-            requestOptions) as any;
+        paramList.push(jsParameters);
+        paramList.push(requestOptions);
+        let result = await this.layer.computeAngles(...paramList as [any, any]) as any;
         if (!Pro) {
             return null;
         }
@@ -200,9 +204,10 @@ export default class ImageryLayerGenerated extends BaseComponent {
     }
 
     async computeHistograms(parameters: any,
-        requestOptions: any,
-        signal: AbortSignal): Promise<any> {
+        requestOptions?: any | null,
+        signal?: AbortSignal): Promise<any> {
         requestOptions.signal = signal;
+        let paramList: any[] = [];
         let jsParameters: any;
         if (!Pro) {
             jsParameters = null;
@@ -216,14 +221,16 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        return await this.layer.computeHistograms(jsParameters,
-            requestOptions);
+        paramList.push(jsParameters);
+        paramList.push(requestOptions);
+        return await this.layer.computeHistograms(...paramList as [any, any]);
     }
 
     async computePixelSpaceLocations(parameters: any,
-        requestOptions: any,
-        signal: AbortSignal): Promise<any> {
+        requestOptions?: any | null,
+        signal?: AbortSignal): Promise<any> {
         requestOptions.signal = signal;
+        let paramList: any[] = [];
         let jsParameters: any;
         if (!Pro) {
             jsParameters = null;
@@ -237,14 +244,16 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        return await this.layer.computePixelSpaceLocations(jsParameters,
-            requestOptions);
+        paramList.push(jsParameters);
+        paramList.push(requestOptions);
+        return await this.layer.computePixelSpaceLocations(...paramList as [any, any]);
     }
 
     async computeStatisticsHistograms(parameters: any,
-        requestOptions: any,
-        signal: AbortSignal): Promise<any> {
+        requestOptions?: any | null,
+        signal?: AbortSignal): Promise<any> {
         requestOptions.signal = signal;
+        let paramList: any[] = [];
         let jsParameters: any;
         if (!Pro) {
             jsParameters = null;
@@ -258,21 +267,28 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        return await this.layer.computeStatisticsHistograms(jsParameters,
-            requestOptions);
+        paramList.push(jsParameters);
+        paramList.push(requestOptions);
+        return await this.layer.computeStatisticsHistograms(...paramList as [any, any]);
     }
 
     async createLayerView(view: any,
-        signal: AbortSignal): Promise<any> {
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        let result = await this.layer.createLayerView(view,
-            options) as any;
+        let paramList: any[] = [];
+        paramList.push(view);
+        paramList.push(options);
+        let result = await this.layer.createLayerView(...paramList as [any, any]) as any;
         let { buildDotNetLayerView } = await import('./layerView');
         return await buildDotNetLayerView(result, this.layerId, this.viewId);
     }
 
-    async createPopupTemplate(options: any): Promise<any> {
-        let result = this.layer.createPopupTemplate(options) as any;
+    async createPopupTemplate(options?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        if (options !== null) {
+            paramList.push(options);
+        }
+        let result = this.layer.createPopupTemplate(...paramList as [any]) as any;
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
         return await buildDotNetPopupTemplate(result);
     }
@@ -284,38 +300,44 @@ export default class ImageryLayerGenerated extends BaseComponent {
     async fetchImage(extent: any,
         width: any,
         height: any,
-        signal: AbortSignal): Promise<any> {
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
+        let paramList: any[] = [];
         let { buildJsExtent } = await import('./extent');
         let jsExtent = buildJsExtent(extent) as any;
-        return await this.layer.fetchImage(jsExtent,
-            width,
-            height,
-            options);
+        paramList.push(jsExtent);
+        paramList.push(width);
+        paramList.push(height);
+        paramList.push(options);
+        return await this.layer.fetchImage(...paramList as [any, any, any, any]);
     }
 
     async fetchPixels(extent: any,
         width: any,
         height: any,
-        options: any,
-        signal: AbortSignal): Promise<any> {
+        options?: any | null,
+        signal?: AbortSignal): Promise<any> {
         options.signal = signal;
+        let paramList: any[] = [];
         let { buildJsExtent } = await import('./extent');
         let jsExtent = buildJsExtent(extent) as any;
-        return await this.layer.fetchPixels(jsExtent,
-            width,
-            height,
-            options);
+        paramList.push(jsExtent);
+        paramList.push(width);
+        paramList.push(height);
+        paramList.push(options);
+        return await this.layer.fetchPixels(...paramList as [any, any, any, any]);
     }
 
     async findImages(parameters: any,
-        requestOptions: any,
-        signal: AbortSignal): Promise<any> {
+        requestOptions?: any | null,
+        signal?: AbortSignal): Promise<any> {
         requestOptions.signal = signal;
+        let paramList: any[] = [];
         let { buildJsFindImagesParameters } = await import('./findImagesParameters');
         let jsParameters = await buildJsFindImagesParameters(parameters, this.layerId, this.viewId) as any;
-        let result = await this.layer.findImages(jsParameters,
-            requestOptions) as any;
+        paramList.push(jsParameters);
+        paramList.push(requestOptions);
+        let result = await this.layer.findImages(...paramList as [any, any]) as any;
         if (!Pro) {
             return null;
         }
@@ -329,45 +351,59 @@ export default class ImageryLayerGenerated extends BaseComponent {
         }
     }
 
-    async generateRasterInfo(rasterFunction: any,
-        signal: AbortSignal): Promise<any> {
+    async generateRasterInfo(rasterFunction?: any | null,
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
+        let paramList: any[] = [];
+        let skippedLastParam = false;
         let { buildJsRasterFunction } = await import('./rasterFunction');
         let jsRasterFunction = await buildJsRasterFunction(rasterFunction) as any;
-        let result = await this.layer.generateRasterInfo(jsRasterFunction,
-            options) as any;
+        if (jsRasterFunction !== null) {
+            paramList.push(jsRasterFunction);
+        } else {
+            skippedLastParam = true;
+        }
+        paramList.push(options);
+        let result = await this.layer.generateRasterInfo(...paramList as [any, any]) as any;
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
         return await buildDotNetRasterInfo(result, this.viewId);
     }
 
     async getCatalogItemICSInfo(rasterId: any,
-        signal: AbortSignal): Promise<any> {
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.layer.getCatalogItemICSInfo(rasterId,
-            options);
+        let paramList: any[] = [];
+        paramList.push(rasterId);
+        paramList.push(options);
+        return await this.layer.getCatalogItemICSInfo(...paramList as [any, any]);
     }
 
     async getCatalogItemRasterInfo(rasterId: any,
-        signal: AbortSignal): Promise<any> {
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        let result = await this.layer.getCatalogItemRasterInfo(rasterId,
-            options) as any;
+        let paramList: any[] = [];
+        paramList.push(rasterId);
+        paramList.push(options);
+        let result = await this.layer.getCatalogItemRasterInfo(...paramList as [any, any]) as any;
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
         return await buildDotNetRasterInfo(result, this.viewId);
     }
 
     async getImageUrl(parameters: any,
-        requestOptions: any,
-        signal: AbortSignal): Promise<any> {
+        requestOptions?: any | null,
+        signal?: AbortSignal): Promise<any> {
         requestOptions.signal = signal;
-        return await this.layer.getImageUrl(parameters,
-            requestOptions);
+        let paramList: any[] = [];
+        paramList.push(parameters);
+        paramList.push(requestOptions);
+        return await this.layer.getImageUrl(...paramList as [any, any]);
     }
 
     async getSamples(parameters: any,
-        requestOptions: any,
-        signal: AbortSignal): Promise<any> {
+        requestOptions?: any | null,
+        signal?: AbortSignal): Promise<any> {
         requestOptions.signal = signal;
+        let paramList: any[] = [];
         let jsParameters: any;
         if (!Pro) {
             jsParameters = null;
@@ -381,8 +417,9 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        let result = await this.layer.getSamples(jsParameters,
-            requestOptions) as any;
+        paramList.push(jsParameters);
+        paramList.push(requestOptions);
+        let result = await this.layer.getSamples(...paramList as [any, any]) as any;
         if (!Pro) {
             return null;
         }
@@ -397,9 +434,10 @@ export default class ImageryLayerGenerated extends BaseComponent {
     }
 
     async identify(parameters: any,
-        requestOptions: any,
-        signal: AbortSignal): Promise<any> {
+        requestOptions?: any | null,
+        signal?: AbortSignal): Promise<any> {
         requestOptions.signal = signal;
+        let paramList: any[] = [];
         let jsParameters: any;
         if (!Pro) {
             jsParameters = null;
@@ -413,8 +451,9 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        let result = await this.layer.identify(jsParameters,
-            requestOptions) as any;
+        paramList.push(jsParameters);
+        paramList.push(requestOptions);
+        let result = await this.layer.identify(...paramList as [any, any]) as any;
         if (!Pro) {
             return null;
         }
@@ -429,9 +468,10 @@ export default class ImageryLayerGenerated extends BaseComponent {
     }
 
     async imageToMap(parameters: any,
-        requestOptions: any,
-        signal: AbortSignal): Promise<any> {
+        requestOptions?: any | null,
+        signal?: AbortSignal): Promise<any> {
         requestOptions.signal = signal;
+        let paramList: any[] = [];
         let jsParameters: any;
         if (!Pro) {
             jsParameters = null;
@@ -445,16 +485,18 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        let result = await this.layer.imageToMap(jsParameters,
-            requestOptions) as any;
+        paramList.push(jsParameters);
+        paramList.push(requestOptions);
+        let result = await this.layer.imageToMap(...paramList as [any, any]) as any;
         let { buildDotNetGeometry } = await import('./geometry');
         return buildDotNetGeometry(result);
     }
 
     async imageToMapMultiray(parameters: any,
-        requestOptions: any,
-        signal: AbortSignal): Promise<any> {
+        requestOptions?: any | null,
+        signal?: AbortSignal): Promise<any> {
         requestOptions.signal = signal;
+        let paramList: any[] = [];
         let jsParameters: any;
         if (!Pro) {
             jsParameters = null;
@@ -468,8 +510,9 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        let result = await this.layer.imageToMapMultiray(jsParameters,
-            requestOptions) as any;
+        paramList.push(jsParameters);
+        paramList.push(requestOptions);
+        let result = await this.layer.imageToMapMultiray(...paramList as [any, any]) as any;
         let { buildDotNetGeometry } = await import('./geometry');
         return buildDotNetGeometry(result);
     }
@@ -487,9 +530,10 @@ export default class ImageryLayerGenerated extends BaseComponent {
     }
 
     async mapToImage(parameters: any,
-        requestOptions: any,
-        signal: AbortSignal): Promise<any> {
+        requestOptions?: any | null,
+        signal?: AbortSignal): Promise<any> {
         requestOptions.signal = signal;
+        let paramList: any[] = [];
         let jsParameters: any;
         if (!Pro) {
             jsParameters = null;
@@ -503,16 +547,18 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        let result = await this.layer.mapToImage(jsParameters,
-            requestOptions) as any;
+        paramList.push(jsParameters);
+        paramList.push(requestOptions);
+        let result = await this.layer.mapToImage(...paramList as [any, any]) as any;
         let { buildDotNetGeometry } = await import('./geometry');
         return buildDotNetGeometry(result);
     }
 
     async measureAreaAndPerimeter(parameters: any,
-        requestOptions: any,
-        signal: AbortSignal): Promise<any> {
+        requestOptions?: any | null,
+        signal?: AbortSignal): Promise<any> {
         requestOptions.signal = signal;
+        let paramList: any[] = [];
         let jsParameters: any;
         if (!Pro) {
             jsParameters = null;
@@ -526,14 +572,16 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        return await this.layer.measureAreaAndPerimeter(jsParameters,
-            requestOptions);
+        paramList.push(jsParameters);
+        paramList.push(requestOptions);
+        return await this.layer.measureAreaAndPerimeter(...paramList as [any, any]);
     }
 
     async measureAreaFromImage(parameters: any,
-        requestOptions: any,
-        signal: AbortSignal): Promise<any> {
+        requestOptions?: any | null,
+        signal?: AbortSignal): Promise<any> {
         requestOptions.signal = signal;
+        let paramList: any[] = [];
         let jsParameters: any;
         if (!Pro) {
             jsParameters = null;
@@ -547,8 +595,9 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        let result = await this.layer.measureAreaFromImage(jsParameters,
-            requestOptions) as any;
+        paramList.push(jsParameters);
+        paramList.push(requestOptions);
+        let result = await this.layer.measureAreaFromImage(...paramList as [any, any]) as any;
         if (!Pro) {
             return null;
         }
@@ -563,9 +612,10 @@ export default class ImageryLayerGenerated extends BaseComponent {
     }
 
     async measureDistanceAndAngle(parameters: any,
-        requestOptions: any,
-        signal: AbortSignal): Promise<any> {
+        requestOptions?: any | null,
+        signal?: AbortSignal): Promise<any> {
         requestOptions.signal = signal;
+        let paramList: any[] = [];
         let jsParameters: any;
         if (!Pro) {
             jsParameters = null;
@@ -579,14 +629,16 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        return await this.layer.measureDistanceAndAngle(jsParameters,
-            requestOptions);
+        paramList.push(jsParameters);
+        paramList.push(requestOptions);
+        return await this.layer.measureDistanceAndAngle(...paramList as [any, any]);
     }
 
     async measureHeight(parameters: any,
-        requestOptions: any,
-        signal: AbortSignal): Promise<any> {
+        requestOptions?: any | null,
+        signal?: AbortSignal): Promise<any> {
         requestOptions.signal = signal;
+        let paramList: any[] = [];
         let jsParameters: any;
         if (!Pro) {
             jsParameters = null;
@@ -600,14 +652,16 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        return await this.layer.measureHeight(jsParameters,
-            requestOptions);
+        paramList.push(jsParameters);
+        paramList.push(requestOptions);
+        return await this.layer.measureHeight(...paramList as [any, any]);
     }
 
     async measureLengthFromImage(parameters: any,
-        requestOptions: any,
-        signal: AbortSignal): Promise<any> {
+        requestOptions?: any | null,
+        signal?: AbortSignal): Promise<any> {
         requestOptions.signal = signal;
+        let paramList: any[] = [];
         let jsParameters: any;
         if (!Pro) {
             jsParameters = null;
@@ -621,8 +675,9 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        let result = await this.layer.measureLengthFromImage(jsParameters,
-            requestOptions) as any;
+        paramList.push(jsParameters);
+        paramList.push(requestOptions);
+        let result = await this.layer.measureLengthFromImage(...paramList as [any, any]) as any;
         if (!Pro) {
             return null;
         }
@@ -637,9 +692,10 @@ export default class ImageryLayerGenerated extends BaseComponent {
     }
 
     async measurePointOrCentroid(parameters: any,
-        requestOptions: any,
-        signal: AbortSignal): Promise<any> {
+        requestOptions?: any | null,
+        signal?: AbortSignal): Promise<any> {
         requestOptions.signal = signal;
+        let paramList: any[] = [];
         let jsParameters: any;
         if (!Pro) {
             jsParameters = null;
@@ -653,8 +709,9 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        let result = await this.layer.measurePointOrCentroid(jsParameters,
-            requestOptions) as any;
+        paramList.push(jsParameters);
+        paramList.push(requestOptions);
+        let result = await this.layer.measurePointOrCentroid(...paramList as [any, any]) as any;
         if (!Pro) {
             return null;
         }
@@ -669,9 +726,10 @@ export default class ImageryLayerGenerated extends BaseComponent {
     }
 
     async queryBoundary(parameters: any,
-        requestOptions: any,
-        signal: AbortSignal): Promise<any> {
+        requestOptions?: any | null,
+        signal?: AbortSignal): Promise<any> {
         requestOptions.signal = signal;
+        let paramList: any[] = [];
         let jsParameters: any;
         if (!Pro) {
             jsParameters = null;
@@ -685,8 +743,9 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        let result = await this.layer.queryBoundary(jsParameters,
-            requestOptions) as any;
+        paramList.push(jsParameters);
+        paramList.push(requestOptions);
+        let result = await this.layer.queryBoundary(...paramList as [any, any]) as any;
         if (!Pro) {
             return null;
         }
@@ -701,9 +760,10 @@ export default class ImageryLayerGenerated extends BaseComponent {
     }
 
     async queryGPSInfo(parameters: any,
-        requestOptions: any,
-        signal: AbortSignal): Promise<any> {
+        requestOptions?: any | null,
+        signal?: AbortSignal): Promise<any> {
         requestOptions.signal = signal;
+        let paramList: any[] = [];
         let jsParameters: any;
         if (!Pro) {
             jsParameters = null;
@@ -717,8 +777,9 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        let result = await this.layer.queryGPSInfo(jsParameters,
-            requestOptions) as any;
+        paramList.push(jsParameters);
+        paramList.push(requestOptions);
+        let result = await this.layer.queryGPSInfo(...paramList as [any, any]) as any;
         if (!Pro) {
             return null;
         }
@@ -732,34 +793,55 @@ export default class ImageryLayerGenerated extends BaseComponent {
         }
     }
 
-    async queryObjectIds(query: any,
-        requestOptions: any,
-        signal: AbortSignal): Promise<any> {
+    async queryObjectIds(query?: any | null,
+        requestOptions?: any | null,
+        signal?: AbortSignal): Promise<any> {
         requestOptions.signal = signal;
+        let paramList: any[] = [];
+        let skippedLastParam = false;
         let { buildJsQuery } = await import('./query');
         let jsQuery = buildJsQuery(query) as any;
-        return await this.layer.queryObjectIds(jsQuery,
-            requestOptions);
+        if (jsQuery !== null) {
+            paramList.push(jsQuery);
+        } else {
+            skippedLastParam = true;
+        }
+        paramList.push(requestOptions);
+        return await this.layer.queryObjectIds(...paramList as [any, any]);
     }
 
-    async queryRasterCount(query: any,
-        requestOptions: any,
-        signal: AbortSignal): Promise<any> {
+    async queryRasterCount(query?: any | null,
+        requestOptions?: any | null,
+        signal?: AbortSignal): Promise<any> {
         requestOptions.signal = signal;
+        let paramList: any[] = [];
+        let skippedLastParam = false;
         let { buildJsQuery } = await import('./query');
         let jsQuery = buildJsQuery(query) as any;
-        return await this.layer.queryRasterCount(jsQuery,
-            requestOptions);
+        if (jsQuery !== null) {
+            paramList.push(jsQuery);
+        } else {
+            skippedLastParam = true;
+        }
+        paramList.push(requestOptions);
+        return await this.layer.queryRasterCount(...paramList as [any, any]);
     }
 
-    async queryRasters(query: any,
-        requestOptions: any,
-        signal: AbortSignal): Promise<any> {
+    async queryRasters(query?: any | null,
+        requestOptions?: any | null,
+        signal?: AbortSignal): Promise<any> {
         requestOptions.signal = signal;
+        let paramList: any[] = [];
+        let skippedLastParam = false;
         let { buildJsQuery } = await import('./query');
         let jsQuery = buildJsQuery(query) as any;
-        let result = await this.layer.queryRasters(jsQuery,
-            requestOptions) as any;
+        if (jsQuery !== null) {
+            paramList.push(jsQuery);
+        } else {
+            skippedLastParam = true;
+        }
+        paramList.push(requestOptions);
+        let result = await this.layer.queryRasters(...paramList as [any, any]) as any;
         let { buildDotNetFeatureSet } = await import('./featureSet');
         return await buildDotNetFeatureSet(result, this.layerId, this.viewId);
     }
@@ -772,16 +854,22 @@ export default class ImageryLayerGenerated extends BaseComponent {
         this.layer.refresh();
     }
 
-    async save(options: any): Promise<any> {
-        let result = await this.layer.save(options) as any;
+    async save(options?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        if (options !== null) {
+            paramList.push(options);
+        }
+        let result = await this.layer.save(...paramList as [any]) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
     async saveAs(portalItem: any,
-        options: any): Promise<any> {
+        options?: any | null): Promise<any> {
+        let paramList: any[] = [];
         let { buildJsPortalItem } = await import('./portalItem');
         let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
+        paramList.push(jsPortalItem);
         let jsOptions: any;
         if (!Pro) {
             jsOptions = null;
@@ -795,16 +883,30 @@ export default class ImageryLayerGenerated extends BaseComponent {
                 jsOptions = null;
             }
         }
-        let result = await this.layer.saveAs(jsPortalItem,
-            jsOptions) as any;
+        if (jsOptions !== null) {
+            paramList.push(jsOptions);
+        }
+        let result = await this.layer.saveAs(...paramList as [any, any]) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.layer.when(callback,
-            errback);
+    async when(callback?: any | null,
+        errback?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (callback !== null) {
+            paramList.push(callback);
+        } else {
+            skippedLastParam = true;
+        }
+        if (errback !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(errback);
+        }
+        return await this.layer.when(...paramList as [any, any]);
     }
 
     // region properties

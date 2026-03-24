@@ -46,9 +46,11 @@ export default class PixelBlockGenerated extends BaseComponent {
     
     // region methods
     async addData(planeData: any): Promise<void> {
+        let paramList: any[] = [];
         let { buildJsPixelBlockAddDataPlaneData } = await import('./pixelBlockAddDataPlaneData');
         let jsPlaneData = await buildJsPixelBlockAddDataPlaneData(planeData, this.layerId, this.viewId) as any;
-        this.component.addData(jsPlaneData);
+        paramList.push(jsPlaneData);
+        this.component.addData(...paramList as [any]);
     }
 
     async getAsRGBA(): Promise<any> {

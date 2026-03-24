@@ -84,10 +84,12 @@ export default class OpenStreetMapLayerGenerated extends BaseComponent {
     }
 
     async createLayerView(view: any,
-        signal: AbortSignal): Promise<any> {
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        let result = await this.layer.createLayerView(view,
-            options) as any;
+        let paramList: any[] = [];
+        paramList.push(view);
+        paramList.push(options);
+        let result = await this.layer.createLayerView(...paramList as [any, any]) as any;
         let { buildDotNetLayerView } = await import('./layerView');
         return await buildDotNetLayerView(result, this.layerId, this.viewId);
     }
@@ -99,20 +101,24 @@ export default class OpenStreetMapLayerGenerated extends BaseComponent {
     async fetchTile(level: any,
         row: any,
         col: any,
-        signal: AbortSignal): Promise<any> {
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.layer.fetchTile(level,
-            row,
-            col,
-            options);
+        let paramList: any[] = [];
+        paramList.push(level);
+        paramList.push(row);
+        paramList.push(col);
+        paramList.push(options);
+        return await this.layer.fetchTile(...paramList as [any, any, any, any]);
     }
 
     async getTileUrl(level: any,
         row: any,
         col: any): Promise<any> {
-        return this.layer.getTileUrl(level,
-            row,
-            col);
+        let paramList: any[] = [];
+        paramList.push(level);
+        paramList.push(row);
+        paramList.push(col);
+        return this.layer.getTileUrl(...paramList as [any, any, any]);
     }
 
     async isFulfilled(): Promise<any> {
@@ -131,10 +137,22 @@ export default class OpenStreetMapLayerGenerated extends BaseComponent {
         this.layer.refresh();
     }
 
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.layer.when(callback,
-            errback);
+    async when(callback?: any | null,
+        errback?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (callback !== null) {
+            paramList.push(callback);
+        } else {
+            skippedLastParam = true;
+        }
+        if (errback !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(errback);
+        }
+        return await this.layer.when(...paramList as [any, any]);
     }
 
     // region properties

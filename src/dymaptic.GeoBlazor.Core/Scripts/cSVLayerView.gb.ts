@@ -54,9 +54,13 @@ export default class CSVLayerViewGenerated extends BaseComponent {
     }
 
     async highlight(target: any,
-        options: any): Promise<any> {
-        return this.component.highlight(target,
-            options);
+        options?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        paramList.push(target);
+        if (options !== null) {
+            paramList.push(options);
+        }
+        return this.component.highlight(...paramList as [any, any]);
     }
 
     async isFulfilled(): Promise<any> {
@@ -71,66 +75,115 @@ export default class CSVLayerViewGenerated extends BaseComponent {
         return this.component.isResolved();
     }
 
-    async queryAggregates(query: any,
-        signal: AbortSignal): Promise<any> {
+    async queryAggregates(query?: any | null,
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
+        let paramList: any[] = [];
+        let skippedLastParam = false;
         let { buildJsQuery } = await import('./query');
         let jsQuery = buildJsQuery(query) as any;
-        let result = await this.component.queryAggregates(jsQuery,
-            options) as any;
+        if (jsQuery !== null) {
+            paramList.push(jsQuery);
+        } else {
+            skippedLastParam = true;
+        }
+        paramList.push(options);
+        let result = await this.component.queryAggregates(...paramList as [any, any]) as any;
         let { buildDotNetFeatureSet } = await import('./featureSet');
         return await buildDotNetFeatureSet(result, this.layerId, this.viewId);
     }
 
     async queryAttributeBins(binsQuery: any,
-        signal: AbortSignal): Promise<any> {
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.component.queryAttributeBins(binsQuery,
-            options);
+        let paramList: any[] = [];
+        paramList.push(binsQuery);
+        paramList.push(options);
+        return await this.component.queryAttributeBins(...paramList as [any, any]);
     }
 
-    async queryExtent(query: any,
-        signal: AbortSignal): Promise<any> {
+    async queryExtent(query?: any | null,
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
+        let paramList: any[] = [];
+        let skippedLastParam = false;
         let { buildJsQuery } = await import('./query');
         let jsQuery = buildJsQuery(query) as any;
-        return await this.component.queryExtent(jsQuery,
-            options);
+        if (jsQuery !== null) {
+            paramList.push(jsQuery);
+        } else {
+            skippedLastParam = true;
+        }
+        paramList.push(options);
+        return await this.component.queryExtent(...paramList as [any, any]);
     }
 
-    async queryFeatureCount(query: any,
-        signal: AbortSignal): Promise<any> {
+    async queryFeatureCount(query?: any | null,
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
+        let paramList: any[] = [];
+        let skippedLastParam = false;
         let { buildJsQuery } = await import('./query');
         let jsQuery = buildJsQuery(query) as any;
-        return await this.component.queryFeatureCount(jsQuery,
-            options);
+        if (jsQuery !== null) {
+            paramList.push(jsQuery);
+        } else {
+            skippedLastParam = true;
+        }
+        paramList.push(options);
+        return await this.component.queryFeatureCount(...paramList as [any, any]);
     }
 
-    async queryFeatures(query: any,
-        signal: AbortSignal): Promise<any> {
+    async queryFeatures(query?: any | null,
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
+        let paramList: any[] = [];
+        let skippedLastParam = false;
         let { buildJsQuery } = await import('./query');
         let jsQuery = buildJsQuery(query) as any;
-        let result = await this.component.queryFeatures(jsQuery,
-            options) as any;
+        if (jsQuery !== null) {
+            paramList.push(jsQuery);
+        } else {
+            skippedLastParam = true;
+        }
+        paramList.push(options);
+        let result = await this.component.queryFeatures(...paramList as [any, any]) as any;
         let { buildDotNetFeatureSet } = await import('./featureSet');
         return await buildDotNetFeatureSet(result, this.layerId, this.viewId);
     }
 
-    async queryObjectIds(query: any,
-        signal: AbortSignal): Promise<any> {
+    async queryObjectIds(query?: any | null,
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
+        let paramList: any[] = [];
+        let skippedLastParam = false;
         let { buildJsQuery } = await import('./query');
         let jsQuery = buildJsQuery(query) as any;
-        return await this.component.queryObjectIds(jsQuery,
-            options);
+        if (jsQuery !== null) {
+            paramList.push(jsQuery);
+        } else {
+            skippedLastParam = true;
+        }
+        paramList.push(options);
+        return await this.component.queryObjectIds(...paramList as [any, any]);
     }
 
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.component.when(callback,
-            errback);
+    async when(callback?: any | null,
+        errback?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (callback !== null) {
+            paramList.push(callback);
+        } else {
+            skippedLastParam = true;
+        }
+        if (errback !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(errback);
+        }
+        return await this.component.when(...paramList as [any, any]);
     }
 
     // region properties

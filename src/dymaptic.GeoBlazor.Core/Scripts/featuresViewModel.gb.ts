@@ -104,10 +104,22 @@ export default class FeaturesViewModelGenerated extends BaseComponent {
         this.component.clear();
     }
 
-    async fetchFeatures(screenPoint: any,
-        options: any): Promise<any> {
-        let result = await this.component.fetchFeatures(screenPoint,
-            options) as any;
+    async fetchFeatures(screenPoint?: any | null,
+        options?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (screenPoint !== null) {
+            paramList.push(screenPoint);
+        } else {
+            skippedLastParam = true;
+        }
+        if (options !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(options);
+        }
+        let result = await this.component.fetchFeatures(...paramList as [any, any]) as any;
         let { buildDotNetFetchPopupFeaturesResult } = await import('./fetchPopupFeaturesResult');
         return await buildDotNetFetchPopupFeaturesResult(result, this.layerId, this.viewId);
     }
@@ -118,8 +130,12 @@ export default class FeaturesViewModelGenerated extends BaseComponent {
         return await buildDotNetFeaturesViewModel(result, this.layerId, this.viewId);
     }
 
-    async open(options: any): Promise<void> {
-        this.component.open(options);
+    async open(options?: any | null): Promise<void> {
+        let paramList: any[] = [];
+        if (options !== null) {
+            paramList.push(options);
+        }
+        this.component.open(...paramList as [any]);
     }
 
     async previous(): Promise<any> {
@@ -129,11 +145,15 @@ export default class FeaturesViewModelGenerated extends BaseComponent {
     }
 
     async triggerAction(actionIndex: any): Promise<void> {
-        this.component.triggerAction(actionIndex);
+        let paramList: any[] = [];
+        paramList.push(actionIndex);
+        this.component.triggerAction(...paramList as [any]);
     }
 
     async zoomTo(parameters: any): Promise<any> {
-        return await this.component.zoomTo(parameters);
+        let paramList: any[] = [];
+        paramList.push(parameters);
+        return await this.component.zoomTo(...paramList as [any]);
     }
 
     // region properties

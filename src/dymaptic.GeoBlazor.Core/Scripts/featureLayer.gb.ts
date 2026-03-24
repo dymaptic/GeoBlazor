@@ -224,6 +224,7 @@ export default class FeatureLayerGenerated extends BaseComponent {
     // region methods
     async addAttachment(feature: any,
         attachment: any): Promise<any> {
+        let paramList: any[] = [];
         let jsFeature: any;
         if (!Pro) {
             jsFeature = null;
@@ -237,16 +238,21 @@ export default class FeatureLayerGenerated extends BaseComponent {
                 jsFeature = null;
             }
         }
-        return await this.layer.addAttachment(jsFeature,
-            attachment);
+        paramList.push(jsFeature);
+        paramList.push(attachment);
+        return await this.layer.addAttachment(...paramList as [any, any]);
     }
 
     async applyEdits(edits: any,
-        options: any): Promise<any> {
+        options?: any | null): Promise<any> {
+        let paramList: any[] = [];
         let { buildJsFeatureEdits } = await import('./featureEdits');
         let jsEdits = await buildJsFeatureEdits(edits, this.layerId, this.viewId) as any;
-        let result = await this.layer.applyEdits(jsEdits,
-            options) as any;
+        paramList.push(jsEdits);
+        if (options !== null) {
+            paramList.push(options);
+        }
+        let result = await this.layer.applyEdits(...paramList as [any, any]) as any;
         let { buildDotNetFeatureEditsResult } = await import('./featureEditsResult');
         return await buildDotNetFeatureEditsResult(result, this.layerId, this.viewId);
     }
@@ -256,10 +262,12 @@ export default class FeatureLayerGenerated extends BaseComponent {
     }
 
     async createLayerView(view: any,
-        signal: AbortSignal): Promise<any> {
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        let result = await this.layer.createLayerView(view,
-            options) as any;
+        let paramList: any[] = [];
+        paramList.push(view);
+        paramList.push(options);
+        let result = await this.layer.createLayerView(...paramList as [any, any]) as any;
         let { buildDotNetLayerView } = await import('./layerView');
         return await buildDotNetLayerView(result, this.layerId, this.viewId);
     }
@@ -272,6 +280,7 @@ export default class FeatureLayerGenerated extends BaseComponent {
 
     async deleteAttachments(feature: any,
         attachmentIds: any): Promise<any> {
+        let paramList: any[] = [];
         let jsFeature: any;
         if (!Pro) {
             jsFeature = null;
@@ -285,8 +294,9 @@ export default class FeatureLayerGenerated extends BaseComponent {
                 jsFeature = null;
             }
         }
-        return await this.layer.deleteAttachments(jsFeature,
-            attachmentIds);
+        paramList.push(jsFeature);
+        paramList.push(attachmentIds);
+        return await this.layer.deleteAttachments(...paramList as [any, any]);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -306,31 +316,43 @@ export default class FeatureLayerGenerated extends BaseComponent {
     }
 
     async queryAttachments(attachmentQuery: any,
-        signal: AbortSignal): Promise<any> {
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.layer.queryAttachments(attachmentQuery,
-            options);
+        let paramList: any[] = [];
+        paramList.push(attachmentQuery);
+        paramList.push(options);
+        return await this.layer.queryAttachments(...paramList as [any, any]);
     }
 
     async queryAttributeBins(binsQuery: any,
-        signal: AbortSignal): Promise<any> {
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.layer.queryAttributeBins(binsQuery,
-            options);
+        let paramList: any[] = [];
+        paramList.push(binsQuery);
+        paramList.push(options);
+        return await this.layer.queryAttributeBins(...paramList as [any, any]);
     }
 
-    async save(options: any): Promise<any> {
-        let result = await this.layer.save(options) as any;
+    async save(options?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        if (options !== null) {
+            paramList.push(options);
+        }
+        let result = await this.layer.save(...paramList as [any]) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
     async saveAs(portalItem: any,
-        options: any): Promise<any> {
+        options?: any | null): Promise<any> {
+        let paramList: any[] = [];
         let { buildJsPortalItem } = await import('./portalItem');
         let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
-        let result = await this.layer.saveAs(jsPortalItem,
-            options) as any;
+        paramList.push(jsPortalItem);
+        if (options !== null) {
+            paramList.push(options);
+        }
+        let result = await this.layer.saveAs(...paramList as [any, any]) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
@@ -338,6 +360,7 @@ export default class FeatureLayerGenerated extends BaseComponent {
     async updateAttachment(feature: any,
         attachmentId: any,
         attachment: any): Promise<any> {
+        let paramList: any[] = [];
         let jsFeature: any;
         if (!Pro) {
             jsFeature = null;
@@ -351,15 +374,28 @@ export default class FeatureLayerGenerated extends BaseComponent {
                 jsFeature = null;
             }
         }
-        return await this.layer.updateAttachment(jsFeature,
-            attachmentId,
-            attachment);
+        paramList.push(jsFeature);
+        paramList.push(attachmentId);
+        paramList.push(attachment);
+        return await this.layer.updateAttachment(...paramList as [any, any, any]);
     }
 
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.layer.when(callback,
-            errback);
+    async when(callback?: any | null,
+        errback?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (callback !== null) {
+            paramList.push(callback);
+        } else {
+            skippedLastParam = true;
+        }
+        if (errback !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(errback);
+        }
+        return await this.layer.when(...paramList as [any, any]);
     }
 
     // region properties

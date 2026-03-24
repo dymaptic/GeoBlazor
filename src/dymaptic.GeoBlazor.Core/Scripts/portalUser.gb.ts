@@ -69,27 +69,37 @@ export default class PortalUserGenerated extends BaseComponent {
     
     // region methods
     async addItem(parameters: any): Promise<any> {
+        let paramList: any[] = [];
         let { buildJsPortalUserAddItemParams } = await import('./portalUserAddItemParams');
         let jsparameters = await buildJsPortalUserAddItemParams(parameters, this.layerId, this.viewId) as any;
-        let result = await this.component.addItem(jsparameters) as any;
+        paramList.push(jsparameters);
+        let result = await this.component.addItem(...paramList as [any]) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
     async deleteItem(item: any,
-        permanentDelete: any): Promise<any> {
+        permanentDelete?: any | null): Promise<any> {
+        let paramList: any[] = [];
         let { buildJsPortalItem } = await import('./portalItem');
         let jsItem = await buildJsPortalItem(item, this.layerId, this.viewId) as any;
-        return await this.component.deleteItem(jsItem,
-            permanentDelete);
+        paramList.push(jsItem);
+        if (permanentDelete !== null) {
+            paramList.push(permanentDelete);
+        }
+        return await this.component.deleteItem(...paramList as [any, any]);
     }
 
     async deleteItems(items: any,
-        permanentDelete: any): Promise<any> {
+        permanentDelete?: any | null): Promise<any> {
+        let paramList: any[] = [];
         let { buildJsPortalItem } = await import('./portalItem');
         let jsItems = await Promise.all(await items.map(async i => await buildJsPortalItem(i, this.layerId, this.viewId))) as any;
-        let result = await this.component.deleteItems(jsItems,
-            permanentDelete) as any;
+        paramList.push(jsItems);
+        if (permanentDelete !== null) {
+            paramList.push(permanentDelete);
+        }
+        let result = await this.component.deleteItems(...paramList as [any, any]) as any;
         let { buildDotNetDeleteItemsResult } = await import('./deleteItemsResult');
         return await Promise.all(result.map(async i => await buildDotNetDeleteItemsResult(i, this.layerId, this.viewId)));
     }
@@ -106,10 +116,14 @@ export default class PortalUserGenerated extends BaseComponent {
         return await Promise.all(result.map(async i => await buildDotNetPortalGroup(i, this.layerId, this.viewId)));
     }
 
-    async fetchItems(parameters: any): Promise<any> {
+    async fetchItems(parameters?: any | null): Promise<any> {
+        let paramList: any[] = [];
         let { buildJsPortalUserFetchItemsParams } = await import('./portalUserFetchItemsParams');
         let jsparameters = await buildJsPortalUserFetchItemsParams(parameters, this.layerId, this.viewId) as any;
-        let result = await this.component.fetchItems(jsparameters) as any;
+        if (jsparameters !== null) {
+            paramList.push(jsparameters);
+        }
+        let result = await this.component.fetchItems(...paramList as [any]) as any;
         let { buildDotNetFetchItemsResult } = await import('./fetchItemsResult');
         return await buildDotNetFetchItemsResult(result, this.layerId, this.viewId);
     }
@@ -118,26 +132,38 @@ export default class PortalUserGenerated extends BaseComponent {
         return await this.component.fetchTags();
     }
 
-    async getThumbnailUrl(width: any): Promise<any> {
-        return this.component.getThumbnailUrl(width);
+    async getThumbnailUrl(width?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        if (width !== null) {
+            paramList.push(width);
+        }
+        return this.component.getThumbnailUrl(...paramList as [any]);
     }
 
-    async queryFavorites(queryParams: any): Promise<any> {
+    async queryFavorites(queryParams?: any | null): Promise<any> {
+        let paramList: any[] = [];
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
-        let result = await this.component.queryFavorites(jsQueryParams) as any;
+        if (jsQueryParams !== null) {
+            paramList.push(jsQueryParams);
+        }
+        let result = await this.component.queryFavorites(...paramList as [any]) as any;
         let { buildDotNetPortalQueryResult } = await import('./portalQueryResult');
         return await buildDotNetPortalQueryResult(result, this.layerId, this.viewId);
     }
 
     async restoreItem(item: any,
-        folder: any): Promise<any> {
+        folder?: any | null): Promise<any> {
+        let paramList: any[] = [];
         let { buildJsPortalItem } = await import('./portalItem');
         let jsItem = await buildJsPortalItem(item, this.layerId, this.viewId) as any;
+        paramList.push(jsItem);
         let { buildJsPortalFolder } = await import('./portalFolder');
         let jsFolder = await buildJsPortalFolder(folder, this.viewId) as any;
-        return await this.component.restoreItem(jsItem,
-            jsFolder);
+        if (jsFolder !== null) {
+            paramList.push(jsFolder);
+        }
+        return await this.component.restoreItem(...paramList as [any, any]);
     }
 
     // region properties

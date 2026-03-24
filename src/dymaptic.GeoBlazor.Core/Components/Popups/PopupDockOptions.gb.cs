@@ -32,14 +32,21 @@ public partial class PopupDockOptions
     ///     If `true`, displays the dock button.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#dockOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="breakpoint">
+    ///     Defines the dimensions of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a> at which to dock the popup.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#dockOptions">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public PopupDockOptions(
         PopupDockPosition? position = null,
-        bool? buttonEnabled = null)
+        bool? buttonEnabled = null,
+        Breakpoint? breakpoint = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Position = position;
         ButtonEnabled = buttonEnabled;
+        Breakpoint = breakpoint;
 #pragma warning restore BL0005
     }
     

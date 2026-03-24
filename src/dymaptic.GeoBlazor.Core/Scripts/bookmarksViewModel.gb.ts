@@ -40,30 +40,48 @@ export default class BookmarksViewModelGenerated extends BaseComponent {
     }
     
     // region methods
-    async createBookmark(options: any): Promise<any> {
+    async createBookmark(options?: any | null): Promise<any> {
+        let paramList: any[] = [];
         let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
         let jsOptions = await buildJsBookmarkOptions(options, this.layerId, this.viewId) as any;
-        let result = await this.component.createBookmark(jsOptions) as any;
+        if (jsOptions !== null) {
+            paramList.push(jsOptions);
+        }
+        let result = await this.component.createBookmark(...paramList as [any]) as any;
         let { buildDotNetBookmark } = await import('./bookmark');
         return await buildDotNetBookmark(result);
     }
 
-    async editBookmark(bookmark: any,
-        options: any): Promise<any> {
+    async editBookmark(bookmark?: any | null,
+        options?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
         let { buildJsBookmark } = await import('./bookmark');
         let jsBookmark = await buildJsBookmark(bookmark) as any;
+        if (jsBookmark !== null) {
+            paramList.push(jsBookmark);
+        } else {
+            skippedLastParam = true;
+        }
         let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
         let jsOptions = await buildJsBookmarkOptions(options, this.layerId, this.viewId) as any;
-        let result = await this.component.editBookmark(jsBookmark,
-            jsOptions) as any;
+        if (jsOptions !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(jsOptions);
+        }
+        let result = await this.component.editBookmark(...paramList as [any, any]) as any;
         let { buildDotNetBookmark } = await import('./bookmark');
         return await buildDotNetBookmark(result);
     }
 
     async goTo(bookmark: any): Promise<any> {
+        let paramList: any[] = [];
         let { buildJsBookmark } = await import('./bookmark');
         let jsBookmark = await buildJsBookmark(bookmark) as any;
-        return await this.component.goTo(jsBookmark);
+        paramList.push(jsBookmark);
+        return await this.component.goTo(...paramList as [any]);
     }
 
     // region properties

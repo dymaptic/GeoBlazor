@@ -27,20 +27,29 @@ export default class PortalItemResourceGenerated extends BaseComponent {
     }
     
     // region methods
-    async fetch(responseType: any,
-        options: any,
-        signal: AbortSignal): Promise<any> {
+    async fetch(responseType?: any | null,
+        options?: any | null,
+        signal?: AbortSignal): Promise<any> {
         options.signal = signal;
-        return await this.component.fetch(responseType,
-            options);
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (responseType !== null) {
+            paramList.push(responseType);
+        } else {
+            skippedLastParam = true;
+        }
+        paramList.push(options);
+        return await this.component.fetch(...paramList as [any, any]);
     }
 
     async update(content: any,
-        options: any,
-        signal: AbortSignal): Promise<any> {
+        options?: any | null,
+        signal?: AbortSignal): Promise<any> {
         options.signal = signal;
-        return await this.component.update(content,
-            options);
+        let paramList: any[] = [];
+        paramList.push(content);
+        paramList.push(options);
+        return await this.component.update(...paramList as [any, any]);
     }
 
     // region properties

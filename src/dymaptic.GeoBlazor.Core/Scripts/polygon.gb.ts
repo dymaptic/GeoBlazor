@@ -34,23 +34,29 @@ export default class PolygonGenerated extends BaseComponent {
     
     // region methods
     async addRing(points: any): Promise<any> {
+        let paramList: any[] = [];
         let { buildJsPoint } = await import('./point');
         let jsPoints = points.map(i => buildJsPoint(i)) as any;
-        let result = this.component.addRing(jsPoints) as any;
+        paramList.push(jsPoints);
+        let result = this.component.addRing(...paramList as [any]) as any;
         let { buildDotNetPolygon } = await import('./polygon');
         return buildDotNetPolygon(result);
     }
 
     async contains(point: any): Promise<any> {
+        let paramList: any[] = [];
         let { buildJsPoint } = await import('./point');
         let jsPoint = buildJsPoint(point) as any;
-        return this.component.contains(jsPoint);
+        paramList.push(jsPoint);
+        return this.component.contains(...paramList as [any]);
     }
 
     async getPoint(ringIndex: any,
         pointIndex: any): Promise<any> {
-        let result = this.component.getPoint(ringIndex,
-            pointIndex) as any;
+        let paramList: any[] = [];
+        paramList.push(ringIndex);
+        paramList.push(pointIndex);
+        let result = this.component.getPoint(...paramList as [any, any]) as any;
         let { buildDotNetPoint } = await import('./point');
         return buildDotNetPoint(result);
     }
@@ -58,31 +64,39 @@ export default class PolygonGenerated extends BaseComponent {
     async insertPoint(ringIndex: any,
         pointIndex: any,
         point: any): Promise<any> {
+        let paramList: any[] = [];
+        paramList.push(ringIndex);
+        paramList.push(pointIndex);
         let { buildJsPoint } = await import('./point');
         let jsPoint = buildJsPoint(point) as any;
-        let result = this.component.insertPoint(ringIndex,
-            pointIndex,
-            jsPoint) as any;
+        paramList.push(jsPoint);
+        let result = this.component.insertPoint(...paramList as [any, any, any]) as any;
         let { buildDotNetPolygon } = await import('./polygon');
         return buildDotNetPolygon(result);
     }
 
     async isClockwise(ring: any): Promise<any> {
+        let paramList: any[] = [];
         let { buildJsPoint } = await import('./point');
         let jsRing = ring.map(i => buildJsPoint(i)) as any;
-        return this.component.isClockwise(jsRing);
+        paramList.push(jsRing);
+        return this.component.isClockwise(...paramList as [any]);
     }
 
     async removePoint(ringIndex: any,
         pointIndex: any): Promise<any> {
-        let result = this.component.removePoint(ringIndex,
-            pointIndex) as any;
+        let paramList: any[] = [];
+        paramList.push(ringIndex);
+        paramList.push(pointIndex);
+        let result = this.component.removePoint(...paramList as [any, any]) as any;
         let { buildDotNetPoint } = await import('./point');
         return buildDotNetPoint(result);
     }
 
     async removeRing(index: any): Promise<any> {
-        let result = this.component.removeRing(index) as any;
+        let paramList: any[] = [];
+        paramList.push(index);
+        let result = this.component.removeRing(...paramList as [any]) as any;
         let { buildDotNetPoint } = await import('./point');
         return result.map(i => buildDotNetPoint(i));
     }
@@ -90,11 +104,13 @@ export default class PolygonGenerated extends BaseComponent {
     async setPoint(ringIndex: any,
         pointIndex: any,
         point: any): Promise<any> {
+        let paramList: any[] = [];
+        paramList.push(ringIndex);
+        paramList.push(pointIndex);
         let { buildJsPoint } = await import('./point');
         let jsPoint = buildJsPoint(point) as any;
-        let result = this.component.setPoint(ringIndex,
-            pointIndex,
-            jsPoint) as any;
+        paramList.push(jsPoint);
+        let result = this.component.setPoint(...paramList as [any, any, any]) as any;
         let { buildDotNetPolygon } = await import('./polygon');
         return buildDotNetPolygon(result);
     }

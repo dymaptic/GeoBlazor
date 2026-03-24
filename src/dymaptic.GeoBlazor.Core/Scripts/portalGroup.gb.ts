@@ -54,27 +54,42 @@ export default class PortalGroupGenerated extends BaseComponent {
     }
     
     // region methods
-    async fetchCategorySchema(signal: AbortSignal): Promise<any> {
+    async fetchCategorySchema(signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.component.fetchCategorySchema(options);
+        let paramList: any[] = [];
+        paramList.push(options);
+        return await this.component.fetchCategorySchema(...paramList as [any]);
     }
 
-    async fetchMembers(signal: AbortSignal): Promise<any> {
+    async fetchMembers(signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.component.fetchMembers(options);
+        let paramList: any[] = [];
+        paramList.push(options);
+        return await this.component.fetchMembers(...paramList as [any]);
     }
 
-    async getThumbnailUrl(width: any): Promise<any> {
-        return this.component.getThumbnailUrl(width);
+    async getThumbnailUrl(width?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        if (width !== null) {
+            paramList.push(width);
+        }
+        return this.component.getThumbnailUrl(...paramList as [any]);
     }
 
-    async queryItems(queryParams: any,
-        signal: AbortSignal): Promise<any> {
+    async queryItems(queryParams?: any | null,
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
+        let paramList: any[] = [];
+        let skippedLastParam = false;
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
-        let result = await this.component.queryItems(jsQueryParams,
-            options) as any;
+        if (jsQueryParams !== null) {
+            paramList.push(jsQueryParams);
+        } else {
+            skippedLastParam = true;
+        }
+        paramList.push(options);
+        let result = await this.component.queryItems(...paramList as [any, any]) as any;
         let { buildDotNetPortalQueryResult } = await import('./portalQueryResult');
         return await buildDotNetPortalQueryResult(result, this.layerId, this.viewId);
     }

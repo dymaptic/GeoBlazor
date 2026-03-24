@@ -20,10 +20,12 @@ export default class WMTSLayerGenerated extends BaseComponent {
     }
 
     async createLayerView(view: any,
-        signal: AbortSignal): Promise<any> {
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        let result = await this.layer.createLayerView(view,
-            options) as any;
+        let paramList: any[] = [];
+        paramList.push(view);
+        paramList.push(options);
+        let result = await this.layer.createLayerView(...paramList as [any, any]) as any;
         let { buildDotNetLayerView } = await import('./layerView');
         return await buildDotNetLayerView(result, this.layerId, this.viewId);
     }
@@ -35,16 +37,20 @@ export default class WMTSLayerGenerated extends BaseComponent {
     async fetchTile(level: any,
         row: any,
         col: any,
-        signal: AbortSignal): Promise<any> {
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.layer.fetchTile(level,
-            row,
-            col,
-            options);
+        let paramList: any[] = [];
+        paramList.push(level);
+        paramList.push(row);
+        paramList.push(col);
+        paramList.push(options);
+        return await this.layer.fetchTile(...paramList as [any, any, any, any]);
     }
 
     async findSublayerById(id: any): Promise<any> {
-        let result = this.layer.findSublayerById(id) as any;
+        let paramList: any[] = [];
+        paramList.push(id);
+        let result = this.layer.findSublayerById(...paramList as [any]) as any;
         let { buildDotNetWMTSSublayer } = await import('./wMTSSublayer');
         return await buildDotNetWMTSSublayer(result, this.layerId, this.viewId);
     }
@@ -65,10 +71,22 @@ export default class WMTSLayerGenerated extends BaseComponent {
         this.layer.refresh();
     }
 
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.layer.when(callback,
-            errback);
+    async when(callback?: any | null,
+        errback?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (callback !== null) {
+            paramList.push(callback);
+        } else {
+            skippedLastParam = true;
+        }
+        if (errback !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(errback);
+        }
+        return await this.layer.when(...paramList as [any, any]);
     }
 
     // region properties

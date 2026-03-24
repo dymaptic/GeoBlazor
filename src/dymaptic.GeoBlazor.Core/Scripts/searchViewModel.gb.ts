@@ -99,40 +99,90 @@ export default class SearchViewModelGenerated extends BaseComponent {
         this.component.clear();
     }
 
-    async search(searchItem: any,
-        options: any): Promise<any> {
-        let result = await this.component.search(searchItem,
-            options) as any;
+    async search(searchItem?: any | null,
+        options?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (searchItem !== null) {
+            paramList.push(searchItem);
+        } else {
+            skippedLastParam = true;
+        }
+        if (options !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(options);
+        }
+        let result = await this.component.search(...paramList as [any, any]) as any;
         let { buildDotNetSearchResponse } = await import('./searchResponse');
         return await buildDotNetSearchResponse(result, this.viewId);
     }
 
-    async searchNearby(options: any): Promise<any> {
-        let result = await this.component.searchNearby(options) as any;
+    async searchNearby(options?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        if (options !== null) {
+            paramList.push(options);
+        }
+        let result = await this.component.searchNearby(...paramList as [any]) as any;
         let { buildDotNetSearchResponse } = await import('./searchResponse');
         return await buildDotNetSearchResponse(result, this.viewId);
     }
 
     async select(value: any): Promise<any> {
-        let result = await this.component.select(value) as any;
+        let paramList: any[] = [];
+        paramList.push(value);
+        let result = await this.component.select(...paramList as [any]) as any;
         let { buildDotNetSearchResult } = await import('./searchResult');
         return buildDotNetSearchResult(result, this.layerId, this.viewId);
     }
 
-    async suggest(value: any,
-        suggestionDelay: any,
-        options: any): Promise<any> {
-        let result = await this.component.suggest(value,
-            suggestionDelay,
-            options) as any;
+    async suggest(value?: any | null,
+        suggestionDelay?: any | null,
+        options?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (value !== null) {
+            paramList.push(value);
+        } else {
+            skippedLastParam = true;
+        }
+        if (suggestionDelay !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+                skippedLastParam = false;
+            }
+            paramList.push(suggestionDelay);
+        } else {
+            skippedLastParam = true;
+        }
+        if (options !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(options);
+        }
+        let result = await this.component.suggest(...paramList as [any, any, any]) as any;
         let { buildDotNetSuggestResponse } = await import('./suggestResponse');
         return await buildDotNetSuggestResponse(result, this.viewId);
     }
 
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.component.when(callback,
-            errback);
+    async when(callback?: any | null,
+        errback?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (callback !== null) {
+            paramList.push(callback);
+        } else {
+            skippedLastParam = true;
+        }
+        if (errback !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(errback);
+        }
+        return await this.component.when(...paramList as [any, any]);
     }
 
     // region properties

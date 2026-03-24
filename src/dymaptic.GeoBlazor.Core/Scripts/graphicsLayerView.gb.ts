@@ -28,9 +28,13 @@ export default class GraphicsLayerViewGenerated extends BaseComponent {
     
     // region methods
     async highlight(target: any,
-        options: any): Promise<any> {
-        return this.component.highlight(target,
-            options);
+        options?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        paramList.push(target);
+        if (options !== null) {
+            paramList.push(options);
+        }
+        return this.component.highlight(...paramList as [any, any]);
     }
 
     async isFulfilled(): Promise<any> {
@@ -51,10 +55,22 @@ export default class GraphicsLayerViewGenerated extends BaseComponent {
         return result.map(i => buildDotNetGraphic(i, this.layerId, this.viewId));
     }
 
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.component.when(callback,
-            errback);
+    async when(callback?: any | null,
+        errback?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (callback !== null) {
+            paramList.push(callback);
+        } else {
+            skippedLastParam = true;
+        }
+        if (errback !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(errback);
+        }
+        return await this.component.when(...paramList as [any, any]);
     }
 
     // region properties

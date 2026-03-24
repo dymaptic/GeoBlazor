@@ -24,24 +24,36 @@ export default class FieldsIndexGenerated extends BaseComponent {
     }
     
     // region methods
-    async get(fieldName: any): Promise<any> {
-        let result = this.component.get(fieldName) as any;
+    async get(fieldName?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        if (fieldName !== null) {
+            paramList.push(fieldName);
+        }
+        let result = this.component.get(...paramList as [any]) as any;
         let { buildDotNetField } = await import('./field');
         return buildDotNetField(result);
     }
 
     async getTimeZone(fieldOrFieldName: any): Promise<any> {
+        let paramList: any[] = [];
         let { buildJsField } = await import('./field');
         let jsFieldOrFieldName = buildJsField(fieldOrFieldName) as any;
-        return this.component.getTimeZone(jsFieldOrFieldName);
+        paramList.push(jsFieldOrFieldName);
+        return this.component.getTimeZone(...paramList as [any]);
     }
 
     async has(fieldName: any): Promise<any> {
-        return this.component.has(fieldName);
+        let paramList: any[] = [];
+        paramList.push(fieldName);
+        return this.component.has(...paramList as [any]);
     }
 
-    async isDateField(fieldName: any): Promise<any> {
-        return this.component.isDateField(fieldName);
+    async isDateField(fieldName?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        if (fieldName !== null) {
+            paramList.push(fieldName);
+        }
+        return this.component.isDateField(...paramList as [any]);
     }
 
     // region properties

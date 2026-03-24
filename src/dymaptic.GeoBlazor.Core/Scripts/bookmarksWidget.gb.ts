@@ -72,9 +72,11 @@ export default class BookmarksWidgetGenerated extends BaseComponent {
     }
 
     async goTo(bookmark: any): Promise<any> {
+        let paramList: any[] = [];
         let { buildJsBookmark } = await import('./bookmark');
         let jsBookmark = await buildJsBookmark(bookmark) as any;
-        return await this.widget.goTo(jsBookmark);
+        paramList.push(jsBookmark);
+        return await this.widget.goTo(...paramList as [any]);
     }
 
     async isFulfilled(): Promise<any> {
@@ -105,10 +107,22 @@ export default class BookmarksWidgetGenerated extends BaseComponent {
         this.widget.scheduleRender();
     }
 
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.widget.when(callback,
-            errback);
+    async when(callback?: any | null,
+        errback?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (callback !== null) {
+            paramList.push(callback);
+        } else {
+            skippedLastParam = true;
+        }
+        if (errback !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(errback);
+        }
+        return await this.widget.when(...paramList as [any, any]);
     }
 
     // region properties

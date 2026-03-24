@@ -31,12 +31,14 @@ export default class BasemapLayerListViewModelGenerated extends BaseComponent {
     // region methods
     async triggerAction(action: any,
         item: any): Promise<void> {
+        let paramList: any[] = [];
         let { buildJsActionBase } = await import('./actionBase');
         let jsAction = buildJsActionBase(action) as any;
+        paramList.push(jsAction);
         let { buildJsListItem } = await import('./listItem');
         let jsItem = await buildJsListItem(item, this.layerId, this.viewId) as any;
-        this.component.triggerAction(jsAction,
-            jsItem);
+        paramList.push(jsItem);
+        this.component.triggerAction(...paramList as [any, any]);
     }
 
     // region properties

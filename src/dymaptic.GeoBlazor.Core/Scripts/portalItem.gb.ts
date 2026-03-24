@@ -107,19 +107,23 @@ export default class PortalItemGenerated extends BaseComponent {
     
     // region methods
     async addRating(rating: any): Promise<any> {
-        return await this.component.addRating(rating);
+        let paramList: any[] = [];
+        paramList.push(rating);
+        return await this.component.addRating(...paramList as [any]);
     }
 
     async addResource(resource: any,
         content: any,
-        options: any,
-        signal: AbortSignal): Promise<any> {
+        options?: any | null,
+        signal?: AbortSignal): Promise<any> {
         options.signal = signal;
+        let paramList: any[] = [];
         let { buildJsPortalItemResource } = await import('./portalItemResource');
         let jsResource = await buildJsPortalItemResource(resource, this.layerId, this.viewId) as any;
-        return await this.component.addResource(jsResource,
-            content,
-            options);
+        paramList.push(jsResource);
+        paramList.push(content);
+        paramList.push(options);
+        return await this.component.addResource(...paramList as [any, any, any]);
     }
 
     async cancelLoad(): Promise<void> {
@@ -130,38 +134,60 @@ export default class PortalItemGenerated extends BaseComponent {
         return await this.component.deleteRating();
     }
 
-    async fetchData(responseType: any,
-        signal: AbortSignal): Promise<any> {
+    async fetchData(responseType?: any | null,
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.component.fetchData(responseType,
-            options);
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (responseType !== null) {
+            paramList.push(responseType);
+        } else {
+            skippedLastParam = true;
+        }
+        paramList.push(options);
+        return await this.component.fetchData(...paramList as [any, any]);
     }
 
-    async fetchRating(signal: AbortSignal): Promise<any> {
+    async fetchRating(signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.component.fetchRating(options);
+        let paramList: any[] = [];
+        paramList.push(options);
+        return await this.component.fetchRating(...paramList as [any]);
     }
 
     async fetchRelatedItems(parameters: any,
-        signal: AbortSignal): Promise<any> {
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        let result = await this.component.fetchRelatedItems(parameters,
-            options) as any;
+        let paramList: any[] = [];
+        paramList.push(parameters);
+        paramList.push(options);
+        let result = await this.component.fetchRelatedItems(...paramList as [any, any]) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await Promise.all(result.map(async i => await buildDotNetPortalItem(i, this.layerId, this.viewId)));
     }
 
-    async fetchResources(parameters: any,
-        signal: AbortSignal): Promise<any> {
+    async fetchResources(parameters?: any | null,
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        let result = await this.component.fetchResources(parameters,
-            options) as any;
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (parameters !== null) {
+            paramList.push(parameters);
+        } else {
+            skippedLastParam = true;
+        }
+        paramList.push(options);
+        let result = await this.component.fetchResources(...paramList as [any, any]) as any;
         let { buildDotNetFetchResourcesResult } = await import('./fetchResourcesResult');
         return await buildDotNetFetchResourcesResult(result, this.layerId, this.viewId);
     }
 
-    async getThumbnailUrl(width: any): Promise<any> {
-        return this.component.getThumbnailUrl(width);
+    async getThumbnailUrl(width?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        if (width !== null) {
+            paramList.push(width);
+        }
+        return this.component.getThumbnailUrl(...paramList as [any]);
     }
 
     async isFulfilled(): Promise<any> {
@@ -176,9 +202,11 @@ export default class PortalItemGenerated extends BaseComponent {
         return this.component.isResolved();
     }
 
-    async load(signal: AbortSignal): Promise<any> {
+    async load(signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.component.load(options);
+        let paramList: any[] = [];
+        paramList.push(options);
+        return await this.component.load(...paramList as [any]);
     }
 
     async reload(): Promise<any> {
@@ -187,30 +215,50 @@ export default class PortalItemGenerated extends BaseComponent {
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
-    async removeAllResources(signal: AbortSignal): Promise<any> {
+    async removeAllResources(signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.component.removeAllResources(options);
+        let paramList: any[] = [];
+        paramList.push(options);
+        return await this.component.removeAllResources(...paramList as [any]);
     }
 
     async removeResource(resource: any,
-        signal: AbortSignal): Promise<any> {
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
+        let paramList: any[] = [];
         let { buildJsPortalItemResource } = await import('./portalItemResource');
         let jsResource = await buildJsPortalItemResource(resource, this.layerId, this.viewId) as any;
-        return await this.component.removeResource(jsResource,
-            options);
+        paramList.push(jsResource);
+        paramList.push(options);
+        return await this.component.removeResource(...paramList as [any, any]);
     }
 
-    async update(parameters: any): Promise<any> {
-        let result = await this.component.update(parameters) as any;
+    async update(parameters?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        if (parameters !== null) {
+            paramList.push(parameters);
+        }
+        let result = await this.component.update(...paramList as [any]) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.component.when(callback,
-            errback);
+    async when(callback?: any | null,
+        errback?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (callback !== null) {
+            paramList.push(callback);
+        } else {
+            skippedLastParam = true;
+        }
+        if (errback !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(errback);
+        }
+        return await this.component.when(...paramList as [any, any]);
     }
 
     // region properties

@@ -36,7 +36,8 @@ export default class ImageryLayerViewGenerated extends BaseComponent {
     }
 
     async highlight(target: any,
-        options: any): Promise<any> {
+        options?: any | null): Promise<any> {
+        let paramList: any[] = [];
         let jsTarget: any;
         if (!Pro) {
             jsTarget = null;
@@ -50,8 +51,11 @@ export default class ImageryLayerViewGenerated extends BaseComponent {
                 jsTarget = null;
             }
         }
-        return this.component.highlight(jsTarget,
-            options);
+        paramList.push(jsTarget);
+        if (options !== null) {
+            paramList.push(options);
+        }
+        return this.component.highlight(...paramList as [any, any]);
     }
 
     async isFulfilled(): Promise<any> {
@@ -66,10 +70,22 @@ export default class ImageryLayerViewGenerated extends BaseComponent {
         return this.component.isResolved();
     }
 
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.component.when(callback,
-            errback);
+    async when(callback?: any | null,
+        errback?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (callback !== null) {
+            paramList.push(callback);
+        } else {
+            skippedLastParam = true;
+        }
+        if (errback !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(errback);
+        }
+        return await this.component.when(...paramList as [any, any]);
     }
 
     // region properties

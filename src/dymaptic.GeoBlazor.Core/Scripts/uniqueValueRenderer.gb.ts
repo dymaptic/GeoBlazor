@@ -73,6 +73,7 @@ export default class UniqueValueRendererGenerated extends BaseComponent {
     
     // region methods
     async getUniqueValueInfo(graphic: any): Promise<any> {
+        let paramList: any[] = [];
         let jsGraphic: any;
         if (!Pro) {
             jsGraphic = null;
@@ -86,13 +87,16 @@ export default class UniqueValueRendererGenerated extends BaseComponent {
                 jsGraphic = null;
             }
         }
-        let result = await this.component.getUniqueValueInfo(jsGraphic) as any;
+        paramList.push(jsGraphic);
+        let result = await this.component.getUniqueValueInfo(...paramList as [any]) as any;
         let { buildDotNetUniqueValueInfo } = await import('./uniqueValueInfo');
         return await buildDotNetUniqueValueInfo(result, this.viewId);
     }
 
     async removeUniqueValueInfo(value: any): Promise<void> {
-        this.component.removeUniqueValueInfo(value);
+        let paramList: any[] = [];
+        paramList.push(value);
+        this.component.removeUniqueValueInfo(...paramList as [any]);
     }
 
     // region properties

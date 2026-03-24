@@ -169,7 +169,9 @@ export default class GeoJSONLayerGenerated extends BaseComponent {
     
     // region methods
     async applyEdits(edits: any): Promise<any> {
-        let result = await this.layer.applyEdits(edits) as any;
+        let paramList: any[] = [];
+        paramList.push(edits);
+        let result = await this.layer.applyEdits(...paramList as [any]) as any;
         let { buildDotNetFeatureEditsResult } = await import('./featureEditsResult');
         return await buildDotNetFeatureEditsResult(result, this.layerId, this.viewId);
     }
@@ -179,16 +181,22 @@ export default class GeoJSONLayerGenerated extends BaseComponent {
     }
 
     async createLayerView(view: any,
-        signal: AbortSignal): Promise<any> {
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        let result = await this.layer.createLayerView(view,
-            options) as any;
+        let paramList: any[] = [];
+        paramList.push(view);
+        paramList.push(options);
+        let result = await this.layer.createLayerView(...paramList as [any, any]) as any;
         let { buildDotNetLayerView } = await import('./layerView');
         return await buildDotNetLayerView(result, this.layerId, this.viewId);
     }
 
-    async createPopupTemplate(options: any): Promise<any> {
-        let result = this.layer.createPopupTemplate(options) as any;
+    async createPopupTemplate(options?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        if (options !== null) {
+            paramList.push(options);
+        }
+        let result = this.layer.createPopupTemplate(...paramList as [any]) as any;
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
         return await buildDotNetPopupTemplate(result);
     }
@@ -204,13 +212,17 @@ export default class GeoJSONLayerGenerated extends BaseComponent {
     }
 
     async getField(fieldName: any): Promise<any> {
-        let result = this.layer.getField(fieldName) as any;
+        let paramList: any[] = [];
+        paramList.push(fieldName);
+        let result = this.layer.getField(...paramList as [any]) as any;
         let { buildDotNetField } = await import('./field');
         return buildDotNetField(result);
     }
 
     async getFieldDomain(fieldName: any,
-        options: any): Promise<any> {
+        options?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        paramList.push(fieldName);
         let jsOptions: any;
         if (!Pro) {
             jsOptions = null;
@@ -224,8 +236,10 @@ export default class GeoJSONLayerGenerated extends BaseComponent {
                 jsOptions = null;
             }
         }
-        let result = this.layer.getFieldDomain(fieldName,
-            jsOptions) as any;
+        if (jsOptions !== null) {
+            paramList.push(jsOptions);
+        }
+        let result = this.layer.getFieldDomain(...paramList as [any, any]) as any;
         let { buildDotNetDomain } = await import('./domain');
         return buildDotNetDomain(result);
     }
@@ -243,20 +257,34 @@ export default class GeoJSONLayerGenerated extends BaseComponent {
     }
 
     async queryAttributeBins(binsQuery: any,
-        signal: AbortSignal): Promise<any> {
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.layer.queryAttributeBins(binsQuery,
-            options);
+        let paramList: any[] = [];
+        paramList.push(binsQuery);
+        paramList.push(options);
+        return await this.layer.queryAttributeBins(...paramList as [any, any]);
     }
 
     async refresh(): Promise<void> {
         this.layer.refresh();
     }
 
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.layer.when(callback,
-            errback);
+    async when(callback?: any | null,
+        errback?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (callback !== null) {
+            paramList.push(callback);
+        } else {
+            skippedLastParam = true;
+        }
+        if (errback !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(errback);
+        }
+        return await this.layer.when(...paramList as [any, any]);
     }
 
     // region properties

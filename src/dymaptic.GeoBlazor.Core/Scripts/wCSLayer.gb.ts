@@ -129,16 +129,22 @@ export default class WCSLayerGenerated extends BaseComponent {
     }
 
     async createLayerView(view: any,
-        signal: AbortSignal): Promise<any> {
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        let result = await this.layer.createLayerView(view,
-            options) as any;
+        let paramList: any[] = [];
+        paramList.push(view);
+        paramList.push(options);
+        let result = await this.layer.createLayerView(...paramList as [any, any]) as any;
         let { buildDotNetLayerView } = await import('./layerView');
         return await buildDotNetLayerView(result, this.layerId, this.viewId);
     }
 
-    async createPopupTemplate(options: any): Promise<any> {
-        let result = this.layer.createPopupTemplate(options) as any;
+    async createPopupTemplate(options?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        if (options !== null) {
+            paramList.push(options);
+        }
+        let result = this.layer.createPopupTemplate(...paramList as [any]) as any;
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
         return await buildDotNetPopupTemplate(result);
     }
@@ -150,23 +156,26 @@ export default class WCSLayerGenerated extends BaseComponent {
     async fetchPixels(extent: any,
         width: any,
         height: any,
-        options: any,
-        signal: AbortSignal): Promise<any> {
+        options?: any | null,
+        signal?: AbortSignal): Promise<any> {
         options.signal = signal;
+        let paramList: any[] = [];
         let { buildJsExtent } = await import('./extent');
         let jsExtent = buildJsExtent(extent) as any;
-        let result = await this.layer.fetchPixels(jsExtent,
-            width,
-            height,
-            options) as any;
+        paramList.push(jsExtent);
+        paramList.push(width);
+        paramList.push(height);
+        paramList.push(options);
+        let result = await this.layer.fetchPixels(...paramList as [any, any, any, any]) as any;
         let { buildDotNetPixelData } = await import('./pixelData');
         return await buildDotNetPixelData(result, this.layerId, this.viewId);
     }
 
     async getSamples(parameters: any,
-        requestOptions: any,
-        signal: AbortSignal): Promise<any> {
+        requestOptions?: any | null,
+        signal?: AbortSignal): Promise<any> {
         requestOptions.signal = signal;
+        let paramList: any[] = [];
         let jsParameters: any;
         if (!Pro) {
             jsParameters = null;
@@ -180,8 +189,9 @@ export default class WCSLayerGenerated extends BaseComponent {
                 jsParameters = null;
             }
         }
-        let result = await this.layer.getSamples(jsParameters,
-            requestOptions) as any;
+        paramList.push(jsParameters);
+        paramList.push(requestOptions);
+        let result = await this.layer.getSamples(...paramList as [any, any]) as any;
         if (!Pro) {
             return null;
         }
@@ -196,15 +206,19 @@ export default class WCSLayerGenerated extends BaseComponent {
     }
 
     async identify(point: any,
-        options: any,
-        signal: AbortSignal): Promise<any> {
+        options?: any | null,
+        signal?: AbortSignal): Promise<any> {
         options.signal = signal;
+        let paramList: any[] = [];
         let { buildJsPoint } = await import('./point');
         let jsPoint = buildJsPoint(point) as any;
+        paramList.push(jsPoint);
         let { buildJsRasterIdentifyOptions } = await import('./rasterIdentifyOptions');
         let jsOptions = await buildJsRasterIdentifyOptions(options, this.layerId, this.viewId) as any;
-        let result = await this.layer.identify(jsPoint,
-            jsOptions) as any;
+        if (jsOptions !== null) {
+            paramList.push(jsOptions);
+        }
+        let result = await this.layer.identify(...paramList as [any, any]) as any;
         let { buildDotNetRasterIdentifyResult } = await import('./rasterIdentifyResult');
         return await buildDotNetRasterIdentifyResult(result, this.layerId, this.viewId);
     }
@@ -221,26 +235,46 @@ export default class WCSLayerGenerated extends BaseComponent {
         return this.layer.isResolved();
     }
 
-    async save(options: any): Promise<any> {
-        let result = await this.layer.save(options) as any;
+    async save(options?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        if (options !== null) {
+            paramList.push(options);
+        }
+        let result = await this.layer.save(...paramList as [any]) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
     async saveAs(portalItem: any,
-        options: any): Promise<any> {
+        options?: any | null): Promise<any> {
+        let paramList: any[] = [];
         let { buildJsPortalItem } = await import('./portalItem');
         let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
-        let result = await this.layer.saveAs(jsPortalItem,
-            options) as any;
+        paramList.push(jsPortalItem);
+        if (options !== null) {
+            paramList.push(options);
+        }
+        let result = await this.layer.saveAs(...paramList as [any, any]) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.layer.when(callback,
-            errback);
+    async when(callback?: any | null,
+        errback?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (callback !== null) {
+            paramList.push(callback);
+        } else {
+            skippedLastParam = true;
+        }
+        if (errback !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(errback);
+        }
+        return await this.layer.when(...paramList as [any, any]);
     }
 
     // region properties

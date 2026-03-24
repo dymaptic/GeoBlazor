@@ -40,13 +40,15 @@ export default class GroundGenerated extends BaseComponent {
     }
 
     async createElevationSampler(extent: any,
-        options: any,
-        signal: AbortSignal): Promise<any> {
+        options?: any | null,
+        signal?: AbortSignal): Promise<any> {
         options.signal = signal;
+        let paramList: any[] = [];
         let { buildJsExtent } = await import('./extent');
         let jsExtent = buildJsExtent(extent) as any;
-        return await this.component.createElevationSampler(jsExtent,
-            options);
+        paramList.push(jsExtent);
+        paramList.push(options);
+        return await this.component.createElevationSampler(...paramList as [any, any]);
     }
 
     async isFulfilled(): Promise<any> {
@@ -68,21 +70,35 @@ export default class GroundGenerated extends BaseComponent {
     }
 
     async queryElevation(geometry: any,
-        options: any,
-        signal: AbortSignal): Promise<any> {
+        options?: any | null,
+        signal?: AbortSignal): Promise<any> {
         options.signal = signal;
+        let paramList: any[] = [];
         let { buildJsGeometry } = await import('./geometry');
         let jsGeometry = buildJsGeometry(geometry) as any;
-        let result = await this.component.queryElevation(jsGeometry,
-            options) as any;
+        paramList.push(jsGeometry);
+        paramList.push(options);
+        let result = await this.component.queryElevation(...paramList as [any, any]) as any;
         let { buildDotNetElevationQueryResult } = await import('./elevationQueryResult');
         return await buildDotNetElevationQueryResult(result, this.viewId);
     }
 
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.component.when(callback,
-            errback);
+    async when(callback?: any | null,
+        errback?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (callback !== null) {
+            paramList.push(callback);
+        } else {
+            skippedLastParam = true;
+        }
+        if (errback !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(errback);
+        }
+        return await this.component.when(...paramList as [any, any]);
     }
 
     // region properties

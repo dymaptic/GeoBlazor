@@ -26,28 +26,53 @@ export default class LayerListViewModelGenerated extends BaseComponent {
     }
     
     // region methods
-    async moveListItem(targetItem: any,
-        fromParentItem: any,
-        toParentItem: any,
+    async moveListItem(targetItem?: any | null,
+        fromParentItem?: any | null,
+        toParentItem?: any | null,
         newIndex: any): Promise<void> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
         let { buildJsListItem } = await import('./listItem');
         let jsTargetItem = await buildJsListItem(targetItem, this.layerId, this.viewId) as any;
+        if (jsTargetItem !== null) {
+            paramList.push(jsTargetItem);
+        } else {
+            skippedLastParam = true;
+        }
         let jsFromParentItem = await buildJsListItem(fromParentItem, this.layerId, this.viewId) as any;
+        if (jsFromParentItem !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+                skippedLastParam = false;
+            }
+            paramList.push(jsFromParentItem);
+        } else {
+            skippedLastParam = true;
+        }
         let jsToParentItem = await buildJsListItem(toParentItem, this.layerId, this.viewId) as any;
-        this.component.moveListItem(jsTargetItem,
-            jsFromParentItem,
-            jsToParentItem,
-            newIndex);
+        if (jsToParentItem !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+                skippedLastParam = false;
+            }
+            paramList.push(jsToParentItem);
+        } else {
+            skippedLastParam = true;
+        }
+        paramList.push(newIndex);
+        this.component.moveListItem(...paramList as [any, any, any, any]);
     }
 
     async triggerAction(action: any,
         item: any): Promise<void> {
+        let paramList: any[] = [];
         let { buildJsActionBase } = await import('./actionBase');
         let jsAction = buildJsActionBase(action) as any;
+        paramList.push(jsAction);
         let { buildJsListItem } = await import('./listItem');
         let jsItem = await buildJsListItem(item, this.layerId, this.viewId) as any;
-        this.component.triggerAction(jsAction,
-            jsItem);
+        paramList.push(jsItem);
+        this.component.triggerAction(...paramList as [any, any]);
     }
 
     // region properties

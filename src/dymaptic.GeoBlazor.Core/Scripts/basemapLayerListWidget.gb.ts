@@ -110,18 +110,32 @@ export default class BasemapLayerListWidgetGenerated extends BaseComponent {
 
     async triggerAction(action: any,
         item: any): Promise<void> {
+        let paramList: any[] = [];
         let { buildJsActionBase } = await import('./actionBase');
         let jsAction = buildJsActionBase(action) as any;
+        paramList.push(jsAction);
         let { buildJsListItem } = await import('./listItem');
         let jsItem = await buildJsListItem(item, this.layerId, this.viewId) as any;
-        this.widget.triggerAction(jsAction,
-            jsItem);
+        paramList.push(jsItem);
+        this.widget.triggerAction(...paramList as [any, any]);
     }
 
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.widget.when(callback,
-            errback);
+    async when(callback?: any | null,
+        errback?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (callback !== null) {
+            paramList.push(callback);
+        } else {
+            skippedLastParam = true;
+        }
+        if (errback !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(errback);
+        }
+        return await this.widget.when(...paramList as [any, any]);
     }
 
     // region properties

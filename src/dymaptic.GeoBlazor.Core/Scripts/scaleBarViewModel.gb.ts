@@ -22,8 +22,10 @@ export default class ScaleBarViewModelGenerated extends BaseComponent {
     // region methods
     async getScaleBarProperties(length: any,
         measurementSystem: any): Promise<any> {
-        return this.component.getScaleBarProperties(length,
-            measurementSystem);
+        let paramList: any[] = [];
+        paramList.push(length);
+        paramList.push(measurementSystem);
+        return this.component.getScaleBarProperties(...paramList as [any, any]);
     }
 
     // region properties

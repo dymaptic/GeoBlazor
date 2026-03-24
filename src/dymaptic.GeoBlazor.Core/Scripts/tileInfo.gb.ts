@@ -42,11 +42,15 @@ export default class TileInfoGenerated extends BaseComponent {
     
     // region methods
     async scaleToZoom(scale: any): Promise<any> {
-        return this.component.scaleToZoom(scale);
+        let paramList: any[] = [];
+        paramList.push(scale);
+        return this.component.scaleToZoom(...paramList as [any]);
     }
 
     async zoomToScale(zoom: any): Promise<any> {
-        return this.component.zoomToScale(zoom);
+        let paramList: any[] = [];
+        paramList.push(zoom);
+        return this.component.zoomToScale(...paramList as [any]);
     }
 
     // region properties

@@ -79,16 +79,20 @@ export default class VectorTileLayerGenerated extends BaseComponent {
     }
 
     async createLayerView(view: any,
-        signal: AbortSignal): Promise<any> {
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        let result = await this.layer.createLayerView(view,
-            options) as any;
+        let paramList: any[] = [];
+        paramList.push(view);
+        paramList.push(options);
+        let result = await this.layer.createLayerView(...paramList as [any, any]) as any;
         let { buildDotNetLayerView } = await import('./layerView');
         return await buildDotNetLayerView(result, this.layerId, this.viewId);
     }
 
     async deleteStyleLayer(layerId: any): Promise<void> {
-        this.layer.deleteStyleLayer(layerId);
+        let paramList: any[] = [];
+        paramList.push(layerId);
+        this.layer.deleteStyleLayer(...paramList as [any]);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -96,27 +100,39 @@ export default class VectorTileLayerGenerated extends BaseComponent {
     }
 
     async getLayoutProperties(layerId: any): Promise<any> {
-        return this.layer.getLayoutProperties(layerId);
+        let paramList: any[] = [];
+        paramList.push(layerId);
+        return this.layer.getLayoutProperties(...paramList as [any]);
     }
 
     async getPaintProperties(layerId: any): Promise<any> {
-        return this.layer.getPaintProperties(layerId);
+        let paramList: any[] = [];
+        paramList.push(layerId);
+        return this.layer.getPaintProperties(...paramList as [any]);
     }
 
     async getStyleLayer(layerId: any): Promise<any> {
-        return this.layer.getStyleLayer(layerId);
+        let paramList: any[] = [];
+        paramList.push(layerId);
+        return this.layer.getStyleLayer(...paramList as [any]);
     }
 
     async getStyleLayerId(index: any): Promise<any> {
-        return this.layer.getStyleLayerId(index);
+        let paramList: any[] = [];
+        paramList.push(index);
+        return this.layer.getStyleLayerId(...paramList as [any]);
     }
 
     async getStyleLayerIndex(layerId: any): Promise<any> {
-        return this.layer.getStyleLayerIndex(layerId);
+        let paramList: any[] = [];
+        paramList.push(layerId);
+        return this.layer.getStyleLayerIndex(...paramList as [any]);
     }
 
     async getStyleLayerVisibility(layerId: any): Promise<any> {
-        return this.layer.getStyleLayerVisibility(layerId);
+        let paramList: any[] = [];
+        paramList.push(layerId);
+        return this.layer.getStyleLayerVisibility(...paramList as [any]);
     }
 
     async isFulfilled(): Promise<any> {
@@ -131,11 +147,18 @@ export default class VectorTileLayerGenerated extends BaseComponent {
         return this.layer.isResolved();
     }
 
-    async loadStyle(style: any,
-        signal: AbortSignal): Promise<any> {
+    async loadStyle(style?: any | null,
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.layer.loadStyle(style,
-            options);
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (style !== null) {
+            paramList.push(style);
+        } else {
+            skippedLastParam = true;
+        }
+        paramList.push(options);
+        return await this.layer.loadStyle(...paramList as [any, any]);
     }
 
     async refresh(): Promise<void> {
@@ -144,36 +167,60 @@ export default class VectorTileLayerGenerated extends BaseComponent {
 
     async setLayoutProperties(layerId: any,
         layout: any): Promise<void> {
-        this.layer.setLayoutProperties(layerId,
-            layout);
+        let paramList: any[] = [];
+        paramList.push(layerId);
+        paramList.push(layout);
+        this.layer.setLayoutProperties(...paramList as [any, any]);
     }
 
     async setPaintProperties(layerId: any,
         painter: any): Promise<void> {
-        this.layer.setPaintProperties(layerId,
-            painter);
+        let paramList: any[] = [];
+        paramList.push(layerId);
+        paramList.push(painter);
+        this.layer.setPaintProperties(...paramList as [any, any]);
     }
 
     async setSpriteSource(spriteSourceInfo: any): Promise<any> {
-        return await this.layer.setSpriteSource(spriteSourceInfo);
+        let paramList: any[] = [];
+        paramList.push(spriteSourceInfo);
+        return await this.layer.setSpriteSource(...paramList as [any]);
     }
 
     async setStyleLayer(layer: any,
-        index: any): Promise<void> {
-        this.layer.setStyleLayer(layer,
-            index);
+        index?: any | null): Promise<void> {
+        let paramList: any[] = [];
+        paramList.push(layer);
+        if (index !== null) {
+            paramList.push(index);
+        }
+        this.layer.setStyleLayer(...paramList as [any, any]);
     }
 
     async setStyleLayerVisibility(layerId: any,
         visibility: any): Promise<void> {
-        this.layer.setStyleLayerVisibility(layerId,
-            visibility);
+        let paramList: any[] = [];
+        paramList.push(layerId);
+        paramList.push(visibility);
+        this.layer.setStyleLayerVisibility(...paramList as [any, any]);
     }
 
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.layer.when(callback,
-            errback);
+    async when(callback?: any | null,
+        errback?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (callback !== null) {
+            paramList.push(callback);
+        } else {
+            skippedLastParam = true;
+        }
+        if (errback !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(errback);
+        }
+        return await this.layer.when(...paramList as [any, any]);
     }
 
     // region properties

@@ -42,15 +42,21 @@ export default class SliderViewModelGenerated extends BaseComponent {
     
     // region methods
     async defaultInputFormatFunction(value: any): Promise<any> {
-        return this.component.defaultInputFormatFunction(value);
+        let paramList: any[] = [];
+        paramList.push(value);
+        return this.component.defaultInputFormatFunction(...paramList as [any]);
     }
 
     async defaultInputParseFunction(value: any): Promise<any> {
-        return this.component.defaultInputParseFunction(value);
+        let paramList: any[] = [];
+        paramList.push(value);
+        return this.component.defaultInputParseFunction(...paramList as [any]);
     }
 
     async defaultLabelFormatFunction(value: any): Promise<any> {
-        return this.component.defaultLabelFormatFunction(value);
+        let paramList: any[] = [];
+        paramList.push(value);
+        return this.component.defaultLabelFormatFunction(...paramList as [any]);
     }
 
     async getBounds(): Promise<any> {
@@ -58,25 +64,51 @@ export default class SliderViewModelGenerated extends BaseComponent {
     }
 
     async getBoundsForValueAtIndex(index: any): Promise<any> {
-        return this.component.getBoundsForValueAtIndex(index);
+        let paramList: any[] = [];
+        paramList.push(index);
+        return this.component.getBoundsForValueAtIndex(...paramList as [any]);
     }
 
-    async getLabelForValue(value: any,
-        type: any,
-        index: any): Promise<any> {
-        return this.component.getLabelForValue(value,
-            type,
-            index);
+    async getLabelForValue(value?: any | null,
+        type?: any | null,
+        index?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (value !== null) {
+            paramList.push(value);
+        } else {
+            skippedLastParam = true;
+        }
+        if (type !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+                skippedLastParam = false;
+            }
+            paramList.push(type);
+        } else {
+            skippedLastParam = true;
+        }
+        if (index !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(index);
+        }
+        return this.component.getLabelForValue(...paramList as [any, any, any]);
     }
 
     async setValue(index: any,
         value: any): Promise<void> {
-        this.component.setValue(index,
-            value);
+        let paramList: any[] = [];
+        paramList.push(index);
+        paramList.push(value);
+        this.component.setValue(...paramList as [any, any]);
     }
 
     async toPrecision(value: any): Promise<any> {
-        return this.component.toPrecision(value);
+        let paramList: any[] = [];
+        paramList.push(value);
+        return this.component.toPrecision(...paramList as [any]);
     }
 
     // region properties

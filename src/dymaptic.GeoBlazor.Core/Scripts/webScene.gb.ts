@@ -84,40 +84,68 @@ export default class WebSceneGenerated extends BaseComponent {
         return await buildDotNetWebScene(result, this.layerId, this.viewId);
     }
 
-    async save(options: any): Promise<any> {
-        let result = await this.component.save(options) as any;
+    async save(options?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        if (options !== null) {
+            paramList.push(options);
+        }
+        let result = await this.component.save(...paramList as [any]) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
     async saveAs(portalItem: any,
-        options: any): Promise<any> {
+        options?: any | null): Promise<any> {
+        let paramList: any[] = [];
         let { buildJsPortalItem } = await import('./portalItem');
         let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
+        paramList.push(jsPortalItem);
         let { buildJsWebSceneSaveAsOptions } = await import('./webSceneSaveAsOptions');
         let jsOptions = await buildJsWebSceneSaveAsOptions(options, this.layerId, this.viewId) as any;
-        let result = await this.component.saveAs(jsPortalItem,
-            jsOptions) as any;
+        if (jsOptions !== null) {
+            paramList.push(jsOptions);
+        }
+        let result = await this.component.saveAs(...paramList as [any, any]) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
     async updateFrom(view: any,
-        options: any): Promise<void> {
-        await this.component.updateFrom(view,
-            options);
+        options?: any | null): Promise<void> {
+        let paramList: any[] = [];
+        paramList.push(view);
+        if (options !== null) {
+            paramList.push(options);
+        }
+        await this.component.updateFrom(...paramList as [any, any]);
     }
 
     async updateThumbnail(view: any,
-        options: any): Promise<void> {
-        await this.component.updateThumbnail(view,
-            options);
+        options?: any | null): Promise<void> {
+        let paramList: any[] = [];
+        paramList.push(view);
+        if (options !== null) {
+            paramList.push(options);
+        }
+        await this.component.updateThumbnail(...paramList as [any, any]);
     }
 
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.component.when(callback,
-            errback);
+    async when(callback?: any | null,
+        errback?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (callback !== null) {
+            paramList.push(callback);
+        } else {
+            skippedLastParam = true;
+        }
+        if (errback !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(errback);
+        }
+        return await this.component.when(...paramList as [any, any]);
     }
 
     // region properties

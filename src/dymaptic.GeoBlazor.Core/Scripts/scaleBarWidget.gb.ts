@@ -70,10 +70,22 @@ export default class ScaleBarWidgetGenerated extends BaseComponent {
         this.widget.scheduleRender();
     }
 
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.widget.when(callback,
-            errback);
+    async when(callback?: any | null,
+        errback?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (callback !== null) {
+            paramList.push(callback);
+        } else {
+            skippedLastParam = true;
+        }
+        if (errback !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(errback);
+        }
+        return await this.widget.when(...paramList as [any, any]);
     }
 
     // region properties

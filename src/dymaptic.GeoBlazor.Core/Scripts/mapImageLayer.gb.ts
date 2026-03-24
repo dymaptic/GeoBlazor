@@ -123,23 +123,37 @@ export default class MapImageLayerGenerated extends BaseComponent {
         this.layer.cancelLoad();
     }
 
-    async createExportImageParameters(extent: any,
+    async createExportImageParameters(extent?: any | null,
         width: any,
         height: any,
-        options: any): Promise<any> {
+        options?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
         let { buildJsExtent } = await import('./extent');
         let jsExtent = buildJsExtent(extent) as any;
-        return this.layer.createExportImageParameters(jsExtent,
-            width,
-            height,
-            options);
+        if (jsExtent !== null) {
+            paramList.push(jsExtent);
+        } else {
+            skippedLastParam = true;
+        }
+        paramList.push(width);
+        paramList.push(height);
+        if (options !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(options);
+        }
+        return this.layer.createExportImageParameters(...paramList as [any, any, any, any]);
     }
 
     async createLayerView(view: any,
-        signal: AbortSignal): Promise<any> {
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        let result = await this.layer.createLayerView(view,
-            options) as any;
+        let paramList: any[] = [];
+        paramList.push(view);
+        paramList.push(options);
+        let result = await this.layer.createLayerView(...paramList as [any, any]) as any;
         let { buildDotNetLayerView } = await import('./layerView');
         return await buildDotNetLayerView(result, this.layerId, this.viewId);
     }
@@ -155,7 +169,9 @@ export default class MapImageLayerGenerated extends BaseComponent {
     }
 
     async findSublayerById(id: any): Promise<any> {
-        let result = this.layer.findSublayerById(id) as any;
+        let paramList: any[] = [];
+        paramList.push(id);
+        let result = this.layer.findSublayerById(...paramList as [any]) as any;
         let { buildDotNetSublayer } = await import('./sublayer');
         return await buildDotNetSublayer(result, this.layerId, this.viewId);
     }
@@ -182,26 +198,46 @@ export default class MapImageLayerGenerated extends BaseComponent {
         this.layer.refresh();
     }
 
-    async save(options: any): Promise<any> {
-        let result = await this.layer.save(options) as any;
+    async save(options?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        if (options !== null) {
+            paramList.push(options);
+        }
+        let result = await this.layer.save(...paramList as [any]) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
     async saveAs(portalItem: any,
-        options: any): Promise<any> {
+        options?: any | null): Promise<any> {
+        let paramList: any[] = [];
         let { buildJsPortalItem } = await import('./portalItem');
         let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
-        let result = await this.layer.saveAs(jsPortalItem,
-            options) as any;
+        paramList.push(jsPortalItem);
+        if (options !== null) {
+            paramList.push(options);
+        }
+        let result = await this.layer.saveAs(...paramList as [any, any]) as any;
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.layer.when(callback,
-            errback);
+    async when(callback?: any | null,
+        errback?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (callback !== null) {
+            paramList.push(callback);
+        } else {
+            skippedLastParam = true;
+        }
+        if (errback !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(errback);
+        }
+        return await this.layer.when(...paramList as [any, any]);
     }
 
     // region properties

@@ -34,17 +34,21 @@ export default class PolylineGenerated extends BaseComponent {
     
     // region methods
     async addPath(points: any): Promise<any> {
+        let paramList: any[] = [];
         let { buildJsPoint } = await import('./point');
         let jsPoints = points.map(i => buildJsPoint(i)) as any;
-        let result = this.component.addPath(jsPoints) as any;
+        paramList.push(jsPoints);
+        let result = this.component.addPath(...paramList as [any]) as any;
         let { buildDotNetPolyline } = await import('./polyline');
         return buildDotNetPolyline(result);
     }
 
     async getPoint(pathIndex: any,
         pointIndex: any): Promise<any> {
-        let result = this.component.getPoint(pathIndex,
-            pointIndex) as any;
+        let paramList: any[] = [];
+        paramList.push(pathIndex);
+        paramList.push(pointIndex);
+        let result = this.component.getPoint(...paramList as [any, any]) as any;
         let { buildDotNetPoint } = await import('./point');
         return buildDotNetPoint(result);
     }
@@ -52,25 +56,31 @@ export default class PolylineGenerated extends BaseComponent {
     async insertPoint(pathIndex: any,
         pointIndex: any,
         point: any): Promise<any> {
+        let paramList: any[] = [];
+        paramList.push(pathIndex);
+        paramList.push(pointIndex);
         let { buildJsPoint } = await import('./point');
         let jsPoint = buildJsPoint(point) as any;
-        let result = this.component.insertPoint(pathIndex,
-            pointIndex,
-            jsPoint) as any;
+        paramList.push(jsPoint);
+        let result = this.component.insertPoint(...paramList as [any, any, any]) as any;
         let { buildDotNetPolyline } = await import('./polyline');
         return buildDotNetPolyline(result);
     }
 
     async removePath(index: any): Promise<any> {
-        let result = this.component.removePath(index) as any;
+        let paramList: any[] = [];
+        paramList.push(index);
+        let result = this.component.removePath(...paramList as [any]) as any;
         let { buildDotNetPoint } = await import('./point');
         return result.map(i => buildDotNetPoint(i));
     }
 
     async removePoint(pathIndex: any,
         pointIndex: any): Promise<any> {
-        let result = this.component.removePoint(pathIndex,
-            pointIndex) as any;
+        let paramList: any[] = [];
+        paramList.push(pathIndex);
+        paramList.push(pointIndex);
+        let result = this.component.removePoint(...paramList as [any, any]) as any;
         let { buildDotNetPoint } = await import('./point');
         return buildDotNetPoint(result);
     }
@@ -78,11 +88,13 @@ export default class PolylineGenerated extends BaseComponent {
     async setPoint(pathIndex: any,
         pointIndex: any,
         point: any): Promise<any> {
+        let paramList: any[] = [];
+        paramList.push(pathIndex);
+        paramList.push(pointIndex);
         let { buildJsPoint } = await import('./point');
         let jsPoint = buildJsPoint(point) as any;
-        let result = this.component.setPoint(pathIndex,
-            pointIndex,
-            jsPoint) as any;
+        paramList.push(jsPoint);
+        let result = this.component.setPoint(...paramList as [any, any, any]) as any;
         let { buildDotNetPolyline } = await import('./polyline');
         return buildDotNetPolyline(result);
     }

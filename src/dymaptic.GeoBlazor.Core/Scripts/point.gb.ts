@@ -49,17 +49,21 @@ export default class PointGenerated extends BaseComponent {
     
     // region methods
     async copy(other: any): Promise<any> {
+        let paramList: any[] = [];
         let { buildJsPoint } = await import('./point');
         let jsOther = buildJsPoint(other) as any;
-        let result = this.component.copy(jsOther) as any;
+        paramList.push(jsOther);
+        let result = this.component.copy(...paramList as [any]) as any;
         let { buildDotNetPoint } = await import('./point');
         return buildDotNetPoint(result);
     }
 
     async distance(other: any): Promise<any> {
+        let paramList: any[] = [];
         let { buildJsPoint } = await import('./point');
         let jsOther = buildJsPoint(other) as any;
-        return this.component.distance(jsOther);
+        paramList.push(jsOther);
+        return this.component.distance(...paramList as [any]);
     }
 
     async normalize(): Promise<any> {

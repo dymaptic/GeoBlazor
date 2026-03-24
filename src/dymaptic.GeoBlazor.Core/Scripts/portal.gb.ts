@@ -221,48 +221,67 @@ export default class PortalGenerated extends BaseComponent {
         return await this.component.createElevationLayers();
     }
 
-    async fetchBasemaps(basemapGalleryGroupQuery: any,
-        options: any,
-        signal: AbortSignal): Promise<any> {
+    async fetchBasemaps(basemapGalleryGroupQuery?: any | null,
+        options?: any | null,
+        signal?: AbortSignal): Promise<any> {
         options.signal = signal;
-        let result = await this.component.fetchBasemaps(basemapGalleryGroupQuery,
-            options) as any;
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (basemapGalleryGroupQuery !== null) {
+            paramList.push(basemapGalleryGroupQuery);
+        } else {
+            skippedLastParam = true;
+        }
+        paramList.push(options);
+        let result = await this.component.fetchBasemaps(...paramList as [any, any]) as any;
         let { buildDotNetBasemap } = await import('./basemap');
         return await Promise.all(result.map(async i => await buildDotNetBasemap(i, this.layerId, this.viewId)));
     }
 
-    async fetchCategorySchema(signal: AbortSignal): Promise<any> {
+    async fetchCategorySchema(signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.component.fetchCategorySchema(options);
+        let paramList: any[] = [];
+        paramList.push(options);
+        return await this.component.fetchCategorySchema(...paramList as [any]);
     }
 
-    async fetchClassificationSchema(signal: AbortSignal): Promise<any> {
+    async fetchClassificationSchema(signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.component.fetchClassificationSchema(options);
+        let paramList: any[] = [];
+        paramList.push(options);
+        return await this.component.fetchClassificationSchema(...paramList as [any]);
     }
 
-    async fetchDefault3DBasemap(signal: AbortSignal): Promise<any> {
+    async fetchDefault3DBasemap(signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        let result = await this.component.fetchDefault3DBasemap(options) as any;
+        let paramList: any[] = [];
+        paramList.push(options);
+        let result = await this.component.fetchDefault3DBasemap(...paramList as [any]) as any;
         let { buildDotNetBasemap } = await import('./basemap');
         return await buildDotNetBasemap(result, this.layerId, this.viewId);
     }
 
-    async fetchFeaturedGroups(signal: AbortSignal): Promise<any> {
+    async fetchFeaturedGroups(signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        let result = await this.component.fetchFeaturedGroups(options) as any;
+        let paramList: any[] = [];
+        paramList.push(options);
+        let result = await this.component.fetchFeaturedGroups(...paramList as [any]) as any;
         let { buildDotNetPortalGroup } = await import('./portalGroup');
         return await Promise.all(result.map(async i => await buildDotNetPortalGroup(i, this.layerId, this.viewId)));
     }
 
-    async fetchRegions(signal: AbortSignal): Promise<any> {
+    async fetchRegions(signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.component.fetchRegions(options);
+        let paramList: any[] = [];
+        paramList.push(options);
+        return await this.component.fetchRegions(...paramList as [any]);
     }
 
-    async fetchSettings(signal: AbortSignal): Promise<any> {
+    async fetchSettings(signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
-        return await this.component.fetchSettings(options);
+        let paramList: any[] = [];
+        paramList.push(options);
+        return await this.component.fetchSettings(...paramList as [any]);
     }
 
     async isFulfilled(): Promise<any> {
@@ -278,42 +297,60 @@ export default class PortalGenerated extends BaseComponent {
     }
 
     async queryGroups(queryParams: any,
-        signal: AbortSignal): Promise<any> {
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
+        let paramList: any[] = [];
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
-        let result = await this.component.queryGroups(jsQueryParams,
-            options) as any;
+        paramList.push(jsQueryParams);
+        paramList.push(options);
+        let result = await this.component.queryGroups(...paramList as [any, any]) as any;
         let { buildDotNetPortalQueryResult } = await import('./portalQueryResult');
         return await buildDotNetPortalQueryResult(result, this.layerId, this.viewId);
     }
 
     async queryItems(queryParams: any,
-        signal: AbortSignal): Promise<any> {
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
+        let paramList: any[] = [];
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
-        let result = await this.component.queryItems(jsQueryParams,
-            options) as any;
+        paramList.push(jsQueryParams);
+        paramList.push(options);
+        let result = await this.component.queryItems(...paramList as [any, any]) as any;
         let { buildDotNetPortalQueryResult } = await import('./portalQueryResult');
         return await buildDotNetPortalQueryResult(result, this.layerId, this.viewId);
     }
 
     async queryUsers(queryParams: any,
-        signal: AbortSignal): Promise<any> {
+        signal?: AbortSignal): Promise<any> {
         let options = { signal: signal };
+        let paramList: any[] = [];
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
-        let result = await this.component.queryUsers(jsQueryParams,
-            options) as any;
+        paramList.push(jsQueryParams);
+        paramList.push(options);
+        let result = await this.component.queryUsers(...paramList as [any, any]) as any;
         let { buildDotNetPortalQueryResult } = await import('./portalQueryResult');
         return await buildDotNetPortalQueryResult(result, this.layerId, this.viewId);
     }
 
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.component.when(callback,
-            errback);
+    async when(callback?: any | null,
+        errback?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
+        if (callback !== null) {
+            paramList.push(callback);
+        } else {
+            skippedLastParam = true;
+        }
+        if (errback !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(errback);
+        }
+        return await this.component.when(...paramList as [any, any]);
     }
 
     // region properties

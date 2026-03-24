@@ -28,13 +28,25 @@ export default class BasemapGalleryViewModelGenerated extends BaseComponent {
     }
     
     // region methods
-    async basemapEquals(basemap1: any,
-        basemap2: any): Promise<any> {
+    async basemapEquals(basemap1?: any | null,
+        basemap2?: any | null): Promise<any> {
+        let paramList: any[] = [];
+        let skippedLastParam = false;
         let { buildJsBasemap } = await import('./basemap');
         let jsBasemap1 = await buildJsBasemap(basemap1, this.layerId, this.viewId) as any;
+        if (jsBasemap1 !== null) {
+            paramList.push(jsBasemap1);
+        } else {
+            skippedLastParam = true;
+        }
         let jsBasemap2 = await buildJsBasemap(basemap2, this.layerId, this.viewId) as any;
-        return this.component.basemapEquals(jsBasemap1,
-            jsBasemap2);
+        if (jsBasemap2 !== null) {
+            if (skippedLastParam) {
+                paramList.push(undefined);
+            }
+            paramList.push(jsBasemap2);
+        }
+        return this.component.basemapEquals(...paramList as [any, any]);
     }
 
     // region properties
