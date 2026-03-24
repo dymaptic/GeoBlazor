@@ -112,7 +112,7 @@ public partial class SymbolTableElement : MapComponent,
 
         // get the property value
         IReadOnlyList<ISymbolTableElementType>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<ISymbolTableElementType>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SymbolTableElement), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SymbolTableElement), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "infos");
         if (result is not null)
         {
@@ -153,7 +153,7 @@ public partial class SymbolTableElement : MapComponent,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SymbolTableElement), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SymbolTableElement), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "legendType");
         if (result is not null)
         {

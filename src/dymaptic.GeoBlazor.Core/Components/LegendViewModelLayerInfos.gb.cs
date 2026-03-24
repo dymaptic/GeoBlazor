@@ -132,7 +132,7 @@ public partial class LegendViewModelLayerInfos : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LegendViewModelLayerInfos), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LegendViewModelLayerInfos), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {

@@ -100,7 +100,7 @@ public partial class TimeInterval
 
         // get the property value
         TemporalTime? result = await JsComponentReference!.InvokeJsMethod<TemporalTime?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TimeInterval), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TimeInterval), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "unit");
         if (result is not null)
         {
@@ -141,7 +141,7 @@ public partial class TimeInterval
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TimeInterval), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TimeInterval), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "value");
         if (result is not null)
         {

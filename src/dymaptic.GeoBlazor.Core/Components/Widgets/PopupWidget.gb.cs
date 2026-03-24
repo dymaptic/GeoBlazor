@@ -244,7 +244,7 @@ public partial class PopupWidget : IGoTo
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "active");
         if (result is not null)
         {
@@ -285,7 +285,7 @@ public partial class PopupWidget : IGoTo
 
         // get the property value
         PopupAlignment? result = await JsComponentReference!.InvokeJsMethod<PopupAlignment?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "alignment");
         if (result is not null)
         {
@@ -326,7 +326,7 @@ public partial class PopupWidget : IGoTo
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "autoCloseEnabled");
         if (result is not null)
         {
@@ -367,7 +367,7 @@ public partial class PopupWidget : IGoTo
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "collapsed");
         if (result is not null)
         {
@@ -455,7 +455,7 @@ public partial class PopupWidget : IGoTo
 
         // get the property value
         CurrentDockPosition? result = await JsComponentReference!.InvokeJsMethod<CurrentDockPosition?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "currentDockPosition");
         if (result is not null)
         {
@@ -496,7 +496,7 @@ public partial class PopupWidget : IGoTo
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "defaultPopupTemplateEnabled");
         if (result is not null)
         {
@@ -537,7 +537,7 @@ public partial class PopupWidget : IGoTo
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "dockEnabled");
         if (result is not null)
         {
@@ -670,7 +670,7 @@ public partial class PopupWidget : IGoTo
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "headingLevel");
         if (result is not null)
         {
@@ -711,7 +711,7 @@ public partial class PopupWidget : IGoTo
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "highlightEnabled");
         if (result is not null)
         {
@@ -752,7 +752,7 @@ public partial class PopupWidget : IGoTo
 
         // get the property value
         InitialDisplayMode? result = await JsComponentReference!.InvokeJsMethod<InitialDisplayMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "initialDisplayMode");
         if (result is not null)
         {
@@ -840,7 +840,7 @@ public partial class PopupWidget : IGoTo
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "promises");
         if (result is not null)
         {
@@ -928,7 +928,7 @@ public partial class PopupWidget : IGoTo
 
         // get the property value
         IFeatureWidget? result = await JsComponentReference!.InvokeJsMethod<IFeatureWidget?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "selectedFeatureWidget");
         if (result is not null)
         {
@@ -969,7 +969,7 @@ public partial class PopupWidget : IGoTo
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {

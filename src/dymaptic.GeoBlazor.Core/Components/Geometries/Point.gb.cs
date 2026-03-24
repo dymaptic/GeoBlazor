@@ -40,7 +40,7 @@ public partial class Point
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Point), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Point), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "latitude");
         if (result is not null)
         {
@@ -81,7 +81,7 @@ public partial class Point
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Point), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Point), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "longitude");
         if (result is not null)
         {
@@ -122,7 +122,7 @@ public partial class Point
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Point), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Point), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "m");
         if (result is not null)
         {
@@ -163,7 +163,7 @@ public partial class Point
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Point), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Point), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "x");
         if (result is not null)
         {
@@ -204,7 +204,7 @@ public partial class Point
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Point), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Point), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "y");
         if (result is not null)
         {
@@ -245,7 +245,7 @@ public partial class Point
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Point), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Point), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "z");
         if (result is not null)
         {

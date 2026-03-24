@@ -159,7 +159,7 @@ public partial class SizeRampStop : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeRampStop), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SizeRampStop), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "label");
         if (result is not null)
         {
@@ -200,7 +200,7 @@ public partial class SizeRampStop : MapComponent
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeRampStop), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SizeRampStop), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "outlineSize");
         if (result is not null)
         {
@@ -241,7 +241,7 @@ public partial class SizeRampStop : MapComponent
 
         // get the property value
         ElementReference? result = await JsComponentReference!.InvokeJsMethod<ElementReference?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeRampStop), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SizeRampStop), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "preview");
         if (result is not null)
         {
@@ -282,7 +282,7 @@ public partial class SizeRampStop : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeRampStop), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SizeRampStop), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "size");
         if (result is not null)
         {
@@ -370,7 +370,7 @@ public partial class SizeRampStop : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeRampStop), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SizeRampStop), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "value");
         if (result is not null)
         {

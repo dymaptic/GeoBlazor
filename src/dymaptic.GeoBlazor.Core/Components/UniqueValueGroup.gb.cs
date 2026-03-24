@@ -141,7 +141,7 @@ public partial class UniqueValueGroup : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValueGroup), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(UniqueValueGroup), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "heading");
         if (result is not null)
         {

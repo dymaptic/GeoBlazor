@@ -130,7 +130,7 @@ public partial class FeatureFilter
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureFilter), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureFilter), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "distance");
         if (result is not null)
         {
@@ -218,7 +218,7 @@ public partial class FeatureFilter
 
         // get the property value
         IReadOnlyList<ObjectId>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<ObjectId>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureFilter), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureFilter), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "objectIds");
         if (result is not null)
         {
@@ -259,7 +259,7 @@ public partial class FeatureFilter
 
         // get the property value
         SpatialRelationship? result = await JsComponentReference!.InvokeJsMethod<SpatialRelationship?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureFilter), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureFilter), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "spatialRelationship");
         if (result is not null)
         {
@@ -347,7 +347,7 @@ public partial class FeatureFilter
 
         // get the property value
         QueryUnits? result = await JsComponentReference!.InvokeJsMethod<QueryUnits?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureFilter), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureFilter), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "units");
         if (result is not null)
         {
@@ -388,7 +388,7 @@ public partial class FeatureFilter
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureFilter), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureFilter), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "where");
         if (result is not null)
         {

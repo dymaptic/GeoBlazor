@@ -96,7 +96,7 @@ public partial class Theme : MapComponent
 
         // get the property value
         MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Theme), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Theme), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "accentColor");
         if (result is not null)
         {
@@ -137,7 +137,7 @@ public partial class Theme : MapComponent
 
         // get the property value
         MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Theme), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Theme), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "textColor");
         if (result is not null)
         {

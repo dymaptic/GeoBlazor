@@ -412,7 +412,7 @@ public partial class Sublayer
 
         // get the property value
         IAttributeTableTemplate? result = await JsComponentReference!.InvokeJsMethod<IAttributeTableTemplate?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "attributeTableTemplate");
         if (result is not null)
         {
@@ -453,7 +453,7 @@ public partial class Sublayer
 
         // get the property value
         SublayerCapabilities? result = await JsComponentReference!.InvokeJsMethod<SublayerCapabilities?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "capabilities");
         if (result is not null)
         {
@@ -494,7 +494,7 @@ public partial class Sublayer
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "definitionExpression");
         if (result is not null)
         {
@@ -715,7 +715,7 @@ public partial class Sublayer
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "isTable");
         if (result is not null)
         {
@@ -801,7 +801,7 @@ public partial class Sublayer
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "labelsVisible");
         if (result is not null)
         {
@@ -842,7 +842,7 @@ public partial class Sublayer
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "legendEnabled");
         if (result is not null)
         {
@@ -883,7 +883,7 @@ public partial class Sublayer
 
         // get the property value
         ListMode? result = await JsComponentReference!.InvokeJsMethod<ListMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "listMode");
         if (result is not null)
         {
@@ -924,7 +924,7 @@ public partial class Sublayer
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maxScale");
         if (result is not null)
         {
@@ -965,7 +965,7 @@ public partial class Sublayer
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "minScale");
         if (result is not null)
         {
@@ -1006,7 +1006,7 @@ public partial class Sublayer
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "objectIdField");
         if (result is not null)
         {
@@ -1047,7 +1047,7 @@ public partial class Sublayer
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "opacity");
         if (result is not null)
         {
@@ -1133,7 +1133,7 @@ public partial class Sublayer
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "popupEnabled");
         if (result is not null)
         {
@@ -1221,7 +1221,7 @@ public partial class Sublayer
 
         // get the property value
         IReadOnlyList<Relationship>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<Relationship>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "relationships");
         if (result is not null)
         {
@@ -1309,7 +1309,7 @@ public partial class Sublayer
 
         // get the property value
         DynamicLayer? result = await JsComponentReference!.InvokeJsMethod<DynamicLayer?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "source");
         if (result is not null)
         {
@@ -1350,7 +1350,7 @@ public partial class Sublayer
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
@@ -1432,7 +1432,7 @@ public partial class Sublayer
 
         // get the property value
         long? result = await JsComponentReference!.InvokeJsMethod<long?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "id");
         if (result is not null)
         {
@@ -1473,7 +1473,7 @@ public partial class Sublayer
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
@@ -1514,7 +1514,7 @@ public partial class Sublayer
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "typeIdField");
         if (result is not null)
         {
@@ -1596,7 +1596,7 @@ public partial class Sublayer
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Sublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "url");
         if (result is not null)
         {

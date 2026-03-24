@@ -112,7 +112,7 @@ public partial class ColorRampStop : MapComponent
 
         // get the property value
         MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ColorRampStop), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ColorRampStop), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "color");
         if (result is not null)
         {
@@ -153,7 +153,7 @@ public partial class ColorRampStop : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ColorRampStop), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ColorRampStop), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "label");
         if (result is not null)
         {
@@ -194,7 +194,7 @@ public partial class ColorRampStop : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ColorRampStop), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ColorRampStop), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "value");
         if (result is not null)
         {

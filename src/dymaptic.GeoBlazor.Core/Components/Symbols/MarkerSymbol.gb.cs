@@ -42,7 +42,7 @@ public abstract partial class MarkerSymbol
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MarkerSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MarkerSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "angle");
         if (result is not null)
         {
@@ -83,7 +83,7 @@ public abstract partial class MarkerSymbol
 
         // get the property value
         Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MarkerSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MarkerSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "xoffset");
         if (result is not null)
         {
@@ -124,7 +124,7 @@ public abstract partial class MarkerSymbol
 
         // get the property value
         Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MarkerSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MarkerSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "yoffset");
         if (result is not null)
         {

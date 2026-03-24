@@ -174,7 +174,7 @@ public partial class BasemapGalleryViewModel : MapComponent
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapGalleryViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapGalleryViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "activeBasemapIndex");
         if (result is not null)
         {
@@ -260,7 +260,7 @@ public partial class BasemapGalleryViewModel : MapComponent
 
         // get the property value
         IBasemapGalleryWidgetSource? result = await JsComponentReference!.InvokeJsMethod<IBasemapGalleryWidgetSource?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapGalleryViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapGalleryViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "source");
         if (result is not null)
         {
@@ -301,7 +301,7 @@ public partial class BasemapGalleryViewModel : MapComponent
 
         // get the property value
         BasemapGalleryViewModelState? result = await JsComponentReference!.InvokeJsMethod<BasemapGalleryViewModelState?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapGalleryViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapGalleryViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "state");
         if (result is not null)
         {

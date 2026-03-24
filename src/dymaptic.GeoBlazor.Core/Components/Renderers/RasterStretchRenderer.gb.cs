@@ -254,7 +254,7 @@ public partial class RasterStretchRenderer
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "computeGamma");
         if (result is not null)
         {
@@ -295,7 +295,7 @@ public partial class RasterStretchRenderer
 
         // get the property value
         IReadOnlyList<RasterBandStatistics>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<RasterBandStatistics>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "customStatistics");
         if (result is not null)
         {
@@ -336,7 +336,7 @@ public partial class RasterStretchRenderer
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "dynamicRangeAdjustment");
         if (result is not null)
         {
@@ -377,7 +377,7 @@ public partial class RasterStretchRenderer
 
         // get the property value
         IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "gamma");
         if (result is not null)
         {
@@ -418,7 +418,7 @@ public partial class RasterStretchRenderer
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maxPercent");
         if (result is not null)
         {
@@ -459,7 +459,7 @@ public partial class RasterStretchRenderer
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "minPercent");
         if (result is not null)
         {
@@ -500,7 +500,7 @@ public partial class RasterStretchRenderer
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "numberOfStandardDeviations");
         if (result is not null)
         {
@@ -541,7 +541,7 @@ public partial class RasterStretchRenderer
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "outputMax");
         if (result is not null)
         {
@@ -582,7 +582,7 @@ public partial class RasterStretchRenderer
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "outputMin");
         if (result is not null)
         {
@@ -623,7 +623,7 @@ public partial class RasterStretchRenderer
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sigmoidStrengthLevel");
         if (result is not null)
         {
@@ -664,7 +664,7 @@ public partial class RasterStretchRenderer
 
         // get the property value
         StretchType? result = await JsComponentReference!.InvokeJsMethod<StretchType?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "stretchType");
         if (result is not null)
         {
@@ -705,7 +705,7 @@ public partial class RasterStretchRenderer
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterStretchRenderer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "useGamma");
         if (result is not null)
         {

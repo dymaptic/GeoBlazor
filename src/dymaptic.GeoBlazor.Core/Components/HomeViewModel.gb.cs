@@ -104,7 +104,7 @@ public partial class HomeViewModel : IGoTo
 
         // get the property value
         HomeViewModelState? result = await JsComponentReference!.InvokeJsMethod<HomeViewModelState?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HomeViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(HomeViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "state");
         if (result is not null)
         {

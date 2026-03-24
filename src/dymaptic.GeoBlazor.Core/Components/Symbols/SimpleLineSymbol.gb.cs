@@ -108,7 +108,7 @@ public partial class SimpleLineSymbol : ISymbol2D
 
         // get the property value
         Cap? result = await JsComponentReference!.InvokeJsMethod<Cap?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SimpleLineSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SimpleLineSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "cap");
         if (result is not null)
         {
@@ -149,7 +149,7 @@ public partial class SimpleLineSymbol : ISymbol2D
 
         // get the property value
         Join? result = await JsComponentReference!.InvokeJsMethod<Join?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SimpleLineSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SimpleLineSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "join");
         if (result is not null)
         {
@@ -237,7 +237,7 @@ public partial class SimpleLineSymbol : ISymbol2D
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SimpleLineSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SimpleLineSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "miterLimit");
         if (result is not null)
         {
@@ -278,7 +278,7 @@ public partial class SimpleLineSymbol : ISymbol2D
 
         // get the property value
         SimpleLineSymbolStyle? result = await JsComponentReference!.InvokeJsMethod<SimpleLineSymbolStyle?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SimpleLineSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SimpleLineSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "style");
         if (result is not null)
         {

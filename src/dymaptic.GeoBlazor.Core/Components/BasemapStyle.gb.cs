@@ -74,7 +74,7 @@ public partial class BasemapStyle
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapStyle), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapStyle), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "apiKey");
         if (result is not null)
         {
@@ -115,7 +115,7 @@ public partial class BasemapStyle
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapStyle), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapStyle), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "language");
         if (result is not null)
         {
@@ -156,7 +156,7 @@ public partial class BasemapStyle
 
         // get the property value
         BasemapStyleName? result = await JsComponentReference!.InvokeJsMethod<BasemapStyleName?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapStyle), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapStyle), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "id");
         if (result is not null)
         {
@@ -197,7 +197,7 @@ public partial class BasemapStyle
 
         // get the property value
         BasemapStylePlace? result = await JsComponentReference!.InvokeJsMethod<BasemapStylePlace?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapStyle), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapStyle), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "places");
         if (result is not null)
         {
@@ -238,7 +238,7 @@ public partial class BasemapStyle
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapStyle), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapStyle), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "serviceUrl");
         if (result is not null)
         {
@@ -279,7 +279,7 @@ public partial class BasemapStyle
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapStyle), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapStyle), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "worldview");
         if (result is not null)
         {

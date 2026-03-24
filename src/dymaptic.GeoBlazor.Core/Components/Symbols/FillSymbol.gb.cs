@@ -42,7 +42,7 @@ public abstract partial class FillSymbol
 
         // get the property value
         Outline? result = await JsComponentReference!.InvokeJsMethod<Outline?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FillSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FillSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "outline");
         if (result is not null)
         {

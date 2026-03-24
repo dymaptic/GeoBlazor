@@ -77,7 +77,7 @@ public partial class AlgorithmicColorRamp
 
         // get the property value
         Algorithm? result = await JsComponentReference!.InvokeJsMethod<Algorithm?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AlgorithmicColorRamp), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AlgorithmicColorRamp), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "algorithm");
         if (result is not null)
         {
@@ -118,7 +118,7 @@ public partial class AlgorithmicColorRamp
 
         // get the property value
         MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AlgorithmicColorRamp), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AlgorithmicColorRamp), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "fromColor");
         if (result is not null)
         {
@@ -159,7 +159,7 @@ public partial class AlgorithmicColorRamp
 
         // get the property value
         MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AlgorithmicColorRamp), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AlgorithmicColorRamp), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "toColor");
         if (result is not null)
         {

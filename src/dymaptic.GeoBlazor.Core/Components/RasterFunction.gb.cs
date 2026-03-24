@@ -154,7 +154,7 @@ public partial class RasterFunction : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterFunction), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterFunction), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "functionArguments");
         if (result is not null)
         {
@@ -195,7 +195,7 @@ public partial class RasterFunction : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterFunction), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterFunction), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "functionName");
         if (result is not null)
         {
@@ -236,7 +236,7 @@ public partial class RasterFunction : MapComponent
 
         // get the property value
         OutputPixelType? result = await JsComponentReference!.InvokeJsMethod<OutputPixelType?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterFunction), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterFunction), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "outputPixelType");
         if (result is not null)
         {
@@ -277,7 +277,7 @@ public partial class RasterFunction : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterFunction), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterFunction), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "rasterFunctionDefinition");
         if (result is not null)
         {
@@ -318,7 +318,7 @@ public partial class RasterFunction : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterFunction), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterFunction), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "variableName");
         if (result is not null)
         {

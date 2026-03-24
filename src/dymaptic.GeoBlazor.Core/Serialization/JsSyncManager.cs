@@ -221,46 +221,61 @@ public static class JsSyncManager
                 .ToList()
             is not { } matchedMethods)
         {
-            // use reflection since we don't have a stored method record
-            var classType = GeoBlazorMetaData.GeoblazorTypes.First(t => t.Name == className);
-
-            var methodInfos = classType.GetMethods(BindingFlags.Instance | BindingFlags.Public)
-                .Where(m => string.Equals(m.Name, method, StringComparison.OrdinalIgnoreCase)
-                    && (m.GetParameters().Length == providedParameters.Length))
-                .ToArray();
-
-            matchedMethods = [];
-
-            foreach (var methodInfo in methodInfos.Where(m => m.ReturnType.IsGenericType))
+            if (method == GeoBlazorSerialization.GET_PROPERTY)
             {
-                List<SerializableParameterRecord> methodParams = [];
-                var paramInfos = methodInfo.GetParameters();
+                SerializableMethodRecord getPropertyRecord = GenerateGetPropertyRecord<T>();
+                classMethods.Add(getPropertyRecord);
+                matchedMethods = [getPropertyRecord];
+            }
+            else if (method == GeoBlazorSerialization.SET_PROPERTY)
+            {
+                SerializableMethodRecord setPropertyRecord = GenerateSetPropertyRecord<T>();
+                classMethods.Add(setPropertyRecord);
+                matchedMethods = [setPropertyRecord];
+            }
+            else
+            {
+                // use reflection since we don't have a stored method record
+                var classType = GeoBlazorMetaData.GeoblazorTypes.First(t => t.Name == className);
 
-                foreach (var paramInfo in paramInfos)
+                var methodInfos = classType.GetMethods(BindingFlags.Instance | BindingFlags.Public)
+                    .Where(m => string.Equals(m.Name, method, StringComparison.OrdinalIgnoreCase)
+                        && (m.GetParameters().Length == providedParameters.Length))
+                    .ToArray();
+
+                matchedMethods = [];
+
+                foreach (var methodInfo in methodInfos.Where(m => m.ReturnType.IsGenericType))
                 {
-                    methodParams.Add(CreateParameterRecord(paramInfo.ParameterType, paramInfo));
-                }
+                    List<SerializableParameterRecord> methodParams = [];
+                    var paramInfos = methodInfo.GetParameters();
 
-                SerializableParameterRecord? returnRecord = null;
-
-                if (!returnsVoid && (methodInfo.ReturnType != typeof(void)))
-                {
-                    var returnParamInfo = methodInfo.ReturnParameter;
-                    var returnType = returnParamInfo.ParameterType;
-
-                    returnRecord = CreateParameterRecord(returnType, returnParamInfo);
-
-                    if (returnRecord.Type.IsGenericType)
+                    foreach (var paramInfo in paramInfos)
                     {
-                        // skip methods that return generic types, they cannot be handled
-                        continue;
+                        methodParams.Add(CreateParameterRecord(paramInfo.ParameterType, paramInfo));
                     }
-                }
 
-                SerializableMethodRecord methodRecord =
-                    new(method.ToLowerFirstChar(), methodParams.ToArray(), returnRecord);
-                matchedMethods.Add(methodRecord);
-                classMethods.Add(methodRecord);
+                    SerializableParameterRecord? returnRecord = null;
+
+                    if (!returnsVoid && (methodInfo.ReturnType != typeof(void)))
+                    {
+                        var returnParamInfo = methodInfo.ReturnParameter;
+                        var returnType = returnParamInfo.ParameterType;
+
+                        returnRecord = CreateParameterRecord(returnType, returnParamInfo);
+
+                        if (returnRecord.Type.IsGenericType)
+                        {
+                            // skip methods that return generic types, they cannot be handled
+                            continue;
+                        }
+                    }
+
+                    SerializableMethodRecord methodRecord =
+                        new(method.ToLowerFirstChar(), methodParams.ToArray(), returnRecord);
+                    matchedMethods.Add(methodRecord);
+                    classMethods.Add(methodRecord);
+                }
             }
         }
 
@@ -315,6 +330,18 @@ public static class JsSyncManager
 
             return true;
         });
+    }
+
+    private static SerializableMethodRecord GenerateGetPropertyRecord<T>()
+    {
+        return new SerializableMethodRecord(GeoBlazorSerialization.GET_PROPERTY,
+            [CreateParameterRecord(typeof(string), null)], GetSerializableReturnRecord<T>(false));
+    }
+
+    private static SerializableMethodRecord GenerateSetPropertyRecord<T>()
+    {
+        return new SerializableMethodRecord(GeoBlazorSerialization.SET_PROPERTY,
+            [CreateParameterRecord(typeof(string), null), CreateParameterRecord(typeof(T), null)], GetSerializableReturnRecord<T>(false));
     }
 
     private static async Task<List<object?>> GenerateSerializedParameters(SerializableMethodRecord methodRecord,

@@ -121,7 +121,7 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
 
         // get the property value
         IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayerView), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayerView), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "availableFields");
         if (result is not null)
         {
@@ -162,7 +162,7 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayerView), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayerView), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "dataUpdating");
         if (result is not null)
         {
@@ -297,7 +297,7 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayerView), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayerView), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "hasAllFeatures");
         if (result is not null)
         {
@@ -338,7 +338,7 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayerView), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayerView), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "hasAllFeaturesInView");
         if (result is not null)
         {
@@ -379,7 +379,7 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayerView), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayerView), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "hasFullGeometries");
         if (result is not null)
         {
@@ -469,7 +469,7 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayerView), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayerView), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maximumNumberOfFeatures");
         if (result is not null)
         {
@@ -510,7 +510,7 @@ public partial class FeatureLayerView : IHighlightLayerViewMixin
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayerView), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayerView), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maximumNumberOfFeaturesExceeded");
         if (result is not null)
         {

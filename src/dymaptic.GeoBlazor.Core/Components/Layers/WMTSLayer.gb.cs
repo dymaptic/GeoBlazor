@@ -419,7 +419,7 @@ public partial class WMTSLayer : Layer,
 
         // get the property value
         BlendMode? result = await JsComponentReference!.InvokeJsMethod<BlendMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMTSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMTSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "blendMode");
         if (result is not null)
         {
@@ -460,7 +460,7 @@ public partial class WMTSLayer : Layer,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMTSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMTSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "copyright");
         if (result is not null)
         {
@@ -501,7 +501,7 @@ public partial class WMTSLayer : Layer,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMTSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMTSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "customLayerParameters");
         if (result is not null)
         {
@@ -542,7 +542,7 @@ public partial class WMTSLayer : Layer,
 
         // get the property value
         Dictionary<string, object>? result = await JsComponentReference!.InvokeJsMethod<Dictionary<string, object>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMTSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMTSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "customParameters");
         if (result is not null)
         {
@@ -624,7 +624,7 @@ public partial class WMTSLayer : Layer,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMTSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMTSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maxScale");
         if (result is not null)
         {
@@ -665,7 +665,7 @@ public partial class WMTSLayer : Layer,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMTSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMTSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "minScale");
         if (result is not null)
         {
@@ -753,7 +753,7 @@ public partial class WMTSLayer : Layer,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMTSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMTSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "refreshInterval");
         if (result is not null)
         {
@@ -794,7 +794,7 @@ public partial class WMTSLayer : Layer,
 
         // get the property value
         ServiceMode? result = await JsComponentReference!.InvokeJsMethod<ServiceMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMTSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMTSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "serviceMode");
         if (result is not null)
         {
@@ -880,7 +880,7 @@ public partial class WMTSLayer : Layer,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMTSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMTSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "url");
         if (result is not null)
         {
@@ -921,7 +921,7 @@ public partial class WMTSLayer : Layer,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMTSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMTSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "version");
         if (result is not null)
         {

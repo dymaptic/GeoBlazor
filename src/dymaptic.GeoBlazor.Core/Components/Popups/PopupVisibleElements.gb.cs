@@ -188,7 +188,7 @@ public partial class PopupVisibleElements
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "actionBar");
         if (result is not null)
         {
@@ -229,7 +229,7 @@ public partial class PopupVisibleElements
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "closeButton");
         if (result is not null)
         {
@@ -270,7 +270,7 @@ public partial class PopupVisibleElements
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "collapseButton");
         if (result is not null)
         {
@@ -311,7 +311,7 @@ public partial class PopupVisibleElements
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "featureListLayerTitle");
         if (result is not null)
         {
@@ -352,7 +352,7 @@ public partial class PopupVisibleElements
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "featureMenuHeading");
         if (result is not null)
         {
@@ -393,7 +393,7 @@ public partial class PopupVisibleElements
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "featureNavigation");
         if (result is not null)
         {
@@ -434,7 +434,7 @@ public partial class PopupVisibleElements
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "heading");
         if (result is not null)
         {
@@ -475,7 +475,7 @@ public partial class PopupVisibleElements
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "spinner");
         if (result is not null)
         {

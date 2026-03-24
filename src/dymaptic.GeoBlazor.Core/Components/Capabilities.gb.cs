@@ -472,7 +472,7 @@ public partial class Capabilities : MapComponent
 
         // get the property value
         CapabilitiesQuery? result = await JsComponentReference!.InvokeJsMethod<CapabilitiesQuery?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Capabilities), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Capabilities), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "query");
         if (result is not null)
         {

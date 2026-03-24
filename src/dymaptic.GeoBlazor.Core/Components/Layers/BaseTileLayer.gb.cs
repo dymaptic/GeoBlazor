@@ -191,7 +191,7 @@ public partial class BaseTileLayer : IBlendLayer,
 
         // get the property value
         BlendMode? result = await JsComponentReference!.InvokeJsMethod<BlendMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BaseTileLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BaseTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "blendMode");
         if (result is not null)
         {
@@ -273,7 +273,7 @@ public partial class BaseTileLayer : IBlendLayer,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BaseTileLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BaseTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maxScale");
         if (result is not null)
         {
@@ -314,7 +314,7 @@ public partial class BaseTileLayer : IBlendLayer,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BaseTileLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BaseTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "minScale");
         if (result is not null)
         {
@@ -355,7 +355,7 @@ public partial class BaseTileLayer : IBlendLayer,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BaseTileLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BaseTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "refreshInterval");
         if (result is not null)
         {

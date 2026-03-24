@@ -55,7 +55,7 @@ public partial class PopupDockOptions
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public BreakPoint? Breakpoint { get; set; }
+    public Breakpoint? Breakpoint { get; set; }
     
 #endregion
 
@@ -64,7 +64,7 @@ public partial class PopupDockOptions
     /// <summary>
     ///     Asynchronously retrieve the current value of the Breakpoint property.
     /// </summary>
-    public async Task<BreakPoint?> GetBreakpoint()
+    public async Task<Breakpoint?> GetBreakpoint()
     {
         if (CoreJsModule is null)
         {
@@ -87,8 +87,8 @@ public partial class PopupDockOptions
         }
 
         // get the property value
-        BreakPoint? result = await JsComponentReference!.InvokeJsMethod<BreakPoint?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupDockOptions), View?.QueryResultsMaxSizeLimit,
+        Breakpoint? result = await JsComponentReference!.InvokeJsMethod<Breakpoint?>(
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupDockOptions), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "breakpoint");
         if (result is not null)
         {
@@ -129,7 +129,7 @@ public partial class PopupDockOptions
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupDockOptions), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupDockOptions), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "buttonEnabled");
         if (result is not null)
         {
@@ -170,7 +170,7 @@ public partial class PopupDockOptions
 
         // get the property value
         PopupDockPosition? result = await JsComponentReference!.InvokeJsMethod<PopupDockPosition?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupDockOptions), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupDockOptions), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "position");
         if (result is not null)
         {
@@ -194,7 +194,7 @@ public partial class PopupDockOptions
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBreakpoint(BreakPoint? value)
+    public async Task SetBreakpoint(Breakpoint? value)
     {
 #pragma warning disable BL0005
         Breakpoint = value;

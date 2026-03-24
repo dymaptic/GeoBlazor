@@ -1,13 +1,13 @@
 namespace dymaptic.GeoBlazor.Core.Serialization;
 
-internal class BreakPointConverter : JsonConverter<BreakPoint>
+internal class BreakpointConverter : JsonConverter<Breakpoint>
 {
-    public override BreakPoint? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override Breakpoint? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        return JsonSerializer.Deserialize(ref reader, typeof(object), options) as BreakPoint;
+        return JsonSerializer.Deserialize(ref reader, typeof(object), options) as Breakpoint;
     }
 
-    public override void Write(Utf8JsonWriter writer, BreakPoint value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, Breakpoint value, JsonSerializerOptions options)
     {
         if (value.BoolValue.HasValue)
         {

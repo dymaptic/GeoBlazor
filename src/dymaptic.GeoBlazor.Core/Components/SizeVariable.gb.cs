@@ -56,7 +56,7 @@ public partial class SizeVariable
 
         // get the property value
         VisualAxis? result = await JsComponentReference!.InvokeJsMethod<VisualAxis?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "axis");
         if (result is not null)
         {
@@ -97,7 +97,7 @@ public partial class SizeVariable
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maxDataValue");
         if (result is not null)
         {
@@ -138,7 +138,7 @@ public partial class SizeVariable
 
         // get the property value
         Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maxSize");
         if (result is not null)
         {
@@ -179,7 +179,7 @@ public partial class SizeVariable
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "minDataValue");
         if (result is not null)
         {
@@ -220,7 +220,7 @@ public partial class SizeVariable
 
         // get the property value
         Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "minSize");
         if (result is not null)
         {
@@ -261,7 +261,7 @@ public partial class SizeVariable
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "normalizationField");
         if (result is not null)
         {
@@ -347,7 +347,7 @@ public partial class SizeVariable
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "target");
         if (result is not null)
         {
@@ -388,7 +388,7 @@ public partial class SizeVariable
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "useSymbolValue");
         if (result is not null)
         {
@@ -429,7 +429,7 @@ public partial class SizeVariable
 
         // get the property value
         VisualValueRepresentation? result = await JsComponentReference!.InvokeJsMethod<VisualValueRepresentation?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "valueRepresentation");
         if (result is not null)
         {
@@ -470,7 +470,7 @@ public partial class SizeVariable
 
         // get the property value
         VisualValueUnit? result = await JsComponentReference!.InvokeJsMethod<VisualValueUnit?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SizeVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "valueUnit");
         if (result is not null)
         {

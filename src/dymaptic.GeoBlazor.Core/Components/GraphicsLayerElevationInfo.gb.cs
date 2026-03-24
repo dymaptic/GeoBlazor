@@ -174,7 +174,7 @@ public partial class GraphicsLayerElevationInfo : MapComponent
 
         // get the property value
         ElevationInfoMode? result = await JsComponentReference!.InvokeJsMethod<ElevationInfoMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GraphicsLayerElevationInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(GraphicsLayerElevationInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "mode");
         if (result is not null)
         {
@@ -215,7 +215,7 @@ public partial class GraphicsLayerElevationInfo : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GraphicsLayerElevationInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(GraphicsLayerElevationInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "offset");
         if (result is not null)
         {
@@ -256,7 +256,7 @@ public partial class GraphicsLayerElevationInfo : MapComponent
 
         // get the property value
         ElevationUnit? result = await JsComponentReference!.InvokeJsMethod<ElevationUnit?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(GraphicsLayerElevationInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(GraphicsLayerElevationInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "unit");
         if (result is not null)
         {

@@ -207,7 +207,7 @@ public partial class LayerListVisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "catalogLayerList");
         if (result is not null)
         {
@@ -248,7 +248,7 @@ public partial class LayerListVisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "closeButton");
         if (result is not null)
         {
@@ -289,7 +289,7 @@ public partial class LayerListVisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "collapseButton");
         if (result is not null)
         {
@@ -330,7 +330,7 @@ public partial class LayerListVisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "errors");
         if (result is not null)
         {
@@ -371,7 +371,7 @@ public partial class LayerListVisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "filter");
         if (result is not null)
         {
@@ -412,7 +412,7 @@ public partial class LayerListVisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "flow");
         if (result is not null)
         {
@@ -453,7 +453,7 @@ public partial class LayerListVisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "heading");
         if (result is not null)
         {
@@ -494,7 +494,7 @@ public partial class LayerListVisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "statusIndicators");
         if (result is not null)
         {
@@ -535,7 +535,7 @@ public partial class LayerListVisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerListVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "temporaryLayerIndicators");
         if (result is not null)
         {

@@ -54,7 +54,7 @@ public abstract partial class Geometry
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Geometry), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Geometry), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "cache");
         if (result is not null)
         {
@@ -95,7 +95,7 @@ public abstract partial class Geometry
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Geometry), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Geometry), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "hasM");
         if (result is not null)
         {
@@ -136,7 +136,7 @@ public abstract partial class Geometry
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Geometry), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Geometry), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "hasZ");
         if (result is not null)
         {

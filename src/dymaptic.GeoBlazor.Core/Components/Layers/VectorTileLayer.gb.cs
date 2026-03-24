@@ -309,7 +309,7 @@ public partial class VectorTileLayer : IBlendLayer,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "apiKey");
         if (result is not null)
         {
@@ -350,7 +350,7 @@ public partial class VectorTileLayer : IBlendLayer,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "attributionDataUrl");
         if (result is not null)
         {
@@ -391,7 +391,7 @@ public partial class VectorTileLayer : IBlendLayer,
 
         // get the property value
         BlendMode? result = await JsComponentReference!.InvokeJsMethod<BlendMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "blendMode");
         if (result is not null)
         {
@@ -432,7 +432,7 @@ public partial class VectorTileLayer : IBlendLayer,
 
         // get the property value
         VectorTileLayerCapabilities? result = await JsComponentReference!.InvokeJsMethod<VectorTileLayerCapabilities?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "capabilities");
         if (result is not null)
         {
@@ -514,7 +514,7 @@ public partial class VectorTileLayer : IBlendLayer,
 
         // get the property value
         Dictionary<string, object>? result = await JsComponentReference!.InvokeJsMethod<Dictionary<string, object>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "customParameters");
         if (result is not null)
         {
@@ -643,7 +643,7 @@ public partial class VectorTileLayer : IBlendLayer,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maxScale");
         if (result is not null)
         {
@@ -684,7 +684,7 @@ public partial class VectorTileLayer : IBlendLayer,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "minScale");
         if (result is not null)
         {
@@ -772,7 +772,7 @@ public partial class VectorTileLayer : IBlendLayer,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "refreshInterval");
         if (result is not null)
         {
@@ -854,7 +854,7 @@ public partial class VectorTileLayer : IBlendLayer,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "style");
         if (result is not null)
         {
@@ -942,7 +942,7 @@ public partial class VectorTileLayer : IBlendLayer,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VectorTileLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "url");
         if (result is not null)
         {

@@ -95,7 +95,7 @@ public partial class VisibleElementsColumnMenuItems : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElementsColumnMenuItems), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisibleElementsColumnMenuItems), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sortAscending");
         if (result is not null)
         {
@@ -136,7 +136,7 @@ public partial class VisibleElementsColumnMenuItems : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElementsColumnMenuItems), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisibleElementsColumnMenuItems), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sortDescending");
         if (result is not null)
         {

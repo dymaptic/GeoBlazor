@@ -188,7 +188,7 @@ public partial class VisibleElementsMenuItems : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElementsMenuItems), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisibleElementsMenuItems), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "clearSelection");
         if (result is not null)
         {
@@ -229,7 +229,7 @@ public partial class VisibleElementsMenuItems : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElementsMenuItems), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisibleElementsMenuItems), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "deleteSelection");
         if (result is not null)
         {
@@ -270,7 +270,7 @@ public partial class VisibleElementsMenuItems : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElementsMenuItems), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisibleElementsMenuItems), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "exportSelectionToCSV");
         if (result is not null)
         {
@@ -311,7 +311,7 @@ public partial class VisibleElementsMenuItems : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElementsMenuItems), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisibleElementsMenuItems), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "refreshData");
         if (result is not null)
         {
@@ -352,7 +352,7 @@ public partial class VisibleElementsMenuItems : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElementsMenuItems), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisibleElementsMenuItems), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "selectedRecordsShowAllToggle");
         if (result is not null)
         {
@@ -393,7 +393,7 @@ public partial class VisibleElementsMenuItems : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElementsMenuItems), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisibleElementsMenuItems), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "selectedRecordsShowSelectedToggle");
         if (result is not null)
         {
@@ -434,7 +434,7 @@ public partial class VisibleElementsMenuItems : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElementsMenuItems), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisibleElementsMenuItems), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "toggleColumns");
         if (result is not null)
         {
@@ -475,7 +475,7 @@ public partial class VisibleElementsMenuItems : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElementsMenuItems), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisibleElementsMenuItems), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "zoomToSelection");
         if (result is not null)
         {

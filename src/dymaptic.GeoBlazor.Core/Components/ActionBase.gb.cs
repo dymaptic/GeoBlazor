@@ -66,7 +66,7 @@ public abstract partial class ActionBase
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActionBase), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ActionBase), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "id");
         if (result is not null)
         {
@@ -107,7 +107,7 @@ public abstract partial class ActionBase
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActionBase), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ActionBase), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "active");
         if (result is not null)
         {
@@ -148,7 +148,7 @@ public abstract partial class ActionBase
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActionBase), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ActionBase), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "className");
         if (result is not null)
         {
@@ -189,7 +189,7 @@ public abstract partial class ActionBase
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActionBase), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ActionBase), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "disabled");
         if (result is not null)
         {
@@ -230,7 +230,7 @@ public abstract partial class ActionBase
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActionBase), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ActionBase), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "icon");
         if (result is not null)
         {
@@ -271,7 +271,7 @@ public abstract partial class ActionBase
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActionBase), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ActionBase), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {

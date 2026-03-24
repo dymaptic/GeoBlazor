@@ -127,7 +127,7 @@ public partial class RelationshipLabels : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RelationshipLabels), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RelationshipLabels), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "bottom");
         if (result is not null)
         {
@@ -168,7 +168,7 @@ public partial class RelationshipLabels : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RelationshipLabels), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RelationshipLabels), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "left");
         if (result is not null)
         {
@@ -209,7 +209,7 @@ public partial class RelationshipLabels : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RelationshipLabels), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RelationshipLabels), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "right");
         if (result is not null)
         {
@@ -250,7 +250,7 @@ public partial class RelationshipLabels : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RelationshipLabels), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RelationshipLabels), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "top");
         if (result is not null)
         {

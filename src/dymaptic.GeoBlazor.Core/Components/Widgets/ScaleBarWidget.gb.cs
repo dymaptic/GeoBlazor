@@ -144,7 +144,7 @@ public partial class ScaleBarWidget
 
         // get the property value
         ScaleBarWidgetStyle? result = await JsComponentReference!.InvokeJsMethod<ScaleBarWidgetStyle?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ScaleBarWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ScaleBarWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "style");
         if (result is not null)
         {
@@ -185,7 +185,7 @@ public partial class ScaleBarWidget
 
         // get the property value
         ScaleUnit? result = await JsComponentReference!.InvokeJsMethod<ScaleUnit?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ScaleBarWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ScaleBarWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "unit");
         if (result is not null)
         {

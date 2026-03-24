@@ -141,7 +141,7 @@ public partial class ColorRampElement : MapComponent,
 
         // get the property value
         RampTitle? result = await JsComponentReference!.InvokeJsMethod<RampTitle?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ColorRampElement), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ColorRampElement), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {

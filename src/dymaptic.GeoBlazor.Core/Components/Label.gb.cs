@@ -185,7 +185,7 @@ public partial class Label
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Label), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Label), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "allowOverrun");
         if (result is not null)
         {
@@ -226,7 +226,7 @@ public partial class Label
 
         // get the property value
         DeconflictionStrategy? result = await JsComponentReference!.InvokeJsMethod<DeconflictionStrategy?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Label), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Label), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "deconflictionStrategy");
         if (result is not null)
         {
@@ -267,7 +267,7 @@ public partial class Label
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Label), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Label), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "labelExpression");
         if (result is not null)
         {
@@ -349,7 +349,7 @@ public partial class Label
 
         // get the property value
         LabelPlacement? result = await JsComponentReference!.InvokeJsMethod<LabelPlacement?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Label), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Label), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "labelPlacement");
         if (result is not null)
         {
@@ -390,7 +390,7 @@ public partial class Label
 
         // get the property value
         LabelPosition? result = await JsComponentReference!.InvokeJsMethod<LabelPosition?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Label), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Label), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "labelPosition");
         if (result is not null)
         {
@@ -431,7 +431,7 @@ public partial class Label
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Label), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Label), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maxScale");
         if (result is not null)
         {
@@ -472,7 +472,7 @@ public partial class Label
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Label), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Label), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "minScale");
         if (result is not null)
         {
@@ -513,7 +513,7 @@ public partial class Label
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Label), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Label), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "repeatLabel");
         if (result is not null)
         {
@@ -554,7 +554,7 @@ public partial class Label
 
         // get the property value
         Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Label), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Label), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "repeatLabelDistance");
         if (result is not null)
         {
@@ -595,7 +595,7 @@ public partial class Label
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Label), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Label), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "useCodedValues");
         if (result is not null)
         {
@@ -636,7 +636,7 @@ public partial class Label
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Label), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Label), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "where");
         if (result is not null)
         {

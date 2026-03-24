@@ -41,7 +41,7 @@ public partial class LegendStyle
 
         // get the property value
         LegendStyleLayout? result = await JsComponentReference!.InvokeJsMethod<LegendStyleLayout?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LegendStyle), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LegendStyle), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "layout");
         if (result is not null)
         {

@@ -65,7 +65,7 @@ public partial class LayerFloorInfo
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerFloorInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerFloorInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "floorField");
         if (result is not null)
         {

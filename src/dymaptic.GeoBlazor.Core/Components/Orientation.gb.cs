@@ -79,7 +79,7 @@ public partial class Orientation : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Orientation), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Orientation), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "z");
         if (result is not null)
         {

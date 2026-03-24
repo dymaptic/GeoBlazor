@@ -291,7 +291,7 @@ public partial class PopupTemplate
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupTemplate), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupTemplate), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "lastEditInfoEnabled");
         if (result is not null)
         {
@@ -379,7 +379,7 @@ public partial class PopupTemplate
 
         // get the property value
         IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupTemplate), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupTemplate), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "outFields");
         if (result is not null)
         {
@@ -420,7 +420,7 @@ public partial class PopupTemplate
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupTemplate), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupTemplate), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "overwriteActions");
         if (result is not null)
         {
@@ -461,7 +461,7 @@ public partial class PopupTemplate
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupTemplate), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupTemplate), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "returnGeometry");
         if (result is not null)
         {

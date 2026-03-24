@@ -111,7 +111,7 @@ public partial class LegendLayerInfos : MapComponent
 
         // get the property value
         IReadOnlyList<long>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<long>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LegendLayerInfos), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LegendLayerInfos), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sublayerIds");
         if (result is not null)
         {
@@ -152,7 +152,7 @@ public partial class LegendLayerInfos : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LegendLayerInfos), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LegendLayerInfos), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {

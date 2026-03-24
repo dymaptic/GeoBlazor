@@ -188,7 +188,7 @@ public partial class CapabilitiesAttachment : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesAttachment), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesAttachment), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsCacheHint");
         if (result is not null)
         {
@@ -229,7 +229,7 @@ public partial class CapabilitiesAttachment : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesAttachment), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesAttachment), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsContentType");
         if (result is not null)
         {
@@ -270,7 +270,7 @@ public partial class CapabilitiesAttachment : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesAttachment), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesAttachment), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsExifInfo");
         if (result is not null)
         {
@@ -311,7 +311,7 @@ public partial class CapabilitiesAttachment : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesAttachment), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesAttachment), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsKeywords");
         if (result is not null)
         {
@@ -352,7 +352,7 @@ public partial class CapabilitiesAttachment : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesAttachment), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesAttachment), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsName");
         if (result is not null)
         {
@@ -393,7 +393,7 @@ public partial class CapabilitiesAttachment : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesAttachment), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesAttachment), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsOrderByFields");
         if (result is not null)
         {
@@ -434,7 +434,7 @@ public partial class CapabilitiesAttachment : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesAttachment), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesAttachment), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsResize");
         if (result is not null)
         {
@@ -475,7 +475,7 @@ public partial class CapabilitiesAttachment : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesAttachment), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesAttachment), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsSize");
         if (result is not null)
         {

@@ -63,7 +63,7 @@ public partial class ChartMediaInfoValueSeries
 
         // get the property value
         MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ChartMediaInfoValueSeries), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ChartMediaInfoValueSeries), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "color");
         if (result is not null)
         {
@@ -104,7 +104,7 @@ public partial class ChartMediaInfoValueSeries
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ChartMediaInfoValueSeries), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ChartMediaInfoValueSeries), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "fieldName");
         if (result is not null)
         {
@@ -145,7 +145,7 @@ public partial class ChartMediaInfoValueSeries
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ChartMediaInfoValueSeries), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ChartMediaInfoValueSeries), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "tooltip");
         if (result is not null)
         {
@@ -186,7 +186,7 @@ public partial class ChartMediaInfoValueSeries
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ChartMediaInfoValueSeries), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ChartMediaInfoValueSeries), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "value");
         if (result is not null)
         {

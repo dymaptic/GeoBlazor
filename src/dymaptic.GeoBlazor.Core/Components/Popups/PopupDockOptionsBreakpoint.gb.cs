@@ -98,7 +98,7 @@ public partial class PopupDockOptionsBreakpoint : MapComponent
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupDockOptionsBreakpoint), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupDockOptionsBreakpoint), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "height");
         if (result is not null)
         {
@@ -139,7 +139,7 @@ public partial class PopupDockOptionsBreakpoint : MapComponent
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PopupDockOptionsBreakpoint), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PopupDockOptionsBreakpoint), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "width");
         if (result is not null)
         {

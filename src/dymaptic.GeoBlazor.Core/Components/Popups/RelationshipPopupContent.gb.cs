@@ -96,7 +96,7 @@ public partial class RelationshipPopupContent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RelationshipPopupContent), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RelationshipPopupContent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "description");
         if (result is not null)
         {
@@ -137,7 +137,7 @@ public partial class RelationshipPopupContent
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RelationshipPopupContent), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RelationshipPopupContent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "displayCount");
         if (result is not null)
         {
@@ -178,7 +178,7 @@ public partial class RelationshipPopupContent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RelationshipPopupContent), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RelationshipPopupContent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "displayType");
         if (result is not null)
         {
@@ -264,7 +264,7 @@ public partial class RelationshipPopupContent
 
         // get the property value
         long? result = await JsComponentReference!.InvokeJsMethod<long?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RelationshipPopupContent), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RelationshipPopupContent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "relationshipId");
         if (result is not null)
         {
@@ -305,7 +305,7 @@ public partial class RelationshipPopupContent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RelationshipPopupContent), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RelationshipPopupContent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {

@@ -152,7 +152,7 @@ public partial class TileInfo
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TileInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TileInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "dpi");
         if (result is not null)
         {
@@ -193,7 +193,7 @@ public partial class TileInfo
 
         // get the property value
         TileInfoFormat? result = await JsComponentReference!.InvokeJsMethod<TileInfoFormat?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TileInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TileInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "format");
         if (result is not null)
         {
@@ -234,7 +234,7 @@ public partial class TileInfo
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TileInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TileInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "isWrappable");
         if (result is not null)
         {
@@ -367,7 +367,7 @@ public partial class TileInfo
 
         // get the property value
         IReadOnlyList<int>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<int>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TileInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TileInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "size");
         if (result is not null)
         {

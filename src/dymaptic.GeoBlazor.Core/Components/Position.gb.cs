@@ -95,7 +95,7 @@ public partial class Position : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Position), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Position), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "coordinate");
         if (result is not null)
         {

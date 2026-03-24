@@ -315,7 +315,7 @@ public partial class LegendWidget
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LegendWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LegendWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "basemapLegendVisible");
         if (result is not null)
         {
@@ -356,7 +356,7 @@ public partial class LegendWidget
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LegendWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LegendWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "headingLevel");
         if (result is not null)
         {
@@ -397,7 +397,7 @@ public partial class LegendWidget
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LegendWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LegendWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "hideLayersNotInCurrentView");
         if (result is not null)
         {
@@ -483,7 +483,7 @@ public partial class LegendWidget
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LegendWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LegendWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "respectLayerDefinitionExpression");
         if (result is not null)
         {
@@ -524,7 +524,7 @@ public partial class LegendWidget
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LegendWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LegendWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "respectLayerVisibility");
         if (result is not null)
         {

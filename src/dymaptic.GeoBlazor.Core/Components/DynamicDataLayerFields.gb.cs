@@ -95,7 +95,7 @@ public partial class DynamicDataLayerFields : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DynamicDataLayerFields), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(DynamicDataLayerFields), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "alias");
         if (result is not null)
         {
@@ -136,7 +136,7 @@ public partial class DynamicDataLayerFields : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DynamicDataLayerFields), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(DynamicDataLayerFields), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {

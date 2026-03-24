@@ -95,7 +95,7 @@ public partial class MapFont
 
         // get the property value
         TextDecoration? result = await JsComponentReference!.InvokeJsMethod<TextDecoration?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapFont), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapFont), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "decoration");
         if (result is not null)
         {
@@ -136,7 +136,7 @@ public partial class MapFont
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapFont), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapFont), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "family");
         if (result is not null)
         {
@@ -177,7 +177,7 @@ public partial class MapFont
 
         // get the property value
         Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapFont), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapFont), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "size");
         if (result is not null)
         {
@@ -218,7 +218,7 @@ public partial class MapFont
 
         // get the property value
         MapFontStyle? result = await JsComponentReference!.InvokeJsMethod<MapFontStyle?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapFont), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapFont), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "style");
         if (result is not null)
         {
@@ -259,7 +259,7 @@ public partial class MapFont
 
         // get the property value
         FontWeight? result = await JsComponentReference!.InvokeJsMethod<FontWeight?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapFont), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapFont), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "weight");
         if (result is not null)
         {

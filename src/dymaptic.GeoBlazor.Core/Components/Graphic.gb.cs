@@ -56,7 +56,7 @@ public partial class Graphic : IHitTestItem,
 
         // get the property value
         AttributesDictionary? result = await JsComponentReference!.InvokeJsMethod<AttributesDictionary?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Graphic), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Graphic), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "attributes");
         if (result is not null)
         {

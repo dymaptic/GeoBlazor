@@ -377,7 +377,7 @@ public partial class BookmarksViewModel : IGoTo
 
         // get the property value
         ViewModelState? result = await JsComponentReference!.InvokeJsMethod<ViewModelState?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarksViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BookmarksViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "state");
         if (result is not null)
         {

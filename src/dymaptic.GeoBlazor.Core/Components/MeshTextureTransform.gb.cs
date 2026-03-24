@@ -118,7 +118,7 @@ public partial class MeshTextureTransform : MapComponent
 
         // get the property value
         IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshTextureTransform), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MeshTextureTransform), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "offset");
         if (result is not null)
         {
@@ -159,7 +159,7 @@ public partial class MeshTextureTransform : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshTextureTransform), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MeshTextureTransform), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "rotation");
         if (result is not null)
         {
@@ -200,7 +200,7 @@ public partial class MeshTextureTransform : MapComponent
 
         // get the property value
         IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshTextureTransform), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MeshTextureTransform), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "scale");
         if (result is not null)
         {

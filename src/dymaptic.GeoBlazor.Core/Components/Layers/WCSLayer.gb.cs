@@ -579,7 +579,7 @@ public partial class WCSLayer : IBlendLayer,
 
         // get the property value
         IReadOnlyList<long>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<long>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "bandIds");
         if (result is not null)
         {
@@ -620,7 +620,7 @@ public partial class WCSLayer : IBlendLayer,
 
         // get the property value
         BlendMode? result = await JsComponentReference!.InvokeJsMethod<BlendMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "blendMode");
         if (result is not null)
         {
@@ -661,7 +661,7 @@ public partial class WCSLayer : IBlendLayer,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "copyright");
         if (result is not null)
         {
@@ -702,7 +702,7 @@ public partial class WCSLayer : IBlendLayer,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "coverageId");
         if (result is not null)
         {
@@ -784,7 +784,7 @@ public partial class WCSLayer : IBlendLayer,
 
         // get the property value
         Dictionary<string, object>? result = await JsComponentReference!.InvokeJsMethod<Dictionary<string, object>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "customParameters");
         if (result is not null)
         {
@@ -866,7 +866,7 @@ public partial class WCSLayer : IBlendLayer,
 
         // get the property value
         Interpolation? result = await JsComponentReference!.InvokeJsMethod<Interpolation?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "interpolation");
         if (result is not null)
         {
@@ -907,7 +907,7 @@ public partial class WCSLayer : IBlendLayer,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "legendEnabled");
         if (result is not null)
         {
@@ -948,7 +948,7 @@ public partial class WCSLayer : IBlendLayer,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maxScale");
         if (result is not null)
         {
@@ -989,7 +989,7 @@ public partial class WCSLayer : IBlendLayer,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "minScale");
         if (result is not null)
         {
@@ -1122,7 +1122,7 @@ public partial class WCSLayer : IBlendLayer,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "noData");
         if (result is not null)
         {
@@ -1163,7 +1163,7 @@ public partial class WCSLayer : IBlendLayer,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "popupEnabled");
         if (result is not null)
         {
@@ -1343,7 +1343,7 @@ public partial class WCSLayer : IBlendLayer,
 
         // get the property value
         IImageryRenderer? result = await JsComponentReference!.InvokeJsMethod<IImageryRenderer?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "renderer");
         if (result is not null)
         {
@@ -1607,7 +1607,7 @@ public partial class WCSLayer : IBlendLayer,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "url");
         if (result is not null)
         {
@@ -1648,7 +1648,7 @@ public partial class WCSLayer : IBlendLayer,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "useViewTime");
         if (result is not null)
         {
@@ -1689,7 +1689,7 @@ public partial class WCSLayer : IBlendLayer,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WCSLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "version");
         if (result is not null)
         {

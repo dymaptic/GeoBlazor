@@ -79,7 +79,7 @@ public partial class BookmarksCapabilities : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarksCapabilities), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BookmarksCapabilities), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "time");
         if (result is not null)
         {

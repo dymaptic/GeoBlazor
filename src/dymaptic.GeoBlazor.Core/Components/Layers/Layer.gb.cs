@@ -57,7 +57,7 @@ public abstract partial class Layer : IHitTestItem,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Layer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Layer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "id");
         if (result is not null)
         {
@@ -98,7 +98,7 @@ public abstract partial class Layer : IHitTestItem,
 
         // get the property value
         ListMode? result = await JsComponentReference!.InvokeJsMethod<ListMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Layer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Layer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "listMode");
         if (result is not null)
         {
@@ -139,7 +139,7 @@ public abstract partial class Layer : IHitTestItem,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Layer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Layer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "loaded");
         if (result is not null)
         {
@@ -180,7 +180,7 @@ public abstract partial class Layer : IHitTestItem,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Layer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Layer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "persistenceEnabled");
         if (result is not null)
         {
@@ -221,7 +221,7 @@ public abstract partial class Layer : IHitTestItem,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Layer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Layer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {

@@ -106,7 +106,7 @@ public partial class ZoomViewModel : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ZoomViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ZoomViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "canZoomIn");
         if (result is not null)
         {
@@ -147,7 +147,7 @@ public partial class ZoomViewModel : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ZoomViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ZoomViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "canZoomOut");
         if (result is not null)
         {
@@ -188,7 +188,7 @@ public partial class ZoomViewModel : MapComponent
 
         // get the property value
         ZoomViewModelState? result = await JsComponentReference!.InvokeJsMethod<ZoomViewModelState?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ZoomViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ZoomViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "state");
         if (result is not null)
         {

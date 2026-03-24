@@ -187,7 +187,7 @@ public partial class TextSymbol : ISymbol2D
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "angle");
         if (result is not null)
         {
@@ -228,7 +228,7 @@ public partial class TextSymbol : ISymbol2D
 
         // get the property value
         MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "backgroundColor");
         if (result is not null)
         {
@@ -269,7 +269,7 @@ public partial class TextSymbol : ISymbol2D
 
         // get the property value
         MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "borderLineColor");
         if (result is not null)
         {
@@ -310,7 +310,7 @@ public partial class TextSymbol : ISymbol2D
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "borderLineSize");
         if (result is not null)
         {
@@ -398,7 +398,7 @@ public partial class TextSymbol : ISymbol2D
 
         // get the property value
         MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "haloColor");
         if (result is not null)
         {
@@ -439,7 +439,7 @@ public partial class TextSymbol : ISymbol2D
 
         // get the property value
         Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "haloSize");
         if (result is not null)
         {
@@ -480,7 +480,7 @@ public partial class TextSymbol : ISymbol2D
 
         // get the property value
         HorizontalAlignment? result = await JsComponentReference!.InvokeJsMethod<HorizontalAlignment?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "horizontalAlignment");
         if (result is not null)
         {
@@ -521,7 +521,7 @@ public partial class TextSymbol : ISymbol2D
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "kerning");
         if (result is not null)
         {
@@ -562,7 +562,7 @@ public partial class TextSymbol : ISymbol2D
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "lineHeight");
         if (result is not null)
         {
@@ -603,7 +603,7 @@ public partial class TextSymbol : ISymbol2D
 
         // get the property value
         Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "lineWidth");
         if (result is not null)
         {
@@ -644,7 +644,7 @@ public partial class TextSymbol : ISymbol2D
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "rotated");
         if (result is not null)
         {
@@ -685,7 +685,7 @@ public partial class TextSymbol : ISymbol2D
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "text");
         if (result is not null)
         {
@@ -726,7 +726,7 @@ public partial class TextSymbol : ISymbol2D
 
         // get the property value
         VerticalAlignment? result = await JsComponentReference!.InvokeJsMethod<VerticalAlignment?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "verticalAlignment");
         if (result is not null)
         {
@@ -767,7 +767,7 @@ public partial class TextSymbol : ISymbol2D
 
         // get the property value
         Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "xoffset");
         if (result is not null)
         {
@@ -808,7 +808,7 @@ public partial class TextSymbol : ISymbol2D
 
         // get the property value
         Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TextSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "yoffset");
         if (result is not null)
         {

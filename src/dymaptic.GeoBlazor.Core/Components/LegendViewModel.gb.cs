@@ -213,7 +213,7 @@ public partial class LegendViewModel : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LegendViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LegendViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "basemapLegendVisible");
         if (result is not null)
         {
@@ -254,7 +254,7 @@ public partial class LegendViewModel : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LegendViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LegendViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "hideLayersNotInCurrentView");
         if (result is not null)
         {
@@ -340,7 +340,7 @@ public partial class LegendViewModel : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LegendViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LegendViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "respectLayerVisibility");
         if (result is not null)
         {
@@ -381,7 +381,7 @@ public partial class LegendViewModel : MapComponent
 
         // get the property value
         LegendViewModelState? result = await JsComponentReference!.InvokeJsMethod<LegendViewModelState?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LegendViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LegendViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "state");
         if (result is not null)
         {

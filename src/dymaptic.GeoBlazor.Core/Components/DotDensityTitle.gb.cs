@@ -89,7 +89,7 @@ public partial class DotDensityTitle
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DotDensityTitle), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(DotDensityTitle), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "unit");
         if (result is not null)
         {
@@ -130,7 +130,7 @@ public partial class DotDensityTitle
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DotDensityTitle), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(DotDensityTitle), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "value");
         if (result is not null)
         {

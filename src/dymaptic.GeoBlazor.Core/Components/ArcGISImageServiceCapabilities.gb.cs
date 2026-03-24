@@ -205,7 +205,7 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
 
         // get the property value
         ArcGISImageServiceCapabilitiesQuery? result = await JsComponentReference!.InvokeJsMethod<ArcGISImageServiceCapabilitiesQuery?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilities), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilities), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "query");
         if (result is not null)
         {

@@ -66,7 +66,7 @@ public abstract partial class VisualVariable
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisualVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisualVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "field");
         if (result is not null)
         {
@@ -154,7 +154,7 @@ public abstract partial class VisualVariable
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisualVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisualVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "valueExpression");
         if (result is not null)
         {
@@ -195,7 +195,7 @@ public abstract partial class VisualVariable
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisualVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisualVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "valueExpressionTitle");
         if (result is not null)
         {

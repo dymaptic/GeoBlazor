@@ -82,7 +82,7 @@ public partial class VectorTileLayerView : LayerView
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VectorTileLayerView), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VectorTileLayerView), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "hasVisibleFeatures");
         if (result is not null)
         {

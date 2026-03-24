@@ -349,7 +349,7 @@ public partial class WebScene : ITimeSliderDocument,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebScene), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebScene), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "authoringApp");
         if (result is not null)
         {
@@ -390,7 +390,7 @@ public partial class WebScene : ITimeSliderDocument,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebScene), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebScene), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "authoringAppVersion");
         if (result is not null)
         {
@@ -478,7 +478,7 @@ public partial class WebScene : ITimeSliderDocument,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebScene), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebScene), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "clippingEnabled");
         if (result is not null)
         {
@@ -642,7 +642,7 @@ public partial class WebScene : ITimeSliderDocument,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebScene), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebScene), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "loaded");
         if (result is not null)
         {
@@ -683,7 +683,7 @@ public partial class WebScene : ITimeSliderDocument,
 
         // get the property value
         Error? result = await JsComponentReference!.InvokeJsMethod<Error?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebScene), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebScene), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "loadError");
         if (result is not null)
         {
@@ -724,7 +724,7 @@ public partial class WebScene : ITimeSliderDocument,
 
         // get the property value
         LoadStatus? result = await JsComponentReference!.InvokeJsMethod<LoadStatus?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebScene), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebScene), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "loadStatus");
         if (result is not null)
         {
@@ -765,7 +765,7 @@ public partial class WebScene : ITimeSliderDocument,
 
         // get the property value
         IPresentation? result = await JsComponentReference!.InvokeJsMethod<IPresentation?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebScene), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebScene), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "presentation");
         if (result is not null)
         {
@@ -806,7 +806,7 @@ public partial class WebScene : ITimeSliderDocument,
 
         // get the property value
         WebSceneSourceVersion? result = await JsComponentReference!.InvokeJsMethod<WebSceneSourceVersion?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebScene), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebScene), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sourceVersion");
         if (result is not null)
         {
@@ -847,7 +847,7 @@ public partial class WebScene : ITimeSliderDocument,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebScene), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebScene), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "thumbnailUrl");
         if (result is not null)
         {

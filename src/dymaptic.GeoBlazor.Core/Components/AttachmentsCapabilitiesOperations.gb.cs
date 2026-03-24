@@ -111,7 +111,7 @@ public partial class AttachmentsCapabilitiesOperations : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AttachmentsCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "add");
         if (result is not null)
         {
@@ -152,7 +152,7 @@ public partial class AttachmentsCapabilitiesOperations : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AttachmentsCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "delete");
         if (result is not null)
         {
@@ -193,7 +193,7 @@ public partial class AttachmentsCapabilitiesOperations : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AttachmentsCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "update");
         if (result is not null)
         {

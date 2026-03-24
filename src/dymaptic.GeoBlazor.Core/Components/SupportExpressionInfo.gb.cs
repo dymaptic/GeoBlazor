@@ -114,7 +114,7 @@ public partial class SupportExpressionInfo : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SupportExpressionInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SupportExpressionInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "expression");
         if (result is not null)
         {
@@ -155,7 +155,7 @@ public partial class SupportExpressionInfo : MapComponent
 
         // get the property value
         SupportExpressionInfoReturnType? result = await JsComponentReference!.InvokeJsMethod<SupportExpressionInfoReturnType?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SupportExpressionInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SupportExpressionInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "returnType");
         if (result is not null)
         {
@@ -196,7 +196,7 @@ public partial class SupportExpressionInfo : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SupportExpressionInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SupportExpressionInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {

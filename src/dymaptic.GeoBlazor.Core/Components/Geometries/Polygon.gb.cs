@@ -87,7 +87,7 @@ public partial class Polygon
 
         // get the property value
         IReadOnlyList<MapPath>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<MapPath>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Polygon), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Polygon), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "rings");
         if (result is not null)
         {

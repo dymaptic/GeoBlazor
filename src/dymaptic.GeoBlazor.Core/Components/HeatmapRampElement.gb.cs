@@ -141,7 +141,7 @@ public partial class HeatmapRampElement : MapComponent,
 
         // get the property value
         RendererTitle? result = await JsComponentReference!.InvokeJsMethod<RendererTitle?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HeatmapRampElement), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(HeatmapRampElement), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {

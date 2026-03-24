@@ -132,7 +132,7 @@ public partial class MeshComponent : MapComponent
 
         // get the property value
         byte[]? result = await JsComponentReference!.InvokeJsMethod<byte[]?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshComponent), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MeshComponent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "faces");
         if (result is not null)
         {
@@ -173,7 +173,7 @@ public partial class MeshComponent : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshComponent), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MeshComponent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {
@@ -214,7 +214,7 @@ public partial class MeshComponent : MapComponent
 
         // get the property value
         MeshShading? result = await JsComponentReference!.InvokeJsMethod<MeshShading?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshComponent), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MeshComponent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "shading");
         if (result is not null)
         {

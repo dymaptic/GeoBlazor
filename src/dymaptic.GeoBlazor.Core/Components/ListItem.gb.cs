@@ -256,7 +256,7 @@ public partial class ListItem
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ListItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "actionsOpen");
         if (result is not null)
         {
@@ -338,7 +338,7 @@ public partial class ListItem
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ListItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "childrenSortable");
         if (result is not null)
         {
@@ -379,7 +379,7 @@ public partial class ListItem
 
         // get the property value
         ConnectionStatus? result = await JsComponentReference!.InvokeJsMethod<ConnectionStatus?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ListItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "connectionStatus");
         if (result is not null)
         {
@@ -420,7 +420,7 @@ public partial class ListItem
 
         // get the property value
         Error? result = await JsComponentReference!.InvokeJsMethod<Error?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ListItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "error");
         if (result is not null)
         {
@@ -461,7 +461,7 @@ public partial class ListItem
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ListItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "hidden");
         if (result is not null)
         {
@@ -502,7 +502,7 @@ public partial class ListItem
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ListItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "incompatible");
         if (result is not null)
         {
@@ -637,7 +637,7 @@ public partial class ListItem
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ListItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "listModeDisabled");
         if (result is not null)
         {
@@ -678,7 +678,7 @@ public partial class ListItem
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ListItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "open");
         if (result is not null)
         {
@@ -719,7 +719,7 @@ public partial class ListItem
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ListItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "publishing");
         if (result is not null)
         {
@@ -760,7 +760,7 @@ public partial class ListItem
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ListItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sortable");
         if (result is not null)
         {
@@ -801,7 +801,7 @@ public partial class ListItem
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ListItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
@@ -842,7 +842,7 @@ public partial class ListItem
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ListItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "updating");
         if (result is not null)
         {
@@ -883,7 +883,7 @@ public partial class ListItem
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ListItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "visibilityMode");
         if (result is not null)
         {
@@ -924,7 +924,7 @@ public partial class ListItem
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ListItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "visibleAtCurrentScale");
         if (result is not null)
         {
@@ -965,7 +965,7 @@ public partial class ListItem
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItem), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ListItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "visibleAtCurrentTimeExtent");
         if (result is not null)
         {

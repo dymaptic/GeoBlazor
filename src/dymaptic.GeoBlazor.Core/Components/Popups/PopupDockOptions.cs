@@ -13,10 +13,4 @@ public partial class PopupDockOptions : MapComponent
     /// </summary>
     [Parameter]
     public bool? ButtonEnabled { get; set; }
-
-    /// <summary>
-    ///     Defines the dimensions of the View at which to dock the popup. Set to false to disable docking at a breakpoint.
-    /// </summary>
-    [Parameter]
-    public BreakPoint? BreakPoint { get; set; }
 }

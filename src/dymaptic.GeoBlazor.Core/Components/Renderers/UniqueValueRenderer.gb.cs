@@ -345,7 +345,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "defaultLabel");
         if (result is not null)
         {
@@ -433,7 +433,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "field");
         if (result is not null)
         {
@@ -474,7 +474,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "field2");
         if (result is not null)
         {
@@ -515,7 +515,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "field3");
         if (result is not null)
         {
@@ -556,7 +556,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "fieldDelimiter");
         if (result is not null)
         {
@@ -644,7 +644,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "orderByClassesEnabled");
         if (result is not null)
         {
@@ -775,7 +775,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "valueExpression");
         if (result is not null)
         {
@@ -816,7 +816,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(UniqueValueRenderer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "valueExpressionTitle");
         if (result is not null)
         {

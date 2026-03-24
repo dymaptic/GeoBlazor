@@ -97,7 +97,7 @@ public partial class ListItemPanelWidget
 
         // get the property value
         IReadOnlyList<ListItemPanelContent>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<ListItemPanelContent>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItemPanelWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ListItemPanelWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "content");
         if (result is not null)
         {
@@ -138,7 +138,7 @@ public partial class ListItemPanelWidget
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItemPanelWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ListItemPanelWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "disabled");
         if (result is not null)
         {
@@ -179,7 +179,7 @@ public partial class ListItemPanelWidget
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItemPanelWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ListItemPanelWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "flowEnabled");
         if (result is not null)
         {
@@ -220,7 +220,7 @@ public partial class ListItemPanelWidget
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItemPanelWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ListItemPanelWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "image");
         if (result is not null)
         {
@@ -261,7 +261,7 @@ public partial class ListItemPanelWidget
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItemPanelWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ListItemPanelWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "open");
         if (result is not null)
         {
@@ -302,7 +302,7 @@ public partial class ListItemPanelWidget
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ListItemPanelWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ListItemPanelWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {

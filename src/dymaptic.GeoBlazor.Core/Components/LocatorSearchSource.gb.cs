@@ -303,7 +303,7 @@ public partial class LocatorSearchSource
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "apiKey");
         if (result is not null)
         {
@@ -344,7 +344,7 @@ public partial class LocatorSearchSource
 
         // get the property value
         IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "categories");
         if (result is not null)
         {
@@ -385,7 +385,7 @@ public partial class LocatorSearchSource
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "countryCode");
         if (result is not null)
         {
@@ -426,7 +426,7 @@ public partial class LocatorSearchSource
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "defaultZoomScale");
         if (result is not null)
         {
@@ -467,7 +467,7 @@ public partial class LocatorSearchSource
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "localSearchDisabled");
         if (result is not null)
         {
@@ -508,7 +508,7 @@ public partial class LocatorSearchSource
 
         // get the property value
         LocatorSearchLocationType? result = await JsComponentReference!.InvokeJsMethod<LocatorSearchLocationType?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "locationType");
         if (result is not null)
         {
@@ -549,7 +549,7 @@ public partial class LocatorSearchSource
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {
@@ -590,7 +590,7 @@ public partial class LocatorSearchSource
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "searchTemplate");
         if (result is not null)
         {
@@ -631,7 +631,7 @@ public partial class LocatorSearchSource
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "singleLineFieldName");
         if (result is not null)
         {
@@ -672,7 +672,7 @@ public partial class LocatorSearchSource
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LocatorSearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "url");
         if (result is not null)
         {

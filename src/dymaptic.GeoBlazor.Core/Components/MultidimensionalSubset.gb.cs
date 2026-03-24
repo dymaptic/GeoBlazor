@@ -162,7 +162,7 @@ public partial class MultidimensionalSubset
 
         // get the property value
         IReadOnlyList<SubsetDimension>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<SubsetDimension>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MultidimensionalSubset), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MultidimensionalSubset), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "dimensions");
         if (result is not null)
         {
@@ -248,7 +248,7 @@ public partial class MultidimensionalSubset
 
         // get the property value
         IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MultidimensionalSubset), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MultidimensionalSubset), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "variables");
         if (result is not null)
         {

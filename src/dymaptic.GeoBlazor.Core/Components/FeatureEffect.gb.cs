@@ -152,7 +152,7 @@ public partial class FeatureEffect
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureEffect), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureEffect), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "excludedLabelsVisible");
         if (result is not null)
         {

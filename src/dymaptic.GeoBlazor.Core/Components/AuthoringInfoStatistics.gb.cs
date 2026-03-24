@@ -95,7 +95,7 @@ public partial class AuthoringInfoStatistics
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfoStatistics), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AuthoringInfoStatistics), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "max");
         if (result is not null)
         {
@@ -136,7 +136,7 @@ public partial class AuthoringInfoStatistics
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfoStatistics), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AuthoringInfoStatistics), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "min");
         if (result is not null)
         {

@@ -153,7 +153,7 @@ public partial class Camera : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Camera), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Camera), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "fov");
         if (result is not null)
         {
@@ -194,7 +194,7 @@ public partial class Camera : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Camera), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Camera), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "heading");
         if (result is not null)
         {
@@ -329,7 +329,7 @@ public partial class Camera : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Camera), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Camera), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "tilt");
         if (result is not null)
         {

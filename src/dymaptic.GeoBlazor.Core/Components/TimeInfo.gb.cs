@@ -183,7 +183,7 @@ public partial class TimeInfo
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TimeInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TimeInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "endField");
         if (result is not null)
         {
@@ -318,7 +318,7 @@ public partial class TimeInfo
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TimeInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TimeInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "startField");
         if (result is not null)
         {
@@ -359,7 +359,7 @@ public partial class TimeInfo
 
         // get the property value
         IReadOnlyList<DateTime>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<DateTime>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TimeInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TimeInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "stops");
         if (result is not null)
         {
@@ -400,7 +400,7 @@ public partial class TimeInfo
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TimeInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TimeInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "timeZone");
         if (result is not null)
         {
@@ -441,7 +441,7 @@ public partial class TimeInfo
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TimeInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TimeInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "trackIdField");
         if (result is not null)
         {

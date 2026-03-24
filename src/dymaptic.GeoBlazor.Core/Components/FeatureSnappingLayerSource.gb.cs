@@ -82,7 +82,7 @@ public partial class FeatureSnappingLayerSource
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureSnappingLayerSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureSnappingLayerSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "enabled");
         if (result is not null)
         {

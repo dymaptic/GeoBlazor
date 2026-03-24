@@ -141,7 +141,7 @@ public partial class CompassViewModel : MapComponent,
 
         // get the property value
         CompassViewModelState? result = await JsComponentReference!.InvokeJsMethod<CompassViewModelState?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CompassViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CompassViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "state");
         if (result is not null)
         {

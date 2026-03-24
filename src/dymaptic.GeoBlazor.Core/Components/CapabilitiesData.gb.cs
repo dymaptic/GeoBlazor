@@ -140,7 +140,7 @@ public partial class CapabilitiesData : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesData), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesData), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "isBranchVersioned");
         if (result is not null)
         {
@@ -181,7 +181,7 @@ public partial class CapabilitiesData : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesData), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesData), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "isVersioned");
         if (result is not null)
         {
@@ -222,7 +222,7 @@ public partial class CapabilitiesData : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesData), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesData), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsAttachment");
         if (result is not null)
         {
@@ -263,7 +263,7 @@ public partial class CapabilitiesData : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesData), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesData), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsM");
         if (result is not null)
         {
@@ -304,7 +304,7 @@ public partial class CapabilitiesData : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesData), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesData), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsZ");
         if (result is not null)
         {

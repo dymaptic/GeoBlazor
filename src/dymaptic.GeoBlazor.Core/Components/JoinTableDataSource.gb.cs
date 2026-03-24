@@ -113,7 +113,7 @@ public partial class JoinTableDataSource
 
         // get the property value
         DynamicJoinType? result = await JsComponentReference!.InvokeJsMethod<DynamicJoinType?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(JoinTableDataSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(JoinTableDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "joinType");
         if (result is not null)
         {
@@ -154,7 +154,7 @@ public partial class JoinTableDataSource
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(JoinTableDataSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(JoinTableDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "leftTableKey");
         if (result is not null)
         {
@@ -195,7 +195,7 @@ public partial class JoinTableDataSource
 
         // get the property value
         DynamicLayer? result = await JsComponentReference!.InvokeJsMethod<DynamicLayer?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(JoinTableDataSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(JoinTableDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "leftTableSource");
         if (result is not null)
         {
@@ -236,7 +236,7 @@ public partial class JoinTableDataSource
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(JoinTableDataSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(JoinTableDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "rightTableKey");
         if (result is not null)
         {
@@ -277,7 +277,7 @@ public partial class JoinTableDataSource
 
         // get the property value
         DynamicLayer? result = await JsComponentReference!.InvokeJsMethod<DynamicLayer?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(JoinTableDataSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(JoinTableDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "rightTableSource");
         if (result is not null)
         {

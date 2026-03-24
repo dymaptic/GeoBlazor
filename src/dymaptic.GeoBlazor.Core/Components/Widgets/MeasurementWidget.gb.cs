@@ -171,7 +171,7 @@ public partial class MeasurementWidget
 
         // get the property value
         MeasurementTool? result = await JsComponentReference!.InvokeJsMethod<MeasurementTool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeasurementWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MeasurementWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "activeTool");
         if (result is not null)
         {
@@ -212,7 +212,7 @@ public partial class MeasurementWidget
 
         // get the property value
         IMeasurementActiveWidget? result = await JsComponentReference!.InvokeJsMethod<IMeasurementActiveWidget?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeasurementWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MeasurementWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "activeWidget");
         if (result is not null)
         {
@@ -253,7 +253,7 @@ public partial class MeasurementWidget
 
         // get the property value
         SystemOrAreaUnit? result = await JsComponentReference!.InvokeJsMethod<SystemOrAreaUnit?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeasurementWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MeasurementWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "areaUnit");
         if (result is not null)
         {
@@ -294,7 +294,7 @@ public partial class MeasurementWidget
 
         // get the property value
         SystemOrLengthUnit? result = await JsComponentReference!.InvokeJsMethod<SystemOrLengthUnit?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeasurementWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MeasurementWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "linearUnit");
         if (result is not null)
         {

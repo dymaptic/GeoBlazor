@@ -174,7 +174,7 @@ public partial class KMLLayerViewMapImage : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(KMLLayerViewMapImage), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(KMLLayerViewMapImage), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "href");
         if (result is not null)
         {
@@ -215,7 +215,7 @@ public partial class KMLLayerViewMapImage : MapComponent
 
         // get the property value
         long? result = await JsComponentReference!.InvokeJsMethod<long?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(KMLLayerViewMapImage), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(KMLLayerViewMapImage), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "id");
         if (result is not null)
         {
@@ -256,7 +256,7 @@ public partial class KMLLayerViewMapImage : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(KMLLayerViewMapImage), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(KMLLayerViewMapImage), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "rotation");
         if (result is not null)
         {

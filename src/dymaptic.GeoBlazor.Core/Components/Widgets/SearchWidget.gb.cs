@@ -374,7 +374,7 @@ public partial class SearchWidget : IGoTo
 
         // get the property value
         SearchMenu? result = await JsComponentReference!.InvokeJsMethod<SearchMenu?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "activeMenu");
         if (result is not null)
         {
@@ -415,7 +415,7 @@ public partial class SearchWidget : IGoTo
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "activeSourceIndex");
         if (result is not null)
         {
@@ -456,7 +456,7 @@ public partial class SearchWidget : IGoTo
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "allPlaceholder");
         if (result is not null)
         {
@@ -497,7 +497,7 @@ public partial class SearchWidget : IGoTo
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "autoSelect");
         if (result is not null)
         {
@@ -583,7 +583,7 @@ public partial class SearchWidget : IGoTo
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "disabled");
         if (result is not null)
         {
@@ -624,7 +624,7 @@ public partial class SearchWidget : IGoTo
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "includeDefaultSources");
         if (result is not null)
         {
@@ -665,7 +665,7 @@ public partial class SearchWidget : IGoTo
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "locationEnabled");
         if (result is not null)
         {
@@ -706,7 +706,7 @@ public partial class SearchWidget : IGoTo
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maxResults");
         if (result is not null)
         {
@@ -747,7 +747,7 @@ public partial class SearchWidget : IGoTo
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maxSuggestions");
         if (result is not null)
         {
@@ -788,7 +788,7 @@ public partial class SearchWidget : IGoTo
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "minSuggestCharacters");
         if (result is not null)
         {
@@ -829,7 +829,7 @@ public partial class SearchWidget : IGoTo
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "popupEnabled");
         if (result is not null)
         {
@@ -1011,7 +1011,7 @@ public partial class SearchWidget : IGoTo
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "resultGraphicEnabled");
         if (result is not null)
         {
@@ -1052,7 +1052,7 @@ public partial class SearchWidget : IGoTo
 
         // get the property value
         IReadOnlyList<SearchResultResponse>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<SearchResultResponse>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "results");
         if (result is not null)
         {
@@ -1093,7 +1093,7 @@ public partial class SearchWidget : IGoTo
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "searchAllEnabled");
         if (result is not null)
         {
@@ -1134,7 +1134,7 @@ public partial class SearchWidget : IGoTo
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "searchTerm");
         if (result is not null)
         {
@@ -1175,7 +1175,7 @@ public partial class SearchWidget : IGoTo
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "suggestionsEnabled");
         if (result is not null)
         {

@@ -300,7 +300,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsAutoInterval");
         if (result is not null)
         {
@@ -341,7 +341,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsDate");
         if (result is not null)
         {
@@ -382,7 +382,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsFirstDayOfWeek");
         if (result is not null)
         {
@@ -423,7 +423,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsFixedBoundaries");
         if (result is not null)
         {
@@ -464,7 +464,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsFixedInterval");
         if (result is not null)
         {
@@ -505,7 +505,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsNormalization");
         if (result is not null)
         {
@@ -546,7 +546,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsReturnFullIntervalBin");
         if (result is not null)
         {
@@ -587,7 +587,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsSnapToData");
         if (result is not null)
         {
@@ -628,7 +628,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsSplitBy");
         if (result is not null)
         {
@@ -669,7 +669,7 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryAttributeBins), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsStackBy");
         if (result is not null)
         {

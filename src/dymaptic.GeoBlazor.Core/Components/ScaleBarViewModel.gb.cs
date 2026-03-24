@@ -62,7 +62,7 @@ public partial class ScaleBarViewModel : MapComponent
 
         // get the property value
         ScaleBarViewModelState? result = await JsComponentReference!.InvokeJsMethod<ScaleBarViewModelState?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ScaleBarViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ScaleBarViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "state");
         if (result is not null)
         {

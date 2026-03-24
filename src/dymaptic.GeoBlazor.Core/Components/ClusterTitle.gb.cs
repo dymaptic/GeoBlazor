@@ -76,7 +76,7 @@ public partial class ClusterTitle : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ClusterTitle), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ClusterTitle), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "showCount");
         if (result is not null)
         {

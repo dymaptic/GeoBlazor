@@ -97,7 +97,7 @@ public partial class AttachmentsOrderByInfo : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsOrderByInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AttachmentsOrderByInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "field");
         if (result is not null)
         {
@@ -138,7 +138,7 @@ public partial class AttachmentsOrderByInfo : MapComponent
 
         // get the property value
         SortOrder? result = await JsComponentReference!.InvokeJsMethod<SortOrder?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsOrderByInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AttachmentsOrderByInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "order");
         if (result is not null)
         {

@@ -103,7 +103,7 @@ public partial class ImageMediaInfo
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageMediaInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageMediaInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "refreshInterval");
         if (result is not null)
         {

@@ -190,7 +190,7 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DistanceMeasurement2DViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(DistanceMeasurement2DViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "measurementLabel");
         if (result is not null)
         {
@@ -278,7 +278,7 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
 
         // get the property value
         MeasurementViewModelState? result = await JsComponentReference!.InvokeJsMethod<MeasurementViewModelState?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DistanceMeasurement2DViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(DistanceMeasurement2DViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "state");
         if (result is not null)
         {
@@ -319,7 +319,7 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
 
         // get the property value
         SystemOrLengthUnit? result = await JsComponentReference!.InvokeJsMethod<SystemOrLengthUnit?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DistanceMeasurement2DViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(DistanceMeasurement2DViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "unit");
         if (result is not null)
         {
@@ -360,7 +360,7 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
 
         // get the property value
         IReadOnlyList<SystemOrLengthUnit>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<SystemOrLengthUnit>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DistanceMeasurement2DViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(DistanceMeasurement2DViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "unitOptions");
         if (result is not null)
         {

@@ -115,7 +115,7 @@ public partial class OpacityVariable
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(OpacityVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(OpacityVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "normalizationField");
         if (result is not null)
         {

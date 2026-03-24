@@ -95,7 +95,7 @@ public partial class AuthoringInfoField1ClassBreakInfos : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfoField1ClassBreakInfos), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AuthoringInfoField1ClassBreakInfos), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maxValue");
         if (result is not null)
         {
@@ -136,7 +136,7 @@ public partial class AuthoringInfoField1ClassBreakInfos : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfoField1ClassBreakInfos), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AuthoringInfoField1ClassBreakInfos), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "minValue");
         if (result is not null)
         {

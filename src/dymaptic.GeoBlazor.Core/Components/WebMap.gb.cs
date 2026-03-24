@@ -227,7 +227,7 @@ public partial class WebMap : ITimeSliderDocument,
 
         // get the property value
         IIPSInfo? result = await JsComponentReference!.InvokeJsMethod<IIPSInfo?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebMap), null,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebMap), null,
             CancellationTokenSource.Token, "ipsInfo");
         if (result is not null)
         {
@@ -268,7 +268,7 @@ public partial class WebMap : ITimeSliderDocument,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebMap), null,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebMap), null,
             CancellationTokenSource.Token, "presentation");
         if (result is not null)
         {
@@ -309,7 +309,7 @@ public partial class WebMap : ITimeSliderDocument,
 
         // get the property value
         WebMapSourceVersion? result = await JsComponentReference!.InvokeJsMethod<WebMapSourceVersion?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebMap), null,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebMap), null,
             CancellationTokenSource.Token, "sourceVersion");
         if (result is not null)
         {
@@ -350,7 +350,7 @@ public partial class WebMap : ITimeSliderDocument,
 
         // get the property value
         IReadOnlyList<IUtilityNetwork>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<IUtilityNetwork>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebMap), null,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebMap), null,
             CancellationTokenSource.Token, "utilityNetworks");
         if (result is not null)
         {

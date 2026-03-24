@@ -293,7 +293,7 @@ public partial class WMSSublayer : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "description");
         if (result is not null)
         {
@@ -334,7 +334,7 @@ public partial class WMSSublayer : MapComponent
 
         // get the property value
         IReadOnlyList<IWMSLayerDimension>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<IWMSLayerDimension>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "dimensions");
         if (result is not null)
         {
@@ -422,7 +422,7 @@ public partial class WMSSublayer : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "legendEnabled");
         if (result is not null)
         {
@@ -463,7 +463,7 @@ public partial class WMSSublayer : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "legendUrl");
         if (result is not null)
         {
@@ -504,7 +504,7 @@ public partial class WMSSublayer : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maxScale");
         if (result is not null)
         {
@@ -545,7 +545,7 @@ public partial class WMSSublayer : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "minScale");
         if (result is not null)
         {
@@ -586,7 +586,7 @@ public partial class WMSSublayer : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {
@@ -627,7 +627,7 @@ public partial class WMSSublayer : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "popupEnabled");
         if (result is not null)
         {
@@ -668,7 +668,7 @@ public partial class WMSSublayer : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "queryable");
         if (result is not null)
         {
@@ -709,7 +709,7 @@ public partial class WMSSublayer : MapComponent
 
         // get the property value
         IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "spatialReferences");
         if (result is not null)
         {
@@ -750,7 +750,7 @@ public partial class WMSSublayer : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
@@ -791,7 +791,7 @@ public partial class WMSSublayer : MapComponent
 
         // get the property value
         long? result = await JsComponentReference!.InvokeJsMethod<long?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMSSublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "id");
         if (result is not null)
         {

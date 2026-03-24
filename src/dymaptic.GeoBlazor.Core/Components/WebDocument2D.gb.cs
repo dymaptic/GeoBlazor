@@ -284,7 +284,7 @@ public partial class WebDocument2D : Map
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebDocument2D), null,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebDocument2D), null,
             CancellationTokenSource.Token, "authoringApp");
         if (result is not null)
         {
@@ -325,7 +325,7 @@ public partial class WebDocument2D : Map
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebDocument2D), null,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebDocument2D), null,
             CancellationTokenSource.Token, "authoringAppVersion");
         if (result is not null)
         {
@@ -493,7 +493,7 @@ public partial class WebDocument2D : Map
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebDocument2D), null,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebDocument2D), null,
             CancellationTokenSource.Token, "loaded");
         if (result is not null)
         {
@@ -534,7 +534,7 @@ public partial class WebDocument2D : Map
 
         // get the property value
         Error? result = await JsComponentReference!.InvokeJsMethod<Error?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebDocument2D), null,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebDocument2D), null,
             CancellationTokenSource.Token, "loadError");
         if (result is not null)
         {
@@ -575,7 +575,7 @@ public partial class WebDocument2D : Map
 
         // get the property value
         LoadStatus? result = await JsComponentReference!.InvokeJsMethod<LoadStatus?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebDocument2D), null,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebDocument2D), null,
             CancellationTokenSource.Token, "loadStatus");
         if (result is not null)
         {
@@ -663,7 +663,7 @@ public partial class WebDocument2D : Map
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebDocument2D), null,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebDocument2D), null,
             CancellationTokenSource.Token, "thumbnailUrl");
         if (result is not null)
         {

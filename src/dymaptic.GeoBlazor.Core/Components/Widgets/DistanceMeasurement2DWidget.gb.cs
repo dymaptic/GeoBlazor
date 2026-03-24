@@ -219,7 +219,7 @@ public partial class DistanceMeasurement2DWidget : Widget
 
         // get the property value
         SystemOrLengthUnit? result = await JsComponentReference!.InvokeJsMethod<SystemOrLengthUnit?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DistanceMeasurement2DWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(DistanceMeasurement2DWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "unit");
         if (result is not null)
         {
@@ -260,7 +260,7 @@ public partial class DistanceMeasurement2DWidget : Widget
 
         // get the property value
         IReadOnlyList<SystemOrLengthUnit>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<SystemOrLengthUnit>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DistanceMeasurement2DWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(DistanceMeasurement2DWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "unitOptions");
         if (result is not null)
         {

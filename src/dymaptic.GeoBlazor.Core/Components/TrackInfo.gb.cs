@@ -237,7 +237,7 @@ public partial class TrackInfo : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TrackInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TrackInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "enabled");
         if (result is not null)
         {
@@ -417,7 +417,7 @@ public partial class TrackInfo : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TrackInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TrackInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maxDisplayObservationsPerTrack");
         if (result is not null)
         {
@@ -458,7 +458,7 @@ public partial class TrackInfo : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TrackInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TrackInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "popupEnabled");
         if (result is not null)
         {
@@ -593,7 +593,7 @@ public partial class TrackInfo : MapComponent
 
         // get the property value
         TimeField? result = await JsComponentReference!.InvokeJsMethod<TimeField?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TrackInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TrackInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "timeField");
         if (result is not null)
         {

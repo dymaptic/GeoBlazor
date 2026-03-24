@@ -209,7 +209,7 @@ public partial class LocateWidget : IGoTo
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocateWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LocateWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "geolocationOptions");
         if (result is not null)
         {
@@ -250,7 +250,7 @@ public partial class LocateWidget : IGoTo
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocateWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LocateWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "goToLocationEnabled");
         if (result is not null)
         {
@@ -338,7 +338,7 @@ public partial class LocateWidget : IGoTo
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocateWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LocateWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "popupEnabled");
         if (result is not null)
         {
@@ -379,7 +379,7 @@ public partial class LocateWidget : IGoTo
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocateWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LocateWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "scale");
         if (result is not null)
         {
@@ -719,39 +719,6 @@ public partial class LocateWidget : IGoTo
         
         await JsComponentReference!.InvokeVoidJsMethod(IsServer,
             nameof(CancelLocate), nameof(LocateWidget), 
-            CancellationTokenSource.Token);
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LocateWidget.html#locatewidgetlocate-method">GeoBlazor Docs</a>
-    ///     Animates the view to the user's location.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html#locate">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISMethod]
-    public async Task<string?> Locate()
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(Locate), nameof(LocateWidget), View?.QueryResultsMaxSizeLimit, 
             CancellationTokenSource.Token);
     }
     

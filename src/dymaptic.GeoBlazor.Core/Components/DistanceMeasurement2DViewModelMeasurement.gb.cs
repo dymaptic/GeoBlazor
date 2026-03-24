@@ -142,7 +142,7 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DistanceMeasurement2DViewModelMeasurement), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(DistanceMeasurement2DViewModelMeasurement), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "length");
         if (result is not null)
         {

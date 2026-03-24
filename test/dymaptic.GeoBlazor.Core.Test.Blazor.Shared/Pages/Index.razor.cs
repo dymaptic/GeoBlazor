@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 
 namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Pages;
 
-public partial class Index
+public partial class Index: IAsyncDisposable
 {
     [Inject]
     public required IJSRuntime JsRuntime { get; set; }
@@ -354,16 +354,28 @@ public partial class Index
 
     private async Task SaveResults()
     {
+        if (_jsTestRunner is null || _disposed)
+        {
+            return;
+        }
         await _jsTestRunner!.InvokeVoidAsync("saveTestResults", _results);
     }
 
     private async Task SaveSettings()
     {
+        if (_jsTestRunner is null || _disposed)
+        {
+            return;
+        }
         await _jsTestRunner!.InvokeVoidAsync("saveSettings", _settings);
     }
 
     private async Task LoadSettings()
     {
+        if (_jsTestRunner is null || _disposed)
+        {
+            return;
+        }
         TestSettings? settings = await _jsTestRunner!.InvokeAsync<TestSettings?>("loadSettings");
 
         if (settings is not null)
@@ -403,6 +415,13 @@ public partial class Index
         return new MarkupString(builder.ToString());
     }
 
+    public ValueTask DisposeAsync()
+    {
+        _disposed = true;
+
+        return ValueTask.CompletedTask;
+    }
+
     private readonly List<Type> _testClassTypes = [];
     private readonly Dictionary<string, TestWrapper?> _testComponents = new();
     private IJSObjectReference? _jsTestRunner;
@@ -413,6 +432,7 @@ public partial class Index
     private CancellationTokenSource _cts = new();
     private TestSettings _settings = new(false, true);
     private bool _allPassed;
+    private bool _disposed;
 
     public record TestSettings(bool StopOnFail, bool RetainResultsOnReload)
     {

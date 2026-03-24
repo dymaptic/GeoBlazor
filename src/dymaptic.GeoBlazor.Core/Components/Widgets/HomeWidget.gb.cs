@@ -163,7 +163,7 @@ public partial class HomeWidget : IGoTo
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HomeWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(HomeWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "uiStrings");
         if (result is not null)
         {

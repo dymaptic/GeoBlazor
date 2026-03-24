@@ -113,7 +113,7 @@ public partial class DisplayFilterInfo : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DisplayFilterInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(DisplayFilterInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "activeFilterId");
         if (result is not null)
         {
@@ -154,7 +154,7 @@ public partial class DisplayFilterInfo : MapComponent
 
         // get the property value
         IReadOnlyList<DisplayFilter>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<DisplayFilter>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DisplayFilterInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(DisplayFilterInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "filters");
         if (result is not null)
         {
@@ -195,7 +195,7 @@ public partial class DisplayFilterInfo : MapComponent
 
         // get the property value
         DisplayFilterInfoMode? result = await JsComponentReference!.InvokeJsMethod<DisplayFilterInfoMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DisplayFilterInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(DisplayFilterInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "mode");
         if (result is not null)
         {

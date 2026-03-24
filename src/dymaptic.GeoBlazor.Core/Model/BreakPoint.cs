@@ -4,8 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     Defines the dimensions of the View at which to dock the popup. Set to false to disable docking at a breakpoint.
 ///     DefaultValue: true
 /// </summary>
-[JsonConverter(typeof(BreakPointConverter))]
-public record BreakPoint
+[JsonConverter(typeof(BreakpointConverter))]
+public record Breakpoint
 {
     /// <summary>
     ///     Constructor for building a breakpoint with specified max width and/or height.
@@ -18,7 +18,7 @@ public record BreakPoint
     ///     The maximum height of the View at which the popup will be set to dockEnabled automatically.
     ///     DefaultValue: 544
     /// </param>
-    public BreakPoint(double? width = null, double? height = null)
+    public Breakpoint(double? width = null, double? height = null)
     {
         Width = width;
         Height = height;
@@ -30,7 +30,7 @@ public record BreakPoint
     /// <param name="value">
     ///     Determines if the breakpoint is on or off.
     /// </param>
-    public BreakPoint(bool value)
+    public Breakpoint(bool value)
     {
         BoolValue = value;
     }

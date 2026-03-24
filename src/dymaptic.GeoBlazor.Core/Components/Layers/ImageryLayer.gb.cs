@@ -678,7 +678,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "activePresetRendererName");
         if (result is not null)
         {
@@ -719,7 +719,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         IReadOnlyList<long>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<long>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "bandIds");
         if (result is not null)
         {
@@ -760,7 +760,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         BlendMode? result = await JsComponentReference!.InvokeJsMethod<BlendMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "blendMode");
         if (result is not null)
         {
@@ -848,7 +848,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "compressionQuality");
         if (result is not null)
         {
@@ -889,7 +889,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "compressionTolerance");
         if (result is not null)
         {
@@ -930,7 +930,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "copyright");
         if (result is not null)
         {
@@ -971,7 +971,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         Dictionary<string, object>? result = await JsComponentReference!.InvokeJsMethod<Dictionary<string, object>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "customParameters");
         if (result is not null)
         {
@@ -1053,7 +1053,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "definitionExpression");
         if (result is not null)
         {
@@ -1221,7 +1221,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         ImageFormat? result = await JsComponentReference!.InvokeJsMethod<ImageFormat?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "format");
         if (result is not null)
         {
@@ -1262,7 +1262,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "hasMultidimensions");
         if (result is not null)
         {
@@ -1303,7 +1303,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "imageMaxHeight");
         if (result is not null)
         {
@@ -1344,7 +1344,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "imageMaxWidth");
         if (result is not null)
         {
@@ -1385,7 +1385,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         Interpolation? result = await JsComponentReference!.InvokeJsMethod<Interpolation?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "interpolation");
         if (result is not null)
         {
@@ -1426,7 +1426,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "legendEnabled");
         if (result is not null)
         {
@@ -1467,7 +1467,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maxScale");
         if (result is not null)
         {
@@ -1508,7 +1508,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "minScale");
         if (result is not null)
         {
@@ -1678,7 +1678,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         NoData? result = await JsComponentReference!.InvokeJsMethod<NoData?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "noData");
         if (result is not null)
         {
@@ -1719,7 +1719,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         NoDataInterpretation? result = await JsComponentReference!.InvokeJsMethod<NoDataInterpretation?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "noDataInterpretation");
         if (result is not null)
         {
@@ -1760,7 +1760,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "objectIdField");
         if (result is not null)
         {
@@ -1801,7 +1801,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         PixelType? result = await JsComponentReference!.InvokeJsMethod<PixelType?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "pixelType");
         if (result is not null)
         {
@@ -1842,7 +1842,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "popupEnabled");
         if (result is not null)
         {
@@ -2114,7 +2114,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         IReadOnlyList<RasterFunctionInfo>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<RasterFunctionInfo>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "rasterFunctionInfos");
         if (result is not null)
         {
@@ -2155,7 +2155,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "refreshInterval");
         if (result is not null)
         {
@@ -2196,7 +2196,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         IImageryRenderer? result = await JsComponentReference!.InvokeJsMethod<IImageryRenderer?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "renderer");
         if (result is not null)
         {
@@ -2278,7 +2278,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
@@ -2319,7 +2319,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         SourceType? result = await JsComponentReference!.InvokeJsMethod<SourceType?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sourceType");
         if (result is not null)
         {
@@ -2542,7 +2542,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "url");
         if (result is not null)
         {
@@ -2583,7 +2583,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "useViewTime");
         if (result is not null)
         {
@@ -2624,7 +2624,7 @@ public partial class ImageryLayer : IBlendLayer,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageryLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "version");
         if (result is not null)
         {

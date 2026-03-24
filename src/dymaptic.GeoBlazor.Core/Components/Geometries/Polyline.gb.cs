@@ -84,7 +84,7 @@ public partial class Polyline
 
         // get the property value
         IReadOnlyList<MapPath>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<MapPath>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Polyline), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Polyline), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "paths");
         if (result is not null)
         {

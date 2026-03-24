@@ -123,7 +123,7 @@ public partial class Circle : Polygon
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Circle), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Circle), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "geodesic");
         if (result is not null)
         {
@@ -164,7 +164,7 @@ public partial class Circle : Polygon
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Circle), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Circle), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "numberOfPoints");
         if (result is not null)
         {
@@ -205,7 +205,7 @@ public partial class Circle : Polygon
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Circle), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Circle), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "radius");
         if (result is not null)
         {
@@ -246,7 +246,7 @@ public partial class Circle : Polygon
 
         // get the property value
         RadiusUnit? result = await JsComponentReference!.InvokeJsMethod<RadiusUnit?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Circle), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Circle), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "radiusUnit");
         if (result is not null)
         {

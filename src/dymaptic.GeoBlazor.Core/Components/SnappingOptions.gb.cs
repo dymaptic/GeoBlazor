@@ -144,7 +144,7 @@ public partial class SnappingOptions
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SnappingOptions), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SnappingOptions), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "attributeRulesEnabled");
         if (result is not null)
         {
@@ -185,7 +185,7 @@ public partial class SnappingOptions
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SnappingOptions), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SnappingOptions), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "distance");
         if (result is not null)
         {
@@ -226,7 +226,7 @@ public partial class SnappingOptions
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SnappingOptions), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SnappingOptions), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "enabled");
         if (result is not null)
         {
@@ -267,7 +267,7 @@ public partial class SnappingOptions
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SnappingOptions), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SnappingOptions), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "featureEnabled");
         if (result is not null)
         {
@@ -353,7 +353,7 @@ public partial class SnappingOptions
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SnappingOptions), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SnappingOptions), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "gridEnabled");
         if (result is not null)
         {
@@ -394,7 +394,7 @@ public partial class SnappingOptions
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SnappingOptions), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SnappingOptions), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "selfEnabled");
         if (result is not null)
         {

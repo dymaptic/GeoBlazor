@@ -193,7 +193,7 @@ public partial class PixelBlock : MapComponent
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PixelBlock), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PixelBlock), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "height");
         if (result is not null)
         {
@@ -234,7 +234,7 @@ public partial class PixelBlock : MapComponent
 
         // get the property value
         Stream? result = await JsComponentReference!.InvokeJsMethod<Stream?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PixelBlock), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PixelBlock), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "mask");
         if (result is not null)
         {
@@ -275,7 +275,7 @@ public partial class PixelBlock : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PixelBlock), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PixelBlock), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maskIsAlpha");
         if (result is not null)
         {
@@ -316,7 +316,7 @@ public partial class PixelBlock : MapComponent
 
         // get the property value
         Stream? result = await JsComponentReference!.InvokeJsMethod<Stream?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PixelBlock), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PixelBlock), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "pixels");
         if (result is not null)
         {
@@ -357,7 +357,7 @@ public partial class PixelBlock : MapComponent
 
         // get the property value
         PixelType? result = await JsComponentReference!.InvokeJsMethod<PixelType?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PixelBlock), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PixelBlock), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "pixelType");
         if (result is not null)
         {
@@ -443,7 +443,7 @@ public partial class PixelBlock : MapComponent
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PixelBlock), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PixelBlock), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "validPixelCount");
         if (result is not null)
         {
@@ -484,7 +484,7 @@ public partial class PixelBlock : MapComponent
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PixelBlock), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PixelBlock), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "width");
         if (result is not null)
         {

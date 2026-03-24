@@ -235,7 +235,7 @@ public partial class WMTSSublayer : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMTSSublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMTSSublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "description");
         if (result is not null)
         {
@@ -323,7 +323,7 @@ public partial class WMTSSublayer : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMTSSublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMTSSublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "imageFormat");
         if (result is not null)
         {
@@ -364,7 +364,7 @@ public partial class WMTSSublayer : MapComponent
 
         // get the property value
         IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMTSSublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMTSSublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "imageFormats");
         if (result is not null)
         {
@@ -405,7 +405,7 @@ public partial class WMTSSublayer : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMTSSublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMTSSublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "styleId");
         if (result is not null)
         {
@@ -538,7 +538,7 @@ public partial class WMTSSublayer : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMTSSublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMTSSublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "tileMatrixSetId");
         if (result is not null)
         {
@@ -624,7 +624,7 @@ public partial class WMTSSublayer : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMTSSublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMTSSublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
@@ -665,7 +665,7 @@ public partial class WMTSSublayer : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WMTSSublayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WMTSSublayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "id");
         if (result is not null)
         {

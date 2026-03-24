@@ -71,7 +71,7 @@ public partial class RasterDataSource
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterDataSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "dataSourceName");
         if (result is not null)
         {
@@ -112,7 +112,7 @@ public partial class RasterDataSource
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterDataSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "workspaceId");
         if (result is not null)
         {

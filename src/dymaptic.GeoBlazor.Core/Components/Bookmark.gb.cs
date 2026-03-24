@@ -108,7 +108,7 @@ public partial class Bookmark
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Bookmark), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Bookmark), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {
@@ -149,7 +149,7 @@ public partial class Bookmark
 
         // get the property value
         BookmarkThumbnail? result = await JsComponentReference!.InvokeJsMethod<BookmarkThumbnail?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Bookmark), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Bookmark), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "thumbnail");
         if (result is not null)
         {

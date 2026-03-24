@@ -75,7 +75,7 @@ public abstract partial class MediaInfo
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MediaInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MediaInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "altText");
         if (result is not null)
         {
@@ -116,7 +116,7 @@ public abstract partial class MediaInfo
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MediaInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MediaInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "caption");
         if (result is not null)
         {
@@ -157,7 +157,7 @@ public abstract partial class MediaInfo
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MediaInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MediaInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {

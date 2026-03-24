@@ -195,7 +195,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
 
         // get the property value
         Error? result = await JsComponentReference!.InvokeJsMethod<Error?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocateViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LocateViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "error");
         if (result is not null)
         {
@@ -236,7 +236,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
 
         // get the property value
         GeolocationOptions? result = await JsComponentReference!.InvokeJsMethod<GeolocationOptions?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocateViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LocateViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "geolocationOptions");
         if (result is not null)
         {
@@ -277,7 +277,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocateViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LocateViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "goToLocationEnabled");
         if (result is not null)
         {
@@ -365,7 +365,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocateViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LocateViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "popupEnabled");
         if (result is not null)
         {
@@ -406,7 +406,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocateViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LocateViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "scale");
         if (result is not null)
         {
@@ -447,7 +447,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
 
         // get the property value
         LocateViewModelState? result = await JsComponentReference!.InvokeJsMethod<LocateViewModelState?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LocateViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LocateViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "state");
         if (result is not null)
         {

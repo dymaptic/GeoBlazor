@@ -71,7 +71,7 @@ public partial class SliderVisibleElements
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "labels");
         if (result is not null)
         {
@@ -112,7 +112,7 @@ public partial class SliderVisibleElements
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "rangeLabels");
         if (result is not null)
         {

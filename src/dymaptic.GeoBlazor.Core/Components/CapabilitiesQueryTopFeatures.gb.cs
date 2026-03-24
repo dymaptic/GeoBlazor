@@ -79,7 +79,7 @@ public partial class CapabilitiesQueryTopFeatures : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryTopFeatures), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryTopFeatures), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsCacheHint");
         if (result is not null)
         {

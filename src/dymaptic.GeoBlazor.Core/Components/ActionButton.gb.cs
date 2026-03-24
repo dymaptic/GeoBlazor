@@ -51,7 +51,7 @@ public partial class ActionButton
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActionButton), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ActionButton), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "image");
         if (result is not null)
         {

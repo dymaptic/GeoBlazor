@@ -127,7 +127,7 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarkOptionsScreenshotSettingsArea), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BookmarkOptionsScreenshotSettingsArea), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "height");
         if (result is not null)
         {
@@ -168,7 +168,7 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarkOptionsScreenshotSettingsArea), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BookmarkOptionsScreenshotSettingsArea), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "width");
         if (result is not null)
         {
@@ -209,7 +209,7 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarkOptionsScreenshotSettingsArea), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BookmarkOptionsScreenshotSettingsArea), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "x");
         if (result is not null)
         {
@@ -250,7 +250,7 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarkOptionsScreenshotSettingsArea), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BookmarkOptionsScreenshotSettingsArea), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "y");
         if (result is not null)
         {

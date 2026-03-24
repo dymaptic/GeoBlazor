@@ -266,7 +266,7 @@ public partial class SliderViewModel
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "effectiveMax");
         if (result is not null)
         {
@@ -307,7 +307,7 @@ public partial class SliderViewModel
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "effectiveMin");
         if (result is not null)
         {
@@ -348,7 +348,7 @@ public partial class SliderViewModel
 
         // get the property value
         LabelInfos? result = await JsComponentReference!.InvokeJsMethod<LabelInfos?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "labels");
         if (result is not null)
         {
@@ -389,7 +389,7 @@ public partial class SliderViewModel
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "max");
         if (result is not null)
         {
@@ -430,7 +430,7 @@ public partial class SliderViewModel
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "min");
         if (result is not null)
         {
@@ -471,7 +471,7 @@ public partial class SliderViewModel
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "precision");
         if (result is not null)
         {
@@ -512,7 +512,7 @@ public partial class SliderViewModel
 
         // get the property value
         ViewModelState? result = await JsComponentReference!.InvokeJsMethod<ViewModelState?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "state");
         if (result is not null)
         {
@@ -553,7 +553,7 @@ public partial class SliderViewModel
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "thumbsConstrained");
         if (result is not null)
         {
@@ -594,7 +594,7 @@ public partial class SliderViewModel
 
         // get the property value
         IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "values");
         if (result is not null)
         {

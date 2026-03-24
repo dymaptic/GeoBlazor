@@ -81,7 +81,7 @@ public partial class SimpleFillSymbol : ISymbol2D,
 
         // get the property value
         SimpleFillSymbolStyle? result = await JsComponentReference!.InvokeJsMethod<SimpleFillSymbolStyle?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SimpleFillSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SimpleFillSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "style");
         if (result is not null)
         {

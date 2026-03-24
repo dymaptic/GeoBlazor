@@ -196,7 +196,7 @@ public partial class Ground : MapComponent,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Ground), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Ground), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "loaded");
         if (result is not null)
         {
@@ -284,7 +284,7 @@ public partial class Ground : MapComponent,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Ground), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Ground), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "opacity");
         if (result is not null)
         {
@@ -325,7 +325,7 @@ public partial class Ground : MapComponent,
 
         // get the property value
         MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Ground), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Ground), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "surfaceColor");
         if (result is not null)
         {

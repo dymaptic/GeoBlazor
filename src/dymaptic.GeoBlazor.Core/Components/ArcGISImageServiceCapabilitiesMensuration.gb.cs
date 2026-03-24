@@ -175,7 +175,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supports3D");
         if (result is not null)
         {
@@ -216,7 +216,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsAreaAndPerimeter");
         if (result is not null)
         {
@@ -257,7 +257,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsDistanceAndAngle");
         if (result is not null)
         {
@@ -298,7 +298,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsHeightFromBaseAndTop");
         if (result is not null)
         {
@@ -339,7 +339,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsHeightFromBaseAndTopShadow");
         if (result is not null)
         {
@@ -380,7 +380,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsHeightFromTopAndTopShadow");
         if (result is not null)
         {
@@ -421,7 +421,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesMensuration), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsPointOrCentroid");
         if (result is not null)
         {

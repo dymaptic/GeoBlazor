@@ -155,7 +155,7 @@ public partial class TickConfig
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TickConfig), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TickConfig), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "labelsVisible");
         if (result is not null)
         {
@@ -196,7 +196,7 @@ public partial class TickConfig
 
         // get the property value
         TickConfigMode? result = await JsComponentReference!.InvokeJsMethod<TickConfigMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TickConfig), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TickConfig), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "mode");
         if (result is not null)
         {
@@ -237,7 +237,7 @@ public partial class TickConfig
 
         // get the property value
         IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TickConfig), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TickConfig), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "values");
         if (result is not null)
         {

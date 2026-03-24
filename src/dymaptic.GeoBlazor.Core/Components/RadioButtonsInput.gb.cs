@@ -72,7 +72,7 @@ public partial class RadioButtonsInput
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RadioButtonsInput), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RadioButtonsInput), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "noValueOptionLabel");
         if (result is not null)
         {
@@ -113,7 +113,7 @@ public partial class RadioButtonsInput
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RadioButtonsInput), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RadioButtonsInput), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "showNoValueOption");
         if (result is not null)
         {

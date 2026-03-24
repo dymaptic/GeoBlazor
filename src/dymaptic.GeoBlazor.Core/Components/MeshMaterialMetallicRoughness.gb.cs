@@ -253,7 +253,7 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
 
         // get the property value
         MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshMaterialMetallicRoughness), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MeshMaterialMetallicRoughness), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "emissiveColor");
         if (result is not null)
         {
@@ -388,7 +388,7 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshMaterialMetallicRoughness), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MeshMaterialMetallicRoughness), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "metallic");
         if (result is not null)
         {
@@ -570,7 +570,7 @@ public partial class MeshMaterialMetallicRoughness : MeshMaterial,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshMaterialMetallicRoughness), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MeshMaterialMetallicRoughness), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "roughness");
         if (result is not null)
         {

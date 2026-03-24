@@ -80,7 +80,7 @@ public partial class FieldInfoFormat
 
         // get the property value
         DateFormat? result = await JsComponentReference!.InvokeJsMethod<DateFormat?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FieldInfoFormat), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FieldInfoFormat), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "dateFormat");
         if (result is not null)
         {
@@ -121,7 +121,7 @@ public partial class FieldInfoFormat
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FieldInfoFormat), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FieldInfoFormat), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "digitSeparator");
         if (result is not null)
         {
@@ -162,7 +162,7 @@ public partial class FieldInfoFormat
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FieldInfoFormat), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FieldInfoFormat), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "places");
         if (result is not null)
         {

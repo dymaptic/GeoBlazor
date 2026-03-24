@@ -148,7 +148,7 @@ public partial class BasemapGalleryItem : MapComponent
 
         // get the property value
         Error? result = await JsComponentReference!.InvokeJsMethod<Error?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapGalleryItem), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapGalleryItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "error");
         if (result is not null)
         {
@@ -189,7 +189,7 @@ public partial class BasemapGalleryItem : MapComponent
 
         // get the property value
         BasemapGalleryItemState? result = await JsComponentReference!.InvokeJsMethod<BasemapGalleryItemState?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapGalleryItem), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapGalleryItem), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "state");
         if (result is not null)
         {

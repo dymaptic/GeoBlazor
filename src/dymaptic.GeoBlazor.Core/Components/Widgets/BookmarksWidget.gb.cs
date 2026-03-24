@@ -384,7 +384,7 @@ public partial class BookmarksWidget : IGoTo
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarksWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BookmarksWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "disabled");
         if (result is not null)
         {
@@ -425,7 +425,7 @@ public partial class BookmarksWidget : IGoTo
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarksWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BookmarksWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "dragEnabled");
         if (result is not null)
         {
@@ -466,7 +466,7 @@ public partial class BookmarksWidget : IGoTo
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarksWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BookmarksWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "filterPlaceholder");
         if (result is not null)
         {
@@ -507,7 +507,7 @@ public partial class BookmarksWidget : IGoTo
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarksWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BookmarksWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "filterText");
         if (result is not null)
         {
@@ -548,7 +548,7 @@ public partial class BookmarksWidget : IGoTo
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BookmarksWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BookmarksWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "headingLevel");
         if (result is not null)
         {

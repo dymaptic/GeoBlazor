@@ -199,7 +199,7 @@ public partial class BasemapLayerListWidgetVisibleElements
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "baseLayers");
         if (result is not null)
         {
@@ -240,7 +240,7 @@ public partial class BasemapLayerListWidgetVisibleElements
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "closeButton");
         if (result is not null)
         {
@@ -281,7 +281,7 @@ public partial class BasemapLayerListWidgetVisibleElements
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "collapseButton");
         if (result is not null)
         {
@@ -322,7 +322,7 @@ public partial class BasemapLayerListWidgetVisibleElements
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "editTitleButton");
         if (result is not null)
         {
@@ -363,7 +363,7 @@ public partial class BasemapLayerListWidgetVisibleElements
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "errors");
         if (result is not null)
         {
@@ -404,7 +404,7 @@ public partial class BasemapLayerListWidgetVisibleElements
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "filter");
         if (result is not null)
         {
@@ -445,7 +445,7 @@ public partial class BasemapLayerListWidgetVisibleElements
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "flow");
         if (result is not null)
         {
@@ -486,7 +486,7 @@ public partial class BasemapLayerListWidgetVisibleElements
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "heading");
         if (result is not null)
         {
@@ -527,7 +527,7 @@ public partial class BasemapLayerListWidgetVisibleElements
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "referenceLayers");
         if (result is not null)
         {
@@ -568,7 +568,7 @@ public partial class BasemapLayerListWidgetVisibleElements
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "statusIndicators");
         if (result is not null)
         {
@@ -609,7 +609,7 @@ public partial class BasemapLayerListWidgetVisibleElements
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapLayerListWidgetVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "temporaryLayerIndicators");
         if (result is not null)
         {

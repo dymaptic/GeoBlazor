@@ -1161,7 +1161,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "apiKey");
         if (result is not null)
         {
@@ -1202,7 +1202,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         IAttributeTableTemplate? result = await JsComponentReference!.InvokeJsMethod<IAttributeTableTemplate?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "attributeTableTemplate");
         if (result is not null)
         {
@@ -1243,7 +1243,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         BlendMode? result = await JsComponentReference!.InvokeJsMethod<BlendMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "blendMode");
         if (result is not null)
         {
@@ -1284,7 +1284,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "charts");
         if (result is not null)
         {
@@ -1325,7 +1325,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "copyright");
         if (result is not null)
         {
@@ -1366,7 +1366,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         Dictionary<string, object>? result = await JsComponentReference!.InvokeJsMethod<Dictionary<string, object>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "customParameters");
         if (result is not null)
         {
@@ -1407,7 +1407,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "dateFieldsTimeZone");
         if (result is not null)
         {
@@ -1448,7 +1448,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "datesInUnknownTimezone");
         if (result is not null)
         {
@@ -1489,7 +1489,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "definitionExpression");
         if (result is not null)
         {
@@ -1530,7 +1530,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "displayField");
         if (result is not null)
         {
@@ -1571,7 +1571,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "displayFilterEnabled");
         if (result is not null)
         {
@@ -1659,7 +1659,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         DynamicLayer? result = await JsComponentReference!.InvokeJsMethod<DynamicLayer?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "dynamicDataSource");
         if (result is not null)
         {
@@ -1700,7 +1700,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         EditFieldsInfo? result = await JsComponentReference!.InvokeJsMethod<EditFieldsInfo?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "editFieldsInfo");
         if (result is not null)
         {
@@ -1741,7 +1741,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "editingEnabled");
         if (result is not null)
         {
@@ -1782,7 +1782,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         EditingInfo? result = await JsComponentReference!.InvokeJsMethod<EditingInfo?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "editingInfo");
         if (result is not null)
         {
@@ -1911,7 +1911,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "effectiveEditingEnabled");
         if (result is not null)
         {
@@ -1952,7 +1952,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         ElevationInfo? result = await JsComponentReference!.InvokeJsMethod<ElevationInfo?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "elevationInfo");
         if (result is not null)
         {
@@ -2040,7 +2040,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         IFeatureReduction? result = await JsComponentReference!.InvokeJsMethod<IFeatureReduction?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "featureReduction");
         if (result is not null)
         {
@@ -2214,7 +2214,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         IFormTemplate? result = await JsComponentReference!.InvokeJsMethod<IFormTemplate?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "formTemplate");
         if (result is not null)
         {
@@ -2255,7 +2255,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "gdbVersion");
         if (result is not null)
         {
@@ -2296,7 +2296,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         GeometryFieldsInfo? result = await JsComponentReference!.InvokeJsMethod<GeometryFieldsInfo?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "geometryFieldsInfo");
         if (result is not null)
         {
@@ -2337,7 +2337,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         FeatureGeometryType? result = await JsComponentReference!.InvokeJsMethod<FeatureGeometryType?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "geometryType");
         if (result is not null)
         {
@@ -2378,7 +2378,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "globalIdField");
         if (result is not null)
         {
@@ -2419,7 +2419,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "hasM");
         if (result is not null)
         {
@@ -2460,7 +2460,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "hasZ");
         if (result is not null)
         {
@@ -2501,7 +2501,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         DateTime? result = await JsComponentReference!.InvokeJsMethod<DateTime?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "historicMoment");
         if (result is not null)
         {
@@ -2542,7 +2542,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "isTable");
         if (result is not null)
         {
@@ -2628,7 +2628,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "labelsVisible");
         if (result is not null)
         {
@@ -2669,7 +2669,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "layerId");
         if (result is not null)
         {
@@ -2710,7 +2710,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "legendEnabled");
         if (result is not null)
         {
@@ -2751,7 +2751,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maxScale");
         if (result is not null)
         {
@@ -2792,7 +2792,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "minScale");
         if (result is not null)
         {
@@ -2833,7 +2833,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "objectIdField");
         if (result is not null)
         {
@@ -2919,7 +2919,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "outFields");
         if (result is not null)
         {
@@ -2960,7 +2960,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "popupEnabled");
         if (result is not null)
         {
@@ -3095,7 +3095,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "preferredTimeZone");
         if (result is not null)
         {
@@ -3136,7 +3136,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         PublishingInfo? result = await JsComponentReference!.InvokeJsMethod<PublishingInfo?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "publishingInfo");
         if (result is not null)
         {
@@ -3177,7 +3177,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "refreshInterval");
         if (result is not null)
         {
@@ -3218,7 +3218,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         IReadOnlyList<Relationship>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<Relationship>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "relationships");
         if (result is not null)
         {
@@ -3306,7 +3306,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "returnM");
         if (result is not null)
         {
@@ -3347,7 +3347,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "returnZ");
         if (result is not null)
         {
@@ -3388,7 +3388,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "screenSizePerspectiveEnabled");
         if (result is not null)
         {
@@ -3429,7 +3429,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "serviceDefinitionExpression");
         if (result is not null)
         {
@@ -3470,7 +3470,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "serviceItemId");
         if (result is not null)
         {
@@ -3511,7 +3511,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
@@ -3593,7 +3593,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "subtypeField");
         if (result is not null)
         {
@@ -3675,7 +3675,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         IReadOnlyList<IFeatureTemplate>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<IFeatureTemplate>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "templates");
         if (result is not null)
         {
@@ -3904,7 +3904,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "typeIdField");
         if (result is not null)
         {
@@ -3986,7 +3986,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "uniqueIdFields");
         if (result is not null)
         {
@@ -4027,7 +4027,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "url");
         if (result is not null)
         {
@@ -4068,7 +4068,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "useViewTime");
         if (result is not null)
         {
@@ -4109,7 +4109,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeatureLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "version");
         if (result is not null)
         {

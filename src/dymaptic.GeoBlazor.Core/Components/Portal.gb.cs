@@ -1168,7 +1168,7 @@ public partial class Portal
 
         // get the property value
         PortalAccess? result = await JsComponentReference!.InvokeJsMethod<PortalAccess?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "access");
         if (result is not null)
         {
@@ -1209,7 +1209,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "allSSL");
         if (result is not null)
         {
@@ -1250,7 +1250,7 @@ public partial class Portal
 
         // get the property value
         AuthMode? result = await JsComponentReference!.InvokeJsMethod<AuthMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "authMode");
         if (result is not null)
         {
@@ -1291,7 +1291,7 @@ public partial class Portal
 
         // get the property value
         IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "authorizedCrossOriginDomains");
         if (result is not null)
         {
@@ -1332,7 +1332,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "basemapGalleryGroupQuery");
         if (result is not null)
         {
@@ -1373,7 +1373,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "basemapGalleryGroupQuery3D");
         if (result is not null)
         {
@@ -1414,7 +1414,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "bingKey");
         if (result is not null)
         {
@@ -1455,7 +1455,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "canListApps");
         if (result is not null)
         {
@@ -1496,7 +1496,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "canListData");
         if (result is not null)
         {
@@ -1537,7 +1537,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "canListPreProvisionedItems");
         if (result is not null)
         {
@@ -1578,7 +1578,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "canProvisionDirectPurchase");
         if (result is not null)
         {
@@ -1619,7 +1619,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "canSearchPublic");
         if (result is not null)
         {
@@ -1660,7 +1660,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "canShareBingPublic");
         if (result is not null)
         {
@@ -1701,7 +1701,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "canSharePublic");
         if (result is not null)
         {
@@ -1742,7 +1742,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "canSignInArcGIS");
         if (result is not null)
         {
@@ -1783,7 +1783,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "canSignInIDP");
         if (result is not null)
         {
@@ -1824,7 +1824,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "colorSetsGroupQuery");
         if (result is not null)
         {
@@ -1865,7 +1865,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "commentsEnabled");
         if (result is not null)
         {
@@ -1906,7 +1906,7 @@ public partial class Portal
 
         // get the property value
         DateTime? result = await JsComponentReference!.InvokeJsMethod<DateTime?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "created");
         if (result is not null)
         {
@@ -1947,7 +1947,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "culture");
         if (result is not null)
         {
@@ -1988,7 +1988,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "customBaseUrl");
         if (result is not null)
         {
@@ -2029,7 +2029,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "default3DBasemapQuery");
         if (result is not null)
         {
@@ -2117,7 +2117,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "description");
         if (result is not null)
         {
@@ -2158,7 +2158,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "devBasemapGalleryGroupQuery");
         if (result is not null)
         {
@@ -2199,7 +2199,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "eueiEnabled");
         if (result is not null)
         {
@@ -2240,7 +2240,7 @@ public partial class Portal
 
         // get the property value
         IReadOnlyList<PortalFeaturedGroups>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<PortalFeaturedGroups>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "featuredGroups");
         if (result is not null)
         {
@@ -2281,7 +2281,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "featuredItemsGroupQuery");
         if (result is not null)
         {
@@ -2322,7 +2322,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "galleryTemplatesGroupQuery");
         if (result is not null)
         {
@@ -2363,7 +2363,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "hasCategorySchema");
         if (result is not null)
         {
@@ -2404,7 +2404,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "hasClassificationSchema");
         if (result is not null)
         {
@@ -2445,7 +2445,7 @@ public partial class Portal
 
         // get the property value
         HelperServices? result = await JsComponentReference!.InvokeJsMethod<HelperServices?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "helperServices");
         if (result is not null)
         {
@@ -2486,7 +2486,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "homePageFeaturedContent");
         if (result is not null)
         {
@@ -2527,7 +2527,7 @@ public partial class Portal
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "homePageFeaturedContentCount");
         if (result is not null)
         {
@@ -2568,7 +2568,7 @@ public partial class Portal
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "httpPort");
         if (result is not null)
         {
@@ -2609,7 +2609,7 @@ public partial class Portal
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "httpsPort");
         if (result is not null)
         {
@@ -2650,7 +2650,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "ipCntryCode");
         if (result is not null)
         {
@@ -2691,7 +2691,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "isOrganization");
         if (result is not null)
         {
@@ -2732,7 +2732,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "isPortal");
         if (result is not null)
         {
@@ -2773,7 +2773,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "isReadOnly");
         if (result is not null)
         {
@@ -2814,7 +2814,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "layerTemplatesGroupQuery");
         if (result is not null)
         {
@@ -2855,7 +2855,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "loaded");
         if (result is not null)
         {
@@ -2896,7 +2896,7 @@ public partial class Portal
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maxTokenExpirationMinutes");
         if (result is not null)
         {
@@ -2937,7 +2937,7 @@ public partial class Portal
 
         // get the property value
         DateTime? result = await JsComponentReference!.InvokeJsMethod<DateTime?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "modified");
         if (result is not null)
         {
@@ -2978,7 +2978,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {
@@ -3019,7 +3019,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "portalHostname");
         if (result is not null)
         {
@@ -3060,7 +3060,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "id");
         if (result is not null)
         {
@@ -3101,7 +3101,7 @@ public partial class Portal
 
         // get the property value
         PortalMode? result = await JsComponentReference!.InvokeJsMethod<PortalMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "portalMode");
         if (result is not null)
         {
@@ -3183,7 +3183,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "recycleBinEnabled");
         if (result is not null)
         {
@@ -3224,7 +3224,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "region");
         if (result is not null)
         {
@@ -3265,7 +3265,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "restUrl");
         if (result is not null)
         {
@@ -3306,7 +3306,7 @@ public partial class Portal
 
         // get the property value
         IReadOnlyList<RotatorPanel>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<RotatorPanel>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "rotatorPanels");
         if (result is not null)
         {
@@ -3347,7 +3347,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "showHomePageDescription");
         if (result is not null)
         {
@@ -3388,7 +3388,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
@@ -3429,7 +3429,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsHostedServices");
         if (result is not null)
         {
@@ -3470,7 +3470,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "symbolSetsGroupQuery");
         if (result is not null)
         {
@@ -3511,7 +3511,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "templatesGroupQuery");
         if (result is not null)
         {
@@ -3552,7 +3552,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "thumbnailUrl");
         if (result is not null)
         {
@@ -3593,7 +3593,7 @@ public partial class Portal
 
         // get the property value
         PortalUnits? result = await JsComponentReference!.InvokeJsMethod<PortalUnits?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "units");
         if (result is not null)
         {
@@ -3634,7 +3634,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "url");
         if (result is not null)
         {
@@ -3675,7 +3675,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "urlKey");
         if (result is not null)
         {
@@ -3716,7 +3716,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "use3dBasemaps");
         if (result is not null)
         {
@@ -3757,7 +3757,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "useDefault3dBasemap");
         if (result is not null)
         {
@@ -3798,7 +3798,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "useStandardizedQuery");
         if (result is not null)
         {
@@ -3839,7 +3839,7 @@ public partial class Portal
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "useVectorBasemaps");
         if (result is not null)
         {
@@ -3880,7 +3880,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Portal), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Portal), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "vectorBasemapGalleryGroupQuery");
         if (result is not null)
         {

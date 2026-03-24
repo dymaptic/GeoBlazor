@@ -141,7 +141,7 @@ public partial class ZoomWidget : Widget
 
         // get the property value
         WidgetLayout? result = await JsComponentReference!.InvokeJsMethod<WidgetLayout?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ZoomWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ZoomWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "layout");
         if (result is not null)
         {

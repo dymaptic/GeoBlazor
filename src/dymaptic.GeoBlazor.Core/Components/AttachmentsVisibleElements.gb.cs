@@ -191,7 +191,7 @@ public partial class AttachmentsVisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AttachmentsVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "addButton");
         if (result is not null)
         {
@@ -232,7 +232,7 @@ public partial class AttachmentsVisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AttachmentsVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "addSubmitButton");
         if (result is not null)
         {
@@ -273,7 +273,7 @@ public partial class AttachmentsVisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AttachmentsVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "cancelAddButton");
         if (result is not null)
         {
@@ -314,7 +314,7 @@ public partial class AttachmentsVisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AttachmentsVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "cancelUpdateButton");
         if (result is not null)
         {
@@ -355,7 +355,7 @@ public partial class AttachmentsVisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AttachmentsVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "deleteButton");
         if (result is not null)
         {
@@ -396,7 +396,7 @@ public partial class AttachmentsVisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AttachmentsVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "errorMessage");
         if (result is not null)
         {
@@ -437,7 +437,7 @@ public partial class AttachmentsVisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AttachmentsVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "progressBar");
         if (result is not null)
         {
@@ -478,7 +478,7 @@ public partial class AttachmentsVisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AttachmentsVisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AttachmentsVisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "updateButton");
         if (result is not null)
         {

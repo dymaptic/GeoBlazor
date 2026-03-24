@@ -121,7 +121,7 @@ public partial class RotationVariable
 
         // get the property value
         Axis? result = await JsComponentReference!.InvokeJsMethod<Axis?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RotationVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RotationVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "axis");
         if (result is not null)
         {
@@ -162,7 +162,7 @@ public partial class RotationVariable
 
         // get the property value
         RotationType? result = await JsComponentReference!.InvokeJsMethod<RotationType?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RotationVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RotationVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "rotationType");
         if (result is not null)
         {

@@ -165,7 +165,7 @@ public partial class Field
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Field), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Field), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "alias");
         if (result is not null)
         {
@@ -206,7 +206,7 @@ public partial class Field
 
         // get the property value
         object? result = await JsComponentReference!.InvokeJsMethod<object?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Field), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Field), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "defaultValue");
         if (result is not null)
         {
@@ -247,7 +247,7 @@ public partial class Field
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Field), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Field), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "description");
         if (result is not null)
         {
@@ -335,7 +335,7 @@ public partial class Field
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Field), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Field), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "editable");
         if (result is not null)
         {
@@ -376,7 +376,7 @@ public partial class Field
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Field), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Field), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "length");
         if (result is not null)
         {
@@ -417,7 +417,7 @@ public partial class Field
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Field), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Field), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {
@@ -458,7 +458,7 @@ public partial class Field
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Field), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Field), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "nullable");
         if (result is not null)
         {
@@ -499,7 +499,7 @@ public partial class Field
 
         // get the property value
         FieldValueType? result = await JsComponentReference!.InvokeJsMethod<FieldValueType?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Field), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Field), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "valueType");
         if (result is not null)
         {

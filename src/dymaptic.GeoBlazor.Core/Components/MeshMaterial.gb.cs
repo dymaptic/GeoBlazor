@@ -201,7 +201,7 @@ public partial class MeshMaterial
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshMaterial), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MeshMaterial), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "alphaCutoff");
         if (result is not null)
         {
@@ -242,7 +242,7 @@ public partial class MeshMaterial
 
         // get the property value
         AlphaMode? result = await JsComponentReference!.InvokeJsMethod<AlphaMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshMaterial), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MeshMaterial), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "alphaMode");
         if (result is not null)
         {
@@ -283,7 +283,7 @@ public partial class MeshMaterial
 
         // get the property value
         MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshMaterial), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MeshMaterial), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "color");
         if (result is not null)
         {
@@ -418,7 +418,7 @@ public partial class MeshMaterial
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshMaterial), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MeshMaterial), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "doubleSided");
         if (result is not null)
         {

@@ -179,7 +179,7 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "avg");
         if (result is not null)
         {
@@ -220,7 +220,7 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "count");
         if (result is not null)
         {
@@ -261,7 +261,7 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "max");
         if (result is not null)
         {
@@ -302,7 +302,7 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "min");
         if (result is not null)
         {
@@ -343,7 +343,7 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "percentileContinuous");
         if (result is not null)
         {
@@ -384,7 +384,7 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "percentileDiscrete");
         if (result is not null)
         {
@@ -425,7 +425,7 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "stddev");
         if (result is not null)
         {
@@ -466,7 +466,7 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sum");
         if (result is not null)
         {
@@ -507,7 +507,7 @@ public partial class CapabilitiesQueryAttributeBinsSupportedStatistics : MapComp
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryAttributeBinsSupportedStatistics), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "var");
         if (result is not null)
         {

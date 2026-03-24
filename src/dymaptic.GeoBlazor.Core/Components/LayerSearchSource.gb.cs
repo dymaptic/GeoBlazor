@@ -285,7 +285,7 @@ public partial class LayerSearchSource
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerSearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerSearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "displayField");
         if (result is not null)
         {
@@ -326,7 +326,7 @@ public partial class LayerSearchSource
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerSearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerSearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "exactMatch");
         if (result is not null)
         {
@@ -414,7 +414,7 @@ public partial class LayerSearchSource
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerSearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerSearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {
@@ -455,7 +455,7 @@ public partial class LayerSearchSource
 
         // get the property value
         IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerSearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerSearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "orderByFields");
         if (result is not null)
         {
@@ -496,7 +496,7 @@ public partial class LayerSearchSource
 
         // get the property value
         IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerSearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerSearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "searchFields");
         if (result is not null)
         {
@@ -537,7 +537,7 @@ public partial class LayerSearchSource
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerSearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerSearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "searchTemplate");
         if (result is not null)
         {
@@ -578,7 +578,7 @@ public partial class LayerSearchSource
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerSearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerSearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "suggestionTemplate");
         if (result is not null)
         {

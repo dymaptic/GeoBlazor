@@ -282,7 +282,7 @@ public partial class AuthoringInfoVisualVariable
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfoVisualVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AuthoringInfoVisualVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "endTime");
         if (result is not null)
         {
@@ -323,7 +323,7 @@ public partial class AuthoringInfoVisualVariable
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfoVisualVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AuthoringInfoVisualVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "field");
         if (result is not null)
         {
@@ -364,7 +364,7 @@ public partial class AuthoringInfoVisualVariable
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfoVisualVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AuthoringInfoVisualVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maxSliderValue");
         if (result is not null)
         {
@@ -405,7 +405,7 @@ public partial class AuthoringInfoVisualVariable
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfoVisualVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AuthoringInfoVisualVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "minSliderValue");
         if (result is not null)
         {
@@ -446,7 +446,7 @@ public partial class AuthoringInfoVisualVariable
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfoVisualVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AuthoringInfoVisualVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "normalizationField");
         if (result is not null)
         {
@@ -487,7 +487,7 @@ public partial class AuthoringInfoVisualVariable
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfoVisualVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AuthoringInfoVisualVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "referenceSizeScale");
         if (result is not null)
         {
@@ -528,7 +528,7 @@ public partial class AuthoringInfoVisualVariable
 
         // get the property value
         ReferenceSizeSymbolStyle? result = await JsComponentReference!.InvokeJsMethod<ReferenceSizeSymbolStyle?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfoVisualVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AuthoringInfoVisualVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "referenceSizeSymbolStyle");
         if (result is not null)
         {
@@ -614,7 +614,7 @@ public partial class AuthoringInfoVisualVariable
 
         // get the property value
         SpikeSymbolStyle? result = await JsComponentReference!.InvokeJsMethod<SpikeSymbolStyle?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfoVisualVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AuthoringInfoVisualVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "spikeSymbolStyle");
         if (result is not null)
         {
@@ -655,7 +655,7 @@ public partial class AuthoringInfoVisualVariable
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfoVisualVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AuthoringInfoVisualVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "startTime");
         if (result is not null)
         {
@@ -696,7 +696,7 @@ public partial class AuthoringInfoVisualVariable
 
         // get the property value
         AuthoringInfoVisualVariableStyle? result = await JsComponentReference!.InvokeJsMethod<AuthoringInfoVisualVariableStyle?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfoVisualVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AuthoringInfoVisualVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "style");
         if (result is not null)
         {
@@ -737,7 +737,7 @@ public partial class AuthoringInfoVisualVariable
 
         // get the property value
         AuthoringInfoVisualVariableTheme? result = await JsComponentReference!.InvokeJsMethod<AuthoringInfoVisualVariableTheme?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfoVisualVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AuthoringInfoVisualVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "theme");
         if (result is not null)
         {
@@ -778,7 +778,7 @@ public partial class AuthoringInfoVisualVariable
 
         // get the property value
         AuthoringInfoVisualVariableUnits? result = await JsComponentReference!.InvokeJsMethod<AuthoringInfoVisualVariableUnits?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AuthoringInfoVisualVariable), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AuthoringInfoVisualVariable), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "units");
         if (result is not null)
         {

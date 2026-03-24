@@ -135,7 +135,7 @@ public partial class MeshTransform : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshTransform), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MeshTransform), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "rotationAngle");
         if (result is not null)
         {
@@ -176,7 +176,7 @@ public partial class MeshTransform : MapComponent
 
         // get the property value
         IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshTransform), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MeshTransform), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "rotationAxis");
         if (result is not null)
         {
@@ -217,7 +217,7 @@ public partial class MeshTransform : MapComponent
 
         // get the property value
         IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshTransform), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MeshTransform), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "scale");
         if (result is not null)
         {
@@ -258,7 +258,7 @@ public partial class MeshTransform : MapComponent
 
         // get the property value
         IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MeshTransform), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MeshTransform), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "translation");
         if (result is not null)
         {

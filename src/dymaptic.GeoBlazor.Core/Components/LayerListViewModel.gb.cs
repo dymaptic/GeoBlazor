@@ -96,7 +96,7 @@ public partial class LayerListViewModel : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerListViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "checkPublishStatusEnabled");
         if (result is not null)
         {
@@ -137,7 +137,7 @@ public partial class LayerListViewModel : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerListViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "listModeDisabled");
         if (result is not null)
         {
@@ -223,7 +223,7 @@ public partial class LayerListViewModel : MapComponent
 
         // get the property value
         ViewModelState? result = await JsComponentReference!.InvokeJsMethod<ViewModelState?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerListViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerListViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "state");
         if (result is not null)
         {

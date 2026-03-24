@@ -193,7 +193,7 @@ public partial class RasterSensorInfo : MapComponent
 
         // get the property value
         DateTime? result = await JsComponentReference!.InvokeJsMethod<DateTime?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterSensorInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterSensorInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "acquisitionDate");
         if (result is not null)
         {
@@ -234,7 +234,7 @@ public partial class RasterSensorInfo : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterSensorInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterSensorInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "cloudCover");
         if (result is not null)
         {
@@ -275,7 +275,7 @@ public partial class RasterSensorInfo : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterSensorInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterSensorInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "productName");
         if (result is not null)
         {
@@ -316,7 +316,7 @@ public partial class RasterSensorInfo : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterSensorInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterSensorInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sensorAzimuth");
         if (result is not null)
         {
@@ -357,7 +357,7 @@ public partial class RasterSensorInfo : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterSensorInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterSensorInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sensorElevation");
         if (result is not null)
         {
@@ -398,7 +398,7 @@ public partial class RasterSensorInfo : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterSensorInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterSensorInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sensorName");
         if (result is not null)
         {
@@ -439,7 +439,7 @@ public partial class RasterSensorInfo : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterSensorInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterSensorInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sunAzimuth");
         if (result is not null)
         {
@@ -480,7 +480,7 @@ public partial class RasterSensorInfo : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterSensorInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterSensorInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sunElevation");
         if (result is not null)
         {

@@ -87,7 +87,7 @@ public partial class DynamicMapLayer
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DynamicMapLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(DynamicMapLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "gdbVersion");
         if (result is not null)
         {
@@ -128,7 +128,7 @@ public partial class DynamicMapLayer
 
         // get the property value
         long? result = await JsComponentReference!.InvokeJsMethod<long?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(DynamicMapLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(DynamicMapLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "mapLayerId");
         if (result is not null)
         {

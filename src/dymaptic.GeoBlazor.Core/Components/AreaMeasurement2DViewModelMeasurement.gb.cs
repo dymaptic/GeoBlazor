@@ -111,7 +111,7 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AreaMeasurement2DViewModelMeasurement), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AreaMeasurement2DViewModelMeasurement), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "area");
         if (result is not null)
         {
@@ -199,7 +199,7 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AreaMeasurement2DViewModelMeasurement), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AreaMeasurement2DViewModelMeasurement), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "perimeter");
         if (result is not null)
         {

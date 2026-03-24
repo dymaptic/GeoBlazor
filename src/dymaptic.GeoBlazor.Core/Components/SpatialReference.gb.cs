@@ -130,7 +130,7 @@ public partial class SpatialReference
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "imageCoordinateSystem");
         if (result is not null)
         {
@@ -171,7 +171,7 @@ public partial class SpatialReference
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "isGeographic");
         if (result is not null)
         {
@@ -212,7 +212,7 @@ public partial class SpatialReference
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "isWebMercator");
         if (result is not null)
         {
@@ -253,7 +253,7 @@ public partial class SpatialReference
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "isWrappable");
         if (result is not null)
         {
@@ -294,7 +294,7 @@ public partial class SpatialReference
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "metersPerUnit");
         if (result is not null)
         {
@@ -335,7 +335,7 @@ public partial class SpatialReference
 
         // get the property value
         SpatialReferenceUnit? result = await JsComponentReference!.InvokeJsMethod<SpatialReferenceUnit?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "unit");
         if (result is not null)
         {
@@ -376,7 +376,7 @@ public partial class SpatialReference
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "wkid");
         if (result is not null)
         {
@@ -417,7 +417,7 @@ public partial class SpatialReference
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "wkt");
         if (result is not null)
         {
@@ -458,7 +458,7 @@ public partial class SpatialReference
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SpatialReference), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "wkt2");
         if (result is not null)
         {

@@ -294,7 +294,7 @@ public partial class BasemapLayerListWidget
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "baseFilterText");
         if (result is not null)
         {
@@ -380,7 +380,7 @@ public partial class BasemapLayerListWidget
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "basemapTitle");
         if (result is not null)
         {
@@ -421,7 +421,7 @@ public partial class BasemapLayerListWidget
 
         // get the property value
         ICatalogLayerListWidget? result = await JsComponentReference!.InvokeJsMethod<ICatalogLayerListWidget?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "catalogLayerList");
         if (result is not null)
         {
@@ -462,7 +462,7 @@ public partial class BasemapLayerListWidget
 
         // get the property value
         BasemapLayerListCatalogOptions? result = await JsComponentReference!.InvokeJsMethod<BasemapLayerListCatalogOptions?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "catalogOptions");
         if (result is not null)
         {
@@ -503,7 +503,7 @@ public partial class BasemapLayerListWidget
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "collapsed");
         if (result is not null)
         {
@@ -544,7 +544,7 @@ public partial class BasemapLayerListWidget
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "dragEnabled");
         if (result is not null)
         {
@@ -585,7 +585,7 @@ public partial class BasemapLayerListWidget
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "editingTitle");
         if (result is not null)
         {
@@ -626,7 +626,7 @@ public partial class BasemapLayerListWidget
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "filterPlaceholder");
         if (result is not null)
         {
@@ -667,7 +667,7 @@ public partial class BasemapLayerListWidget
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "headingLevel");
         if (result is not null)
         {
@@ -708,7 +708,7 @@ public partial class BasemapLayerListWidget
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "minFilterItems");
         if (result is not null)
         {
@@ -749,7 +749,7 @@ public partial class BasemapLayerListWidget
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "referenceFilterText");
         if (result is not null)
         {
@@ -880,7 +880,7 @@ public partial class BasemapLayerListWidget
 
         // get the property value
         SelectionMode? result = await JsComponentReference!.InvokeJsMethod<SelectionMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "selectionMode");
         if (result is not null)
         {
@@ -968,7 +968,7 @@ public partial class BasemapLayerListWidget
 
         // get the property value
         VisibilityAppearance? result = await JsComponentReference!.InvokeJsMethod<VisibilityAppearance?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(BasemapLayerListWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "visibilityAppearance");
         if (result is not null)
         {

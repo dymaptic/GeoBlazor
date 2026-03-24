@@ -135,7 +135,7 @@ public partial class CameraLayout : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CameraLayout), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CameraLayout), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "column");
         if (result is not null)
         {
@@ -176,7 +176,7 @@ public partial class CameraLayout : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CameraLayout), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CameraLayout), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "columns");
         if (result is not null)
         {
@@ -217,7 +217,7 @@ public partial class CameraLayout : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CameraLayout), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CameraLayout), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "row");
         if (result is not null)
         {
@@ -258,7 +258,7 @@ public partial class CameraLayout : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CameraLayout), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CameraLayout), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "rows");
         if (result is not null)
         {

@@ -143,7 +143,7 @@ public partial class RasterPresetRenderer : MapComponent
 
         // get the property value
         IReadOnlyList<long>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<long>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterPresetRenderer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterPresetRenderer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "bandIds");
         if (result is not null)
         {
@@ -184,7 +184,7 @@ public partial class RasterPresetRenderer : MapComponent
 
         // get the property value
         Method? result = await JsComponentReference!.InvokeJsMethod<Method?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterPresetRenderer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterPresetRenderer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "method");
         if (result is not null)
         {
@@ -225,7 +225,7 @@ public partial class RasterPresetRenderer : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterPresetRenderer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterPresetRenderer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {
@@ -313,7 +313,7 @@ public partial class RasterPresetRenderer : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(RasterPresetRenderer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(RasterPresetRenderer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "value");
         if (result is not null)
         {

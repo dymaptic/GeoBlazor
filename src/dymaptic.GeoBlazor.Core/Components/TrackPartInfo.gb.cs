@@ -167,7 +167,7 @@ public partial class TrackPartInfo : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TrackPartInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TrackPartInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "labelsVisible");
         if (result is not null)
         {

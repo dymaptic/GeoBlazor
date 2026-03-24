@@ -129,7 +129,7 @@ public partial class HighlightOptions
 
         // get the property value
         MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HighlightOptions), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(HighlightOptions), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "color");
         if (result is not null)
         {
@@ -170,7 +170,7 @@ public partial class HighlightOptions
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HighlightOptions), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(HighlightOptions), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "fillOpacity");
         if (result is not null)
         {
@@ -211,7 +211,7 @@ public partial class HighlightOptions
 
         // get the property value
         MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HighlightOptions), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(HighlightOptions), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "haloColor");
         if (result is not null)
         {
@@ -252,7 +252,7 @@ public partial class HighlightOptions
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HighlightOptions), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(HighlightOptions), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "haloOpacity");
         if (result is not null)
         {
@@ -293,7 +293,7 @@ public partial class HighlightOptions
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HighlightOptions), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(HighlightOptions), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "name");
         if (result is not null)
         {
@@ -334,7 +334,7 @@ public partial class HighlightOptions
 
         // get the property value
         MapColor? result = await JsComponentReference!.InvokeJsMethod<MapColor?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HighlightOptions), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(HighlightOptions), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "shadowColor");
         if (result is not null)
         {
@@ -375,7 +375,7 @@ public partial class HighlightOptions
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HighlightOptions), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(HighlightOptions), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "shadowDifference");
         if (result is not null)
         {
@@ -416,7 +416,7 @@ public partial class HighlightOptions
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(HighlightOptions), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(HighlightOptions), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "shadowOpacity");
         if (result is not null)
         {

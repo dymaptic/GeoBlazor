@@ -127,7 +127,7 @@ public partial class CapabilitiesQueryRelated : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryRelated), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryRelated), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsCacheHint");
         if (result is not null)
         {
@@ -168,7 +168,7 @@ public partial class CapabilitiesQueryRelated : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryRelated), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryRelated), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsCount");
         if (result is not null)
         {
@@ -209,7 +209,7 @@ public partial class CapabilitiesQueryRelated : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryRelated), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryRelated), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsOrderBy");
         if (result is not null)
         {
@@ -250,7 +250,7 @@ public partial class CapabilitiesQueryRelated : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryRelated), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryRelated), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsPagination");
         if (result is not null)
         {

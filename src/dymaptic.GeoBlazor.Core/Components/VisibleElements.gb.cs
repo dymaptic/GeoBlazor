@@ -271,7 +271,7 @@ public partial class VisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "area");
         if (result is not null)
         {
@@ -312,7 +312,7 @@ public partial class VisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "coordinates");
         if (result is not null)
         {
@@ -353,7 +353,7 @@ public partial class VisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "direction");
         if (result is not null)
         {
@@ -394,7 +394,7 @@ public partial class VisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "distance");
         if (result is not null)
         {
@@ -435,7 +435,7 @@ public partial class VisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "elevation");
         if (result is not null)
         {
@@ -476,7 +476,7 @@ public partial class VisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "header");
         if (result is not null)
         {
@@ -517,7 +517,7 @@ public partial class VisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "helpMessage");
         if (result is not null)
         {
@@ -558,7 +558,7 @@ public partial class VisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "orientation");
         if (result is not null)
         {
@@ -599,7 +599,7 @@ public partial class VisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "radius");
         if (result is not null)
         {
@@ -640,7 +640,7 @@ public partial class VisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "rotation");
         if (result is not null)
         {
@@ -681,7 +681,7 @@ public partial class VisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "scale");
         if (result is not null)
         {
@@ -722,7 +722,7 @@ public partial class VisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "size");
         if (result is not null)
         {
@@ -763,7 +763,7 @@ public partial class VisibleElements : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisibleElements), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "totalLength");
         if (result is not null)
         {

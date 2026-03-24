@@ -99,7 +99,7 @@ public partial class TimeExtent
 
         // get the property value
         DateTime? result = await JsComponentReference!.InvokeJsMethod<DateTime?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TimeExtent), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TimeExtent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "end");
         if (result is not null)
         {
@@ -140,7 +140,7 @@ public partial class TimeExtent
 
         // get the property value
         DateTime? result = await JsComponentReference!.InvokeJsMethod<DateTime?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TimeExtent), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TimeExtent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "start");
         if (result is not null)
         {

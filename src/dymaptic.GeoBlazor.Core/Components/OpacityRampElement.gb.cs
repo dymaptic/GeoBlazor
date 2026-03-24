@@ -141,7 +141,7 @@ public partial class OpacityRampElement : MapComponent,
 
         // get the property value
         RampTitle? result = await JsComponentReference!.InvokeJsMethod<RampTitle?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(OpacityRampElement), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(OpacityRampElement), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {

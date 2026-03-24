@@ -143,7 +143,7 @@ public partial class Search : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Search), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Search), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "addressSearchEnabled");
         if (result is not null)
         {
@@ -184,7 +184,7 @@ public partial class Search : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Search), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Search), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "enabled");
         if (result is not null)
         {
@@ -225,7 +225,7 @@ public partial class Search : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Search), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Search), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "hintText");
         if (result is not null)
         {

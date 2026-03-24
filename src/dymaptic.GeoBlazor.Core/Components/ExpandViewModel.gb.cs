@@ -130,7 +130,7 @@ public partial class ExpandViewModel : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ExpandViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ExpandViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "autoCollapse");
         if (result is not null)
         {
@@ -171,7 +171,7 @@ public partial class ExpandViewModel : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ExpandViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ExpandViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "expanded");
         if (result is not null)
         {
@@ -212,7 +212,7 @@ public partial class ExpandViewModel : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ExpandViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ExpandViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "group");
         if (result is not null)
         {
@@ -253,7 +253,7 @@ public partial class ExpandViewModel : MapComponent
 
         // get the property value
         ViewModelState? result = await JsComponentReference!.InvokeJsMethod<ViewModelState?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ExpandViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ExpandViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "state");
         if (result is not null)
         {

@@ -99,7 +99,7 @@ public partial class LayerView
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerView), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerView), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "spatialReferenceSupported");
         if (result is not null)
         {
@@ -140,7 +140,7 @@ public partial class LayerView
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerView), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerView), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "suspended");
         if (result is not null)
         {
@@ -181,7 +181,7 @@ public partial class LayerView
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerView), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerView), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "updating");
         if (result is not null)
         {
@@ -222,7 +222,7 @@ public partial class LayerView
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerView), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerView), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "visibleAtCurrentScale");
         if (result is not null)
         {
@@ -263,7 +263,7 @@ public partial class LayerView
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerView), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerView), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "visibleAtCurrentTimeExtent");
         if (result is not null)
         {

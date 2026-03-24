@@ -77,7 +77,7 @@ public partial class TableDataSource
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TableDataSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TableDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "dataSourceName");
         if (result is not null)
         {
@@ -118,7 +118,7 @@ public partial class TableDataSource
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TableDataSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TableDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "gdbVersion");
         if (result is not null)
         {
@@ -159,7 +159,7 @@ public partial class TableDataSource
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(TableDataSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(TableDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "workspaceId");
         if (result is not null)
         {

@@ -72,7 +72,7 @@ public partial class VisualVariableLegendOptions
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisualVariableLegendOptions), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisualVariableLegendOptions), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "showLegend");
         if (result is not null)
         {
@@ -113,7 +113,7 @@ public partial class VisualVariableLegendOptions
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(VisualVariableLegendOptions), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(VisualVariableLegendOptions), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {

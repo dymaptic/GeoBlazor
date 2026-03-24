@@ -159,7 +159,7 @@ public partial class PictureFillSymbol : ISymbol2D,
 
         // get the property value
         Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PictureFillSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PictureFillSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "height");
         if (result is not null)
         {
@@ -200,7 +200,7 @@ public partial class PictureFillSymbol : ISymbol2D,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PictureFillSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PictureFillSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "url");
         if (result is not null)
         {
@@ -241,7 +241,7 @@ public partial class PictureFillSymbol : ISymbol2D,
 
         // get the property value
         Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PictureFillSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PictureFillSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "width");
         if (result is not null)
         {
@@ -282,7 +282,7 @@ public partial class PictureFillSymbol : ISymbol2D,
 
         // get the property value
         Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PictureFillSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PictureFillSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "xoffset");
         if (result is not null)
         {
@@ -323,7 +323,7 @@ public partial class PictureFillSymbol : ISymbol2D,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PictureFillSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PictureFillSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "xscale");
         if (result is not null)
         {
@@ -364,7 +364,7 @@ public partial class PictureFillSymbol : ISymbol2D,
 
         // get the property value
         Dimension? result = await JsComponentReference!.InvokeJsMethod<Dimension?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PictureFillSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PictureFillSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "yoffset");
         if (result is not null)
         {
@@ -405,7 +405,7 @@ public partial class PictureFillSymbol : ISymbol2D,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(PictureFillSymbol), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(PictureFillSymbol), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "yscale");
         if (result is not null)
         {

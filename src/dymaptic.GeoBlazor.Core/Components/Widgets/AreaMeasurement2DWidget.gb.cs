@@ -216,7 +216,7 @@ public partial class AreaMeasurement2DWidget
 
         // get the property value
         SystemOrAreaUnit? result = await JsComponentReference!.InvokeJsMethod<SystemOrAreaUnit?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AreaMeasurement2DWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AreaMeasurement2DWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "unit");
         if (result is not null)
         {
@@ -257,7 +257,7 @@ public partial class AreaMeasurement2DWidget
 
         // get the property value
         IReadOnlyList<SystemOrAreaUnit>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<SystemOrAreaUnit>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(AreaMeasurement2DWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(AreaMeasurement2DWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "unitOptions");
         if (result is not null)
         {

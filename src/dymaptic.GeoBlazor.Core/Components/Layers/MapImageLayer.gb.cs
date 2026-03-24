@@ -497,7 +497,7 @@ public partial class MapImageLayer : IArcGISMapService,
 
         // get the property value
         BlendMode? result = await JsComponentReference!.InvokeJsMethod<BlendMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "blendMode");
         if (result is not null)
         {
@@ -538,7 +538,7 @@ public partial class MapImageLayer : IArcGISMapService,
 
         // get the property value
         ArcGISMapServiceCapabilities? result = await JsComponentReference!.InvokeJsMethod<ArcGISMapServiceCapabilities?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "capabilities");
         if (result is not null)
         {
@@ -579,7 +579,7 @@ public partial class MapImageLayer : IArcGISMapService,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "copyright");
         if (result is not null)
         {
@@ -620,7 +620,7 @@ public partial class MapImageLayer : IArcGISMapService,
 
         // get the property value
         Dictionary<string, object>? result = await JsComponentReference!.InvokeJsMethod<Dictionary<string, object>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "customParameters");
         if (result is not null)
         {
@@ -661,7 +661,7 @@ public partial class MapImageLayer : IArcGISMapService,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "dateFieldsTimeZone");
         if (result is not null)
         {
@@ -702,7 +702,7 @@ public partial class MapImageLayer : IArcGISMapService,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "datesInUnknownTimezone");
         if (result is not null)
         {
@@ -743,7 +743,7 @@ public partial class MapImageLayer : IArcGISMapService,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "dpi");
         if (result is not null)
         {
@@ -825,7 +825,7 @@ public partial class MapImageLayer : IArcGISMapService,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "gdbVersion");
         if (result is not null)
         {
@@ -866,7 +866,7 @@ public partial class MapImageLayer : IArcGISMapService,
 
         // get the property value
         MapImageFormat? result = await JsComponentReference!.InvokeJsMethod<MapImageFormat?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "imageFormat");
         if (result is not null)
         {
@@ -907,7 +907,7 @@ public partial class MapImageLayer : IArcGISMapService,
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "imageMaxHeight");
         if (result is not null)
         {
@@ -948,7 +948,7 @@ public partial class MapImageLayer : IArcGISMapService,
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "imageMaxWidth");
         if (result is not null)
         {
@@ -989,7 +989,7 @@ public partial class MapImageLayer : IArcGISMapService,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "imageTransparency");
         if (result is not null)
         {
@@ -1030,7 +1030,7 @@ public partial class MapImageLayer : IArcGISMapService,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "legendEnabled");
         if (result is not null)
         {
@@ -1071,7 +1071,7 @@ public partial class MapImageLayer : IArcGISMapService,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maxScale");
         if (result is not null)
         {
@@ -1112,7 +1112,7 @@ public partial class MapImageLayer : IArcGISMapService,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "minScale");
         if (result is not null)
         {
@@ -1200,7 +1200,7 @@ public partial class MapImageLayer : IArcGISMapService,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "preferredTimeZone");
         if (result is not null)
         {
@@ -1241,7 +1241,7 @@ public partial class MapImageLayer : IArcGISMapService,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "refreshInterval");
         if (result is not null)
         {
@@ -1282,7 +1282,7 @@ public partial class MapImageLayer : IArcGISMapService,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
@@ -1595,7 +1595,7 @@ public partial class MapImageLayer : IArcGISMapService,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "url");
         if (result is not null)
         {
@@ -1636,7 +1636,7 @@ public partial class MapImageLayer : IArcGISMapService,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "useViewTime");
         if (result is not null)
         {
@@ -1677,7 +1677,7 @@ public partial class MapImageLayer : IArcGISMapService,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(MapImageLayer), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "version");
         if (result is not null)
         {

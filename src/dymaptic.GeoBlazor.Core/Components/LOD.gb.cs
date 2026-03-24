@@ -97,7 +97,7 @@ public partial class LOD
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LOD), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LOD), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "level");
         if (result is not null)
         {
@@ -138,7 +138,7 @@ public partial class LOD
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LOD), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LOD), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "levelValue");
         if (result is not null)
         {
@@ -179,7 +179,7 @@ public partial class LOD
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LOD), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LOD), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "resolution");
         if (result is not null)
         {
@@ -220,7 +220,7 @@ public partial class LOD
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LOD), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LOD), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "scale");
         if (result is not null)
         {

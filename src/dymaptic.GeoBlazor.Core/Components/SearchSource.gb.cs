@@ -97,7 +97,7 @@ public abstract partial class SearchSource
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "autoNavigate");
         if (result is not null)
         {
@@ -179,7 +179,7 @@ public abstract partial class SearchSource
 
         // get the property value
         GetSuggestionsHandler? result = await JsComponentReference!.InvokeJsMethod<GetSuggestionsHandler?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "getSuggestions");
         if (result is not null)
         {
@@ -220,7 +220,7 @@ public abstract partial class SearchSource
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maxResults");
         if (result is not null)
         {
@@ -261,7 +261,7 @@ public abstract partial class SearchSource
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maxSuggestions");
         if (result is not null)
         {
@@ -302,7 +302,7 @@ public abstract partial class SearchSource
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "minSuggestCharacters");
         if (result is not null)
         {
@@ -343,7 +343,7 @@ public abstract partial class SearchSource
 
         // get the property value
         IReadOnlyList<string>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<string>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "outFields");
         if (result is not null)
         {
@@ -384,7 +384,7 @@ public abstract partial class SearchSource
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "placeholder");
         if (result is not null)
         {
@@ -425,7 +425,7 @@ public abstract partial class SearchSource
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "popupEnabled");
         if (result is not null)
         {
@@ -513,7 +513,7 @@ public abstract partial class SearchSource
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "prefix");
         if (result is not null)
         {
@@ -554,7 +554,7 @@ public abstract partial class SearchSource
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "resultGraphicEnabled");
         if (result is not null)
         {
@@ -642,7 +642,7 @@ public abstract partial class SearchSource
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "suffix");
         if (result is not null)
         {
@@ -683,7 +683,7 @@ public abstract partial class SearchSource
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "suggestionsEnabled");
         if (result is not null)
         {
@@ -724,7 +724,7 @@ public abstract partial class SearchSource
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "withinViewEnabled");
         if (result is not null)
         {
@@ -765,7 +765,7 @@ public abstract partial class SearchSource
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SearchSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "zoomScale");
         if (result is not null)
         {

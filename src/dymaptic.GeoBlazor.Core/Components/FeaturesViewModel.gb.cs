@@ -461,7 +461,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "active");
         if (result is not null)
         {
@@ -594,7 +594,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "autoCloseEnabled");
         if (result is not null)
         {
@@ -635,7 +635,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "browseClusterEnabled");
         if (result is not null)
         {
@@ -768,7 +768,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "defaultPopupTemplateEnabled");
         if (result is not null)
         {
@@ -809,7 +809,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "featureCount");
         if (result is not null)
         {
@@ -850,7 +850,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "featureMenuOpen");
         if (result is not null)
         {
@@ -891,7 +891,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "featureMenuTitle");
         if (result is not null)
         {
@@ -932,7 +932,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "featurePage");
         if (result is not null)
         {
@@ -1018,7 +1018,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "featuresPerPage");
         if (result is not null)
         {
@@ -1106,7 +1106,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         // get the property value
         IReadOnlyList<IFeatureViewModel>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<IFeatureViewModel>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "featureViewModels");
         if (result is not null)
         {
@@ -1147,7 +1147,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "highlightEnabled");
         if (result is not null)
         {
@@ -1188,7 +1188,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "includeDefaultActions");
         if (result is not null)
         {
@@ -1229,7 +1229,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         // get the property value
         InitialDisplayMode? result = await JsComponentReference!.InvokeJsMethod<InitialDisplayMode?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "initialDisplayMode");
         if (result is not null)
         {
@@ -1317,7 +1317,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "pendingPromisesCount");
         if (result is not null)
         {
@@ -1405,7 +1405,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "screenLocationEnabled");
         if (result is not null)
         {
@@ -1540,7 +1540,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         // get the property value
         int? result = await JsComponentReference!.InvokeJsMethod<int?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "selectedFeatureIndex");
         if (result is not null)
         {
@@ -1581,7 +1581,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         // get the property value
         IFeatureViewModel? result = await JsComponentReference!.InvokeJsMethod<IFeatureViewModel?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "selectedFeatureViewModel");
         if (result is not null)
         {
@@ -1663,7 +1663,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         // get the property value
         ViewModelState? result = await JsComponentReference!.InvokeJsMethod<ViewModelState?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "state");
         if (result is not null)
         {
@@ -1704,7 +1704,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "timeZone");
         if (result is not null)
         {
@@ -1745,7 +1745,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
@@ -1786,7 +1786,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "updateLocationEnabled");
         if (result is not null)
         {
@@ -1827,7 +1827,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "waitingForContents");
         if (result is not null)
         {
@@ -1868,7 +1868,7 @@ public partial class FeaturesViewModel : MapComponent,
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModel), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "waitingForResult");
         if (result is not null)
         {

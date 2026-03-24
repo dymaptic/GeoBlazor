@@ -175,7 +175,7 @@ public partial class WebMapFloorFilter : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebMapFloorFilter), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebMapFloorFilter), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "enabled");
         if (result is not null)
         {
@@ -216,7 +216,7 @@ public partial class WebMapFloorFilter : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebMapFloorFilter), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebMapFloorFilter), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "facility");
         if (result is not null)
         {
@@ -257,7 +257,7 @@ public partial class WebMapFloorFilter : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebMapFloorFilter), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebMapFloorFilter), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "level");
         if (result is not null)
         {
@@ -298,7 +298,7 @@ public partial class WebMapFloorFilter : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebMapFloorFilter), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebMapFloorFilter), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "longNames");
         if (result is not null)
         {
@@ -339,7 +339,7 @@ public partial class WebMapFloorFilter : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebMapFloorFilter), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebMapFloorFilter), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "minimized");
         if (result is not null)
         {
@@ -380,7 +380,7 @@ public partial class WebMapFloorFilter : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebMapFloorFilter), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebMapFloorFilter), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "pinnedLevels");
         if (result is not null)
         {
@@ -421,7 +421,7 @@ public partial class WebMapFloorFilter : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(WebMapFloorFilter), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(WebMapFloorFilter), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "site");
         if (result is not null)
         {

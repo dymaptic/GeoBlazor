@@ -351,7 +351,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsCalculateVolume");
         if (result is not null)
         {
@@ -392,7 +392,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsComputeHistograms");
         if (result is not null)
         {
@@ -433,7 +433,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsComputePixelLocation");
         if (result is not null)
         {
@@ -474,7 +474,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsComputeStatisticsHistograms");
         if (result is not null)
         {
@@ -515,7 +515,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsDownload");
         if (result is not null)
         {
@@ -556,7 +556,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsExportImage");
         if (result is not null)
         {
@@ -597,7 +597,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsFindImages");
         if (result is not null)
         {
@@ -638,7 +638,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsGetImageUrl");
         if (result is not null)
         {
@@ -679,7 +679,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsGetSamples");
         if (result is not null)
         {
@@ -720,7 +720,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsIdentify");
         if (result is not null)
         {
@@ -761,7 +761,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsImageToMap");
         if (result is not null)
         {
@@ -802,7 +802,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsImageToMapMultiray");
         if (result is not null)
         {
@@ -843,7 +843,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsMapToImage");
         if (result is not null)
         {
@@ -884,7 +884,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsMeasure");
         if (result is not null)
         {
@@ -925,7 +925,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsProject");
         if (result is not null)
         {
@@ -966,7 +966,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsQuery");
         if (result is not null)
         {
@@ -1007,7 +1007,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsQueryBoundary");
         if (result is not null)
         {
@@ -1048,7 +1048,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ArcGISImageServiceCapabilitiesOperations), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "supportsQueryGPSInfo");
         if (result is not null)
         {

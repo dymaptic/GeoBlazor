@@ -514,7 +514,7 @@ public partial class SliderWidget
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "disabled");
         if (result is not null)
         {
@@ -555,7 +555,7 @@ public partial class SliderWidget
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "draggableSegmentsEnabled");
         if (result is not null)
         {
@@ -596,7 +596,7 @@ public partial class SliderWidget
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "effectiveMax");
         if (result is not null)
         {
@@ -637,7 +637,7 @@ public partial class SliderWidget
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "effectiveMin");
         if (result is not null)
         {
@@ -678,7 +678,7 @@ public partial class SliderWidget
 
         // get the property value
         IReadOnlyList<ElementReference>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<ElementReference>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "effectiveSegmentElements");
         if (result is not null)
         {
@@ -719,7 +719,7 @@ public partial class SliderWidget
 
         // get the property value
         IReadOnlyList<ElementReference>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<ElementReference>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "labelElements");
         if (result is not null)
         {
@@ -760,7 +760,7 @@ public partial class SliderWidget
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "labelInputsEnabled");
         if (result is not null)
         {
@@ -801,7 +801,7 @@ public partial class SliderWidget
 
         // get the property value
         LabelInfos? result = await JsComponentReference!.InvokeJsMethod<LabelInfos?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "labels");
         if (result is not null)
         {
@@ -842,7 +842,7 @@ public partial class SliderWidget
 
         // get the property value
         SliderLayout? result = await JsComponentReference!.InvokeJsMethod<SliderLayout?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "layout");
         if (result is not null)
         {
@@ -883,7 +883,7 @@ public partial class SliderWidget
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "max");
         if (result is not null)
         {
@@ -924,7 +924,7 @@ public partial class SliderWidget
 
         // get the property value
         ElementReference? result = await JsComponentReference!.InvokeJsMethod<ElementReference?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "maxLabelElement");
         if (result is not null)
         {
@@ -965,7 +965,7 @@ public partial class SliderWidget
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "min");
         if (result is not null)
         {
@@ -1006,7 +1006,7 @@ public partial class SliderWidget
 
         // get the property value
         ElementReference? result = await JsComponentReference!.InvokeJsMethod<ElementReference?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "minLabelElement");
         if (result is not null)
         {
@@ -1047,7 +1047,7 @@ public partial class SliderWidget
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "precision");
         if (result is not null)
         {
@@ -1088,7 +1088,7 @@ public partial class SliderWidget
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "rangeLabelInputsEnabled");
         if (result is not null)
         {
@@ -1129,7 +1129,7 @@ public partial class SliderWidget
 
         // get the property value
         IReadOnlyList<ElementReference>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<ElementReference>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "segmentElements");
         if (result is not null)
         {
@@ -1170,7 +1170,7 @@ public partial class SliderWidget
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "snapOnClickEnabled");
         if (result is not null)
         {
@@ -1211,7 +1211,7 @@ public partial class SliderWidget
 
         // get the property value
         SliderState? result = await JsComponentReference!.InvokeJsMethod<SliderState?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "state");
         if (result is not null)
         {
@@ -1252,7 +1252,7 @@ public partial class SliderWidget
 
         // get the property value
         IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "steps");
         if (result is not null)
         {
@@ -1293,7 +1293,7 @@ public partial class SliderWidget
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "syncedSegmentsEnabled");
         if (result is not null)
         {
@@ -1334,7 +1334,7 @@ public partial class SliderWidget
 
         // get the property value
         IReadOnlyList<ElementReference>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<ElementReference>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "thumbElements");
         if (result is not null)
         {
@@ -1375,7 +1375,7 @@ public partial class SliderWidget
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "thumbsConstrained");
         if (result is not null)
         {
@@ -1461,7 +1461,7 @@ public partial class SliderWidget
 
         // get the property value
         IReadOnlyList<IReadOnlyList<TickElementGroup>>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<IReadOnlyList<TickElementGroup>>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "tickElements");
         if (result is not null)
         {
@@ -1502,7 +1502,7 @@ public partial class SliderWidget
 
         // get the property value
         ElementReference? result = await JsComponentReference!.InvokeJsMethod<ElementReference?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "trackElement");
         if (result is not null)
         {
@@ -1543,7 +1543,7 @@ public partial class SliderWidget
 
         // get the property value
         IReadOnlyList<double>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<double>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(SliderWidget), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "values");
         if (result is not null)
         {

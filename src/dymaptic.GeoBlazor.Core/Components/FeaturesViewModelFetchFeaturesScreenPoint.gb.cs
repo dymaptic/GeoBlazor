@@ -94,7 +94,7 @@ public partial class FeaturesViewModelFetchFeaturesScreenPoint : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModelFetchFeaturesScreenPoint), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModelFetchFeaturesScreenPoint), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "x");
         if (result is not null)
         {
@@ -135,7 +135,7 @@ public partial class FeaturesViewModelFetchFeaturesScreenPoint : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(FeaturesViewModelFetchFeaturesScreenPoint), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(FeaturesViewModelFetchFeaturesScreenPoint), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "y");
         if (result is not null)
         {

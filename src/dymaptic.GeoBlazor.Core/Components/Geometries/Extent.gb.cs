@@ -121,7 +121,7 @@ public partial class Extent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Extent), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Extent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "height");
         if (result is not null)
         {
@@ -162,7 +162,7 @@ public partial class Extent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Extent), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Extent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "mmax");
         if (result is not null)
         {
@@ -203,7 +203,7 @@ public partial class Extent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Extent), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Extent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "mmin");
         if (result is not null)
         {
@@ -244,7 +244,7 @@ public partial class Extent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Extent), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Extent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "width");
         if (result is not null)
         {
@@ -285,7 +285,7 @@ public partial class Extent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Extent), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Extent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "xmax");
         if (result is not null)
         {
@@ -326,7 +326,7 @@ public partial class Extent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Extent), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Extent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "xmin");
         if (result is not null)
         {
@@ -367,7 +367,7 @@ public partial class Extent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Extent), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Extent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "ymax");
         if (result is not null)
         {
@@ -408,7 +408,7 @@ public partial class Extent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Extent), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Extent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "ymin");
         if (result is not null)
         {
@@ -449,7 +449,7 @@ public partial class Extent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Extent), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Extent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "zmax");
         if (result is not null)
         {
@@ -490,7 +490,7 @@ public partial class Extent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Extent), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Extent), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "zmin");
         if (result is not null)
         {

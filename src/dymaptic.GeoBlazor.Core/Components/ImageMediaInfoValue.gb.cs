@@ -71,7 +71,7 @@ public partial class ImageMediaInfoValue
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageMediaInfoValue), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageMediaInfoValue), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "linkURL");
         if (result is not null)
         {
@@ -112,7 +112,7 @@ public partial class ImageMediaInfoValue
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ImageMediaInfoValue), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ImageMediaInfoValue), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sourceURL");
         if (result is not null)
         {

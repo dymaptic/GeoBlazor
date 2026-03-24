@@ -100,7 +100,7 @@ public partial class LayerOptions : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerOptions), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerOptions), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "returnTopmostRaster");
         if (result is not null)
         {
@@ -141,7 +141,7 @@ public partial class LayerOptions : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(LayerOptions), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(LayerOptions), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "showNoDataRecords");
         if (result is not null)
         {

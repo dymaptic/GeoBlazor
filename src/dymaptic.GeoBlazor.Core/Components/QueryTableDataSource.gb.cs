@@ -103,7 +103,7 @@ public partial class QueryTableDataSource
 
         // get the property value
         FeatureGeometryType? result = await JsComponentReference!.InvokeJsMethod<FeatureGeometryType?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(QueryTableDataSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(QueryTableDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "geometryType");
         if (result is not null)
         {
@@ -144,7 +144,7 @@ public partial class QueryTableDataSource
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(QueryTableDataSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(QueryTableDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "oidFields");
         if (result is not null)
         {
@@ -185,7 +185,7 @@ public partial class QueryTableDataSource
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(QueryTableDataSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(QueryTableDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "query");
         if (result is not null)
         {
@@ -267,7 +267,7 @@ public partial class QueryTableDataSource
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(QueryTableDataSource), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(QueryTableDataSource), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "workspaceId");
         if (result is not null)
         {

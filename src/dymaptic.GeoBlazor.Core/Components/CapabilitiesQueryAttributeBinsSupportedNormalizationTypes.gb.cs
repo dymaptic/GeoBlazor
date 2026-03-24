@@ -127,7 +127,7 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedNormalizationTypes), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryAttributeBinsSupportedNormalizationTypes), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "field");
         if (result is not null)
         {
@@ -168,7 +168,7 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedNormalizationTypes), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryAttributeBinsSupportedNormalizationTypes), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "log");
         if (result is not null)
         {
@@ -209,7 +209,7 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedNormalizationTypes), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryAttributeBinsSupportedNormalizationTypes), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "naturalLog");
         if (result is not null)
         {
@@ -250,7 +250,7 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedNormalizationTypes), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryAttributeBinsSupportedNormalizationTypes), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "percentOfTotal");
         if (result is not null)
         {
@@ -291,7 +291,7 @@ public partial class CapabilitiesQueryAttributeBinsSupportedNormalizationTypes :
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(CapabilitiesQueryAttributeBinsSupportedNormalizationTypes), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(CapabilitiesQueryAttributeBinsSupportedNormalizationTypes), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "squareRoot");
         if (result is not null)
         {

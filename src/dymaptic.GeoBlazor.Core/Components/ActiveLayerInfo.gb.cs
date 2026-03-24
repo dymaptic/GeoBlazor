@@ -235,7 +235,7 @@ public partial class ActiveLayerInfo : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "hideLayersNotInCurrentView");
         if (result is not null)
         {
@@ -276,7 +276,7 @@ public partial class ActiveLayerInfo : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "isScaleDriven");
         if (result is not null)
         {
@@ -456,7 +456,7 @@ public partial class ActiveLayerInfo : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "opacity");
         if (result is not null)
         {
@@ -497,7 +497,7 @@ public partial class ActiveLayerInfo : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "ready");
         if (result is not null)
         {
@@ -538,7 +538,7 @@ public partial class ActiveLayerInfo : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "respectLayerVisibility");
         if (result is not null)
         {
@@ -579,7 +579,7 @@ public partial class ActiveLayerInfo : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "scale");
         if (result is not null)
         {
@@ -620,7 +620,7 @@ public partial class ActiveLayerInfo : MapComponent
 
         // get the property value
         IReadOnlyList<long>? result = await JsComponentReference!.InvokeJsMethod<IReadOnlyList<long>?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "sublayerIds");
         if (result is not null)
         {
@@ -661,7 +661,7 @@ public partial class ActiveLayerInfo : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
@@ -702,7 +702,7 @@ public partial class ActiveLayerInfo : MapComponent
 
         // get the property value
         double? result = await JsComponentReference!.InvokeJsMethod<double?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(ActiveLayerInfo), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "version");
         if (result is not null)
         {

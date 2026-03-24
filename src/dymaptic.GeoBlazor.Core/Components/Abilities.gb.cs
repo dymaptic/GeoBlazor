@@ -191,7 +191,7 @@ public partial class Abilities : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Abilities), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Abilities), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "attachmentsContent");
         if (result is not null)
         {
@@ -232,7 +232,7 @@ public partial class Abilities : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Abilities), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Abilities), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "chartAnimation");
         if (result is not null)
         {
@@ -273,7 +273,7 @@ public partial class Abilities : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Abilities), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Abilities), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "customContent");
         if (result is not null)
         {
@@ -314,7 +314,7 @@ public partial class Abilities : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Abilities), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Abilities), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "fieldsContent");
         if (result is not null)
         {
@@ -355,7 +355,7 @@ public partial class Abilities : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Abilities), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Abilities), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "mediaContent");
         if (result is not null)
         {
@@ -396,7 +396,7 @@ public partial class Abilities : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Abilities), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Abilities), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "relationshipContent");
         if (result is not null)
         {
@@ -437,7 +437,7 @@ public partial class Abilities : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Abilities), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Abilities), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "textContent");
         if (result is not null)
         {
@@ -478,7 +478,7 @@ public partial class Abilities : MapComponent
 
         // get the property value
         bool? result = await JsComponentReference!.InvokeJsMethod<bool?>(
-            IsServer, nameof(GeoBlazorSerialization.GET_PROPERTY), nameof(Abilities), View?.QueryResultsMaxSizeLimit,
+            IsServer, GeoBlazorSerialization.GET_PROPERTY, nameof(Abilities), View?.QueryResultsMaxSizeLimit,
             CancellationTokenSource.Token, "utilityNetworkAssociationsContent");
         if (result is not null)
         {
