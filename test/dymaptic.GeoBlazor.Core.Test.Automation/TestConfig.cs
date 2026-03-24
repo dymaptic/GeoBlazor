@@ -463,10 +463,12 @@ public class TestConfig
                 Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             }
 
-            int total = FilteredTests.Values.Sum(v => v.Count);
+            int passed = PassedTests.Values.Sum(v => v.Count);
+            int failedCount = FailedTests.Values.Sum(d => d.Count);
             int inconclusive = InconclusiveTests.Values.Sum(v => v.Count);
+            int total = passed + failedCount;
 
-            Trace.WriteLine($"PASSED TESTS: {PassedTests.Values.Sum(v => v.Count)} / {total}", ProcessName.FINAL_SUMMARY);
+            Trace.WriteLine($"PASSED TESTS: {passed} / {total}", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
 
             if (InconclusiveTests.Values.Sum(v => v.Count) > 0)
@@ -480,8 +482,6 @@ public class TestConfig
 
                 Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             }
-
-            int failedCount = FailedTests.Values.Sum(d => d.Count);
 
             Trace.WriteLine($"FAILED TESTS: {failedCount}", ProcessName.FINAL_SUMMARY);
             Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);

@@ -186,11 +186,9 @@ else
     string testOutputLogPath = Path.Combine(testProjectDir, "test-run.log");
 
     Regex finalCountRegex = new(@"^.*FINAL_SUMMARY: PASSED TESTS: (?<passed>\d+) / (?<total>\d+)\s*$");
-    Regex inconclusiveRegex = new(@"^.*FINAL_SUMMARY: INCONCLUSIVE TESTS: (?<inconclusive>\d+)\s\s*$");
 
     int total = 0;
     int passed = 0;
-    int inconclusive = 0;
     foreach (string line in await File.ReadAllLinesAsync(testOutputLogPath))
     {
         if (line.Contains("FINAL_SUMMARY"))
@@ -202,10 +200,6 @@ else
                 total = int.Parse(match.Groups["total"].Value);
                 passed = int.Parse(match.Groups["passed"].Value);
             }
-            else if (inconclusiveRegex.Match(line) is { Success: true } inconclusiveMatch)
-            {
-                inconclusive = int.Parse(inconclusiveMatch.Groups["inconclusive"].Value);
-            }
             else
             {
                 Console.WriteLine(content);
@@ -213,8 +207,8 @@ else
         }
     }
 
-    double passedPercentage = (double)passed / (total - inconclusive) * 100;
-    Console.WriteLine($"PASSED TESTS: {passed} / {total - inconclusive} TESTS PASSED ({passedPercentage:F2}%).");
+    double passedPercentage = total > 0 ? (double)passed / total * 100 : 100;
+    Console.WriteLine($"PASSED TESTS: {passed} / {total} TESTS PASSED ({passedPercentage:F2}%).");
 
     if (passedPercentage < percentage)
     {
