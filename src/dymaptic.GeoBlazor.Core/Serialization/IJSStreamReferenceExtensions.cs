@@ -1,4 +1,5 @@
 using Microsoft.JSInterop.Implementation;
+using System.Text.RegularExpressions;
 using FieldInfo = System.Reflection.FieldInfo;
 
 
@@ -7,7 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Serialization;
 /// <summary>
 ///     Extension methods for <see cref="IJSStreamReference" /> to facilitate reading data from JavaScript streams.
 /// </summary>
-public static class IJSStreamReferenceExtensions
+public static partial class IJSStreamReferenceExtensions
 {
     internal static async Task<Stream?> ReadJsStreamReferenceAsStream(this IJSStreamReference jsStreamReference,
         long? maxAllowedSize = null, CancellationToken cancellationToken = default)
@@ -43,15 +44,36 @@ public static class IJSStreamReferenceExtensions
 
         string json = await reader.ReadToEndAsync(cancellationToken);
 
-        if (returnType == typeof(string))
+        Type unwrappedType = GetUnwrappedType(returnType);
+
+        if (unwrappedType == typeof(string))
         {
             json = json.Trim('"');
-            return json == "null" ? null : json;
+            return json == "null" 
+                ? null :
+                json == "empty-string"
+                    ? string.Empty
+                    : json;
+        }
+        
+        if (unwrappedType == typeof(bool))
+        {
+            if (bool.TryParse(json, out bool boolResult))
+            {
+                return boolResult;
+            }
+
+            return null;
         }
 
-        if (json == "null")
+        if (json is "null" or "empty-string")
         {
             return null;
+        }
+
+        if (unwrappedStringJsonRegex.IsMatch(json))
+        {
+            json = $"\"{json}\"";
         }
 
         return JsonSerializer.Deserialize(json, returnType, jsStreamReference.GetJsonSerializerOptions());
@@ -76,8 +98,21 @@ public static class IJSStreamReferenceExtensions
         serializerOptionsCache[jsRuntime] = options;
         return options;
     }
+
+    private static Type GetUnwrappedType(Type type)
+    {
+        return type is { IsGenericType: true }
+            && (type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            ? type.GenericTypeArguments[0]
+            : type;
+    }
     
     private static readonly FieldInfo jsRuntimeFieldInfo = typeof(JSStreamReference)
         .GetField("_jsRuntime", BindingFlags.NonPublic | BindingFlags.Instance)!;
     private static readonly ConcurrentDictionary<IJSRuntime, JsonSerializerOptions> serializerOptionsCache = new();
+    
+    [GeneratedRegex("^(?<!false)(?<!true)[A-Za-z][A-Za-z0-9_]*$")]
+    private static partial Regex UnwrappedStringJsonRegex();
+
+    private static Regex unwrappedStringJsonRegex = UnwrappedStringJsonRegex();
 }

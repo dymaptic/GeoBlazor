@@ -13,12 +13,6 @@ export function buildJsQuery(dotNetQuery: any): Query | undefined {
     }
     
     let jsObject: any = {};
-    let currentQuery: boolean = false;
-    
-    if (jsObjectRefs.hasOwnProperty(dotNetQuery.id)) {
-        jsObject = jsObjectRefs[dotNetQuery.id];
-        currentQuery = true;
-    }
 
     if (hasValue(dotNetQuery.geometry)) {
         jsObject.geometry = buildJsGeometry(dotNetQuery.geometry) as any;
@@ -135,7 +129,7 @@ export function buildJsQuery(dotNetQuery: any): Query | undefined {
     if (hasValue(dotNetQuery.where)) {
         jsObject.where = dotNetQuery.where;
     }
-    return currentQuery ? jsObject : new Query(jsObject);
+    return new Query(jsObject);
 }
 
 export async function buildDotNetQuery(jsQuery: any): Promise<DotNetQuery> {

@@ -577,10 +577,13 @@ export function buildJsStreamReference(dnObject: any) {
     return DotNet.createJSStreamReference(encodedArray!);
 }
 
-export function buildEncodedJson(object: any): Uint8Array {
+export function buildEncodedJson(object: any, replaceEmptyStrings: boolean = false): Uint8Array {
     let json = generateSerializableJson(object);
     if (!hasValue(json)) {
         json = 'null';
+    }
+    else if (replaceEmptyStrings && json === '') {
+        json = 'empty-string';
     }
     let encoder = new TextEncoder();
     return encoder.encode(json!);

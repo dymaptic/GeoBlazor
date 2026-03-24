@@ -1,24 +1,23 @@
+import VectorTileLayerViewGenerated from './vectorTileLayerView.gb';
 // override generated code in this file
 // @ts-ignore This exists in ArcGIS SDK definition
 import VectorTileLayerView = __esri.VectorTileLayerView;
 import {generateSerializableJson, hasValue} from './geoBlazorCore';
 import {IPropertyWrapper} from "./definitions";
 
-export default class VectorTileLayerViewWrapper implements IPropertyWrapper {
+export default class VectorTileLayerViewWrapper extends VectorTileLayerViewGenerated {
     public component: VectorTileLayerView;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
     constructor(component: VectorTileLayerView) {
+        super(component);
         this.component = component;
     }
 
     // region methods
 
-    unwrap() {
-        return this.component;
-    }
 
 
     async updateComponent(dotNetObject: any): Promise<void> {
@@ -59,13 +58,7 @@ export default class VectorTileLayerViewWrapper implements IPropertyWrapper {
         return await buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
     }
 
-    getProperty(prop: string): any {
-        return this.component[prop];
-    }
 
-    setProperty(prop: string, value: any): void {
-        this.component[prop] = value;
-    }
 }
 
 export async function buildJsVectorTileLayerView(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {

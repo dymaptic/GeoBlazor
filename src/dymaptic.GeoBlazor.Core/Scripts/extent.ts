@@ -1,27 +1,21 @@
-import {DotNetExtent, IPropertyWrapper} from "./definitions";
+import ExtentGenerated from './extent.gb';
+import {DotNetExtent} from "./definitions";
 import Extent from "@arcgis/core/geometry/Extent";
 import {arcGisObjectRefs, buildJsStreamReference, copyValuesIfExists, hasValue, jsObjectRefs} from './geoBlazorCore';
 import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 import {buildJsPoint} from "./point";
 import {buildJsGeometry} from "./geometry";
+import ExtentWrapperGenerated from "./extent.gb";
 
-export default class ExtentWrapper implements IPropertyWrapper {
+export default class ExtentWrapper extends ExtentGenerated {
     public extent: Extent;
     public geoBlazorId: string | null = null;
     
     constructor(extent: Extent) {
+        super(extent);
         this.extent = extent;
     }
     
-    setProperty(prop: string, value: any): void {
-        this.extent[prop] = value;
-    }
-    getProperty(prop: string) {
-        return this.extent[prop];
-    }
-    unwrap() {
-        return this.extent;
-    }
     
     centerAt(point: any) {
         let jsPoint = buildJsPoint(point);

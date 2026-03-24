@@ -56,7 +56,7 @@ export default class BaseComponent implements IPropertyWrapper {
         }
 
         if (useStreams) {
-            return buildEncodedJson(result);
+            return buildEncodedJson(result, true);
         }
 
         return result;
@@ -257,7 +257,7 @@ export default class BaseComponent implements IPropertyWrapper {
             }
         }
         
-        return buildEncodedJson(returnValue);
+        return buildEncodedJson(returnValue, true);
     }
     
     checkObjectForGraphics(protoType: any, returnValue: any, isArrayType: boolean): void {

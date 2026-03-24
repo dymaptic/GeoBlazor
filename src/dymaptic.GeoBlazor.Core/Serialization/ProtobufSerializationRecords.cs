@@ -345,7 +345,7 @@ public record GeometrySerializationRecord : MapComponentSerializationRecord<Geom
                 return Center is not null && Radius is not null && !Center.IsNull
                     ? new Circle((Point)Center.FromSerializationRecord()!, Radius.Value,
                         Centroid?.FromSerializationRecord() as Point, Geodesic, HasM, HasZ, NumberOfPoints,
-                        RadiusUnit is null ? null : Enum.Parse<RadiusUnit>(RadiusUnit), rings,
+                        RadiusUnit is null ? null : Enum.Parse<RadiusUnit>(RadiusUnit, true), rings,
                         SpatialReference?.FromSerializationRecord()) { Extent = extent, Id = id, IsSimple = IsSimple }
                     : new Polygon(rings,
                         SpatialReference?.FromSerializationRecord(), Centroid?.FromSerializationRecord() as Point, HasM,
@@ -591,7 +591,7 @@ public record PopupContentSerializationRecord : MapComponentSerializationRecord<
                 Description, Title) { Id = id },
             "text" => new TextPopupContent(Text) { Id = id },
             "attachments" => new AttachmentsPopupContent(Title, Description,
-                DisplayType is null ? null : Enum.Parse<AttachmentsPopupContentDisplayType>(DisplayType)) { Id = id },
+                DisplayType is null ? null : Enum.Parse<AttachmentsPopupContentDisplayType>(DisplayType, true)) { Id = id },
             "expression" => new ExpressionPopupContent(ExpressionInfo?.FromSerializationRecord()) { Id = id },
             "media" => new MediaPopupContent(Title, Description, MediaInfos?.Any(i => !i.IsNull) == true
                     ? MediaInfos.Select(i => i.FromSerializationRecord()!).ToArray()
@@ -708,7 +708,7 @@ public record PopupExpressionInfoSerializationRecord : MapComponentSerialization
         }
 
         return new PopupExpressionInfo(Expression, Name,
-            ReturnType is null ? null : Enum.Parse<PopupExpressionInfoReturnType>(ReturnType),
+            ReturnType is null ? null : Enum.Parse<PopupExpressionInfoReturnType>(ReturnType, true),
             Title) { Id = id };
     }
 }
@@ -2291,9 +2291,9 @@ public record MapFontSerializationRecord : MapComponentSerializationRecord<MapFo
             id = guid;
         }
 
-        return new MapFont(Size, Family, FontStyle is null ? null : Enum.Parse<MapFontStyle>(FontStyle),
-            Weight is null ? null : Enum.Parse<FontWeight>(Weight),
-            Decoration is null ? null : Enum.Parse<TextDecoration>(Decoration)) { Id = id };
+        return new MapFont(Size, Family, FontStyle is null ? null : Enum.Parse<MapFontStyle>(FontStyle, true),
+            Weight is null ? null : Enum.Parse<FontWeight>(Weight, true),
+            Decoration is null ? null : Enum.Parse<TextDecoration>(Decoration, true)) { Id = id };
     }
 }
 
@@ -3047,7 +3047,7 @@ public record MeshComponentSerializationRecord : MapComponentSerializationRecord
         return new MeshComponent(Faces,
             Material?.FromSerializationRecord(),
             Name,
-            Shading is null ? null : Enum.Parse<MeshShading>(Shading));
+            Shading is null ? null : Enum.Parse<MeshShading>(Shading, true));
     }
 }
 
@@ -3233,7 +3233,7 @@ public record MeshComponentMaterialSerializationRecord : MapComponentSerializati
             || (OcclusionTextureTransform != null) || (Roughness != null))
         {
             return new MeshMaterialMetallicRoughness(AlphaCutoff,
-                AlphaMode is null ? null : Enum.Parse<AlphaMode>(AlphaMode),
+                AlphaMode is null ? null : Enum.Parse<AlphaMode>(AlphaMode, true),
                 Color?.FromSerializationRecord(),
                 ColorTexture?.FromSerializationRecord(),
                 ColorTextureTransform?.FromSerializationRecord(),
@@ -3251,7 +3251,7 @@ public record MeshComponentMaterialSerializationRecord : MapComponentSerializati
         }
 
         return new MeshMaterial(AlphaCutoff,
-            AlphaMode is null ? null : Enum.Parse<AlphaMode>(AlphaMode),
+            AlphaMode is null ? null : Enum.Parse<AlphaMode>(AlphaMode, true),
             Color?.FromSerializationRecord(),
             ColorTexture?.FromSerializationRecord(),
             ColorTextureTransform?.FromSerializationRecord(),
@@ -3350,13 +3350,13 @@ public record MeshTextureSerializationRecord : MapComponentSerializationRecord<M
                 var first = Wrap[0];
                 var second = Wrap[1];
 
-                wrapModes = new SeparableWrapModes(first is null ? null : Enum.Parse<WrapMode>(first),
-                    second is null ? null : Enum.Parse<WrapMode>(second));
+                wrapModes = new SeparableWrapModes(first is null ? null : Enum.Parse<WrapMode>(first, true),
+                    second is null ? null : Enum.Parse<WrapMode>(second, true));
             }
             else if (Wrap.Length == 1)
             {
                 var value = Wrap[0];
-                WrapMode? wrapVal = value is null ? null : Enum.Parse<WrapMode>(value);
+                WrapMode? wrapVal = value is null ? null : Enum.Parse<WrapMode>(value, true);
                 wrapModes = new SeparableWrapModes(wrapVal, wrapVal);
             }
         }

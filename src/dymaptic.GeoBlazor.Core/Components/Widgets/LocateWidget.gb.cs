@@ -722,39 +722,6 @@ public partial class LocateWidget : IGoTo
             CancellationTokenSource.Token);
     }
     
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LocateWidget.html#locatewidgetlocate-method">GeoBlazor Docs</a>
-    ///     Animates the view to the user's location.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html#locate">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISMethod]
-    public async Task<string?> Locate()
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeJsMethod<string?>(
-            IsServer, nameof(Locate), nameof(LocateWidget), View?.QueryResultsMaxSizeLimit, 
-            CancellationTokenSource.Token);
-    }
-    
 #endregion
 
 #region Event Handlers

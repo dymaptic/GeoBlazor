@@ -1,23 +1,22 @@
+import TimeExtentGenerated from './timeExtent.gb';
 // override generated code in this file
 import TimeExtent from '@arcgis/core/time/TimeExtent';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from './geoBlazorCore';
 import {IPropertyWrapper} from "./definitions"
 
-export default class TimeExtentWrapper implements IPropertyWrapper {
+export default class TimeExtentWrapper extends TimeExtentGenerated {
     public component: TimeExtent;
     public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
     constructor(component: TimeExtent) {
+        super(component);
         this.component = component;
     }
 
     // region methods
 
-    unwrap() {
-        return this.component;
-    }
 
 
     async updateComponent(dotNetObject: any): Promise<void> {
@@ -50,13 +49,7 @@ export default class TimeExtentWrapper implements IPropertyWrapper {
 
     // region properties
 
-    getProperty(prop: string): any {
-        return this.component[prop];
-    }
 
-    setProperty(prop: string, value: any): void {
-        this.component[prop] = value;
-    }
 }
 
 export async function buildJsTimeExtent(dotNetObject: any): Promise<any> {
