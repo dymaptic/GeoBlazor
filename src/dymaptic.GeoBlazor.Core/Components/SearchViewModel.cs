@@ -10,7 +10,7 @@ public partial class SearchViewModel : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#includeDefaultSources">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [CodeGenerationIgnore]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonIgnore]
     public Func<SourcesHandlerOptions, ValueTask<IReadOnlyCollection<SearchSource>?>>? IncludeDefaultSourcesFunction { get; set; }
 
     /// <summary>
@@ -19,6 +19,9 @@ public partial class SearchViewModel : MapComponent
     [CodeGenerationIgnore]
     public bool HasIncludeDefaultSourcesFunction => IncludeDefaultSourcesFunction is not null;
 
+    /// <summary>
+    ///     For internal use only. JS-Invokable return event.
+    /// </summary>
     [JSInvokable]
     [CodeGenerationIgnore]
     public async Task<IReadOnlyCollection<SearchSource>?> OnJsIncludeDefaultSearchSource(SourcesHandlerOptions sourcesHandlerOptions)

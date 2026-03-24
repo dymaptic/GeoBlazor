@@ -156,6 +156,7 @@ public class AuthenticationManager
     ///     Handles any runtime exceptions instead of throwing. Return a boolean to indicate if the exception was handled (true) or should still throw (false).
     /// </summary>
     [Parameter]
+    [JsonIgnore]
     public Func<Exception, Task<bool>>? OnExceptionHandler { get; set; }
 
     /// <summary>

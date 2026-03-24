@@ -95,7 +95,7 @@ public partial class PopupTemplate : MapComponent, IProtobufSerializable<PopupTe
     /// </summary>
     [ArcGISProperty]
     [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonIgnore]
     [CodeGenerationIgnore]
     public Func<Graphic, ValueTask<string?>>? TitleFunction { get; set; }
 

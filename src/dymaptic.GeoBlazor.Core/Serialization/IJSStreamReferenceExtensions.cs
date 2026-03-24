@@ -111,7 +111,7 @@ public static partial class IJSStreamReferenceExtensions
         .GetField("_jsRuntime", BindingFlags.NonPublic | BindingFlags.Instance)!;
     private static readonly ConcurrentDictionary<IJSRuntime, JsonSerializerOptions> serializerOptionsCache = new();
     
-    [GeneratedRegex("^(?<!false)(?<!true)[A-Za-z][A-Za-z0-9_]*$")]
+    [GeneratedRegex(@"^(?<!false)(?<!true)[A-Za-z][A-Za-z0-9_/.:-]*$")]
     private static partial Regex UnwrappedStringJsonRegex();
 
     private static Regex unwrappedStringJsonRegex = UnwrappedStringJsonRegex();
