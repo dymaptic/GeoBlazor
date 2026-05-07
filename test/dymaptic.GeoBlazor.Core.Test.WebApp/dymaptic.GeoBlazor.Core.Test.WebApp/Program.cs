@@ -1,8 +1,9 @@
-using dymaptic.GeoBlazor.Core.Test.WebApp.Components;
 using dymaptic.GeoBlazor.Core;
 using dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Components;
+using dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Logging;
+using dymaptic.GeoBlazor.Core.Test.WebApp;
 using dymaptic.GeoBlazor.Core.Test.WebApp.Client;
-using Microsoft.AspNetCore.StaticFiles;
+using dymaptic.GeoBlazor.Core.Test.WebApp.Components;
 using System.Text.Json;
 
 
@@ -11,11 +12,12 @@ try
     WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
     // Add services to the container.
-    builder.Services.AddRazorComponents()
-        .AddInteractiveServerComponents()
+    builder.Services.AddRazorComponents(options => options.DetailedErrors = true)
+        .AddInteractiveServerComponents(options => options.DetailedErrors = true)
         .AddInteractiveWebAssemblyComponents();
 
     builder.Services.AddGeoBlazor(builder.Configuration);
+    builder.Services.AddScoped<ITestLogger, ServerTestLogger>();
 
     WebApplication app = builder.Build();
 
@@ -27,6 +29,7 @@ try
     else
     {
         app.UseExceptionHandler("/Error", createScopeForErrors: true);
+
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
     }
@@ -45,10 +48,12 @@ try
         .AddAdditionalAssemblies(typeof(Routes).Assembly,
             typeof(TestRunnerBase).Assembly);
 
+    app.MapTestLogger();
+    app.MapApplicationManagement();
+
     app.Run();
 
     return 0;
-
 }
 catch (Exception ex)
 {

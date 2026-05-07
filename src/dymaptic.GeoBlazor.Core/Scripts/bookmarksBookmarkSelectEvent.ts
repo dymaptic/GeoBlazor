@@ -4,5 +4,5 @@ export async function buildJsBookmarksBookmarkSelectEvent(dotNetObject: any, lay
 }
 export async function buildDotNetBookmarksBookmarkSelectEvent(jsObject: any): Promise<any> {
     let { buildDotNetBookmarksBookmarkSelectEventGenerated } = await import('./bookmarksBookmarkSelectEvent.gb');
-    return await buildDotNetBookmarksBookmarkSelectEventGenerated(jsObject, viewId);
+    return await buildDotNetBookmarksBookmarkSelectEventGenerated(jsObject);
 }

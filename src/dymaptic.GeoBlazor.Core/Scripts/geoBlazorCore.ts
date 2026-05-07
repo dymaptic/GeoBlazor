@@ -10,7 +10,7 @@ import {
     resetMapComponent
 } from './arcGisJsInterop';
 import AuthenticationManager from "./authenticationManager";
-import ProjectionWrapper from "./projection";
+import ProjectionWrapper from "./projectionEngine";
 import GeometryEngineWrapper from "./geometryEngine";
 import LocatorWrapper from "./locationService";
 

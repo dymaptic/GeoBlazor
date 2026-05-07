@@ -3,7 +3,7 @@ export async function buildJsLayerLayerviewCreateEvent(dotNetObject: any, layerI
     return await buildJsLayerLayerviewCreateEventGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetLayerLayerviewCreateEvent(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetLayerLayerviewCreateEvent(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetLayerLayerviewCreateEventGenerated} = await import('./layerLayerviewCreateEvent.gb');
-    return await buildDotNetLayerLayerviewCreateEventGenerated(jsObject, viewId);
+    return await buildDotNetLayerLayerviewCreateEventGenerated(jsObject, layerId, viewId);
 }

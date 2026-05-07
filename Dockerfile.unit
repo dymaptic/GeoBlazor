@@ -1,0 +1,86 @@
+# syntax=docker/dockerfile:1.7.0
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+ENV DOTNET_CLI_HOME=/tmp/dotnet-cli
+
+# Generate a self-signed certificate for HTTPS and install bash for entrypoint script
+# Also install libxml2 which is required for dotnet-coverage profiler
+RUN apt-get update && apt-get install -y --no-install-recommends libxml2 gnupg \
+    && rm -rf /var/lib/apt/lists/* \
+    && mkdir -p /unit-coverage 
+
+# Install dotnet-coverage tool to a shared location accessible by all users
+RUN mkdir -p /tools && \
+    /usr/share/dotnet/dotnet tool install --tool-path /tools dotnet-coverage && \
+    chmod -R 755 /tools
+
+# Install NodeJS and NPM
+RUN apt-get update \
+    && apt-get install -y ca-certificates curl gnupg \
+    && mkdir -p /etc/apt/keyrings \
+    && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
+    && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_22.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
+    && apt-get update \
+    && apt-get install -y nodejs 
+
+# Install NPM Packages
+WORKDIR /work
+WORKDIR /work/src/dymaptic.GeoBlazor.Core
+COPY ./src/dymaptic.GeoBlazor.Core/package.json ./package.json
+RUN --mount=type=cache,target=/root/.npm npm install
+
+WORKDIR /work
+
+# Update GeoBlazor Build Scripts
+COPY ./build-tools/build-scripts ./build-tools/build-scripts
+COPY ./build-tools/utilities ./build-tools/utilities
+RUN --mount=type=cache,target=/root/.nuget/packages \
+    dotnet run ./build-tools/build-scripts/ScriptBuilder.cs 
+
+# Input variables
+ARG TEST_GROUP=UNIT
+ARG TEST_FOLDER
+ARG TEST_PROJECT
+ENV TEST_GROUP=${TEST_GROUP}
+ENV TEST_PROJECT=${TEST_PROJECT}
+
+# Copy Source Files
+COPY ./nuget.config ./nuget.config
+COPY ./Directory.Build.* ./
+COPY ./src/ ./src/
+COPY ./*.ps1 ./
+COPY ./.gitignore ./.gitignore
+COPY $TEST_FOLDER $TEST_FOLDER
+
+# Build test app
+RUN --mount=type=cache,target=/root/.nuget/packages \
+    dotnet build $TEST_PROJECT \
+    -c Release \
+    /p:UsePackageReferences=false \
+    /p:DebugSymbols=true \
+    /p:DebugType=portable \
+    /p:GeneratePackage=false \
+    /p:GenerateDocs=false \
+    /p:GenerateXmlComments=false \
+    /p:ShowScriptDialogs=false -bl
+
+# Create user and set working directory
+RUN groupadd -r info && useradd -r -g info info \
+    && chown -R info:info /unit-coverage \
+    && mkdir -p /tmp/dotnet-cli \
+    && chown -R info:info /tmp/dotnet-cli \
+    && chown -R info:info /work/test
+
+# Copy entrypoint script
+COPY ./test/dymaptic.GeoBlazor.Core.Test.Automation/docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
+ARG FILTER
+ENV FILTER=${FILTER}
+# Coverage configuration (can be overridden via environment)
+ENV COVERAGE_ENABLED=false
+ENV COVERAGE_FORMAT=xml
+ENV SESSION_ID=WEB_APP
+ENV CONTAINER_CHECK=false
+
+USER info
+ENTRYPOINT ["/bin/bash", "/docker-entrypoint.sh"]

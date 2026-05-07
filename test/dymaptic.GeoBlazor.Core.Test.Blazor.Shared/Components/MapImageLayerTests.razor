@@ -1,4 +1,4 @@
-@inherits TestRunnerBase
+﻿@inherits TestRunnerBase
 
 @{
     base.BuildRenderTree(__builder);
@@ -64,19 +64,18 @@
     /// </summary>
     [TestMethod]
     public async Task TestGetSublayersReturnsFullyConnectedSublayers(Action renderHandler,
-        Action<LayerViewCreateEvent> layerViewCreatedHandler)
+            Action<LayerViewCreateEvent> layerViewCreatedHandler)
     {
         MapImageLayer? layer = null;
 
-        AddMapRenderFragment(
-            @<MapView class="map-view"
-                      OnViewRendered="renderHandler"
-                      OnLayerViewCreate="layerViewCreatedHandler">
-                <Map>
-                    <MapImageLayer @ref="layer"
-                               Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer" />
-                </Map>
-            </MapView>);
+        AddMapRenderFragment(@<MapView class="map-view"
+                                       OnViewRendered="renderHandler"
+                                       OnLayerViewCreate="layerViewCreatedHandler">
+                                 <Map>
+                                     <MapImageLayer @ref="layer"
+                                                    Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer"/>
+                                 </Map>
+                             </MapView>);
         await WaitForMapToRender();
 
         await WaitForLayerToRender<MapImageLayer>();
@@ -104,19 +103,18 @@
     /// </summary>
     [TestMethod]
     public async Task TestSublayerSetTitleUpdatesTitle(Action renderHandler,
-        Action<LayerViewCreateEvent> layerViewCreatedHandler)
+            Action<LayerViewCreateEvent> layerViewCreatedHandler)
     {
         MapImageLayer? layer = null;
 
-        AddMapRenderFragment(
-            @<MapView class="map-view"
-                      OnViewRendered="renderHandler"
-                      OnLayerViewCreate="layerViewCreatedHandler">
-                <Map>
-                    <MapImageLayer @ref="layer"
-                               Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer" />
-                </Map>
-            </MapView>);
+        AddMapRenderFragment(@<MapView class="map-view"
+                                       OnViewRendered="renderHandler"
+                                       OnLayerViewCreate="layerViewCreatedHandler">
+                                 <Map>
+                                     <MapImageLayer @ref="layer"
+                                                    Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer"/>
+                                 </Map>
+                             </MapView>);
         await WaitForMapToRender();
 
         await WaitForLayerToRender<MapImageLayer>();
@@ -146,19 +144,18 @@
     /// </summary>
     [TestMethod]
     public async Task TestSublayerGetFieldsReturnsFields(Action renderHandler,
-        Action<LayerViewCreateEvent> layerViewCreatedHandler)
+            Action<LayerViewCreateEvent> layerViewCreatedHandler)
     {
         MapImageLayer? layer = null;
 
-        AddMapRenderFragment(
-            @<MapView class="map-view"
-                      OnViewRendered="renderHandler"
-                      OnLayerViewCreate="layerViewCreatedHandler">
-                <Map>
-                    <MapImageLayer @ref="layer"
-                                   Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer" />
-                </Map>
-            </MapView>);
+        AddMapRenderFragment(@<MapView class="map-view"
+                                       OnViewRendered="renderHandler"
+                                       OnLayerViewCreate="layerViewCreatedHandler">
+                                 <Map>
+                                     <MapImageLayer @ref="layer"
+                                                    Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer"/>
+                                 </Map>
+                             </MapView>);
         await WaitForMapToRender();
 
         await WaitForLayerToRender<MapImageLayer>();
@@ -171,6 +168,7 @@
         Sublayer? sublayerWithFields = sublayers.FirstOrDefault(s => s.Sublayers is null or { Count: 0 });
 
         Assert.IsNotNull(sublayerWithFields);
+
         // This call was failing with "Could not find 'getFields'" before the fix
         IReadOnlyList<Field>? fields = await sublayerWithFields.GetFields();
 
@@ -184,19 +182,18 @@
     /// </summary>
     [TestMethod]
     public async Task TestSublayerSetDefinitionExpressionWorks(Action renderHandler,
-        Action<LayerViewCreateEvent> layerViewCreatedHandler)
+            Action<LayerViewCreateEvent> layerViewCreatedHandler)
     {
         MapImageLayer? layer = null;
 
-        AddMapRenderFragment(
-            @<MapView class="map-view"
-                      OnViewRendered="renderHandler"
-                      OnLayerViewCreate="layerViewCreatedHandler">
-                <Map>
-                    <MapImageLayer @ref="layer"
-                               Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer" />
-                </Map>
-            </MapView>);
+        AddMapRenderFragment(@<MapView class="map-view"
+                                       OnViewRendered="renderHandler"
+                                       OnLayerViewCreate="layerViewCreatedHandler">
+                                 <Map>
+                                     <MapImageLayer @ref="layer"
+                                                    Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer"/>
+                                 </Map>
+                             </MapView>);
         await WaitForMapToRender();
 
         await WaitForLayerToRender<MapImageLayer>();
@@ -208,6 +205,7 @@
         if (!supportsDefinitionExpression)
         {
             Log("Service does not support sublayer definition expressions, skipping test");
+
             return;
         }
 
@@ -227,11 +225,12 @@
 
             // Verify the definition expression was set
             string? retrievedExpression = await targetSublayer.GetDefinitionExpression();
+
             Assert.AreEqual(definitionExpression, retrievedExpression,
-                "Definition expression should be set on the sublayer");
+                    "Definition expression should be set on the sublayer");
 
             await AssertJavaScript("assertObjectHasPropertyWithValue",
-                args: [targetSublayer.Id, "definitionExpression", definitionExpression]);
+                    args: [targetSublayer.Id, "definitionExpression", definitionExpression]);
         }
     }
 
@@ -241,19 +240,18 @@
     /// </summary>
     [TestMethod]
     public async Task TestSublayerSetRendererWorks(Action renderHandler,
-        Action<LayerViewCreateEvent> layerViewCreatedHandler)
+            Action<LayerViewCreateEvent> layerViewCreatedHandler)
     {
         MapImageLayer? layer = null;
 
-        AddMapRenderFragment(
-            @<MapView class="map-view"
-                      OnViewRendered="renderHandler"
-                      OnLayerViewCreate="layerViewCreatedHandler">
-                <Map>
-                    <MapImageLayer @ref="layer"
-                               Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer" />
-                </Map>
-            </MapView>);
+        AddMapRenderFragment(@<MapView class="map-view"
+                                       OnViewRendered="renderHandler"
+                                       OnLayerViewCreate="layerViewCreatedHandler">
+                                 <Map>
+                                     <MapImageLayer @ref="layer"
+                                                    Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer"/>
+                                 </Map>
+                             </MapView>);
         await WaitForMapToRender();
 
         await WaitForLayerToRender<MapImageLayer>();
@@ -296,28 +294,29 @@
     /// </summary>
     [TestMethod]
     public async Task TestCompleteSublayerWorkflowInLayerViewCreate(Action renderHandler,
-        Action<LayerViewCreateEvent> layerViewCreatedHandler)
+            Action<LayerViewCreateEvent> layerViewCreatedHandler)
     {
         MapImageLayer? imageLayer = null;
-        AddMapRenderFragment(
-            @<MapView class="map-view"
-                      OnViewRendered="renderHandler"
-                      OnLayerViewCreate="layerViewCreatedHandler">
-                <Map>
-                    <MapImageLayer @ref="imageLayer"
-                                   Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer" />
-                </Map>
-                <LayerListWidget Position="OverlayPosition.BottomLeft" />
-            </MapView>);
+
+        AddMapRenderFragment(@<MapView class="map-view"
+                                       OnViewRendered="renderHandler"
+                                       OnLayerViewCreate="layerViewCreatedHandler">
+                                 <Map>
+                                     <MapImageLayer @ref="imageLayer"
+                                                    Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer"/>
+                                 </Map>
+                                 <LayerListWidget Position="OverlayPosition.BottomLeft"/>
+                             </MapView>);
         await WaitForMapToRender();
-        
+
         await WaitForLayerToRender<MapImageLayer>();
-        
+
         Dictionary<string, bool> sublayersVisible = [];
-        
+
         IReadOnlyList<Sublayer>? sublayers = await imageLayer!.GetSublayers();
 
         Assert.IsNotNull(sublayers);
+
         foreach (Sublayer sl in sublayers)
         {
             // These operations should work without manual CoreJsModule assignment
@@ -331,14 +330,14 @@
                 sublayersVisible[title] = v;
             }, title);
         }
-        
+
         foreach (string sublayerTitle in sublayersVisible.Keys)
         {
             Assert.IsTrue(sublayersVisible[sublayerTitle]);
         }
-        
-        await AssertJavaScript("mapImageLayerAsserts.toggleSublayers", 
-            args: [sublayers.Select(s => s.Id).ToArray()]);
+
+        await AssertJavaScript("mapImageLayerAsserts.toggleSublayers",
+                args: [sublayers.Select(s => s.Id).ToArray()]);
 
         // setting visibility is async and takes a second
         await Task.Delay(1000);

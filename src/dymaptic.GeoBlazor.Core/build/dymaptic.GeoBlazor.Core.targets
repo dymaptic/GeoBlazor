@@ -1,0 +1,24 @@
+<Project>
+  <ItemGroup Condition="'$(GeoBlazorImplicitUsings)' != 'false'">
+    <Using Include="dymaptic.GeoBlazor.Core" />
+    <Using Include="dymaptic.GeoBlazor.Core.Components" />
+    <Using Include="dymaptic.GeoBlazor.Core.Components.Geometries" />
+    <Using Include="dymaptic.GeoBlazor.Core.Components.Layers" />
+    <Using Include="dymaptic.GeoBlazor.Core.Components.Logic" />
+    <Using Include="dymaptic.GeoBlazor.Core.Components.Popups" />
+    <Using Include="dymaptic.GeoBlazor.Core.Components.Renderers" />
+    <Using Include="dymaptic.GeoBlazor.Core.Components.Symbols" />
+    <Using Include="dymaptic.GeoBlazor.Core.Components.Views" />
+    <Using Include="dymaptic.GeoBlazor.Core.Components.Widgets" />
+    <Using Include="dymaptic.GeoBlazor.Core.Enums" />
+    <Using Include="dymaptic.GeoBlazor.Core.Events" />
+    <Using Include="dymaptic.GeoBlazor.Core.Exceptions" />
+    <Using Include="dymaptic.GeoBlazor.Core.Extensions" />
+    <Using Include="dymaptic.GeoBlazor.Core.Functions" />
+    <Using Include="dymaptic.GeoBlazor.Core.Interfaces" />
+    <Using Include="dymaptic.GeoBlazor.Core.Model" />
+    <Using Include="dymaptic.GeoBlazor.Core.Options" />
+    <Using Include="dymaptic.GeoBlazor.Core.Results" />
+    <Using Include="dymaptic.GeoBlazor.Core.Settings" />
+  </ItemGroup>
+</Project>

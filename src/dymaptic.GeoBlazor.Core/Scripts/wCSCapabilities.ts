@@ -1,8 +1,10 @@
-export async function buildJsWCSCapabilities(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsWCSCapabilitiesGenerated } = await import('./wCSCapabilities.gb');
-    return await buildJsWCSCapabilitiesGenerated(dotNetObject, layerId, viewId);
+import { buildJsWCSCapabilitiesGenerated } from './wCSCapabilities.gb';
+import { buildDotNetWCSCapabilitiesGenerated } from './wCSCapabilities.gb';
+
+export function buildDotNetWCSCapabilities(jsObject: any): any {
+    return buildDotNetWCSCapabilitiesGenerated(jsObject);
 }
-export async function buildDotNetWCSCapabilities(jsObject: any): Promise<any> {
-    let { buildDotNetWCSCapabilitiesGenerated } = await import('./wCSCapabilities.gb');
-    return await buildDotNetWCSCapabilitiesGenerated(jsObject, viewId);
+
+export function buildJsWCSCapabilities(dotNetObject: any): any {
+    return buildJsWCSCapabilitiesGenerated(dotNetObject);
 }

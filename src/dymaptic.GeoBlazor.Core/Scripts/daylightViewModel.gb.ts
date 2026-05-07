@@ -2,6 +2,7 @@
 import DaylightViewModel from '@arcgis/core/widgets/Daylight/DaylightViewModel';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCircularReferences } from './geoBlazorCore';
 import { buildDotNetDaylightViewModel } from './daylightViewModel';
+import BaseComponent from './baseComponent';
 
 export async function buildJsDaylightViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
@@ -102,3 +103,5 @@ export async function buildDotNetDaylightViewModelGenerated(jsObject: any, layer
     return dotNetDaylightViewModel;
 }
 
+export default class DaylightViewModelGenerated extends BaseComponent {
+}

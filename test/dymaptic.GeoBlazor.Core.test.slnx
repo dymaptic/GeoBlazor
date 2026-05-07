@@ -1,0 +1,16 @@
+<Solution>
+    <Configurations>
+        <BuildType Name="Debug" />
+        <BuildType Name="Release" />
+        <BuildType Name="SourceGen Highlighting" />
+    </Configurations>
+    <Project Path="../src/dymaptic.GeoBlazor.Core.Analyzers/dymaptic.GeoBlazor.Core.Analyzers.csproj" />
+    <Project Path="../src/dymaptic.GeoBlazor.Core.SourceGenerator.Shared/dymaptic.GeoBlazor.Core.SourceGenerator.Shared.csproj" />
+    <Project Path="../src/dymaptic.GeoBlazor.Core.SourceGenerator/dymaptic.GeoBlazor.Core.SourceGenerator.csproj" />
+    <Project Path="../src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj" />
+    <Project Path="dymaptic.GeoBlazor.Core.SourceGenerator.Tests/dymaptic.GeoBlazor.Core.SourceGenerator.Tests.csproj" />
+    <Project Path="dymaptic.GeoBlazor.Core.Test.Blazor.Shared/dymaptic.GeoBlazor.Core.Test.Blazor.Shared.csproj" />
+    <Project Path="dymaptic.GeoBlazor.Core.Test.Unit/dymaptic.GeoBlazor.Core.Test.Unit.csproj" />
+    <Project Path="dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.Client/dymaptic.GeoBlazor.Core.Test.WebApp.Client.csproj" />
+    <Project Path="dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj" />
+</Solution>

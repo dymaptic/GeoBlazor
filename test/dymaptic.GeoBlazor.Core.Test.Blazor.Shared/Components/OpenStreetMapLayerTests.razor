@@ -51,20 +51,23 @@
     }
 
     [TestMethod]
-    public async Task TestOpenStreetMapLayerCopyrightConsistency(Action renderHandler)
+    public async Task TestOpenStreetMapLayerCopyrightConsistency(Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
     {
         WebTileLayer? osmLayerWithUrlTemplate = null;
         AddMapRenderFragment(
     @<SceneView class="map-view"
                     Zoom="1"
                     PromptForArcGISKey="false"
-                    OnViewRendered="renderHandler">
+                OnViewRendered="renderHandler"
+                OnLayerViewCreate="layerViewCreateHandler">
         <Map Ground="world-elevation">
             <OpenStreetMapLayer UrlTemplate="https://tile.openstreetmap.org/{z}/{x}/{y}.png" @ref="osmLayerWithUrlTemplate" />
         </Map>
     </SceneView>);
 
         await WaitForMapToRender();
+        await WaitForLayerToRender<OpenStreetMapLayer>();
 
         Assert.IsNotNull(osmLayerWithUrlTemplate?.Copyright, "Copyright with UrlTemplate should not be null");
 
@@ -73,13 +76,15 @@
     @<SceneView class="map-view"
                     Zoom="1"
                     PromptForArcGISKey="false"
-                    OnViewRendered="renderHandler">
+                OnViewRendered="renderHandler"
+                OnLayerViewCreate="layerViewCreateHandler">
         <Map Ground="world-elevation">
             <OpenStreetMapLayer @ref="osmLayer" />
         </Map>
     </SceneView>);
 
         await WaitForMapToRender();
+        await WaitForLayerToRender<OpenStreetMapLayer>();
 
         Assert.IsNotNull(osmLayer?.Copyright, "Copyright without UrlTemplate should not be null");
 

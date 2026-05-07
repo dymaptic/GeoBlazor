@@ -1,13 +1,13 @@
 using dymaptic.GeoBlazor.Core.Components;
 using dymaptic.GeoBlazor.Core.Components.Geometries;
+using dymaptic.GeoBlazor.Core.Model;
 using Microsoft.AspNetCore.Components;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
 namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Components;
 
 [TestClass]
-public class ExtentGeometryTests: TestRunnerBase
+public class ExtentGeometryTests : TestRunnerBase
 {
     [Inject]
     public required GeometryEngine GeometryEngine { get; set; }
@@ -35,7 +35,7 @@ public class ExtentGeometryTests: TestRunnerBase
         double? height = await GeometryEngine.GetExtentHeight(extent);
         Assert.IsNotNull(height);
     }
-    
+
     [TestMethod]
     public async Task TestGetExtentWidth()
     {

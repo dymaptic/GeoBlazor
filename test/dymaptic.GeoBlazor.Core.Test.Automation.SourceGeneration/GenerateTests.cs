@@ -1,0 +1,202 @@
+using Microsoft.CodeAnalysis;
+using System.Collections.Immutable;
+using System.Text;
+using System.Text.RegularExpressions;
+
+
+namespace dymaptic.GeoBlazor.Core.Test.Automation.SourceGeneration;
+
+[Generator]
+public class GenerateTests : IIncrementalGenerator
+{
+    public void Initialize(IncrementalGeneratorInitializationContext context)
+    {
+        IncrementalValueProvider<ImmutableArray<AdditionalText>> testProvider =
+            context.AdditionalTextsProvider.Collect();
+        context.RegisterSourceOutput(testProvider, Generate);
+    }
+
+    private void Generate(SourceProductionContext context, ImmutableArray<AdditionalText> testClasses)
+    {
+        foreach (AdditionalText testClass in testClasses)
+        {
+            string testClassName = testClass.Path.Split('/', '\\').Last().Split('.').First();
+            bool isPro = testClass.Path.Contains("dymaptic.GeoBlazor.Pro.Test.Blazor.Shared");
+            string className = isPro ? $"PRO_{testClassName}" : $"CORE_{testClassName}";
+
+            List<string> additionalAttributes = [];
+            List<string> classAttributes = [];
+            Dictionary<string, List<string>> testMethods = [];
+
+            bool testMethodAttributeFound = false;
+            string? currentMethodName = null;
+            var inMethod = false;
+            var openingBracketFound = false;
+            int lineNumber = 0;
+            var methodBracketCount = 0;
+
+            foreach (var line in testClass.GetText()!.Lines.Select(l => l.ToString().Trim()))
+            {
+                lineNumber++;
+
+                if (inMethod)
+                {
+                    if (line.Contains("}"))
+                    {
+                        methodBracketCount--;
+                    }
+
+                    if (line.Contains("{"))
+                    {
+                        if (!openingBracketFound)
+                        {
+                            openingBracketFound = true;
+                            testMethods.Add(currentMethodName!, additionalAttributes);
+                            additionalAttributes = [];
+                        }
+
+                        methodBracketCount++;
+                    }
+
+                    if (openingBracketFound && (methodBracketCount == 0))
+                    {
+                        openingBracketFound = false;
+                        inMethod = false;
+                    }
+
+                    continue;
+                }
+
+                if (testMethodAttributeFound)
+                {
+                    if (testMethodRegex.Match(line) is { Success: true } match)
+                    {
+                        inMethod = true;
+                        currentMethodName = match.Groups["testName"].Value;
+
+                        if (line.Contains("{"))
+                        {
+                            openingBracketFound = true;
+                            methodBracketCount++;
+                            testMethods.Add(currentMethodName, additionalAttributes);
+                            additionalAttributes = [];
+                        }
+
+                        testMethodAttributeFound = false;
+
+                        continue;
+                    }
+
+                    if (line.StartsWith("//"))
+                    {
+                        // commented out test
+                        testMethodAttributeFound = false;
+
+                        continue;
+                    }
+
+                    throw new FormatException($"Line after [TestMethod] should be a method signature: Line {lineNumber
+                    } in test class {testClassName}");
+                }
+
+                if (line.Contains("[TestMethod]") && !line.StartsWith("//"))
+                {
+                    testMethodAttributeFound = true;
+                }
+                else if (attributesToIgnore.Any(attribute => line.Contains($"[{attribute}")))
+                {
+                    // ignore these attributes
+                }
+                else if (attributeRegex.Match(line) is { Success: true })
+                {
+                    var attributeLine = line;
+
+                    if (nameofRegex.Match(line) is { Success: true } nameofMatch)
+                    {
+                        var name = nameofMatch.Groups["typeOrMemberName"].Value;
+                        attributeLine = line.Replace(nameofMatch.Value, $"\"{name}\"");
+                    }
+
+                    additionalAttributes.Add(attributeLine);
+                }
+                else if (razorAttributeRegex.Match(line) is { Success: true } razorAttribute)
+                {
+                    var attributeContent = razorAttribute.Groups["attributeContent"].Value;
+
+                    if (nameofRegex.Match(line) is { Success: true } nameofMatch)
+                    {
+                        var name = nameofMatch.Groups["typeOrMemberName"].Value;
+                        attributeContent = attributeContent.Replace(nameofMatch.Value, $"\"{name}\"");
+                    }
+
+                    // razor attributes are on the whole class
+                    classAttributes.Add(attributeContent);
+                }
+                else if (classDeclarationRegex.Match(line) is { Success: true })
+                {
+                    classAttributes.AddRange(additionalAttributes);
+                    additionalAttributes = [];
+                }
+            }
+
+            if (testMethods.Count == 0)
+            {
+                continue;
+            }
+
+            StringBuilder sourceBuilder = new($$"""
+                                                namespace dymaptic.GeoBlazor.Core.Test.Automation;
+
+                                                [TestClass]{{
+                                                    (classAttributes.Count > 0
+                                                        ? $"\n{string.Join("\n", classAttributes)}"
+                                                        : "")}}
+                                                public class {{className}}: GeoBlazorTestClass
+                                                {
+
+                                                """);
+
+            foreach (KeyValuePair<string, List<string>> testMethod in testMethods)
+            {
+                var methodName = testMethod.Key.Split('.').Last();
+                var methodAttributes = testMethod.Value;
+
+                sourceBuilder.AppendLine($$"""
+                                               [TestMethod]{{
+                                                   (methodAttributes.Count > 0
+                                                       ? $"\n    {string.Join("\n    ", methodAttributes)}"
+                                                       : "")}}
+                                               public Task {{methodName}}()
+                                               {
+                                                   return RunTestImplementation($"{{testClassName}}.{nameof({{methodName
+                                                   }})}");
+                                               }
+
+                                           """);
+            }
+
+            sourceBuilder.AppendLine("}");
+
+            context.AddSource($"{className}.g.cs", sourceBuilder.ToString());
+        }
+    }
+
+    private static readonly string[] attributesToIgnore =
+    [
+        "TestClass",
+        "Inject",
+        "Parameter",
+        "CascadingParameter",
+        "IsolatedTest",
+        "SuppressMessage"
+    ];
+    private static readonly Regex testMethodRegex =
+        new(@"^\s*public (?:async Task)?(?:void)? (?<testName>[A-Za-z0-9_]*)\(.*?$", RegexOptions.Compiled);
+    private static readonly Regex attributeRegex = new(@"^\[.+\]$", RegexOptions.Compiled);
+    private static readonly Regex razorAttributeRegex =
+        new("^@attribute (?<attributeContent>[A-Za-z0-9_]*.*?)$", RegexOptions.Compiled);
+    private static readonly Regex classDeclarationRegex =
+        new(@"^public class (?<className>[A-Za-z0-9_]+)\s*?:?.*?$", RegexOptions.Compiled);
+    private static readonly Regex nameofRegex =
+        new(@"nameof\((?<typeOrMemberName>[A-Za-z0-9_]+)\)", RegexOptions.Compiled);
+}

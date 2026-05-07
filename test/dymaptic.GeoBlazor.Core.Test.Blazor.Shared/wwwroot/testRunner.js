@@ -13,7 +13,7 @@ export function initialize(core) {
     Portal = Core.Portal;
     SimpleRenderer = Core.SimpleRenderer;
     esriConfig = Core.esriConfig;
-    setWaitCursor()
+    setWaitCursor();
 }
 
 export function setWaitCursor(wait) {
@@ -504,4 +504,27 @@ export function getTestResults() {
         return JSON.parse(results);
     }
     return null;
+}
+
+export function assertGeoBlazorErrorMessageShown(methodName, errorMessage) {
+    let view = getView(methodName);
+    let errorDiv = view.container.parentElement.querySelector('.geoblazor-validation-message');
+    if (errorDiv === null) {
+        throw new Error("No error message shown");
+    }
+
+    let visibility = errorDiv.style.visibility;
+
+    if (visibility !== '' && visibility !== 'visible') {
+        throw new Error("Error message not visible");
+    }
+    if (errorMessage && !errorDiv.innerText.includes(errorMessage)) {
+        throw new Error(`Expected error message to contain ${errorMessage} but was ${errorDiv.innerText}`);
+    }
+}
+
+export function isValidElementRef(methodName, elementRef) {
+    if (!(elementRef instanceof HTMLElement)) {
+        throw new Error("ElementRef is not an HTMLElement");
+    }
 }

@@ -1,0 +1,13 @@
+{
+    "$schema": "https://json.schemastore.org/launchsettings.json",
+    "profiles": {
+        "GeoBlazorBuild": {
+            "commandName": "Project",
+            "commandLineArgs": "-pro -pkg -xml -obf -c Release"
+        },
+        "GeoBlazorBuild-TestServer": {
+            "commandName": "Project",
+            "commandLineArgs": "-pro -pkg -xml -obf -c Release -su https://localhost:7650"
+        }
+    }
+}

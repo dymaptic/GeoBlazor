@@ -1,6 +1,7 @@
 using dymaptic.GeoBlazor.Core.Components;
 using dymaptic.GeoBlazor.Core.Exceptions;
 
+
 namespace dymaptic.GeoBlazor.Core.Test.Unit;
 
 [TestClass]
@@ -23,15 +24,12 @@ public class MapComponentTests
         await component.RegisterChildComponent(child);
         Assert.HasCount(1, component.TestChildrenInCollection!);
     }
-    
+
     [TestMethod]
     public async Task CanUnregisterUnknownChildComponent()
     {
         var child = new TestChildComponent();
-        var component = new TestMapComponent
-        {
-            TestChildComponent = child
-        };
+        var component = new TestMapComponent { TestChildComponent = child };
         await component.UnregisterChildComponent(child);
         Assert.IsNull(component.TestChildComponent);
     }
@@ -40,20 +38,18 @@ public class MapComponentTests
     public async Task CanUnregisterUnknownChildComponentInCollection()
     {
         var child = new TestChildInCollection();
-        var component = new TestMapComponent()
-        {
-            TestChildrenInCollection = (List<TestChildInCollection>) [child]
-        };
+        var component = new TestMapComponent() { TestChildrenInCollection = (List<TestChildInCollection>)[child] };
         await component.UnregisterChildComponent(child);
-        Assert.IsEmpty(component.TestChildrenInCollection);
+        Assert.IsEmpty(component.TestChildrenInCollection!);
     }
-    
+
     [TestMethod]
     public async Task RegisteringTypeThatIsNotAChildPropertyThrows()
     {
         var component = new TestMapComponent();
         var notAChildComponent = new NotAChildComponent();
-        await Assert.ThrowsAsync<InvalidChildElementException>(() => 
+
+        await Assert.ThrowsAsync<InvalidChildElementException>(() =>
             component.RegisterChildComponent(notAChildComponent));
     }
 
@@ -61,22 +57,16 @@ public class MapComponentTests
     public void CallingValidateRequiredChildrenCascades()
     {
         var child = new TestChildComponent();
-        var component = new TestMapComponent
-        {
-            TestChildComponent = child
-        };
+        var component = new TestMapComponent { TestChildComponent = child };
         component.ValidateRequiredChildren();
         Assert.IsTrue(child.WasValidated);
     }
-    
+
     [TestMethod]
     public void CallingValidateRequiredChildrenCascadesToCollectionTypes()
     {
         var child = new TestChildInCollection();
-        var component = new TestMapComponent
-        {
-            TestChildrenInCollection = new List<TestChildInCollection>{child}
-        };
+        var component = new TestMapComponent { TestChildrenInCollection = new List<TestChildInCollection> { child } };
         component.ValidateRequiredChildren();
         Assert.IsTrue(child.WasValidated);
     }
@@ -97,20 +87,21 @@ public class MapComponentTests
             }
         }
 
-        private readonly List<TestChildInCollection> _testChildrenInCollection = [];
-
         public override async Task RegisterChildComponent(MapComponent child)
         {
             switch (child)
             {
                 case TestChildComponent testChild:
                     TestChildComponent = testChild;
+
                     break;
                 case TestChildInCollection testChildInCollection:
                     _testChildrenInCollection.Add(testChildInCollection);
+
                     break;
                 default:
                     await base.RegisterChildComponent(child);
+
                     break;
             }
         }
@@ -121,12 +112,15 @@ public class MapComponentTests
             {
                 case TestChildComponent _:
                     TestChildComponent = null;
+
                     break;
                 case TestChildInCollection testChildInCollection:
                     _testChildrenInCollection.Remove(testChildInCollection);
+
                     break;
                 default:
                     await base.UnregisterChildComponent(child);
+
                     break;
             }
         }
@@ -145,28 +139,30 @@ public class MapComponentTests
                 }
             }
         }
+
+        private readonly List<TestChildInCollection> _testChildrenInCollection = [];
     }
 
     private class TestChildComponent : MapComponent
     {
+        public bool WasValidated { get; private set; }
+
         public override void ValidateRequiredChildren()
         {
             WasValidated = true;
             base.ValidateRequiredChildren();
         }
-        
-        public bool WasValidated { get; private set; }
     }
 
     private class TestChildInCollection : MapComponent
     {
+        public bool WasValidated { get; private set; }
+
         public override void ValidateRequiredChildren()
         {
             WasValidated = true;
             base.ValidateRequiredChildren();
         }
-        
-        public bool WasValidated { get; private set; }
     }
 
     private class NotAChildComponent : MapComponent;

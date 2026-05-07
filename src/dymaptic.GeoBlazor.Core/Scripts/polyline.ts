@@ -40,7 +40,7 @@ export function buildJsPolyline(dnPolyline: any): any {
     return polyline;
 }
 
-function buildJsPathsOrRings(pathsOrRings: any) {
+export function buildJsPathsOrRings(pathsOrRings: any) {
     if (!hasValue(pathsOrRings)) return null;
     if (pathsOrRings[0].hasOwnProperty("points")) {
         let array: [][][] = [];

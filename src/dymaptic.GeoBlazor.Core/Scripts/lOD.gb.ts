@@ -2,7 +2,7 @@
 import LOD from '@arcgis/core/layers/support/LOD';
 import { arcGisObjectRefs, jsObjectRefs, dotNetRefs, hasValue, lookupGeoBlazorId } from './geoBlazorCore';
 
-export async function buildJsLODGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsLODGenerated(dotNetObject: any): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }

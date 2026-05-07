@@ -49,7 +49,7 @@ import Popup from "@arcgis/core/widgets/Popup";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
 import Portal from "@arcgis/core/portal/Portal";
 import * as promiseUtils from "@arcgis/core/core/promiseUtils";
-import ProjectionWrapper from "./projection";
+import ProjectionWrapper from "./projectionEngine";
 import Query from "@arcgis/core/rest/support/Query";
 import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer";
 import RouteParameters from "@arcgis/core/rest/support/RouteParameters";

@@ -1,3 +1,4 @@
+import DaylightViewModel from '@arcgis/core/widgets/Daylight/DaylightViewModel';
 import DaylightViewModelGenerated from './daylightViewModel.gb';
 
 export async function buildJsDaylightViewModel(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
