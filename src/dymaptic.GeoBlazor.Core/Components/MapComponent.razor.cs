@@ -1991,4 +1991,7 @@ internal class MapComponentConverter : JsonConverter<MapComponent>
     }
 }
 
+/// <summary>
+///     SerializationRecord for MapComponents
+/// </summary>
 public record MapComponentSerializationRecord;
