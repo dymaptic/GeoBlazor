@@ -241,7 +241,7 @@ public class ProjectionEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestProjectEmptyArrayReturnsEmpty()
     {
-        SpatialReference targetSpatialReference = new SpatialReference(102100);
+        SpatialReference targetSpatialReference = new(102100);
 
         Geometry[]? projectedGeometries = await ProjectionEngine.Project([], targetSpatialReference);
 

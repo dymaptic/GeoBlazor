@@ -25,13 +25,6 @@ public abstract partial class Widget : MapComponent
     public string? ContainerId { get; set; }
 
     /// <summary>
-    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore]
-    public MapView? MapView { get; set; }
-
-    /// <summary>
     ///     The type of widget
     /// </summary>
     public abstract WidgetType Type { get; }
@@ -69,9 +62,54 @@ public abstract partial class Widget : MapComponent
     protected virtual bool Hidden => false;
 
     /// <summary>
-    ///     Indicates that the widget is sent to ArcGIS JS to render. Custom GeoBlazor Widgets should override this to return false.
+    ///     Indicates that this widget renders as an ArcGIS map component (web component) instead of
+    ///     using the imperative ArcGIS JS widget creation pattern.
+    ///     When true, the widget renders its own &lt;arcgis-*&gt; tag in Razor markup.
     /// </summary>
-    protected internal virtual bool ArcGISWidget => true;
+    protected internal virtual bool ArcGISComponent => false;
+
+    /// <summary>
+    ///     Indicates that this is a custom GeoBlazor-only widget that is not based on any ArcGIS widget or component.
+    ///     When true, the widget is not sent to ArcGIS JS for rendering.
+    /// </summary>
+    protected internal virtual bool GeoBlazorWidget => false;
+
+    /// <summary>
+    ///     The HTML tag name of the ArcGIS map component that this widget wraps (e.g., "arcgis-legend").
+    ///     When non-null, the widget renders as a web component instead of using the imperative widget creation pattern.
+    /// </summary>
+    protected internal virtual string? MapComponentTagName => null;
+
+    /// <summary>
+    ///     Converts the <see cref="Position"/> to a slot name for web component positioning within arcgis-map/arcgis-scene.
+    /// </summary>
+    [ArcGISMethod]
+    protected string? GetPositionSlot() => Position switch
+    {
+        OverlayPosition.TopLeft => "top-left",
+        OverlayPosition.TopRight => "top-right",
+        OverlayPosition.BottomLeft => "bottom-left",
+        OverlayPosition.BottomRight => "bottom-right",
+        OverlayPosition.TopLeading => "top-leading",
+        OverlayPosition.TopTrailing => "top-trailing",
+        OverlayPosition.BottomLeading => "bottom-leading",
+        OverlayPosition.BottomTrailing => "bottom-trailing",
+        OverlayPosition.Manual => "manual",
+        _ => null
+    };
+
+    /// <summary>
+    ///     Helper for rendering boolean values as HTML attributes in generated Razor files.
+    /// </summary>
+    protected static string? BooleanToAttribute(bool? value) =>
+        value?.ToString().ToLowerInvariant();
+
+    /// <summary>
+    ///     Helper for rendering inverted boolean values as HTML attributes in generated Razor files.
+    ///     Converts an Enabled-style bool to a Disabled-style attribute.
+    /// </summary>
+    protected static string? InvertBooleanForAttribute(bool? value) =>
+        (!value)?.ToString().ToLowerInvariant();
 
     /// <inheritdoc />
     [JSInvokable]
@@ -87,6 +125,7 @@ public abstract partial class Widget : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the ContainerId property.
     /// </summary>
+    [ArcGISMethod]
     public async Task<string?> GetContainerId()
     {
         if (CoreJsModule is null) return ContainerId;
@@ -121,6 +160,7 @@ public abstract partial class Widget : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the Icon property.
     /// </summary>
+    [ArcGISMethod]
     public async Task<string?> GetIcon()
     {
         if (CoreJsModule is null) return Icon;
@@ -155,6 +195,7 @@ public abstract partial class Widget : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the Label property.
     /// </summary>
+    [ArcGISMethod]
     public async Task<string?> GetLabel()
     {
         if (CoreJsModule is null) return Label;
@@ -189,6 +230,7 @@ public abstract partial class Widget : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the Position property.
     /// </summary>
+    [ArcGISMethod]
     public async Task<OverlayPosition?> GetPosition()
     {
         if (CoreJsModule is null) return Position;
@@ -224,6 +266,7 @@ public abstract partial class Widget : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the WidgetId property.
     /// </summary>
+    [ArcGISMethod]
     public async Task<string?> GetWidgetId()
     {
         if (CoreJsModule is null) return WidgetId;
@@ -279,7 +322,7 @@ public abstract partial class Widget : MapComponent
 
         if (JsComponentReference is null) return;
 
-        await CoreJsModule.InvokeVoidAsync("setWidgetContainer", CancellationTokenSource.Token, 
+        await CoreJsModule.InvokeVoidAsync("setWidgetContainer", CancellationTokenSource.Token,
             JsComponentReference, Type, containerId, ViewId);
     }
 
@@ -363,7 +406,7 @@ public abstract partial class Widget : MapComponent
 
         if (JsComponentReference is null) return;
 
-        await CoreJsModule.InvokeVoidAsync("setWidgetPosition", CancellationTokenSource.Token, 
+        await CoreJsModule.InvokeVoidAsync("setWidgetPosition", CancellationTokenSource.Token,
             JsComponentReference, position, ViewId);
     }
 
@@ -401,10 +444,10 @@ public abstract partial class Widget : MapComponent
         IReadOnlyDictionary<string, object?> dictionary = parameters.ToDictionary();
         await base.SetParametersAsync(parameters);
 
-        if (!dictionary.ContainsKey(nameof(View)) && !dictionary.ContainsKey(nameof(MapView)))
+        if (!dictionary.ContainsKey(nameof(View)) && !dictionary.ContainsKey(nameof(View)))
         {
-            throw new MissingMapViewReferenceException(
-                "Widgets outside the MapView must have the MapView parameter set.");
+            throw new MissingViewReferenceException(
+                "Widgets outside the View must have the View parameter set.");
         }
 
         if (PreviousParameters is not null && MapRendered)
@@ -417,10 +460,101 @@ public abstract partial class Widget : MapComponent
                     continue;
                 }
 
-                if (!PreviousParameters.TryGetValue(kvp.Key, out object? previousValue)
-                    || (!kvp.Value?.Equals(previousValue) ?? true))
+                if (!PreviousParameters.TryGetValue(kvp.Key, out object? previousValue))
                 {
-                    await UpdateWidget();
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
+
+                    break;
+                }
+
+                if (previousValue is null)
+                {
+                    if (kvp.Value is not null)
+                    {
+                        if (MapRendered)
+                        {
+                            await UpdateWidget();
+                        }
+
+                        break;
+                    }
+
+                    // both null, no change
+                    continue;
+                }
+
+                Type paramType = previousValue.GetType();
+
+                if (paramType.IsArray)
+                {
+                    Array prevArray = (Array)previousValue;
+                    Array currArray = (Array)kvp.Value!;
+
+                    if (prevArray.Length != currArray.Length)
+                    {
+                        if (MapRendered)
+                        {
+                            await UpdateWidget();
+                        }
+
+                        break;
+                    }
+
+                    for (int i = 0; i < prevArray.Length; i++)
+                    {
+                        if (!Equals(prevArray.GetValue(i), currArray.GetValue(i)))
+                        {
+                            if (MapRendered)
+                            {
+                                await UpdateWidget();
+                            }
+
+                            break;
+                        }
+                    }
+                }
+                else if (paramType.IsGenericType && previousValue is ICollection prevCollection)
+                {
+                    ICollection currCollection = (ICollection)kvp.Value!;
+
+                    if (prevCollection.Count != currCollection.Count)
+                    {
+                        if (MapRendered)
+                        {
+                            await UpdateWidget();
+                        }
+
+                        break;
+                    }
+
+                    IEnumerator prevEnumerator = prevCollection.GetEnumerator();
+                    using var prevEnumerator1 = prevEnumerator as IDisposable;
+                    IEnumerator currEnumerator = currCollection.GetEnumerator();
+                    using var currEnumerator1 = currEnumerator as IDisposable;
+
+                    while (prevEnumerator.MoveNext() && currEnumerator.MoveNext())
+                    {
+                        if (!Equals(prevEnumerator.Current, currEnumerator.Current))
+                        {
+                            if (MapRendered)
+                            {
+                                await UpdateWidget();
+                            }
+
+                            break;
+                        }
+                    }
+                }
+                else if (!kvp.Value?.Equals(previousValue) ?? true)
+                {
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
+
                     break;
                 }
             }
@@ -434,17 +568,20 @@ public abstract partial class Widget : MapComponent
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if (View is null && MapView is not null && !_externalWidgetRegistered)
+        if (View is not null && Parent == View 
+            && !_externalWidgetRegistered)
         {
-            // Widgets might be added in markup and registered after the call to MapView.RenderView, but before that is completed.
+            // Widgets might be added in markup and registered after the call to View.RenderView, but before that is completed.
             // this loop allows a little time to let the map render before trying to register the widget.
             int tries = 10;
+
             while (!MapRendered && !IsDisposed && tries > 0)
             {
                 await Task.Delay(200);
                 tries--;
             }
-            await MapView!.AddWidget(this);
+
+            await View.AddWidget(this);
             _externalWidgetRegistered = true;
         }
 
@@ -457,6 +594,7 @@ public abstract partial class Widget : MapComponent
     /// <summary>
     ///     Updates the widget internally. Not intended for public use.
     /// </summary>
+    [ArcGISMethod]
     protected async Task UpdateWidget()
     {
         if (MapRendered && !_delayedUpdate)
@@ -467,9 +605,9 @@ public abstract partial class Widget : MapComponent
 
             return;
         }
-        
+
         _delayedUpdate = false;
-        
+
         if (CoreJsModule is null)
         {
             return;
@@ -477,23 +615,38 @@ public abstract partial class Widget : MapComponent
 
         try
         {
-            JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
         }
         catch
         {
             // this is expected if the component is not yet built
         }
-        
+
         if (JsComponentReference is null || !MapRendered || IsDisposed)
         {
             return;
         }
 
         // ReSharper disable once RedundantCast
-        await JsComponentReference!.InvokeVoidAsync("updateComponent", CancellationTokenSource.Token, (object)this);
+        await JsComponentReference.InvokeVoidAsync("updateComponent", CancellationTokenSource.Token, (object)this);
     }
-    
+
+    /// <inheritdoc />
+    public override void UpdateGeoBlazorReferences(IJSObjectReference coreJsModule,
+        IJSObjectReference? proJsModule,
+        MapView? view, IMapComponent? parent, Layer? layer, int depth = 0, HashSet<object>? visited = null)
+    {
+        bool needsUpdate = layer is not null && (layer.Id != Layer?.Id);
+
+        base.UpdateGeoBlazorReferences(coreJsModule, proJsModule, view, parent, layer, depth, visited);
+
+        if (needsUpdate)
+        {
+            InvokeAsync(UpdateWidget);
+        }
+    }
+
     private bool _externalWidgetRegistered;
     private bool _delayedUpdate;
 }
@@ -501,12 +654,12 @@ public abstract partial class Widget : MapComponent
 /// <summary>
 ///     Exception raised if an external component is missing a required reference to a <see cref="MapView" />
 /// </summary>
-public class MissingMapViewReferenceException : Exception
+public class MissingViewReferenceException : Exception
 {
     /// <summary>
     ///     Exception raised if an external component is missing a required reference to a <see cref="MapView" />
     /// </summary>
-    public MissingMapViewReferenceException(string message) : base(message)
+    public MissingViewReferenceException(string message) : base(message)
     {
     }
 }

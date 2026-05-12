@@ -1558,20 +1558,25 @@ export async function addWidget(widget: any, viewId: string, setInContainerByDef
             return;
         }
 
-        if (hasValue(widget.containerId) && !hasValue(newWidget.container)) {
-            setWidgetContainer(newWidget, widget.type, widget.containerId, viewId);
-        } else {
-            // check if widget is defined inside mapview
-            const inMapWidget = mapComponent?.querySelector(`#widget-container-${widget.id}`);
-            const widgetContainer: HTMLElement = document.getElementById(`widget-container-${widget.id}`)!;
-            if ((hasValue(inMapWidget) || !hasValue(widgetContainer)) && !setInContainerByDefault) {
-                view.ui.add(newWidget, widget.position);
+        if (!widget.arcGISComponent) {
+            // set widget position
+            if (hasValue(widget.containerId) && !hasValue(newWidget.container)) {
+                setWidgetContainer(newWidget, widget.type, widget.containerId, viewId);
             } else {
-                // default to using the pre-defined widget container
-                widgetContainer.innerHTML = '';
-                newWidget.container = widgetContainer;
+                // check if widget is defined inside mapview
+                const inMapWidget = mapComponent?.querySelector(`#widget-container-${widget.id}`);
+                const widgetContainer: HTMLElement = document.getElementById(`widget-container-${widget.id}`)!;
+                if ((hasValue(inMapWidget) || !hasValue(widgetContainer)) && !setInContainerByDefault) {
+                    view.ui.add(newWidget, widget.position);
+                } else {
+                    // default to using the pre-defined widget container
+                    widgetContainer.innerHTML = '';
+                    newWidget.container = widgetContainer;
+                }
             }
         }
+
+        
     } finally {
         setCursor('unset', viewId);
     }

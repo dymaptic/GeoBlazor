@@ -176,3 +176,34 @@ internal class DimensionConverter: JsonConverter<Dimension>
         writer.WriteRawValue($"\"{value.Points}\"");
     }
 }
+
+internal class DimensionToPixelsConverter : JsonConverter<Dimension>
+{
+    public override Dimension? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        if (reader.TokenType == JsonTokenType.String)
+        {
+            string stringVal = reader.GetString()!;
+            if (!stringVal.EndsWith("px"))
+            {
+                stringVal += "px";
+            }
+            return new Dimension(stringVal);
+        }
+
+        if (reader.TokenType == JsonTokenType.Number)
+        {
+            // pre-convert pixels to points
+            double pixels = reader.GetDouble();
+            double points = pixels * 0.75;
+            return new Dimension(points);
+        }
+
+        return null;
+    }
+
+    public override void Write(Utf8JsonWriter writer, Dimension value, JsonSerializerOptions options)
+    {
+        writer.WriteRawValue($"\"{value.Pixels}px\"");
+    }
+}

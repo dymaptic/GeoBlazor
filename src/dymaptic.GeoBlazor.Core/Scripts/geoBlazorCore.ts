@@ -498,40 +498,60 @@ export function generateSerializableJson(object: any): string | null {
     if (!hasValue(object)) {
         return null;
     }
+    
+    if (object instanceof HTMLElement) {
+        let id = applyCaptureIdToElement(object);
+        return `{
+            "__innerId": "${id}"
+        }`;
+    }
 
     if (typeof object !== 'object') {
         return object.toString();
     }
 
-    // Create a path-based tracking for circular references
-    const ancestors: any[] = [];
-    let json = JSON.stringify(object, function(key, value) {
-        if (key.startsWith('_') || key === 'jsComponentReference') {
-            return undefined;
-        }
-
-        // If value is an object (and not null or empty array), check for circularity
-        if (typeof value === 'object' && value !== null &&
-            !(Array.isArray(value) && value.length === 0)) {
-
-            // `this` is the object that value is contained in,
-            // i.e., its direct parent.
-            while (ancestors.length > 0 && ancestors.at(-1) !== this) {
-                // this pops us back up one level in the tree to find the actual parent
-                ancestors.pop();
-            }
-
-            if (ancestors.includes(value)) {
+    try {
+        // Create a path-based tracking for circular references
+        const ancestors: any[] = [];
+        let json = JSON.stringify(object, function(key, value) {
+            if (key.startsWith('_') || key === 'jsComponentReference') {
                 return undefined;
             }
-            ancestors.push(value);
+            
+            if (value instanceof HTMLElement) {
+                let id = applyCaptureIdToElement(value);
+                return `{
+                    "__innerId": "${id}"
+                }`;
+            }
+
+            // If value is an object (and not null or empty array), check for circularity
+            if (typeof value === 'object' && value !== null &&
+                !(Array.isArray(value) && value.length === 0)) {
+
+                // `this` is the object that value is contained in,
+                // i.e., its direct parent.
+                while (ancestors.length > 0 && ancestors.at(-1) !== this) {
+                    // this pops us back up one level in the tree to find the actual parent
+                    ancestors.pop();
+                }
+
+                if (ancestors.includes(value)) {
+                    return undefined;
+                }
+                ancestors.push(value);
+                return value;
+            }
+
             return value;
-        }
+        });
 
-        return value;
-    });
-
-    return json;
+        return json;
+    }
+    catch (e) {
+        console.error(e);
+        throw e;
+    }
 }
 
 export function removeCircularReferences(jsObject: any) {
@@ -546,23 +566,39 @@ export function removeCircularReferences(jsObject: any) {
 }
 
 export function buildJsStreamReference(dnObject: any) {
-    let json = generateSerializableJson(dnObject);
-    if (!hasValue(json)) {
+    let encodedArray = buildEncodedJson(dnObject);
+    if (!hasValue(encodedArray)) {
         return null;
     }
-    let encoder = new TextEncoder();
-    let encodedArray = encoder.encode(json!);
-    return DotNet.createJSStreamReference(encodedArray);
+    return DotNet.createJSStreamReference(encodedArray!);
 }
 
-export function buildEncodedJson(object: any) {
+export function buildEncodedJson(object: any, replaceEmptyStrings: boolean = false): Uint8Array {
     let json = generateSerializableJson(object);
     if (!hasValue(json)) {
-        return null;
+        json = 'null';
+    }
+    else if (replaceEmptyStrings && json === '') {
+        json = 'empty-string';
     }
     let encoder = new TextEncoder();
-    let encodedArray = encoder.encode(json!);
-    return encodedArray;
+    return encoder.encode(json!);
+}
+
+export function getDefaultClassInstanceFromModule(module: any) {
+    if (module === null || module === undefined) {
+        return null;
+    }
+    if (module.default !== undefined) {
+        return new module.default();
+    }
+    // find the first class in the module
+    for (const key in module) {
+        if (typeof module[key] === 'function') {
+            return new module[key]();
+        }
+    }
+    return null;
 }
 
 // Converts a base64 string to an ArrayBuffer
@@ -573,6 +609,16 @@ export function base64ToArrayBuffer(base64): Uint8Array {
         bytes[i] = binaryString.charCodeAt(i);
     }
     return bytes;
+}
+
+export function applyCaptureIdToElement(element: Element): string {
+    let referenceCaptureId = crypto.randomUUID();
+    element.setAttribute(getCaptureIdAttributeName(referenceCaptureId), '');
+    return referenceCaptureId;
+}
+
+export function getCaptureIdAttributeName(referenceCaptureId: string) {
+    return `_bl_${referenceCaptureId}`;
 }
 
 // endregion

@@ -79,7 +79,7 @@ public partial class BasemapToggleWidget
         ContainerId = containerId;
         Icon = icon;
         Label = label;
-        MapView = mapView;
+        View = mapView;
         NextBasemap = nextBasemap;
         Position = position;
         ViewModel = viewModel;

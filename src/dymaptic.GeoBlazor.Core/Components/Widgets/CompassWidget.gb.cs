@@ -78,7 +78,7 @@ public partial class CompassWidget : IGoTo
         GoToOverride = goToOverride;
         Icon = icon;
         Label = label;
-        MapView = mapView;
+        View = mapView;
         Position = position;
         ViewModel = viewModel;
         Visible = visible;

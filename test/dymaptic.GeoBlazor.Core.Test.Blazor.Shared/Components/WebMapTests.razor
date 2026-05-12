@@ -27,6 +27,7 @@
     }
 
     [CICondition(ConditionMode.Exclude)]
+    [TestCategory("AutomationExclude")]
     [TestMethod]
     public async Task TestDymapticAgoWebMaps(Action renderHandler)
     {

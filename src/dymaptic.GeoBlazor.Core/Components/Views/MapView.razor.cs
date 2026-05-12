@@ -2038,6 +2038,7 @@ public partial class MapView : MapComponent
     /// <param name="clickEvent">
     ///     The click event to test for hits.
     /// </param>
+    [CodeGenerationIgnore]
     public async Task<HitTestResult> HitTest(ClickEvent clickEvent)
     {
         return await HitTest(clickEvent, null);
@@ -2052,6 +2053,7 @@ public partial class MapView : MapComponent
     /// <param name="options">
     ///     Options to specify what is included in or excluded from the hitTest.
     /// </param>
+    [CodeGenerationIgnore]
     public async Task<HitTestResult> HitTest(ClickEvent clickEvent, HitTestOptions? options)
     {
         return await HitTestImplementation(new ScreenPoint(clickEvent.X, clickEvent.Y), options);
@@ -2063,6 +2065,7 @@ public partial class MapView : MapComponent
     /// <param name="pointerEvent">
     ///     The pointer event to test for hits.
     /// </param>
+    [CodeGenerationIgnore]
     public async Task<HitTestResult> HitTest(PointerEvent pointerEvent)
     {
         return await HitTest(pointerEvent, null);
@@ -2077,6 +2080,7 @@ public partial class MapView : MapComponent
     /// <param name="options">
     ///     Options to specify what is included in or excluded from the hitTest.
     /// </param>
+    [CodeGenerationIgnore]
     public async Task<HitTestResult> HitTest(PointerEvent pointerEvent, HitTestOptions? options)
     {
         return await HitTestImplementation(new ScreenPoint(pointerEvent.X, pointerEvent.Y), options);
@@ -2088,6 +2092,7 @@ public partial class MapView : MapComponent
     /// <param name="screenPoint">
     ///     The screen point to check for hits.
     /// </param>
+    [CodeGenerationIgnore]
     public async Task<HitTestResult> HitTest(ScreenPoint screenPoint)
     {
         return await HitTest(screenPoint, null);
@@ -2102,6 +2107,7 @@ public partial class MapView : MapComponent
     /// <param name="options">
     ///     Options to specify what is included in or excluded from the hitTest.
     /// </param>
+    [CodeGenerationIgnore]
     public async Task<HitTestResult> HitTest(ScreenPoint screenPoint, HitTestOptions? options)
     {
         return await HitTestImplementation(screenPoint, options);
@@ -2113,6 +2119,7 @@ public partial class MapView : MapComponent
     /// <param name="mapPoint">
     ///     The map point, in the same projection as the map, to check for hits.
     /// </param>
+    [CodeGenerationIgnore]
     public async Task<HitTestResult> HitTest(Point mapPoint)
     {
         return await HitTest(mapPoint, null);
@@ -2127,6 +2134,7 @@ public partial class MapView : MapComponent
     /// <param name="options">
     ///     Options to specify what is included in or excluded from the hitTest.
     /// </param>
+    [CodeGenerationIgnore]
     public async Task<HitTestResult> HitTest(Point mapPoint, HitTestOptions? options)
     {
         ScreenPoint screenPoint = await ToScreen(mapPoint);
@@ -2199,13 +2207,12 @@ public partial class MapView : MapComponent
     /// </summary>
     public Task AddWidget(Widget widget)
     {
-        if (!_widgets.Contains(widget))
+        if (_widgets.Add(widget))
         {
-            _widgets.Add(widget);
             widget.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, null);
         }
 
-        if (CoreJsModule is null || !widget.ArcGISWidget || !MapRendered) return Task.CompletedTask;
+        if (CoreJsModule is null || widget.GeoBlazorWidget || !MapRendered) return Task.CompletedTask;
 
         _newWidgets.Add(widget);
         StateHasChanged();
@@ -2577,6 +2584,7 @@ public partial class MapView : MapComponent
         }
     }
 
+    [CodeGenerationIgnore]
     private async Task SetTheme()
     {
         string? theme = await CoreJsModule!.InvokeAsync<string?>("setTheme",
@@ -2964,9 +2972,9 @@ public partial class MapView : MapComponent
     private readonly Dictionary<string, StringBuilder> _layerCreateData = new();
     private readonly Dictionary<string, StringBuilder> _layerViewCreateData = new();
     private HashSet<Graphic> _graphics = [];
-    private readonly List<Widget> _widgets = [];
+    private readonly HashSet<Widget> _widgets = [];
     private readonly List<(Layer Layer, bool IsBasemapLayer, bool IsBasemapReferenceLayer)> _newLayers = [];
-    private readonly List<Widget> _newWidgets = [];
+    private readonly HashSet<Widget> _newWidgets = [];
     private bool? _isPro;
     private bool? _hasCustomAssetPath;
     private string? _customAssetsPath;

@@ -75,7 +75,7 @@ public partial class ZoomWidget : Widget
         Icon = icon;
         Label = label;
         Layout = layout;
-        MapView = mapView;
+        View = mapView;
         Position = position;
         ViewModel = viewModel;
         Visible = visible;

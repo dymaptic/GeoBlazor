@@ -4,7 +4,7 @@
     <Using Include="dymaptic.GeoBlazor.Core.Components" />
     <Using Include="dymaptic.GeoBlazor.Core.Components.Geometries" />
     <Using Include="dymaptic.GeoBlazor.Core.Components.Layers" />
-    <Using Include="dymaptic.GeoBlazor.Core.Components.Logic" />
+    <!-- <Using Include="dymaptic.GeoBlazor.Core.Components.Logic" /> -->
     <Using Include="dymaptic.GeoBlazor.Core.Components.Popups" />
     <Using Include="dymaptic.GeoBlazor.Core.Components.Renderers" />
     <Using Include="dymaptic.GeoBlazor.Core.Components.Symbols" />
@@ -19,6 +19,6 @@
     <Using Include="dymaptic.GeoBlazor.Core.Model" />
     <Using Include="dymaptic.GeoBlazor.Core.Options" />
     <Using Include="dymaptic.GeoBlazor.Core.Results" />
-    <Using Include="dymaptic.GeoBlazor.Core.Settings" />
+    <!-- <Using Include="dymaptic.GeoBlazor.Core.Settings" /> -->
   </ItemGroup>
 </Project>

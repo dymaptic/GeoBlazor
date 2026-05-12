@@ -58,15 +58,16 @@ export async function buildJsExpandWidget(dotNetObject: any, layerId: string | n
             if (child.id === `widget-container-${dotNetObject.widgetContent.id}`) {
                 alreadyAdded = true;
                 innerWidget.container = child;
+                innerWidget.view ??= arcGisObjectRefs[viewId!];
                 break;
             }
         }
         if (!alreadyAdded) {
-            innerWidget.view = arcGisObjectRefs[viewId!];
             let innerWidgetDiv = document.createElement('div');
             innerWidgetDiv.id = `widget-container-${dotNetObject.widgetContent.id}`;
             innerWidget.container = innerWidgetDiv;
             expandWidgetDiv.appendChild(innerWidgetDiv);
+            innerWidget.view ??= arcGisObjectRefs[viewId!];
         }
     }
 

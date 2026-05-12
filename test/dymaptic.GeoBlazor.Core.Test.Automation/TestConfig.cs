@@ -1550,7 +1550,7 @@ public class TestConfig
                     double minutes = i / 60.0;
 
                     Trace.WriteLine(
-                        $"Waiting for Test Site at {TestAppHttpUrl}.{minutes:N2} out of max {maxMinutes:N2} minutes...",
+                        $"Waiting for Test Site at {TestAppHttpUrl}. {minutes:N2} out of max {maxMinutes:N2} minutes...",
                         ProcessName.WEB_APP_SERVER);
                 }
 

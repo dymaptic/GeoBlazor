@@ -133,7 +133,7 @@ public partial class BookmarksWidget : IGoTo
         HeadingLevel = headingLevel;
         Icon = icon;
         Label = label;
-        MapView = mapView;
+        View = mapView;
         Position = position;
         ViewModel = viewModel;
         Visible = visible;

@@ -84,7 +84,7 @@ public partial class AreaMeasurement2DWidget
         ContainerId = containerId;
         Icon = icon;
         Label = label;
-        MapView = mapView;
+        View = mapView;
         Position = position;
         SnappingOptions = snappingOptions;
         Unit = unit;
