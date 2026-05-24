@@ -7,7 +7,9 @@ import {
     popupTemplateRefs,
     actionHandlers,
     esriConfig,
-    resetMapComponent
+    resetMapComponent,
+    projectionEngine,
+    geometryEngine
 } from './arcGisJsInterop';
 import AuthenticationManager from "./authenticationManager";
 import ProjectionWrapper from "./projectionEngine";
@@ -502,7 +504,8 @@ export function generateSerializableJson(object: any): string | null {
     if (object instanceof HTMLElement) {
         let id = applyCaptureIdToElement(object);
         return `{
-            "__innerId": "${id}"
+            "__internalId": "${id}",
+            "gb_element_ref_id": "${id}"
         }`;
     }
 
@@ -520,9 +523,10 @@ export function generateSerializableJson(object: any): string | null {
             
             if (value instanceof HTMLElement) {
                 let id = applyCaptureIdToElement(value);
-                return `{
-                    "__innerId": "${id}"
-                }`;
+                return {
+                    __internalId: id,
+                    gb_element_ref_id: id
+                };
             }
 
             // If value is an object (and not null or empty array), check for circularity
@@ -638,14 +642,14 @@ export async function getProjectionEngineWrapper(): Promise<ProjectionWrapper> {
     if (ProtoGraphicCollection === undefined) {
         await loadProtobuf();
     }
-    return new ProjectionWrapper();
+    return projectionEngine;
 }
 
 export async function getGeometryEngineWrapper(): Promise<GeometryEngineWrapper> {
     if (ProtoGraphicCollection === undefined) {
         await loadProtobuf();
     }
-    return new GeometryEngineWrapper();
+    return geometryEngine;
 }
 
 export async function getLocationServiceWrapper(): Promise<LocatorWrapper> {

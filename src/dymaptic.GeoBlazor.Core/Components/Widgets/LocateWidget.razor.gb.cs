@@ -107,6 +107,7 @@ public partial class LocateWidget : Widget
     /// <summary>
     ///     Indicates that this widget renders as an ArcGIS map component (web component).
     /// </summary>
+    [JsonInclude]
     protected internal override bool ArcGISComponent => true;
 
     /// <summary>

@@ -57,11 +57,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     {
         get
         {
-            _coreJsModule ??= Parent?.CoreJsModule;
+            field ??= Parent?.CoreJsModule;
 
-            return _coreJsModule;
+            return field;
         }
-        set => _coreJsModule = value;
+        set;
     }
 
     /// <summary>
@@ -72,11 +72,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     {
         get
         {
-            _proJsModule ??= Parent?.ProJsModule;
+            field ??= Parent?.ProJsModule;
 
-            return _proJsModule;
+            return field;
         }
-        internal set => _proJsModule = value;
+        internal set;
     }
 
     /// <summary>
@@ -88,6 +88,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     The parent <see cref="MapView" /> of the current component.
     /// </summary>
     [CascadingParameter(Name = "View")]
+    [Parameter]
     [JsonIgnore]
     public MapView? View { get; set; }
 
@@ -96,8 +97,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// </summary>
     public Guid? ViewId
     {
-        get => _viewId ??= View?.Id;
-        set => _viewId = value;
+        get => field ??= View?.Id;
+        set;
     }
 
     /// <summary>
@@ -648,7 +649,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <summary>
     ///     The reference to the JavaScript object that represents the component.
     /// </summary>
-    internal IJSObjectReference? JsComponentReference { get; set; }
+    public IJSObjectReference? JsComponentReference { get; set; }
 
     /// <summary>
     ///     For internal use, registration from JavaScript.
@@ -686,7 +687,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error deserializing instantiated component: {ex}");
+            Console.WriteLine($"Error deserializing instantiated component of type {MapComponentType}: {ex}");
         }
 
         return instantiatedComponent;
@@ -931,7 +932,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <summary>
     ///     Reflects the type of the component that is being rendered.
     /// </summary>
-    protected Type MapComponentType => _mapComponentType ??= GetType();
+    protected Type MapComponentType => field ??= GetType();
 
     /// <summary>
     ///     Reflection-based properties of the component.
@@ -1043,10 +1044,10 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <param name="visited">
     ///     Previously updated parent components
     /// </param>
-    protected internal void UpdateGeoBlazorReferences(IJSObjectReference coreJsModule, IJSObjectReference? proJsModule,
-        MapView? view, MapComponent? parent, Layer? layer, int depth = 0, HashSet<object>? visited = null)
+    public virtual void UpdateGeoBlazorReferences(IJSObjectReference coreJsModule, IJSObjectReference? proJsModule,
+        MapView? view, IMapComponent? parent, Layer? layer, int depth = 0, HashSet<object>? visited = null)
     {
-        visited ??= new HashSet<object>();
+        visited ??= [];
 
         if (!visited.Add(this) || depth >= 10)
         {
@@ -1069,9 +1070,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
                 View = view;
             }
 
-            if (parent is not null && Parent is null)
+            if (parent is MapComponent parentComponent && Parent is null)
             {
-                Parent = parent;
+                Parent = parentComponent;
             }
         }
 
@@ -1162,9 +1163,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             .ToArray(); 
     }
 
-    private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _watchers = new();
-    private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _listeners = new();
-    private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _waiters = new();
+    private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _watchers = [];
+    private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _listeners = [];
+    private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _waiters = [];
     private static Type? _proExtensions;
     
     /// <summary>
@@ -1194,7 +1195,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <summary>
     ///     Properties that were modified in code, and should no longer be set via markup, but instead set to the value here.
     /// </summary>
-    protected readonly internal Dictionary<string, object?> ModifiedParameters = new();
+    protected internal readonly Dictionary<string, object?> ModifiedParameters = [];
 
     /// <summary>
     ///     Creates a cancellation token to control external calls
@@ -1462,11 +1463,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// </summary>
     protected internal bool IsRenderedBlazorComponent;
     private bool _registered;
-    private IJSObjectReference? _coreJsModule;
-    private IJSObjectReference? _proJsModule;
     private Guid? _layerId;
-    private Guid? _viewId;
-    private Type? _mapComponentType;
 
     /// <summary>
     ///     The application is running with just GeoBlazor Core, not Pro

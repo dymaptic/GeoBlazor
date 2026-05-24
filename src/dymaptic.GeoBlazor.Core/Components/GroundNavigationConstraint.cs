@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class GroundNavigationConstraint: MapComponent
+public partial class GroundNavigationConstraint
 {
    // Add custom code to this file to override generated code
 }

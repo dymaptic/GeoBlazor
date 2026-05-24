@@ -27,6 +27,7 @@ export default class ProjectionWrapper extends BaseComponent {
         if (geometry === null) return null;
 
         if (Array.isArray(geometry)) {
+            if (geometry.length === 0) return [];
             let jsGeometries = geometry.map(g => buildJsGeometry(g));
             let result = projectionOperator.executeMany(jsGeometries, buildJsSpatialReference(outSpatialReference) as any,
                 options);

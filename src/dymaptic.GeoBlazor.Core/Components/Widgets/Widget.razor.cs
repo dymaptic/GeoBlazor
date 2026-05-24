@@ -57,8 +57,22 @@ public abstract partial class Widget : MapComponent
     public EventCallback OnWidgetCreated { get; set; }
 
     /// <summary>
+    ///     A reference to the MapView that this widget belongs to.
+    /// </summary>
+    [Parameter]
+    [Obsolete("Use View instead of MapView. This property will be removed in a future release.")]
+    public MapView? MapView { get; set; }
+
+    /// <summary>
+    ///     Additional attributes to be splatted onto the root HTML element of the widget. This can be used to add custom attributes or override default attributes such as style or class. For example, to set a custom width on a widget, you could use AdditionalAttributes="@(new Dictionary<string, object?> { ["style"] = "width: 300px;" })".
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> AdditionalAttributes { get; set; } = [];
+
+    /// <summary>
     ///     Indicates if the widget is hidden. For internal use only.
     /// </summary>
+    [JsonInclude]
     protected virtual bool Hidden => false;
 
     /// <summary>
@@ -66,18 +80,21 @@ public abstract partial class Widget : MapComponent
     ///     using the imperative ArcGIS JS widget creation pattern.
     ///     When true, the widget renders its own &lt;arcgis-*&gt; tag in Razor markup.
     /// </summary>
+    [JsonInclude]
     protected internal virtual bool ArcGISComponent => false;
 
     /// <summary>
     ///     Indicates that this is a custom GeoBlazor-only widget that is not based on any ArcGIS widget or component.
     ///     When true, the widget is not sent to ArcGIS JS for rendering.
     /// </summary>
+    [JsonInclude]
     protected internal virtual bool GeoBlazorWidget => false;
 
     /// <summary>
     ///     The HTML tag name of the ArcGIS map component that this widget wraps (e.g., "arcgis-legend").
     ///     When non-null, the widget renders as a web component instead of using the imperative widget creation pattern.
     /// </summary>
+    [JsonInclude]
     protected internal virtual string? MapComponentTagName => null;
 
     /// <summary>
@@ -444,11 +461,18 @@ public abstract partial class Widget : MapComponent
         IReadOnlyDictionary<string, object?> dictionary = parameters.ToDictionary();
         await base.SetParametersAsync(parameters);
 
-        if (!dictionary.ContainsKey(nameof(View)) && !dictionary.ContainsKey(nameof(View)))
+#pragma warning disable CS0618 // Type or member is obsolete
+        if (!dictionary.ContainsKey(nameof(View)) && !dictionary.ContainsKey(nameof(MapView)))
         {
             throw new MissingViewReferenceException(
                 "Widgets outside the View must have the View parameter set.");
         }
+
+        if (View is null && MapView is not null)
+        {
+            View = MapView;
+        }
+#pragma warning restore CS0618 // Type or member is obsolete
 
         if (PreviousParameters is not null && MapRendered)
         {

@@ -1,6 +1,7 @@
 // noinspection JSUnusedGlobalSymbols
 
 // region imports
+import "@arcgis/map-components/components/arcgis-locate";
 import "@arcgis/map-components/components/arcgis-navigation-toggle";
 import "@arcgis/map-components/components/arcgis-zoom";
 import {
@@ -179,19 +180,37 @@ export function setTheme(theme: string | null, viewId): string | null {
         addHeadLink(`${esriConfig.assetsPath}/esri/themes/light/main.css`);
     }
     
-    setViewTheme(theme, viewId);
+    setAllComponentThemes(theme);
     
     return theme;
 }
 
-function setViewTheme(theme, viewId: string): void {
-    if (arcGisObjectRefs.hasOwnProperty(viewId)) {
-        let view = arcGisObjectRefs[viewId] as MapView | SceneView | null;
-        if (hasValue(view)) {
-            view!.container!.style.colorScheme = theme as string;
-            if (theme === 'dark' && !view!.ui.container!.classList.contains('calcite-mode-dark')) {
-                // if the view was already rendered, this class is missed and needs adding
-                view!.ui.container!.classList.add('calcite-mode-dark');
+function setAllComponentThemes(theme: string | null): void {
+    for (const key in arcGisObjectRefs) {
+        if (arcGisObjectRefs[key].hasOwnProperty('container') || arcGisObjectRefs[key].hasOwnProperty('ui')) {
+            setComponentTheme(theme, key);
+        }
+    }
+}
+
+function setComponentTheme(theme, componentId: string): void {
+    if (arcGisObjectRefs.hasOwnProperty(componentId)) {
+        let component = arcGisObjectRefs[componentId] as MapView | SceneView | HTMLElement | null;
+        if (hasValue(component)) {
+            if ((component instanceof MapView || component instanceof SceneView)) {
+                component!.container!.style.colorScheme = theme as string;
+                if (!component!.ui.container!.classList.contains('calcite-mode-dark')) {
+                    // if the view was already rendered, this class is missed and needs adding
+                    component!.ui.container!.classList.add('calcite-mode-dark');
+                }
+            }
+
+            if (component instanceof HTMLElement) {
+                component.classList.add('calcite-mode-dark');
+
+                if (hasValue(component!.parentElement)) {
+                    component!.parentElement!.style.colorScheme = theme as string;
+                }
             }
         }
     }
@@ -335,7 +354,8 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
 
     // 7. Set view properties
     await setupView(abortSignal, view, id, dotNetRef, long, lat, zoom, scale, spatialRef, constraints, extent,
-        backgroundColor, eventRateLimitInMilliseconds, activeEventHandlers, highlightOptions, highlights, popupEnabled, theme);
+        backgroundColor, eventRateLimitInMilliseconds, activeEventHandlers, highlightOptions, highlights,
+        popupEnabled, theme);
 
     if (abortSignal.aborted) {
         return;
@@ -344,7 +364,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
     // 8. Register popup widget first before adding layers to not overwrite the popupTemplates
     const popupWidget = widgets.find(w => w.type === 'popup');
     if (hasValue(popupWidget)) {
-        await addWidget(popupWidget, id);
+        await addWidget(popupWidget, id, theme!);
     }
 
     if (abortSignal.aborted) {
@@ -420,7 +440,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
             }
             try {
                 // Process widgets in the same position sequentially to maintain stacking order
-                await addWidget(widget, id);
+                await addWidget(widget, id, theme!);
             } catch (e) {
                 console.error(`Error adding widget ${widget.type} at position ${position}: ${e}`);
             }
@@ -458,10 +478,11 @@ export function resetMapComponent(id: string): void {
 }
 
 async function setupView(abortSignal: AbortSignal, view: MapView | SceneView, id: string, dotNetRef: any, 
-                         long: number | null, lat: number | null, zoom: number | null, scale: number | null,
-                         spatialRef: SpatialReference | null, constraints: any, extent: any, backgroundColor: any,
-                         eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
-                         highlightOptions?: any | null, highlights?: any | null, popupEnabled?: boolean | null, theme?: string | null): Promise<void> {
+    long: number | null, lat: number | null, zoom: number | null, scale: number | null,
+    spatialRef: SpatialReference | null, constraints: any, extent: any, backgroundColor: any,
+    eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
+    highlightOptions?: any | null, highlights?: any | null, popupEnabled?: boolean | null,
+    theme?: string | null): Promise<void> {
     if (abortSignal.aborted) {
         return;
     }
@@ -488,7 +509,7 @@ async function setupView(abortSignal: AbortSignal, view: MapView | SceneView, id
         return;
     }
 
-    waitForRender(id, theme, dotNetRef, abortSignal);
+    waitForRender(id, theme!, dotNetRef, abortSignal);
 
     if (hasValue(highlightOptions)) {
         setHighlightOptions(highlightOptions, id);
@@ -1540,7 +1561,7 @@ export function displayQueryResults(query: Query, symbol: ArcGisSymbol, popupTem
     });
 }
 
-export async function addWidget(widget: any, viewId: string, setInContainerByDefault: boolean = false)
+export async function addWidget(widget: any, viewId: string, theme: string | null, setInContainerByDefault: boolean = false)
     : Promise<void> {
     try {
         setCursor('wait', viewId);
@@ -1549,6 +1570,24 @@ export async function addWidget(widget: any, viewId: string, setInContainerByDef
         if (!hasValue(view)) {
             return;
         }
+
+        // For ArcGIS web-component widgets with a containerId, relocate the rendered
+        // <arcgis-*> element out of <arcgis-map> and into the external container BEFORE
+        // building, so property setters (referenceElement, layer, layers, ...) act on the
+        // element in its final DOM location. Moving after init causes the web component's
+        // disconnectedCallback/connectedCallback to fire mid-setup and drop state — which
+        // shows up as an empty "No layer" dropdown despite layers having been assigned.
+        // The documented ArcGIS pattern for arcgis-feature-table is sibling-of-arcgis-map
+        // connected via referenceElement (already set in the per-widget gb.ts).
+        if (widget.arcGISComponent && hasValue(widget.containerId)) {
+            const targetContainer = document.getElementById(widget.containerId);
+            const widgetElement = document.getElementById(`widget-component-${widget.id}`);
+            if (hasValue(targetContainer) && hasValue(widgetElement)
+                && widgetElement!.parentElement !== targetContainer) {
+                targetContainer!.appendChild(widgetElement!);
+            }
+        }
+
         const newWidget = await buildJsWidget(widget, widget?.layerId, viewId);
         if (!hasValue(newWidget)) {
             return;
@@ -1558,7 +1597,9 @@ export async function addWidget(widget: any, viewId: string, setInContainerByDef
             return;
         }
 
-        if (!widget.arcGISComponent) {
+        if (widget.arcGISComponent) {
+            setComponentTheme(theme, widget.id);
+        } else {
             // set widget position
             if (hasValue(widget.containerId) && !hasValue(newWidget.container)) {
                 setWidgetContainer(newWidget, widget.type, widget.containerId, viewId);
@@ -1575,8 +1616,6 @@ export async function addWidget(widget: any, viewId: string, setInContainerByDef
                 }
             }
         }
-
-        
     } finally {
         setCursor('unset', viewId);
     }
@@ -1696,13 +1735,13 @@ async function resetCenterToSpatialReference(center: Point, spatialReference: Sp
     return projectOperator.execute(center, spatialReference) as Point;
 }
 
-function waitForRender(viewId: string, theme: string | null | undefined, dotNetRef: any, abortSignal: AbortSignal): void {
+function waitForRender(viewId: string, theme: string | null, dotNetRef: any, abortSignal: AbortSignal): void {
     const view = arcGisObjectRefs[viewId] as View;
 
     try {
         view.when().then(_ => {
             if (hasValue(theme)) {
-                setViewTheme(theme, viewId);
+                setAllComponentThemes(theme!);
             }
             let isRendered = false;
             let rendering = false;

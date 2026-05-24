@@ -41,6 +41,25 @@ public sealed record MapColor : System.Collections.IEnumerable
         HexOrNameValue = hexOrNameValue;
     }
 
+    /// <summary>
+    ///     Implicitly converts a color hex or name value to a GeoBlazor <see cref="MapColor" /> instance.
+    /// </summary>
+    public static implicit operator MapColor(string hexOrNameValue) => new(hexOrNameValue);
+
+    /// <summary>
+    ///     Implicitly converts a GeoBlazor <see cref="MapColor" /> instance to a hex or name value.
+    /// </summary>
+    public static implicit operator string?(MapColor color) => color.HexOrNameValue ?? color.ToHex();
+
+    /// <summary>
+    ///     Implicitly converts a numeric array to a GeoBlazor <see cref="MapColor" /> instance.
+    /// </summary>
+    public static implicit operator MapColor(double[] rgbaValues) => new((IReadOnlyList<double>)rgbaValues);
+
+    /// <summary>
+    ///     Implicitly converts a numeric array to a GeoBlazor <see cref="MapColor" /> instance.
+    /// </summary>
+    public static implicit operator MapColor(List<double> rgbaValues) => new((IReadOnlyList<double>)rgbaValues);
 
     /// <summary>
     ///     The numeric values for calculating a color (rgb/rgba).

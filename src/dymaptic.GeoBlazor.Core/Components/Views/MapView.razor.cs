@@ -2453,7 +2453,7 @@ public partial class MapView : MapComponent
                 foreach (Widget newWidget in newWidgets)
                 {
                     await CoreJsModule!.InvokeVoidAsync("addWidget",
-                        CancellationTokenSource.Token, newWidget, Id);
+                        CancellationTokenSource.Token, newWidget, Id, Theme?.ToString().ToLowerInvariant());
 
                     if (newWidget is PopupWidget && Map is not null)
                     {

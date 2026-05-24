@@ -2064,13 +2064,13 @@ public class GeometryEngineTests : TestRunnerBase
         Assert.AreEqual(5, gotSet.X);
 
         // RemovePoint
-        (Polyline Polyline, Point Point) removeResult = await GeometryEngine.RemovePoint(set, 1, 1);
+        RemovePointOnPolylineResult removeResult = await GeometryEngine.RemovePoint(set, 1, 1);
 #pragma warning disable MSTEST0032
         Assert.IsNotNull(removeResult);
         Assert.IsInstanceOfType(removeResult.Point, typeof(Point));
 
         // RemovePath
-        (Polyline PolyLine, Point[] Path) removePathResult = await GeometryEngine.RemovePath(removeResult.Polyline, 1);
+        RemovePathResult removePathResult = await GeometryEngine.RemovePath(removeResult.Polyline, 1);
         Assert.IsNotNull(removePathResult);
         Assert.IsGreaterThanOrEqualTo(1, removePathResult.Path.Length);
     }
@@ -2106,12 +2106,12 @@ public class GeometryEngineTests : TestRunnerBase
         Assert.AreEqual(12, gotSet.X);
 
         // RemovePoint
-        (Polygon Polygon, Point Point) removed = await GeometryEngine.RemovePoint(set, beforeRings, 1);
+        RemovePointOnPolygonResult removed = await GeometryEngine.RemovePoint(set, beforeRings, 1);
         Assert.IsNotNull(removed);
         Assert.IsInstanceOfType(removed.Point, typeof(Point));
 
         // RemoveRing
-        (Polygon Polygon, Point[] Ring) removedRing = await GeometryEngine.RemoveRing(removed.Polygon, beforeRings);
+        RemoveRingResult removedRing = await GeometryEngine.RemoveRing(removed.Polygon, beforeRings);
         Assert.IsNotNull(removedRing);
 #pragma warning restore MSTEST0032
         Assert.HasCount(beforeRings, removedRing.Polygon.Rings);

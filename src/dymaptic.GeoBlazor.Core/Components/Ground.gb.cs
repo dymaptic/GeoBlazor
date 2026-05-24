@@ -10,7 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class Ground : MapComponent,
     IIntersectItem,
-    IMapComponent
+    ILayerParent
 {
 
     /// <summary>
@@ -154,8 +154,7 @@ public partial class Ground : MapComponent,
         }
 
         IReadOnlyList<Layer>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Layer>?>(
-            nameof(GetLayers).ToLowerFirstChar(), View?.QueryResultsMaxSizeLimit,
-            CancellationTokenSource.Token);
+            nameof(GetLayers).ToLowerFirstChar(), CancellationTokenSource.Token);
 
         if (result is not null)
         {
@@ -657,6 +656,8 @@ public partial class Ground : MapComponent,
 
         await AbortManager.DisposeAbortController(cancellationToken);
 
+        result?.UpdateGeoBlazorReferences(CoreJsModule, ProJsModule, View, this, Layer);
+
 
         return result;
     }
@@ -859,7 +860,6 @@ public partial class Ground : MapComponent,
     /// <summary>
     ///     <a target="_blank" href="https://geoblazor.com/docs/api/core/dymaptic.geoblazor.core.components.ground#ground.queryelevation-method">GeoBlazor Docs</a>
     ///     Query the ground layer services for elevation values for the given geometry.
-    ///     param options Additional query options.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#queryElevation">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="geometry">
@@ -919,7 +919,45 @@ public partial class Ground : MapComponent,
     /// <summary>
     ///     <a target="_blank" href="https://geoblazor.com/docs/api/core/dymaptic.geoblazor.core.components.ground#ground.queryelevation-method">GeoBlazor Docs</a>
     ///     Query the ground layer services for elevation values for the given geometry.
-    ///     param options Additional query options.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#queryElevation">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="geometry">
+    ///     The geometry to sample.
+    /// </param>
+    [ArcGISMethod]
+    public async Task<ElevationQueryResult?> QueryElevation(Geometry geometry)
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+
+        ElevationQueryResult? result = await JsComponentReference.InvokeAsync<ElevationQueryResult?>(nameof(QueryElevation).ToLowerFirstChar(),
+            CancellationTokenSource.Token,
+            geometry);
+
+
+        return result;
+    }
+
+    /// <summary>
+    ///     <a target="_blank" href="https://geoblazor.com/docs/api/core/dymaptic.geoblazor.core.components.ground#ground.queryelevation-method">GeoBlazor Docs</a>
+    ///     Query the ground layer services for elevation values for the given geometry.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#queryElevation">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="geometry">
@@ -960,7 +998,6 @@ public partial class Ground : MapComponent,
     /// <summary>
     ///     <a target="_blank" href="https://geoblazor.com/docs/api/core/dymaptic.geoblazor.core.components.ground#ground.when-method">GeoBlazor Docs</a>
     ///     `when()` may be leveraged once an instance of the class is created.
-    ///     param errback The function to execute when the promise fails.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#when">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="callback">

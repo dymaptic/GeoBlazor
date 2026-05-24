@@ -478,8 +478,10 @@ public class LocationServiceTests : TestRunnerBase
 
     private bool LocationsMatch(Point loc1, Point loc2)
     {
-        return (Math.Abs(loc1.Latitude!.Value - loc2.Latitude!.Value) < 0.00001)
-            && Math.Abs(loc1.Longitude!.Value - loc2.Longitude!.Value) < 0.00001;
+        // Tolerance ~0.0001 degrees (~11m at equator) absorbs normal geocoder
+        // coordinate revisions without masking real bugs (wrong city = whole-degree delta).
+        return (Math.Abs(loc1.Latitude!.Value - loc2.Latitude!.Value) < 0.0001)
+            && Math.Abs(loc1.Longitude!.Value - loc2.Longitude!.Value) < 0.0001;
     }
 
     private readonly Address _testAddressRedlands = new("132 New York Street", "Redlands", "CA", "92373");

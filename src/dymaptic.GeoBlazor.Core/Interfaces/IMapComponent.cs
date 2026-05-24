@@ -1,9 +1,10 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///     An interface for all map components.
+///     The root interface for Razor Component classes that all GeoBlazor components derive from.
 /// </summary>
 [JsonConverter(typeof(MultiTypeConverter<IMapComponent>))]
+[CodeGenerationIgnore]
 public interface IMapComponent
 {
     /// <summary>
@@ -20,26 +21,35 @@ public interface IMapComponent
     ///     The reference to the entry point geoBlazorCore.js from .NET
     /// </summary>
     IJSObjectReference? CoreJsModule { get; internal set; }
-    
+
     /// <summary>
-    ///     The parent <see cref="MapView" /> of the current component.
+    ///     The reference to the entry point geoBlazorPro.js from .NET
     /// </summary>
-    MapView? View { get; internal set; }
-    
+    IJSObjectReference? ProJsModule { get; }
+
+    /// <summary>
+    /// ///     The parent <see cref="View" /> of the current component.
+    /// </summary>
+    MapView? View { get; set; }
+
+    /// <summary>
+    ///     The ID of the parent <see cref="View" /> of the current component.
+    /// </summary>
+    Guid? ViewId { get; set; }
+
     /// <summary>
     ///     The relevant Layer for the MapComponent. Not always applicable to every component type.
     /// </summary>
-    Layer? Layer { get; internal set; }
+    Layer? Layer { get; set; }
 
     /// <summary>
-    ///     When a <see cref="MapView" /> is prepared to render, this will check to make sure that all properties with the <see cref="RequiredPropertyAttribute" /> are provided.
+    ///     The GeoBlazor Id of the relevant Layer for the MapComponent. Not always applicable to every component type.
     /// </summary>
-    /// <exception cref="MissingRequiredChildElementException">
-    ///     The consumer needs to provide the missing child component
-    /// </exception>
-    /// <exception cref="MissingRequiredOptionsChildElementException">
-    ///     The consumer needs to provide ONE of the options of child components
-    /// </exception>
+    Guid? LayerId { get; set; }
+
+    /// <summary>
+    ///     When a <see cref="View" /> is prepared to render, this will check to make sure that all properties with the <see cref="RequiredPropertyAttribute" /> are provided.
+    /// </summary>
     void ValidateRequiredChildren();
     
     /// <summary>
@@ -51,4 +61,11 @@ public interface IMapComponent
     ///     Implements the `IAsyncDisposable` pattern.
     /// </summary>
     ValueTask DisposeAsync();
+
+    /// <summary>
+    ///     For internal use only. Populates necessary references to JS-deserialized child components.
+    /// </summary>
+    void UpdateGeoBlazorReferences(IJSObjectReference coreJsModule,
+        IJSObjectReference? proJsModule,
+        MapView? view, IMapComponent? parent, Layer? layer, int depth = 0, HashSet<object>? visited = null);
 }

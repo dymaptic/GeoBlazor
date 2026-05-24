@@ -52,9 +52,19 @@ export function assertBasemapHasTwoLayers(methodName) {
 export function assertWidgetExists(methodName, widgetClass) {
     let view = getView(methodName);
     let widget = view.ui._components.find(c => c.widget?.declaredClass === widgetClass);
-    if (!widget) {
-        throw new Error(`Widget ${widgetClass} does not exist`);
-    }
+    if (widget) return;
+
+    // Fallback: many widgets have migrated to ArcGIS map-components web components
+    // (e.g. esri.widgets.Locate -> <arcgis-locate>). Look for the matching custom element.
+    // Map "esri.widgets.SomeName" -> "arcgis-some-name".
+    let shortName = widgetClass.replace(/^esri\.widgets\./, '');
+    let kebab = shortName.replace(/([A-Z])/g, '-$1').toLowerCase().replace(/^-/, '');
+    let tag = `arcgis-${kebab}`;
+    let testDiv = document.getElementById(methodName);
+    if (testDiv && testDiv.querySelector(tag)) return;
+    if (document.querySelector(tag)) return;
+
+    throw new Error(`Widget ${widgetClass} does not exist`);
 }
 
 export function assertGraphicExistsInView(methodName, geometryType, count) {
