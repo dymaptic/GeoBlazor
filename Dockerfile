@@ -40,6 +40,8 @@ COPY ./src/ ./src/
 RUN --mount=type=cache,target=/root/.nuget/packages \
     dotnet ./build-tools/linux-x64/GeoBlazorBuild.dll -pkg -obf -c "Release"
 
+# Test-level Directory.Build.props (carries the MapStaticAssets JS exclusion for the WebApp host)
+COPY ./test/Directory.Build.* ./test/
 COPY ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared
 COPY ./test/dymaptic.GeoBlazor.Core.Test.WebApp ./test/dymaptic.GeoBlazor.Core.Test.WebApp
 
@@ -57,6 +59,7 @@ RUN dotnet ./build-tools/linux-x64/BuildAppSettings.dll \
 # UsePackageReferences=false builds GeoBlazor from source instead of NuGet
 # DebugSymbols=true and DebugType=portable ensure PDB files are generated
 RUN --mount=type=cache,target=/root/.nuget/packages \
+    rm -rf /root/.nuget/packages/dymaptic.geoblazor.core /root/.nuget/packages/dymaptic.geoblazor.pro; \
     dotnet publish ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj \
     -c Release \
     /p:UsePackageReferences=true \

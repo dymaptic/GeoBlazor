@@ -88,6 +88,12 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     The parent <see cref="MapView" /> of the current component.
     /// </summary>
     [CascadingParameter(Name = "View")]
+    [JsonIgnore]
+    public MapView? CascadingView { get; set; }
+
+    /// <summary>
+    ///     The parent <see cref="MapView" /> of the current component.
+    /// </summary>
     [Parameter]
     [JsonIgnore]
     public MapView? View { get; set; }
@@ -932,7 +938,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <summary>
     ///     Reflects the type of the component that is being rendered.
     /// </summary>
-    protected Type MapComponentType => field ??= GetType();
+    [JsonIgnore]
+    public Type MapComponentType => field ??= GetType();
 
     /// <summary>
     ///     Reflection-based properties of the component.
@@ -973,9 +980,10 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <inheritdoc />
     public override async Task SetParametersAsync(ParameterView parameters)
     {
+        IReadOnlyDictionary<string, object?> dictionary = parameters.ToDictionary();
         await base.SetParametersAsync(parameters);
 
-        _layerId ??= Layer?.Id;
+        LayerId ??= Layer?.Id;
 
         foreach (KeyValuePair<string, object?> kvp in ModifiedParameters)
         {
@@ -988,6 +996,12 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
                 // user set a value in `SetProperty` that doesn't match a known property
                 // don't log this
             }
+        }
+
+        if (dictionary.TryGetValue(nameof(CascadingView), out object? view)
+            && view is MapView cascadingView)
+        {
+            View = cascadingView;
         }
     }
 
@@ -1463,7 +1477,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// </summary>
     protected internal bool IsRenderedBlazorComponent;
     private bool _registered;
-    private Guid? _layerId;
 
     /// <summary>
     ///     The application is running with just GeoBlazor Core, not Pro

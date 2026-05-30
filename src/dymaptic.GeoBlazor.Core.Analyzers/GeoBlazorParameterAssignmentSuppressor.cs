@@ -19,9 +19,9 @@ internal class GeoBlazorParameterAssignmentSuppressor : DiagnosticSuppressor
     private const string SuppressedDiagnosticId = "BL0005";
 
     // Add (Namespace, TypeName, MemberName) entries to extend the allow-list.
-    private static readonly (string Namespace, string TypeName, string MemberName)[] AllowedAssignments =
+    private static readonly string[] AllowedAssignments =
     {
-        ("dymaptic.GeoBlazor.Core.Components", "MapComponent", "View"),
+        "dymaptic.GeoBlazor.Core.Components" // MapComponents
     };
 
     private static readonly SuppressionDescriptor Rule = new(
@@ -61,12 +61,10 @@ internal class GeoBlazorParameterAssignmentSuppressor : DiagnosticSuppressor
         if (containingType is null) return false;
 
         string namespaceName = containingType.ContainingNamespace?.ToDisplayString() ?? string.Empty;
-        string typeName = containingType.Name;
-        string memberName = definition.Name;
 
-        foreach ((string ns, string type, string member) in AllowedAssignments)
+        foreach (string ns in AllowedAssignments)
         {
-            if (namespaceName == ns && typeName == type && memberName == member)
+            if (namespaceName.Contains(ns))
             {
                 return true;
             }

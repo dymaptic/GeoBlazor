@@ -28,10 +28,11 @@ let options = {
 // check if output directory exists
 if (!fs.existsSync(OUTPUT_DIR)) {
     console.log('Output directory does not exist. Creating it.');
-    fs.mkdirSync(OUTPUT_DIR, {recursive: true});
+    fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 }
 
 try {
+    console.log('Building...');
     await esbuild.build(options);
 } catch (err) {
     console.error(`ESBuild Failed: ${err}`);

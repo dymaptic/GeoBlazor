@@ -43,12 +43,6 @@ public class ProtobufSourceGenerator : IIncrementalGenerator
                     options["CoreProjectPath"] = projectDirectory;
                 }
 
-                if (configProvider.GlobalOptions.TryGetValue("build_property.DesignTimeBuild",
-                    out var designTimeBuild))
-                {
-                    options["DesignTimeBuild"] = designTimeBuild;
-                }
-
                 if (configProvider.GlobalOptions.TryGetValue("build_property.ShowScriptDialogs",
                     out var showDialog))
                 {
@@ -70,16 +64,9 @@ public class ProtobufSourceGenerator : IIncrementalGenerator
             pipeline)
     {
         pipeline.Options.TryGetValue("CoreProjectPath", out _corePath);
-        pipeline.Options.TryGetValue("DesignTimeBuild", out string? designTimeBuildString);
-
-        bool designTimeBuild = designTimeBuildString is not null
-            && bool.TryParse(designTimeBuildString, out bool designTimeBuildBool)
-            && designTimeBuildBool;
-
         pipeline.Options.TryGetValue("ShowScriptDialogs", out var showDialogString);
 
-        bool showDialog = designTimeBuild
-            && showDialogString is not null
+        bool showDialog = showDialogString is not null
             && bool.TryParse(showDialogString, out bool showDialogBool)
             && showDialogBool;
 

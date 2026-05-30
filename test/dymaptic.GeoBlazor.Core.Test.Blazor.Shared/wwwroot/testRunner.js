@@ -194,7 +194,16 @@ export function assertObjectHasPropertyWithValue(methodName, objectId, propertyN
     let obj = arcGisObjectRefs[objectId];
     for (var i = 0; i < props.length; i++) {
         let prop = props[i];
-        let candidate = obj[prop];
+        let candidate;
+        if (prop.endsWith(']')) {
+            // handle array indexer
+            let arrayName = prop.substring(0, prop.indexOf('['));
+            let index = parseInt(prop.substring(prop.indexOf('[') + 1, prop.indexOf(']')));
+            candidate = obj[arrayName][index];
+        } else {
+            candidate = obj[prop];
+        }
+        
         if (candidate === undefined) {
             throw new Error(`Expected ${propertyName} to be ${expectedValue} but found undefined part ${prop}`);
         }

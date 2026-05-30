@@ -2210,12 +2210,12 @@ public partial class MapView : MapComponent
         if (_widgets.Add(widget))
         {
             widget.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, null);
+
+            if (CoreJsModule is null || widget.GeoBlazorWidget || !MapRendered) return Task.CompletedTask;
+
+            _newWidgets.Add(widget);
+            StateHasChanged();
         }
-
-        if (CoreJsModule is null || widget.GeoBlazorWidget || !MapRendered) return Task.CompletedTask;
-
-        _newWidgets.Add(widget);
-        StateHasChanged();
 
         return Task.CompletedTask;
     }

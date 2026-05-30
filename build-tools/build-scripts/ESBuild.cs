@@ -11,6 +11,7 @@
 //   -ninst, --noinstall                  Skip npm install step
 //   -nl, --nolint                        Skip ESLint step
 //   -v, --verbose                        Enable verbose logging
+//   -w, --watch                          Run esbuild in watch mode (rebuild on changes)
 //   -h, --help                           Display help message
 
 using System.Diagnostics;
@@ -31,6 +32,7 @@ bool proOnCoreChange = false;
 bool verbose = false;
 bool lint = true;
 bool install = true;
+bool watch = false;
 
 for (int i = 0; i < args.Length; i++)
 {
@@ -74,6 +76,10 @@ for (int i = 0; i < args.Length; i++)
         case "--noinstall":
             install = false;
             break;
+        case "-w":
+        case "--watch":
+            watch = true;
+            break;
         default:
             // Check for combined forms like "-c=Release"
             if (arg.StartsWith("-c=") || arg.StartsWith("--configuration="))
@@ -99,6 +105,8 @@ if (help)
     Trace.WriteLine("  -pc, --prooncorechange               Run the GeoBlazor Pro ESBuild process if pro OR core files have changed");
     Trace.WriteLine("  -nl, --nolint                        Skip ESLint step");
     Trace.WriteLine("  -ninst, --noinstall                  Skip npm install step");
+    Trace.WriteLine("  -v, --verbose                        Enable verbose logging");
+    Trace.WriteLine("  -w, --watch                          Run esbuild in watch mode (rebuild on changes)");
     Trace.WriteLine("  -h, --help                           Display this help message");
     
     return 0;
@@ -202,6 +210,12 @@ try
     SaveBuildRecord(recordFilePath, currentBranch, preBuildRecord.Timestamp);
 
     Trace.WriteLine($"ESBUILD {(pro ? "PRO" : "CORE")}: NPM Build Complete");
+
+    if (watch)
+    {
+        await RunWatchLoop(pro, sourceDir, coreScriptsDir, proScriptsDir, scriptsDir, buildCommand, verbose);
+    }
+
     return 0;
 }
 catch (Exception ex)
@@ -431,6 +445,125 @@ static void CopyScriptsToPro(string coreScriptsDir, string proScriptsDir, bool v
     File.WriteAllText(arcGisJsInteropPath, proArcGisJsInterop);
     
     Trace.WriteLine($"ESBUILD PRO: Copied {copiedCount} files, skipped {skippedCount} files.");
+}
+
+/// <summary>
+/// Watches the active project's Scripts directory (and Core's, when building Pro) for
+/// TypeScript changes, debounces bursts of events from a single save, and re-runs the
+/// npm build on every settled change. Watchers are paused during the rebuild itself so
+/// that the Pro CopyScriptsToPro step does not feedback-trigger another rebuild.
+/// Blocks until Ctrl+C.
+/// </summary>
+static async Task RunWatchLoop(
+    bool pro,
+    string sourceDir,
+    string coreScriptsDir,
+    string proScriptsDir,
+    string scriptsDir,
+    string buildCommand,
+    bool verbose)
+{
+    string label = pro ? "PRO" : "CORE";
+    Trace.WriteLine("-----");
+    Trace.WriteLine($"ESBUILD {label}: Watching for changes in Scripts folders. Press Ctrl+C to stop.");
+
+    using var rebuildSignal = new SemaphoreSlim(0, int.MaxValue);
+    using var cts = new CancellationTokenSource();
+
+    ConsoleCancelEventHandler cancelHandler = (_, e) =>
+    {
+        Trace.WriteLine($"ESBUILD {label}: Stop requested, exiting watch loop...");
+        cts.Cancel();
+        e.Cancel = true;
+    };
+    Console.CancelKeyPress += cancelHandler;
+
+    var watchers = new List<FileSystemWatcher>();
+
+    FileSystemWatcher CreateWatcher(string dir)
+    {
+        var w = new FileSystemWatcher(dir)
+        {
+            IncludeSubdirectories = true,
+            Filter = "*.ts",
+            NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.Size
+        };
+        w.Changed += (_, _) => rebuildSignal.Release();
+        w.Created += (_, _) => rebuildSignal.Release();
+        w.Deleted += (_, _) => rebuildSignal.Release();
+        w.Renamed += (_, _) => rebuildSignal.Release();
+        w.Error += (_, args) =>
+            Trace.WriteLine($"ESBUILD {label}: Watcher error on {dir}: {args.GetException().Message}");
+        w.EnableRaisingEvents = true;
+        return w;
+    }
+
+    if (Directory.Exists(scriptsDir))
+    {
+        watchers.Add(CreateWatcher(scriptsDir));
+        Trace.WriteLine($"ESBUILD {label}: Watching {scriptsDir}");
+    }
+
+    if (pro && Directory.Exists(coreScriptsDir) &&
+        !string.Equals(Path.GetFullPath(coreScriptsDir), Path.GetFullPath(scriptsDir), StringComparison.OrdinalIgnoreCase))
+    {
+        watchers.Add(CreateWatcher(coreScriptsDir));
+        Trace.WriteLine($"ESBUILD {label}: Watching {coreScriptsDir}");
+    }
+
+    const int debounceMs = 500;
+
+    try
+    {
+        while (!cts.IsCancellationRequested)
+        {
+            await rebuildSignal.WaitAsync(cts.Token);
+
+            // Debounce — keep draining for `debounceMs` of quiet
+            while (true)
+            {
+                await Task.Delay(debounceMs, cts.Token);
+                bool drained = false;
+                while (rebuildSignal.Wait(0)) { drained = true; }
+                if (!drained) break;
+            }
+
+            // Pause watchers — the rebuild itself (esp. CopyScriptsToPro) will touch files we watch
+            foreach (var w in watchers) w.EnableRaisingEvents = false;
+
+            try
+            {
+                Trace.WriteLine($"ESBUILD {label}: Change detected, rebuilding...");
+                if (pro)
+                {
+                    CopyScriptsToPro(coreScriptsDir, proScriptsDir, verbose);
+                }
+                await ProcessRunner.RunNpmCommand(sourceDir, buildCommand);
+                Trace.WriteLine($"ESBUILD {label}: Rebuild complete. Watching...");
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"ESBUILD {label}: Rebuild failed: {ex.Message}");
+                Trace.WriteLine($"ESBUILD {label}: Watching for next change...");
+            }
+            finally
+            {
+                // Settle, drain any events from the rebuild, then resume
+                try { await Task.Delay(200, cts.Token); } catch (OperationCanceledException) { }
+                while (rebuildSignal.Wait(0)) { }
+                foreach (var w in watchers) w.EnableRaisingEvents = true;
+            }
+        }
+    }
+    catch (OperationCanceledException)
+    {
+        // Ctrl+C — fall through to cleanup
+    }
+    finally
+    {
+        Console.CancelKeyPress -= cancelHandler;
+        foreach (var w in watchers) w.Dispose();
+    }
 }
 
 /// <summary>

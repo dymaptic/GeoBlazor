@@ -50,6 +50,8 @@ COPY ./src/ ./src/
 COPY ./*.ps1 ./
 COPY ./.gitignore ./.gitignore
 COPY $TEST_FOLDER $TEST_FOLDER
+# Copy root test folder Directory.Build files to make sure tests have all relevant inherited targets/props
+COPY ./test/Directory.Build.* ./test/Directory.Build.*
 
 # Build test app
 RUN --mount=type=cache,target=/root/.nuget/packages \

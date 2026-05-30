@@ -64,7 +64,7 @@ public abstract partial class Widget : MapComponent
     public MapView? MapView { get; set; }
 
     /// <summary>
-    ///     Additional attributes to be splatted onto the root HTML element of the widget. This can be used to add custom attributes or override default attributes such as style or class. For example, to set a custom width on a widget, you could use AdditionalAttributes="@(new Dictionary<string, object?> { ["style"] = "width: 300px;" })".
+    ///     Additional attributes to be splatted onto the root HTML element of the widget. This can be used to add custom attributes or override default attributes such as style or class. For example, to set a custom width on a widget, you could use AdditionalAttributes="@(new Dictionary&lt;string, object?&gt; { [&quot;style&quot;] = &quot;width: 300px;&quot; })".
     /// </summary>
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object?> AdditionalAttributes { get; set; } = [];
@@ -462,7 +462,9 @@ public abstract partial class Widget : MapComponent
         await base.SetParametersAsync(parameters);
 
 #pragma warning disable CS0618 // Type or member is obsolete
-        if (!dictionary.ContainsKey(nameof(View)) && !dictionary.ContainsKey(nameof(MapView)))
+        if (!dictionary.ContainsKey(nameof(View)) 
+            && !dictionary.ContainsKey(nameof(MapView))
+            && !dictionary.ContainsKey(nameof(CascadingView)))
         {
             throw new MissingViewReferenceException(
                 "Widgets outside the View must have the View parameter set.");
@@ -489,6 +491,7 @@ public abstract partial class Widget : MapComponent
                     if (MapRendered)
                     {
                         await UpdateWidget();
+                        PreviousParameters = dictionary.ToDictionary(kvp1 => kvp1.Key, kvp1 => kvp1.Value);
                     }
 
                     break;
@@ -501,6 +504,7 @@ public abstract partial class Widget : MapComponent
                         if (MapRendered)
                         {
                             await UpdateWidget();
+                            PreviousParameters = dictionary.ToDictionary(kvp1 => kvp1.Key, kvp1 => kvp1.Value);
                         }
 
                         break;
@@ -522,6 +526,7 @@ public abstract partial class Widget : MapComponent
                         if (MapRendered)
                         {
                             await UpdateWidget();
+                            PreviousParameters = dictionary.ToDictionary(kvp1 => kvp1.Key, kvp1 => kvp1.Value);
                         }
 
                         break;
@@ -534,6 +539,7 @@ public abstract partial class Widget : MapComponent
                             if (MapRendered)
                             {
                                 await UpdateWidget();
+                                PreviousParameters = dictionary.ToDictionary(kvp1 => kvp1.Key, kvp1 => kvp1.Value);
                             }
 
                             break;
@@ -549,6 +555,7 @@ public abstract partial class Widget : MapComponent
                         if (MapRendered)
                         {
                             await UpdateWidget();
+                            PreviousParameters = dictionary.ToDictionary(kvp1 => kvp1.Key, kvp1 => kvp1.Value);
                         }
 
                         break;
@@ -566,6 +573,7 @@ public abstract partial class Widget : MapComponent
                             if (MapRendered)
                             {
                                 await UpdateWidget();
+                                PreviousParameters = dictionary.ToDictionary(kvp1 => kvp1.Key, kvp1 => kvp1.Value);
                             }
 
                             break;
@@ -577,6 +585,7 @@ public abstract partial class Widget : MapComponent
                     if (MapRendered)
                     {
                         await UpdateWidget();
+                        PreviousParameters = dictionary.ToDictionary(kvp1 => kvp1.Key, kvp1 => kvp1.Value);
                     }
 
                     break;
@@ -584,7 +593,8 @@ public abstract partial class Widget : MapComponent
             }
         }
 
-        PreviousParameters = dictionary.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+        // only set PreviousParameters before MapRendered, or after calling UpdateWidget
+        PreviousParameters ??= dictionary.ToDictionary(kvp1 => kvp1.Key, kvp1 => kvp1.Value);
     }
 
     /// <inheritdoc />
@@ -592,7 +602,9 @@ public abstract partial class Widget : MapComponent
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if (View is not null && Parent == View 
+        if (View is not null
+            && Parent is not Views.MapView
+            && Parent is not ExpandWidget
             && !_externalWidgetRegistered)
         {
             // Widgets might be added in markup and registered after the call to View.RenderView, but before that is completed.

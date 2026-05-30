@@ -114,6 +114,7 @@ export {
     Portal,
     SimpleRenderer,
     buildJsLayer,
+    buildJsGraphic,
     reactiveUtils
 };
 
@@ -1588,6 +1589,8 @@ export async function addWidget(widget: any, viewId: string, theme: string | nul
             }
         }
 
+        let alreadyRegistered = arcGisObjectRefs.hasOwnProperty(widget.id);
+
         const newWidget = await buildJsWidget(widget, widget?.layerId, viewId);
         if (!hasValue(newWidget)) {
             return;
@@ -1607,7 +1610,10 @@ export async function addWidget(widget: any, viewId: string, theme: string | nul
                 // check if widget is defined inside mapview
                 const inMapWidget = mapComponent?.querySelector(`#widget-container-${widget.id}`);
                 const widgetContainer: HTMLElement = document.getElementById(`widget-container-${widget.id}`)!;
-                if ((hasValue(inMapWidget) || !hasValue(widgetContainer)) && !setInContainerByDefault) {
+                if ((hasValue(inMapWidget)
+                    || !hasValue(widgetContainer))
+                    && !setInContainerByDefault
+                    && view.ui.getComponents().find(c => c.id === widget.id) === undefined) {
                     view.ui.add(newWidget, widget.position);
                 } else {
                     // default to using the pre-defined widget container
@@ -2061,7 +2067,7 @@ function getProtobufViewHitStream(viewHits: DotNetViewHit[]): any {
         return DotNet.createJSStreamReference(encoded);
 }
 
-function updateGraphicForProtobuf(graphic: DotNetGraphic, layer: FeatureLayer | GeoJSONLayer | null) {
+export function updateGraphicForProtobuf(graphic: DotNetGraphic, layer: FeatureLayer | GeoJSONLayer | null) {
     if (hasValue(graphic.attributes)) {
         const fields = layer?.fields;
         graphic.attributes = Object.keys(graphic.attributes).map(attr => {
@@ -2084,74 +2090,90 @@ function updateGraphicForProtobuf(graphic: DotNetGraphic, layer: FeatureLayer | 
     if (hasValue(graphic.geometry)) {
         updateGeometryForProtobuf(graphic.geometry);
     }
-    const symbol: any = graphic.symbol;
-    if (hasValue(symbol)) {
-        if (hasValue(symbol.color)) {
-            symbol.color = {
-                hexOrNameValue: symbol.color
-            }
-        }
-        if (hasValue(symbol.haloColor)) {
-            symbol.haloColor = {
-                hexOrNameValue: symbol.haloColor
-            }
-        }
-        if (hasValue(symbol.backgroundColor)) {
-            symbol.backgroundColor = {
-                hexOrNameValue: symbol.backgroundColor
-            }
-        }
-        if (hasValue(symbol.borderLineColor)) {
-            symbol.borderLineColor = {
-                hexOrNameValue: symbol.borderLineColor
-            }
-        }
-        if (hasValue(symbol.outline?.color)) {
-            symbol.outline.color = {
-                hexOrNameValue: symbol.outline.color
-            }
-        }
-        if (hasValue(symbol.portal)) {
-            symbol.portalUrl = symbol.portal.url;
-        }
+
+    if (hasValue(graphic.symbol)) {
+        updateSymbolForProtobuf(graphic.symbol);
     }
 }
 
-function updateGeometryForProtobuf(geometry) {
-    if (hasValue(geometry.paths)) {
-        geometry.paths = (geometry as DotNetPolyline).paths.map(p => {
-            return {
-                points: p.map(pt => {
-                    return {
-                        coordinates: pt
-                    }
-                })
-            }
-        });
+export function updateGeometryForProtobuf(geometry) {
+    if (hasValue(geometry.paths) && geometry.paths.length > 0) {
+        if (hasValue(geometry.paths[0].points)) {
+            // already transformed
+        } else {
+            geometry.paths = (geometry as DotNetPolyline).paths.map(p => {
+                return {
+                    points: p.map(pt => {
+                        return {
+                            coordinates: pt
+                        }
+                    })
+                }
+            });
+        }
     } else {
         geometry.paths = [];
     }
-    if (hasValue(geometry.rings)) {
-        geometry.rings = (geometry as DotNetPolygon).rings.map(r => {
-            return {
-                points: r.map(pt => {
-                    return {
-                        coordinates: pt
-                    }
-                })
-            }
-        });
+    if (hasValue(geometry.rings) && geometry.rings.length > 0) {
+        if (hasValue(geometry.rings[0].points)) {
+            // already transformed
+        } else {
+            geometry.rings = (geometry as DotNetPolygon).rings.map(r => {
+                return {
+                    points: r.map(pt => {
+                        return {
+                            coordinates: pt
+                        }
+                    })
+                }
+            });
+        }
     } else {
         geometry.rings = [];
     }
-    if (hasValue(geometry.points)) {
-        geometry.points = geometry.points.map(pt => {
-            return {
-                coordinates: pt
-            }
-        });
+    if (hasValue(geometry.points) && geometry.points.length > 0) {
+        if (hasValue(geometry.points[0].coordinates)) {
+            // already transformed
+        } else {
+            geometry.points = geometry.points.map(pt => {
+                return {
+                    coordinates: pt
+                }
+            });
+        }
     } else {
         geometry.points = [];
+    }
+}
+
+export function updateSymbolForProtobuf(symbol) {
+    if (hasValue(symbol.color) && !hasValue(symbol.color.hexOrNameValue)) {
+        symbol.color = {
+            hexOrNameValue: symbol.color
+        }
+    }
+    if (hasValue(symbol.haloColor) && !hasValue(symbol.haloColor.hexOrNameValue)) {
+        symbol.haloColor = {
+            hexOrNameValue: symbol.haloColor
+        }
+    }
+    if (hasValue(symbol.backgroundColor) && !hasValue(symbol.backgroundColor.hexOrNameValue)) {
+        symbol.backgroundColor = {
+            hexOrNameValue: symbol.backgroundColor
+        }
+    }
+    if (hasValue(symbol.borderLineColor) && !hasValue(symbol.borderLineColor.hexOrNameValue)) {
+        symbol.borderLineColor = {
+            hexOrNameValue: symbol.borderLineColor
+        }
+    }
+    if (hasValue(symbol.outline?.color) && !hasValue(symbol.outline.color.hexOrNameValue)) {
+        symbol.outline.color = {
+            hexOrNameValue: symbol.outline.color
+        }
+    }
+    if (hasValue(symbol.portal) && !hasValue(symbol.portalUrl)) {
+        symbol.portalUrl = symbol.portal.url;
     }
 }
 

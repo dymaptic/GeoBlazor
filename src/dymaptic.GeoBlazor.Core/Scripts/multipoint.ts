@@ -15,7 +15,8 @@ export function buildJsMultipoint(dotNetObject: any): any {
         properties.hasZ = dotNetObject.hasZ;
     }
     if (hasValue(dotNetObject.points) && dotNetObject.points.length > 0) {
-        properties.points = dotNetObject.points;
+        properties.points = dotNetObject.points.map(p =>
+            hasValue(p.coordinates) ? p.coordinates : p);
     }
     if (hasValue(dotNetObject.spatialReference)) {
         properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference);

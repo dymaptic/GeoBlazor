@@ -1417,10 +1417,13 @@ public class TestConfig
     {
         string cmdLineApp = "docker";
 
-        string[] args =
-        [
-            "compose", "-f", filePath, "build", "--no-cache"
-        ];
+        List<string> args = ["compose", "-f", filePath, "build"];
+
+        // Only force --no-cache when explicitly requested (NO_CACHE=true); BuildKit content-hashes COPY layers otherwise.
+        if (_noCache)
+        {
+            args.Add("--no-cache");
+        }
 
         Trace.WriteLine($"Re-building container with: docker {string.Join(" ", args)}",
             $"CONTAINER_BUILD: {processName}");

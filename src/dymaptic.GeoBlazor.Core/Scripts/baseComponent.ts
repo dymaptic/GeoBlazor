@@ -2,6 +2,9 @@ import {Field, Type } from "protobufjs";
 import {
     hasValue,
     loadProtobuf,
+    updateGeometryForProtobuf,
+    updateGraphicForProtobuf,
+    updateSymbolForProtobuf,
     // protobufRoot,
     // ProtoTypes,
     // updateGeometryForProtobuf,
@@ -251,47 +254,56 @@ export default class BaseComponent implements IPropertyWrapper {
     }
     
     checkObjectForGraphics(protoType: any, returnValue: any, isArrayType: boolean): void {
-        // if (this.updateGraphicsForProtobuf(protoType, returnValue, isArrayType)) {
-        //     return;
-        // }
+        if (this.updateGraphicsForProtobuf(protoType, returnValue, isArrayType)) {
+            return;
+        }
         for (let nested of protoType.nestedArray) {
             this.checkObjectForGraphics(nested, returnValue, isArrayType);
         }
     }
     
-    // updateGraphicsForProtobuf(protoType: any, returnValue: any, isArrayType: boolean): boolean {
-    //     switch (protoType.name) {
-    //         case 'Graphic':
-    //             if (isArrayType) {
-    //                 for(let val of returnValue as Array<any>) {
-    //                     updateGraphicForProtobuf(val, null);
-    //                 }
-    //             } else {
-    //                 updateGraphicForProtobuf(returnValue, null);
-    //             }
-    //             return true;
-    //         case 'Geometry':
-    //             if (isArrayType) {
-    //                 for(let val of returnValue as Array<any>) {
-    //                     updateGeometryForProtobuf(val);
-    //                 }
-    //             } else {
-    //                 updateGeometryForProtobuf(returnValue);
-    //             }
-    //             return true;
-    //         case 'Symbol':
-    //             if (isArrayType) {
-    //                 for(let val of returnValue as Array<any>) {
-    //                     updateSymbolForProtobuf(val);
-    //                 }
-    //             } else {
-    //                 updateSymbolForProtobuf(returnValue);
-    //             }
-    //             return true;
-    //         default:
-    //             return false;
-    //     }
-    // }
+    updateGraphicsForProtobuf(protoType: any, returnValue: any, isArrayType: boolean): boolean {
+        switch (protoType.name) {
+            case 'Graphic':
+                if (isArrayType) {
+                    for(let val of returnValue as Array<any>) {
+                        updateGraphicForProtobuf(val, null);
+                    }
+                } else {
+                    updateGraphicForProtobuf(returnValue, null);
+                }
+                return true;
+            case 'Geometry':
+                if (isArrayType) {
+                    for(let val of returnValue as Array<any>) {
+                        updateGeometryForProtobuf(val);
+                    }
+                } else {
+                    updateGeometryForProtobuf(returnValue);
+                }
+                return true;
+            case 'Symbol':
+                if (isArrayType) {
+                    for(let val of returnValue as Array<any>) {
+                        updateSymbolForProtobuf(val);
+                    }
+                } else {
+                    updateSymbolForProtobuf(returnValue);
+                }
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    createAbortControllerAndSignal() {
+        const controller = new AbortController();
+        const signal = controller.signal;
+        return {
+            abortControllerRef: DotNet.createJSObjectReference(controller),
+            abortSignalRef: DotNet.createJSObjectReference(signal)
+        }
+    }
 
     simpleDotNetTypes = ['int32', 'int64', 'long', 'decimal', 'double', 'single', 'float', 'int', 'bool',
         'ulong', 'uint', 'ushort', 'byte', 'sbyte', 'char',
