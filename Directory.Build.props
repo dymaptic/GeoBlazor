@@ -31,6 +31,11 @@
     <PropertyGroup Condition="'$([System.OperatingSystem]::IsLinux())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'Arm64'">
         <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/linux-arm64</GBBuildToolsPath>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)' != 'Release'">
+        <StaticWebAssetsFingerprintContent>false</StaticWebAssetsFingerprintContent>
+        <CompressionEnabled>false</CompressionEnabled>
+        <StaticWebAssetFingerprintingEnabled>false</StaticWebAssetFingerprintingEnabled>
+    </PropertyGroup>
     <ItemGroup>
         <Watch Remove="$(CoreProjectPath)\wwwroot\**\*;$(CoreProjectPath)\Scripts\**\*;**\esbuild*;$(CoreProjectPath)\node_modules\**\*" />
     </ItemGroup>

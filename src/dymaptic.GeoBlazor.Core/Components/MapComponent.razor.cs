@@ -693,6 +693,12 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         }
         catch (Exception ex)
         {
+            if (ex is TaskCanceledException || ex is JSDisconnectedException)
+            {
+                // do nothing, component was disposed during instantiation
+                return null;
+            }
+
             Console.WriteLine($"Error deserializing instantiated component of type {MapComponentType}: {ex}");
         }
 

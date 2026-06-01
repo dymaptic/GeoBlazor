@@ -513,16 +513,40 @@ export function loadSettings() {
     return null;
 }
 
-export function saveTestResults(results) {
-    sessionStorage.setItem('testResults', JSON.stringify(results));
+export async function saveTestResultsStream(resultsStream) {
+    // read the stream and save the results in session storage
+    let json = await parseDotNetStream(resultsStream);
+    sessionStorage.setItem('testResults', json);
 }
 
-export function getTestResults() {
-    let results = sessionStorage.getItem('testResults');
-    if (results) {
-        return JSON.parse(results);
+export function getCachedResultsStream() {
+    let json = sessionStorage.getItem('testResults');
+    if (json) {
+        return buildEncodedJson(json);
     }
-    return null;
+    return buildEncodedJson('null');
+}
+
+async function parseDotNetStream(streamRef) {
+    let arrayBuffer = await streamRef.arrayBuffer();
+    let uint8 = new Uint8Array(arrayBuffer);
+
+    let decoder = new TextDecoder();
+    return decoder.decode(uint8);
+}
+
+function buildEncodedJson(json, replaceEmptyStrings = false) {
+    if (!json) {
+        json = 'null';
+    }
+    else if (replaceEmptyStrings && json === '') {
+        json = 'empty-string';
+    } else if (json[0] === '"') {
+        // if the json is a string, remove the quotes so that it doesn't get double encoded when we encode it as a stream reference
+        json = json.substring(1, json.length - 1);
+    }
+    let encoder = new TextEncoder();
+    return encoder.encode(json);
 }
 
 export function assertGeoBlazorErrorMessageShown(methodName, errorMessage) {

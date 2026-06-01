@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 
 
@@ -46,100 +47,119 @@ public partial class Index: IAsyncDisposable
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (_allPassed)
+        try
         {
-            return;
-        }
-
-        if (firstRender)
-        {
-            try
-            {
-                await AppValidator.ValidateLicense();
-            }
-            catch (Exception ex)
-            {
-                Version? version = AppValidator.GetType().Assembly.GetName().Version;
-
-                throw new InvalidRegistrationException($"{ex.Message}{Environment.NewLine}License Key: {
-                    GeoBlazorSettings.RegistrationKey ?? GeoBlazorSettings.LicenseKey}{Environment.NewLine}URL: {
-                        NavigationManager.Uri}{Environment.NewLine}GeoBlazor Version: {version}");
-            }
-
-            _jsTestRunner = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
-                "./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/testRunner.js");
-            IJSObjectReference? proJs = await JsModuleManager.GetProJsModule(JsRuntime, CancellationToken.None);
-            IJSObjectReference coreJs = await JsModuleManager.GetCoreJsModule(JsRuntime, proJs, CancellationToken.None);
-
-            await _jsTestRunner.InvokeVoidAsync("initialize", coreJs);
-
-            if (proJs is not null)
-            {
-                IJSObjectReference proJsRunner = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
-                    "./_content/dymaptic.GeoBlazor.Pro.Test.Blazor.Shared/proTestRunner.js");
-                await proJsRunner.InvokeVoidAsync("initialize", proJs);
-            }
-
-            NavigationManager.RegisterLocationChangingHandler(OnLocationChanging);
-
-            await LoadSettings();
-
-            if (!_settings.RetainResultsOnReload)
+            if (_allPassed)
             {
                 return;
             }
 
-            FindAllTests();
-
-            Dictionary<string, TestResult>? cachedResults =
-                await _jsTestRunner.InvokeAsync<Dictionary<string, TestResult>?>("getTestResults");
-
-            if (cachedResults is { Count: > 0 })
+            if (firstRender)
             {
-                _results = cachedResults;
-            }
-
-            if (_results!.Count > 0)
-            {
-                string? firstUnpassedClass = _testClassNames
-                    .FirstOrDefault(t => !_results.ContainsKey(t)
-                        || ((_results[t].Passed.Count == 0) && (_results[t].Inconclusive.Count == 0)));
-
-                if (firstUnpassedClass is not null && (_testClassNames.IndexOf(firstUnpassedClass) > 0))
+                try
                 {
-                    await ScrollAndOpenClass(firstUnpassedClass);
+                    await AppValidator.ValidateLicense();
+                }
+                catch (Exception ex)
+                {
+                    Version? version = AppValidator.GetType().Assembly.GetName().Version;
+
+                    throw new InvalidRegistrationException($"{ex.Message}{Environment.NewLine}License Key: {GeoBlazorSettings.RegistrationKey ?? GeoBlazorSettings.LicenseKey}{Environment.NewLine}URL: {NavigationManager.Uri}{Environment.NewLine}GeoBlazor Version: {version}");
+                }
+
+                _jsTestRunner = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
+                    "./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/testRunner.js");
+                IJSObjectReference? proJs = await JsModuleManager.GetProJsModule(JsRuntime, CancellationToken.None);
+                IJSObjectReference coreJs = await JsModuleManager.GetCoreJsModule(JsRuntime, proJs, CancellationToken.None);
+
+                await _jsTestRunner.InvokeVoidAsync("initialize", coreJs);
+
+                if (proJs is not null)
+                {
+                    IJSObjectReference proJsRunner = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
+                        "./_content/dymaptic.GeoBlazor.Pro.Test.Blazor.Shared/proTestRunner.js");
+                    await proJsRunner.InvokeVoidAsync("initialize", proJs);
+                }
+
+                NavigationManager.RegisterLocationChangingHandler(OnLocationChanging);
+
+                await LoadSettings();
+
+                if (!_settings.RetainResultsOnReload)
+                {
+                    StateHasChanged();
+                    return;
+                }
+
+                FindAllTests();
+
+                IJSStreamReference cachedStream = 
+                    await _jsTestRunner.InvokeAsync<IJSStreamReference>("getCachedResultsStream");
+                Stream jsonStream = await cachedStream.OpenReadStreamAsync(maxAllowedSize: 10 * 1024 * 1024);
+                string json = await new StreamReader(jsonStream).ReadToEndAsync();
+                Dictionary<string, TestResult>? cachedResults = !string.IsNullOrEmpty(json) && json != "null"
+                    ? JsonSerializer.Deserialize<Dictionary<string, TestResult>>(json)
+                    : null;
+
+                if (cachedResults is { Count: > 0 })
+                {
+                    _results = cachedResults;
+                }
+
+                if (_results!.Count > 0)
+                {
+                    string? firstUnpassedClass = _testClassNames
+                        .FirstOrDefault(t => !_results.ContainsKey(t)
+                            || ((_results[t].Passed.Count == 0) && (_results[t].Inconclusive.Count == 0)));
+
+                    if (firstUnpassedClass is not null && (_testClassNames.IndexOf(firstUnpassedClass) > 0))
+                    {
+                        await ScrollAndOpenClass(firstUnpassedClass);
+                    }
+                }
+
+                // need an extra render cycle to register the `_testComponents` dictionary
+                StateHasChanged();
+            }
+            else if (RunOnStart && !_running)
+            {
+                // Auto-run configuration
+                _running = true;
+
+                // give everything time to load correctly
+                await Task.Delay(1000);
+                await TestLogger.Log("Starting Test Auto-Run:");
+                string? attempts = await JsRuntime.InvokeAsync<string?>("localStorage.getItem", "runAttempts");
+
+                int attemptCount = 0;
+
+                if (attempts is not null && int.TryParse(attempts, out attemptCount))
+                {
+                    await TestLogger.Log($"Attempt #{attemptCount}");
+                }
+
+                await TestLogger.Log("----------");
+
+                _allPassed = await RunTests(true, _cts.Token);
+
+                if (!_allPassed)
+                {
+                    await TestLogger.Log("Test Run Failed or Errors Encountered. Reload the page to re-run failed tests.");
+                    await JsRuntime.InvokeVoidAsync("localStorage.setItem", "runAttempts", ++attemptCount);
                 }
             }
-
-            // need an extra render cycle to register the `_testComponents` dictionary
+        }
+        catch (TaskCanceledException)
+        {
+            _errorMessage = "Test run cancelled.";
+            await TestLogger.Log(_errorMessage);
             StateHasChanged();
         }
-        else if (RunOnStart && !_running)
+        catch (Exception ex)
         {
-            // Auto-run configuration
-            _running = true;
-
-            // give everything time to load correctly
-            await Task.Delay(1000);
-            await TestLogger.Log("Starting Test Auto-Run:");
-            string? attempts = await JsRuntime.InvokeAsync<string?>("localStorage.getItem", "runAttempts");
-
-            int attemptCount = 0;
-
-            if (attempts is not null && int.TryParse(attempts, out attemptCount))
-            {
-                await TestLogger.Log($"Attempt #{attemptCount}");
-            }
-
-            await TestLogger.Log("----------");
-
-            _allPassed = await RunTests(true, _cts.Token);
-
-            if (!_allPassed)
-            {
-                await TestLogger.Log("Test Run Failed or Errors Encountered. Reload the page to re-run failed tests.");
-                await JsRuntime.InvokeVoidAsync("localStorage.setItem", "runAttempts", ++attemptCount);
-            }
+            _errorMessage = $"Error during test execution: {ex.Message}{Environment.NewLine}{ex.StackTrace}";
+            await TestLogger.Log(_errorMessage);
+            StateHasChanged();
         }
     }
 
@@ -358,7 +378,12 @@ public partial class Index: IAsyncDisposable
         {
             return;
         }
-        await _jsTestRunner!.InvokeVoidAsync("saveTestResults", _results);
+
+        Stream stream = new MemoryStream();
+        await JsonSerializer.SerializeAsync(stream, _results);
+        stream.Seek(0, SeekOrigin.Begin);
+        DotNetStreamReference dnStreamRef = new(stream);
+        await _jsTestRunner.InvokeVoidAsync("saveTestResultsStream", dnStreamRef);
     }
 
     private async Task SaveSettings()
@@ -433,6 +458,7 @@ public partial class Index: IAsyncDisposable
     private TestSettings _settings = new(false, true);
     private bool _allPassed;
     private bool _disposed;
+    private string _errorMessage = string.Empty;
 
     public record TestSettings(bool StopOnFail, bool RetainResultsOnReload)
     {

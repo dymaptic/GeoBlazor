@@ -49,9 +49,15 @@ internal class ElementReferenceConverter(ElementReferenceContext? elementReferen
             throw new JsonException("gb_element_ref_id is required.");
         }
 
-        ElementReferenceConverter registeredConverter = (ElementReferenceConverter)options.GetConverter(typeToConvert);
-        
-        return new ElementReference(id, registeredConverter.ElementReferenceContext);
+        JsonConverter registeredConverter = options.GetConverter(typeToConvert);
+
+        PropertyInfo? elementReferenceContextProperty = registeredConverter.GetType()
+            .GetProperty("ElementReferenceContext", BindingFlags.NonPublic | BindingFlags.Instance);
+        ElementReferenceContext? registeredElementReferenceContext = 
+            elementReferenceContextProperty?.GetValue(registeredConverter) as ElementReferenceContext;
+
+
+        return new ElementReference(id, registeredElementReferenceContext);
     }
 
     public override void Write(Utf8JsonWriter writer, ElementReference value, JsonSerializerOptions options)

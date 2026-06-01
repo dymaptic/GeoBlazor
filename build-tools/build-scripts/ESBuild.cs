@@ -201,10 +201,19 @@ try
     await ProcessRunner.RunNpmCommand(sourceDir, buildCommand);
     Trace.WriteLine("-----");
 
-    // Clean up old chunk files — only delete files older than the PREVIOUS build.
-    // Files from the most recent build must be preserved because MSBuild has already
-    // cataloged them as static web assets before ESBuild runs (dotnet/sdk#49988).
-    CleanupOldChunks(outputDir, preBuildRecord.PreviousTimestamp, pro ? "PRO" : "CORE", verbose);
+    // Clean up old chunk files. The cutoff is configuration-aware:
+    //  - Debug (local incremental): keep ONLY the set we just built (cutoff = this build's
+    //    timestamp). Halving the on-disk file count reduces the work of the unconditional
+    //    .NET StaticWebAssets targets, which catalog every file on every build.
+    //  - Release: keep current + previous (cutoff = previous build's timestamp), preserving
+    //    the dotnet/sdk#49988 mitigation. GeoBlazorBuild.cs already hard-cleans wwwroot/js in
+    //    its clean step, so Release builds start empty and this cutoff is effectively a no-op.
+    // Either way, deletion runs AFTER esbuild writes the fresh set, so the just-built files
+    // (mtime ≈ now) are always preserved.
+    long cleanupCutoff = configuration == "Release"
+        ? preBuildRecord.PreviousTimestamp
+        : preBuildRecord.Timestamp;
+    CleanupOldChunks(outputDir, cleanupCutoff, pro ? "PRO" : "CORE", verbose);
 
     // Update build record: current timestamp becomes "previous" for the next build
     SaveBuildRecord(recordFilePath, currentBranch, preBuildRecord.Timestamp);
@@ -592,14 +601,16 @@ static void SaveBuildRecord(string recordFilePath, string branch, long previousT
 }
 
 /// <summary>
-/// Deletes old chunk files from the output directory that predate the previous build.
-/// Keeps files from the current build and the immediately preceding build intact.
-/// This addresses the accumulation of hashed chunk files from esbuild code splitting
-/// without triggering the MSBuild static web asset fingerprinting race condition
-/// (dotnet/sdk#49988), since only files from 2+ builds ago are removed.
+/// Deletes old chunk files from the output directory that predate the supplied cutoff timestamp.
+/// This addresses the accumulation of hashed chunk files from esbuild code splitting. The cutoff
+/// is the caller's choice: passing the current build's timestamp keeps only the set just built
+/// (used for Debug/local incremental builds to halve the on-disk file count), while passing the
+/// previous build's timestamp keeps current + previous (used for Release to preserve the
+/// dotnet/sdk#49988 static-web-asset fingerprinting mitigation). The just-built set is always
+/// preserved because this runs after esbuild writes it (its files' mtime is newer than either cutoff).
 /// </summary>
 /// <param name="outputDir">Path to the wwwroot/js output directory.</param>
-/// <param name="previousTimestamp">Timestamp of the build before the most recent one (cutoff for deletion).</param>
+/// <param name="previousTimestamp">Cutoff timestamp for deletion; files older than this are removed. Pass the current-build timestamp to keep only the current set, or the previous-build timestamp to keep current + previous.</param>
 /// <param name="proOrCore">Label for log messages ("PRO" or "CORE").</param>
 /// <param name="verbose">If true, logs each deleted file.</param>
 static void CleanupOldChunks(string outputDir, long previousTimestamp, string proOrCore, bool verbose)
