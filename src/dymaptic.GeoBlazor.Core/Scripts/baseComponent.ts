@@ -10,19 +10,22 @@ import {
     // updateGeometryForProtobuf,
     // updateGraphicForProtobuf, updateSymbolForProtobuf
 } from "./arcGisJsInterop";
-import {buildEncodedJson} from "./geoBlazorCore";
+import {buildEncodedJson, sanitize} from "./geoBlazorCore";
 import {IPropertyWrapper} from "./definitions";
 
 // base class for components that need to invoke methods with serialized parameters
 export default class BaseComponent implements IPropertyWrapper {
-    component: any;
+    public component: any;
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
     
     constructor(component: any) {
         this.component = component;
     }
     
     setProperty(prop: string, value: any): void {
-        this.component[prop] = value;
+        this.component[prop] = sanitize(value);
     }
     getProperty(prop: string) {
         return this.component[prop];

@@ -1,7 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
-///     Result of the <see cref="GeometryEngine.RemovePointOnPolygon" /> method.
+///     Result of the <see cref="GeometryEngine.RemovePoint(Polygon, int, int)" /> method.
 /// </summary>
 /// <param name="Polygon">
 ///     The resulting <see cref="Polygon" /> after the point has been removed.

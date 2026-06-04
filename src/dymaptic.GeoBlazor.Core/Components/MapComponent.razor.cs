@@ -1183,6 +1183,15 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             .ToArray(); 
     }
 
+    /// <summary>
+    ///     For internal use in JavaScript, to get the Layer associated with this component, if applicable.
+    /// </summary>
+    [JSInvokable]
+    public Layer? GetLayerForJs()
+    {
+        return Layer;
+    }
+
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _watchers = [];
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _listeners = [];
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _waiters = [];

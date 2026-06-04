@@ -88,8 +88,8 @@
         <Message Importance="high"
                  Text="Triggering Core ESBuild from $(MSBuildProjectName)"
                  Condition="'$(_AcquireLockExitCode)' == '0'" />
-        <!-- <Exec Command="dotnet restore $(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj"
-              Condition="'$(_AcquireLockExitCode)' == '0'" /> -->
+        <Exec Command="dotnet restore $(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj"
+              Condition="'$(_AcquireLockExitCode)' == '0'" />
         <MSBuild Projects="$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj"
                  Properties="GBBuildToolsPath=$(GBBuildToolsPath);ShowScriptDialogs=$(ShowScriptDialogs)"
                  RemoveProperties="$(ESBuildRemoveProps)"

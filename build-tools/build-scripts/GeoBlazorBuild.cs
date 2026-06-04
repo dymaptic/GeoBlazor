@@ -513,7 +513,8 @@ try
         // Pro build still produces it and is never silently broken.
         string proValidatorOutput =
             Path.Combine(proProjectPath, "build", "resources", "dymaptic.GeoBlazor.Pro.V.dll");
-        bool skipValidator = fast && File.Exists(proValidatorOutput);
+        bool skipValidator = int.Parse(version[0].ToString()) < 5 
+            || (fast && File.Exists(proValidatorOutput));
 
         if (skipValidator)
         {

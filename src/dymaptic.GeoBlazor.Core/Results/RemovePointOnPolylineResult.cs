@@ -1,7 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
-///     Result of the <see cref="GeometryEngine.RemovePointOnPolyline" /> method.
+///     Result of the <see cref="GeometryEngine.RemovePoint(Polyline, int, int)" /> method.
 /// </summary>
 /// <param name="Polyline">
 ///     The resulting <see cref="Polyline" /> after the point has been removed.

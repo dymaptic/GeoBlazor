@@ -199,7 +199,7 @@ export function assertObjectHasPropertyWithValue(methodName, objectId, propertyN
             // handle array indexer
             let arrayName = prop.substring(0, prop.indexOf('['));
             let index = parseInt(prop.substring(prop.indexOf('[') + 1, prop.indexOf(']')));
-            candidate = obj[arrayName][index];
+            candidate = obj[arrayName].items[index];
         } else {
             candidate = obj[prop];
         }

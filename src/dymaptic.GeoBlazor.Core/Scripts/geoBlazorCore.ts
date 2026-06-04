@@ -412,7 +412,7 @@ export async function setProperty(obj: any, prop: string, value: any): Promise<v
     if ('setProperty' in obj) {
         obj.setProperty(prop, value);
     } else {
-        obj[prop] = value;
+        obj[prop] = sanitize(value);
     }
 }
 
@@ -485,10 +485,13 @@ export function setCursor(cursorType: string, viewId: string | null = null) {
 }
 
 export function sanitize(dotNetObject: any): any {
-    let {id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject} = dotNetObject;
+    let {id, dotNetComponentReference, viewId, jsComponentReference, ...sanitizedDotNetObject} = dotNetObject;
 
     for (const key in sanitizedDotNetObject) {
-        if (typeof sanitizedDotNetObject[key] === 'object' && sanitizedDotNetObject[key] !== null) {
+        if (key === 'layerId') {
+            sanitizedDotNetObject.layer = arcGisObjectRefs[sanitizedDotNetObject[key]];
+            delete sanitizedDotNetObject.layerId;
+        } else if (typeof sanitizedDotNetObject[key] === 'object' && sanitizedDotNetObject[key] !== null) {
             sanitizedDotNetObject[key] = sanitize(sanitizedDotNetObject[key]);
         }
     }
