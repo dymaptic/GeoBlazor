@@ -47,11 +47,10 @@ ENV TEST_PROJECT=${TEST_PROJECT}
 COPY ./nuget.config ./nuget.config
 COPY ./Directory.Build.* ./
 COPY ./src/ ./src/
-COPY ./*.ps1 ./
 COPY ./.gitignore ./.gitignore
 COPY $TEST_FOLDER $TEST_FOLDER
 # Copy root test folder Directory.Build files to make sure tests have all relevant inherited targets/props
-COPY ./test/Directory.Build.* ./test/Directory.Build.*
+COPY ./test/Directory.Build.* ./test/
 
 # Build test app.
 # GBObjCacheRoot redirects every project's obj/ to /work/obj-cache/<project>/ (see Directory.Build.props),

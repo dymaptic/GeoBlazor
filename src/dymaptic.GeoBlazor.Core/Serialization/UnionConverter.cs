@@ -1,5 +1,3 @@
-using System.Text.Unicode;
-
 namespace dymaptic.GeoBlazor.Core.Serialization;
 
 internal class UnionConverter<T> : JsonConverter<T>

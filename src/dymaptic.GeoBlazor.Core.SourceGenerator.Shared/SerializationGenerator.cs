@@ -514,7 +514,7 @@ public static class SerializationGenerator
             ? "null"
             : $"typeof({singleType})";
 
-        string padding = new string(' ', indent);
+        string padding = new(' ', indent);
 
         return $"""
                 {padding}new SerializableParameterRecord(typeof({trimmedValue}), {isNullableText}, 

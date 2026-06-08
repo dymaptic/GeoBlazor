@@ -493,15 +493,21 @@ export function sanitize(dotNetObject: any): any {
         return dotNetObject.map(item => sanitize(item));
     }
 
-    let {id, dotNetComponentReference, viewId, jsComponentReference, ...sanitizedDotNetObject} = dotNetObject;
+    let { id, dotNetComponentReference, viewId, jsComponentReference, ...sanitizedDotNetObject } = dotNetObject;
+    
+    let addLayer = false;
 
     for (const key in sanitizedDotNetObject) {
         if (key === 'layerId') {
-            sanitizedDotNetObject.layer = arcGisObjectRefs[sanitizedDotNetObject[key]];
-            delete sanitizedDotNetObject.layerId;
+            addLayer = true;
         } else if (typeof sanitizedDotNetObject[key] === 'object' && sanitizedDotNetObject[key] !== null) {
             sanitizedDotNetObject[key] = sanitize(sanitizedDotNetObject[key]);
         }
+    }
+
+    if (addLayer) {
+        sanitizedDotNetObject.layer = arcGisObjectRefs[sanitizedDotNetObject['layerId']];
+        delete sanitizedDotNetObject.layerId;
     }
 
     return sanitizedDotNetObject;

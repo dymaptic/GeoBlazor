@@ -27,7 +27,6 @@ RUN --mount=type=cache,id=nuget-cache,target=/root/.nuget/packages \
     dotnet run ./build-tools/build-scripts/ScriptBuilder.cs 
 
 # Copy Source Files
-COPY ./*.ps1 ./
 COPY ./Directory.Build.* ./
 COPY ./.gitignore ./.gitignore
 COPY ./nuget.config ./nuget.config
