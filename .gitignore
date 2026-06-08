@@ -376,6 +376,8 @@ healthchecksdb
 node_modules/
 .ntvs_analysis.dat
 package-lock.json
+# Track the Core lockfile so `npm ci` works in Docker/CI builds (fresh checkout has no lockfile otherwise)
+!src/dymaptic.GeoBlazor.Core/package-lock.json
 
 # Python
 __pycache__/
