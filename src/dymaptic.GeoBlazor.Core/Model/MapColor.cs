@@ -191,7 +191,19 @@ public sealed record MapColor : System.Collections.IEnumerable
     [ArcGISMethod]
     public override int GetHashCode()
     {
-        return HashCode.Combine(RgbaValues, HexOrNameValue);
+        HashCode hash = new();
+
+        if (RgbaValues is not null)
+        {
+            foreach (double val in RgbaValues)
+            {
+                hash.Add(val);
+            }
+        }
+
+        hash.Add(HexOrNameValue);
+
+        return hash.ToHashCode();
     }
 
     /// <summary>
