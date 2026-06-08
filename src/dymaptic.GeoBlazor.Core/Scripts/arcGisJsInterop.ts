@@ -200,14 +200,16 @@ function setComponentTheme(theme, componentId: string): void {
         if (hasValue(component)) {
             if ((component instanceof MapView || component instanceof SceneView)) {
                 component!.container!.style.colorScheme = theme as string;
-                if (!component!.ui.container!.classList.contains('calcite-mode-dark')) {
+                if (theme === 'dark' && !component!.ui.container!.classList.contains('calcite-mode-dark')) {
                     // if the view was already rendered, this class is missed and needs adding
                     component!.ui.container!.classList.add('calcite-mode-dark');
                 }
             }
 
             if (component instanceof HTMLElement) {
-                component.classList.add('calcite-mode-dark');
+                if (theme === 'dark' && !component.classList.contains('calcite-mode-dark')) {
+                    component.classList.add('calcite-mode-dark');
+                }
 
                 if (hasValue(component!.parentElement)) {
                     component!.parentElement!.style.colorScheme = theme as string;
