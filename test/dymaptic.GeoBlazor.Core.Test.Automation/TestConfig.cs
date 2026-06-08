@@ -107,6 +107,7 @@ public class TestConfig
     private static string ProComposeFilePath => Path.Combine(ProjectFolder, "docker-compose-pro.yml");
     private static string CoreUnitTestComposeFilePath => Path.Combine(ProjectFolder, "docker-compose-core-unit.yml");
     private static string ProUnitTestComposeFilePath => Path.Combine(ProjectFolder, "docker-compose-pro-unit.yml");
+    private static string ProPropsPath => Path.Combine(ProjectFolder, "..", "..", "..", "Directory.Build.props");
     private static string ProValidationTestComposeFilePath =>
         Path.Combine(ProjectFolder, "docker-compose-pro-validation.yml");
     private static string TestAppPath => ProAvailable
@@ -275,9 +276,13 @@ public class TestConfig
             if (!CoreOnly)
             {
                 runTasks.Add(LaunchPipelineTask(ProcessName.PRO_UNIT, LaunchUnitTests));
+                string proVersion = GetProVersion();
+                if (int.TryParse(proVersion[0].ToString(), out int majorVersion) && majorVersion >= 5)
+                {
                     runTasks.Add(LaunchPipelineTask(ProcessName.PRO_VALIDATION, LaunchUnitTests));
                 }
             }
+        }
 
         // Fire off the Web Browser for main web tests suite
         if (!UnitOnly)
@@ -1117,8 +1122,8 @@ public class TestConfig
                 ["SESSION_ID"] = processName,
                 ["COVERAGE_FORMAT"] = _coverageFormat,
                 ["COVERAGE_FILE_VERSION"] = _coverageFileVersion,
-                ["GEOBLAZOR_CORE_LICENSE_KEY"] = Configuration["GEOBLAZOR_CORE_LICENSE_KEY"],
-                ["GEOBLAZOR_PRO_LICENSE_KEY"] = Configuration["GEOBLAZOR_PRO_LICENSE_KEY"]
+                ["GEOBLAZOR_CORE_LICENSE_KEY"] = NormalizeLicenseKey(Configuration["GEOBLAZOR_CORE_LICENSE_KEY"]),
+                ["GEOBLAZOR_PRO_LICENSE_KEY"] = NormalizeLicenseKey(Configuration["GEOBLAZOR_PRO_LICENSE_KEY"])
             })
             .WithStandardOutputPipe(PipeTarget.ToDelegate(output =>
                 TrackUnitTestOutput(output, processName, ref failedTests, ref inconclusiveTests,
@@ -1249,8 +1254,8 @@ public class TestConfig
     private static async Task StartWebApp(CancellationToken token)
     {
         string? licenseKey = CoreOnly
-            ? Configuration["GEOBLAZOR_CORE_LICENSE_KEY"]
-            : Configuration["GEOBLAZOR_PRO_LICENSE_KEY"];
+            ? NormalizeLicenseKey(Configuration["GEOBLAZOR_CORE_LICENSE_KEY"])
+            : NormalizeLicenseKey(Configuration["GEOBLAZOR_PRO_LICENSE_KEY"]);
 
         if (licenseKey is not null)
         {
@@ -1386,8 +1391,8 @@ public class TestConfig
                 ["SESSION_ID"] = ProcessName.WEB_APP_SERVER,
                 ["COVERAGE_FORMAT"] = _coverageFormat,
                 ["COVERAGE_FILE_VERSION"] = _coverageFileVersion,
-                ["GEOBLAZOR_CORE_LICENSE_KEY"] = Configuration["GEOBLAZOR_CORE_LICENSE_KEY"],
-                ["GEOBLAZOR_PRO_LICENSE_KEY"] = Configuration["GEOBLAZOR_PRO_LICENSE_KEY"]
+                ["GEOBLAZOR_CORE_LICENSE_KEY"] = NormalizeLicenseKey(Configuration["GEOBLAZOR_CORE_LICENSE_KEY"]),
+                ["GEOBLAZOR_PRO_LICENSE_KEY"] = NormalizeLicenseKey(Configuration["GEOBLAZOR_PRO_LICENSE_KEY"])
             })
             .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, ProcessName.WEB_APP_SERVER)))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
@@ -1447,8 +1452,8 @@ public class TestConfig
                 ["SESSION_ID"] = processName,
                 ["COVERAGE_FORMAT"] = _coverageFormat,
                 ["COVERAGE_FILE_VERSION"] = _coverageFileVersion,
-                ["GEOBLAZOR_CORE_LICENSE_KEY"] = Configuration["GEOBLAZOR_CORE_LICENSE_KEY"],
-                ["GEOBLAZOR_PRO_LICENSE_KEY"] = Configuration["GEOBLAZOR_PRO_LICENSE_KEY"]
+                ["GEOBLAZOR_CORE_LICENSE_KEY"] = NormalizeLicenseKey(Configuration["GEOBLAZOR_CORE_LICENSE_KEY"]),
+                ["GEOBLAZOR_PRO_LICENSE_KEY"] = NormalizeLicenseKey(Configuration["GEOBLAZOR_PRO_LICENSE_KEY"])
             })
             .WithStandardOutputPipe(PipeTarget.ToDelegate(line =>
                 Trace.WriteLine(line, $"CONTAINER_BUILD: {processName}")))
@@ -1958,6 +1963,8 @@ public class TestConfig
             return;
         }
 
+        key = NormalizeLicenseKey(key);
+
         string json = File.ReadAllText(filePath);
 
         if (JsonNode.Parse(json, jsonNodeOptions) is not { } doc)
@@ -1967,7 +1974,7 @@ public class TestConfig
                 : $$"""
                     {
                         "GeoBlazor": {   
-                            "LicenseKey": "{{key.Replace("\u002B", "+")}}",
+                            "LicenseKey": "{{key}}",
                             "Theme": "Dark"
                         }
                     }            
@@ -1980,6 +1987,26 @@ public class TestConfig
         }
 
         File.WriteAllText(filePath, json);
+    }
+
+    private static string? NormalizeLicenseKey(string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return value;
+        }
+
+        string normalized = value.Trim();
+
+        if ((normalized.Length > 1) && (normalized[0] == '"') && (normalized[^1] == '"'))
+        {
+            normalized = normalized[1..^1];
+        }
+
+        return normalized
+            .Replace("\\u002B", "+", StringComparison.OrdinalIgnoreCase)
+            .Replace("\\u002F", "/", StringComparison.OrdinalIgnoreCase)
+            .Replace("\\u003D", "=", StringComparison.OrdinalIgnoreCase);
     }
 
     private static List<TestRecord> AnalyzeUnitTests(string projectPath)
@@ -2047,6 +2074,20 @@ public class TestConfig
         }
 
         return tests;
+    }
+
+    private static string GetProVersion()
+    {
+        XmlDocument doc = new();
+        doc.Load(ProPropsPath);
+        XmlNode? proVersionNode = doc.SelectSingleNode("//Project/PropertyGroup/ProVersion");
+
+        if ((proVersionNode == null) || string.IsNullOrWhiteSpace(proVersionNode.InnerText))
+        {
+            throw new InvalidOperationException("Could not find ProVersion in Directory.Build.props");
+        }
+
+        return proVersionNode.InnerText.Trim();
     }
 
     private static readonly Stopwatch fullSuiteStopwatch = new();

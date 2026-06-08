@@ -485,6 +485,14 @@ export function setCursor(cursorType: string, viewId: string | null = null) {
 }
 
 export function sanitize(dotNetObject: any): any {
+    if (!hasValue(dotNetObject) || typeof dotNetObject !== 'object') {
+        return dotNetObject;
+    }
+
+    if (Array.isArray(dotNetObject)) {
+        return dotNetObject.map(item => sanitize(item));
+    }
+
     let {id, dotNetComponentReference, viewId, jsComponentReference, ...sanitizedDotNetObject} = dotNetObject;
 
     for (const key in sanitizedDotNetObject) {

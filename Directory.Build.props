@@ -12,6 +12,7 @@
         <Platforms>AnyCPU</Platforms>
         <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
         <CoreProjectPath>$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core</CoreProjectPath>
+        <BaseIntermediateOutputPath Condition="'$(GBObjCacheRoot)' != ''">$(GBObjCacheRoot)/$(MSBuildProjectName)/</BaseIntermediateOutputPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$([System.OperatingSystem]::IsWindows())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'X64'">
         <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/win-x64</GBBuildToolsPath>
