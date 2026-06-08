@@ -84,9 +84,12 @@ public static class ESBuildGenerator
         // only remove stale files during a full build
         string[] args = ["ESBuildClearLocks.dll", "--stale-files"];
 
-        _ = Task.Run(async () => await ProcessHelper.Execute("Clear Locks",
+        // Execute synchronously so that the SourceProductionContext remains valid for the
+        // duration of the call. Fire-and-forget would escape the generator callback lifetime,
+        // causing diagnostics to be silently dropped or thrown.
+        ProcessHelper.Execute("Clear Locks",
             options.GBBuildToolsPath!, "dotnet",
-            args, context, false, null));
+            args, context, false, null).GetAwaiter().GetResult();
 
         ProcessHelper.Log(nameof(ESBuildGenerator),
             "Cleared ESBuild Process Locks",
