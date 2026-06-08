@@ -2,14 +2,14 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-
 /// <summary>
-///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.GroundNavigationConstraint.html">GeoBlazor Docs</a>
+///     <a target="_blank" href="https://geoblazor.com/docs/api/core/dymaptic.geoblazor.core.components.groundnavigationconstraint">GeoBlazor Docs</a>
 ///     Specifies the user navigation constraints relative to
 ///     the ground surface.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#navigationConstraint">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class GroundNavigationConstraint
+public partial class GroundNavigationConstraint : MapComponent,
+    IMapComponent
 {
 
     /// <summary>
@@ -19,5 +19,21 @@ public partial class GroundNavigationConstraint
     public GroundNavigationConstraint()
     {
     }
+
+    /// <summary>
+    ///    Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
+    /// </summary>
+    /// <param name="layerId">
+    ///     The GeoBlazor Id of the relevant Layer for the MapComponent. Not always applicable to every component type.
+    /// </param>
+    public GroundNavigationConstraint(
+        Guid? layerId = null)
+    {
+        AllowRender = false;
+#pragma warning disable BL0005
+        LayerId = layerId;
+#pragma warning restore BL0005
+    }
+
 
 }

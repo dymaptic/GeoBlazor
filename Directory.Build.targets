@@ -9,8 +9,21 @@
          by ESBuild cleanup. See dotnet/sdk#49988. -->
     <Target Name="RemoveStaleJsContent">
         <ItemGroup>
-            <Content Remove="@(Content)" Condition="'%(Content.Extension)' == '.js' and !Exists('%(FullPath)')" />
-            <Content Remove="@(Content)" Condition="'%(Content.Extension)' == '.map' and !Exists('%(FullPath)')" />
+            <Content Remove="@(Content)"
+                     Condition="'%(Content.Extension)' == '.js' and !Exists('%(FullPath)')" />
+            <Content Remove="@(Content)"
+                     Condition="'%(Content.Extension)' == '.map' and !Exists('%(FullPath)')" />
         </ItemGroup>
     </Target>
+    <ItemGroup>
+        <None Update="Scripts\**\*"
+              Watch="false" />
+        <Content Update="Scripts\**\*"
+                 Watch="false" />
+        <None Update="wwwroot\**\*"
+              Watch="false" />
+        <Content Update="wwwroot\**\*"
+                 Watch="false" />
+    </ItemGroup>
+
 </Project>

@@ -20,6 +20,7 @@ public enum SystemOrAreaUnit
     SquareFeet,
     SquareYards,
     SquareMiles,
+    SquareNauticalMiles,
     SquareUsFeet,
     Acres,
     Ares,

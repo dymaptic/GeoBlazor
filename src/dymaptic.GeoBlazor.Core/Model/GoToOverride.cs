@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Model;
+namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     The following properties define a goTo override function.

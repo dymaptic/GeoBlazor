@@ -15,15 +15,12 @@
     "sourceMap": true,
     "strict": true,
     "target": "ES2023",
-    "types": [
-      "arcgis-js-api"
-    ],
     "paths": {
       "@arcgis/*": [
-        "/lib/*"
+        "./node_modules/@arcgis/*"
       ],
       "@esri/*": [
-        "/lib/*"
+        "./node_modules/@esri/*"
       ]
     },
     "allowSyntheticDefaultImports": true,

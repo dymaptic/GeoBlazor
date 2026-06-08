@@ -19,6 +19,7 @@
 //   -nc, --no-clean                    Skip the clean step (default is false)
 //   -su, --server-url <string>         License server URL (default is 'https://licensing.dymaptic.com')
 //   -retries <int>                     Number of times to retry the build on failure (default is 5)
+//   -fast, --fast                      Incremental dev build: skip clean, version bump, obfuscation, docs, xml, package; defaults to Debug
 //   -h, --help                         Display this help message
 
 using System.Text.Json;
@@ -43,6 +44,10 @@ string validatorProjectPath = Path.Combine(proRepoRoot, "src", "dymaptic.GeoBlaz
 
 DateTime scriptStartTime = DateTime.Now;
 
+// Reuse a warm MSBuild server node across the sequential dotnet invocations below.
+Environment.SetEnvironmentVariable("MSBUILDUSESERVER", "1");
+Environment.SetEnvironmentVariable("DOTNET_CLI_USE_MSBUILD_SERVER", "1");
+
 // Parse command line arguments
 bool pro = false;
 bool core = true; // Core builds by default, Pro is opt-in
@@ -54,6 +59,8 @@ bool package = false;
 bool binlog = false;
 bool help = false;
 bool clean = true;
+bool fast = false;
+bool configExplicitlySet = false;
 string? customVersion = null;
 string configuration = Environment.GetEnvironmentVariable("Configuration") ?? "Release";
 string validatorConfig = Environment.GetEnvironmentVariable("ValidatorConfiguration") ?? "Release";
@@ -117,6 +124,11 @@ for (int i = 0; i < args.Length; i++)
             clean = false;
 
             break;
+        case "-fast":
+        case "--fast":
+            fast = true;
+
+            break;
         case "-v":
         case "--version":
             if (i + 1 < args.Length)
@@ -125,11 +137,7 @@ for (int i = 0; i < args.Length; i++)
 
                 if (version.Trim('"') == "current")
                 {
-                    XDocument coreProps = XDocument.Load(corePropsPath);
-
-                    string? currentCoreVersion =
-                        coreProps.Root?.Element("PropertyGroup")?.Element("CoreVersion")?.Value;
-                    customVersion = currentCoreVersion;
+                    customVersion = ReadCurrentVersion(corePropsPath, "CoreVersion");
                 }
                 else
                 {
@@ -143,6 +151,7 @@ for (int i = 0; i < args.Length; i++)
             if (i + 1 < args.Length)
             {
                 configuration = args[++i];
+                configExplicitlySet = true;
             }
 
             break;
@@ -208,9 +217,36 @@ if (help)
 
     Console.WriteLine(
         "  -retries <int>                     Number of times to retry the build on failure (default is 5)");
+
+    Console.WriteLine(
+        "  -fast, --fast                      Incremental dev build: skip clean, version bump, obfuscation, docs, xml, package; defaults to Debug");
     Console.WriteLine("  -h, --help                         Display this help message");
 
     return 0;
+}
+
+// Fast (incremental dev) mode: flip the anti-incremental release defaults.
+if (fast)
+{
+    // Clean and version-bump (a global MSBuild evaluation input) both defeat incrementality.
+    clean = false;
+
+    if (!configExplicitlySet)
+    {
+        configuration = "Debug";
+    }
+
+    // Warn then ignore any release-only heavy steps passed alongside -fast.
+    if (obfuscate || generateDocs || generateXmlComments || package)
+    {
+        Console.WriteLine(
+            "WARNING: -fast ignores -obf, -docs, -xml, and -pkg (release-only steps).");
+    }
+
+    obfuscate = false;
+    generateDocs = false;
+    generateXmlComments = false;
+    package = false;
 }
 
 CancellationTokenSource cts = new();
@@ -225,6 +261,7 @@ Console.CancelKeyPress += async (_, e) =>
 };
 
 Console.WriteLine("Starting GeoBlazor Build Script");
+Console.WriteLine($"Fast (incremental dev) Build: {fast}");
 Console.WriteLine($"Pro Build: {pro}");
 Console.WriteLine($"Set NuGet Publish Version Build: {publishVersion}");
 Console.WriteLine($"Obfuscate Pro Build: {obfuscate}");
@@ -245,6 +282,14 @@ try
 {
     string version = customVersion ?? "";
     bool customVersionSet = !string.IsNullOrEmpty(customVersion);
+
+    // Fast mode reads the current version without bumping (writing props breaks incrementality).
+    if (fast && !customVersionSet)
+    {
+        version = pro
+            ? ReadCurrentVersion(proPropsPath, "ProVersion")
+            : ReadCurrentVersion(corePropsPath, "CoreVersion");
+    }
 
     // STEP: Stop the Analyzers running in your IDE, so the build can continue
     GbCli.WriteStepHeader(step, "Preparing Build Environment. Stopping IDE Analyzers.");
@@ -302,8 +347,8 @@ try
         step++;
     }
 
-    // STEP: Update library versions (if no custom version specified)
-    if (!customVersionSet)
+    // STEP: Update library versions (if no custom version specified; skipped in fast mode)
+    if (!customVersionSet && !fast)
     {
         stepStartTime = DateTime.Now;
         GbCli.WriteStepHeader(step, "Updating Library Versions");
@@ -462,66 +507,88 @@ try
 
         bool optOutFromObfuscation = !obfuscate;
 
-        // STEP: Build Validator
-        stepStartTime = DateTime.Now;
-        GbCli.WriteStepHeader(step, $"Building Validator project in configuration {validatorConfig}");
+        // The Pro build has no project reference to the Validator; it consumes the Validator's
+        // build output (copied to Pro's build/resources by CopyValidationOutput). In fast mode we
+        // only skip the Validator build when that expected output already exists on disk, so a cold
+        // Pro build still produces it and is never silently broken.
+        string proValidatorOutput =
+            Path.Combine(proProjectPath, "build", "resources", "dymaptic.GeoBlazor.Pro.V.dll");
+        bool skipValidator = int.Parse(version[0].ToString()) < 5 
+            || (fast && File.Exists(proValidatorOutput));
 
-        // Set the ServerUrls in the Validator project
-        serverUrl = serverUrl.TrimEnd('/');
-        Console.WriteLine($"Setting License Server Url to {serverUrl}");
-
-        string BuildValidatorPath = Path.Combine(validatorProjectPath, "BuildValidator.cs");
-
-        // Update BuildValidator.cs
-        string devValidatorContent = File.ReadAllText(BuildValidatorPath);
-        
-        string nullServerUrlLine = $"public string SU {{ get; set; }} = null!;";
-        string populatedServerUrlLine = $"public string SU {{ get; set; }} = \"{serverUrl}\";";
-
-        devValidatorContent = Regex.Replace(devValidatorContent, nullServerUrlLine, populatedServerUrlLine);
-        File.WriteAllText(BuildValidatorPath, devValidatorContent);
-        Thread.Sleep(500);
-
-        // Verify the update
-        devValidatorContent = File.ReadAllText(BuildValidatorPath);
-
-        if (!devValidatorContent.Contains(populatedServerUrlLine))
+        if (skipValidator)
         {
-            throw new Exception("Failed to set ServerUrl in BuildValidator.cs");
+            stepStartTime = DateTime.Now;
+
+            GbCli.WriteStepHeader(step,
+                "Skipping Validator build (fast mode, existing output found)");
+
+            GbCli.WriteStepCompleted(step, stepStartTime);
+            step++;
         }
-
-        // Build validator
-        List<string> validatorBuildArgs =
-        [
-            "dymaptic.GeoBlazor.Pro.V.csproj",
-            $"/p:OptOutFromObfuscation={optOutFromObfuscation.ToString().ToLower()}",
-            $"/p:ProVersion={version}",
-            "-c",
-            validatorConfig,
-            "/p:ShowScriptDialogs=false"
-        ];
-
-        if (binlog)
+        else
         {
-            validatorBuildArgs.Add($"-bl:\"{
-                Path.Combine(coreRepoRoot, $"validator_build_{validatorConfig.ToLower()}.binlog")}\"");
-        }
+            // STEP: Build Validator
+            stepStartTime = DateTime.Now;
+            GbCli.WriteStepHeader(step, $"Building Validator project in configuration {validatorConfig}");
 
-        try
-        {
-            await ProcessRunner.RunDotnetCommand(validatorProjectPath, "build", null, cts.Token, validatorBuildArgs);
-        }
-        finally
-        {
-            // Restore the ServerUrls in the Validator project even if the build fails
+            // Set the ServerUrls in the Validator project
+            serverUrl = serverUrl.TrimEnd('/');
+            Console.WriteLine($"Setting License Server Url to {serverUrl}");
+
+            string BuildValidatorPath = Path.Combine(validatorProjectPath, "BuildValidator.cs");
+
+            // Update BuildValidator.cs
+            string devValidatorContent = File.ReadAllText(BuildValidatorPath);
+
+            string nullServerUrlLine = $"public string SU {{ get; set; }} = null!;";
+            string populatedServerUrlLine = $"public string SU {{ get; set; }} = \"{serverUrl}\";";
+
+            devValidatorContent = Regex.Replace(devValidatorContent, nullServerUrlLine, populatedServerUrlLine);
+            File.WriteAllText(BuildValidatorPath, devValidatorContent);
+            Thread.Sleep(500);
+
+            // Verify the update
             devValidatorContent = File.ReadAllText(BuildValidatorPath);
 
-            devValidatorContent = Regex.Replace(devValidatorContent, populatedServerUrlLine, nullServerUrlLine);
-            File.WriteAllText(BuildValidatorPath, devValidatorContent);
-        }
+            if (!devValidatorContent.Contains(populatedServerUrlLine))
+            {
+                throw new Exception("Failed to set ServerUrl in BuildValidator.cs");
+            }
 
-        GbCli.WriteStepCompleted(step, stepStartTime);
-        step++;
+            // Build validator
+            List<string> validatorBuildArgs =
+            [
+                "dymaptic.GeoBlazor.Pro.V.csproj",
+                $"/p:OptOutFromObfuscation={optOutFromObfuscation.ToString().ToLower()}",
+                $"/p:ProVersion={version}",
+                "-c",
+                validatorConfig,
+                "/p:ShowScriptDialogs=false"
+            ];
+
+            if (binlog)
+            {
+                validatorBuildArgs.Add($"-bl:\"{
+                    Path.Combine(coreRepoRoot, $"validator_build_{validatorConfig.ToLower()}.binlog")}\"");
+            }
+
+            try
+            {
+                await ProcessRunner.RunDotnetCommand(validatorProjectPath, "build", null, cts.Token, validatorBuildArgs);
+            }
+            finally
+            {
+                // Restore the ServerUrls in the Validator project even if the build fails
+                devValidatorContent = File.ReadAllText(BuildValidatorPath);
+
+                devValidatorContent = Regex.Replace(devValidatorContent, populatedServerUrlLine, nullServerUrlLine);
+                File.WriteAllText(BuildValidatorPath, devValidatorContent);
+            }
+
+            GbCli.WriteStepCompleted(step, stepStartTime);
+            step++;
+        }
 
         // STEP: Build Pro project and package
         stepStartTime = DateTime.Now;
@@ -811,6 +878,16 @@ static async Task<string> BumpVersionAsync(string repoRoot, bool publish, bool i
     }
 
     return newVersion;
+}
+
+/// <summary>
+/// Reads the current version element from a Directory.Build.props file without modifying it.
+/// </summary>
+static string ReadCurrentVersion(string propsPath, string elementName)
+{
+    XDocument props = XDocument.Load(propsPath);
+
+    return props.Root?.Element("PropertyGroup")?.Element(elementName)?.Value ?? "";
 }
 
 /// <summary>

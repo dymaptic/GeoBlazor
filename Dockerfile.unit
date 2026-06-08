@@ -25,15 +25,15 @@ RUN apt-get update \
 # Install NPM Packages
 WORKDIR /work
 WORKDIR /work/src/dymaptic.GeoBlazor.Core
-COPY ./src/dymaptic.GeoBlazor.Core/package.json ./package.json
-RUN --mount=type=cache,target=/root/.npm npm install
+COPY ./src/dymaptic.GeoBlazor.Core/package*.json ./
+RUN --mount=type=cache,id=npm-cache,target=/root/.npm npm ci --no-audit --prefer-offline
 
 WORKDIR /work
 
 # Update GeoBlazor Build Scripts
 COPY ./build-tools/build-scripts ./build-tools/build-scripts
 COPY ./build-tools/utilities ./build-tools/utilities
-RUN --mount=type=cache,target=/root/.nuget/packages \
+RUN --mount=type=cache,id=nuget-cache,target=/root/.nuget/packages \
     dotnet run ./build-tools/build-scripts/ScriptBuilder.cs 
 
 # Input variables
@@ -47,13 +47,18 @@ ENV TEST_PROJECT=${TEST_PROJECT}
 COPY ./nuget.config ./nuget.config
 COPY ./Directory.Build.* ./
 COPY ./src/ ./src/
-COPY ./*.ps1 ./
 COPY ./.gitignore ./.gitignore
 COPY $TEST_FOLDER $TEST_FOLDER
+# Copy root test folder Directory.Build files to make sure tests have all relevant inherited targets/props
+COPY ./test/Directory.Build.* ./test/
 
-# Build test app
-RUN --mount=type=cache,target=/root/.nuget/packages \
-    dotnet build $TEST_PROJECT \
+# Build test app.
+# GBObjCacheRoot redirects every project's obj/ to /work/obj-cache/<project>/ (see Directory.Build.props),
+# so the single cache mount below preserves MSBuild incremental compile state across container builds.
+# bin/ stays default, so the source-generator analyzer references (hardcoded bin paths) keep working.
+RUN --mount=type=cache,id=nuget-cache,target=/root/.nuget/packages \
+    --mount=type=cache,id=gbcore-unit-objcache,sharing=locked,target=/work/obj-cache \
+    GBObjCacheRoot=/work/obj-cache dotnet build $TEST_PROJECT \
     -c Release \
     /p:UsePackageReferences=false \
     /p:DebugSymbols=true \

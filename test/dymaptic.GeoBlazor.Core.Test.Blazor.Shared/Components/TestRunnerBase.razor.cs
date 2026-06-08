@@ -40,7 +40,10 @@ public partial class TestRunnerBase : IAsyncDisposable
                 }
 
                 await CleanupTest(args.Context.OperationKey!, true);
-                _testResults[args.Context.OperationKey!] = $"Attempt {args.AttemptNumber + 1} failed. Retrying...";
+                _testResults[args.Context.OperationKey!] = $"""
+                                                            <p>Attempt {args.AttemptNumber + 1} failed. Retrying...</p>
+                                                            <p style="color: red;">Exception: {(args.Context.Properties.GetValue(_exceptionKey, ""))}</p>
+                                                            """;
             }
         };
 
@@ -230,6 +233,11 @@ public partial class TestRunnerBase : IAsyncDisposable
         {
             if (_mapRenderingExceptions.Remove(methodName, out var ex))
             {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+
                 await TestLogger.LogError("Test Failed", ex);
 
                 ExceptionDispatchInfo.Capture(ex).Throw();
@@ -428,8 +436,15 @@ public partial class TestRunnerBase : IAsyncDisposable
 
             if (_cancellationTokenSources.TryGetValue(testName, out var cts))
             {
-                await cts.CancelAsync();
-                cts.Dispose();
+                try
+                {
+                    await cts.CancelAsync();
+                    cts.Dispose();
+                }
+                catch
+                {
+                    // ignore, might be already disposed
+                }
                 _cancellationTokenSources.Remove(testName);
             }
         }
@@ -547,9 +562,16 @@ public partial class TestRunnerBase : IAsyncDisposable
                         methodInfo.Invoke(this, actions);
                     }
                 }
-                catch (TargetInvocationException tie) when (tie.InnerException is not null)
+                catch (Exception ex)
                 {
-                    throw tie.InnerException;
+                    context.Properties.Set(_exceptionKey, $"{ex.Message}{Environment.NewLine}{ex.StackTrace}");
+                    if (ex is TargetInvocationException { InnerException: not null } tie)
+                    {
+                        context.Properties.Set(_exceptionKey, $"{tie.InnerException!.Message}{Environment.NewLine}{tie.InnerException.StackTrace}");
+                        throw tie.InnerException;
+                    }
+
+                    throw;
                 }
             }, context);
 
@@ -621,6 +643,7 @@ public partial class TestRunnerBase : IAsyncDisposable
     private readonly Dictionary<string, Exception> _mapRenderingExceptions = new();
 
     private readonly ResiliencePipeline _retryPipeline;
+    private readonly ResiliencePropertyKey<string?> _exceptionKey = new("Exception");
     private readonly Dictionary<string, CancellationTokenSource> _cancellationTokenSources = new();
     private StringBuilder _resultBuilder = new();
     private Type? _type;

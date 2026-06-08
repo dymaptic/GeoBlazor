@@ -103,7 +103,7 @@ public partial class ListItemPanelWidget: Widget
         Icon = icon;
         Image = image;
         Label = label;
-        MapView = mapView;
+        View = mapView;
         Open = open;
         Position = position;
         Title = title;

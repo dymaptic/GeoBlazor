@@ -11,6 +11,7 @@
 //   -ninst, --noinstall                  Skip npm install step
 //   -nl, --nolint                        Skip ESLint step
 //   -v, --verbose                        Enable verbose logging
+//   -w, --watch                          Run esbuild in watch mode (rebuild on changes)
 //   -h, --help                           Display help message
 
 using System.Diagnostics;
@@ -31,6 +32,7 @@ bool proOnCoreChange = false;
 bool verbose = false;
 bool lint = true;
 bool install = true;
+bool watch = false;
 
 for (int i = 0; i < args.Length; i++)
 {
@@ -74,6 +76,10 @@ for (int i = 0; i < args.Length; i++)
         case "--noinstall":
             install = false;
             break;
+        case "-w":
+        case "--watch":
+            watch = true;
+            break;
         default:
             // Check for combined forms like "-c=Release"
             if (arg.StartsWith("-c=") || arg.StartsWith("--configuration="))
@@ -99,6 +105,8 @@ if (help)
     Trace.WriteLine("  -pc, --prooncorechange               Run the GeoBlazor Pro ESBuild process if pro OR core files have changed");
     Trace.WriteLine("  -nl, --nolint                        Skip ESLint step");
     Trace.WriteLine("  -ninst, --noinstall                  Skip npm install step");
+    Trace.WriteLine("  -v, --verbose                        Enable verbose logging");
+    Trace.WriteLine("  -w, --watch                          Run esbuild in watch mode (rebuild on changes)");
     Trace.WriteLine("  -h, --help                           Display this help message");
     
     return 0;
@@ -193,15 +201,30 @@ try
     await ProcessRunner.RunNpmCommand(sourceDir, buildCommand);
     Trace.WriteLine("-----");
 
-    // Clean up old chunk files — only delete files older than the PREVIOUS build.
-    // Files from the most recent build must be preserved because MSBuild has already
-    // cataloged them as static web assets before ESBuild runs (dotnet/sdk#49988).
-    CleanupOldChunks(outputDir, preBuildRecord.PreviousTimestamp, pro ? "PRO" : "CORE", verbose);
+    // Clean up old chunk files. The cutoff is configuration-aware:
+    //  - Debug (local incremental): keep ONLY the set we just built (cutoff = this build's
+    //    timestamp). Halving the on-disk file count reduces the work of the unconditional
+    //    .NET StaticWebAssets targets, which catalog every file on every build.
+    //  - Release: keep current + previous (cutoff = previous build's timestamp), preserving
+    //    the dotnet/sdk#49988 mitigation. GeoBlazorBuild.cs already hard-cleans wwwroot/js in
+    //    its clean step, so Release builds start empty and this cutoff is effectively a no-op.
+    // Either way, deletion runs AFTER esbuild writes the fresh set, so the just-built files
+    // (mtime ≈ now) are always preserved.
+    long cleanupCutoff = configuration == "Release"
+        ? preBuildRecord.PreviousTimestamp
+        : preBuildRecord.Timestamp;
+    CleanupOldChunks(outputDir, cleanupCutoff, pro ? "PRO" : "CORE", verbose);
 
     // Update build record: current timestamp becomes "previous" for the next build
     SaveBuildRecord(recordFilePath, currentBranch, preBuildRecord.Timestamp);
 
     Trace.WriteLine($"ESBUILD {(pro ? "PRO" : "CORE")}: NPM Build Complete");
+
+    if (watch)
+    {
+        await RunWatchLoop(pro, sourceDir, coreScriptsDir, proScriptsDir, scriptsDir, buildCommand, verbose);
+    }
+
     return 0;
 }
 catch (Exception ex)
@@ -434,6 +457,125 @@ static void CopyScriptsToPro(string coreScriptsDir, string proScriptsDir, bool v
 }
 
 /// <summary>
+/// Watches the active project's Scripts directory (and Core's, when building Pro) for
+/// TypeScript changes, debounces bursts of events from a single save, and re-runs the
+/// npm build on every settled change. Watchers are paused during the rebuild itself so
+/// that the Pro CopyScriptsToPro step does not feedback-trigger another rebuild.
+/// Blocks until Ctrl+C.
+/// </summary>
+static async Task RunWatchLoop(
+    bool pro,
+    string sourceDir,
+    string coreScriptsDir,
+    string proScriptsDir,
+    string scriptsDir,
+    string buildCommand,
+    bool verbose)
+{
+    string label = pro ? "PRO" : "CORE";
+    Trace.WriteLine("-----");
+    Trace.WriteLine($"ESBUILD {label}: Watching for changes in Scripts folders. Press Ctrl+C to stop.");
+
+    using var rebuildSignal = new SemaphoreSlim(0, int.MaxValue);
+    using var cts = new CancellationTokenSource();
+
+    ConsoleCancelEventHandler cancelHandler = (_, e) =>
+    {
+        Trace.WriteLine($"ESBUILD {label}: Stop requested, exiting watch loop...");
+        cts.Cancel();
+        e.Cancel = true;
+    };
+    Console.CancelKeyPress += cancelHandler;
+
+    var watchers = new List<FileSystemWatcher>();
+
+    FileSystemWatcher CreateWatcher(string dir)
+    {
+        var w = new FileSystemWatcher(dir)
+        {
+            IncludeSubdirectories = true,
+            Filter = "*.ts",
+            NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.Size
+        };
+        w.Changed += (_, _) => rebuildSignal.Release();
+        w.Created += (_, _) => rebuildSignal.Release();
+        w.Deleted += (_, _) => rebuildSignal.Release();
+        w.Renamed += (_, _) => rebuildSignal.Release();
+        w.Error += (_, args) =>
+            Trace.WriteLine($"ESBUILD {label}: Watcher error on {dir}: {args.GetException().Message}");
+        w.EnableRaisingEvents = true;
+        return w;
+    }
+
+    if (Directory.Exists(scriptsDir))
+    {
+        watchers.Add(CreateWatcher(scriptsDir));
+        Trace.WriteLine($"ESBUILD {label}: Watching {scriptsDir}");
+    }
+
+    if (pro && Directory.Exists(coreScriptsDir) &&
+        !string.Equals(Path.GetFullPath(coreScriptsDir), Path.GetFullPath(scriptsDir), StringComparison.OrdinalIgnoreCase))
+    {
+        watchers.Add(CreateWatcher(coreScriptsDir));
+        Trace.WriteLine($"ESBUILD {label}: Watching {coreScriptsDir}");
+    }
+
+    const int debounceMs = 500;
+
+    try
+    {
+        while (!cts.IsCancellationRequested)
+        {
+            await rebuildSignal.WaitAsync(cts.Token);
+
+            // Debounce — keep draining for `debounceMs` of quiet
+            while (true)
+            {
+                await Task.Delay(debounceMs, cts.Token);
+                bool drained = false;
+                while (rebuildSignal.Wait(0)) { drained = true; }
+                if (!drained) break;
+            }
+
+            // Pause watchers — the rebuild itself (esp. CopyScriptsToPro) will touch files we watch
+            foreach (var w in watchers) w.EnableRaisingEvents = false;
+
+            try
+            {
+                Trace.WriteLine($"ESBUILD {label}: Change detected, rebuilding...");
+                if (pro)
+                {
+                    CopyScriptsToPro(coreScriptsDir, proScriptsDir, verbose);
+                }
+                await ProcessRunner.RunNpmCommand(sourceDir, buildCommand);
+                Trace.WriteLine($"ESBUILD {label}: Rebuild complete. Watching...");
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"ESBUILD {label}: Rebuild failed: {ex.Message}");
+                Trace.WriteLine($"ESBUILD {label}: Watching for next change...");
+            }
+            finally
+            {
+                // Settle, drain any events from the rebuild, then resume
+                try { await Task.Delay(200, cts.Token); } catch (OperationCanceledException) { }
+                while (rebuildSignal.Wait(0)) { }
+                foreach (var w in watchers) w.EnableRaisingEvents = true;
+            }
+        }
+    }
+    catch (OperationCanceledException)
+    {
+        // Ctrl+C — fall through to cleanup
+    }
+    finally
+    {
+        Console.CancelKeyPress -= cancelHandler;
+        foreach (var w in watchers) w.Dispose();
+    }
+}
+
+/// <summary>
 /// Saves the build record to a JSON file after a successful build.
 /// Records the current timestamp, previous timestamp, and branch name.
 /// The previous timestamp is used by cleanup to identify files safe to delete — only files
@@ -446,7 +588,7 @@ static void CopyScriptsToPro(string coreScriptsDir, string proScriptsDir, bool v
 static void SaveBuildRecord(string recordFilePath, string branch, long previousTimestamp)
 {
     // buffer 30 seconds into the future to avoid edge cases
-    long timestamp = DateTimeOffset.UtcNow.AddSeconds(30).ToUnixTimeMilliseconds();
+    long timestamp = DateTimeOffset.UtcNow.AddSeconds(5).ToUnixTimeMilliseconds();
     // Write JSON manually to avoid reflection-based serialization (not compatible with Native AOT)
     string json = $$"""
         {
@@ -459,14 +601,16 @@ static void SaveBuildRecord(string recordFilePath, string branch, long previousT
 }
 
 /// <summary>
-/// Deletes old chunk files from the output directory that predate the previous build.
-/// Keeps files from the current build and the immediately preceding build intact.
-/// This addresses the accumulation of hashed chunk files from esbuild code splitting
-/// without triggering the MSBuild static web asset fingerprinting race condition
-/// (dotnet/sdk#49988), since only files from 2+ builds ago are removed.
+/// Deletes old chunk files from the output directory that predate the supplied cutoff timestamp.
+/// This addresses the accumulation of hashed chunk files from esbuild code splitting. The cutoff
+/// is the caller's choice: passing the current build's timestamp keeps only the set just built
+/// (used for Debug/local incremental builds to halve the on-disk file count), while passing the
+/// previous build's timestamp keeps current + previous (used for Release to preserve the
+/// dotnet/sdk#49988 static-web-asset fingerprinting mitigation). The just-built set is always
+/// preserved because this runs after esbuild writes it (its files' mtime is newer than either cutoff).
 /// </summary>
 /// <param name="outputDir">Path to the wwwroot/js output directory.</param>
-/// <param name="previousTimestamp">Timestamp of the build before the most recent one (cutoff for deletion).</param>
+/// <param name="previousTimestamp">Cutoff timestamp for deletion; files older than this are removed. Pass the current-build timestamp to keep only the current set, or the previous-build timestamp to keep current + previous.</param>
 /// <param name="proOrCore">Label for log messages ("PRO" or "CORE").</param>
 /// <param name="verbose">If true, logs each deleted file.</param>
 static void CleanupOldChunks(string outputDir, long previousTimestamp, string proOrCore, bool verbose)

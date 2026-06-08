@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
-public partial class MeasurementWidget : Widget
+public partial class MeasurementWidget: Widget
 {
     /// <inheritdoc />
     public override WidgetType Type => WidgetType.Measurement;

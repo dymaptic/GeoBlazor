@@ -28,13 +28,18 @@ public partial class FeatureSnappingLayerSource
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-snapping-FeatureSnappingLayerSource.html#enabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="layer">
+    ///     The layer to be used for feature snapping.
+    /// </param>
     public FeatureSnappingLayerSource(
-        bool? enabled = null)
+        bool? enabled = null,
+        Layer? layer = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Enabled = enabled;
-#pragma warning restore BL0005    
+        Layer = layer;
+#pragma warning restore BL0005
     }
     
     

@@ -3,7 +3,6 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using System.Collections.Immutable;
-using System.Linq;
 
 namespace dymaptic.GeoBlazor.Core.Analyzers;
 
@@ -17,7 +16,7 @@ internal class ParameterConversionAnalyzer : DiagnosticAnalyzer
 {
     public const string DiagnosticId = "GeoBlazor_RPC";
 
-    private static readonly DiagnosticDescriptor Rule = new(
+    private static readonly DiagnosticDescriptor rule = new(
         DiagnosticId,
         "Use @() wrapper for implicit string conversion in Razor",
         "Parameter '{0}' (type '{1}') supports implicit conversion from string, but Razor requires @() syntax for the conversion to work. Change {0}=\"{2}\" to {0}=\"@(\"{2}\")\".",
@@ -27,7 +26,7 @@ internal class ParameterConversionAnalyzer : DiagnosticAnalyzer
         description:
         "In Razor markup, raw string attribute values are passed as-is to component parameters without applying C# implicit conversion operators. This causes a runtime error when the parameter type is not string. Wrap the value in @() to enable the implicit conversion. Example: change Param=\"value\" to Param=\"@(\"value\")\".");
 
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(rule);
 
     public override void Initialize(AnalysisContext context)
     {
@@ -76,7 +75,7 @@ internal class ParameterConversionAnalyzer : DiagnosticAnalyzer
             return;
 
         context.ReportDiagnostic(Diagnostic.Create(
-            Rule,
+            rule,
             args[2].GetLocation(),
             property.Name,
             property.Type.Name,
@@ -129,7 +128,7 @@ internal class ParameterConversionAnalyzer : DiagnosticAnalyzer
 
     private static bool IsInGeneratedRazorCode(SyntaxTree tree)
     {
-        var filePath = tree.FilePath ?? string.Empty;
+        string filePath = tree.FilePath;
 
         // Razor source generator outputs files ending with _razor.g.cs or .razor.g.cs
         return filePath.EndsWith("_razor.g.cs") || filePath.EndsWith(".razor.g.cs");

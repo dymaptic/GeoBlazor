@@ -1,3 +1,4 @@
+import { hasValue } from './arcGisJsInterop';
 import BasemapToggleWidgetGenerated from './basemapToggleWidget.gb';
 import BasemapToggle from '@arcgis/core/widgets/BasemapToggle';
 
@@ -10,9 +11,20 @@ export default class BasemapToggleWidgetWrapper extends BasemapToggleWidgetGener
 }
 
 export async function buildJsBasemapToggleWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject.nextBasemap)) {
+        if (hasValue(dotNetObject.nextBasemapStyle)) {
+            dotNetObject.nextBasemap = {
+                style: {
+                    name: dotNetObject.nextBasemapStyle
+                }
+            };
+        }
+    }
+    
     let { buildJsBasemapToggleWidgetGenerated } = await import('./basemapToggleWidget.gb');
     return await buildJsBasemapToggleWidgetGenerated(dotNetObject, layerId, viewId);
 }
+
 export async function buildDotNetBasemapToggleWidget(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetBasemapToggleWidgetGenerated } = await import('./basemapToggleWidget.gb');
     return await buildDotNetBasemapToggleWidgetGenerated(jsObject, layerId, viewId);

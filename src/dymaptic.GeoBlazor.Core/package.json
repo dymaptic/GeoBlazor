@@ -5,7 +5,6 @@
   "type": "module",
   "scripts": {
     "debugBuild": "node ./esBuild.js --debug",
-    "watchBuild": "node ./esBuild.js --watch",
     "releaseBuild": "node ./esBuild.js --release",
     "lint": "eslint ./Scripts"
   },

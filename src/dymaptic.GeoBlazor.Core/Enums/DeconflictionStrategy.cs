@@ -8,10 +8,12 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#deconflictionStrategy">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<DeconflictionStrategy>))]
+[CodeGenerationIgnore]
 public enum DeconflictionStrategy
 {
 #pragma warning disable CS1591
     None,
-    Static
+    Static,
+    Dynamic
 #pragma warning restore CS1591
 }

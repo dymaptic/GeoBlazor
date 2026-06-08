@@ -6,15 +6,12 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <CoreVersion>4.5.0</CoreVersion>
+    <CoreVersion>4.5.0.1</CoreVersion>
     <Configurations>Debug;Release;SourceGen Highlighting</Configurations>
     <Platforms>AnyCPU</Platforms>
     <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
     <CoreProjectPath>$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core</CoreProjectPath>
-    <!-- https://github.com/dotnet/aspnetcore/issues/64381 -->
-    <StaticWebAssetEndpointExclusionPattern>
-            $(StaticWebAssetEndpointExclusionPattern);js/**
-        </StaticWebAssetEndpointExclusionPattern>
+    <BaseIntermediateOutputPath Condition="'$(GBObjCacheRoot)' != ''">$(GBObjCacheRoot)/$(MSBuildProjectName)/</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$([System.OperatingSystem]::IsWindows())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'X64'">
     <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/win-x64</GBBuildToolsPath>
@@ -34,16 +31,20 @@
   <PropertyGroup Condition="'$([System.OperatingSystem]::IsLinux())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'Arm64'">
     <GBBuildToolsPath>$(MSBuildThisFileDirectory)build-tools/linux-arm64</GBBuildToolsPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' != 'Release'">
+    <StaticWebAssetsFingerprintContent>false</StaticWebAssetsFingerprintContent>
+    <CompressionEnabled>false</CompressionEnabled>
+    <StaticWebAssetFingerprintingEnabled>false</StaticWebAssetFingerprintingEnabled>
+  </PropertyGroup>
   <ItemGroup>
     <Watch Remove="$(CoreProjectPath)\wwwroot\**\*;$(CoreProjectPath)\Scripts\**\*;**\esbuild*;$(CoreProjectPath)\node_modules\**\*" />
   </ItemGroup>
   <ItemGroup>
-    <CompilerVisibleProperty Include="Configuration" Value="$(GBBuildToolsPath)" />
+    <CompilerVisibleProperty Include="GBBuildToolsPath" Value="$(GBBuildToolsPath)" />
     <CompilerVisibleProperty Include="Configuration" Value="$(Configuration)" />
-    <CompilerVisibleProperty Include="DesignTimeBuild" Value="$(DesignTimeBuild)" />
     <CompilerVisibleProperty Include="ShowScriptDialogs" Value="$(ShowScriptDialogs)" />
     <CompilerVisibleProperty Include="CoreProjectPath" Value="$(CoreProjectPath)" />
-    <CompilerVisibleProperty Include="CoreProjectPath" Value="$(ProProjectPath)" />
+    <CompilerVisibleProperty Include="ProProjectPath" Value="$(ProProjectPath)" />
   </ItemGroup>
   <!-- ESBuild Project Trigger: Must happen before RESTORE -->
   <PropertyGroup>
@@ -66,13 +67,8 @@
             TriggerESBuild;
             TriggerProESBuild
         </ESBuildRemoveProps>
-    <ESBuildNonTriggeringProjects>
-            ;dymaptic.GeoBlazor.Core.ESBuild;
-            ;dymaptic.GeoBlazor.Pro.ESBuild;
-            ;dymaptic.GeoBlazor.Pro.V;
-        </ESBuildNonTriggeringProjects>
   </PropertyGroup>
-  <Target Name="TriggerESBuild" BeforeTargets="Restore;BeforeBuild" Condition="!$(ESBuildNonTriggeringProjects.Contains(';$(MSBuildProjectName);'))">
+  <Target Name="TriggerESBuild" BeforeTargets="Restore;BeforeBuild" Condition="'$(MSBuildProjectName)' == 'dymaptic.GeoBlazor.Core'">
     <!-- Atomically check-and-acquire the lock file; exit code 0 = acquired.
          AcquireBuildLock also creates a .running marker file when the lock is acquired,
          so other projects can wait for ESBuild to complete. -->
@@ -81,7 +77,7 @@
     </Exec>
     <!-- Lock acquired: run ESBuild, then remove the .running marker -->
     <Message Importance="high" Text="Triggering Core ESBuild from $(MSBuildProjectName)" Condition="'$(_AcquireLockExitCode)' == '0'" />
-    <Exec Command="dotnet restore $(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj" Condition="'$(_AcquireLockExitCode)' == '0'" />
+    <Exec Command="dotnet restore &quot;$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj&quot;" Condition="'$(_AcquireLockExitCode)' == '0'" />
     <MSBuild Projects="$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj" Properties="GBBuildToolsPath=$(GBBuildToolsPath);ShowScriptDialogs=$(ShowScriptDialogs)" RemoveProperties="$(ESBuildRemoveProps)" Condition="'$(_AcquireLockExitCode)' == '0'" />
     <Delete Files="$(ESBuildLockFilePath).running" Condition="'$(_AcquireLockExitCode)' == '0'" />
     <!-- Lock not acquired: another project is running ESBuild — wait for it to finish -->

@@ -2,9 +2,14 @@
 
 <h1>Unit Tests</h1>
 
+@if (_errorMessage != string.Empty)
+{
+<p style="color: red;">@_errorMessage</p>
+}
+
 @if (_results is null)
 {
-    <p>Loading tests...</p>
+    <p>Loading...</p>
 }
 else
 {

@@ -14,6 +14,7 @@ public class EnumToKebabCaseStringConverter<T> : JsonConverter<T> where T : notn
         string? value = reader.GetString()?
             .KebabToPascalCase()
             .Replace("esri", string.Empty, StringComparison.OrdinalIgnoreCase)
+            .Replace(" ", string.Empty, StringComparison.OrdinalIgnoreCase)
             .Replace(typeof(T).Name, string.Empty);
 
         try
@@ -22,7 +23,7 @@ public class EnumToKebabCaseStringConverter<T> : JsonConverter<T> where T : notn
         }
         catch (Exception ex)
         {
-            Debug.WriteLine("Error parsing enum value. If this error persists, please report to geoblazor@dymaptic.com.");
+            Debug.WriteLine($"Error parsing enum value {value} for enum Type {typeof(T).Name}. If this error persists, please report to geoblazor@dymaptic.com.");
             Debug.WriteLine(ex);
 
             return default!;

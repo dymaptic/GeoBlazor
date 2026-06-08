@@ -88,7 +88,7 @@ public partial class HomeWidget : IGoTo
         GoToOverride = goToOverride;
         Icon = icon;
         Label = label;
-        MapView = mapView;
+        View = mapView;
         Position = position;
         UiStrings = uiStrings;
         ViewModel = viewModel;

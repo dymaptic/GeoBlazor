@@ -111,7 +111,7 @@
                     <LayerListWidget Position="OverlayPosition.TopRight"
                                      OnListItemCreatedHandler="listItemCreatedHandler" />
                 </SceneView>
-                <SearchWidget @ref="searchWidget" MapView="sceneView" />
+                <SearchWidget @ref="searchWidget" View="sceneView" />
             </div>);
 
         await WaitForMapToRender(timeoutInSeconds: 90);

@@ -27,7 +27,7 @@
 
     <Target Name="GetDependencyTargetPaths">
         <ItemGroup>
-            <TargetPathWithTargetPlatformMoniker Include="$(MSBuildProjectDirectory)\..\dymaptic.GeoBlazor.Core.SourceGenerator.Shared\bin\$(Configuration)\netstandard2.0\dymaptic.GeoBlazor.Core.SourceGenerator.Shared.dll"
+            <TargetPathWithTargetPlatformMoniker Include="$(MSBuildProjectDirectory)\..\dymaptic.GeoBlazor.Core.SourceGenerator.Shared\$(OutputPath)\dymaptic.GeoBlazor.Core.SourceGenerator.Shared.dll"
                                                  IncludeRuntimeDependency="false" />
             <TargetPathWithTargetPlatformMoniker Include="$(PkgCliWrap)\lib\netstandard2.0\CliWrap.dll" 
                                                  IncludeRuntimeDependency="false" />

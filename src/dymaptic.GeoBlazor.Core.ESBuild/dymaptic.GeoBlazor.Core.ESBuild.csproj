@@ -3,8 +3,8 @@
         <TargetFrameworks>net8.0;net10.0;netstandard2.0</TargetFrameworks>
     </PropertyGroup>
     <!-- ESBuild-Triggering "Project" to enforce that this only fires once per build, no matter what project we build from -->
-    <Target BeforeTargets="DispatchToInnerBuilds" Name="ESBuild">
-        <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration)$(CoreESBuildLint) --dialog" ContinueOnError="false" Condition="$(ShowScriptDialogs) == 'true'" StandardOutputImportance="high" StandardErrorImportance="high"/>
-        <Exec Command="dotnet $(GBBuildToolsPath)/ESBuild.dll -c $(Configuration)$(CoreESBuildLint)" ContinueOnError="false" Condition="$(ShowScriptDialogs) != 'true'" StandardOutputImportance="high" StandardErrorImportance="high"/>
+    <Target BeforeTargets="DispatchToInnerBuilds" Name="ESBuild" Condition="'$(SkipESBuild)' != 'true'">
+        <Exec Command="dotnet &quot;$(GBBuildToolsPath)/ESBuild.dll&quot; -c $(Configuration)$(CoreESBuildLint) --dialog" ContinueOnError="false" Condition="$(ShowScriptDialogs) == 'true'" StandardOutputImportance="high" StandardErrorImportance="high"/>
+        <Exec Command="dotnet &quot;$(GBBuildToolsPath)/ESBuild.dll&quot; -c $(Configuration)$(CoreESBuildLint)" ContinueOnError="false" Condition="$(ShowScriptDialogs) != 'true'" StandardOutputImportance="high" StandardErrorImportance="high"/>
     </Target>
 </Project>

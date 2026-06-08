@@ -4,6 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///     Convenience interface for managing view models for layers and widgets.
 /// </summary>
 [JsonConverter(typeof(MultiTypeConverter<IViewModel>))]
+[CodeGenerationIgnore]
 public interface IViewModel
 {
     

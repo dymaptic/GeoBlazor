@@ -1,8 +1,5 @@
 # syntax=docker/dockerfile:1.7.0
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
-ARG ARCGIS_API_KEY
-ARG GEOBLAZOR_LICENSE_KEY
-ARG WFS_SERVERS
 ARG HTTP_PORT
 ARG HTTPS_PORT
 
@@ -18,30 +15,42 @@ RUN apt-get update \
 # Install NPM Packages
 WORKDIR /work
 WORKDIR /work/src/dymaptic.GeoBlazor.Core
-COPY ./src/dymaptic.GeoBlazor.Core/package.json ./package.json
-RUN --mount=type=cache,target=/root/.npm npm install
+COPY ./src/dymaptic.GeoBlazor.Core/package*.json ./
+RUN --mount=type=cache,id=npm-cache,target=/root/.npm npm ci --no-audit --prefer-offline
 
 WORKDIR /work
 
 # Update GeoBlazor Build Scripts
 COPY ./build-tools/build-scripts ./build-tools/build-scripts
 COPY ./build-tools/utilities ./build-tools/utilities
-RUN --mount=type=cache,target=/root/.nuget/packages \
+RUN --mount=type=cache,id=nuget-cache,target=/root/.nuget/packages \
     dotnet run ./build-tools/build-scripts/ScriptBuilder.cs 
 
 # Copy Source Files
-COPY ./*.ps1 ./
 COPY ./Directory.Build.* ./
 COPY ./.gitignore ./.gitignore
 COPY ./nuget.config ./nuget.config
 COPY ./src/ ./src/
 
-# Create GeoBlazor NuGet Packages
-RUN --mount=type=cache,target=/root/.nuget/packages \
+# Create GeoBlazor NuGet Packages.
+# GBObjCacheRoot redirects every project's obj/ to /work/obj-cache/<project>/ (see Directory.Build.props),
+# so the single cache mount below preserves MSBuild incremental compile state across container builds.
+# bin/ stays default, so all hardcoded bin paths (source generators) keep working. sharing=locked
+# serializes parallel builds.
+RUN --mount=type=cache,id=nuget-cache,target=/root/.nuget/packages \
+    --mount=type=cache,id=gbcore-objcache,sharing=locked,target=/work/obj-cache \
+    GBObjCacheRoot=/work/obj-cache \
     dotnet ./build-tools/linux-x64/GeoBlazorBuild.dll -pkg -obf -c "Release"
 
+# Test-level Directory.Build.props (carries the MapStaticAssets JS exclusion for the WebApp host)
+COPY ./test/Directory.Build.* ./test/
 COPY ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared ./test/dymaptic.GeoBlazor.Core.Test.Blazor.Shared
 COPY ./test/dymaptic.GeoBlazor.Core.Test.WebApp ./test/dymaptic.GeoBlazor.Core.Test.WebApp
+
+# Keep frequently-changing appsettings secrets late so earlier build layers stay cacheable.
+ARG ARCGIS_API_KEY
+ARG GEOBLAZOR_LICENSE_KEY
+ARG WFS_SERVERS
 
 # Create appsettings files
 RUN dotnet ./build-tools/linux-x64/BuildAppSettings.dll \
@@ -56,8 +65,10 @@ RUN dotnet ./build-tools/linux-x64/BuildAppSettings.dll \
 # Build from source with debug symbols for code coverage
 # UsePackageReferences=false builds GeoBlazor from source instead of NuGet
 # DebugSymbols=true and DebugType=portable ensure PDB files are generated
-RUN --mount=type=cache,target=/root/.nuget/packages \
-    dotnet publish ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj \
+RUN --mount=type=cache,id=nuget-cache,target=/root/.nuget/packages \
+    --mount=type=cache,id=gbcore-objcache,sharing=locked,target=/work/obj-cache \
+    rm -rf /root/.nuget/packages/dymaptic.geoblazor.core /root/.nuget/packages/dymaptic.geoblazor.pro; \
+    GBObjCacheRoot=/work/obj-cache dotnet publish ./test/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp/dymaptic.GeoBlazor.Core.Test.WebApp.csproj \
     -c Release \
     /p:UsePackageReferences=true \
     /p:DebugSymbols=true \
@@ -66,9 +77,14 @@ RUN --mount=type=cache,target=/root/.nuget/packages \
     /p:GenerateDocs=false \
     /p:GenerateXmlComments=false \
     /p:ShowScriptDialogs=false \
-    -o /app/publish -bl 
+    -o /app/publish -bl
 
 RUN cp ./msbuild.binlog /app/publish/msbuild.binlog 2>/dev/null || true
+
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS coverage-tools
+RUN mkdir -p /tools \
+    && dotnet tool install --tool-path /tools dotnet-coverage \
+    && chmod -R 755 /tools
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0
 
@@ -92,15 +108,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends openssl bash li
         -password pass:password \
     && chmod 644 /https/aspnetapp.pfx
 
-# Install .NET SDK for dotnet-coverage tool (in runtime image)
-COPY --from=build /usr/share/dotnet /usr/share/dotnet
-ENV PATH="/usr/share/dotnet:/tools:$PATH"
-ENV DOTNET_ROOT=/usr/share/dotnet
-
-# Install dotnet-coverage tool to a shared location accessible by all users
-RUN mkdir -p /tools && \
-    /usr/share/dotnet/dotnet tool install --tool-path /tools dotnet-coverage && \
-    chmod -R 755 /tools
+# dotnet-coverage is installed in a dedicated stage and copied in.
+COPY --from=coverage-tools /tools /tools
+ENV PATH="/tools:$PATH"
 
 # Create user and set working directory
 RUN groupadd -r info && useradd -r -g info info \

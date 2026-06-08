@@ -4,14 +4,9 @@ import {buildDotNetGeometry, buildJsGeometry} from "./geometry";
 import {buildJsSpatialReference} from "./spatialReference";
 import {hasValue} from './geoBlazorCore';
 import {buildJsExtent} from "./extent";
+import BaseComponent from "./baseComponent";
 
-export default class ProjectionWrapper {
-    private readonly returnToDotNet: boolean;
-    
-    constructor(returnToDotNet: boolean = true) {
-        this.returnToDotNet = returnToDotNet;
-    }
-    
+export default class ProjectionWrapper extends BaseComponent {
     async load(): Promise<void> {
         let projectionOperator = await import('@arcgis/core/geometry/operators/projectOperator');
         if (!projectionOperator.isLoaded()) {
@@ -32,12 +27,11 @@ export default class ProjectionWrapper {
         if (geometry === null) return null;
 
         if (Array.isArray(geometry)) {
+            if (geometry.length === 0) return [];
             let jsGeometries = geometry.map(g => buildJsGeometry(g));
             let result = projectionOperator.executeMany(jsGeometries, buildJsSpatialReference(outSpatialReference) as any,
                 options);
-            if (!this.returnToDotNet) {
-                return result;
-            }
+            
             let resultArray: DotNetGeometry[] = [];
             (result as Geometry[]).forEach(g => {
                 let dotNetGeom = buildDotNetGeometry(g);
@@ -53,7 +47,7 @@ export default class ProjectionWrapper {
         let result = projectionOperator.execute(jsGeometry, buildJsSpatialReference(outSpatialReference) as any,
             options);
         
-        return this.returnToDotNet ? buildDotNetGeometry(result) : result;
+        return buildDotNetGeometry(result);
     }
 
     async getTransformation(inSpatialReference, outSpatialReference, extent):
@@ -73,7 +67,7 @@ export default class ProjectionWrapper {
                 buildJsSpatialReference(outSpatialReference) as any)
         }
         let {buildDotNetGeographicTransformation} = await import('./geographicTransformation');
-        return this.returnToDotNet ? buildDotNetGeographicTransformation(geoTransform) : geoTransform;
+        return buildDotNetGeographicTransformation(geoTransform);
     }
 
     async getTransformations(inSpatialReference, outSpatialReference, extent):
@@ -100,14 +94,14 @@ export default class ProjectionWrapper {
                 dotNetTransforms.push(dotNetT);
             }
         });
-        return this.returnToDotNet ? dotNetTransforms : geoTransforms;
+        return dotNetTransforms;
     }
 }
 
 export async function buildJsProjection(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    return new ProjectionWrapper();
+    // not used
 }
 
 export async function buildDotNetProjection(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    return null;
+    // not used
 }

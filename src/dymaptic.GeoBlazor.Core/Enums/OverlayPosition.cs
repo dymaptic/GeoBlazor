@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Enums;
+namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-ui-DefaultUI.html#add">ArcGIS Maps SDK for JavaScript</a>

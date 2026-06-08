@@ -88,7 +88,7 @@ public partial class MeasurementWidget
         Icon = icon;
         Label = label;
         LinearUnit = linearUnit;
-        MapView = mapView;
+        View = mapView;
         Position = position;
         ViewModel = viewModel;
         Visible = visible;

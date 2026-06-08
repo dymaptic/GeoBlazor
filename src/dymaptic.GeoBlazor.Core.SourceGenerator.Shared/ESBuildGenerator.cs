@@ -20,12 +20,6 @@ public static class ESBuildGenerator
             options[GB_BUILD_TOOLS_PATH] = gbBuildToolsPath;
         }
 
-        if (configProvider.GlobalOptions.TryGetValue($"{BUILD_PROPERTY}.{DESIGN_TIME_BUILD}",
-            out var designTimeBuild))
-        {
-            options[DESIGN_TIME_BUILD] = designTimeBuild;
-        }
-
         return options;
     }
 
@@ -72,15 +66,7 @@ public static class ESBuildGenerator
             // Use TryGetValue to safely access dictionary keys
             options.TryGetValue(GB_BUILD_TOOLS_PATH, out var gbBuildToolsPath);
 
-            // For boolean values, provide defaults if not found
-            var designTimeBuild = false;
-
-            if (options.TryGetValue(DESIGN_TIME_BUILD, out var designTimeBuildStr))
-            {
-                bool.TryParse(designTimeBuildStr, out designTimeBuild);
-            }
-
-            return new ESBuildGeneratorOptions(gbBuildToolsPath, designTimeBuild);
+            return new ESBuildGeneratorOptions(gbBuildToolsPath);
         }
         catch (Exception ex)
         {
@@ -95,15 +81,15 @@ public static class ESBuildGenerator
     private static void ClearESBuildLocks(ESBuildGeneratorOptions options,
         SourceProductionContext context)
     {
-        string[] args = options.DesignTimeBuild
-            ? ["ESBuildClearLocks.dll"]
+        // only remove stale files during a full build
+        string[] args = ["ESBuildClearLocks.dll", "--stale-files"];
 
-            // only remove stale files during a full build
-            : ["ESBuildClearLocks.dll", "--stale-files"];
-
-        _ = Task.Run(async () => await ProcessHelper.Execute("Clear Locks",
+        // Execute synchronously so that the SourceProductionContext remains valid for the
+        // duration of the call. Fire-and-forget would escape the generator callback lifetime,
+        // causing diagnostics to be silently dropped or thrown.
+        ProcessHelper.Execute("Clear Locks",
             options.GBBuildToolsPath!, "dotnet",
-            args, context, false, null));
+            args, context, false, null).GetAwaiter().GetResult();
 
         ProcessHelper.Log(nameof(ESBuildGenerator),
             "Cleared ESBuild Process Locks",
@@ -112,10 +98,8 @@ public static class ESBuildGenerator
     }
 
     private const string GB_BUILD_TOOLS_PATH = "GBBuildToolsPath";
-    private const string DESIGN_TIME_BUILD = "DesignTimeBuild";
     private const string BUILD_PROPERTY = "build_property";
 }
 
 public record struct ESBuildGeneratorOptions(
-    string? GBBuildToolsPath,
-    bool DesignTimeBuild);
+    string? GBBuildToolsPath);

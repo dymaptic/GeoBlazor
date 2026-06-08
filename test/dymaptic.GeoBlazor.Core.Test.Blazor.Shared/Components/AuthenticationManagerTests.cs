@@ -54,6 +54,7 @@ namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Components;
  * -------------------------------------------------------------------------
  */
 [IsolatedTest]
+[TestCategory("AutomationExclude")]
 [CICondition(ConditionMode.Exclude)]
 [TestClass]
 public class AuthenticationManagerTests : TestRunnerBase
