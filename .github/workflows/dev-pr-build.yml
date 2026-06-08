@@ -25,7 +25,7 @@ jobs:
         run: |
           echo "was-bot=true" >> "$GITHUB_OUTPUT"
           echo "Skipping build for bot commit"
-  build: 
+  build:
     needs: actor-check
     if: needs.actor-check.outputs.was-bot != 'true'
     runs-on: ubuntu-latest

@@ -26,7 +26,7 @@ internal class ParameterConversionAnalyzer : DiagnosticAnalyzer
         description:
         "In Razor markup, raw string attribute values are passed as-is to component parameters without applying C# implicit conversion operators. This causes a runtime error when the parameter type is not string. Wrap the value in @() to enable the implicit conversion. Example: change Param=\"value\" to Param=\"@(\"value\")\".");
 
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(rule);
 
     public override void Initialize(AnalysisContext context)
     {
