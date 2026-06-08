@@ -115,10 +115,11 @@ public static class ProcessHelper
     ///     The session ID to use for logging.
     /// </param>
     /// <param name="environmentVariables">Optional environment variables to set for the process.</param>
+    /// <param name="attempt">The current retry attempt number (zero-based). Do not set this parameter directly.</param>
     /// <exception cref="ProcessException">Thrown when the process exits with a non-zero exit code.</exception>
     public static async Task Execute(string processName, string workingDirectory, string? fileName,
         string[] shellArguments, SourceProductionContext context, bool showConsole, string? sessionId,
-        Dictionary<string, string?>? environmentVariables = null)
+        Dictionary<string, string?>? environmentVariables = null, int attempt = 0)
     {
         fileName ??= shellCommand;
 
@@ -212,30 +213,46 @@ public static class ProcessHelper
 
         if (exitCode != 0)
         {
-            if (retry)
+            if (retry && attempt < MaxRetryAttempts)
             {
-                var programName = shellArguments[1]; // dotnet[fileName] run[arg[0]] ESBuild.cs[arg[1]]
+                var programName = shellArguments.Length > 1 ? shellArguments[1] : null;
 
-                var runningProc = Process.GetProcessesByName("dotnet")
-                    .FirstOrDefault(p => p.MainModule?.FileName.Contains(programName) ?? false);
-
-                if (runningProc is not null)
+                if (programName is not null)
                 {
-                    try
+                    var runningProc = Process.GetProcessesByName("dotnet")
+                        .FirstOrDefault(p => TryGetProcessCommandLine(p.Id).Contains(programName,
+                            StringComparison.OrdinalIgnoreCase));
+
+                    if (runningProc is not null)
                     {
-                        runningProc.Kill();
-                        runningProc.WaitForExit();
-                    }
-                    catch
-                    {
-                        // ignore
+                        try
+                        {
+                            runningProc.Kill();
+                            runningProc.WaitForExit();
+                        }
+                        catch
+                        {
+                            // ignore
+                        }
                     }
                 }
+
+                Log(processName, $"File access conflict detected; retrying (attempt {attempt + 1}/{MaxRetryAttempts}).",
+                    DiagnosticSeverity.Warning, context, showConsole, sessionId);
 
                 await Task.Delay(500);
 
                 await Execute(processName, workingDirectory, fileName, shellArguments, context, showConsole, sessionId,
-                    environmentVariables);
+                    environmentVariables, attempt + 1);
+
+                return;
+            }
+
+            if (retry)
+            {
+                Log(processName,
+                    $"Command '{fileName} {string.Join(" ", shellArguments)}' still failed after {MaxRetryAttempts} retries due to file access conflict.",
+                    DiagnosticSeverity.Error, context);
 
                 return;
             }
@@ -438,6 +455,49 @@ public static class ProcessHelper
 
     private const string LinuxShell = "/bin/bash";
     private const string WindowsShell = "cmd";
+    private const int MaxRetryAttempts = 5;
+
+    /// <summary>
+    ///     Attempts to read the full command-line string of an external process in a cross-platform manner.
+    ///     Returns an empty string if the command line cannot be determined.
+    /// </summary>
+    private static string TryGetProcessCommandLine(int pid)
+    {
+        try
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                // /proc/{pid}/cmdline contains null-separated args
+                string raw = File.ReadAllText($"/proc/{pid}/cmdline");
+                return raw.Replace('\0', ' ').Trim();
+            }
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                // Use 'ps' to retrieve the command line on macOS
+                using var ps = Process.Start(new ProcessStartInfo("ps")
+                {
+                    Arguments = $"-p {pid} -o args=",
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                });
+
+                if (ps is not null)
+                {
+                    string output = ps.StandardOutput.ReadToEnd().Trim();
+                    ps.WaitForExit();
+                    return output;
+                }
+            }
+        }
+        catch
+        {
+            // Swallow — we cannot access the process's command line
+        }
+
+        return string.Empty;
+    }
 }
 
 /// <summary>
