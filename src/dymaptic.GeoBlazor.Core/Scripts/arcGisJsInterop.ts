@@ -203,12 +203,16 @@ function setComponentTheme(theme, componentId: string): void {
                 if (theme === 'dark' && !component!.ui.container!.classList.contains('calcite-mode-dark')) {
                     // if the view was already rendered, this class is missed and needs adding
                     component!.ui.container!.classList.add('calcite-mode-dark');
+                } else if (theme !== 'dark' && component!.ui.container!.classList.contains('calcite-mode-dark')) {
+                    component!.ui.container!.classList.remove('calcite-mode-dark');
                 }
             }
 
             if (component instanceof HTMLElement) {
                 if (theme === 'dark' && !component.classList.contains('calcite-mode-dark')) {
                     component.classList.add('calcite-mode-dark');
+                } else if (theme !== 'dark' && component.classList.contains('calcite-mode-dark')) {
+                    component.classList.remove('calcite-mode-dark');
                 }
 
                 if (hasValue(component!.parentElement)) {

@@ -588,7 +588,7 @@ static async Task RunWatchLoop(
 static void SaveBuildRecord(string recordFilePath, string branch, long previousTimestamp)
 {
     // buffer 30 seconds into the future to avoid edge cases
-    long timestamp = DateTimeOffset.UtcNow.AddSeconds(30).ToUnixTimeMilliseconds();
+    long timestamp = DateTimeOffset.UtcNow.AddSeconds(5).ToUnixTimeMilliseconds();
     // Write JSON manually to avoid reflection-based serialization (not compatible with Native AOT)
     string json = $$"""
         {

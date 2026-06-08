@@ -472,6 +472,26 @@ public static class ProcessHelper
                 return raw.Replace('\0', ' ').Trim();
             }
 
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                // Use a PowerShell CIM query to retrieve the command line on Windows
+                using var pwsh = Process.Start(new ProcessStartInfo("pwsh")
+                {
+                    Arguments =
+                        $"-NoProfile -Command \"(Get-CimInstance Win32_Process -Filter 'ProcessId={pid}').CommandLine\"",
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                });
+
+                if (pwsh is not null)
+                {
+                    string output = pwsh.StandardOutput.ReadToEnd().Trim();
+                    pwsh.WaitForExit();
+                    return output;
+                }
+            }
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
                 // Use 'ps' to retrieve the command line on macOS

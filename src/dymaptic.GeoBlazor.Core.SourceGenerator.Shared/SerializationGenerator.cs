@@ -538,7 +538,7 @@ public static class SerializationGenerator
         {
             string returnType = method.ReturnType.ToString();
 
-            if (returnType.StartsWith("Task") || returnType.StartsWith("ValueTask"))
+            if (returnType.StartsWith("Task<") || returnType.StartsWith("ValueTask<"))
             {
                 int bracketIndex = returnType.IndexOf('<');
                 returnType = returnType.Substring(bracketIndex + 1, returnType.Length - bracketIndex - 2);

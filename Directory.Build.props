@@ -91,7 +91,7 @@
                  Condition="'$(_AcquireLockExitCode)' == '0'" />
         <Exec Command="dotnet restore &quot;$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj&quot;"
               Condition="'$(_AcquireLockExitCode)' == '0'" />
-        <MSBuild Projects="&quot;$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj&quot;"
+        <MSBuild Projects="$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core.ESBuild/dymaptic.GeoBlazor.Core.ESBuild.csproj"
                  Properties="GBBuildToolsPath=$(GBBuildToolsPath);ShowScriptDialogs=$(ShowScriptDialogs)"
                  RemoveProperties="$(ESBuildRemoveProps)"
                  Condition="'$(_AcquireLockExitCode)' == '0'" />
