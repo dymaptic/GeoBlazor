@@ -155,6 +155,18 @@ public class TestConfig
         fullSuiteStopwatch.Start();
         Trace.Listeners.Add(new ConsoleTraceListener());
         Trace.Listeners.Add(new StringBuilderTraceListener(logBuilders));
+
+        // Truncate any stale prior-run log and stream live, flushed output so a hung run leaves a current artifact.
+        try
+        {
+            _incrementalLogListener = new IncrementalLogFileTraceListener(LogFilePath);
+            Trace.Listeners.Add(_incrementalLogListener);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Could not open incremental log file '{LogFilePath}': {ex.Message}");
+        }
+
         Trace.AutoFlush = true;
 
         // Handle Ctrl-C gracefully
@@ -1113,7 +1125,9 @@ public class TestConfig
         List<string> filterArgs = [.._filters ?? [], "TestCategory!~AutomationExclude"];
         string filter = string.Join("&", filterArgs);
 
-        _ = Cli.Wrap(cmdLineApp)
+        StringBuilder containerStderr = new();
+
+        CommandTask<CommandResult> commandTask = Cli.Wrap(cmdLineApp)
             .WithArguments(args)
             .WithEnvironmentVariables(new Dictionary<string, string?>
             {
@@ -1131,6 +1145,9 @@ public class TestConfig
                     waitTokenSource)))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
             {
+                containerStderr.AppendLine(line);
+                Trace.WriteLine(line, processName);
+
                 if (line.Contains("ERROR:"))
                 {
                     containerExceptionMessage = line;
@@ -1141,6 +1158,12 @@ public class TestConfig
             .WithWorkingDirectory(ProjectFolder)
             .WithValidation(CommandResultValidation.None)
             .ExecuteAsync(linkedTokenSource.Token, gracefulCts.Token);
+
+        ObserveContainerStartTask(commandTask, containerStderr, waitTokenSource, message =>
+        {
+            containerExceptionMessage = message;
+            containerExceptionThrown = true;
+        });
 
         string containerName = processName switch
         {
@@ -1167,6 +1190,11 @@ public class TestConfig
             if (ioExceptionThrown)
             {
                 throw new IOException(ioExceptionMessage);
+            }
+
+            if (containerExceptionThrown)
+            {
+                throw new ContainerException(containerExceptionMessage!);
             }
 
             await Cli.Wrap("docker")
@@ -1381,6 +1409,8 @@ public class TestConfig
         _webAppContainerExceptionThrown = false;
         _webAppContainerExceptionMessage = null;
 
+        StringBuilder containerStderr = new();
+
         CommandTask<CommandResult> commandTask = Cli.Wrap(cmdLineApp)
             .WithArguments(args)
             .WithEnvironmentVariables(new Dictionary<string, string?>
@@ -1397,6 +1427,9 @@ public class TestConfig
             .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, ProcessName.WEB_APP_SERVER)))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
             {
+                containerStderr.AppendLine(line);
+                Trace.WriteLine(line, ProcessName.WEB_APP_ERROR);
+
                 if (line.Contains("ERROR:"))
                 {
                     _webAppContainerExceptionMessage = line;
@@ -1405,10 +1438,17 @@ public class TestConfig
                 }
             }))
             .WithWorkingDirectory(ProjectFolder)
+            .WithValidation(CommandResultValidation.None)
             .ExecuteAsync(linkedTokenSource.Token, gracefulCts.Token);
 
         processIds.Add(commandTask.ProcessId);
         _webTestProcessId = commandTask.ProcessId;
+
+        ObserveContainerStartTask(commandTask, containerStderr, waitTokenSource, message =>
+        {
+            _webAppContainerExceptionMessage = message;
+            _webAppContainerExceptionThrown = true;
+        });
 
         if (_webAppContainerExceptionThrown)
         {
@@ -1442,7 +1482,9 @@ public class TestConfig
         _webAppContainerExceptionThrown = false;
         _webAppContainerExceptionMessage = null;
 
-        await Cli.Wrap(cmdLineApp)
+        StringBuilder buildStderr = new();
+
+        CommandResult result = await Cli.Wrap(cmdLineApp)
             .WithArguments(args)
             .WithEnvironmentVariables(new Dictionary<string, string?>
             {
@@ -1459,6 +1501,9 @@ public class TestConfig
                 Trace.WriteLine(line, $"CONTAINER_BUILD: {processName}")))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
             {
+                buildStderr.AppendLine(line);
+                Trace.WriteLine(line, $"CONTAINER_BUILD: {processName}");
+
                 if (line.Contains("ERROR:"))
                 {
                     _webAppContainerExceptionMessage = line;
@@ -1469,6 +1514,14 @@ public class TestConfig
             .WithWorkingDirectory(ProjectFolder)
             .WithValidation(CommandResultValidation.None)
             .ExecuteAsync(linkedTokenSource.Token, gracefulCts.Token);
+
+        if (!_webAppContainerExceptionThrown && !gracefulCts.IsCancellationRequested && result.ExitCode != 0)
+        {
+            string stderr = buildStderr.ToString().Trim();
+            _webAppContainerExceptionMessage =
+                stderr.Length > 0 ? stderr : $"docker compose build exited with code {result.ExitCode}";
+            _webAppContainerExceptionThrown = true;
+        }
 
         if (_webAppContainerExceptionThrown)
         {
@@ -1617,6 +1670,35 @@ public class TestConfig
         }
 
         throw new ProcessExitedException("Test page was not reachable within the allotted time frame", lastException);
+    }
+
+    // Observes the `docker compose up` task; on a genuine non-zero exit (not a graceful Ctrl-C),
+    // records the buffered stderr and cancels the readiness wait so failures surface within ~1 second.
+    private static void ObserveContainerStartTask(CommandTask<CommandResult> commandTask,
+        StringBuilder stderrBuffer, CancellationTokenSource waitTokenSource, Action<string> onFailure)
+    {
+        _ = commandTask.Task.ContinueWith(task =>
+        {
+            if (gracefulCts.IsCancellationRequested || task.IsCanceled)
+            {
+                return;
+            }
+
+            if (task.IsFaulted || (task.Status == TaskStatus.RanToCompletion && task.Result.ExitCode != 0))
+            {
+                int? exitCode = task.Status == TaskStatus.RanToCompletion ? task.Result.ExitCode : null;
+                string stderr = stderrBuffer.ToString().Trim();
+                string message = stderr.Length > 0
+                    ? stderr
+                    : $"docker compose up exited with code {exitCode?.ToString() ?? "unknown"}";
+                onFailure(message);
+
+                if (!waitTokenSource.IsCancellationRequested)
+                {
+                    waitTokenSource.Cancel();
+                }
+            }
+        }, TaskScheduler.Default);
     }
 
     private static async Task WaitForDockerContainer(string processName, string containerName,
@@ -1917,6 +1999,15 @@ public class TestConfig
             }
         }
 
+        // Release the incremental file handle so the grouped/FINAL_SUMMARY overwrite below isn't blocked.
+        if (_incrementalLogListener is not null)
+        {
+            Trace.Listeners.Remove(_incrementalLogListener);
+            _incrementalLogListener.Flush();
+            _incrementalLogListener.Dispose();
+            _incrementalLogListener = null;
+        }
+
         await File.WriteAllTextAsync(LogFilePath, sb.ToString());
     }
 
@@ -2120,6 +2211,7 @@ public class TestConfig
         .Build();
     private static readonly CancellationTokenSource gracefulCts = new();
     private static readonly Dictionary<string, Dictionary<DateTime, string>> logBuilders = [];
+    private static IncrementalLogFileTraceListener? _incrementalLogListener;
     private static readonly Type[] testClasses = typeof(GeoBlazorTestClass).Assembly.GetTypes()
         .Where(t => t.IsSubclassOf(typeof(GeoBlazorTestClass)))
         .ToArray();

@@ -135,20 +135,11 @@ if (filter != null)
 // Set environment variables to toggle optional features
 Dictionary<string, string?> environmentVariables = [];
 
-if (cover)
-{
-    environmentVariables["COVER"] = "true";
-}
+environmentVariables["COVER"] = cover ? "true" : "false";
 
-if (container)
-{
-    environmentVariables["USE_CONTAINER"] = "true";
-}
+environmentVariables["USE_CONTAINER"] = container ? "true" : "false";
 
-if (noCache)
-{
-    environmentVariables["NO_CACHE"] = "true";
-}
+environmentVariables["NO_CACHE"] = noCache ? "true" : "false";
 
 // Execute the test project
 TestProgress progress = new();

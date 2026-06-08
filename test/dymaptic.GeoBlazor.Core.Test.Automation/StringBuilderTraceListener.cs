@@ -55,9 +55,14 @@ public class StringBuilderTraceListener(Dictionary<string, Dictionary<DateTime, 
     private bool _skipNextLineBreak;
 }
 
-/*
- public class LogFileTraceListener : DefaultTraceListener
+// Writes each trace line to disk immediately (AutoFlush) so a hung/cancelled run still leaves a current log.
+public class IncrementalLogFileTraceListener : TextWriterTraceListener
 {
+    public IncrementalLogFileTraceListener(string logFilePath)
+        : base(new StreamWriter(logFilePath, append: false) { AutoFlush = true })
+    {
+    }
+
     public override void Write(string? message)
     {
         Write(message, "NO_CATEGORY");
@@ -84,25 +89,17 @@ public class StringBuilderTraceListener(Dictionary<string, Dictionary<DateTime, 
         category ??= "NO_CATEGORY";
 
         var isError = category.EndsWith("_ERROR");
-
         category = isError ? category.Substring(0, category.Length - 6) : category;
+        var text = isError ? $"ERROR: {message}" : message;
 
-        if (!builders.TryGetValue(category, out var builder))
+        if (_skipNextLineBreak)
         {
-            builder = new Dictionary<DateTime, string>();
-            builders[category] = builder;
-        }
-
-        if (_skipNextLineBreak && (builder.Count > 0))
-        {
-            var lastEntry = builder.Last();
-            var lastMessage = lastEntry.Value;
-            lastMessage += message;
-            builder[lastEntry.Key] = lastMessage;
+            // continuation of the previous line, append without timestamp prefix
+            Writer?.Write(text);
         }
         else
         {
-            builder[DateTime.Now] = isError ? $"ERROR: {message}" : message;
+            Writer?.WriteLine($"[{DateTime.Now:u}] {category}: {text}");
         }
 
         _skipNextLineBreak = false;
@@ -110,4 +107,3 @@ public class StringBuilderTraceListener(Dictionary<string, Dictionary<DateTime, 
 
     private bool _skipNextLineBreak;
 }
-*/
