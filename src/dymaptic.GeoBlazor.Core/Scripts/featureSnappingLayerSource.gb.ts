@@ -17,7 +17,7 @@ export async function buildJsFeatureSnappingLayerSourceGenerated(dotNetObject: a
         if (arcGisObjectRefs.hasOwnProperty(dotNetObject.layerId)) {
             properties.layer = arcGisObjectRefs[dotNetObject.layerId];
         } else {
-            let dnLayer = await dotNetObject.dotNetComponentReference.InvokeMethodAsync("GetLayerForJs");
+            let dnLayer = await dotNetObject.dotNetComponentReference.invokeMethodAsync("GetLayerForJs");
             if (hasValue(dnLayer)) {
                 let { buildJsLayer } = await import('./layer');
                 properties.layer = await buildJsLayer(dnLayer, dotNetObject.layerId, viewId);
