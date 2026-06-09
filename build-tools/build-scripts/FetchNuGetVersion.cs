@@ -8,13 +8,25 @@
 
 using System.Text.Json;
 
-if (args.Length == 0 || string.IsNullOrWhiteSpace(args[0]))
+// Accept either "-package <name>" / "-p <name>" or a bare positional package name
+string? package = null;
+for (int i = 0; i < args.Length; i++)
+{
+    if ((args[i] == "-package" || args[i] == "-p") && i + 1 < args.Length)
+    {
+        package = args[++i];
+    }
+    else if (!args[i].StartsWith('-'))
+    {
+        package ??= args[i];
+    }
+}
+
+if (string.IsNullOrWhiteSpace(package))
 {
     Console.Error.WriteLine("Package name must be provided.");
     return 1;
 }
-
-string package = args[0];
 
 try
 {
