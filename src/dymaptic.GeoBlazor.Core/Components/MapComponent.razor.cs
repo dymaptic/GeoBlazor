@@ -118,7 +118,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     The Id of the relevant Layer for the MapComponent. Not always applicable to every component type.
     /// </summary>
     [Parameter]
-    public Guid? LayerId { get; set; }
+    public virtual Guid? LayerId { get; set; }
 
     /// <summary>
     ///     Indicates the visibility of the component. Default value: true.
