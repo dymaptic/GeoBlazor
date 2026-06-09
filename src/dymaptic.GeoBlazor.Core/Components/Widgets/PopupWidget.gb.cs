@@ -190,7 +190,7 @@ public partial class PopupWidget : IGoTo
         InitialDisplayMode = initialDisplayMode;
         Label = label;
         Location = location;
-        MapView = mapView;
+        View = mapView;
         Position = position;
         Promises = promises;
         SelectedFeatureIndex = selectedFeatureIndex;

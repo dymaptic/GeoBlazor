@@ -4,9 +4,9 @@
   "main": "geoBlazorCore.js",
   "type": "module",
   "scripts": {
-    "debugBuild": "node ./esbuild.js --debug",
-    "watchBuild": "node ./esbuild.js --watch",
-    "releaseBuild": "node ./esbuild.js --release"
+    "debugBuild": "node ./esBuild.js --debug",
+    "releaseBuild": "node ./esBuild.js --release",
+    "lint": "eslint ./Scripts"
   },
   "keywords": [],
   "author": "dymaptic",
@@ -20,9 +20,8 @@
     "protobufjs": "7.5.8"
   },
   "devDependencies": {
-    "@eslint/js": "10.0.0",
+    "@eslint/js": "9.39.2",
     "@types/node": "^24.10.2",
-    "esbuild-plugin-eslint": "^0.3.12",
     "eslint": "9.39.1",
     "eslint-plugin-sonarjs": "^3.0.5",
     "globals": "^16.5.0",

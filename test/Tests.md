@@ -3,8 +3,7 @@
 ## dymaptic.GeoBlazor.Core.Test
 
 This library includes unit tests, integration tests, and Playwright automation tests.
-The playwright tests attempt to run through the `Samples` application and verify all the
-pages and actions. Unfortunately, this is long-running and brittle. It is recommended
+The playwright tests verify pages and actions. Unfortunately, this is long-running and brittle. It is recommended
 instead to use the Blazor Test Runner.
 
 ## Blazor Test Runner

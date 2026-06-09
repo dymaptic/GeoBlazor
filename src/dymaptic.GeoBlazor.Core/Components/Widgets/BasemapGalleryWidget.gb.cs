@@ -95,7 +95,7 @@ public partial class BasemapGalleryWidget
         HeadingLevel = headingLevel;
         Icon = icon;
         Label = label;
-        MapView = mapView;
+        View = mapView;
         Position = position;
         Source = source;
         ViewModel = viewModel;

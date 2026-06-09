@@ -13,7 +13,7 @@ export function initialize(core) {
     Portal = Core.Portal;
     SimpleRenderer = Core.SimpleRenderer;
     esriConfig = Core.esriConfig;
-    setWaitCursor()
+    setWaitCursor();
 }
 
 export function setWaitCursor(wait) {
@@ -52,9 +52,19 @@ export function assertBasemapHasTwoLayers(methodName) {
 export function assertWidgetExists(methodName, widgetClass) {
     let view = getView(methodName);
     let widget = view.ui._components.find(c => c.widget?.declaredClass === widgetClass);
-    if (!widget) {
-        throw new Error(`Widget ${widgetClass} does not exist`);
-    }
+    if (widget) return;
+
+    // Fallback: many widgets have migrated to ArcGIS map-components web components
+    // (e.g. esri.widgets.Locate -> <arcgis-locate>). Look for the matching custom element.
+    // Map "esri.widgets.SomeName" -> "arcgis-some-name".
+    let shortName = widgetClass.replace(/^esri\.widgets\./, '');
+    let kebab = shortName.replace(/([A-Z])/g, '-$1').toLowerCase().replace(/^-/, '');
+    let tag = `arcgis-${kebab}`;
+    let testDiv = document.getElementById(methodName);
+    if (testDiv && testDiv.querySelector(tag)) return;
+    if (document.querySelector(tag)) return;
+
+    throw new Error(`Widget ${widgetClass} does not exist`);
 }
 
 export function assertGraphicExistsInView(methodName, geometryType, count) {
@@ -184,7 +194,16 @@ export function assertObjectHasPropertyWithValue(methodName, objectId, propertyN
     let obj = arcGisObjectRefs[objectId];
     for (var i = 0; i < props.length; i++) {
         let prop = props[i];
-        let candidate = obj[prop];
+        let candidate;
+        if (prop.endsWith(']')) {
+            // handle array indexer
+            let arrayName = prop.substring(0, prop.indexOf('['));
+            let index = parseInt(prop.substring(prop.indexOf('[') + 1, prop.indexOf(']')));
+            candidate = obj[arrayName].items[index];
+        } else {
+            candidate = obj[prop];
+        }
+        
         if (candidate === undefined) {
             throw new Error(`Expected ${propertyName} to be ${expectedValue} but found undefined part ${prop}`);
         }
@@ -494,14 +513,61 @@ export function loadSettings() {
     return null;
 }
 
-export function saveTestResults(results) {
-    sessionStorage.setItem('testResults', JSON.stringify(results));
+export async function saveTestResultsStream(resultsStream) {
+    // read the stream and save the results in session storage
+    let json = await parseDotNetStream(resultsStream);
+    sessionStorage.setItem('testResults', json);
 }
 
-export function getTestResults() {
-    let results = sessionStorage.getItem('testResults');
-    if (results) {
-        return JSON.parse(results);
+export function getCachedResultsStream() {
+    let json = sessionStorage.getItem('testResults');
+    if (json) {
+        return buildEncodedJson(json);
     }
-    return null;
+    return buildEncodedJson('null');
+}
+
+async function parseDotNetStream(streamRef) {
+    let arrayBuffer = await streamRef.arrayBuffer();
+    let uint8 = new Uint8Array(arrayBuffer);
+
+    let decoder = new TextDecoder();
+    return decoder.decode(uint8);
+}
+
+function buildEncodedJson(json, replaceEmptyStrings = false) {
+    if (!json) {
+        json = 'null';
+    }
+    else if (replaceEmptyStrings && json === '') {
+        json = 'empty-string';
+    } else if (json[0] === '"') {
+        // if the json is a string, remove the quotes so that it doesn't get double encoded when we encode it as a stream reference
+        json = json.substring(1, json.length - 1);
+    }
+    let encoder = new TextEncoder();
+    return encoder.encode(json);
+}
+
+export function assertGeoBlazorErrorMessageShown(methodName, errorMessage) {
+    let view = getView(methodName);
+    let errorDiv = view.container.parentElement.querySelector('.geoblazor-validation-message');
+    if (errorDiv === null) {
+        throw new Error("No error message shown");
+    }
+
+    let visibility = errorDiv.style.visibility;
+
+    if (visibility !== '' && visibility !== 'visible') {
+        throw new Error("Error message not visible");
+    }
+    if (errorMessage && !errorDiv.innerText.includes(errorMessage)) {
+        throw new Error(`Expected error message to contain ${errorMessage} but was ${errorDiv.innerText}`);
+    }
+}
+
+export function isValidElementRef(methodName, elementRef) {
+    if (!(elementRef instanceof HTMLElement)) {
+        throw new Error("ElementRef is not an HTMLElement");
+    }
 }

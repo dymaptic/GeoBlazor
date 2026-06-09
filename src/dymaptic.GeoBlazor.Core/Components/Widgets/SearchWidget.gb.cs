@@ -202,7 +202,7 @@ public partial class SearchWidget : IGoTo
         IncludeDefaultSources = includeDefaultSources;
         Label = label;
         LocationEnabled = locationEnabled;
-        MapView = mapView;
+        View = mapView;
         MaxResults = maxResults;
         MaxSuggestions = maxSuggestions;
         MinSuggestCharacters = minSuggestCharacters;

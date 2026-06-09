@@ -3,27 +3,43 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+###############################################################################
+# OS & Editor
+###############################################################################
+
+.DS_Store
+.claude/
+.env
+
+# IDE directories
+*.idea/
+**/.idea/**/*
+**/.vs/**/*
+**/.vscode/**/*
+.vs/
+.ionide/
+*.lscache
+
+###############################################################################
 # User-specific files
+###############################################################################
+
 *.rsuser
 *.suo
 *.user
 *.userosscache
 *.sln.docstates
-.DS_Store
-appsettings.json
-esBuild.*.lock
-esBuild.log
-.esbuild-record.json
-CustomerTests.razor
-.claude/
-
-# User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
+*.csproj.user
+*.DotSettings.user
 
 # Mono auto generated files
 mono_crash.*
 
+###############################################################################
 # Build results
+###############################################################################
+
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
@@ -37,41 +53,23 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
-
-# Visual Studio 2015/2017 cache/options directory
-.vs/
-# Uncomment if you have tasks that create the project's static files in wwwroot
-#wwwroot/
+artifacts/
 
 # Visual Studio 2017 auto generated files
 Generated\ Files/
 
-# MSTest test Results
-[Tt]est[Rr]esult*/
+###############################################################################
+# Build logs & binary logs
+###############################################################################
+
 [Bb]uild[Ll]og.*
+*.binlog
+*.log
 
-# NUnit
-*.VisualState.xml
-TestResult.xml
-nunit-*.xml
+###############################################################################
+# Visual Studio build artifacts
+###############################################################################
 
-# Build Results of an ATL Project
-[Dd]ebugPS/
-[Rr]eleasePS/
-dlldata.c
-
-# Benchmark Results
-BenchmarkDotNet.Artifacts/
-
-# .NET Core
-project.lock.json
-project.fragment.lock.json
-artifacts/
-
-# StyleCop
-StyleCopReport.xml
-
-# Files built by Visual Studio
 *_i.c
 *_p.c
 *_h.h
@@ -92,7 +90,6 @@ StyleCopReport.xml
 *.tmp
 *.tmp_proj
 *_wpftmp.csproj
-*.log
 *.vspscc
 *.vssscc
 .builds
@@ -100,10 +97,10 @@ StyleCopReport.xml
 *.svclog
 *.scc
 
-# Chutzpah Test files
-_Chutzpah*
-
+###############################################################################
 # Visual C++ cache files
+###############################################################################
+
 ipch/
 *.aps
 *.ncb
@@ -114,37 +111,61 @@ ipch/
 *.VC.db
 *.VC.VC.opendb
 
-# Visual Studio profiler
+###############################################################################
+# Visual Studio profiler & trace
+###############################################################################
+
 *.psess
 *.vsp
 *.vspx
 *.sap
-
-# Visual Studio Trace Files
 *.e2e
 
-# TFS 2012 Local Workspace
-$tf/
+###############################################################################
+# Visual Studio cache
+###############################################################################
 
-# Guidance Automation Toolkit
-*.gpState
+# Files ending in .cache can be ignored
+*.[Cc]ache
+# But keep track of directories ending in .cache
+!?*.[Cc]ache/
 
-# ReSharper is a .NET coding add-in
-_ReSharper*/
-*.[Rr]e[Ss]harper
-*.DotSettings.user
+###############################################################################
+# Test results
+###############################################################################
 
-# TeamCity is a build add-in
-_TeamCity*
+[Tt]est[Rr]esult*/
+*.VisualState.xml
+TestResult.xml
+nunit-*.xml
 
-# DotCover is a Code Coverage Tool
-*.dotCover
+###############################################################################
+# .NET / NuGet
+###############################################################################
 
-# AxoCover is a Code Coverage Tool
+project.lock.json
+project.fragment.lock.json
+*.nupkg
+*.nupkg.bak
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+#!**/[Pp]ackages/repositories.config
+*.nuget.props
+*.nuget.targets
+
+###############################################################################
+# Code coverage & testing tools
+###############################################################################
+
+# AxoCover
 .axoCover/*
 !.axoCover/settings.json
 
-# Visual Studio code coverage results
+# DotCover
+*.dotCover
+
+# Visual Studio code coverage
 *.coverage
 *.coveragexml
 
@@ -157,61 +178,61 @@ nCrunchTemp_*
 *.mm.*
 AutoTest.Net/
 
-# Web workbench (sass)
-.sass-cache/
+# OpenCover
+OpenCover/
 
-# Installshield output folder
-[Ee]xpress/
+# Chutzpah
+_Chutzpah*
 
-# DocProject is a documentation generator add-in
-DocProject/buildhelp/
-DocProject/Help/*.HxT
-DocProject/Help/*.HxC
-DocProject/Help/*.hhc
-DocProject/Help/*.hhk
-DocProject/Help/*.hhp
-DocProject/Help/Html2
-DocProject/Help/html
+###############################################################################
+# Build tools & CI
+###############################################################################
 
-# Click-Once directory
+# ATL Project
+[Dd]ebugPS/
+[Rr]eleasePS/
+dlldata.c
+
+# Benchmark Results
+BenchmarkDotNet.Artifacts/
+
+# StyleCop
+StyleCopReport.xml
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# TeamCity
+_TeamCity*
+
+# Microsoft Fakes
+FakesAssemblies/
+
+###############################################################################
+# Publish & deployment
+###############################################################################
+
 publish/
-
-# Publish Web Output
 *.[Pp]ublish.xml
 *.azurePubxml
-# Note: Comment the next line if you want to checkin your web deploy settings,
-# but database connection strings (with potential passwords) will be unencrypted
 *.pubxml
 *.publishproj
-
-# Microsoft Azure Web App publish settings. Comment the next line if you want to
-# checkin your Azure Web App publish settings, but sensitive information contained
-# in these scripts will be unencrypted
 PublishScripts/
 
-# NuGet Packages
-*.nupkg
-# NuGet Symbol Packages
-*.snupkg
-# The packages folder can be ignored because of Package Restore
-**/[Pp]ackages/*
-# except build/, which is used as an MSBuild target.
-!**/[Pp]ackages/build/
-# Uncomment if necessary however generally it will be regenerated when needed
-#!**/[Pp]ackages/repositories.config
-# NuGet v3's project.json files produces more ignorable files
-*.nuget.props
-*.nuget.targets
+###############################################################################
+# Microsoft Azure
+###############################################################################
 
-# Microsoft Azure Build Output
 csx/
 *.build.csdef
-
-# Microsoft Azure Emulator
 ecf/
 rcf/
 
-# Windows Store app package directories and files
+###############################################################################
+# Windows Store
+###############################################################################
+
 AppPackages/
 BundleArtifacts/
 Package.StoreAssociation.xml
@@ -220,14 +241,14 @@ _pkginfo.txt
 *.appxbundle
 *.appxupload
 
-# Visual Studio cache files
-# files ending in .cache can be ignored
-*.[Cc]ache
-# but keep track of directories ending in .cache
-!?*.[Cc]ache/
+###############################################################################
+# Miscellaneous tools
+###############################################################################
 
-# Others
+# Click-Once
 ClientBin/
+
+# Temp/backup files
 ~$*
 *~
 *.dbmdl
@@ -237,33 +258,30 @@ ClientBin/
 *.publishsettings
 orleans.codegen.cs
 
-# Including strong name files can present a security risk
-# (https://github.com/github/gitignore/pull/2483#issue-259490424)
+# Strong name files (security risk)
 #*.snk
 
-# Since there are multiple workflows, uncomment next line to ignore bower_components
-# (https://github.com/github/gitignore/pull/1529#issuecomment-104372622)
+# Bower (uncomment if needed)
 #bower_components/
 
-# RIA/Silverlight projects
+# RIA/Silverlight
 Generated_Code/
 
-# Backup & report files from converting an old project file
-# to a newer Visual Studio version. Backup files are not needed,
-# because we have git ;-)
+# Backup & upgrade reports
 _UpgradeReport_Files/
 Backup*/
 UpgradeLog*.XML
 UpgradeLog*.htm
 ServiceFabricBackup/
 *.rptproj.bak
+MigrationBackup/
 
-# SQL Server files
+# SQL Server
 *.mdf
 *.ldf
 *.ndf
 
-# Business Intelligence projects
+# Business Intelligence
 *.rdl.data
 *.bim.layout
 *.bim_*.settings
@@ -272,26 +290,15 @@ ServiceFabricBackup/
 *- [Bb]ackup ([0-9]).rdl
 *- [Bb]ackup ([0-9][0-9]).rdl
 
-# Microsoft Fakes
-FakesAssemblies/
-
-# GhostDoc plugin setting file
+# GhostDoc
 *.GhostDoc.xml
 
-# Node.js Tools for Visual Studio
-.ntvs_analysis.dat
-node_modules/
-
-# Visual Studio 6 build log
+# Visual Studio 6
 *.plg
-
-# Visual Studio 6 workspace options file
 *.opt
-
-# Visual Studio 6 auto-generated workspace file (contains which files were open etc.)
 *.vbw
 
-# Visual Studio LightSwitch build output
+# Visual Studio LightSwitch
 **/*.HTMLClient/GeneratedArtifacts
 **/*.DesktopClient/GeneratedArtifacts
 **/*.DesktopClient/ModelManifest.xml
@@ -299,91 +306,139 @@ node_modules/
 **/*.Server/ModelManifest.xml
 _Pvt_Extensions
 
-# Paket dependency manager
+# Paket
 .paket/paket.exe
 paket-files/
 
 # FAKE - F# Make
 .fake/
 
-# CodeRush personal settings
+# CodeRush
 .cr/personal
 
-# Python Tools for Visual Studio (PTVS)
-__pycache__/
-*.pyc
+# Sass
+.sass-cache/
 
-# Cake - Uncomment if you are using it
-# tools/**
-# !tools/packages.config
+# Installshield
+[Ee]xpress/
+
+# DocProject
+DocProject/buildhelp/
+DocProject/Help/*.HxT
+DocProject/Help/*.HxC
+DocProject/Help/*.hhc
+DocProject/Help/*.hhk
+DocProject/Help/*.hhp
+DocProject/Help/Html2
+DocProject/Help/html
+
+# TFS 2012
+$tf/
+
+# Guidance Automation Toolkit
+*.gpState
 
 # Tabs Studio
 *.tss
 
-# Telerik's JustMock configuration file
+# Telerik JustMock
 *.jmconfig
 
-# BizTalk build output
+# BizTalk
 *.btp.cs
 *.btm.cs
 *.odx.cs
 *.xsd.cs
 
-# OpenCover UI analysis results
-OpenCover/
-
-# Azure Stream Analytics local run output
+# Azure Stream Analytics
 ASALocalRun/
 
-# MSBuild Binary and Structured Log
-*.binlog
-
-# NVidia Nsight GPU debugger configuration file
+# NVidia Nsight
 *.nvuser
 
-# MFractors (Xamarin productivity tool) working folder
+# MFractors (Xamarin)
 .mfractor/
 
-# Local History for Visual Studio
+# Local History
 .localhistory/
 
-# BeatPulse healthcheck temp database
+# BeatPulse
 healthchecksdb
 
-# Backup folder for Package Reference Convert tool in Visual Studio 2017
-MigrationBackup/
+# Cake (uncomment if needed)
+# tools/**
+# !tools/packages.config
 
-# Ionide (cross platform F# VS Code tools) working folder
-.ionide/
-*.idea/
-**/.idea/**/*
-**/.vs/**/*
-**/.vscode/**/*
+###############################################################################
+# Node.js
+###############################################################################
 
-*/dymaptic.GeoBlazor.Core.Sample.Shared/wwwroot/pages/**/*
-*/dymaptic.GeoBlazor.Core.Sample.Wasm/dymaptic.GeoBlazor.Core.Sample.Wasm.csproj.user
-*/dymaptic.GeoBlazor.Core.Sample.Maui/Resources/Raw/*.html
-*.csproj.user
-*/dymaptic.GeoBlazor.Core.Test/ScreenShots/**/*
-/src/.vs/**/*
-/src/.idea/**/*
+node_modules/
+.ntvs_analysis.dat
+package-lock.json
+# Track the Core lockfile so `npm ci` works in Docker/CI builds (fresh checkout has no lockfile otherwise)
+!src/dymaptic.GeoBlazor.Core/package-lock.json
+
+# Python
+__pycache__/
+*.pyc
+
+###############################################################################
+# GeoBlazor-specific
+###############################################################################
+
+# ESBuild
+**/esBuild.lock
+**/esBuild.lock.running
+esBuild.log
+esBuild.hash
+.esbuild-record.json
+.esbuild-bundled-assets-record.json
+.csbuild-record.json
+/src/dymaptic.GeoBlazor.Core/.esbuild-timestamp.json
+
+# Generated JS/assets (built from TypeScript)
 /src/dymaptic.GeoBlazor.Core/wwwroot/js/**/*
 /src/dymaptic.GeoBlazor.Core/wwwroot/assets/**/*
 /src/dymaptic.GeoBlazor.BundledAssets/wwwroot/assets/**/*
-package-lock.json
+
+# Documentation
+/src/dymaptic.GeoBlazor.Core/Documentation/**/*
+DefaultDocsLinks
 /docs/_site
 /docs/.sass-cache
 /docs/.jekyll-cache
 /docs/.jekyll-metadata
 /docs/vendor
 /docs/.DS_Store
-/src/dymaptic.GeoBlazor.Core/Documentation/**/*
-**/wwwroot/appsettings.Development.json
-DefaultDocsLinks
-.esbuild-bundled-assets-record.json
 
+# Test artifacts
+test/dymaptic.GeoBlazor.Core.Test.Automation/test.txt
+test/dymaptic.GeoBlazor.Core.Test.Automation/test-run.log
+test/dymaptic.GeoBlazor.Core.Test.Automation/coverage*
+test/dymaptic.GeoBlazor.Core.Test.Automation/history*
+test/dymaptic.GeoBlazor.Core.Test.Automation/unit-coverage*
+test/dymaptic.GeoBlazor.Core.Test.Automation/sgen-coverage*
+test/dymaptic.GeoBlazor.Core.Test.Automation/Summary.txt
+CustomerTests.razor
+
+# Sample projects
+*/dymaptic.GeoBlazor.Core.Sample.Shared/wwwroot/pages/**/*
+*/dymaptic.GeoBlazor.Core.Sample.Wasm/dymaptic.GeoBlazor.Core.Sample.Wasm.csproj.user
+*/dymaptic.GeoBlazor.Core.Sample.Maui/Resources/Raw/*.html
+*/dymaptic.GeoBlazor.Core.Test/ScreenShots/**/*
+/samples/dymaptic.GeoBlazor.Core.Sample.TokenRefresh/dymaptic.GeoBlazor.Core.Sample.TokenRefresh/arcgis_token_cache.json
+
+# App settings (ignore all, then allow specific ones)
+**/wwwroot/appsettings.json
+**/wwwroot/appsettings.Development.json
+**/*.Maui/appsettings.json
 !/samples/dymaptic.GeoBlazor.Core.Sample.OAuth/dymaptic.GeoBlazor.Core.Sample.OAuth.Client/wwwroot/appsettings.json
 !/samples/dymaptic.GeoBlazor.Core.Sample.OAuth/dymaptic.GeoBlazor.Core.Sample.OAuth/appsettings.json
-/src/dymaptic.GeoBlazor.Core/.esbuild-timestamp.json
-.esbuild-record.json
-/samples/dymaptic.GeoBlazor.Core.Sample.TokenRefresh/dymaptic.GeoBlazor.Core.Sample.TokenRefresh/arcgis_token_cache.json
+
+# Build tools
+build-tools/debug-output
+
+# Legacy IDE paths (covered by global patterns above, kept for specificity)
+/src/.vs/**/*
+/src/.idea/**/*

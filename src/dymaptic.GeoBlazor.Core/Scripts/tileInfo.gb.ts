@@ -18,7 +18,7 @@ export default class TileInfoGenerated extends BaseComponent {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.lods) && dotNetObject.lods.length > 0) {
             let { buildJsLOD } = await import('./lOD');
-            this.component.lods = await Promise.all(dotNetObject.lods.map(async i => await buildJsLOD(i, this.viewId))) as any;
+            this.component.lods = await Promise.all(dotNetObject.lods.map(async i => await buildJsLOD(i))) as any;
         }
         if (hasValue(dotNetObject.origin)) {
             let { buildJsPoint } = await import('./point');
@@ -65,7 +65,7 @@ export default class TileInfoGenerated extends BaseComponent {
             this.component.lods = [];
         }
         let { buildJsLOD } = await import('./lOD');
-        this.component.lods = await Promise.all(value.map(async i => await buildJsLOD(i, this.viewId))) as any;
+        this.component.lods = await Promise.all(value.map(async i => await buildJsLOD(i))) as any;
     }
     
     async getOrigin(): Promise<any> {
@@ -107,7 +107,7 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
     let properties: any = {};
     if (hasValue(dotNetObject.lods) && dotNetObject.lods.length > 0) {
         let { buildJsLOD } = await import('./lOD');
-        properties.lods = await Promise.all(dotNetObject.lods.map(async i => await buildJsLOD(i, viewId))) as any;
+        properties.lods = await Promise.all(dotNetObject.lods.map(async i => await buildJsLOD(i))) as any;
     }
     if (hasValue(dotNetObject.origin)) {
         let { buildJsPoint } = await import('./point');

@@ -1,0 +1,3 @@
+<Project>
+  <Import Project="..\build\dymaptic.GeoBlazor.Core.targets" />
+</Project>

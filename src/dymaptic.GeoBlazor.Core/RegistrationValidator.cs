@@ -83,7 +83,7 @@ public enum BlazorMode
 #pragma warning disable CS1591
     Server,
     WebAssembly,
-    Maui
+    Hybrid
 #pragma warning restore CS1591
 }
 

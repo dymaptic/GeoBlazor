@@ -115,6 +115,7 @@ public record DomMouseEvent(
     double OffsetY,
     double PageX,
     double PageY,
+    [property: JsonConverter(typeof(ElementReferenceConverter))]
     ElementReference? RelatedTarget,
     int ScreenX,
     int ScreenY,

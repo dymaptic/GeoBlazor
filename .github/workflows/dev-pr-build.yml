@@ -8,10 +8,11 @@ on:
     branches: [ "develop" ]
   push:
     branches: [ "develop" ]
+  workflow_dispatch:
 
 concurrency:
   group: dev-pr-build
-  cancel-in-progress: true
+  cancel-in-progress: ${{ !contains(github.actor, '[bot]') }}
 
 jobs:
   actor-check:
@@ -25,7 +26,7 @@ jobs:
         run: |
           echo "was-bot=true" >> "$GITHUB_OUTPUT"
           echo "Skipping build for bot commit"
-  build: 
+  build:
     needs: actor-check
     if: needs.actor-check.outputs.was-bot != 'true'
     runs-on: ubuntu-latest
@@ -61,7 +62,7 @@ jobs:
     - name: Build GeoBlazor
       shell: pwsh
       run: |
-        ./GeoBlazorBuild.ps1 -pkg -docs -c "Release"
+        dotnet ./build-tools/linux-x64/GeoBlazorBuild.dll -xml -pkg -docs -c "Release"
         
       # Copies the nuget package to the artifacts directory
     - name: Upload nuget artifact
@@ -69,7 +70,21 @@ jobs:
       with:
         name: .core-nuget
         retention-days: 4
-        path: ./src/dymaptic.GeoBlazor.Core/bin/Release/dymaptic.GeoBlazor.Core.*.nupkg
+        path: ./dymaptic.GeoBlazor.Core.*.nupkg
+      
+      # xmllint is a dependency of the copy steps below
+    - name: Install xmllint
+      shell: bash
+      run: |
+        sudo apt update
+        sudo apt install -y libxml2-utils
+
+      # This step will copy the version number from the Directory.Build.props file to an environment variable
+    - name: Copy Build Version
+      id: copy-version
+      run: |
+        CORE_VERSION=$(xmllint --xpath "//PropertyGroup/CoreVersion/text()" ./Directory.Build.props)
+        echo "CORE_VERSION=$CORE_VERSION" >> $GITHUB_ENV
 
     - name: Get GitHub App User ID
       if: github.event_name == 'pull_request'
@@ -77,12 +92,13 @@ jobs:
       run: echo "user-id=$(gh api "/users/${{ steps.app-token.outputs.app-slug }}[bot]" --jq .id)" >> "$GITHUB_OUTPUT"
       env:
         GH_TOKEN: ${{ steps.app-token.outputs.token }}
-
-    - name: Add & Commit
+      
+      # This step will commit the updated version number back to the develop branch
+    - name: Add Changes to Git
       if: github.event_name == 'pull_request'
       run: |
         git config --global user.name '${{ steps.app-token.outputs.app-slug }}[bot]'
         git config --global user.email '${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com'
         git add .
-        git commit -m "Pipeline Build Commit of Version Bump"
+        git commit -m "Pipeline Build Commit of Version and Docs"
         git push

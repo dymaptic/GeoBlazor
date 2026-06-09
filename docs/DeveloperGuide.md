@@ -3,12 +3,14 @@ This document is intended for developers and maintainers of the GeoBlazor source
 development and refactoring of existing code, but may not be adhered to by all existing code.
 
 ## TypeScript/ESBuild
-The TypeScript files are compiled as part of the build process using a source generator and ESBuild.
-The source generator, `ESBuildLauncher.cs`, watches the `Scripts` folder for changes, and then runs the ESBuild
+
+The TypeScript files are compiled as part of the build process using a special `NoTargets` SDK project that fires off a
+script, `ESBuild.cs`.
+The script watches the `dymaptic.GeoBlazor.Core/Scripts` folder for changes, and then runs the ESBuild
 compiler on the TypeScript files. The output is placed in the `wwwroot/js` folder.
 
-If you are making changes to the TypeScript files, you can run the ESBuild compiler manually by running 
-`src/dymaptic.GeoBlazor.Core/esBuild.ps1`. You do not necessarily need to restart the .NET application
+If you are making changes to the TypeScript files, you can run the ESBuild compiler manually by running
+`dotnet build-tools/build-scripts/ESBuild.cs`. You do not necessarily need to restart the .NET application
 for every change, unless you see an issue after refreshing the browser with the cache disabled.
 
 ## **Build Errors!!!**
@@ -155,7 +157,7 @@ that normal Blazor components do not have.
 - If there is no related gissue, create one and assign it to yourself
 - Create a new branch for your work with the pattern `feature/{gissue-number}_{short-description}`
 - Find a relevant sample from the ArcGIS JavaScript SDK, if one exists
-- Create a new sample page in `dymaptic.GeoBlazor.Core.Samples.Shared/Pages`. Use the same header pattern as other samples
+- Create a new sample page in the [GeoBlazor-Samples](https://github.com/dymaptic/GeoBlazor-Samples) repository under `samples/core/dymaptic.GeoBlazor.Core.Sample.Shared/Pages`. Use the same header pattern as other samples
   - The links in the sample header should point to a) the JS sample page and b) the data source (e.g., feature service) used, if available
 - Implement the necessary C# classes and methods to support the feature
 - Implement TypeScript functions and classes if necessary for your C# classes to call and use. See the `Widgets` and `Layers` details below for more examples
@@ -174,7 +176,7 @@ that normal Blazor components do not have.
 - Implement all properties from the ArcGIS Layer class. Use the `MapComponents` rules outlined above.
 - Add your layer to the switch statement in the `createLayer` function of `arcGisJsInterop.ts`. Use the `Converting GeoBlazor Objects to ArcGIS` rules outlined above.
 - If the layer has methods that we want to support, create a `wrapper` class for it. See `The JavaScript Wrapper Pattern` above.
-- Create a new Layer samples page in `dymaptic.GeoBlazor.Core.Samples.Shared/Pages`. Also add to the `NavMenu.razor`.
+- Create a new Layer samples page in the [GeoBlazor-Samples](https://github.com/dymaptic/GeoBlazor-Samples) repository under `samples/core/dymaptic.GeoBlazor.Core.Sample.Shared/Pages`. Also add to the `NavMenu.razor`.
 - Create a new unit test in `dymaptic.GeoBlazor.Core.Tests.Blazor.Shared/Components/LayerTests.razor`.
 
 ### Adding a New Widget
@@ -187,6 +189,56 @@ that normal Blazor components do not have.
   ```
 - Add your widget to the switch statement in the `createWidget` function of `arcGisJsInterop.ts`. Use the `Converting GeoBlazor Objects to ArcGIS` rules outlined above.
 - If the widget has methods that we want to support, create a `wrapper` class for it. See `The JavaScript Wrapper Pattern` above.
-- Create a new Widget samples page in `dymaptic.GeoBlazor.Core.Samples.Shared/Pages`. Also add to the `NavMenu.razor`.
+- Create a new Widget samples page in the [GeoBlazor-Samples](https://github.com/dymaptic/GeoBlazor-Samples) repository under `samples/core/dymaptic.GeoBlazor.Core.Sample.Shared/Pages`. Also add to the `NavMenu.razor`.
 - Alternatively, for simple widgets, you can add them to the `Widgets.razor` sample.
 - Create a new unit test in `dymaptic.GeoBlazor.Core.Tests.Blazor.Shared/Components/WidgetTests.razor`.
+
+## Automated Browser Testing
+
+GeoBlazor includes a comprehensive automated testing framework using Playwright and MSTest. For detailed documentation,
+see the [Test Automation README](../test/dymaptic.GeoBlazor.Core.Test.Automation/README.md).
+
+### Quick Start
+
+```bash
+# Run all automated tests
+dotnet test test/dymaptic.GeoBlazor.Core.Test.Automation
+
+# Run with specific test filter
+dotnet test --filter "FullyQualifiedName~FeatureLayerTests"
+
+# Run in container mode for CI
+dotnet test -e USE_CONTAINER=true
+```
+
+### Key Features
+
+- **Auto-generated tests**: A source generator scans test components in `dymaptic.GeoBlazor.Core.Test.Blazor.Shared` and
+  generates MSTest classes
+- **Browser pooling**: Limits concurrent browser instances to prevent resource exhaustion in CI environments
+- **Docker support**: Can run test applications in Docker containers for consistent CI/CD environments
+- **Parallel execution**: Tests run in parallel at the method level with browser pool management
+
+### Writing Tests
+
+Create test components in `dymaptic.GeoBlazor.Core.Test.Blazor.Shared/Components/`:
+
+```razor
+@inherits TestRunnerBase
+
+[TestMethod]
+public async Task MyNewTest()
+{
+    // Test implementation using GeoBlazor components
+    await PassTest();
+}
+```
+
+### Configuration
+
+Set environment variables for test configuration:
+
+- `ARCGIS_API_KEY`: Required ArcGIS API key
+- `GEOBLAZOR_CORE_LICENSE_KEY`: Core license key
+- `USE_CONTAINER`: Set to `true` for container mode
+- `BROWSER_POOL_SIZE`: Maximum concurrent browsers (default: 2 in CI, 4 locally)

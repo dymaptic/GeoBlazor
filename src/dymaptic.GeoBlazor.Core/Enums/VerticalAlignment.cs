@@ -7,6 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///     The vertical alignment for a text symbol's text.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<VerticalAlignment>))]
+[CodeGenerationIgnore]
 public enum VerticalAlignment
 {
 #pragma warning disable CS1591

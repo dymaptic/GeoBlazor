@@ -1,9 +1,5 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
-
-/// <summary>
-///     
-/// </summary>
 [JsonConverter(typeof(MultiTypeConverter<IAttributeTableTemplate>))]
 public partial interface IAttributeTableTemplate: IMapComponent
 {

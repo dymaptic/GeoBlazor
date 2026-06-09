@@ -79,7 +79,7 @@ public partial class ScaleBarWidget
         ContainerId = containerId;
         Icon = icon;
         Label = label;
-        MapView = mapView;
+        View = mapView;
         Position = position;
         Style = style;
         Unit = unit;

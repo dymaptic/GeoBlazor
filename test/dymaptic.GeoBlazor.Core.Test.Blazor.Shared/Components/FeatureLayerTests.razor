@@ -123,7 +123,7 @@
         var fieldName = "strinsur";
         Field? field = await layer.GetField(fieldName);
         Assert.IsNotNull(field);
-        Domain? domain = await layer.GetFieldDomain(fieldName);
+        Domain? domain = await layer.GetFieldDomain(fieldName, null);
         Assert.IsNotNull(domain);
         FeatureLayerCapabilities? capabilities = await layer.GetCapabilities();
         Assert.IsNotNull(capabilities);
@@ -799,7 +799,7 @@
         var g = new Graphic(new Point(-117, 34, 0));
         _ = await layer!.GetFeatureType(g);
         _ = await layer!.GetField("OBJECTID");
-        _ = await layer!.GetFieldDomain("OBJECTID");
+        _ = await layer!.GetFieldDomain("OBJECTID", g);
         _ = await layer!.GetFields();
         _ = await layer!.GetFieldsIndex();
         _ = await layer!.GetFloorInfo();
@@ -852,8 +852,9 @@
     [TestMethod]
     public async Task TestCanQueryFeatureLayerLoadedWithoutMap()
     {
+        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
         FeatureLayer layer = new(portalItem: new PortalItem("234d2e3f6f554e0e84757662469c26d3"), outFields: ["*"]);
-        await layer.Load(JsRuntime, JsModuleManager, CancellationToken.None);
+        await layer.Load(JsRuntime, JsModuleManager, cts.Token);
         Point point = new(x: -13627933.093831237, y: 4547153.388126561, spatialReference: new(102100));
         var query = new Query
         {

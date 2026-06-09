@@ -232,7 +232,7 @@ public partial class SliderWidget
         DoubleCollectionSteps = doubleCollectionSteps;
         DoubleSteps = doubleSteps;
         Icon = icon;
-        MapView = mapView;
+        View = mapView;
         Position = position;
         ViewModel = viewModel;
         WidgetId = widgetId;

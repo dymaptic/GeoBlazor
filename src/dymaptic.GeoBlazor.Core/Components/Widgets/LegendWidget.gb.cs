@@ -131,7 +131,7 @@ public partial class LegendWidget
         Label = label;
         LayerInfos = layerInfos;
         LegendStyle = legendStyle;
-        MapView = mapView;
+        View = mapView;
         Position = position;
         RespectLayerDefinitionExpression = respectLayerDefinitionExpression;
         RespectLayerVisibility = respectLayerVisibility;

@@ -6,6 +6,7 @@ name: Main Branch Release Build
 on:
   push:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build: 
@@ -43,8 +44,8 @@ jobs:
     - name: Build GeoBlazor
       shell: pwsh
       run: |
-        ./GeoBlazorBuild.ps1 -pkg -pub -c "Release"
-        
+        dotnet ./build-tools/win-x64/GeoBlazorBuild.dll -xml -pkg -pub -c "Release"
+      
       # xmllint is a dependency of the copy steps below
     - name: Install xmllint
       shell: bash
@@ -58,6 +59,13 @@ jobs:
         CORE_VERSION=$(xmllint --xpath "//PropertyGroup/CoreVersion/text()" ./Directory.Build.props)
         echo "CORE_VERSION=$CORE_VERSION" >> $GITHUB_ENV
         
+      # Copies the nuget package to the artifacts directory
+    - name: Upload nuget artifact
+      uses: actions/upload-artifact@v4.6.0
+      with:
+        name: .core-nuget
+        path: ./dymaptic.GeoBlazor.Core.*.nupkg
+      
       # This step will copy the PR description to an environment variable
     - name: Copy PR Release Notes
       run: |
@@ -69,13 +77,7 @@ jobs:
         echo "$DESC_PLUS_EOF" >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV
     
-      # Copies the nuget package to the artifacts directory
-    - name: Upload nuget artifact
-      uses: actions/upload-artifact@v4.6.0
-      with:
-        name: .core-nuget
-        path: ./src/dymaptic.GeoBlazor.Core/bin/Release/dymaptic.GeoBlazor.Core.*.nupkg
-    
+
       # Creates a GitHub Release based on the Version and the PR description
     - name: Create Release
       uses: softprops/action-gh-release@v1

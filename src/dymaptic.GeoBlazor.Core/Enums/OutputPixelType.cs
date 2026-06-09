@@ -7,6 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///     Enumeration for OutputPixelType
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<OutputPixelType>))]
+[CodeGenerationIgnore]
 public enum OutputPixelType
 {
 #pragma warning disable CS1591

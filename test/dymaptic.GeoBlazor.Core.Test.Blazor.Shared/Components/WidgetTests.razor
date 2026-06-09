@@ -349,7 +349,7 @@
                 </Basemap>
             </Map>
         </MapView>
-        <HomeWidget @ref="homeWidget" MapView="@mapView"
+        <HomeWidget @ref="homeWidget" View="@mapView"
                     OnWidgetCreated="OnWidgetCreated" />
     </div>);
 
@@ -378,7 +378,7 @@
         <HomeWidget />
     </div>);
 
-        await Assert.ThrowsAsync<MissingMapViewReferenceException>(async () => await WaitForMapToRender());
+        await Assert.ThrowsAsync<MissingViewReferenceException>(async () => await WaitForMapToRender());
     }
 
     [TestMethod]

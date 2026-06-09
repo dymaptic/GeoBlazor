@@ -17,7 +17,7 @@ export async function buildJsLayerLayerviewCreateEventGenerated(dotNetObject: an
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLayerLayerviewCreateEvent;
     
-    let dnInstantiatedObject = await buildDotNetLayerLayerviewCreateEvent(jsLayerLayerviewCreateEvent, viewId);
+    let dnInstantiatedObject = await buildDotNetLayerLayerviewCreateEvent(jsLayerLayerviewCreateEvent, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -28,7 +28,7 @@ export async function buildJsLayerLayerviewCreateEventGenerated(dotNetObject: an
     return jsLayerLayerviewCreateEvent;
 }
 
-export async function buildDotNetLayerLayerviewCreateEventGenerated(jsObject: any, viewId: string | null): Promise<any> {
+export async function buildDotNetLayerLayerviewCreateEventGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

@@ -1,0 +1,105 @@
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Diagnostics;
+using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
+
+
+namespace dymaptic.GeoBlazor.Core.SourceGenerator.Shared;
+
+[SuppressMessage("MicrosoftCodeAnalysisCorrectness", "RS1035:Do not use APIs banned for analyzers")]
+public static class ESBuildGenerator
+{
+    public static Dictionary<string, string> ConfigSelector(AnalyzerConfigOptionsProvider configProvider,
+        CancellationToken _)
+    {
+        Dictionary<string, string> options = [];
+
+        if (configProvider.GlobalOptions.TryGetValue($"{BUILD_PROPERTY}.{GB_BUILD_TOOLS_PATH}",
+            out var gbBuildToolsPath))
+        {
+            options[GB_BUILD_TOOLS_PATH] = gbBuildToolsPath;
+        }
+
+        return options;
+    }
+
+    public static void FilesChanged(SourceProductionContext context,
+        (ImmutableArray<AdditionalText> Files, Dictionary<string, string> Options) pipeline)
+    {
+        if (pipeline.Files.Length == 0)
+        {
+            ProcessHelper.Log(nameof(ESBuildGenerator),
+                "ESBuild Source Generator no files changed.",
+                DiagnosticSeverity.Info,
+                context);
+
+            return;
+        }
+
+        var parsedOptions = ParseOptions(pipeline.Options, context);
+
+        if (parsedOptions is null)
+        {
+            return;
+        }
+
+        var options = parsedOptions.Value;
+
+        if (options.GBBuildToolsPath is null)
+        {
+            ProcessHelper.Log(nameof(ESBuildGenerator),
+                "ESBuild Source Generation skipped due to missing configuration settings.",
+                DiagnosticSeverity.Info,
+                context);
+
+            return;
+        }
+
+        ClearESBuildLocks(options, context);
+    }
+
+    private static ESBuildGeneratorOptions? ParseOptions(Dictionary<string, string> options,
+        SourceProductionContext context)
+    {
+        try
+        {
+            // Use TryGetValue to safely access dictionary keys
+            options.TryGetValue(GB_BUILD_TOOLS_PATH, out var gbBuildToolsPath);
+
+            return new ESBuildGeneratorOptions(gbBuildToolsPath);
+        }
+        catch (Exception ex)
+        {
+            ProcessHelper.Log(nameof(ESBuildGenerator),
+                $"Error parsing configuration settings: {ex.Message}",
+                DiagnosticSeverity.Error, context);
+
+            return null;
+        }
+    }
+
+    private static void ClearESBuildLocks(ESBuildGeneratorOptions options,
+        SourceProductionContext context)
+    {
+        // only remove stale files during a full build
+        string[] args = ["ESBuildClearLocks.dll", "--stale-files"];
+
+        // Execute synchronously so that the SourceProductionContext remains valid for the
+        // duration of the call. Fire-and-forget would escape the generator callback lifetime,
+        // causing diagnostics to be silently dropped or thrown.
+        ProcessHelper.Execute("Clear Locks",
+            options.GBBuildToolsPath!, "dotnet",
+            args, context, false, null).GetAwaiter().GetResult();
+
+        ProcessHelper.Log(nameof(ESBuildGenerator),
+            "Cleared ESBuild Process Locks",
+            DiagnosticSeverity.Info,
+            context);
+    }
+
+    private const string GB_BUILD_TOOLS_PATH = "GBBuildToolsPath";
+    private const string BUILD_PROPERTY = "build_property";
+}
+
+public record struct ESBuildGeneratorOptions(
+    string? GBBuildToolsPath);

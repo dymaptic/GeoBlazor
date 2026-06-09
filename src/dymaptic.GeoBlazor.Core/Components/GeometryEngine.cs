@@ -94,7 +94,7 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffers.
     /// </returns>
-    public async Task<Polygon[]> Buffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances, 
+    public async Task<Polygon[]> Buffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances,
         GeometryEngineLinearUnit? unit, bool? unionResults)
     {
         return await InvokeAsync<Polygon[]>("buffer", geometries, distances, unit, unionResults);
@@ -526,7 +526,7 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffers
     /// </returns>
-    public async Task<Polygon[]> GeodesicBuffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances, 
+    public async Task<Polygon[]> GeodesicBuffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances,
         GeometryEngineLinearUnit? unit, bool? unionResults)
     {
         return await InvokeAsync<Polygon[]>("geodesicBuffer", geometries, distances, unit, unionResults);
@@ -597,7 +597,7 @@ public class GeometryEngine : LogicComponent
     {
         return await InvokeAsync<Geometry>("geodesicDensify", geometry, maxSegmentLength, null);
     }
-    
+
     /// <summary>
     ///     Returns a geodesically densified version of the input geometry. Use this function to draw the line(s) of the geometry along great circles.
     /// </summary>
@@ -613,7 +613,7 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns the densified geometry.
     /// </returns>
-    public async Task<Geometry> GeodesicDensify(Geometry geometry, double maxSegmentLength, 
+    public async Task<Geometry> GeodesicDensify(Geometry geometry, double maxSegmentLength,
         GeometryEngineLinearUnit? maxSegmentLengthUnit)
     {
         return await InvokeAsync<Geometry>("geodesicDensify", geometry, maxSegmentLength, maxSegmentLengthUnit);
@@ -1034,7 +1034,7 @@ public class GeometryEngine : LogicComponent
     {
         return await InvokeAsync<double>("planarArea", geometry, null);
     }
-    
+
     /// <summary>
     ///     Calculates the area of the input geometry. As opposed to geodesicArea(), planarArea() performs this calculation using projected coordinates and does not take into account the earth's curvature. When using input geometries with a spatial reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to calculate areas using geodesicArea(). If the input geometries have a projected coordinate system other than Web Mercator, use planarArea() instead.
     /// </summary>
@@ -1065,7 +1065,7 @@ public class GeometryEngine : LogicComponent
     {
         return await InvokeAsync<double>("planarLength", geometry);
     }
-    
+
     /// <summary>
     ///     Calculates the length of the input geometry. As opposed to geodesicLength(), planarLength() uses projected coordinates and does not take into account the curvature of the earth when performing this calculation. When using input geometries with a spatial reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to calculate lengths using geodesicLength(). If the input geometries have a projected coordinate system other than Web Mercator, use planarLength() instead.
     /// </summary>
@@ -1398,7 +1398,8 @@ public class GeometryEngine : LogicComponent
         var mapPoints = new List<MapPoint>();
         foreach (Point p in points)
         {
-            mapPoints.Add(new MapPoint(p.X!.Value, p.Y!.Value));
+            // Point may have X/Y set (projected) or Longitude/Latitude set (geographic) — accept either.
+            mapPoints.Add(new MapPoint((p.X ?? p.Longitude)!.Value, (p.Y ?? p.Latitude)!.Value));
         }
 
         return await AddPath(polyline, new MapPath(mapPoints));
@@ -1459,9 +1460,9 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns an object with the modified polyline and the removed path.
     /// </returns>
-    public async Task<(Polyline PolyLine, Point[] Path)> RemovePath(Polyline polyline, int index)
+    public async Task<RemovePathResult> RemovePath(Polyline polyline, int index)
     {
-        return await InvokeAsync<(Polyline PolyLine, Point[] Path)>("removePath", polyline, index);
+        return await InvokeAsync<RemovePathResult>("removePath", polyline, index);
     }
 
     /// <summary>
@@ -1479,9 +1480,9 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns an object with the modified polyline and the removed point.
     /// </returns>
-    public async Task<(Polyline PolyLine, Point Point)> RemovePoint(Polyline polyline, int pathIndex, int pointIndex)
+    public async Task<RemovePointOnPolylineResult> RemovePoint(Polyline polyline, int pathIndex, int pointIndex)
     {
-        return await InvokeAsync<(Polyline PolyLine, Point Point)>("removePointOnPolyline", polyline, pathIndex, pointIndex);
+        return await InvokeAsync<RemovePointOnPolylineResult>("removePointOnPolyline", polyline, pathIndex, pointIndex);
     }
 
     /// <summary>
@@ -1541,7 +1542,7 @@ public class GeometryEngine : LogicComponent
         var mapPoints = new List<MapPoint>();
         foreach (Point p in points)
         {
-            mapPoints.Add(new MapPoint(p.X!.Value, p.Y!.Value));
+            mapPoints.Add(new MapPoint((p.X ?? p.Longitude)!.Value, (p.Y ?? p.Latitude)!.Value));
         }
 
         return await AddRing(polygon, new MapPath(mapPoints));
@@ -1638,7 +1639,7 @@ public class GeometryEngine : LogicComponent
         var mapPoints = new List<MapPoint>();
         foreach (Point p in ring)
         {
-            mapPoints.Add(new MapPoint(p.X!.Value, p.Y!.Value));
+            mapPoints.Add(new MapPoint((p.X ?? p.Longitude)!.Value, (p.Y ?? p.Latitude)!.Value));
         }
 
         return await IsClockwise(polygon, new MapPath(mapPoints));
@@ -1659,9 +1660,9 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns an object with the modified polygon and the removed point.
     /// </returns>
-    public async Task<(Polygon Polygon, Point Point)> RemovePoint(Polygon polygon, int ringIndex, int pointIndex)
+    public async Task<RemovePointOnPolygonResult> RemovePoint(Polygon polygon, int ringIndex, int pointIndex)
     {
-        return await InvokeAsync<(Polygon Polygon, Point Point)>("removePointOnPolygon", polygon, ringIndex, pointIndex);
+        return await InvokeAsync<RemovePointOnPolygonResult>("removePointOnPolygon", polygon, ringIndex, pointIndex);
     }
 
     /// <summary>
@@ -1676,9 +1677,9 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns an object with the modified polygon and the removed ring.
     /// </returns>
-    public async Task<(Polygon Polygon, Point[] Ring)> RemoveRing(Polygon polygon, int index)
+    public async Task<RemoveRingResult> RemoveRing(Polygon polygon, int index)
     {
-        return await InvokeAsync<(Polygon Polygon, Point[] Ring)>("removeRing", polygon, index);
+        return await InvokeAsync<RemoveRingResult>("removeRing", polygon, index);
     }
 
     /// <summary>

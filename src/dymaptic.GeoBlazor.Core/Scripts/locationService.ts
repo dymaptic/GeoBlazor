@@ -65,11 +65,7 @@ export default class LocatorWrapper {
         }
 
         let {buildDotNetAddressCandidate} = await import('./addressCandidate');
-        let dotNetResult = result.map(r => buildDotNetAddressCandidate(r));
-
-        let json = JSON.stringify(dotNetResult);
-        let encoded = new TextEncoder().encode(json);
-        return encoded;
+        return result.map(r => buildDotNetAddressCandidate(r));
     }
 
     async addressToLocations(url: string, address: any, categories: string[] | null, countryCode: string | null,
@@ -133,11 +129,7 @@ export default class LocatorWrapper {
         }
 
         let {buildDotNetAddressCandidate} = await import('./addressCandidate');
-        let dotNetResult = result.map(r => buildDotNetAddressCandidate(r));
-
-        let json = JSON.stringify(dotNetResult);
-        let encoded = new TextEncoder().encode(json);
-        return encoded;
+        return result.map(r => buildDotNetAddressCandidate(r));
     }
 
     async locationToAddress(url: string, location: DotNetPoint, locationType: string | null,

@@ -1,6 +1,7 @@
 // noinspection JSUnusedGlobalSymbols
 
 // region imports
+import "@arcgis/map-components/components/arcgis-locate";
 import "@arcgis/map-components/components/arcgis-navigation-toggle";
 import "@arcgis/map-components/components/arcgis-zoom";
 import {
@@ -49,7 +50,7 @@ import Popup from "@arcgis/core/widgets/Popup";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
 import Portal from "@arcgis/core/portal/Portal";
 import * as promiseUtils from "@arcgis/core/core/promiseUtils";
-import ProjectionWrapper from "./projection";
+import ProjectionWrapper from "./projectionEngine";
 import Query from "@arcgis/core/rest/support/Query";
 import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer";
 import RouteParameters from "@arcgis/core/rest/support/RouteParameters";
@@ -113,6 +114,7 @@ export {
     Portal,
     SimpleRenderer,
     buildJsLayer,
+    buildJsGraphic,
     reactiveUtils
 };
 
@@ -179,19 +181,43 @@ export function setTheme(theme: string | null, viewId): string | null {
         addHeadLink(`${esriConfig.assetsPath}/esri/themes/light/main.css`);
     }
     
-    setViewTheme(theme, viewId);
+    setAllComponentThemes(theme);
     
     return theme;
 }
 
-function setViewTheme(theme, viewId: string): void {
-    if (arcGisObjectRefs.hasOwnProperty(viewId)) {
-        let view = arcGisObjectRefs[viewId] as MapView | SceneView | null;
-        if (hasValue(view)) {
-            view!.container!.style.colorScheme = theme as string;
-            if (theme === 'dark' && !view!.ui.container!.classList.contains('calcite-mode-dark')) {
-                // if the view was already rendered, this class is missed and needs adding
-                view!.ui.container!.classList.add('calcite-mode-dark');
+function setAllComponentThemes(theme: string | null): void {
+    for (const key in arcGisObjectRefs) {
+        if (arcGisObjectRefs[key].hasOwnProperty('container') || arcGisObjectRefs[key].hasOwnProperty('ui')) {
+            setComponentTheme(theme, key);
+        }
+    }
+}
+
+function setComponentTheme(theme, componentId: string): void {
+    if (arcGisObjectRefs.hasOwnProperty(componentId)) {
+        let component = arcGisObjectRefs[componentId] as MapView | SceneView | HTMLElement | null;
+        if (hasValue(component)) {
+            if ((component instanceof MapView || component instanceof SceneView)) {
+                component!.container!.style.colorScheme = theme as string;
+                if (theme === 'dark' && !component!.ui.container!.classList.contains('calcite-mode-dark')) {
+                    // if the view was already rendered, this class is missed and needs adding
+                    component!.ui.container!.classList.add('calcite-mode-dark');
+                } else if (theme !== 'dark' && component!.ui.container!.classList.contains('calcite-mode-dark')) {
+                    component!.ui.container!.classList.remove('calcite-mode-dark');
+                }
+            }
+
+            if (component instanceof HTMLElement) {
+                if (theme === 'dark' && !component.classList.contains('calcite-mode-dark')) {
+                    component.classList.add('calcite-mode-dark');
+                } else if (theme !== 'dark' && component.classList.contains('calcite-mode-dark')) {
+                    component.classList.remove('calcite-mode-dark');
+                }
+
+                if (hasValue(component!.parentElement)) {
+                    component!.parentElement!.style.colorScheme = theme as string;
+                }
             }
         }
     }
@@ -335,7 +361,8 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
 
     // 7. Set view properties
     await setupView(abortSignal, view, id, dotNetRef, long, lat, zoom, scale, spatialRef, constraints, extent,
-        backgroundColor, eventRateLimitInMilliseconds, activeEventHandlers, highlightOptions, highlights, popupEnabled, theme);
+        backgroundColor, eventRateLimitInMilliseconds, activeEventHandlers, highlightOptions, highlights,
+        popupEnabled, theme);
 
     if (abortSignal.aborted) {
         return;
@@ -344,7 +371,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
     // 8. Register popup widget first before adding layers to not overwrite the popupTemplates
     const popupWidget = widgets.find(w => w.type === 'popup');
     if (hasValue(popupWidget)) {
-        await addWidget(popupWidget, id);
+        await addWidget(popupWidget, id, theme!);
     }
 
     if (abortSignal.aborted) {
@@ -420,7 +447,7 @@ export async function buildArcGisMapView(abortSignal: AbortSignal, id: string, d
             }
             try {
                 // Process widgets in the same position sequentially to maintain stacking order
-                await addWidget(widget, id);
+                await addWidget(widget, id, theme!);
             } catch (e) {
                 console.error(`Error adding widget ${widget.type} at position ${position}: ${e}`);
             }
@@ -458,10 +485,11 @@ export function resetMapComponent(id: string): void {
 }
 
 async function setupView(abortSignal: AbortSignal, view: MapView | SceneView, id: string, dotNetRef: any, 
-                         long: number | null, lat: number | null, zoom: number | null, scale: number | null,
-                         spatialRef: SpatialReference | null, constraints: any, extent: any, backgroundColor: any,
-                         eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
-                         highlightOptions?: any | null, highlights?: any | null, popupEnabled?: boolean | null, theme?: string | null): Promise<void> {
+    long: number | null, lat: number | null, zoom: number | null, scale: number | null,
+    spatialRef: SpatialReference | null, constraints: any, extent: any, backgroundColor: any,
+    eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
+    highlightOptions?: any | null, highlights?: any | null, popupEnabled?: boolean | null,
+    theme?: string | null): Promise<void> {
     if (abortSignal.aborted) {
         return;
     }
@@ -488,7 +516,7 @@ async function setupView(abortSignal: AbortSignal, view: MapView | SceneView, id
         return;
     }
 
-    waitForRender(id, theme, dotNetRef, abortSignal);
+    waitForRender(id, theme!, dotNetRef, abortSignal);
 
     if (hasValue(highlightOptions)) {
         setHighlightOptions(highlightOptions, id);
@@ -1540,7 +1568,7 @@ export function displayQueryResults(query: Query, symbol: ArcGisSymbol, popupTem
     });
 }
 
-export async function addWidget(widget: any, viewId: string, setInContainerByDefault: boolean = false)
+export async function addWidget(widget: any, viewId: string, theme: string | null, setInContainerByDefault: boolean = false)
     : Promise<void> {
     try {
         setCursor('wait', viewId);
@@ -1549,6 +1577,26 @@ export async function addWidget(widget: any, viewId: string, setInContainerByDef
         if (!hasValue(view)) {
             return;
         }
+
+        // For ArcGIS web-component widgets with a containerId, relocate the rendered
+        // <arcgis-*> element out of <arcgis-map> and into the external container BEFORE
+        // building, so property setters (referenceElement, layer, layers, ...) act on the
+        // element in its final DOM location. Moving after init causes the web component's
+        // disconnectedCallback/connectedCallback to fire mid-setup and drop state — which
+        // shows up as an empty "No layer" dropdown despite layers having been assigned.
+        // The documented ArcGIS pattern for arcgis-feature-table is sibling-of-arcgis-map
+        // connected via referenceElement (already set in the per-widget gb.ts).
+        if (widget.arcGISComponent && hasValue(widget.containerId)) {
+            const targetContainer = document.getElementById(widget.containerId);
+            const widgetElement = document.getElementById(`widget-component-${widget.id}`);
+            if (hasValue(targetContainer) && hasValue(widgetElement)
+                && widgetElement!.parentElement !== targetContainer) {
+                targetContainer!.appendChild(widgetElement!);
+            }
+        }
+
+        let alreadyRegistered = arcGisObjectRefs.hasOwnProperty(widget.id);
+
         const newWidget = await buildJsWidget(widget, widget?.layerId, viewId);
         if (!hasValue(newWidget)) {
             return;
@@ -1558,18 +1606,26 @@ export async function addWidget(widget: any, viewId: string, setInContainerByDef
             return;
         }
 
-        if (hasValue(widget.containerId) && !hasValue(newWidget.container)) {
-            setWidgetContainer(newWidget, widget.type, widget.containerId, viewId);
+        if (widget.arcGISComponent) {
+            setComponentTheme(theme, widget.id);
         } else {
-            // check if widget is defined inside mapview
-            const inMapWidget = mapComponent?.querySelector(`#widget-container-${widget.id}`);
-            const widgetContainer: HTMLElement = document.getElementById(`widget-container-${widget.id}`)!;
-            if ((hasValue(inMapWidget) || !hasValue(widgetContainer)) && !setInContainerByDefault) {
-                view.ui.add(newWidget, widget.position);
+            // set widget position
+            if (hasValue(widget.containerId) && !hasValue(newWidget.container)) {
+                setWidgetContainer(newWidget, widget.type, widget.containerId, viewId);
             } else {
-                // default to using the pre-defined widget container
-                widgetContainer.innerHTML = '';
-                newWidget.container = widgetContainer;
+                // check if widget is defined inside mapview
+                const inMapWidget = mapComponent?.querySelector(`#widget-container-${widget.id}`);
+                const widgetContainer: HTMLElement = document.getElementById(`widget-container-${widget.id}`)!;
+                if ((hasValue(inMapWidget)
+                    || !hasValue(widgetContainer))
+                    && !setInContainerByDefault
+                    && view.ui.getComponents().find(c => c.id === widget.id) === undefined) {
+                    view.ui.add(newWidget, widget.position);
+                } else {
+                    // default to using the pre-defined widget container
+                    widgetContainer.innerHTML = '';
+                    newWidget.container = widgetContainer;
+                }
             }
         }
     } finally {
@@ -1691,13 +1747,13 @@ async function resetCenterToSpatialReference(center: Point, spatialReference: Sp
     return projectOperator.execute(center, spatialReference) as Point;
 }
 
-function waitForRender(viewId: string, theme: string | null | undefined, dotNetRef: any, abortSignal: AbortSignal): void {
+function waitForRender(viewId: string, theme: string | null, dotNetRef: any, abortSignal: AbortSignal): void {
     const view = arcGisObjectRefs[viewId] as View;
 
     try {
         view.when().then(_ => {
             if (hasValue(theme)) {
-                setViewTheme(theme, viewId);
+                setAllComponentThemes(theme!);
             }
             let isRendered = false;
             let rendering = false;
@@ -2017,7 +2073,7 @@ function getProtobufViewHitStream(viewHits: DotNetViewHit[]): any {
         return DotNet.createJSStreamReference(encoded);
 }
 
-function updateGraphicForProtobuf(graphic: DotNetGraphic, layer: FeatureLayer | GeoJSONLayer | null) {
+export function updateGraphicForProtobuf(graphic: DotNetGraphic, layer: FeatureLayer | GeoJSONLayer | null) {
     if (hasValue(graphic.attributes)) {
         const fields = layer?.fields;
         graphic.attributes = Object.keys(graphic.attributes).map(attr => {
@@ -2040,74 +2096,90 @@ function updateGraphicForProtobuf(graphic: DotNetGraphic, layer: FeatureLayer | 
     if (hasValue(graphic.geometry)) {
         updateGeometryForProtobuf(graphic.geometry);
     }
-    const symbol: any = graphic.symbol;
-    if (hasValue(symbol)) {
-        if (hasValue(symbol.color)) {
-            symbol.color = {
-                hexOrNameValue: symbol.color
-            }
-        }
-        if (hasValue(symbol.haloColor)) {
-            symbol.haloColor = {
-                hexOrNameValue: symbol.haloColor
-            }
-        }
-        if (hasValue(symbol.backgroundColor)) {
-            symbol.backgroundColor = {
-                hexOrNameValue: symbol.backgroundColor
-            }
-        }
-        if (hasValue(symbol.borderLineColor)) {
-            symbol.borderLineColor = {
-                hexOrNameValue: symbol.borderLineColor
-            }
-        }
-        if (hasValue(symbol.outline?.color)) {
-            symbol.outline.color = {
-                hexOrNameValue: symbol.outline.color
-            }
-        }
-        if (hasValue(symbol.portal)) {
-            symbol.portalUrl = symbol.portal.url;
-        }
+
+    if (hasValue(graphic.symbol)) {
+        updateSymbolForProtobuf(graphic.symbol);
     }
 }
 
-function updateGeometryForProtobuf(geometry) {
-    if (hasValue(geometry.paths)) {
-        geometry.paths = (geometry as DotNetPolyline).paths.map(p => {
-            return {
-                points: p.map(pt => {
-                    return {
-                        coordinates: pt
-                    }
-                })
-            }
-        });
+export function updateGeometryForProtobuf(geometry) {
+    if (hasValue(geometry.paths) && geometry.paths.length > 0) {
+        if (hasValue(geometry.paths[0].points)) {
+            // already transformed
+        } else {
+            geometry.paths = (geometry as DotNetPolyline).paths.map(p => {
+                return {
+                    points: p.map(pt => {
+                        return {
+                            coordinates: pt
+                        }
+                    })
+                }
+            });
+        }
     } else {
         geometry.paths = [];
     }
-    if (hasValue(geometry.rings)) {
-        geometry.rings = (geometry as DotNetPolygon).rings.map(r => {
-            return {
-                points: r.map(pt => {
-                    return {
-                        coordinates: pt
-                    }
-                })
-            }
-        });
+    if (hasValue(geometry.rings) && geometry.rings.length > 0) {
+        if (hasValue(geometry.rings[0].points)) {
+            // already transformed
+        } else {
+            geometry.rings = (geometry as DotNetPolygon).rings.map(r => {
+                return {
+                    points: r.map(pt => {
+                        return {
+                            coordinates: pt
+                        }
+                    })
+                }
+            });
+        }
     } else {
         geometry.rings = [];
     }
-    if (hasValue(geometry.points)) {
-        geometry.points = geometry.points.map(pt => {
-            return {
-                coordinates: pt
-            }
-        });
+    if (hasValue(geometry.points) && geometry.points.length > 0) {
+        if (hasValue(geometry.points[0].coordinates)) {
+            // already transformed
+        } else {
+            geometry.points = geometry.points.map(pt => {
+                return {
+                    coordinates: pt
+                }
+            });
+        }
     } else {
         geometry.points = [];
+    }
+}
+
+export function updateSymbolForProtobuf(symbol) {
+    if (hasValue(symbol.color) && !hasValue(symbol.color.hexOrNameValue)) {
+        symbol.color = {
+            hexOrNameValue: symbol.color
+        }
+    }
+    if (hasValue(symbol.haloColor) && !hasValue(symbol.haloColor.hexOrNameValue)) {
+        symbol.haloColor = {
+            hexOrNameValue: symbol.haloColor
+        }
+    }
+    if (hasValue(symbol.backgroundColor) && !hasValue(symbol.backgroundColor.hexOrNameValue)) {
+        symbol.backgroundColor = {
+            hexOrNameValue: symbol.backgroundColor
+        }
+    }
+    if (hasValue(symbol.borderLineColor) && !hasValue(symbol.borderLineColor.hexOrNameValue)) {
+        symbol.borderLineColor = {
+            hexOrNameValue: symbol.borderLineColor
+        }
+    }
+    if (hasValue(symbol.outline?.color) && !hasValue(symbol.outline.color.hexOrNameValue)) {
+        symbol.outline.color = {
+            hexOrNameValue: symbol.outline.color
+        }
+    }
+    if (hasValue(symbol.portal) && !hasValue(symbol.portalUrl)) {
+        symbol.portalUrl = symbol.portal.url;
     }
 }
 
