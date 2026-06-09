@@ -33,6 +33,18 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 10.x
+          
+    - name: Update NPM
+      uses: actions/setup-node@v4
+      with:
+        node-version: '>=22.11.0'
+        check-latest: 'true'
+
+    - name: Clean node_modules
+      shell: pwsh
+      run: |
+        Remove-Item -Recurse -Force ./src/dymaptic.GeoBlazor.Pro/node_modules -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force ./GeoBlazor/src/dymaptic.GeoBlazor.Core/node_modules -ErrorAction SilentlyContinue
 
     - name: Update NPM
       uses: actions/setup-node@v4
