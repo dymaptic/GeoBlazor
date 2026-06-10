@@ -11,6 +11,7 @@
 //   -d, --docs-url <url>       Documentation URL (default: https://docs.geoblazor.com)
 //   -b, --bypass-key <key>     API bypass key for samples (optional)
 //   -w, --wfs-servers <json>   Additional WFS server configuration JSON fragment (optional)
+//   -dark, --dark-theme <json>  Dark theme configuration JSON fragment (optional)
 //   -h, --help                 Display help message
 //
 // Example:
@@ -25,6 +26,7 @@ List<string> outputPaths = [];
 string docsUrl = "https://docs.geoblazor.com";
 string byPassApiKey = "";
 string wfsServers = "";
+bool darkTheme = false;
 bool help = false;
 
 // Parse command line arguments
@@ -75,6 +77,10 @@ for (int i = 0; i < args.Length; i++)
                 wfsServers = args[++i];
             }
             break;
+        case "-dark":
+        case "--dark-theme":
+            darkTheme = true;
+            break;
         case "-h":
         case "--help":
             help = true;
@@ -96,6 +102,7 @@ if (help)
     Console.WriteLine("  -d, --docs-url <url>       Documentation URL (default: https://docs.geoblazor.com)");
     Console.WriteLine("  -b, --bypass-key <key>     API bypass key for samples (optional)");
     Console.WriteLine("  -w, --wfs-servers <json>   Additional WFS server configuration JSON fragment (optional)");
+    Console.WriteLine("  -dark, --dark-theme        Enable dark theme configuration (optional)");
     Console.WriteLine("  -h, --help                 Display this help message");
     Console.WriteLine();
     Console.WriteLine("Examples:");
@@ -129,6 +136,11 @@ sb.AppendLine("{");
 sb.AppendLine($"  \"ArcGISApiKey\": \"{EscapeJsonString(arcGISApiKey)}\",");
 sb.AppendLine("  \"GeoBlazor\": {");
 sb.AppendLine($"    \"LicenseKey\": \"{EscapeJsonString(licenseKey)}\"");
+if (darkTheme)
+{
+    sb.AppendLine(",");
+    sb.AppendLine("    \"Theme\": \"Dark\"");
+}
 sb.AppendLine("  },");
 sb.AppendLine($"  \"DocsUrl\": \"{EscapeJsonString(docsUrl)}\",");
 sb.Append($"  \"ByPassApiKey\": \"{EscapeJsonString(byPassApiKey)}\"");
