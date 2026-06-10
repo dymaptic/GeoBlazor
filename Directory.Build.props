@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <CoreVersion>4.5.1</CoreVersion>
+    <CoreVersion>4.5.2</CoreVersion>
     <Configurations>Debug;Release;SourceGen Highlighting</Configurations>
     <Platforms>AnyCPU</Platforms>
     <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
