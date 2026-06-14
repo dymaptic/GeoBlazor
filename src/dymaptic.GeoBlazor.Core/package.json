@@ -15,7 +15,7 @@
     "@arcgis/core": "4.33.14",
     "@arcgis/map-components": "4.33.24",
     "@esri/calcite-components": "3.2.1",
-    "esbuild": "0.27.1",
+    "esbuild": "0.28.1",
     "esbuild-clean-plugin": "^2.0.0",
     "protobufjs": "7.5.8"
   },
