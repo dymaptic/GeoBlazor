@@ -1949,6 +1949,15 @@ public class GeometryEngineTests : TestRunnerBase
         Assert.AreNotEqual(polygon1, union);
         Assert.AreNotEqual(polygon2, union);
         Assert.AreNotEqual(polygon3, union);
+
+        // Regression (reported against 4.5.1): the unioned geometry must come back with a populated
+        // Extent. The three polygons together span x:[0,30] and y:[0,10].
+        Assert.IsNotNull(union.Extent,
+            "Union result should have a populated Extent.");
+        Assert.AreEqual(0.0, union.Extent!.Xmin);
+        Assert.AreEqual(30.0, union.Extent!.Xmax);
+        Assert.AreEqual(0.0, union.Extent!.Ymin);
+        Assert.AreEqual(10.0, union.Extent!.Ymax);
     }
 
     [TestMethod]

@@ -23,6 +23,10 @@ public partial class Polyline : Geometry
     /// <inheritdoc />
     public override GeometryType Type => GeometryType.Polyline;
 
+    /// <inheritdoc />
+    [CodeGenerationIgnore]
+    protected override Extent? CalculateExtent() => CalculateExtentFromPaths(Paths, SpatialReference);
+
     /// <summary>
     ///     Returns a deep clone of the geometry.
     /// </summary>

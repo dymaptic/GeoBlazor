@@ -111,22 +111,83 @@ public abstract partial class Geometry : MapComponent
     /// </summary>
     public async Task<Extent?> GetExtent()
     {
-        if (CoreJsModule is null)
+        if (CoreJsModule is not null)
         {
-            return Extent;
-        }
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent", CancellationTokenSource.Token, Id);
 
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return Extent;
-        }
+            if (JsComponentReference is not null)
+            {
+                // get the property value
+                Extent? jsExtent = await CoreJsModule!.InvokeAsync<Extent?>("getProperty", CancellationTokenSource.Token, JsComponentReference, "extent");
 
-        // get the property value
+                if (jsExtent is not null)
+                {
 #pragma warning disable BL0005
-        Extent = await CoreJsModule!.InvokeAsync<Extent?>("getProperty", CancellationTokenSource.Token, JsComponentReference, "extent");
+                    Extent = jsExtent;
 #pragma warning restore BL0005
+                }
+            }
+        }
+
+        // Fall back to calculating the extent client-side when neither the cached value
+        // nor the JS component provided one (e.g. geometries created in C#, or returned
+        // from operators that do not expose a cached extent).
+        if (Extent is null)
+        {
+#pragma warning disable BL0005
+            Extent = CalculateExtent();
+#pragma warning restore BL0005
+        }
+
         return Extent;
+    }
+
+    /// <summary>
+    ///     Calculates the <see cref="Extent" /> (bounding box) of this geometry from its
+    ///     coordinates. Returns the existing <see cref="Extent" /> by default; vertex-based
+    ///     geometries (e.g. <see cref="Polygon" />, <see cref="Polyline" />) override this to
+    ///     compute a missing extent.
+    /// </summary>
+    [CodeGenerationIgnore]
+    protected virtual Extent? CalculateExtent() => Extent;
+
+    /// <summary>
+    ///     Computes a bounding-box <see cref="Extent" /> over a set of vertex paths/rings,
+    ///     or <see langword="null" /> when there are no coordinates.
+    /// </summary>
+    [CodeGenerationIgnore]
+    protected static Extent? CalculateExtentFromPaths(IEnumerable<MapPath>? paths,
+        SpatialReference? spatialReference)
+    {
+        if (paths is null)
+        {
+            return null;
+        }
+
+        double xmin = double.MaxValue, ymin = double.MaxValue;
+        double xmax = double.MinValue, ymax = double.MinValue;
+        bool any = false;
+
+        foreach (MapPath path in paths)
+        {
+            foreach (MapPoint point in path)
+            {
+                if (point.Count < 2)
+                {
+                    continue;
+                }
+
+                any = true;
+                if (point[0] < xmin) xmin = point[0];
+                if (point[0] > xmax) xmax = point[0];
+                if (point[1] < ymin) ymin = point[1];
+                if (point[1] > ymax) ymax = point[1];
+            }
+        }
+
+        return any
+            ? new Extent(xmax, xmin, ymax, ymin, spatialReference: spatialReference)
+            : null;
     }
 
     internal abstract GeometrySerializationRecord ToSerializationRecord();
