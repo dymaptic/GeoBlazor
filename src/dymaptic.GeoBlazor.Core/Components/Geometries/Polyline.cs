@@ -25,7 +25,7 @@ public partial class Polyline : Geometry
 
     /// <inheritdoc />
     [CodeGenerationIgnore]
-    protected override Extent? CalculateExtent() => CalculateExtentFromPaths(Paths, SpatialReference);
+    protected override Extent? CalculateExtent() => CalculateExtentFromPaths(Paths, SpatialReference, HasZ, HasM);
 
     /// <summary>
     ///     Returns a deep clone of the geometry.

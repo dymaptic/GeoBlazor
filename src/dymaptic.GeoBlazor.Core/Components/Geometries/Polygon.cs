@@ -109,7 +109,7 @@ public partial class Polygon : Geometry
 
     /// <inheritdoc />
     [CodeGenerationIgnore]
-    protected override Extent? CalculateExtent() => CalculateExtentFromPaths(Rings, SpatialReference);
+    protected override Extent? CalculateExtent() => CalculateExtentFromPaths(Rings, SpatialReference, HasZ, HasM);
 
     /// <summary>
     ///     Returns a deep clone of the geometry.

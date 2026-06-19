@@ -153,20 +153,28 @@ public abstract partial class Geometry : MapComponent
 
     /// <summary>
     ///     Computes a bounding-box <see cref="Extent" /> over a set of vertex paths/rings,
-    ///     or <see langword="null" /> when there are no coordinates.
+    ///     or <see langword="null" /> when there are no coordinates. When the geometry has
+    ///     Z and/or M values, the resulting extent's Z/M bounds are populated as well.
     /// </summary>
     [CodeGenerationIgnore]
     protected static Extent? CalculateExtentFromPaths(IEnumerable<MapPath>? paths,
-        SpatialReference? spatialReference)
+        SpatialReference? spatialReference, bool? hasZ = null, bool? hasM = null)
     {
         if (paths is null)
         {
             return null;
         }
 
+        // Coordinates are [x, y, z?, m?]: z is at index 2 when hasZ; m is at index 3
+        // when hasZ, otherwise index 2.
+        int zIndex = hasZ == true ? 2 : -1;
+        int mIndex = hasM == true ? (hasZ == true ? 3 : 2) : -1;
+
         double xmin = double.MaxValue, ymin = double.MaxValue;
         double xmax = double.MinValue, ymax = double.MinValue;
-        bool any = false;
+        double zmin = double.MaxValue, zmax = double.MinValue;
+        double mmin = double.MaxValue, mmax = double.MinValue;
+        bool any = false, anyZ = false, anyM = false;
 
         foreach (MapPath path in paths)
         {
@@ -182,12 +190,33 @@ public abstract partial class Geometry : MapComponent
                 if (point[0] > xmax) xmax = point[0];
                 if (point[1] < ymin) ymin = point[1];
                 if (point[1] > ymax) ymax = point[1];
+
+                if (zIndex >= 0 && point.Count > zIndex)
+                {
+                    anyZ = true;
+                    if (point[zIndex] < zmin) zmin = point[zIndex];
+                    if (point[zIndex] > zmax) zmax = point[zIndex];
+                }
+
+                if (mIndex >= 0 && point.Count > mIndex)
+                {
+                    anyM = true;
+                    if (point[mIndex] < mmin) mmin = point[mIndex];
+                    if (point[mIndex] > mmax) mmax = point[mIndex];
+                }
             }
         }
 
-        return any
-            ? new Extent(xmax, xmin, ymax, ymin, spatialReference: spatialReference)
-            : null;
+        if (!any)
+        {
+            return null;
+        }
+
+        return new Extent(xmax, xmin, ymax, ymin,
+            zmax: anyZ ? zmax : null, zmin: anyZ ? zmin : null,
+            mmax: anyM ? mmax : null, mmin: anyM ? mmin : null,
+            spatialReference: spatialReference,
+            hasM: anyM ? true : hasM, hasZ: anyZ ? true : hasZ);
     }
 
     internal abstract GeometrySerializationRecord ToSerializationRecord();

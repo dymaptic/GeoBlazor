@@ -60,4 +60,58 @@ public class GeometryExtentTests
         Assert.AreEqual(-3, extent.Ymin);
         Assert.AreEqual(9, extent.Ymax);
     }
+
+    [TestMethod]
+    public async Task GetExtentCalculatesZBoundsForPolygonWithZ()
+    {
+        // For Z-enabled geometries, the calculated extent must also carry zmin/zmax
+        // (coordinate index 2 when hasZ).
+        Polygon polygon = new(
+            [
+                new MapPath(
+                    new MapPoint(0, 0, 5),
+                    new MapPoint(0, 10, 15),
+                    new MapPoint(20, 10, 25),
+                    new MapPoint(20, 0, 10),
+                    new MapPoint(0, 0, 5))
+            ],
+            new SpatialReference(102100),
+            hasZ: true);
+
+        Extent? extent = await polygon.GetExtent();
+
+        Assert.IsNotNull(extent);
+        Assert.AreEqual(0, extent!.Xmin);
+        Assert.AreEqual(20, extent.Xmax);
+        Assert.AreEqual(0, extent.Ymin);
+        Assert.AreEqual(10, extent.Ymax);
+        Assert.AreEqual(5, extent.Zmin);
+        Assert.AreEqual(25, extent.Zmax);
+        Assert.IsTrue(extent.HasZ.GetValueOrDefault());
+    }
+
+    [TestMethod]
+    public async Task GetExtentCalculatesMBoundsForPolylineWithM()
+    {
+        // For M-enabled (but not Z-enabled) geometries, M is at coordinate index 2 and
+        // the calculated extent must carry mmin/mmax.
+        Polyline polyline = new(
+            [
+                new MapPath(
+                    new MapPoint(-5, 2, 100),
+                    new MapPoint(15, -3, 250),
+                    new MapPoint(7, 9, 175))
+            ],
+            new SpatialReference(102100),
+            hasM: true);
+
+        Extent? extent = await polyline.GetExtent();
+
+        Assert.IsNotNull(extent);
+        Assert.AreEqual(-5, extent!.Xmin);
+        Assert.AreEqual(15, extent.Xmax);
+        Assert.AreEqual(100, extent.Mmin);
+        Assert.AreEqual(250, extent.Mmax);
+        Assert.IsTrue(extent.HasM.GetValueOrDefault());
+    }
 }

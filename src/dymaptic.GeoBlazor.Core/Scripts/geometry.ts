@@ -53,13 +53,32 @@ function calculateGeometryExtent(geometry: any): any {
         return geometry.extent;
     }
 
+    // Coordinates are [x, y, z?, m?]: z is at index 2 when hasZ; m is at index 3 when
+    // hasZ, otherwise index 2.
+    let hasZ = geometry?.hasZ === true;
+    let hasM = geometry?.hasM === true;
+    let zIndex = hasZ ? 2 : -1;
+    let mIndex = hasM ? (hasZ ? 3 : 2) : -1;
+
     let xmin = Infinity, ymin = Infinity, xmax = -Infinity, ymax = -Infinity;
+    let zmin = Infinity, zmax = -Infinity, mmin = Infinity, mmax = -Infinity;
+    let anyZ = false, anyM = false;
     let consider = (pt: Array<number>) => {
         if (!hasValue(pt) || pt.length < 2) return;
         if (pt[0] < xmin) xmin = pt[0];
         if (pt[0] > xmax) xmax = pt[0];
         if (pt[1] < ymin) ymin = pt[1];
         if (pt[1] > ymax) ymax = pt[1];
+        if (zIndex >= 0 && pt.length > zIndex) {
+            anyZ = true;
+            if (pt[zIndex] < zmin) zmin = pt[zIndex];
+            if (pt[zIndex] > zmax) zmax = pt[zIndex];
+        }
+        if (mIndex >= 0 && pt.length > mIndex) {
+            anyM = true;
+            if (pt[mIndex] < mmin) mmin = pt[mIndex];
+            if (pt[mIndex] > mmax) mmax = pt[mIndex];
+        }
     };
 
     if (hasValue(geometry?.rings)) {
@@ -74,11 +93,22 @@ function calculateGeometryExtent(geometry: any): any {
         return null;
     }
 
-    return {
+    let extent: any = {
         type: 'extent',
         xmin, ymin, xmax, ymax,
         spatialReference: geometry?.spatialReference ?? null
     };
+    if (anyZ) {
+        extent.zmin = zmin;
+        extent.zmax = zmax;
+        extent.hasZ = true;
+    }
+    if (anyM) {
+        extent.mmin = mmin;
+        extent.mmax = mmax;
+        extent.hasM = true;
+    }
+    return extent;
 }
 
 export function buildJsGeometry(geometry: any): any {
