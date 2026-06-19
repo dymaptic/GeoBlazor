@@ -111,112 +111,22 @@ public abstract partial class Geometry : MapComponent
     /// </summary>
     public async Task<Extent?> GetExtent()
     {
-        if (CoreJsModule is not null)
+        if (CoreJsModule is null)
         {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent", CancellationTokenSource.Token, Id);
-
-            if (JsComponentReference is not null)
-            {
-                // get the property value
-                Extent? jsExtent = await CoreJsModule!.InvokeAsync<Extent?>("getProperty", CancellationTokenSource.Token, JsComponentReference, "extent");
-
-                if (jsExtent is not null)
-                {
-#pragma warning disable BL0005
-                    Extent = jsExtent;
-#pragma warning restore BL0005
-                }
-            }
+            return Extent;
         }
 
-        // Fall back to calculating the extent client-side when neither the cached value
-        // nor the JS component provided one (e.g. geometries created in C#, or returned
-        // from operators that do not expose a cached extent).
-        if (Extent is null)
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null)
         {
-#pragma warning disable BL0005
-            Extent = CalculateExtent();
-#pragma warning restore BL0005
+            return Extent;
         }
 
+        // get the property value
+#pragma warning disable BL0005
+        Extent = await CoreJsModule!.InvokeAsync<Extent?>("getProperty", CancellationTokenSource.Token, JsComponentReference, "extent");
+#pragma warning restore BL0005
         return Extent;
-    }
-
-    /// <summary>
-    ///     Calculates the <see cref="Extent" /> (bounding box) of this geometry from its
-    ///     coordinates. Returns the existing <see cref="Extent" /> by default; vertex-based
-    ///     geometries (e.g. <see cref="Polygon" />, <see cref="Polyline" />) override this to
-    ///     compute a missing extent.
-    /// </summary>
-    [CodeGenerationIgnore]
-    protected virtual Extent? CalculateExtent() => Extent;
-
-    /// <summary>
-    ///     Computes a bounding-box <see cref="Extent" /> over a set of vertex paths/rings,
-    ///     or <see langword="null" /> when there are no coordinates. When the geometry has
-    ///     Z and/or M values, the resulting extent's Z/M bounds are populated as well.
-    /// </summary>
-    [CodeGenerationIgnore]
-    protected static Extent? CalculateExtentFromPaths(IEnumerable<MapPath>? paths,
-        SpatialReference? spatialReference, bool? hasZ = null, bool? hasM = null)
-    {
-        if (paths is null)
-        {
-            return null;
-        }
-
-        // Coordinates are [x, y, z?, m?]: z is at index 2 when hasZ; m is at index 3
-        // when hasZ, otherwise index 2.
-        int zIndex = hasZ == true ? 2 : -1;
-        int mIndex = hasM == true ? (hasZ == true ? 3 : 2) : -1;
-
-        double xmin = double.MaxValue, ymin = double.MaxValue;
-        double xmax = double.MinValue, ymax = double.MinValue;
-        double zmin = double.MaxValue, zmax = double.MinValue;
-        double mmin = double.MaxValue, mmax = double.MinValue;
-        bool any = false, anyZ = false, anyM = false;
-
-        foreach (MapPath path in paths)
-        {
-            foreach (MapPoint point in path)
-            {
-                if (point.Count < 2)
-                {
-                    continue;
-                }
-
-                any = true;
-                if (point[0] < xmin) xmin = point[0];
-                if (point[0] > xmax) xmax = point[0];
-                if (point[1] < ymin) ymin = point[1];
-                if (point[1] > ymax) ymax = point[1];
-
-                if (zIndex >= 0 && point.Count > zIndex)
-                {
-                    anyZ = true;
-                    if (point[zIndex] < zmin) zmin = point[zIndex];
-                    if (point[zIndex] > zmax) zmax = point[zIndex];
-                }
-
-                if (mIndex >= 0 && point.Count > mIndex)
-                {
-                    anyM = true;
-                    if (point[mIndex] < mmin) mmin = point[mIndex];
-                    if (point[mIndex] > mmax) mmax = point[mIndex];
-                }
-            }
-        }
-
-        if (!any)
-        {
-            return null;
-        }
-
-        return new Extent(xmax, xmin, ymax, ymin,
-            zmax: anyZ ? zmax : null, zmin: anyZ ? zmin : null,
-            mmax: anyM ? mmax : null, mmin: anyM ? mmin : null,
-            spatialReference: spatialReference,
-            hasM: anyM ? true : hasM, hasZ: anyZ ? true : hasZ);
     }
 
     internal abstract GeometrySerializationRecord ToSerializationRecord();
