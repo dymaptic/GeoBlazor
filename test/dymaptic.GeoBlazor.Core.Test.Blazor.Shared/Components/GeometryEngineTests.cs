@@ -1399,6 +1399,20 @@ public class GeometryEngineTests : TestRunnerBase
         Assert.IsNotNull(union);
         Assert.AreNotEqual(polygon1, union);
         Assert.AreNotEqual(polygon2, union);
+
+        // Regression (reported against 4.5.1): the unioned geometry must come back with a populated
+        // Extent so callers can use it for map.GoTo(extent). Both the inline Extent and GetExtent()
+        // must work. polygon1 spans x:[0,10] and polygon2 spans x:[10,20]; together y:[0,10].
+        Assert.IsNotNull(union.Extent,
+            "Union result should have a populated Extent.");
+        Assert.AreEqual(0.0, union.Extent!.Xmin);
+        Assert.AreEqual(20.0, union.Extent!.Xmax);
+        Assert.AreEqual(0.0, union.Extent!.Ymin);
+        Assert.AreEqual(10.0, union.Extent!.Ymax);
+
+        Extent? fetchedExtent = await union.GetExtent();
+        Assert.IsNotNull(fetchedExtent,
+            "GetExtent() should return the unioned geometry's extent.");
     }
 
     [TestMethod]
@@ -1935,6 +1949,15 @@ public class GeometryEngineTests : TestRunnerBase
         Assert.AreNotEqual(polygon1, union);
         Assert.AreNotEqual(polygon2, union);
         Assert.AreNotEqual(polygon3, union);
+
+        // Regression (reported against 4.5.1): the unioned geometry must come back with a populated
+        // Extent. The three polygons together span x:[0,30] and y:[0,10].
+        Assert.IsNotNull(union.Extent,
+            "Union result should have a populated Extent.");
+        Assert.AreEqual(0.0, union.Extent!.Xmin);
+        Assert.AreEqual(30.0, union.Extent!.Xmax);
+        Assert.AreEqual(0.0, union.Extent!.Ymin);
+        Assert.AreEqual(10.0, union.Extent!.Ymax);
     }
 
     [TestMethod]
