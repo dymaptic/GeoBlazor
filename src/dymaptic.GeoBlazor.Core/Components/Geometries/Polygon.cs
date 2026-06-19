@@ -106,7 +106,7 @@ public partial class Polygon : Geometry
     public override GeometryType Type => GeometryType.Polygon;
 
 #endregion
-    
+
     /// <summary>
     ///     Returns a deep clone of the geometry.
     /// </summary>
