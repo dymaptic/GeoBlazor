@@ -15,17 +15,17 @@
     "@arcgis/core": "4.33.14",
     "@arcgis/map-components": "4.33.24",
     "@esri/calcite-components": "3.2.1",
-    "esbuild": "0.27.1",
+    "esbuild": "0.28.1",
     "esbuild-clean-plugin": "^2.0.0",
-    "protobufjs": "7.5.8"
+    "protobufjs": "7.6.3"
   },
   "devDependencies": {
     "@eslint/js": "9.39.2",
     "@types/node": "^24.10.2",
-    "eslint": "9.39.1",
-    "eslint-plugin-sonarjs": "^3.0.5",
+    "eslint": "10.4.1",
+    "eslint-plugin-sonarjs": "^4.0.3",
     "globals": "^16.5.0",
     "process": "^0.11.10",
-    "typescript-eslint": "^8.49.0"
+    "typescript-eslint": "^8.61.0"
   }
 }
