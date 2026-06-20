@@ -526,15 +526,37 @@ public class TestConfig
                             Trace.WriteLine("------------", ProcessName.FINAL_SUMMARY);
                         }
 
-                        // trim off extra timestamp from web browser and split lines
-                        string[] errorLines = failedTest.Value.Substring(26).Split(Environment.NewLine);
-
                         Trace.WriteLine($"  {testCategory} - {failedTest.Key}",
                             ProcessName.FINAL_SUMMARY);
 
-                        foreach (string errorLine in errorLines)
+                        try
                         {
-                            Trace.WriteLine($"    {errorLine}", ProcessName.FINAL_SUMMARY);
+                            // Trim off the optional "[timestamp] " prefix the browser logging prepends, but
+                            // only when present. A hard Substring(26) previously threw on short messages
+                            // (e.g. "Test Failed"), and because the enclosing block has no catch it aborted
+                            // the entire FAILED TEST DETAILS section, leaving it blank.
+                            string rawError = failedTest.Value ?? string.Empty;
+                            string trimmedError = rawError;
+
+                            if (rawError.StartsWith('['))
+                            {
+                                int closeIndex = rawError.IndexOf("] ", StringComparison.Ordinal);
+
+                                if (closeIndex >= 0)
+                                {
+                                    trimmedError = rawError[(closeIndex + 2)..];
+                                }
+                            }
+
+                            foreach (string errorLine in trimmedError.Split(Environment.NewLine))
+                            {
+                                Trace.WriteLine($"    {errorLine}", ProcessName.FINAL_SUMMARY);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Trace.WriteLine($"    (could not format failure detail: {ex.Message})",
+                                ProcessName.FINAL_SUMMARY);
                         }
                     }
                 }
@@ -1351,6 +1373,13 @@ public class TestConfig
             EnsureGeoBlazorLicenseKeyInUserSecrets(TestAppPath, licenseKey);
         }
 
+        // The web app reads the ArcGIS API key from configuration key "ArcGISApiKey"; without it the basemap
+        // never loads and the render tests fail. CI provides it as the ARCGIS_API_KEY env var, but nothing
+        // injected it into the web app (only the license was), so the app fell back to the placeholder in
+        // appsettings.Development.json. Pass it through as the "ArcGISApiKey" env var, which ASP.NET maps onto
+        // that config key and which overrides appsettings regardless of environment.
+        string? apiKey = Configuration["ARCGIS_API_KEY"];
+
         string cmdLineApp = "dotnet";
 
         string[] args =
@@ -1420,6 +1449,9 @@ public class TestConfig
             .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
                 Trace.WriteLine(line, ProcessName.WEB_APP_ERROR)))
             .WithWorkingDirectory(ProjectFolder)
+            .WithEnvironmentVariables(apiKey is null
+                ? new Dictionary<string, string?>()
+                : new Dictionary<string, string?> { ["ArcGISApiKey"] = apiKey })
             .ExecuteAsync(token, gracefulCts.Token);
 
         processIds.Add(commandTask.ProcessId);

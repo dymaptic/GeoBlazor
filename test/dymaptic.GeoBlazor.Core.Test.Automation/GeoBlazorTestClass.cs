@@ -207,9 +207,23 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
             Trace.WriteLine(messages, ProcessName.WEB_TEST);
             Trace.WriteLine(errors, ProcessName.WEB_TEST_ERROR);
 
-            TestConfig.FailedTests[ProcessName.WEB_TEST][testName] = $"{messages}{Environment.NewLine}{errors}";
-            
-            Assert.Fail($"{testName} Failed: {errors}");
+            // Capture the actual exception (Playwright timeout, assertion, navigation error, etc.) - not
+            // just browser console text, which is empty when the page fails before logging anything. Without
+            // this the FINAL_SUMMARY failure details were blank and the real cause was invisible.
+            string failureDetail = $"{ex.GetType().Name}: {ex.Message}";
+            if (!string.IsNullOrWhiteSpace(messages))
+            {
+                failureDetail += $"{Environment.NewLine}Console: {messages}";
+            }
+            if (!string.IsNullOrWhiteSpace(errors))
+            {
+                failureDetail += $"{Environment.NewLine}Errors: {errors}";
+            }
+            failureDetail += $"{Environment.NewLine}{ex.StackTrace}";
+
+            TestConfig.FailedTests[ProcessName.WEB_TEST][testName] = failureDetail;
+
+            Assert.Fail($"{testName} Failed: {ex.Message}");
         }
         finally
         {
