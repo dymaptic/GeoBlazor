@@ -1327,6 +1327,42 @@ public class TestConfig
             ];
         }
 
+        // The web app is launched below with --no-build, so it must be compiled first. Nothing else in
+        // the test pipeline builds the test web app - the Automation project does not reference it - so on
+        // a clean runner (e.g. a hosted CI agent with no prior build output) the --no-build launch would
+        // have no assembly to run, the process would exit immediately, and the readiness poll would time
+        // out after 15 minutes with a misleading "page not reachable" error. Build it explicitly here,
+        // applying the same MSBuild properties the run uses. Note these /p: properties (notably
+        // ShowScriptDialogs=false, which keeps the ESBuild step from blocking on a dialog in CI) are passed
+        // after "--" on the run command, so they reach the app rather than the build - hence the dedicated
+        // build step rather than simply dropping --no-build.
+        Trace.WriteLine($"Building test app at {TestAppPath} ({_runConfig})...", ProcessName.WEB_APP_SERVER);
+
+        CommandResult buildResult = await Cli.Wrap("dotnet")
+            .WithArguments([
+                "build", TestAppPath,
+                "-c", _runConfig!,
+                "/p:GenerateXmlComments=false",
+                "/p:GeneratePackage=false",
+                "/p:GenerateDocs=false",
+                "/p:DebugSymbols=true",
+                "/p:DebugType=portable",
+                "/p:UsePackageReferences=false",
+                "/p:ShowScriptDialogs=false"
+            ])
+            .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, ProcessName.WEB_APP_SERVER)))
+            .WithStandardErrorPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, ProcessName.WEB_APP_ERROR)))
+            .WithWorkingDirectory(ProjectFolder)
+            .WithValidation(CommandResultValidation.None)
+            .ExecuteAsync(token, gracefulCts.Token);
+
+        if (buildResult.ExitCode != 0)
+        {
+            throw new InvalidOperationException(
+                $"Failed to build the test web app at {TestAppPath} (exit code {buildResult.ExitCode}). "
+                + "See the WEB_APP_SERVER / WEB_APP_ERROR output above for the build error.");
+        }
+
         Trace.WriteLine($"Starting test app: {cmdLineApp} {string.Join(" ", args)}", ProcessName.WEB_APP_SERVER);
 
         bool ioExceptionThrown = false;
@@ -1352,6 +1388,10 @@ public class TestConfig
             .ExecuteAsync(token, gracefulCts.Token);
 
         processIds.Add(commandTask.ProcessId);
+        // Track the web-app process so WaitForHttpResponse can fail fast if it exits before becoming
+        // reachable, instead of polling for the full timeout. (Previously this was only set in the
+        // container path, so a crash in the non-container path went undetected until the 15m timeout.)
+        _webTestProcessId = commandTask.ProcessId;
 
         try
         {
@@ -1651,18 +1691,25 @@ public class TestConfig
 
             if (testProcess is not null && testProcess.HasExited)
             {
+                int? exitCode = null;
+
                 try
                 {
-                    int exitCode = testProcess.ExitCode;
-
-                    if (exitCode != 0)
-                    {
-                        throw new ProcessExitedException($"Test process exited with code {exitCode}");
-                    }
+                    exitCode = testProcess.ExitCode;
                 }
                 catch
                 {
                     // ignore - the container building process can exit silently and all is fine
+                }
+
+                // Read ExitCode defensively above, but throw outside the catch so a genuine non-zero
+                // exit actually propagates. (Previously the throw was inside the try and the bare catch
+                // swallowed it, so a crashed web app was never surfaced and the poll ran to timeout.)
+                if (exitCode is not null and not 0)
+                {
+                    throw new ProcessExitedException(
+                        $"Test web app process exited with code {exitCode} before becoming reachable. "
+                        + "See the WEB_APP_SERVER / WEB_APP_ERROR output above for the cause.");
                 }
             }
 
