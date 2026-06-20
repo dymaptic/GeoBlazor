@@ -234,8 +234,20 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
     private string BuildTestUrl(string testName)
     {
+        // Map the enum to its name via a switch of compile-time nameof constants rather than interpolating
+        // the enum directly. Interpolation calls Enum.ToString -> EnumInfo.Create, which on every test was
+        // throwing BadImageFormatException/CLDB_E_INDEX_NOTFOUND (corrupt enum name metadata in this process).
+        // A switch on enum constants compiles to integer comparisons and needs no reflection metadata.
+        string renderMode = TestConfig.RenderMode switch
+        {
+            BlazorMode.Server => nameof(BlazorMode.Server),
+            BlazorMode.WebAssembly => nameof(BlazorMode.WebAssembly),
+            BlazorMode.Hybrid => nameof(BlazorMode.Hybrid),
+            _ => ((int)TestConfig.RenderMode).ToString()
+        };
+
         return $"{TestConfig.TestAppUrl}?testFilter={testName}&renderMode={
-            TestConfig.RenderMode}{(TestConfig.ProOnly ? "&proOnly" : "")}{(TestConfig.CoreOnly ? "&coreOnly" : "")}";
+            renderMode}{(TestConfig.ProOnly ? "&proOnly" : "")}{(TestConfig.CoreOnly ? "&coreOnly" : "")}";
     }
 
     private async Task Setup()
