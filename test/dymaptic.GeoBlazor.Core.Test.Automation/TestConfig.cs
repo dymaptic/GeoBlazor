@@ -857,6 +857,62 @@ public class TestConfig
         }
     }
 
+    // Test projects are launched with --no-build (dotnet run / dotnet test), so they must be compiled
+    // first. On a clean runner nothing pre-builds them, and the web app and unit-test tasks run in
+    // parallel, so building concurrently races on the shared ESBuild lock (AcquireBuildLock exits with
+    // code 1). Serialize builds through a semaphore and build each project at most once per run.
+    private static readonly SemaphoreSlim _buildSemaphore = new(1, 1);
+    private static readonly HashSet<string> _builtProjects = [];
+
+    private static async Task EnsureTestProjectBuilt(string projectPath, CancellationToken token)
+    {
+        await _buildSemaphore.WaitAsync(token);
+
+        try
+        {
+            if (!_builtProjects.Add(projectPath))
+            {
+                // Already built this run (e.g. a Polly retry of the same task).
+                return;
+            }
+
+            string projectName = Path.GetFileNameWithoutExtension(projectPath);
+            Trace.WriteLine($"Building {projectName} ({_runConfig})...", ProcessName.TEST_SETUP);
+
+            CommandResult buildResult = await Cli.Wrap("dotnet")
+                .WithArguments([
+                    "build", projectPath,
+                    "-c", _runConfig!,
+                    "/p:GenerateXmlComments=false",
+                    "/p:GeneratePackage=false",
+                    "/p:GenerateDocs=false",
+                    "/p:DebugSymbols=true",
+                    "/p:DebugType=portable",
+                    "/p:UsePackageReferences=false",
+                    "/p:ShowScriptDialogs=false"
+                ])
+                .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, ProcessName.TEST_SETUP)))
+                .WithStandardErrorPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, ProcessName.TEST_SETUP)))
+                .WithWorkingDirectory(ProjectFolder)
+                .WithValidation(CommandResultValidation.None)
+                .ExecuteAsync(token, gracefulCts.Token);
+
+            if (buildResult.ExitCode != 0)
+            {
+                // Allow a later retry to attempt the build again.
+                _builtProjects.Remove(projectPath);
+
+                throw new InvalidOperationException(
+                    $"Failed to build {projectName} (exit code {buildResult.ExitCode}). "
+                    + "See the TEST_SETUP output above for the build error.");
+            }
+        }
+        finally
+        {
+            _buildSemaphore.Release();
+        }
+    }
+
     private static async ValueTask LaunchUnitTests(ResilienceContext context)
     {
         Stopwatch unitTestStopwatch = Stopwatch.StartNew();
@@ -969,6 +1025,11 @@ public class TestConfig
             ProcessName.PRO_VALIDATION => ProValidationCoverageFilePath,
             _ => throw new ArgumentOutOfRangeException(nameof(processName), processName, null)
         };
+
+        // dotnet test runs below with --no-build, so the unit-test project must be compiled first. On a
+        // clean runner nothing else builds it, which previously caused "An error occurred trying to start
+        // process .../bin/Release/.../*.Test.Unit ... No such file or directory".
+        await EnsureTestProjectBuilt(testPath, context.CancellationToken);
 
         string cmdLineApp = "dotnet";
 
@@ -1294,7 +1355,10 @@ public class TestConfig
 
         string[] args =
         [
-            "run", "--no-build", "--project", TestAppPath,
+            // -c must precede "--" so it sets the run/build configuration: with --no-build, dotnet run
+            // looks for the app under bin/<config>/, and without an explicit -c it defaults to Debug and
+            // fails to find the Release build produced by EnsureTestProjectBuilt ("No such file").
+            "run", "--no-build", "-c", _runConfig!, "--project", TestAppPath,
             "--urls", $"{TestAppUrl};{TestAppHttpUrl}",
             "--", "-c", _runConfig!,
             "/p:GenerateXmlComments=false",
@@ -1330,38 +1394,9 @@ public class TestConfig
         // The web app is launched below with --no-build, so it must be compiled first. Nothing else in
         // the test pipeline builds the test web app - the Automation project does not reference it - so on
         // a clean runner (e.g. a hosted CI agent with no prior build output) the --no-build launch would
-        // have no assembly to run, the process would exit immediately, and the readiness poll would time
-        // out after 15 minutes with a misleading "page not reachable" error. Build it explicitly here,
-        // applying the same MSBuild properties the run uses. Note these /p: properties (notably
-        // ShowScriptDialogs=false, which keeps the ESBuild step from blocking on a dialog in CI) are passed
-        // after "--" on the run command, so they reach the app rather than the build - hence the dedicated
-        // build step rather than simply dropping --no-build.
-        Trace.WriteLine($"Building test app at {TestAppPath} ({_runConfig})...", ProcessName.WEB_APP_SERVER);
-
-        CommandResult buildResult = await Cli.Wrap("dotnet")
-            .WithArguments([
-                "build", TestAppPath,
-                "-c", _runConfig!,
-                "/p:GenerateXmlComments=false",
-                "/p:GeneratePackage=false",
-                "/p:GenerateDocs=false",
-                "/p:DebugSymbols=true",
-                "/p:DebugType=portable",
-                "/p:UsePackageReferences=false",
-                "/p:ShowScriptDialogs=false"
-            ])
-            .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, ProcessName.WEB_APP_SERVER)))
-            .WithStandardErrorPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, ProcessName.WEB_APP_ERROR)))
-            .WithWorkingDirectory(ProjectFolder)
-            .WithValidation(CommandResultValidation.None)
-            .ExecuteAsync(token, gracefulCts.Token);
-
-        if (buildResult.ExitCode != 0)
-        {
-            throw new InvalidOperationException(
-                $"Failed to build the test web app at {TestAppPath} (exit code {buildResult.ExitCode}). "
-                + "See the WEB_APP_SERVER / WEB_APP_ERROR output above for the build error.");
-        }
+        // have no assembly to run. Build it once, up front. (See EnsureTestProjectBuilt for why builds are
+        // serialized.)
+        await EnsureTestProjectBuilt(TestAppPath, token);
 
         Trace.WriteLine($"Starting test app: {cmdLineApp} {string.Join(" ", args)}", ProcessName.WEB_APP_SERVER);
 
