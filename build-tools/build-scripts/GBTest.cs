@@ -162,14 +162,11 @@ if (progress.WasCancelled)
         double passedPercentage = (double)progress.Passed / ran * 100;
         Console.WriteLine($"PASSED TESTS: {progress.Passed} / {ran} TESTS RAN ({passedPercentage:F2}%).");
         Console.WriteLine($"FAILED: {progress.Failed} / SKIPPED: {progress.Skipped}");
-
-        if (passedPercentage < percentage)
-        {
-            Console.WriteLine($"TEST RUN FAILED: Passed percentage {passedPercentage:F2}% is below the required {
-                percentage}%.");
-            failed = true;
-        }
     }
+
+    // A cancelled run never completed, so it can never be reported as a pass.
+    Console.WriteLine("TEST RUN FAILED: Test run was cancelled before completion.");
+    failed = true;
 }
 else
 {
@@ -178,34 +175,55 @@ else
 
     Regex finalCountRegex = new(@"^.*FINAL_SUMMARY: PASSED TESTS: (?<passed>\d+) / (?<total>\d+)\s*$");
 
+    bool summaryFound = false;
     int total = 0;
     int passed = 0;
-    foreach (string line in await File.ReadAllLinesAsync(testOutputLogPath))
-    {
-        if (line.Contains("FINAL_SUMMARY"))
-        {
-            string content = line.Substring(38); // 38 is the timestamp plus FINAL_SUMMARY:
 
-            if (finalCountRegex.Match(line) is { Success: true } match)
+    if (File.Exists(testOutputLogPath))
+    {
+        foreach (string line in await File.ReadAllLinesAsync(testOutputLogPath))
+        {
+            if (line.Contains("FINAL_SUMMARY"))
             {
-                total = int.Parse(match.Groups["total"].Value);
-                passed = int.Parse(match.Groups["passed"].Value);
-            }
-            else
-            {
-                Console.WriteLine(content);
+                string content = line.Substring(38); // 38 is the timestamp plus FINAL_SUMMARY:
+
+                if (finalCountRegex.Match(line) is { Success: true } match)
+                {
+                    total = int.Parse(match.Groups["total"].Value);
+                    passed = int.Parse(match.Groups["passed"].Value);
+                    summaryFound = true;
+                }
+                else
+                {
+                    Console.WriteLine(content);
+                }
             }
         }
     }
 
-    double passedPercentage = total > 0 ? (double)passed / total * 100 : 100;
-    Console.WriteLine($"PASSED TESTS: {passed} / {total} TESTS PASSED ({passedPercentage:F2}%).");
-
-    if (passedPercentage < percentage)
+    if (!summaryFound || total == 0)
     {
-        Console.WriteLine($"TEST RUN FAILED: Passed percentage {passedPercentage
-            :F2}% is below the required {percentage}%.");
+        // No completed-test summary was produced. This happens when the run aborts before any
+        // test executes - e.g. AssemblyInitialize throws because the test web app never became
+        // reachable, so AssemblyCleanup (which writes the FINAL_SUMMARY) never runs. Previously
+        // this was reported as 100% passing because the percentage defaulted to 100 when total
+        // was 0, masking a hard failure as a green run.
+        Console.WriteLine("TEST RUN FAILED: No completed test results were recorded. The test run "
+            + "aborted before any tests ran (for example, AssemblyInitialize failed or the test web "
+            + "app was not reachable). Review the log output above for the root cause.");
         failed = true;
+    }
+    else
+    {
+        double passedPercentage = (double)passed / total * 100;
+        Console.WriteLine($"PASSED TESTS: {passed} / {total} TESTS PASSED ({passedPercentage:F2}%).");
+
+        if (passedPercentage < percentage)
+        {
+            Console.WriteLine($"TEST RUN FAILED: Passed percentage {passedPercentage
+                :F2}% is below the required {percentage}%.");
+            failed = true;
+        }
     }
 }
 
