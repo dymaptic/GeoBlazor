@@ -79,15 +79,6 @@ export default class KMLLayerViewGenerated extends BaseComponent {
         return this.component.allVisiblePolylines!.map(i => buildDotNetGraphic(i, this.layerId, this.viewId));
     }
     
-    async getLayer(): Promise<any> {
-        if (!hasValue(this.component.layer)) {
-            return null;
-        }
-        
-        let { buildDotNetLayer } = await import('./layer');
-        return await buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
-    }
-    
 }
 
 

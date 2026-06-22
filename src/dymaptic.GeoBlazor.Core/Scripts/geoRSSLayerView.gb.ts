@@ -40,17 +40,6 @@ export default class GeoRSSLayerViewGenerated extends BaseComponent {
         return await this.component.when(callback,
             errback);
     }
-
-    // region properties
-    
-    async getLayer(): Promise<any> {
-        if (!hasValue(this.component.layer)) {
-            return null;
-        }
-        
-        let { buildDotNetLayer } = await import('./layer');
-        return await buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
-    }
     
 }
 

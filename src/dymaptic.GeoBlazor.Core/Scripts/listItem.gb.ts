@@ -87,20 +87,6 @@ export default class ListItemGenerated extends BaseComponent {
         this.component.children = await Promise.all(value.map(async i => await buildJsListItem(i, this.layerId, this.viewId))) as any;
     }
     
-    async getLayer(): Promise<any> {
-        if (!hasValue(this.component.layer)) {
-            return null;
-        }
-        
-        let { buildDotNetLayer } = await import('./layer');
-        return await buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
-    }
-    
-    async setLayer(value: any): Promise<void> {
-        let { buildJsLayer } = await import('./layer');
-        this.component.layer = await  buildJsLayer(value, this.layerId, this.viewId);
-    }
-    
     async getLayerView(): Promise<any> {
         if (!hasValue(this.component.layerView)) {
             return null;

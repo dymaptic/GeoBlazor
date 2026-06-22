@@ -30,6 +30,27 @@ export default class BaseComponent implements IPropertyWrapper {
     getProperty(prop: string) {
         return this.component[prop];
     }
+
+    async setLayer(value: any): Promise<void> {
+        if (this.component.hasOwnProperty('layer')) {
+            let { buildJsGraphicsLayer } = await import('./graphicsLayer');
+            this.component.layer = await  buildJsGraphicsLayer(value, this.layerId, this.viewId);
+        }
+    }
+    
+    async getLayer(): Promise<any> {
+        if (hasValue(this.component.loadStatus) && this.component.loadStatus === 'not-loaded') {
+            await this.component.load();
+        }
+        
+        if (!hasValue(this.component.layer)) {
+            return null;
+        }
+
+        let { buildDotNetLayer } = await import('./layer');
+        return await buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
+    }
+    
     unwrap() {
         return this.component;
     }
