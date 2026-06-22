@@ -66,44 +66,6 @@ public partial class LegendViewModelLayerInfo : MapComponent
 
 #region Property Getters
 
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Layer property.
-    /// </summary>
-    public async Task<Layer?> GetLayer()
-    {
-        if (CoreJsModule is null)
-        {
-            return Layer;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Layer;
-        }
-
-        // get the property value
-        Layer? result = await JsComponentReference!.InvokeAsync<Layer?>("getProperty",
-            CancellationTokenSource.Token, "layer");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Layer = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Layer)] = Layer;
-        }
-         
-        return Layer;
-    }
     
     /// <summary>
     ///     Asynchronously retrieve the current value of the SublayerIds property.

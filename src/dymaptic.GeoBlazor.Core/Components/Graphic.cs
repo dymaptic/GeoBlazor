@@ -196,7 +196,7 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
     ///     Retrieves the <see cref = "Layer"/> from the rendered graphic.
     /// </summary>
     [CodeGenerationIgnore]
-    public Task<Layer?> GetLayer()
+    public override Task<Layer?> GetLayer()
     {
         return Task.FromResult(Parent as Layer);
     }
