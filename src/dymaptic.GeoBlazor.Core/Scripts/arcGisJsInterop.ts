@@ -125,7 +125,7 @@ export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
 export let ProtoGraphicCollection;
 export let ProtoViewHitCollection;
-export let geometryEngine: GeometryEngineWrapper = new GeometryEngineWrapper(false);
+export let geometryEngine: GeometryEngineWrapper = new GeometryEngineWrapper(true);
 export let projectionEngine: ProjectionWrapper = new ProjectionWrapper(false);
 
 // region module variables

@@ -286,19 +286,6 @@ export default class SublayerGenerated extends BaseComponent {
         this.component.labelingInfo = await Promise.all(value.map(async i => await buildJsLabel(i, this.layerId, this.viewId))) as any;
     }
     
-    async getLayer(): Promise<any> {
-        if (this.component.loadStatus === 'not-loaded') {
-            await this.component.load();
-        }
-        
-        if (!hasValue(this.component.layer)) {
-            return null;
-        }
-        
-        let { buildDotNetLayer } = await import('./layer');
-        return await buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
-    }
-    
     async getObjectIdField(): Promise<any> {
         if (this.component.loadStatus === 'not-loaded') {
             await this.component.load();

@@ -109,15 +109,6 @@ export default class FeatureLayerViewGenerated extends BaseComponent {
         this.component.highlightOptions = await  buildJsHighlightOptions(value);
     }
     
-    async getLayer(): Promise<any> {
-        if (!hasValue(this.component.layer)) {
-            return null;
-        }
-        
-        let { buildDotNetFeatureLayer } = await import('./featureLayer');
-        return await buildDotNetFeatureLayer(this.component.layer, this.layerId, this.viewId);
-    }
-    
 }
 
 

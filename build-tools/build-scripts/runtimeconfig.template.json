@@ -1,8 +1,0 @@
-{
-  "runtimeOptions": {
-    "configProperties": {
-      "EntryPointFilePath": ".\\GBTest.cs",
-      "EntryPointFileDirectoryPath": "."
-    }
-  }
-}

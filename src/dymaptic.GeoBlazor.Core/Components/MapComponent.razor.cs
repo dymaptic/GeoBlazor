@@ -494,6 +494,95 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             return currentValue;
         }
     }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Layer property.
+    /// </summary>
+    [CodeGenerationIgnore]
+    public virtual async Task<Layer?> GetLayer()
+    {
+        if (CoreJsModule is null)
+        {
+            return Layer;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null)
+        {
+            return Layer;
+        }
+
+        Layer? result =
+            await JsComponentReference.InvokeAsync<Layer?>("getLayer", CancellationTokenSource.Token);
+
+        if (result is not null)
+        {
+            if (Layer is not null)
+            {
+                result.Id = Layer.Id;
+            }
+
+            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+
+#pragma warning disable BL0005
+            Layer = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Layer)] = Layer;
+        }
+
+        return Layer;
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Layer property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public virtual async Task SetLayer(Layer? value)
+    {
+        if (value is not null)
+        {
+            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
+        } 
+        
+#pragma warning disable BL0005
+        Layer = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Layer)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidAsync("setLayer", 
+            CancellationTokenSource.Token, value);
+    }
 
     /// <summary>
     ///     Called from <see cref="MapComponent.OnInitializedAsync" /> to "Register" the current component with its parent.
@@ -1023,8 +1112,19 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             AbortManager ??= new AbortManager(CoreJsModule);
         }
 
+        // A Layer can be resolved after this component's JS object was built (e.g. a layer added to
+        // the map after render and bound by id). buildJs* could not bind it then, so push the
+        // resolved layer to the JS component once it exists.
+        if (!_layerSyncedToJs && Layer is {} graphicsLayer && JsComponentReference is not null)
+        {
+            _layerSyncedToJs = true;
+            await SetLayer(graphicsLayer);
+        }
+
         IsRenderedBlazorComponent = true;
     }
+
+    private bool _layerSyncedToJs;
 
     /// <summary>
     ///     Tells the <see cref="MapView" /> to completely re-render.

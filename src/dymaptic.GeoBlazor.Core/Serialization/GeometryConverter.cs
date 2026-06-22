@@ -17,52 +17,69 @@ internal class GeometryConverter : JsonConverter<Geometry>
             return null;
         }
 
+        Geometry? geometry = null;
+
         if (temp.TryGetValue("type", out object? typeValue))
         {
             switch (typeValue?.ToString())
             {
                 case "extent":
-                    return JsonSerializer.Deserialize<Extent>(ref cloneReader, newOptions);
+                    geometry = JsonSerializer.Deserialize<Extent>(ref cloneReader, newOptions);
+                    break;
                 case "point":
-                    return JsonSerializer.Deserialize<Point>(ref cloneReader, newOptions);
+                    geometry = JsonSerializer.Deserialize<Point>(ref cloneReader, newOptions);
+                    break;
                 case "polygon":
-                    return JsonSerializer.Deserialize<Polygon>(ref cloneReader, newOptions);
+                    geometry = JsonSerializer.Deserialize<Polygon>(ref cloneReader, newOptions);
+                    break;
                 case "polyline":
-                    return JsonSerializer.Deserialize<Polyline>(ref cloneReader, newOptions);
+                    geometry = JsonSerializer.Deserialize<Polyline>(ref cloneReader, newOptions);
+                    break;
                 case "multipoint":
                     // multipoint is in GeoBlazor Pro and must be loaded via Reflection
                     Type? multipointType = Type.GetType("dymaptic.GeoBlazor.Pro.Components.Geometries.Multipoint, " +
                         "dymaptic.GeoBlazor.Pro");
                     if (multipointType is not null)
                     {
-                        return (Geometry?)JsonSerializer.Deserialize(ref cloneReader, multipointType, newOptions);
+                        geometry = (Geometry?)JsonSerializer.Deserialize(ref cloneReader, multipointType, newOptions);
                     }
 
-                    return null;
+                    break;
             }
         }
 
-        if (temp.ContainsKey("rings"))
+        if (geometry is null)
         {
-            return JsonSerializer.Deserialize<Polygon>(ref cloneReader, newOptions);
+            if (temp.ContainsKey("rings"))
+            {
+                geometry = JsonSerializer.Deserialize<Polygon>(ref cloneReader, newOptions);
+            }
+            else if (temp.ContainsKey("paths"))
+            {
+                geometry = JsonSerializer.Deserialize<Polyline>(ref cloneReader, newOptions);
+            }
+            else if (temp.ContainsKey("latitude") || temp.ContainsKey("x"))
+            {
+                geometry = JsonSerializer.Deserialize<Point>(ref cloneReader, newOptions);
+            }
+            else if (temp.ContainsKey("xmax"))
+            {
+                geometry = JsonSerializer.Deserialize<Extent>(ref cloneReader, newOptions);
+            }
         }
 
-        if (temp.ContainsKey("paths"))
+        // Operator results (e.g. Union) send a computed `extent`, but deserializing the concrete
+        // geometry type does not carry the nested Extent through; populate it explicitly so callers
+        // (e.g. map.GoTo(extent)) get a usable Extent.
+        if (geometry is not null and not Extent
+            && geometry.Extent is null
+            && temp.TryGetValue("extent", out object? extentValue)
+            && extentValue is JsonElement { ValueKind: JsonValueKind.Object } extentElement)
         {
-            return JsonSerializer.Deserialize<Polyline>(ref cloneReader, newOptions);
+            geometry.Extent = extentElement.Deserialize<Extent>(newOptions);
         }
 
-        if (temp.ContainsKey("latitude") || temp.ContainsKey("x"))
-        {
-            return JsonSerializer.Deserialize<Point>(ref cloneReader, newOptions);
-        }
-
-        if (temp.ContainsKey("xmax"))
-        {
-            return JsonSerializer.Deserialize<Extent>(ref cloneReader, newOptions);
-        }
-
-        return null;
+        return geometry;
     }
 
     public override void Write(Utf8JsonWriter writer, Geometry value, JsonSerializerOptions options)

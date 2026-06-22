@@ -526,15 +526,37 @@ public class TestConfig
                             Trace.WriteLine("------------", ProcessName.FINAL_SUMMARY);
                         }
 
-                        // trim off extra timestamp from web browser and split lines
-                        string[] errorLines = failedTest.Value.Substring(26).Split(Environment.NewLine);
-
                         Trace.WriteLine($"  {testCategory} - {failedTest.Key}",
                             ProcessName.FINAL_SUMMARY);
 
-                        foreach (string errorLine in errorLines)
+                        try
                         {
-                            Trace.WriteLine($"    {errorLine}", ProcessName.FINAL_SUMMARY);
+                            // Trim off the optional "[timestamp] " prefix the browser logging prepends, but
+                            // only when present. A hard Substring(26) previously threw on short messages
+                            // (e.g. "Test Failed"), and because the enclosing block has no catch it aborted
+                            // the entire FAILED TEST DETAILS section, leaving it blank.
+                            string rawError = failedTest.Value ?? string.Empty;
+                            string trimmedError = rawError;
+
+                            if (rawError.StartsWith('['))
+                            {
+                                int closeIndex = rawError.IndexOf("] ", StringComparison.Ordinal);
+
+                                if (closeIndex >= 0)
+                                {
+                                    trimmedError = rawError[(closeIndex + 2)..];
+                                }
+                            }
+
+                            foreach (string errorLine in trimmedError.Split(Environment.NewLine))
+                            {
+                                Trace.WriteLine($"    {errorLine}", ProcessName.FINAL_SUMMARY);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Trace.WriteLine($"    (could not format failure detail: {ex.Message})",
+                                ProcessName.FINAL_SUMMARY);
                         }
                     }
                 }
@@ -857,6 +879,62 @@ public class TestConfig
         }
     }
 
+    // Test projects are launched with --no-build (dotnet run / dotnet test), so they must be compiled
+    // first. On a clean runner nothing pre-builds them, and the web app and unit-test tasks run in
+    // parallel, so building concurrently races on the shared ESBuild lock (AcquireBuildLock exits with
+    // code 1). Serialize builds through a semaphore and build each project at most once per run.
+    private static readonly SemaphoreSlim _buildSemaphore = new(1, 1);
+    private static readonly HashSet<string> _builtProjects = [];
+
+    private static async Task EnsureTestProjectBuilt(string projectPath, CancellationToken token)
+    {
+        await _buildSemaphore.WaitAsync(token);
+
+        try
+        {
+            if (!_builtProjects.Add(projectPath))
+            {
+                // Already built this run (e.g. a Polly retry of the same task).
+                return;
+            }
+
+            string projectName = Path.GetFileNameWithoutExtension(projectPath);
+            Trace.WriteLine($"Building {projectName} ({_runConfig})...", ProcessName.TEST_SETUP);
+
+            CommandResult buildResult = await Cli.Wrap("dotnet")
+                .WithArguments([
+                    "build", projectPath,
+                    "-c", _runConfig!,
+                    "/p:GenerateXmlComments=false",
+                    "/p:GeneratePackage=false",
+                    "/p:GenerateDocs=false",
+                    "/p:DebugSymbols=true",
+                    "/p:DebugType=portable",
+                    "/p:UsePackageReferences=false",
+                    "/p:ShowScriptDialogs=false"
+                ])
+                .WithStandardOutputPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, ProcessName.TEST_SETUP)))
+                .WithStandardErrorPipe(PipeTarget.ToDelegate(line => Trace.WriteLine(line, ProcessName.TEST_SETUP)))
+                .WithWorkingDirectory(ProjectFolder)
+                .WithValidation(CommandResultValidation.None)
+                .ExecuteAsync(token, gracefulCts.Token);
+
+            if (buildResult.ExitCode != 0)
+            {
+                // Allow a later retry to attempt the build again.
+                _builtProjects.Remove(projectPath);
+
+                throw new InvalidOperationException(
+                    $"Failed to build {projectName} (exit code {buildResult.ExitCode}). "
+                    + "See the TEST_SETUP output above for the build error.");
+            }
+        }
+        finally
+        {
+            _buildSemaphore.Release();
+        }
+    }
+
     private static async ValueTask LaunchUnitTests(ResilienceContext context)
     {
         Stopwatch unitTestStopwatch = Stopwatch.StartNew();
@@ -969,6 +1047,11 @@ public class TestConfig
             ProcessName.PRO_VALIDATION => ProValidationCoverageFilePath,
             _ => throw new ArgumentOutOfRangeException(nameof(processName), processName, null)
         };
+
+        // dotnet test runs below with --no-build, so the unit-test project must be compiled first. On a
+        // clean runner nothing else builds it, which previously caused "An error occurred trying to start
+        // process .../bin/Release/.../*.Test.Unit ... No such file or directory".
+        await EnsureTestProjectBuilt(testPath, context.CancellationToken);
 
         string cmdLineApp = "dotnet";
 
@@ -1290,11 +1373,21 @@ public class TestConfig
             EnsureGeoBlazorLicenseKeyInUserSecrets(TestAppPath, licenseKey);
         }
 
+        // The web app reads the ArcGIS API key from configuration key "ArcGISApiKey"; without it the basemap
+        // never loads and the render tests fail. CI provides it as the ARCGIS_API_KEY env var, but nothing
+        // injected it into the web app (only the license was), so the app fell back to the placeholder in
+        // appsettings.Development.json. Pass it through as the "ArcGISApiKey" env var, which ASP.NET maps onto
+        // that config key and which overrides appsettings regardless of environment.
+        string? apiKey = Configuration["ARCGIS_API_KEY"];
+
         string cmdLineApp = "dotnet";
 
         string[] args =
         [
-            "run", "--no-build", "--project", TestAppPath,
+            // -c must precede "--" so it sets the run/build configuration: with --no-build, dotnet run
+            // looks for the app under bin/<config>/, and without an explicit -c it defaults to Debug and
+            // fails to find the Release build produced by EnsureTestProjectBuilt ("No such file").
+            "run", "--no-build", "-c", _runConfig!, "--project", TestAppPath,
             "--urls", $"{TestAppUrl};{TestAppHttpUrl}",
             "--", "-c", _runConfig!,
             "/p:GenerateXmlComments=false",
@@ -1327,6 +1420,13 @@ public class TestConfig
             ];
         }
 
+        // The web app is launched below with --no-build, so it must be compiled first. Nothing else in
+        // the test pipeline builds the test web app - the Automation project does not reference it - so on
+        // a clean runner (e.g. a hosted CI agent with no prior build output) the --no-build launch would
+        // have no assembly to run. Build it once, up front. (See EnsureTestProjectBuilt for why builds are
+        // serialized.)
+        await EnsureTestProjectBuilt(TestAppPath, token);
+
         Trace.WriteLine($"Starting test app: {cmdLineApp} {string.Join(" ", args)}", ProcessName.WEB_APP_SERVER);
 
         bool ioExceptionThrown = false;
@@ -1349,9 +1449,16 @@ public class TestConfig
             .WithStandardErrorPipe(PipeTarget.ToDelegate(line =>
                 Trace.WriteLine(line, ProcessName.WEB_APP_ERROR)))
             .WithWorkingDirectory(ProjectFolder)
+            .WithEnvironmentVariables(apiKey is null
+                ? new Dictionary<string, string?>()
+                : new Dictionary<string, string?> { ["ArcGISApiKey"] = apiKey })
             .ExecuteAsync(token, gracefulCts.Token);
 
         processIds.Add(commandTask.ProcessId);
+        // Track the web-app process so WaitForHttpResponse can fail fast if it exits before becoming
+        // reachable, instead of polling for the full timeout. (Previously this was only set in the
+        // container path, so a crash in the non-container path went undetected until the 15m timeout.)
+        _webTestProcessId = commandTask.ProcessId;
 
         try
         {
@@ -1651,18 +1758,25 @@ public class TestConfig
 
             if (testProcess is not null && testProcess.HasExited)
             {
+                int? exitCode = null;
+
                 try
                 {
-                    int exitCode = testProcess.ExitCode;
-
-                    if (exitCode != 0)
-                    {
-                        throw new ProcessExitedException($"Test process exited with code {exitCode}");
-                    }
+                    exitCode = testProcess.ExitCode;
                 }
                 catch
                 {
                     // ignore - the container building process can exit silently and all is fine
+                }
+
+                // Read ExitCode defensively above, but throw outside the catch so a genuine non-zero
+                // exit actually propagates. (Previously the throw was inside the try and the bare catch
+                // swallowed it, so a crashed web app was never surfaced and the poll ran to timeout.)
+                if (exitCode is not null and not 0)
+                {
+                    throw new ProcessExitedException(
+                        $"Test web app process exited with code {exitCode} before becoming reachable. "
+                        + "See the WEB_APP_SERVER / WEB_APP_ERROR output above for the cause.");
                 }
             }
 

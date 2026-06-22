@@ -58,50 +58,6 @@ public partial class LegendViewModelLayerInfos : MapComponent
 
 #region Property Getters
 
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Layer property.
-    /// </summary>
-    public async Task<Layer?> GetLayer()
-    {
-        if (CoreJsModule is null)
-        {
-            return Layer;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Layer;
-        }
-
-        Layer? result = await JsComponentReference.InvokeAsync<Layer?>(
-            "getLayer", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            if (Layer is not null)
-            {
-                result.Id = Layer.Id;
-            }
-            result.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-            
-#pragma warning disable BL0005
-            Layer = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Layer)] = Layer;
-        }
-        
-        return Layer;
-    }
     
     /// <summary>
     ///     Asynchronously retrieve the current value of the Title property.
@@ -146,48 +102,6 @@ public partial class LegendViewModelLayerInfos : MapComponent
 
 #region Property Setters
 
-    /// <summary>
-    ///    Asynchronously set the value of the Layer property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetLayer(Layer? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-#pragma warning disable BL0005
-        Layer = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Layer)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "layer", value);
-    }
-    
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>

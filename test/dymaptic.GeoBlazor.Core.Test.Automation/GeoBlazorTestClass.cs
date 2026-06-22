@@ -207,9 +207,23 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
             Trace.WriteLine(messages, ProcessName.WEB_TEST);
             Trace.WriteLine(errors, ProcessName.WEB_TEST_ERROR);
 
-            TestConfig.FailedTests[ProcessName.WEB_TEST][testName] = $"{messages}{Environment.NewLine}{errors}";
-            
-            Assert.Fail($"{testName} Failed: {errors}");
+            // Capture the actual exception (Playwright timeout, assertion, navigation error, etc.) - not
+            // just browser console text, which is empty when the page fails before logging anything. Without
+            // this the FINAL_SUMMARY failure details were blank and the real cause was invisible.
+            string failureDetail = $"{ex.GetType().Name}: {ex.Message}";
+            if (!string.IsNullOrWhiteSpace(messages))
+            {
+                failureDetail += $"{Environment.NewLine}Console: {messages}";
+            }
+            if (!string.IsNullOrWhiteSpace(errors))
+            {
+                failureDetail += $"{Environment.NewLine}Errors: {errors}";
+            }
+            failureDetail += $"{Environment.NewLine}{ex.StackTrace}";
+
+            TestConfig.FailedTests[ProcessName.WEB_TEST][testName] = failureDetail;
+
+            Assert.Fail($"{testName} Failed: {ex.Message}");
         }
         finally
         {
@@ -220,8 +234,20 @@ public abstract class GeoBlazorTestClass : PlaywrightTest
 
     private string BuildTestUrl(string testName)
     {
+        // Map the enum to its name via a switch of compile-time nameof constants rather than interpolating
+        // the enum directly. Interpolation calls Enum.ToString -> EnumInfo.Create, which on every test was
+        // throwing BadImageFormatException/CLDB_E_INDEX_NOTFOUND (corrupt enum name metadata in this process).
+        // A switch on enum constants compiles to integer comparisons and needs no reflection metadata.
+        string renderMode = TestConfig.RenderMode switch
+        {
+            BlazorMode.Server => nameof(BlazorMode.Server),
+            BlazorMode.WebAssembly => nameof(BlazorMode.WebAssembly),
+            BlazorMode.Hybrid => nameof(BlazorMode.Hybrid),
+            _ => ((int)TestConfig.RenderMode).ToString()
+        };
+
         return $"{TestConfig.TestAppUrl}?testFilter={testName}&renderMode={
-            TestConfig.RenderMode}{(TestConfig.ProOnly ? "&proOnly" : "")}{(TestConfig.CoreOnly ? "&coreOnly" : "")}";
+            renderMode}{(TestConfig.ProOnly ? "&proOnly" : "")}{(TestConfig.CoreOnly ? "&coreOnly" : "")}";
     }
 
     private async Task Setup()
