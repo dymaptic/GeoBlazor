@@ -690,48 +690,6 @@ public partial class ActiveLayerInfo : MapComponent
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the Layer property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetLayer(Layer? value)
-    {
-        if (value is not null)
-        {
-            value.UpdateGeoBlazorReferences(CoreJsModule!, ProJsModule, View, this, Layer);
-        } 
-        
-#pragma warning disable BL0005
-        Layer = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Layer)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "layer", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the LayerView property after render.
     /// </summary>
     /// <param name="value">

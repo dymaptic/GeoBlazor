@@ -32,6 +32,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 
 bool excludeMode = false;
@@ -424,10 +425,58 @@ static async Task<int> BuildScript(string scriptName, string scriptsDir, string 
     process.BeginOutputReadLine();
     process.BeginErrorReadLine();
     await process.WaitForExitAsync(cancellationToken);
+
+    // The file-based-app SDK bakes the source .cs file's absolute path into the generated
+    // runtimeconfig.json. Rewrite it to a stable relative value so the committed output doesn't churn across machines.
+    if (process.ExitCode == 0 && scriptName.EndsWith(".cs", StringComparison.OrdinalIgnoreCase))
+    {
+        RewriteRuntimeConfigPaths(scriptName, outDir);
+    }
+
     return process.ExitCode;
 }
 
-static async Task<int> CleanScript(string scriptName, string scriptsDir, string outDir, string runtime, 
+/// <summary>
+/// Replaces the absolute EntryPointFilePath/EntryPointFileDirectoryPath that the file-based-app SDK
+/// writes into a script's runtimeconfig.json with machine-independent relative values.
+/// </summary>
+static void RewriteRuntimeConfigPaths(string scriptName, string outDir)
+{
+    string runtimeConfigPath = Path.Combine(outDir, Path.GetFileNameWithoutExtension(scriptName) + ".runtimeconfig.json");
+    if (!File.Exists(runtimeConfigPath))
+    {
+        return;
+    }
+
+    try
+    {
+        if (JsonNode.Parse(File.ReadAllText(runtimeConfigPath)) is not { } root
+            || root["runtimeOptions"] is not JsonObject runtimeOptions)
+        {
+            return;
+        }
+
+        // Remove the dead doubly-nested block left by the old runtimeconfig.template.json
+        runtimeOptions.Remove("runtimeOptions");
+
+        if (runtimeOptions["configProperties"] is not JsonObject configProperties
+            || !configProperties.ContainsKey("EntryPointFilePath"))
+        {
+            return;
+        }
+
+        configProperties["EntryPointFilePath"] = $".\\{scriptName}";
+        configProperties["EntryPointFileDirectoryPath"] = ".";
+
+        File.WriteAllText(runtimeConfigPath, root.ToJsonString(new JsonSerializerOptions { WriteIndented = true }));
+    }
+    catch (Exception ex)
+    {
+        Trace.WriteLine($"Failed to rewrite runtime config paths for {scriptName}: {ex.Message}");
+    }
+}
+
+static async Task<int> CleanScript(string scriptName, string scriptsDir, string outDir, string runtime,
     CancellationToken cancellationToken)
 {
     Console.WriteLine($"Cleaning script: {scriptName} for runtime: {runtime}");
