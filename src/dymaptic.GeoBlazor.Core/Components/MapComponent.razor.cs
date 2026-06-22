@@ -1115,7 +1115,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         // A Layer can be resolved after this component's JS object was built (e.g. a layer added to
         // the map after render and bound by id). buildJs* could not bind it then, so push the
         // resolved layer to the JS component once it exists.
-        if (!_layerSyncedToJs && Layer is GraphicsLayer graphicsLayer && JsComponentReference is not null)
+        if (!_layerSyncedToJs && Layer is {} graphicsLayer && JsComponentReference is not null)
         {
             _layerSyncedToJs = true;
             await SetLayer(graphicsLayer);
