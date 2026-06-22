@@ -32,9 +32,9 @@ export default class BaseComponent implements IPropertyWrapper {
     }
 
     async setLayer(value: any): Promise<void> {
-        if (this.component.hasOwnProperty('layer')) {
-            let { buildJsGraphicsLayer } = await import('./graphicsLayer');
-            this.component.layer = await  buildJsGraphicsLayer(value, this.layerId, this.viewId);
+        if ('layer' in this.component) {
+            let { buildJsLayer } = await import('./layer');
+            this.component.layer = await buildJsLayer(value, this.layerId, this.viewId);
         }
     }
     

@@ -548,7 +548,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public virtual async Task SetLayer(GraphicsLayer? value)
+    public virtual async Task SetLayer(Layer? value)
     {
         if (value is not null)
         {
