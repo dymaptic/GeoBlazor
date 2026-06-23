@@ -305,8 +305,11 @@ static BuildRecord GetLastBuildRecord(string recordFilePath)
 
 /// <summary>
 /// Determines whether a TypeScript build is needed.
-/// A build is needed if: the branch changed, scripts were modified since last build,
-/// or the output directory is empty.
+/// A build is needed if scripts were modified since the last build or the output directory is
+/// empty. A branch change alone does NOT force a rebuild when scripts are unchanged and output
+/// already exists: that would regenerate hashed split chunks with new names, orphaning the
+/// static web assets MSBuild already cataloged (dotnet/sdk#49988) — the cause of 404 chunk loads.
+/// This also makes CI detached-HEAD branch noise ("HEAD"/"unknown" vs the real branch) harmless.
 /// </summary>
 /// <param name="recordFilePath">Path to the build record file.</param>
 /// <param name="currentBranch">The current Git branch name.</param>
@@ -316,42 +319,38 @@ static BuildRecord GetLastBuildRecord(string recordFilePath)
 static bool CheckIfNeedsBuild(string recordFilePath, string currentBranch, string scriptsDir, string outputDir,
     string sourceProject)
 {
-    // Check if build is needed
     BuildRecord lastBuild = GetLastBuildRecord(recordFilePath);
-    bool branchChanged = currentBranch != "no-git" 
-        && currentBranch != lastBuild.Branch;
 
-    if (branchChanged)
-    {
-        Trace.WriteLine($"ESBUILD {sourceProject}: Git branch changed from \"{lastBuild.Branch}\" to \"{currentBranch}\". Rebuilding...");
-        return true;
-    }
-
+    // Just built — ESBuild can be triggered more than once per run (e.g. the library build
+    // followed by a samples publish). Skip to avoid regenerating hashed chunks already cataloged.
     if (lastBuild.Timestamp > DateTimeOffset.UtcNow.AddMinutes(-1).ToUnixTimeMilliseconds())
     {
-        // we just built this, possible if ESBuild gets triggered multiple times in a single run
         Trace.WriteLine($"ESBUILD {sourceProject}: Was built within the past 1 minute, will skip this build.");
         return false;
     }
 
-    if (!GetScriptsModifiedSince(scriptsDir, lastBuild.Timestamp, sourceProject))
-    {
-        Trace.WriteLine($"ESBUILD {sourceProject}: No changes in Scripts folder since last build.");
+    bool scriptsChanged = GetScriptsModifiedSince(scriptsDir, lastBuild.Timestamp, sourceProject);
+    bool outputPresent = Directory.Exists(outputDir) && Directory.GetFiles(outputDir).Length > 0;
 
-        // Check output directory for existing files
-        if (Directory.Exists(outputDir) && Directory.GetFiles(outputDir).Length > 0)
-        {
-            Trace.WriteLine($"ESBUILD {sourceProject}: Output directory is not empty. Skipping build.");
-            return false;
-        }
-        else
-        {
-            Trace.WriteLine($"ESBUILD {sourceProject}: Output directory is empty. Proceeding with build.");
-            return true;
-        }
+    // Scripts unchanged with output already present: rebuilding would only churn chunk hashes
+    // and orphan cataloged static web assets. Skip regardless of any branch change.
+    if (!scriptsChanged && outputPresent)
+    {
+        Trace.WriteLine($"ESBUILD {sourceProject}: No Scripts changes since last build and output is present. Skipping build.");
+        return false;
     }
 
-    Trace.WriteLine($"ESBUILD {sourceProject}: Changes detected in Scripts folder. Proceeding with build.");
+    // Past here a build is needed (scripts changed or output missing). A genuine branch change
+    // is only relevant in these cases and is logged for traceability.
+    bool branchChanged = currentBranch != "no-git" && currentBranch != lastBuild.Branch;
+    if (branchChanged)
+    {
+        Trace.WriteLine($"ESBUILD {sourceProject}: Git branch changed from \"{lastBuild.Branch}\" to \"{currentBranch}\".");
+    }
+
+    Trace.WriteLine(scriptsChanged
+        ? $"ESBUILD {sourceProject}: Changes detected in Scripts folder. Proceeding with build."
+        : $"ESBUILD {sourceProject}: Output directory is empty. Proceeding with build.");
     return true;
 }
 
