@@ -416,6 +416,20 @@ export async function setProperty(obj: any, prop: string, value: any): Promise<v
     }
 }
 
+export async function setLayer(obj: any, value: any): Promise<void> {
+    if ('setLayer' in obj) {
+        await obj.setLayer(value);
+    } else {
+        let jsLayer: any = null;
+        if (hasValue(value)) {
+            let { buildJsLayer } = await import('./layer');
+            jsLayer = await buildJsLayer(value, null, null);
+        }
+
+        obj.layer = jsLayer;
+    }
+}
+
 export function addToProperty(obj, prop, value) {
     if ('addToProperty' in obj) {
         obj.addToProperty(prop, value);

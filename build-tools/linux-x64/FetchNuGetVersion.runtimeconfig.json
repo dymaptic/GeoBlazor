@@ -5,15 +5,9 @@
       "name": "Microsoft.NETCore.App",
       "version": "10.0.0"
     },
-    "runtimeOptions": {
-      "configProperties": {
-        "EntryPointFilePath": ".\\GBTest.cs",
-        "EntryPointFileDirectoryPath": "."
-      }
-    },
     "configProperties": {
-      "EntryPointFilePath": "/Users/timpurdum/repos/GeoBlazor/GeoBlazor.Pro/GeoBlazor/build-tools/build-scripts/FetchNuGetVersion.cs",
-      "EntryPointFileDirectoryPath": "/Users/timpurdum/repos/GeoBlazor/GeoBlazor.Pro/GeoBlazor/build-tools/build-scripts",
+      "EntryPointFilePath": "./FetchNuGetVersion.cs",
+      "EntryPointFileDirectoryPath": ".",
       "Microsoft.Extensions.DependencyInjection.VerifyOpenGenericServiceTrimmability": true,
       "System.ComponentModel.DefaultValueAttribute.IsSupported": false,
       "System.ComponentModel.Design.IDesignerHost.IsSupported": false,

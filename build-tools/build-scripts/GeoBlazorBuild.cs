@@ -461,6 +461,7 @@ try
         if (package)
         {
             // Copy generated NuGet package to repo root
+            DeleteFilesIfExists(coreRepoRoot, "dymaptic.GeoBlazor.Core.*.nupkg");
             string coreBinPath = Path.Combine(coreProjectPath, "bin", configuration);
 
             if (Directory.Exists(coreBinPath))
@@ -639,6 +640,7 @@ try
         if (package)
         {
             // Copy generated NuGet package to Core repo root
+            DeleteFilesIfExists(coreRepoRoot, "dymaptic.GeoBlazor.Pro.*.nupkg");
             string proBinPath = Path.Combine(proProjectPath, "bin", configuration);
 
             if (Directory.Exists(proBinPath))
@@ -679,6 +681,22 @@ finally
     Console.Write($"Total script execution time: {totalTime}.");
     Console.ResetColor();
     Console.WriteLine();
+}
+
+/// <summary>
+/// Deletes matching files from a directory if it exists.
+/// </summary>
+static void DeleteFilesIfExists(string directory, string searchPattern)
+{
+    if (!Directory.Exists(directory))
+    {
+        return;
+    }
+
+    foreach (string path in Directory.GetFiles(directory, searchPattern, SearchOption.TopDirectoryOnly))
+    {
+        DeleteFileIfExists(path);
+    }
 }
 
 /// <summary>

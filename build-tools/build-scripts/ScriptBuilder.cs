@@ -465,7 +465,7 @@ static void RewriteRuntimeConfigPaths(string scriptName, string outDir)
             return;
         }
 
-        configProperties["EntryPointFilePath"] = $".\\{scriptName}";
+        configProperties["EntryPointFilePath"] = $"./{scriptName}";
         configProperties["EntryPointFileDirectoryPath"] = ".";
 
         File.WriteAllText(runtimeConfigPath, root.ToJsonString(new JsonSerializerOptions { WriteIndented = true }));
