@@ -1,5 +1,7 @@
 using dymaptic.GeoBlazor.Core.Components;
+using dymaptic.GeoBlazor.Core.Components.Layers;
 using dymaptic.GeoBlazor.Core.Exceptions;
+using Microsoft.JSInterop;
 
 
 namespace dymaptic.GeoBlazor.Core.Test.Unit;
@@ -69,6 +71,29 @@ public class MapComponentTests
         var component = new TestMapComponent { TestChildrenInCollection = new List<TestChildInCollection> { child } };
         component.ValidateRequiredChildren();
         Assert.IsTrue(child.WasValidated);
+    }
+
+    [TestMethod]
+    public async Task SetLayer_UsesCoreSetLayerHelper()
+    {
+        var coreJsModule = new TestJsObjectReference();
+        var jsComponentReference = new TestJsObjectReference();
+        var component = new TestMapComponent
+        {
+            CoreJsModule = coreJsModule,
+            JsComponentReference = jsComponentReference
+        };
+        var layer = new GraphicsLayer();
+
+        await component.SetLayer(layer);
+
+        Assert.HasCount(1, coreJsModule.Invocations);
+        TestJsInvocation invocation = coreJsModule.Invocations[0];
+        Assert.AreEqual("setLayer", invocation.Identifier);
+        Assert.AreSame(jsComponentReference, invocation.Args[0]);
+        Assert.AreSame(layer, invocation.Args[1]);
+        Assert.IsEmpty(jsComponentReference.Invocations,
+            "SetLayer must not invoke a missing setLayer method on the JS component reference.");
     }
 
     private class TestMapComponent : MapComponent
@@ -166,4 +191,30 @@ public class MapComponentTests
     }
 
     private class NotAChildComponent : MapComponent;
+
+    private sealed class TestJsObjectReference : IJSObjectReference
+    {
+        public List<TestJsInvocation> Invocations { get; } = [];
+
+        public ValueTask DisposeAsync()
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
+        {
+            Invocations.Add(new TestJsInvocation(identifier, args ?? []));
+
+            return ValueTask.FromResult(default(TValue)!);
+        }
+
+        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
+        {
+            Invocations.Add(new TestJsInvocation(identifier, args ?? []));
+
+            return ValueTask.FromResult(default(TValue)!);
+        }
+    }
+
+    private sealed record TestJsInvocation(string Identifier, object?[] Args);
 }

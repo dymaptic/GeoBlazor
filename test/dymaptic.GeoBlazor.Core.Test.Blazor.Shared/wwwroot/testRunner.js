@@ -239,6 +239,25 @@ export function assertObjectHasPropertyWithValue(methodName, objectId, propertyN
     }
 }
 
+export function assertObjectHasArcGisLayer(methodName, objectId, propertyName, expectedLayerId) {
+    let props = propertyName.split('.');
+    let obj = arcGisObjectRefs[objectId];
+    for (let i = 0; i < props.length; i++) {
+        obj = obj[props[i]];
+        if (obj === undefined || obj === null) {
+            throw new Error(`Expected ${propertyName} to be an ArcGIS layer but found ${obj}`);
+        }
+    }
+
+    if (obj.declaredClass !== "esri.layers.GraphicsLayer") {
+        throw new Error(`Expected ${propertyName} to be an ArcGIS GraphicsLayer but found ${obj.declaredClass}`);
+    }
+
+    if (obj.id !== expectedLayerId) {
+        throw new Error(`Expected ${propertyName}.id to be ${expectedLayerId} but found ${obj.id}`);
+    }
+}
+
 export function testThrow() {
     throw new Error("Test throw");
 }

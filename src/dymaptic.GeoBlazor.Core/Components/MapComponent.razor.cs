@@ -580,8 +580,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setLayer", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setLayer",
+            CancellationTokenSource.Token, JsComponentReference, value);
     }
 
     /// <summary>
