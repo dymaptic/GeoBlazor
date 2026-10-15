@@ -5,7 +5,7 @@
 
 GeoBlazor Pro adds advanced ArcGIS Maps SDK for JavaScript features on top of [GeoBlazor Core](../ReadMe.md),
 such as the Route service, ArcGIS REST service access, the complete feature query system, and the label, chart, and
-popup creator tools. See the [package readme](src/dymaptic.GeoBlazor.Pro/README.md) for the feature list.
+popup creator tools. See the [package readme](src/dymaptic.GeoBlazor.Pro/ReadMe.md) for the feature list.
 
 Pro is MIT licensed, like the rest of this repository. See the [LICENSE](../LICENSE). It ships as the NuGet package
 `dymaptic.GeoBlazor.Pro`. A license key is not required. You can optionally register for a free key at
@@ -32,7 +32,9 @@ Prerequisites:
 - Node.js. Run `npm -v` to check. On Windows, add `C:\Program Files\nodejs` to your `PATH` if needed.
 - On Windows, a current PowerShell, installed with `winget install Microsoft.Powershell`.
 
-Build the solution:
+The solution includes projects from the `GeoBlazor-Samples` submodule, which a plain `git clone` leaves empty. Clone
+with `git clone --recurse-submodules`, or in an existing clone run `git submodule update --init`. Then build the
+solution:
 
 ```bash
 dotnet build dymaptic.GeoBlazor.Pro.slnx
