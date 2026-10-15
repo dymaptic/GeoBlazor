@@ -56,16 +56,7 @@ public partial class Index: IAsyncDisposable
 
             if (firstRender)
             {
-                try
-                {
-                    await AppValidator.ValidateLicense();
-                }
-                catch (Exception ex)
-                {
-                    Version? version = AppValidator.GetType().Assembly.GetName().Version;
-
-                    throw new InvalidRegistrationException($"{ex.Message}{Environment.NewLine}License Key: {GeoBlazorSettings.RegistrationKey ?? GeoBlazorSettings.LicenseKey}{Environment.NewLine}URL: {NavigationManager.Uri}{Environment.NewLine}GeoBlazor Version: {version}");
-                }
+                await AppValidator.ValidateLicense();
 
                 _jsTestRunner = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
                     "./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/testRunner.js");

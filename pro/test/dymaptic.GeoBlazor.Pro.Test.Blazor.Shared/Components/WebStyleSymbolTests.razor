@@ -1,0 +1,37 @@
+@inherits ProTestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+
+@code {
+
+    // TODO: This test won't work until we have CIMSymbols
+    //[TestMethod]
+    //public async Task TestCanFetchSymbolFromWebSymbol(System.Action renderHandler) *@
+    //{
+        // WebStyleSymbol? symbol = null;
+
+        // AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
+        // <Map>
+        //        <Basemap>
+        //            <BasemapStyle Name="BasemapStyleName.ArcgisNavigation"/>
+        //        </Basemap>
+        //        <FeatureLayer
+        //            Url="http://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/LA_County_Points_of_Interest/FeatureServer/0">
+        //            <SimpleRenderer>
+        //                <WebStyleSymbol @ref="symbol"
+        //                                StyleName="Esri2DPointSymbolsStyle"
+        //                                Name="school"/>
+        //            </SimpleRenderer>
+        //        </FeatureLayer>
+        //    </Map>
+        //</MapView>);
+
+        //await WaitForMapToRender();
+        //Symbol? trueSymbol = await symbol!.FetchSymbol(new WebStyleSymbolFetchSymbolOptions([AcceptedFormats.Web]));
+        //Assert.IsNotNull(trueSymbol);
+        //Assert.IsInstanceOfType<CIMSymbol>(trueSymbol);
+    //}
+}

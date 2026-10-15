@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <base href="/" />
+        <link rel="icon" href="@Assets["_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/favicon.ico"]" />
+        <link href="@Assets["_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/css/site.css"]" rel="stylesheet" />
+        <link href="@Assets["dymaptic.GeoBlazor.Pro.Test.WebApp.styles.css"]" rel="stylesheet" />
+        <link href="@Assets["_content/dymaptic.GeoBlazor.Core"]" />
+        <link href="@Assets["_content/dymaptic.GeoBlazor.Pro"]" />
+        <link href="@Assets["_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared"]" />
+        <link href="@Assets["_content/dymaptic.GeoBlazor.Pro.Test.Blazor.Shared"]" />
+        <ImportMap />
+        
+        <HeadOutlet @rendermode="@_configuredRenderMode" />
+        
+    </head>
+
+    <body>
+    @{
+#if DEBUG
+        // This should always be set to Server mode so that it can toggle on the server.
+    }
+            <RenderModeSelector @rendermode="@InteractiveServer" />
+    @{
+#endif
+    }
+    <Routes RunOnStart="@_runOnStart"
+            ProOnly="@_proOnly"
+            TestFilter="@_testFilter"
+            @rendermode="@_configuredRenderMode" />
+        <script src="@Assets["_framework/blazor.web.js"]"></script>
+    </body>
+</html>
+
+@code {
+    
+    [Inject]
+    public required IConfiguration Configuration { get; set; }
+    
+    [Inject]
+    public required NavigationManager NavigationManager { get; set; }
+    
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+#if DEBUG
+        IComponentRenderMode oldRenderMode = _configuredRenderMode;
+        _configuredRenderMode = Configuration.GetValue<string?>("RenderMode", "Auto") switch
+        {
+            "Server" => InteractiveServer,
+            "WebAssembly" => InteractiveWebAssembly,
+            _ => InteractiveAuto
+        };
+        
+        if (oldRenderMode != _configuredRenderMode)
+        {
+            StateHasChanged();
+        }
+#endif
+        _runOnStart = Configuration.GetValue("RunOnStart", false);
+        _proOnly = Configuration.GetValue("ProOnly", false);
+        _testFilter = Configuration.GetValue<string?>("TestFilter");
+        
+        Uri uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+        Dictionary<string, StringValues> queryDict = QueryHelpers.ParseQuery(uri.Query);
+
+        foreach (string key in queryDict.Keys)
+        {
+            switch (key.ToLowerInvariant())
+            {
+                case "runonstart":
+                    if (bool.TryParse(queryDict[key].ToString(), out bool queryRunValue))
+                    {
+                        _runOnStart = queryRunValue;
+                    }
+
+                    break;
+                case "proonly":
+                    if (bool.TryParse(queryDict[key].ToString(), out bool queryProOnlyValue))
+                    {
+                        _proOnly = queryProOnlyValue;
+                    }
+
+                    break;
+                case "testfilter":
+                case "filter":
+                    if (queryDict[key].ToString() is { Length: > 0 } queryFilterValue)
+                    {
+                        _testFilter = queryFilterValue;
+                    }
+
+                    break;
+                case "rendermode":
+                    if (queryDict[key].ToString() is { Length: > 0 } queryRenderModeValue)
+                    {
+                        _configuredRenderMode = queryRenderModeValue.ToLowerInvariant() switch
+                        {
+                            "server" => InteractiveServer,
+                            "webassembly" => InteractiveWebAssembly,
+                            "wasm" => InteractiveWebAssembly,
+                            _ => InteractiveAuto
+                        };
+                    }
+
+                    break;
+            }
+        }
+    }
+    
+    private bool _runOnStart;
+    private bool _proOnly;
+    private string? _testFilter;
+
+    private IComponentRenderMode _configuredRenderMode = InteractiveAuto;
+}

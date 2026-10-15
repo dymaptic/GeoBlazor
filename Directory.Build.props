@@ -1,7 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
-  <!-- Import parent Directory.Build.props if it exists (e.g., when running as submodule of Pro) -->
-  <Import Project="../Directory.Build.props" Condition="Exists('$(MSBuildThisFileDirectory)../Directory.Build.props')" />
   <PropertyGroup>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -11,6 +9,9 @@
     <Platforms>AnyCPU</Platforms>
     <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
     <CoreProjectPath>$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Core</CoreProjectPath>
+    <!-- Pro lives in the pro/ folder of this repo; its own props (pro/Directory.Build.props) also set these. -->
+    <ProAvailable Condition="Exists('$(MSBuildThisFileDirectory)pro/src/dymaptic.GeoBlazor.Pro/dymaptic.GeoBlazor.Pro.csproj')">true</ProAvailable>
+    <ProProjectPath Condition="'$(ProAvailable)' == 'true'">$(MSBuildThisFileDirectory)pro/src/dymaptic.GeoBlazor.Pro</ProProjectPath>
     <BaseIntermediateOutputPath Condition="'$(GBObjCacheRoot)' != ''">$(GBObjCacheRoot)/$(MSBuildProjectName)/</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$([System.OperatingSystem]::IsWindows())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'X64'">

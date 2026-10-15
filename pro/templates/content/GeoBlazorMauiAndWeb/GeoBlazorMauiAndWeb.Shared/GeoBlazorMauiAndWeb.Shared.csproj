@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>DOTNET_TFM</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="${ComponentsWebVersion}" />
+  </ItemGroup>
+
+  <!--#if (!UsePro) -->
+  <ItemGroup>
+    <PackageReference Include="dymaptic.GeoBlazor.Core" Version="4.4.5" />
+  </ItemGroup>
+  <!--#endif -->
+  <!--#if (UsePro) -->
+  <ItemGroup>
+    <PackageReference Include="dymaptic.GeoBlazor.Pro" Version="4.4.5" />
+  </ItemGroup>
+  <!--#endif -->
+
+</Project>

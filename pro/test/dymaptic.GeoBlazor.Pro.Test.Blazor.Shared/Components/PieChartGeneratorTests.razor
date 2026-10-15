@@ -1,0 +1,98 @@
+@inherits ProTestRunnerBase
+@attribute [TestCategory(nameof(ProLogicComponent))]
+@attribute [TestCategory(nameof(LogicComponent))]
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+    [Inject]
+    public required PieChartGenerator PieChartGenerator { get; set; }
+
+    [TestMethod]
+    public async Task TestCreateRendererWithAttributes(System.Action renderHandler,
+            Action<LayerViewCreateEvent> onLayerViewCreateHandler)
+    {
+        FeatureLayer? layer = null;
+        MapView? mapView = null;
+
+        // Create a layer with numeric fields for pie chart
+        AddMapRenderFragment(@<MapView @ref="mapView"
+                                       class="map-view"
+                                       OnViewRendered="renderHandler"
+                                       OnLayerViewCreate="onLayerViewCreateHandler">
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographic"/>
+                                     </Basemap>
+                                     <FeatureLayer @ref="layer"
+                                                   Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/USA_County_Crops_2007/FeatureServer/0"/>
+                                 </Map>
+                             </MapView>);
+
+        await WaitForMapToRender();
+        await WaitForLayerToRender<FeatureLayer>();
+
+        Assert.IsNotNull(layer);
+        Assert.IsNotNull(mapView);
+
+        // Using population fields from the census layer
+        List<AttributeColorInfo> attributes =
+        [
+                new(field: "M217_07", label: "Vegetables"),
+                new(field: "M188_07", label: "Cotton"),
+                new(field: "M172_07", label: "Wheat"),
+                new(field: "M193_07", label: "Soybeans"),
+                new(field: "M163_07", label: "Corn")
+        ];
+
+        // Create the pie chart renderer
+        PieChartRendererResult result = await PieChartGenerator.CreateRenderer(layer,
+            layer.ViewId!.Value,    
+            attributes,
+            PieChartShape.Donut,
+            true,
+            true,
+            true, null, null, null);
+
+        Assert.IsNotNull(result);
+        Assert.IsNotNull(result.Renderer);
+    }
+
+    [TestMethod]
+    public async Task TestCreateRendererForClustering(System.Action renderHandler,
+            Action<LayerViewCreateEvent> onLayerViewCreateHandler)
+    {
+        // Create a layer with a UniqueValueRenderer for clustering
+        AddMapRenderFragment(@<MapView Class="map-view"
+                                       OnViewRendered="renderHandler"
+                                       OnLayerViewCreate="onLayerViewCreateHandler">
+                                 <WebMap>
+                                     <PortalItem PortalItemId="433b5f7f524a4d1ebf3a9f8e1bd49ee0"/>
+                                 </WebMap>
+                                 <Constraints SnapToZoom="false"/>
+                                 <HomeWidget Position="OverlayPosition.TopLeft"/>
+                                 <ExpandWidget Position="OverlayPosition.TopLeft"
+                                               ExpandIcon="list-bullet"
+                                               Expanded="true">
+                                     <LegendWidget/>
+                                 </ExpandWidget>
+                             </MapView>);
+
+        await WaitForMapToRender();
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<FeatureLayer>();
+        FeatureLayer layer = (FeatureLayer)createEvent.Layer!;
+
+        Assert.IsNotNull(layer);
+
+        // Create a pie chart renderer for clustering based on the layer's renderer
+        PieChartClusterRendererResult result = await PieChartGenerator.CreateRendererForClustering(layer,
+                PieChartShape.Donut,
+                defaultSymbolEnabled: true);
+
+        Assert.IsNotNull(result);
+        Assert.IsNotNull(result.Renderer);
+    }
+
+}

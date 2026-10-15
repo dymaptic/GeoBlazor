@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <IsRoslynComponent>true</IsRoslynComponent>
+
+    <RootNamespace>dymaptic.GeoBlazor.Pro.SourceGenerator</RootNamespace>
+    <PackageId>dymaptic.GeoBlazor.Pro.SourceGenerator</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Reference to shared Analyzers from Core -->
+    <ProjectReference Include="..\..\..\src\dymaptic.GeoBlazor.Core.Analyzers\dymaptic.GeoBlazor.Core.Analyzers.csproj" />
+    <ProjectReference Include="..\..\..\src\dymaptic.GeoBlazor.Core.SourceGenerator.Shared\dymaptic.GeoBlazor.Core.SourceGenerator.Shared.csproj"
+                      GeneratePathProperty="true" />
+  </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.3"/>
+        <PackageReference Include="CliWrap" Version="3.9.0" PrivateAssets="all" GeneratePathProperty="true"/>
+        <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.2" PrivateAssets="all"
+                          GeneratePathProperty="true"/>
+    </ItemGroup>
+
+    <PropertyGroup>
+        <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
+    </PropertyGroup>
+
+    <Target Name="GetDependencyTargetPaths">
+        <ItemGroup>
+            <TargetPathWithTargetPlatformMoniker Include="$(MSBuildProjectDirectory)\..\..\..\src\dymaptic.GeoBlazor.Core.SourceGenerator.Shared\bin\$(Configuration)\netstandard2.0\dymaptic.GeoBlazor.Core.SourceGenerator.Shared.dll"
+                                                 IncludeRuntimeDependency="false" />
+            <TargetPathWithTargetPlatformMoniker Include="$(PkgCliWrap)\lib\netstandard2.0\CliWrap.dll"
+                                                 IncludeRuntimeDependency="false"/>
+            <TargetPathWithTargetPlatformMoniker Include="$(PkgMicrosoft_Bcl_AsyncInterfaces)\lib\netstandard2.0\Microsoft.Bcl.AsyncInterfaces.dll"
+                                                 IncludeRuntimeDependency="false"/>
+        </ItemGroup>
+    </Target>
+
+</Project>

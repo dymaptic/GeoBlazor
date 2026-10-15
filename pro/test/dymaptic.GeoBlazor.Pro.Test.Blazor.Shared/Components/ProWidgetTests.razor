@@ -1,0 +1,31 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    // can't get location without browser approval
+    [TestCategory("AutomationExclude")]
+    [TestMethod]
+    public async Task TestCanCallLocateOnLocateWidget(System.Action renderHandler)
+    {
+        LocateWidget? widget = null;
+        AddMapRenderFragment(
+        @<MapView class="map-view" OnViewRendered="renderHandler">
+            <Map>
+                <Basemap>
+                    <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                </Basemap>
+            </Map>
+            <LocateWidget @ref="widget" />
+        </MapView>);
+
+        await WaitForMapToRender();
+        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Locate");
+        IGeolocationPosition? position = await widget!.Locate();
+        Assert.IsNotNull(position);
+        await TestLogger.Log($"Position: Longitude: {position.Coords.Longitude}, Latitude: {position.Coords.Latitude}");
+    }
+}

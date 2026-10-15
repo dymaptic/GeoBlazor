@@ -1,0 +1,11 @@
+{
+  "DelegateDocItem": {
+    "FileNameFactory": "NameAndMd5Mix"
+  },
+  "LinksBaseUrl": "",
+  "LinksOutputFilePath": "DefaultDocsLinks",
+  "ExternLinksFilePaths": [
+    "../../../src/dymaptic.GeoBlazor.Core/DefaultDocsLinks"
+  ],
+  "Markdown.MarkdownSanitizationRegex": "\\`"
+}

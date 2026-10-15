@@ -1,0 +1,111 @@
+@using dymaptic.GeoBlazor.Core.Enums
+@inherits dymaptic.GeoBlazor.Pro.Components.Widgets.ProWidget
+<div class="graphics-legend-widget @(IsInMapView ? "esri-ui" : "") @Class"
+     style="@(!IsInMapView || Position is null || (Position == OverlayPosition.Manual) ? "" : "inset: 30px 15px;") @Style">
+    <div id="@($"widget-container-{Id}")" class="esri-widget" hidden="@Hidden">
+        <div class="@(IsInMapView ? "esri-ui-inner-container" : "")">
+            <div class="esri-component esri-legend esri-widget esri-widget--panel @(IsInMapView ? CalculatedPosition : "")">
+                <div class="esri-legend__service">
+                    <h3 class="esri-widget__heading esri-legend__service-label"
+                        aria-level="3"
+                        role="heading">
+                        @Label
+                    </h3>
+                    @if (View?.Map is not null)
+                    {
+                        foreach (LayerRecord layer in GetLayerRecords)
+                        {
+                            bool layerOpen = layer.LayerId is not null && !_collapsedLayerIds.Contains(layer.LayerId.Value);
+                            <div class="esri-legend__layer">
+                                <div class="esri-legend__layer-table esri-legend__layer-table--size-ramp">
+                                    <div class="esri-legend__layer-body">
+                                        <h4 class="esri-widget__heading"
+                                            aria-level="4"
+                                            role="heading"
+                                            style="display: flex;">
+                                            @if (layerOpen)
+                                            {
+                                                <span aria-label="Collapse" class="esri-layer-list__child-toggle esri-layer-list__child-toggle--open"
+                                                      role="button" tabindex="0" title="Collapse"
+                                                      @onclick="() => ToggleLayer(layer)">
+                                                    <span aria-hidden="true" class="esri-layer-list__child-toggle-icon--opened esri-icon-down-arrow"></span>
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span aria-label="Expand" class="esri-layer-list__child-toggle"
+                                                      role="button" tabindex="0" title="Expand"
+                                                      @onclick="() => ToggleLayer(layer)">
+                                                    <span aria-hidden="true" class="esri-layer-list__child-toggle-icon--closed esri-icon-right-triangle-arrow"></span>
+                                                </span>
+                                            }
+                                            <span>&nbsp;@layer.Title</span>
+                                        </h4>
+                                        @if (layerOpen)
+                                        {
+                                            foreach (Graphic[] graphics in layer.Graphics)
+                                            {
+                                                Graphic graphic = graphics.First();
+                                                string graphicLabel = BuildGraphicLabel(graphics);
+                                                string color = BuildGraphicColor(graphic);
+
+                                                <div class="esri-legend__layer-row" @onclick="() => OpenGraphicsPopup(graphics)"
+                                                     style="@(SelectGraphics ? "cursor: pointer; " : "")">
+                                                    <span style="margin-left: 16px;">&nbsp;</span>
+                                                    @if (ToggleGraphics)
+                                                    {
+                                                        <span aria-hidden="true"
+                                                              class="@(graphic.Visible is null || (graphic.Visible == true) ? "esri-icon-visible" : "esri-icon-non-visible")"
+                                                              style="cursor: pointer;"
+                                                              @onclick="() => ToggleGraphicsVisibility(graphics)"
+                                                              @onclick:stopPropagation="true">
+                                                        </span>
+                                                        <span>&nbsp;</span>
+                                                    }
+                                                    <div class="esri-legend__layer-cell esri-legend__layer-cell--symbols">
+                                                        <div class="esri-legend__symbol">
+                                                            <div style="opacity:0.774306">
+                                                                @if (graphic.Symbol is PictureMarkerSymbol pictureMarkerSymbol)
+                                                                {
+                                                                    <img aria-labelledby="Preview for @graphicLabel"
+                                                                         alt="Preview for @graphicLabel"
+                                                                         src="@pictureMarkerSymbol.Url"
+                                                                         style="height: 23px; width: 23px;" />
+                                                                }
+                                                                else
+                                                                {
+                                                                    <svg aria-labelledby="Preview for @graphicLabel"
+                                                                         focusable="false" height="23" role="img"
+                                                                         style="display: block;" width="23"
+                                                                         xmlns="http://www.w3.org/2000/svg">
+                                                                        <defs></defs>
+                                                                        <g transform="matrix(1.0952380895614624,0,0,1.0952380895614624,11.5,11.5)">
+                                                                            <path d="M -10,-10 L 10,0 L 10,10 L -10,10 L -10,-10 Z"
+                                                                                  fill="@color" fill-rule="evenodd"
+                                                                                  stroke="rgba(153, 153, 153, 0.3843137254901961)"
+                                                                                  stroke-dasharray="none" stroke-linecap="round"
+                                                                                  stroke-linejoin="round" stroke-miterlimit="4"
+                                                                                  stroke-width="1">
+                                                                            </path>
+                                                                        </g>
+                                                                    </svg>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="esri-legend__layer-cell esri-legend__layer-cell--info">
+                                                        @graphicLabel
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

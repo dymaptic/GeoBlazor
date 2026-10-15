@@ -1,0 +1,28 @@
+﻿<Router AppAssembly="@typeof(Program).Assembly"
+        AdditionalAssemblies="@(new [] {typeof(TestRunnerBase).Assembly, typeof(ProTestRunnerBase).Assembly})">
+    <Found Context="routeData">
+        <CascadingValue Name="PageRouteData" Value="routeData">
+            <CascadingValue Name="@nameof(RunOnStart)" Value="RunOnStart">
+                <CascadingValue Name="@nameof(ProOnly)" Value="ProOnly">
+                    <CascadingValue Name="@nameof(TestFilter)" Value="TestFilter">
+                        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+                        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+                    </CascadingValue>
+                </CascadingValue>
+            </CascadingValue>
+        </CascadingValue>
+    </Found>
+</Router>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public required bool RunOnStart { get; set; }
+    
+    [Parameter]
+    [EditorRequired]
+    public required bool ProOnly { get; set; }
+    
+    [Parameter]
+    public string? TestFilter { get; set; }
+}

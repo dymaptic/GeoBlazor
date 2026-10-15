@@ -66,17 +66,17 @@ The release versions each have a corresponding tag.
 
 ## 🔄 Versions
 
-GeoBlazor comes in two editions:
+GeoBlazor comes in two packages, both open source in this repository:
 
-- **GeoBlazor Core** - Free, open-source edition with essential mapping capabilities
-- **[GeoBlazor Pro](https://docs.geoblazor.com/pages/pro.html)** - Commercial edition with advanced features, 3D support, and priority support
+- **GeoBlazor Core** - Essential mapping capabilities, in the repository root
+- **[GeoBlazor Pro](https://docs.geoblazor.com/pages/pro.html)** - Advanced features and 3D support, in the [`pro/`](pro/) folder
 
-Check out our [features comparison](https://docs.geoblazor.com/pages/features.html) to see which edition is right for you.
+Check out our [features comparison](https://docs.geoblazor.com/pages/features.html) to see what each package includes.
 
 ## 📝 License
 
-GeoBlazor Core is licensed under the [MIT License](https://docs.geoblazor.com/pages/coreLicense.html).
+GeoBlazor Core and GeoBlazor Pro are both licensed under the [MIT License](LICENSE).
 
-GeoBlazor Pro is licensed under a [Commercial License](https://docs.geoblazor.com/pages/license.html) with a yearly subscription fee.
+A license key is not required. You can optionally register for a free key at [licensing.dymaptic.com](https://licensing.dymaptic.com).
 
 

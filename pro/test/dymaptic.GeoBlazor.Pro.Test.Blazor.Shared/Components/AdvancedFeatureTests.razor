@@ -1,0 +1,24 @@
+@inherits ProTestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanWhiteLabelMapView(System.Action renderHandler)
+    {
+        AddMapRenderFragment(
+            @<MapView class="map-view" WhiteLabel="test-white-label" 
+                      OnViewRendered="renderHandler">
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+        </Basemap>
+    </Map>
+            </MapView>);
+        
+        await WaitForMapToRender();
+    }
+}

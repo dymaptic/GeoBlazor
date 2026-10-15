@@ -120,11 +120,11 @@ if (verbose)
 // Normalize configuration
 configuration = configuration.Equals("release", StringComparison.OrdinalIgnoreCase) ? "Release" : "Debug";
 
-// Scripts are in GeoBlazor.Pro/GeoBlazor/build-tools/build-scripts
-// Core source is at GeoBlazor.Pro/GeoBlazor/src/dymaptic.GeoBlazor.Core relative to build folder
-// Pro source is at GeoBlazor.Pro/src/dymaptic.GeoBlazor.Pro relative to build folder
+// Scripts are in <repo root>/build-tools/build-scripts
+// Core source is at <repo root>/src/dymaptic.GeoBlazor.Core relative to build folder
+// Pro source is at <repo root>/pro/src/dymaptic.GeoBlazor.Pro relative to build folder
 string coreSourceDir = Path.GetFullPath(Path.Combine(scriptDir, "..", "..", "src", "dymaptic.GeoBlazor.Core"));
-string proSourceDir = Path.GetFullPath(Path.Combine(scriptDir, "..", "..", "..", "src", "dymaptic.GeoBlazor.Pro"));
+string proSourceDir = Path.GetFullPath(Path.Combine(scriptDir, "..", "..", "pro", "src", "dymaptic.GeoBlazor.Pro"));
 string sourceDir = pro ? proSourceDir : coreSourceDir;
 
 string coreScriptsDir = Path.Combine(coreSourceDir, "Scripts");

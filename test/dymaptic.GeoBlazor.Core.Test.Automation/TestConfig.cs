@@ -39,8 +39,10 @@ public class TestConfig
         ? Assembly.GetAssembly(typeof(TestConfig))!.Location.Split("bin").First().TrimEnd(Path.PathSeparator)
         : Assembly.GetAssembly(typeof(TestConfig))!.Location;
 
+    // Pro lives in the pro/ folder at the Core repo root (ProjectFolder is <repo root>/test/<this project>/)
     public static readonly bool ProAvailable =
-        File.Exists(Path.GetFullPath(Path.Combine(ProjectFolder, "..", "..", "..", "Dockerfile")));
+        File.Exists(Path.GetFullPath(Path.Combine(ProjectFolder, "..", "..", "pro", "src", "dymaptic.GeoBlazor.Pro",
+            "dymaptic.GeoBlazor.Pro.csproj")));
     
     public static int HttpsPort = Configuration.GetValue("HTTPS_PORT", 9443);
     public static int HttpPort = Configuration.GetValue("HTTP_PORT", 8080);
@@ -48,14 +50,12 @@ public class TestConfig
     public static string TestAppUrl = Configuration.GetValue("WEB_APP_URL", $"https://localhost:{HttpsPort}");
     public static BlazorMode RenderMode { get; private set; }
     public static bool CoreOnly => FilteredTests[ProcessName.PRO_UNIT].Count == 0
-        && FilteredTests[ProcessName.PRO_VALIDATION].Count == 0
         && FilteredTests[ProcessName.WEB_TEST].Count(t => t.ClassName.StartsWith("PRO_")) == 0;
     public static bool ProOnly => FilteredTests[ProcessName.CORE_UNIT].Count == 0
         && FilteredTests[ProcessName.WEB_TEST].Count(t => t.ClassName.StartsWith("CORE_")) == 0;
     public static bool UnitOnly => FilteredTests[ProcessName.WEB_TEST].Count == 0;
     public static bool WebOnly => FilteredTests[ProcessName.CORE_UNIT].Count == 0
-        && FilteredTests[ProcessName.PRO_UNIT].Count == 0
-        && FilteredTests[ProcessName.PRO_VALIDATION].Count == 0;
+        && FilteredTests[ProcessName.PRO_UNIT].Count == 0;
 
     /// <summary>
     ///     Maximum number of concurrent browser instances in the pool.
@@ -74,32 +74,28 @@ public class TestConfig
     {
         [ProcessName.WEB_TEST] = [],
         [ProcessName.CORE_UNIT] = [],
-        [ProcessName.PRO_UNIT] = [],
-        [ProcessName.PRO_VALIDATION] = []
+        [ProcessName.PRO_UNIT] = []
     };
 
     public static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> InconclusiveTests { get; } = new()
     {
         [ProcessName.WEB_TEST] = [],
         [ProcessName.CORE_UNIT] = [],
-        [ProcessName.PRO_UNIT] = [],
-        [ProcessName.PRO_VALIDATION] = []
+        [ProcessName.PRO_UNIT] = []
     };
     
     public static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> PassedTests { get; } = new()
     {
         [ProcessName.WEB_TEST] = [],
         [ProcessName.CORE_UNIT] = [],
-        [ProcessName.PRO_UNIT] = [],
-        [ProcessName.PRO_VALIDATION] = []
+        [ProcessName.PRO_UNIT] = []
     };
 
     public static ConcurrentDictionary<string, List<TestRecord>> FilteredTests { get; set; } = new()
     {
         [ProcessName.WEB_TEST] = [],
         [ProcessName.CORE_UNIT] = [],
-        [ProcessName.PRO_UNIT] = [],
-        [ProcessName.PRO_VALIDATION] = []
+        [ProcessName.PRO_UNIT] = []
     };
 
     private static string ComposeFilePath => ProAvailable && !CoreOnly ? ProComposeFilePath : CoreComposeFilePath;
@@ -107,11 +103,8 @@ public class TestConfig
     private static string ProComposeFilePath => Path.Combine(ProjectFolder, "docker-compose-pro.yml");
     private static string CoreUnitTestComposeFilePath => Path.Combine(ProjectFolder, "docker-compose-core-unit.yml");
     private static string ProUnitTestComposeFilePath => Path.Combine(ProjectFolder, "docker-compose-pro-unit.yml");
-    private static string ProPropsPath => Path.Combine(ProjectFolder, "..", "..", "..", "Directory.Build.props");
-    private static string ProValidationTestComposeFilePath =>
-        Path.Combine(ProjectFolder, "docker-compose-pro-validation.yml");
     private static string TestAppPath => ProAvailable
-        ? Path.GetFullPath(Path.Combine(ProjectFolder, "..", "..", "..", "test",
+        ? Path.GetFullPath(Path.Combine(ProRepoRoot, "test",
             "dymaptic.GeoBlazor.Pro.Test.WebApp",
             "dymaptic.GeoBlazor.Pro.Test.WebApp",
             "dymaptic.GeoBlazor.Pro.Test.WebApp.csproj"))
@@ -128,10 +121,8 @@ public class TestConfig
         $"coverage.core.unit.{_coverageFileVersion}.{_coverageFormat}");
     private static string ProUnitCoverageFilePath => Path.Combine(UnitCoverageFolderPath,
         $"coverage.pro.unit.{_coverageFileVersion}.{_coverageFormat}");
-    private static string ProValidationCoverageFilePath => Path.Combine(UnitCoverageFolderPath,
-        $"coverage.pro.validation.{_coverageFileVersion}.{_coverageFormat}");
     private static string CoreRepoRoot => Path.GetFullPath(Path.Combine(ProjectFolder, "..", ".."));
-    private static string ProRepoRoot => Path.GetFullPath(Path.Combine(ProjectFolder, "..", "..", ".."));
+    private static string ProRepoRoot => Path.Combine(CoreRepoRoot, "pro");
     private static string CoreProjectPath =>
         Path.GetFullPath(Path.Combine(CoreRepoRoot, "src", "dymaptic.GeoBlazor.Core"));
     private static string ProProjectPath =>
@@ -142,9 +133,6 @@ public class TestConfig
     private static string ProUnitTestPath => Path.Combine(ProRepoRoot, "test",
         "dymaptic.GeoBlazor.Pro.Test.Unit",
         "dymaptic.GeoBlazor.Pro.Test.Unit.csproj");
-    private static string ProValidationTestPath => Path.Combine(ProRepoRoot, "test",
-        "dymaptic.GeoBlazor.Pro.Test.Validation",
-        "dymaptic.GeoBlazor.Pro.Test.Validation.csproj");
     private static string LogFilePath => Path.Combine(ProjectFolder, "test-run.log");
 
     public static readonly CancellationTokenSource Cts = new();
@@ -259,7 +247,6 @@ public class TestConfig
             StopContainer(ProComposeFilePath),
             StopContainer(CoreUnitTestComposeFilePath),
             StopContainer(ProUnitTestComposeFilePath),
-            StopContainer(ProValidationTestComposeFilePath),
             KillProcessesByTestPorts()
         ];
 
@@ -288,11 +275,6 @@ public class TestConfig
             if (!CoreOnly)
             {
                 runTasks.Add(LaunchPipelineTask(ProcessName.PRO_UNIT, LaunchUnitTests));
-                string proVersion = GetProVersion();
-                if (int.TryParse(proVersion[0].ToString(), out int majorVersion) && majorVersion >= 5)
-                {
-                    runTasks.Add(LaunchPipelineTask(ProcessName.PRO_VALIDATION, LaunchUnitTests));
-                }
             }
         }
 
@@ -376,9 +358,6 @@ public class TestConfig
                     {
                         coverageShutdownTasks.Add(ShutdownContainerCoverage(ProcessName.PRO_UNIT,
                             ProUnitTestComposeFilePath));
-
-                        coverageShutdownTasks.Add(ShutdownContainerCoverage(ProcessName.PRO_VALIDATION,
-                            ProValidationTestComposeFilePath));
                     }
 
                     await Task.WhenAll(coverageShutdownTasks);
@@ -397,7 +376,6 @@ public class TestConfig
                 if (!CoreOnly && !WebOnly)
                 {
                     appShutdownTasks.Add(StopContainer(ProUnitTestComposeFilePath));
-                    appShutdownTasks.Add(StopContainer(ProValidationTestComposeFilePath));
                 }
 
                 await Task.WhenAll(appShutdownTasks);
@@ -446,8 +424,6 @@ public class TestConfig
             if (!CoreOnly && !WebOnly)
             {
                 AddTestProcessSummary(ProcessName.PRO_UNIT);
-                Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
-                AddTestProcessSummary(ProcessName.PRO_VALIDATION);
                 Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             }
 
@@ -659,7 +635,6 @@ public class TestConfig
             FilteredTests[ProcessName.WEB_TEST] = webTests.ToList();
             FilteredTests[ProcessName.CORE_UNIT] = coreUnitTests.ToList();
             FilteredTests[ProcessName.PRO_UNIT] = proUnitTests.ToList();
-            FilteredTests[ProcessName.PRO_VALIDATION] = proValidationTests.ToList();
         }
 
         if (FilteredTests.Values.All(v => v.Count == 0))
@@ -670,7 +645,6 @@ public class TestConfig
         if (!ProAvailable || Configuration.GetValue("CORE_ONLY", false))
         {
             FilteredTests[ProcessName.PRO_UNIT].Clear();
-            FilteredTests[ProcessName.PRO_VALIDATION].Clear();
             FilteredTests[ProcessName.WEB_TEST].RemoveAll(t => t.ClassName.StartsWith("PRO_"));
         }
         else if (Configuration.GetValue("PRO_ONLY", false))
@@ -723,7 +697,6 @@ public class TestConfig
             case "unit":
                 FilteredTests[ProcessName.CORE_UNIT] = coreUnitTests.ToList();
                 FilteredTests[ProcessName.PRO_UNIT] = proUnitTests.ToList();
-                FilteredTests[ProcessName.PRO_VALIDATION] = proValidationTests.ToList();
 
                 return;
             case "core":
@@ -735,7 +708,6 @@ public class TestConfig
             case "pro":
             case "pro_":
                 FilteredTests[ProcessName.PRO_UNIT] = proUnitTests.ToList();
-                FilteredTests[ProcessName.PRO_VALIDATION] = proValidationTests.ToList();
                 FilteredTests[ProcessName.WEB_TEST] = proWebTests.ToList();
                 
                 return;
@@ -773,9 +745,6 @@ public class TestConfig
                 
                 FilteredTests[ProcessName.PRO_UNIT].AddRange(
                     ParseTestGroup(proUnitTests, filterType, filterOp, filterValue));
-                
-                FilteredTests[ProcessName.PRO_VALIDATION].AddRange(
-                    ParseTestGroup(proValidationTests, filterType, filterOp, filterValue));
 
                 break;
             }
@@ -1036,7 +1005,6 @@ public class TestConfig
         {
             ProcessName.CORE_UNIT => CoreUnitTestPath,
             ProcessName.PRO_UNIT => ProUnitTestPath,
-            ProcessName.PRO_VALIDATION => ProValidationTestPath,
             _ => throw new ArgumentOutOfRangeException(nameof(processName), processName, null)
         };
 
@@ -1044,7 +1012,6 @@ public class TestConfig
         {
             ProcessName.CORE_UNIT => CoreUnitCoverageFilePath,
             ProcessName.PRO_UNIT => ProUnitCoverageFilePath,
-            ProcessName.PRO_VALIDATION => ProValidationCoverageFilePath,
             _ => throw new ArgumentOutOfRangeException(nameof(processName), processName, null)
         };
 
@@ -1086,7 +1053,6 @@ public class TestConfig
                 "-f", _coverageFormat,
                 "--include-files", "**/dymaptic.GeoBlazor.Core.dll",
                 "--include-files", "**/dymaptic.GeoBlazor.Pro.dll",
-                "--include-files", "**/dymaptic.GeoBlazor.Pro.Validator.dll",
                 "--include-files", "**/dymaptic.GeoBlazor.Core.SourceGenerator.dll",
                 "--include-files", "**/dymaptic.GeoBlazor.Pro.SourceGenerator.dll",
                 "--include-files", "**/dymaptic.GeoBlazor.Core.SourceGenerator.Shared.dll",
@@ -1159,7 +1125,6 @@ public class TestConfig
         {
             ProcessName.CORE_UNIT => CoreUnitTestComposeFilePath,
             ProcessName.PRO_UNIT => ProUnitTestComposeFilePath,
-            ProcessName.PRO_VALIDATION => ProValidationTestComposeFilePath,
             _ => throw new ArgumentOutOfRangeException(nameof(processName), processName, null)
         };
 
@@ -1252,7 +1217,6 @@ public class TestConfig
         {
             ProcessName.CORE_UNIT => "gb-core-unit-core-unit-1",
             ProcessName.PRO_UNIT => "gb-pro-unit-pro-unit-1",
-            ProcessName.PRO_VALIDATION => "gb-pro-validation-pro-validation-1",
             _ => throw new ArgumentException("Invalid process name", nameof(processName))
         };
 
@@ -1415,7 +1379,6 @@ public class TestConfig
                 "-f", _coverageFormat,
                 "--include-files", "**/dymaptic.GeoBlazor.Core.dll",
                 "--include-files", "**/dymaptic.GeoBlazor.Pro.dll",
-                "--include-files", "**/dymaptic.GeoBlazor.Pro.Validator.dll",
                 dotnetCommand
             ];
         }
@@ -1645,7 +1608,6 @@ public class TestConfig
             ProcessName.WEB_APP_SERVER when composeFilePath.EndsWith("pro.yml") => "geoblazor-pro-tests-test-app-1",
             ProcessName.CORE_UNIT => "gb-core-unit-core-unit-1",
             ProcessName.PRO_UNIT => "gb-pro-unit-pro-unit-1",
-            ProcessName.PRO_VALIDATION => "gb-pro-validation-pro-validation-1",
             _ => throw new ArgumentException("Invalid process name", nameof(processName))
         };
 
@@ -1989,7 +1951,6 @@ public class TestConfig
                 "+dymaptic.GeoBlazor.Core.SourceGenerator.Shared.dll",
                 "+dymaptic.GeoBlazor.Core.Analyzers.dll",
                 "+dymaptic.GeoBlazor.Pro.dll",
-                "+dymaptic.GeoBlazor.Pro.Validator.dll",
                 "+dymaptic.GeoBlazor.Pro.SourceGenerator.dll"
             ];
 
@@ -2281,20 +2242,6 @@ public class TestConfig
         return tests;
     }
 
-    private static string GetProVersion()
-    {
-        XmlDocument doc = new();
-        doc.Load(ProPropsPath);
-        XmlNode? proVersionNode = doc.SelectSingleNode("//Project/PropertyGroup/ProVersion");
-
-        if ((proVersionNode == null) || string.IsNullOrWhiteSpace(proVersionNode.InnerText))
-        {
-            throw new InvalidOperationException("Could not find ProVersion in Directory.Build.props");
-        }
-
-        return proVersionNode.InnerText.Trim();
-    }
-
     private static readonly Stopwatch fullSuiteStopwatch = new();
     private static readonly Stopwatch webLaunchStopwatch = new();
     private static readonly JsonNodeOptions jsonNodeOptions = new();
@@ -2349,7 +2296,6 @@ public class TestConfig
         .ToList();
     private static readonly List<TestRecord> coreUnitTests = AnalyzeUnitTests(CoreUnitTestPath);
     private static readonly List<TestRecord> proUnitTests = AnalyzeUnitTests(ProUnitTestPath);
-    private static readonly List<TestRecord> proValidationTests = AnalyzeUnitTests(ProValidationTestPath);
     private static readonly List<int> processIds = [];
 
     private static bool HasCIExclude(MemberInfo member) =>
@@ -2408,7 +2354,6 @@ internal static class ProcessName
         WEB_TEST,
         CORE_UNIT,
         PRO_UNIT,
-        PRO_VALIDATION,
         CODE_COVERAGE,
         CODE_COVERAGE_REPORT,
         TEST_CLEANUP,
@@ -2422,7 +2367,6 @@ internal static class ProcessName
     public const string WEB_TEST = "WEB_TEST";
     public const string CORE_UNIT = "CORE_UNIT";
     public const string PRO_UNIT = "PRO_UNIT";
-    public const string PRO_VALIDATION = "PRO_VALIDATION";
     public const string CODE_COVERAGE = "CODE_COVERAGE";
     public const string CODE_COVERAGE_REPORT = "CODE_COVERAGE_REPORT";
     public const string TEST_CLEANUP = "TEST_CLEANUP";

@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <link rel="icon" type="image/png" href="_content/GeoBlazorMauiAndWeb.Shared/favicon.ico" />
+    @*#if (HasAssetMap && !UsePro)
+    <link rel="stylesheet" href="@Assets["GeoBlazorMauiAndWeb.Web.styles.css"]" />
+    <link rel="stylesheet" href="@Assets["_content/GeoBlazorMauiAndWeb.Shared/bootstrap/bootstrap.min.css"]" />
+    <link rel="stylesheet" href="@Assets["_content/GeoBlazorMauiAndWeb.Shared/app.css"]" />
+    <link href="@Assets["_content/dymaptic.GeoBlazor.Core"]"/>
+    <ImportMap />
+    ##elseif (HasAssetMap && UsePro)
+    <link rel="stylesheet" href="@Assets["GeoBlazorMauiAndWeb.Web.styles.css"]" />
+    <link rel="stylesheet" href="@Assets["_content/GeoBlazorMauiAndWeb.Shared/bootstrap/bootstrap.min.css"]" />
+    <link rel="stylesheet" href="@Assets["_content/GeoBlazorMauiAndWeb.Shared/app.css"]" />
+    <link href="@Assets["_content/dymaptic.GeoBlazor.Core"]"/>
+    <link href="@Assets["_content/dymaptic.GeoBlazor.Pro"]"/>
+    <ImportMap />
+    ##elseif (!UsePro)
+    <link rel="stylesheet" href="GeoBlazorMauiAndWeb.Web.styles.css" />
+    <link rel="stylesheet" href="_content/GeoBlazorMauiAndWeb.Shared/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="_content/GeoBlazorMauiAndWeb.Shared/app.css" />
+    <link href="_content/dymaptic.GeoBlazor.Core"/>
+    ##elseif (UsePro)
+    <link rel="stylesheet" href="GeoBlazorMauiAndWeb.Web.styles.css" />
+    <link rel="stylesheet" href="_content/GeoBlazorMauiAndWeb.Shared/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="_content/GeoBlazorMauiAndWeb.Shared/app.css" />
+    <link href="_content/dymaptic.GeoBlazor.Core"/>
+    <link href="_content/dymaptic.GeoBlazor.Pro"/>
+    ##endif*@
+    
+    @*#if (!InteractiveAtRoot)
+    <HeadOutlet />
+    ##elseif (IndividualLocalAuth)
+    <HeadOutlet @rendermode="RenderModeForPage" />
+    ##elseif (UseServer && UseWebAssembly)
+    <HeadOutlet @rendermode="InteractiveAuto" />
+    ##elseif (UseServer)
+    <HeadOutlet @rendermode="InteractiveServer" />
+    ##else
+    <HeadOutlet @rendermode="InteractiveWebAssembly" />
+    ##endif*@
+</head>
+
+<body>
+    @*#if (!InteractiveAtRoot)
+    <Routes />
+    ##elseif (IndividualLocalAuth)
+    <Routes @rendermode="RenderModeForPage" />
+    ##elseif (UseServer && UseWebAssembly)
+    <Routes @rendermode="InteractiveAuto" />
+    ##elseif (UseServer)
+    <Routes @rendermode="InteractiveServer" />
+    ##else
+    <Routes @rendermode="InteractiveWebAssembly" />
+    ##endif*@
+    @*#if (HasAssetMap)
+    <script src="@Assets["_framework/blazor.web.js"]"></script>
+    ##else
+    <script src="_framework/blazor.web.js"></script>
+    ##endif*@
+</body>
+
+</html>
+@*#if (!InteractiveAtRoot || !IndividualLocalAuth)
+#elseif (UseServer && UseWebAssembly)
+
+@code {
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; } = default!;
+
+    private IComponentRenderMode? RenderModeForPage => HttpContext.Request.Path.StartsWithSegments("/Account")
+        ? null
+        : InteractiveAuto;
+}
+#elseif (UseServer)
+
+@code {
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; } = default!;
+
+    private IComponentRenderMode? RenderModeForPage => HttpContext.Request.Path.StartsWithSegments("/Account")
+        ? null
+        : InteractiveServer;
+}
+#else
+
+@code {
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; } = default!;
+
+    private IComponentRenderMode? RenderModeForPage => HttpContext.Request.Path.StartsWithSegments("/Account")
+        ? null
+        : InteractiveWebAssembly;
+}
+#endif*@

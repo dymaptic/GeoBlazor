@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>DOTNET_TFM</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <NoDefaultLaunchSettingsFile Condition="'$(ExcludeLaunchSettings)' == 'True'">True</NoDefaultLaunchSettingsFile>
+  </PropertyGroup>
+  <!--#if (UseWebAssembly) -->
+  <ItemGroup>
+    <ProjectReference Include="..\GeoBlazorMauiAndWeb.Web.Client\GeoBlazorMauiAndWeb.Web.Client.csproj" Condition="'$(UseWebAssembly)' == 'True'" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="${WebAssemblyServerVersion}" />
+  </ItemGroup>
+  <!--#else -->
+  <ItemGroup>
+    <ProjectReference Include="..\GeoBlazorMauiAndWeb.Shared\GeoBlazorMaui.Shared.csproj" />
+  </ItemGroup>
+  <!--#endif -->
+
+</Project>

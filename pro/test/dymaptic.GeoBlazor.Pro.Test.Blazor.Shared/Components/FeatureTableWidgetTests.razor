@@ -1,0 +1,311 @@
+@inherits ProTestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderFeatureTableWidget(System.Action renderHandler)
+    {
+        FeatureTableWidget? widget = null;
+        FeatureLayer? layer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer"
+                                  Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0" />
+                </Map>
+                <FeatureTableWidget @ref="widget" Layers="@(layer is null ? null : [layer])" />
+            </MapView>);
+
+        await WaitForMapToRender(timeoutInSeconds: 30);
+
+        Assert.AreNotEqual(Guid.Empty, widget!.Id);
+    }
+
+    [TestMethod]
+    public async Task TestSetsPropertiesOnJsWidget(System.Action renderHandler)
+    {
+        FeatureTableWidget? widget = null;
+        FeatureLayer? layer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer"
+                                  Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0" />
+                </Map>
+                <FeatureTableWidget @ref="widget"
+                                    Layers="@(layer is null ? null : [layer])"
+                                    MultipleSelectionDisabled="true"
+                                    HighlightDisabled="true"
+                                    EditingEnabled="true"
+                                    PageSize="25"
+                                    Label="Test Table" />
+            </MapView>);
+
+        await WaitForMapToRender(timeoutInSeconds: 30);
+
+        await AssertJavaScript("assertObjectHasPropertyWithValue",
+            args: [widget!.Id, "multipleSelectionDisabled", true]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue",
+            args: [widget.Id, "highlightDisabled", true]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue",
+            args: [widget.Id, "editingEnabled", true]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue",
+            args: [widget.Id, "pageSize", 25]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue",
+            args: [widget.Id, "label", "Test Table"]);
+    }
+
+    [TestMethod]
+    public async Task TestCanSetAndGetPageSize(System.Action renderHandler)
+    {
+        FeatureTableWidget? widget = null;
+        FeatureLayer? layer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer"
+                                  Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0" />
+                </Map>
+                <FeatureTableWidget @ref="widget" Layers="@(layer is null ? null : [layer])" PageSize="50" />
+            </MapView>);
+
+        await WaitForMapToRender(timeoutInSeconds: 30);
+
+        await widget!.SetPageSize(10);
+        int? pageSize = await widget.GetPageSize();
+        Assert.AreEqual(10, pageSize);
+    }
+
+    [TestMethod]
+    public async Task TestCanSetAndGetHighlightIds(System.Action renderHandler)
+    {
+        FeatureTableWidget? widget = null;
+        FeatureLayer? layer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer"
+                                  Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0" />
+                </Map>
+                <FeatureTableWidget @ref="widget" Layers="@(layer is null ? null : [layer])" />
+            </MapView>);
+
+        await WaitForMapToRender(timeoutInSeconds: 30);
+
+        string[] ids = ["1", "2", "3"];
+        await widget!.SetHighlightIds(ids);
+        IReadOnlyList<string>? result = await widget.GetHighlightIds();
+        Assert.IsNotNull(result);
+        Assert.AreEqual(3, result.Count);
+    }
+
+    [TestMethod]
+    public async Task TestCanSetAndGetDefinitionExpression(System.Action renderHandler)
+    {
+        FeatureTableWidget? widget = null;
+        FeatureLayer? layer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer"
+                                  Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0" />
+                </Map>
+                <FeatureTableWidget @ref="widget" Layers="@(layer is null ? null : [layer])" />
+            </MapView>);
+
+        await WaitForMapToRender(timeoutInSeconds: 30);
+
+        const string expression = "Year_ = 2020";
+        await widget!.SetDefinitionExpression(expression);
+        string? result = await widget.GetDefinitionExpression();
+        Assert.AreEqual(expression, result);
+    }
+
+    [TestMethod]
+    public async Task TestCanSetAndGetFilterBySelectionEnabled(System.Action renderHandler)
+    {
+        FeatureTableWidget? widget = null;
+        FeatureLayer? layer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer"
+                                  Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0" />
+                </Map>
+                <FeatureTableWidget @ref="widget"
+                                    Layers="@(layer is null ? null : [layer])"
+                                    FilterBySelectionEnabled="false" />
+            </MapView>);
+
+        await WaitForMapToRender(timeoutInSeconds: 30);
+
+        await widget!.SetFilterBySelectionEnabled(true);
+        bool? result = await widget.GetFilterBySelectionEnabled();
+        Assert.AreEqual(true, result);
+    }
+
+    [TestMethod]
+    public async Task TestCanGetColumns(System.Action renderHandler)
+    {
+        FeatureTableWidget? widget = null;
+        FeatureLayer? layer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer"
+                                  Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0" />
+                </Map>
+                <FeatureTableWidget @ref="widget" 
+                                    Layer="layer"
+                                    Position="OverlayPosition.BottomRight" />
+            </MapView>);
+
+        await WaitForMapToRender(timeoutInSeconds: 30);
+
+        // wait for the table to finish loading its data
+        int tries = 100;
+        IReadOnlyList<Column>? columns = null;
+
+        while (tries > 0 && (columns is null || columns.Count == 0))
+        {
+            await Task.Delay(1000);
+            columns = await widget!.GetColumns();
+            tries--;
+        }
+
+        Assert.IsNotNull(columns);
+        Assert.IsTrue(columns.Count > 0, "FeatureTable should have at least one column");
+        await AssertJavaScript("isValidElementRef", args: [columns[0].Menu]);
+    }
+
+    [TestMethod]
+    public async Task TestCanRenderWithHiddenFields(System.Action renderHandler)
+    {
+        FeatureTableWidget? widget = null;
+        FeatureLayer? layer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer"
+                                  Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0" />
+                </Map>
+                <FeatureTableWidget @ref="widget"
+                                    Layers="@(layer is null ? null : [layer])"
+                                    HiddenFields="@(["ObjectId", "GlobalID"])" />
+            </MapView>);
+
+        await WaitForMapToRender(timeoutInSeconds: 30);
+
+        IReadOnlyList<string>? hiddenFields = await widget!.GetHiddenFields();
+        Assert.IsNotNull(hiddenFields);
+        Assert.AreEqual(2, hiddenFields!.Count);
+    }
+
+    [TestMethod]
+    public async Task TestCanRenderWithContainerId(System.Action renderHandler)
+    {
+        FeatureTableWidget? widget = null;
+        FeatureLayer? layer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer"
+                                  Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0" />
+                </Map>
+                <FeatureTableWidget @ref="widget"
+                                    Layers="@(layer is null ? null : [layer])"
+                                    ContainerId="feature-table-test-container" />
+            </MapView>);
+
+        await WaitForMapToRender(timeoutInSeconds: 30);
+
+        Assert.IsNotNull(widget);
+        Assert.AreEqual("feature-table-test-container", widget!.ContainerId);
+    }
+
+    [TestMethod]
+    public async Task TestCanSetAndGetFilterGeometry(System.Action renderHandler)
+    {
+        FeatureTableWidget? widget = null;
+        FeatureLayer? layer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer"
+                                  Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0" />
+                </Map>
+                <FeatureTableWidget @ref="widget" Layers="@(layer is null ? null : [layer])" />
+            </MapView>);
+
+        await WaitForMapToRender(timeoutInSeconds: 30);
+
+        var extent = new Extent(
+            xmin: -118.5, ymin: 33.5, xmax: -117.5, ymax: 34.5,
+            spatialReference: new SpatialReference(4326));
+        await widget!.SetFilterGeometry(extent);
+        Geometry? result = await widget.GetFilterGeometry();
+        Assert.IsNotNull(result);
+    }
+
+    [TestMethod]
+    public async Task TestCanClearFilterGeometry(System.Action renderHandler)
+    {
+        FeatureTableWidget? widget = null;
+        FeatureLayer? layer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer"
+                                  Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0" />
+                </Map>
+                <FeatureTableWidget @ref="widget" Layers="@(layer is null ? null : [layer])" />
+            </MapView>);
+
+        await WaitForMapToRender(timeoutInSeconds: 30);
+
+        var extent = new Extent(
+            xmin: -118.5, ymin: 33.5, xmax: -117.5, ymax: 34.5,
+            spatialReference: new SpatialReference(4326));
+        await widget!.SetFilterGeometry(extent);
+        await widget.SetFilterGeometry(null);
+        Geometry? result = await widget.GetFilterGeometry();
+        Assert.IsNull(result);
+    }
+}

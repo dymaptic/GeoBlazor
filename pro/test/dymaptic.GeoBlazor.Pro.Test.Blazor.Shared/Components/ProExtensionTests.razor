@@ -1,0 +1,30 @@
+@inherits ProTestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+    [TestMethod]
+    public async Task TestCanGetSourceScaleFromImageryTileLayerView(System.Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
+    {
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler" 
+                      OnLayerViewCreate="layerViewCreateHandler">);
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisDarkGray" />
+                    </Basemap>
+                    <ImageryTileLayer Url="https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer" />
+                </Map>
+            </MapView>);
+        
+        await WaitForMapToRender();
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<ImageryTileLayer>();
+        ImageryTileLayerView layerView = (ImageryTileLayerView)createEvent.LayerView!;
+        double? scale = await layerView.GetSourceScale();
+        Assert.IsNotNull(scale);
+        Assert.IsTrue(scale > 0);
+    }
+}

@@ -1,0 +1,391 @@
+@inherits ProTestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanSetAvailableCreateTools(System.Action renderHandler)
+    {
+        GraphicsLayer layer = new();
+        SketchWidget? widget = null;
+
+        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                                     </Basemap>
+                                     <GraphicsLayer @ref="layer" />
+                                 </Map>
+                                 <SketchWidget @ref="widget"
+                                               Position="OverlayPosition.TopRight"
+                                               GraphicsLayerId="layer.Id"
+                                               AvailableCreateTools="@([AvailableCreateTool.Polyline])" />
+                             </MapView>);
+
+        await WaitForMapToRender();
+        await AssertProJavaScript("sketchWidgetAsserts.assertTools", args: [widget!.Id, new List<string> { "polyline" }]);
+    }
+
+    [TestMethod]
+    public async Task TestCanSetVisibleElements(System.Action renderHandler)
+    {
+        GraphicsLayer layer = new();
+        SketchWidget? widget = null;
+
+        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                                     </Basemap>
+                                     <GraphicsLayer @ref="layer" />
+                                 </Map>
+                                 <SketchWidget @ref="widget"
+                                               Position="OverlayPosition.TopRight"
+                                               GraphicsLayerId="layer.Id">
+                                     <SketchWidgetVisibleElements SettingsMenu="true" DuplicateButton="true">
+                                         <CreateTools Point="false" Circle="false" Polygon="true" Polyline="true" Rectangle="true" />
+                                         <SelectionTools RectangleSelection="false" LassoSelection="false" />
+                                     </SketchWidgetVisibleElements>
+                                 </SketchWidget>
+                             </MapView>);
+
+        await WaitForMapToRender();
+
+        Dictionary<string, object> args = new()
+        {
+            { "settingsMenu", true },
+            { "duplicateButton", true },
+            {
+                "createTools", new Dictionary<string, bool>
+                {
+                    { "point", false },
+                    { "circle", false },
+                    { "polygon", true },
+                    { "polyline", true },
+                    { "rectangle", true }
+                }
+            },
+            {
+                "selectionTools", new Dictionary<string, bool>
+                {
+                    { "rectangleSelection", false },
+                    { "lassoSelection", false }
+                }
+            }
+        };
+        await AssertProJavaScript("sketchWidgetAsserts.assertVisibleElements", args: [widget!.Id, args]);
+    }
+
+    [TestMethod]
+    public async Task TestCanSetLayerByLayerProperty(Action renderHandler)
+    {
+        GraphicsLayer? layer = null;
+        SketchWidget? widget = null;
+
+        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                                     </Basemap>
+                                     <GraphicsLayer @ref="layer" Title="Test layer" />
+                                 </Map>
+                                 <SketchWidget @ref="widget"
+                                               Position="OverlayPosition.TopRight"
+                                               Layer="layer" />
+                             </MapView>);
+
+        await WaitForMapToRender();
+        Assert.IsNotNull(widget!.GraphicsLayer);
+        Assert.AreEqual(widget.GraphicsLayer, widget.Layer);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [widget!.Id, "layer.title", "Test layer"]);
+    }
+
+    [TestMethod]
+    public async Task TestCanSetLayerByGraphicsLayerProperty(Action renderHandler)
+    {
+        GraphicsLayer? layer = null;
+        SketchWidget? widget = null;
+
+        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                                     </Basemap>
+                                     <GraphicsLayer @ref="layer" Title="Test layer" />
+                                 </Map>
+                                 <SketchWidget @ref="widget"
+                                               Position="OverlayPosition.TopRight"
+                                               GraphicsLayer="layer" />
+                             </MapView>);
+
+        await WaitForMapToRender();
+        Assert.IsNotNull(widget!.Layer);
+        Assert.AreEqual(widget.Layer, widget.GraphicsLayer);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [widget!.Id, "layer.title", "Test layer"]);
+    }
+
+    [TestMethod]
+    public async Task TestCanSetLayerAtRuntime(Action renderHandler)
+    {
+        GraphicsLayer? initialLayer = null;
+        GraphicsLayer? runtimeLayer = null;
+        SketchWidget? widget = null;
+
+        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                                     </Basemap>
+                                     <GraphicsLayer @ref="initialLayer" Title="Initial layer" />
+                                     <GraphicsLayer @ref="runtimeLayer" Title="Runtime layer" />
+                                 </Map>
+                                 <SketchWidget @ref="widget"
+                                               Position="OverlayPosition.TopRight"
+                                               GraphicsLayer="initialLayer" />
+                             </MapView>);
+
+        await WaitForMapToRender();
+
+        await widget!.SetLayer(runtimeLayer);
+
+        Assert.AreEqual(runtimeLayer, widget.Layer);
+        Assert.AreEqual(runtimeLayer, widget.GraphicsLayer);
+        await AssertProJavaScript("sketchWidgetAsserts.assertSketchLayer", args: [widget.Id, runtimeLayer!.Id]);
+    }
+
+    [TestMethod]
+    public async Task TestCanSetLayerOnSnappingOptionsAtRuntime(Action renderHandler)
+    {
+        GraphicsLayer? sketchLayer = null;
+        GraphicsLayer? snapLayer = null;
+        SnappingOptions? snappingOptions = null;
+        SketchWidget? widget = null;
+
+        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                                     </Basemap>
+                                     <GraphicsLayer @ref="sketchLayer" Title="Sketch layer" />
+                                     <GraphicsLayer @ref="snapLayer" Title="Snap layer" />
+                                 </Map>
+                                 <SketchWidget @ref="widget"
+                                               Position="OverlayPosition.TopRight"
+                                               GraphicsLayer="sketchLayer">
+                                     <SnappingOptions @ref="snappingOptions"
+                                                      Enabled="true"
+                                                      FeatureEnabled="true" />
+                                 </SketchWidget>
+                             </MapView>);
+
+        await WaitForMapToRender();
+
+        await snappingOptions!.SetLayer(snapLayer);
+
+        await AssertJavaScript("assertObjectHasArcGisLayer",
+            args: [snappingOptions.Id, "layer", snapLayer!.ArcGISLayerId]);
+        await AssertProJavaScript("sketchWidgetAsserts.assertSketchLayer", args: [widget!.Id, sketchLayer!.Id]);
+    }
+
+    [TestMethod]
+    public async Task TestCanSetEnabledOnSnappingOptionsAtRuntime(Action renderHandler)
+    {
+        GraphicsLayer? sketchLayer = null;
+        SnappingOptions? snappingOptions = null;
+
+        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                                     </Basemap>
+                                     <GraphicsLayer @ref="sketchLayer" Title="Sketch layer" />
+                                 </Map>
+                                 <SketchWidget Position="OverlayPosition.TopRight"
+                                               GraphicsLayer="sketchLayer">
+                                     <SnappingOptions @ref="snappingOptions"
+                                                      Enabled="false"
+                                                      FeatureEnabled="true" />
+                                 </SketchWidget>
+                             </MapView>);
+
+        await WaitForMapToRender();
+
+        await snappingOptions!.SetEnabled(true);
+
+        Assert.AreEqual(true, snappingOptions.Enabled);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [snappingOptions.Id, "enabled", true]);
+    }
+
+    // Regression guard for the f32281502 `??=` freeze: once OnParametersSet seeded
+    // GraphicsLayerId/LayerId it never re-synced them to the bound GraphicsLayer, so a layer
+    // reference that changed after the first render (e.g. an @ref instance replacing an earlier
+    // value) left the widget serializing a stale id -> arcGisObjectRefs lookup miss -> disabled
+    // toolbar. This asserts the C# invariant the fix restores: the serialized ids always track the
+    // live GraphicsLayer instance. (The end-to-end "tools enabled" behavior with the `= new()` +
+    // @ref double-instance anti-pattern is covered by running the sample; the supported authoring
+    // pattern is a nullable @ref field with no `= new()`, as in TestCanSetLayerByGraphicsLayerProperty.)
+    [TestMethod]
+    public async Task TestGraphicsLayerIdTracksLiveLayerInstance(Action renderHandler)
+    {
+        GraphicsLayer? layer = null;
+        SketchWidget? widget = null;
+
+        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                                     </Basemap>
+                                     <GraphicsLayer @ref="layer" Title="Test layer" />
+                                 </Map>
+                                 <SketchWidget @ref="widget"
+                                               Position="OverlayPosition.TopRight"
+                                               GraphicsLayer="layer" />
+                             </MapView>);
+
+        await WaitForMapToRender();
+        Assert.IsNotNull(widget!.GraphicsLayer);
+        // The serialized ids must equal the live layer instance's id, not a stale frozen value.
+        Assert.AreEqual(widget.GraphicsLayer!.Id, widget.GraphicsLayerId);
+        Assert.AreEqual(widget.GraphicsLayer!.Id, widget.LayerId);
+    }
+
+    [TestMethod]
+    public async Task TestCanSetLayerByLayerIdProperty(Action renderHandler)
+    {
+        MapView? mapView = null;
+        GraphicsLayer layer = new(title: "Test layer");
+        SketchWidget? widget = null;
+
+        AddMapRenderFragment(@<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                                     </Basemap>
+                                 </Map>
+                                 <SketchWidget @ref="widget"
+                                               Position="OverlayPosition.TopRight"
+                                               LayerId="layer.Id" />
+                             </MapView>);
+
+        await WaitForMapToRender();
+        await mapView!.AddLayer(layer);
+        // AddLayer resolves the widget's layer on a later render cycle, not synchronously; pump renders until it lands.
+        for (int tries = 50; widget!.Layer is null && tries > 0; tries--)
+        {
+            await Task.Delay(100);
+            await InvokeAsync(StateHasChanged);
+        }
+        Assert.IsNotNull(widget!.Layer);
+        Assert.AreEqual(widget.Layer.Id, layer.Id);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [widget!.Id, "layer.title", "Test layer"]);
+    }
+
+    [TestMethod]
+    public async Task TestCanSetLayerByGraphicsLayerIdProperty(Action renderHandler)
+    {
+        MapView? mapView = null;
+        GraphicsLayer layer = new(title: "Test layer");
+        SketchWidget? widget = null;
+
+        AddMapRenderFragment(@<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                                     </Basemap>
+                                 </Map>
+                                 <SketchWidget @ref="widget"
+                                               Position="OverlayPosition.TopRight"
+                                               GraphicsLayerId="layer.Id" />
+                             </MapView>);
+
+        await WaitForMapToRender();
+        await mapView!.AddLayer(layer);
+        // AddLayer resolves the widget's layer on a later render cycle, not synchronously; pump renders until it lands.
+        for (int tries = 50; widget!.GraphicsLayer is null && tries > 0; tries--)
+        {
+            await Task.Delay(100);
+            await InvokeAsync(StateHasChanged);
+        }
+        Assert.IsNotNull(widget!.GraphicsLayer);
+        Assert.AreEqual(widget.GraphicsLayer.Id, layer.Id);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [widget!.Id, "layer.title", "Test layer"]);
+    }
+
+    [TestMethod]
+    public async Task TestMissingGraphicsLayerThrowsException(Action renderHandler, Func<Exception, Task<bool>> errorHandler)
+    {
+        MapView? mapView = null;
+        SketchWidget? widget = null;
+
+        AddMapRenderFragment(@<MapView @ref="mapView"
+                                       class="map-view"
+                                       OnViewRendered="renderHandler"
+                                       OnExceptionHandler="errorHandler">
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                                     </Basemap>
+                                 </Map>
+                                 <SketchWidget @ref="widget"
+                                               Position="OverlayPosition.TopRight" />
+                             </MapView>);
+
+        await WaitForMapToRender();
+        await AssertProJavaScript("sketchWidgetAsserts.createSketch", args: [widget!.Id]);
+        await AssertJavaScript("clickOnMap");
+        string error = await WaitForDisplayedError();
+        Assert.IsTrue(error.Contains("Property 'layer' is missing on SketchViewModel"));
+    }
+
+    // Reproduces a question from a customer: when entering edit mode, they want to
+    // programmatically set FeatureSnappingLayerSources on a declaratively-built
+    // SnappingOptions, pointing each source at the layer being edited.
+    // FeatureSnappingLayerSource currently exposes neither a `Layer` constructor
+    // parameter nor a settable `Layer` property, so this scenario is not
+    // expressible from C#. This test encodes the desired API; it will fail to
+    // compile until the wrapper is generated with Layer support.
+    [TestMethod]
+    public async Task TestCanSetFeatureSnappingLayerSourceAtRuntime(Action renderHandler)
+    {
+        GraphicsLayer sketchLayer = new();
+        FeatureLayer snapTargetLayer = new();
+        SketchWidget? widget = null;
+
+        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                                     </Basemap>
+                                     <GraphicsLayer @ref="sketchLayer" />
+                                     <FeatureLayer @ref="snapTargetLayer"
+                                                   Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0" />
+                                 </Map>
+                                 <SketchWidget @ref="widget"
+                                               Position="OverlayPosition.TopRight"
+                                               GraphicsLayerId="sketchLayer.Id">
+                                     <SnappingOptions Enabled="true"
+                                                      FeatureEnabled="true" />
+                                 </SketchWidget>
+                             </MapView>);
+
+        await WaitForMapToRender();
+
+        await widget!.SetSnappingOptions(new SnappingOptions(enabled: true,
+            featureEnabled: true,
+            featureSources: new List<FeatureSnappingLayerSource>
+            {
+                new(enabled: true, layer: snapTargetLayer)
+            }));
+
+        await AssertJavaScript("assertObjectHasPropertyWithValue",
+            args:
+            [
+                widget!.Id, "snappingOptions.featureSources[0].layer.id",
+                snapTargetLayer.ArcGISLayerId
+            ]);
+    }
+
+}

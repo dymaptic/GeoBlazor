@@ -39,7 +39,7 @@ bool excludeMode = false;
 HashSet<string> scriptsToProcess = new();
 string coreScriptsDir = GetCoreScriptsDirectory();
 string coreDir = Path.GetFullPath(Path.Combine(coreScriptsDir, "..", ".."));
-string proDir = Path.GetFullPath(Path.Combine(coreDir, ".."));
+string proDir = Path.GetFullPath(Path.Combine(coreDir, "pro"));
 string proScriptsDir = Path.GetFullPath(Path.Combine(proDir, "build-tools", "build-scripts"));
 
 Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
