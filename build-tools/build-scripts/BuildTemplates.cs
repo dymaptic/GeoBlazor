@@ -1,6 +1,6 @@
 #!/usr/bin/env dotnet
 #:property PublishAot=false
-#:project ../../../build-tools/utilities/Utilities.csproj
+#:project ../utilities/Utilities.csproj
 
 // Build Templates Script
 // C# file-based app version of buildTemplates.ps1
@@ -141,12 +141,13 @@ if (help)
 
 string scriptDir = PathFinder.GetScriptsDirectory();
 
-// Scripts are in pro/build-tools/build-scripts
-// Templates are in pro/templates
-// Core lives at the repository root, one level above pro/
-string templatesDir = templatesDirOverride ?? Path.GetFullPath(Path.Combine(scriptDir, "..", "..", "templates"));
-string coreProjectDir = Path.GetFullPath(Path.Combine(scriptDir, "..", "..", "..", "src", "dymaptic.GeoBlazor.Core"));
-string proProjectDir = Path.GetFullPath(Path.Combine(scriptDir, "..", "..", "src", "dymaptic.GeoBlazor.Pro"));
+// Scripts are in <repo root>/build-tools/build-scripts
+// Templates are in <repo root>/pro/templates
+// Core is at <repo root>/src and Pro is at <repo root>/pro/src
+string repoRoot = Path.GetFullPath(Path.Combine(scriptDir, "..", ".."));
+string templatesDir = templatesDirOverride ?? Path.Combine(repoRoot, "pro", "templates");
+string coreProjectDir = Path.Combine(repoRoot, "src", "dymaptic.GeoBlazor.Core");
+string proProjectDir = Path.Combine(repoRoot, "pro", "src", "dymaptic.GeoBlazor.Pro");
 
 if (!Directory.Exists(templatesDir))
 {

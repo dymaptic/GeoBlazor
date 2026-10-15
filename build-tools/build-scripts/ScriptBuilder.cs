@@ -24,7 +24,7 @@
 //   --help, -h      Show this help message
 //
 // Output:
-//   Compiled DLLs are placed in GeoBlazor/build-tools/ directory
+//   Compiled DLLs are placed in the build-tools/<platform>/ directories
 //
 // Note: ScriptBuilder.cs itself is always skipped to avoid self-compilation issues.
 
@@ -39,16 +39,13 @@ bool excludeMode = false;
 HashSet<string> scriptsToProcess = new();
 string coreScriptsDir = GetCoreScriptsDirectory();
 string coreDir = Path.GetFullPath(Path.Combine(coreScriptsDir, "..", ".."));
-string proDir = Path.GetFullPath(Path.Combine(coreDir, "pro"));
-string proScriptsDir = Path.GetFullPath(Path.Combine(proDir, "build-tools", "build-scripts"));
 
 Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
 Trace.WriteLine("Starting ScriptBuilder...");
-Trace.WriteLine($"Core scripts directory: {coreScriptsDir}");
-Trace.WriteLine($"Pro scripts directory: {proScriptsDir}");
+Trace.WriteLine($"Scripts directory: {coreScriptsDir}");
 
+// Core and Pro share one set of build scripts in build-tools/build-scripts
 string[] coreScripts = Directory.GetFiles(coreScriptsDir, "*.cs");
-string[] proScripts = Directory.Exists(proScriptsDir) ? Directory.GetFiles(proScriptsDir, "*.cs") : [];
 
 bool force = false;
 bool cleanBeforeBuild = false;
@@ -187,31 +184,6 @@ foreach (string platform in platforms)
             Trace.WriteLine($"Failed to build core scripts for platform {platform} with exit code {result}");
             cts.Cancel();
             break;
-        }
-
-        // Build Pro Scripts if Core succeeded
-        if (proScripts.Length > 0)
-        {
-            outDir = Path.GetFullPath(Path.Combine(proDir, "build-tools", platform));
-            Trace.WriteLine($"Output directory: {outDir}");
-            Directory.CreateDirectory(outDir);
-
-            recordFile = Path.Combine(outDir, ".csbuild-record.json");
-            (timeStamp, oldBranch) = GetLastBuildRecord(recordFile);
-            branchChanged = oldBranch != currentBranch;
-
-            result = await BuildScripts(proScripts, scriptsToProcess, proScriptsDir, outDir, platform, force,
-                cleanBeforeBuild, branchChanged, timeStamp, excludeMode, updatedUtilities, cts);
-            if (result == 0)
-            {
-                SaveBuildRecord(recordFile, currentBranch);
-            }
-            else
-            {
-                Trace.WriteLine($"Failed to build pro scripts for platform {platform} with exit code {result}");
-                cts.Cancel();
-                break;
-            }
         }
     }
     catch (Exception ex) when (ex is not OperationCanceledException)
