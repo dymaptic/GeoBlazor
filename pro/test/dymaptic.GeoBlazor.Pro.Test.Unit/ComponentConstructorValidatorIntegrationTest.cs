@@ -81,15 +81,14 @@ public class ComponentConstructorValidatorIntegrationTest
 
         // Assert
         Assert.IsTrue(diagnostics.Any(d => d.Id == AnalyzerDiagnosticId),
-            $"Expected {AnalyzerDiagnosticId
-            } diagnostic for ProLayer was not triggered - analyzer integration failed.");
+            $"Expected {AnalyzerDiagnosticId} diagnostic for ProLayer was not triggered - analyzer integration failed.");
     }
 
     private const string AnalyzerDiagnosticId = "GeoBlazor_AUC";
     private const string AnalyzerTypeName = "ComponentConstructorValidator";
 
 
-#region Helper Methods
+    #region Helper Methods
 
     private static string CreateTestComponent(bool withAttribute)
     {
@@ -204,5 +203,5 @@ public class ComponentConstructorValidatorIntegrationTest
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
     }
 
-#endregion
+    #endregion
 }

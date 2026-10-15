@@ -34,7 +34,7 @@ public class TestConfig
         .AddDotEnvFile(true, false)
         .AddCommandLine(Environment.GetCommandLineArgs())
         .Build();
-    
+
     public static readonly string ProjectFolder = Assembly.GetAssembly(typeof(TestConfig))!.Location.Contains("bin")
         ? Assembly.GetAssembly(typeof(TestConfig))!.Location.Split("bin").First().TrimEnd(Path.PathSeparator)
         : Assembly.GetAssembly(typeof(TestConfig))!.Location;
@@ -43,7 +43,7 @@ public class TestConfig
     public static readonly bool ProAvailable =
         File.Exists(Path.GetFullPath(Path.Combine(ProjectFolder, "..", "..", "pro", "src", "dymaptic.GeoBlazor.Pro",
             "dymaptic.GeoBlazor.Pro.csproj")));
-    
+
     public static int HttpsPort = Configuration.GetValue("HTTPS_PORT", 9443);
     public static int HttpPort = Configuration.GetValue("HTTP_PORT", 8080);
 
@@ -83,7 +83,7 @@ public class TestConfig
         [ProcessName.CORE_UNIT] = [],
         [ProcessName.PRO_UNIT] = []
     };
-    
+
     public static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> PassedTests { get; } = new()
     {
         [ProcessName.WEB_TEST] = [],
@@ -283,11 +283,10 @@ public class TestConfig
         {
             await LaunchPipelineTask(ProcessName.WEB_APP_SERVER, LaunchWebTests);
         }
-        
+
         await Task.WhenAll(runTasks);
 
-        Trace.WriteLine($"Assembly Initialization Complete in {fullSuiteStopwatch.Elapsed.Minutes}m {
-            fullSuiteStopwatch.Elapsed.Seconds}s",
+        Trace.WriteLine($"Assembly Initialization Complete in {fullSuiteStopwatch.Elapsed.Minutes}m {fullSuiteStopwatch.Elapsed.Seconds}s",
             ProcessName.TEST_SETUP);
         _webTestStartTime = DateTime.UtcNow;
     }
@@ -450,8 +449,7 @@ public class TestConfig
                 TimeSpan webTestDuration = webTestEndTime - _webTestStartTime;
 
                 Trace.WriteLine(
-                    $"  duration: {webTestDuration.Minutes}m {webTestDuration.Seconds}s {webTestDuration.Milliseconds
-                    }ms",
+                    $"  duration: {webTestDuration.Minutes}m {webTestDuration.Seconds}s {webTestDuration.Milliseconds}ms",
                     ProcessName.FINAL_SUMMARY);
                 Trace.WriteLine("-------------------------------------------------------", ProcessName.FINAL_SUMMARY);
             }
@@ -622,7 +620,7 @@ public class TestConfig
 
                 foreach (string filter in filters)
                 {
-                    ParseFilter(filter); 
+                    ParseFilter(filter);
                 }
 
                 // Microsoft.Test.Platform only accepts a single filter argument
@@ -709,7 +707,7 @@ public class TestConfig
             case "pro_":
                 FilteredTests[ProcessName.PRO_UNIT] = proUnitTests.ToList();
                 FilteredTests[ProcessName.WEB_TEST] = proWebTests.ToList();
-                
+
                 return;
             default:
             {
@@ -733,16 +731,16 @@ public class TestConfig
                     filterType = Enum.Parse<FilterType>(split[0]);
                     filterValue = split[1];
                 }
-                
+
                 FilteredTests[ProcessName.WEB_TEST].AddRange(
                     ParseTestGroup(coreWebTests, filterType, filterOp, filterValue));
 
                 FilteredTests[ProcessName.WEB_TEST]
                     .AddRange(ParseTestGroup(proWebTests, filterType, filterOp, filterValue));
-                
+
                 FilteredTests[ProcessName.CORE_UNIT].AddRange(
                     ParseTestGroup(coreUnitTests, filterType, filterOp, filterValue));
-                
+
                 FilteredTests[ProcessName.PRO_UNIT].AddRange(
                     ParseTestGroup(proUnitTests, filterType, filterOp, filterValue));
 
@@ -750,7 +748,7 @@ public class TestConfig
             }
         }
     }
-    private static List<TestRecord> ParseTestGroup(List<TestRecord> tests, FilterType filterType, 
+    private static List<TestRecord> ParseTestGroup(List<TestRecord> tests, FilterType filterType,
         FilterOperator filterOp, string filterValue)
     {
         List<TestRecord> matchingTests = [];
@@ -842,9 +840,7 @@ public class TestConfig
         {
             webLaunchStopwatch.Stop();
 
-            Trace.WriteLine($"Web Tests Server Ready in {webLaunchStopwatch.Elapsed.Minutes}m {
-                webLaunchStopwatch.Elapsed.Seconds
-            }s", ProcessName.WEB_APP_SERVER);
+            Trace.WriteLine($"Web Tests Server Ready in {webLaunchStopwatch.Elapsed.Minutes}m {webLaunchStopwatch.Elapsed.Seconds}s", ProcessName.WEB_APP_SERVER);
         }
     }
 
@@ -1035,7 +1031,7 @@ public class TestConfig
             "/p:ShowScriptDialogs=false"
         ];
 
-        List<string> filterArgs = [.._filters ?? [], "TestCategory!~AutomationExclude"];
+        List<string> filterArgs = [.. _filters ?? [], "TestCategory!~AutomationExclude"];
         string filter = string.Join("&", filterArgs);
         args.Add("--filter");
         args.Add(filter);
@@ -1170,7 +1166,7 @@ public class TestConfig
         CancellationTokenSource linkedTokenSource =
             CancellationTokenSource.CreateLinkedTokenSource(context.CancellationToken, waitTokenSource.Token);
 
-        List<string> filterArgs = [.._filters ?? [], "TestCategory!~AutomationExclude"];
+        List<string> filterArgs = [.. _filters ?? [], "TestCategory!~AutomationExclude"];
         string filter = string.Join("&", filterArgs);
 
         StringBuilder containerStderr = new();
@@ -1293,7 +1289,7 @@ public class TestConfig
 
     private static void TrackUnitTestOutput(string output, string processName,
         ref Dictionary<string, string> failedTests, ref Dictionary<string, string> inconclusiveTests,
-        ref Dictionary<string, string> passedTests, ref string? ioExceptionMessage, 
+        ref Dictionary<string, string> passedTests, ref string? ioExceptionMessage,
         ref bool ioExceptionThrown, CancellationTokenSource? waitTokenSource = null)
     {
         string trimmedLine = output.Trim();
@@ -1804,8 +1800,7 @@ public class TestConfig
                     double minutes = i / 60.0;
 
                     Trace.WriteLine(
-                        $"Waiting for Test Container {containerName}. {minutes:N2} out of max {maxMinutes
-                            :N2} minutes...",
+                        $"Waiting for Test Container {containerName}. {minutes:N2} out of max {maxMinutes:N2} minutes...",
                         $"CONTAINER_BUILD: {processName}");
                 }
 
@@ -2203,11 +2198,11 @@ public class TestConfig
                 .OfType<ClassDeclarationSyntax>()
                 .FirstOrDefault();
 
-            if (namespaceDeclarationSyntax is null 
-                || classDeclaration is null 
+            if (namespaceDeclarationSyntax is null
+                || classDeclaration is null
                 || classDeclaration.AttributeLists
                     .SelectMany(a => a.Attributes)
-                    .All(a => a.Name.ToString() != "TestClass")) 
+                    .All(a => a.Name.ToString() != "TestClass"))
             {
                 continue;
             }
@@ -2259,8 +2254,7 @@ public class TestConfig
             .Handle<ContainerException>(),
         OnRetry = context =>
         {
-            Trace.WriteLine($"Attempt #{context.AttemptNumber + 1} for task failed with exception {
-                context.Context.Properties.GetValue(exceptionKey, "")}. Retrying...",
+            Trace.WriteLine($"Attempt #{context.AttemptNumber + 1} for task failed with exception {context.Context.Properties.GetValue(exceptionKey, "")}. Retrying...",
                 context.Context.OperationKey);
             context.Context.Properties.Set(retryAttemptKey, context.AttemptNumber);
 
@@ -2380,7 +2374,7 @@ internal static class ProcessName
     public const string CODE_COVERAGE_REPORT_ERROR = "CODE_COVERAGE_REPORT_ERROR";
 }
 
-public record TestRecord(string TestName, string Namespace, string ClassName, string MethodName, 
+public record TestRecord(string TestName, string Namespace, string ClassName, string MethodName,
     string[] Categories)
 {
     public string FullyQualifiedName => $"{Namespace}.{TestName}";

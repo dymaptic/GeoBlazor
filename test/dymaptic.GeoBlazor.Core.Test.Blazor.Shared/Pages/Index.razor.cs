@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 
 namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Pages;
 
-public partial class Index: IAsyncDisposable
+public partial class Index : IAsyncDisposable
 {
     [Inject]
     public required IJSRuntime JsRuntime { get; set; }
@@ -84,7 +84,7 @@ public partial class Index: IAsyncDisposable
 
                 FindAllTests();
 
-                IJSStreamReference cachedStream = 
+                IJSStreamReference cachedStream =
                     await _jsTestRunner.InvokeAsync<IJSStreamReference>("getCachedResultsStream");
                 Stream jsonStream = await cachedStream.OpenReadStreamAsync(maxAllowedSize: 10 * 1024 * 1024);
                 string json = await new StreamReader(jsonStream).ReadToEndAsync();
