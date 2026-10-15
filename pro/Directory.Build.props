@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ProAvailable>true</ProAvailable>
-    <ProVersion>4.6.1</ProVersion>
+    <ProVersion>4.7.0</ProVersion>
     <LangVersion>latest</LangVersion>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Configurations>Debug;Release;SourceGen Highlighting</Configurations>

@@ -43,8 +43,8 @@ jobs:
     - name: Clean node_modules
       shell: pwsh
       run: |
-        Remove-Item -Recurse -Force ./src/dymaptic.GeoBlazor.Pro/node_modules -ErrorAction SilentlyContinue
-        Remove-Item -Recurse -Force ./GeoBlazor/src/dymaptic.GeoBlazor.Core/node_modules -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force ./pro/src/dymaptic.GeoBlazor.Pro/node_modules -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force ./src/dymaptic.GeoBlazor.Core/node_modules -ErrorAction SilentlyContinue
 
     - name: Update NPM
       uses: actions/setup-node@v4
@@ -52,11 +52,11 @@ jobs:
         node-version: '>=22.11.0'
         check-latest: 'true'
       
-      # This runs the main GeoBlazor build script
+      # This runs the main GeoBlazor build script for Core and Pro
     - name: Build GeoBlazor
       shell: pwsh
       run: |
-        dotnet ./build-tools/win-x64/GeoBlazorBuild.dll -xml -pkg -pub -c "Release"
+        dotnet ./build-tools/win-x64/GeoBlazorBuild.dll -pro -xml -pkg -pub -c "Release"
       
       # xmllint is a dependency of the copy steps below
     - name: Install xmllint
@@ -71,13 +71,19 @@ jobs:
         CORE_VERSION=$(xmllint --xpath "//PropertyGroup/CoreVersion/text()" ./Directory.Build.props)
         echo "CORE_VERSION=$CORE_VERSION" >> $GITHUB_ENV
         
-      # Copies the nuget package to the artifacts directory
+      # Copies the nuget packages to the artifacts directory
     - name: Upload nuget artifact
       uses: actions/upload-artifact@v4.6.0
       with:
         name: .core-nuget
         path: ./dymaptic.GeoBlazor.Core.*.nupkg
-      
+
+    - name: Upload Pro nuget artifact
+      uses: actions/upload-artifact@v4.6.0
+      with:
+        name: .pro-nuget
+        path: ./dymaptic.GeoBlazor.Pro.*.nupkg
+
       # This step will copy the PR description to an environment variable
     - name: Copy PR Release Notes
       run: |
@@ -100,15 +106,23 @@ jobs:
         prerelease: false
         files: |
           ./src/dymaptic.GeoBlazor.Core/bin/Release/dymaptic.GeoBlazor.Core.*.nupkg
-  
-  # This step will publish the Pro NuGet package to NuGet.org
+          ./pro/src/dymaptic.GeoBlazor.Pro/bin/Release/dymaptic.GeoBlazor.Pro.*.nupkg
+
+  # This step will publish the Core and Pro NuGet packages to NuGet.org
   nuget-push:
     runs-on: ubuntu-latest
     needs: build
     steps:
-    - name: Download artifact from build job
+    - name: Download Core artifact from build job
       uses: actions/download-artifact@v4.1.8
       with:
-        name: .core-nuget          
+        name: .core-nuget
+    - name: Download Pro artifact from build job
+      uses: actions/download-artifact@v4.1.8
+      with:
+        name: .pro-nuget
     - name: Publish Core to Nuget
       run: dotnet nuget push ./dymaptic.GeoBlazor.Core.*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+      # Pro depends on the matching Core version, so it is published after Core
+    - name: Publish Pro to Nuget
+      run: dotnet nuget push ./dymaptic.GeoBlazor.Pro.*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
