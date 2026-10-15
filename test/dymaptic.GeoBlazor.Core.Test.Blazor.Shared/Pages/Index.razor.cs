@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 
 namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Pages;
 
-public partial class Index: IAsyncDisposable
+public partial class Index : IAsyncDisposable
 {
     [Inject]
     public required IJSRuntime JsRuntime { get; set; }
@@ -56,16 +56,7 @@ public partial class Index: IAsyncDisposable
 
             if (firstRender)
             {
-                try
-                {
-                    await AppValidator.ValidateLicense();
-                }
-                catch (Exception ex)
-                {
-                    Version? version = AppValidator.GetType().Assembly.GetName().Version;
-
-                    throw new InvalidRegistrationException($"{ex.Message}{Environment.NewLine}License Key: {GeoBlazorSettings.RegistrationKey ?? GeoBlazorSettings.LicenseKey}{Environment.NewLine}URL: {NavigationManager.Uri}{Environment.NewLine}GeoBlazor Version: {version}");
-                }
+                await AppValidator.ValidateLicense();
 
                 _jsTestRunner = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
                     "./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/testRunner.js");
@@ -93,7 +84,7 @@ public partial class Index: IAsyncDisposable
 
                 FindAllTests();
 
-                IJSStreamReference cachedStream = 
+                IJSStreamReference cachedStream =
                     await _jsTestRunner.InvokeAsync<IJSStreamReference>("getCachedResultsStream");
                 Stream jsonStream = await cachedStream.OpenReadStreamAsync(maxAllowedSize: 10 * 1024 * 1024);
                 string json = await new StreamReader(jsonStream).ReadToEndAsync();

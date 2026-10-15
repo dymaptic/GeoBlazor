@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<PackageId>dymaptic.GeoBlazor.Templates</PackageId>
+		<Title>GeoBlazor Project Templates</Title>
+		<PackageVersion>$(ProVersion)</PackageVersion>
+		<Version>$(ProVersion)</Version>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Company>dymaptic</Company>
+		<Copyright>©$([System.DateTime]::Now.Year) by dymaptic</Copyright>
+		<Authors>dymaptic, Tim Purdum</Authors>
+		<Description>Project templates for GeoBlazor</Description>
+		<PackageTags>dotnet-new;templates;geoblazor;gis</PackageTags>
+		<RepositoryUrl>https://github.com/dymaptic/GeoBlazor</RepositoryUrl>
+		<PackageProjectUrl>https://geoblazor.com</PackageProjectUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageIcon>GeoBlazor_Logo.png</PackageIcon>
+		<!-- Keep package type as 'Template' to show the package as a template package on nuget.org and make your template available in dotnet new search.-->
+		<PackageType>Template</PackageType>
+        <TargetFramework>net10.0</TargetFramework>
+		<IncludeContentInPack>true</IncludeContentInPack>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<ContentTargetFolders>content</ContentTargetFolders>
+		<NoWarn>$(NoWarn);NU5128</NoWarn>
+		<NoDefaultExcludes>true</NoDefaultExcludes>
+		<PackageReadmeFile>PackageREADME.md</PackageReadmeFile>
+		<GeneratePackageOnBuild Condition="$(Configuration) == 'RELEASE'">true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="GeoBlazor_Logo.png" Pack="true" PackagePath="" />
+        <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.2"/>
+        <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.9"/>
+		<PackageReference Include="Microsoft.TemplateEngine.Tasks" Version="*" PrivateAssets="all" IsImplicitlyDefined="true" />
+		<Content Include="content\**\*" Exclude="content\**\bin\**;content\**\obj\**;content\.vs\**" />
+		<Compile Remove="**\*" />
+		<None Include="PackageREADME.md" Pack="true" PackagePath="" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\src\dymaptic.GeoBlazor.Pro\dymaptic.GeoBlazor.Pro.csproj" ExcludeAssets="runtime"
+	    Private="false" />
+	</ItemGroup>
+</Project>

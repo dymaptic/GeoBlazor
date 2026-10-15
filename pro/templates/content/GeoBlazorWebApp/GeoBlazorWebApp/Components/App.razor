@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    @*#if (HasAssetMap && !UsePro)
+    <link rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]" />
+    <link rel="stylesheet" href="@Assets["app.css"]" />
+    <link rel="stylesheet" href="@Assets["GeoBlazorWebApp.styles.css"]" />
+    <link href="@Assets["_content/dymaptic.GeoBlazor.Core"]"/>
+    <ImportMap />
+    ##elseif (HasAssetMap && UsePro)
+    <link rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]" />
+    <link rel="stylesheet" href="@Assets["app.css"]" />
+    <link rel="stylesheet" href="@Assets["GeoBlazorWebApp.styles.css"]" />
+    <link href="@Assets["_content/dymaptic.GeoBlazor.Core"]"/>
+    <link href="@Assets["_content/dymaptic.GeoBlazor.Pro"]"/>
+    <ImportMap />
+    ##elseif (!UsePro)
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="GeoBlazorWebApp.styles.css" />
+    <link href="_content/dymaptic.GeoBlazor.Core"/>
+    ##elseif (UsePro)
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="GeoBlazorWebApp.styles.css" />
+    <link href="_content/dymaptic.GeoBlazor.Core"/>
+    <link href="_content/dymaptic.GeoBlazor.Pro"/>
+    ##endif*@
+    
+    <link rel="icon" type="image/ico" href="favicon.ico" />
+    @*#if (!InteractiveAtRoot)
+    <HeadOutlet />
+    ##elseif (IndividualLocalAuth)
+    <HeadOutlet @rendermode="PageRenderMode" />
+    ##elseif (UseServer && UseWebAssembly)
+    <HeadOutlet @rendermode="InteractiveAuto" />
+    ##elseif (UseServer)
+    <HeadOutlet @rendermode="InteractiveServer" />
+    ##else
+    <HeadOutlet @rendermode="InteractiveWebAssembly" />
+    ##endif*@
+</head>
+
+<body>
+    @*#if (!InteractiveAtRoot)
+    <Routes />
+    ##elseif (IndividualLocalAuth)
+    <Routes @rendermode="PageRenderMode" />
+    ##elseif (UseServer && UseWebAssembly)
+    <Routes @rendermode="InteractiveAuto" />
+    ##elseif (UseServer)
+    <Routes @rendermode="InteractiveServer" />
+    ##else
+    <Routes @rendermode="InteractiveWebAssembly" />
+    ##endif*@
+    @*#if (HasAssetMap)
+    <script src="@Assets["_framework/blazor.web.js"]"></script>
+    ##else
+    <script src="_framework/blazor.web.js"></script>
+    ##endif*@
+</body>
+
+</html>
+@*#if (!InteractiveAtRoot || !IndividualLocalAuth)
+#elseif (UseServer && UseWebAssembly)
+
+@code {
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; } = default!;
+
+    private IComponentRenderMode? PageRenderMode =>
+        HttpContext.AcceptsInteractiveRouting() ? InteractiveAuto : null;
+}
+#elseif (UseServer)
+
+@code {
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; } = default!;
+
+    private IComponentRenderMode? PageRenderMode =>
+        HttpContext.AcceptsInteractiveRouting() ? InteractiveServer : null;
+}
+#else
+
+@code {
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; } = default!;
+
+    private IComponentRenderMode? PageRenderMode =>
+        HttpContext.AcceptsInteractiveRouting() ? InteractiveWebAssembly : null;
+}
+#endif*@

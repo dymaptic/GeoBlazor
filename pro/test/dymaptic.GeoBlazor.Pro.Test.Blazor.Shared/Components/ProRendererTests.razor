@@ -1,0 +1,61 @@
+﻿@using dymaptic.GeoBlazor.Core.Events
+@inherits ProTestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task CanAddPieChartRenderer(Action renderHandler)
+    {
+        FeatureLayer? layer = null;
+        AttributesDictionary attributes = 
+            new AttributesDictionary(new Dictionary<string, object?> { { "OBJECT_ID", 1 }});
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
+        <FeatureLayer @ref="layer" 
+                      ObjectIdField="OBJECT_ID">
+                        <Graphic Attributes="@(attributes)">
+                            <Point Latitude="0" Longitude="0" />
+                        </Graphic>
+                        <PieChartRenderer DefaultColor="new MapColor(50, 25, 0)"
+                                          DefaultLabel="Test Label"
+                                          HolePercentage="0.5"
+                                          Size="@("15pt")"/>
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(layer);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args:
+        [
+            layer.Id, "renderer.defaultColor.r", 50
+        ]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args:
+        [
+            layer.Id, "renderer.defaultColor.g", 25
+        ]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args:
+        [
+            layer.Id, "renderer.defaultColor.b", 0
+        ]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args:
+        [
+            layer.Id, "renderer.defaultLabel", "Test Label"
+        ]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args:
+        [
+            layer.Id, "renderer.holePercentage", 0.5
+        ]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args:
+        [
+            layer.Id, "renderer.size", 15
+        ]);
+    }
+}

@@ -1,0 +1,3 @@
+[submodule "pro/GeoBlazor-Samples"]
+	path = pro/GeoBlazor-Samples
+	url = https://github.com/dymaptic/GeoBlazor-Samples.git

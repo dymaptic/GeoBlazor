@@ -1,0 +1,100 @@
+# This workflow builds the next release version of GeoBlazor Core and Pro when a pull request targets main.
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Main Branch PR Release Build
+
+on:
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+concurrency:
+  group: main-pr-build
+  cancel-in-progress: ${{ !contains(github.actor, '[bot]') }}
+
+jobs:
+  actor-check:
+    runs-on: ubuntu-latest
+    outputs:
+      was-bot: ${{ steps.check-bot.outputs.was-bot }}
+    steps:
+      - name: Check for previous bot commit
+        id: check-bot
+        if: contains(github.actor, '[bot]')
+        run: |
+          echo "was-bot=true" >> "$GITHUB_OUTPUT"
+          echo "Skipping build for bot commit"
+  build:
+    needs: actor-check
+    if: needs.actor-check.outputs.was-bot != 'true'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Generate Github App token
+      uses: actions/create-github-app-token@v2
+      id: app-token
+      with:
+        app-id: ${{ secrets.SUBMODULE_APP_ID }}
+        private-key: ${{ secrets.SUBMODULE_PRIVATE_KEY }}
+        owner: ${{ github.repository_owner }}
+        repositories: 'GeoBlazor'
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        token: ${{ steps.app-token.outputs.token }}
+        repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
+        ref: ${{ github.event.pull_request.head.ref || github.ref }}
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 10.x
+
+    - name: Update NPM
+      uses: actions/setup-node@v4
+      with:
+        node-version: '>=22.11.0'
+        check-latest: 'true'
+
+      # -pub sets the release version: the version in Directory.Build.props without its build number,
+      # or the next patch version if that version is already on NuGet.org
+    - name: Build GeoBlazor
+      shell: pwsh
+      run: |
+        dotnet ./build-tools/linux-x64/GeoBlazorBuild.dll -pro -xml -pkg -pub -docs -c "Release"
+
+      # Copies the nuget packages to the artifacts directory
+    - name: Upload Core nuget artifact
+      uses: actions/upload-artifact@v4.6.0
+      with:
+        name: .core-nuget
+        retention-days: 4
+        path: ./dymaptic.GeoBlazor.Core.*.nupkg
+
+    - name: Upload Pro nuget artifact
+      uses: actions/upload-artifact@v4.6.0
+      with:
+        name: .pro-nuget
+        retention-days: 4
+        path: ./dymaptic.GeoBlazor.Pro.*.nupkg
+
+    - name: Get GitHub App User ID
+      if: github.event_name == 'pull_request'
+      id: get-user-id
+      run: echo "user-id=$(gh api "/users/${{ steps.app-token.outputs.app-slug }}[bot]" --jq .id)" >> "$GITHUB_OUTPUT"
+      env:
+        GH_TOKEN: ${{ steps.app-token.outputs.token }}
+
+      # This step commits the release version number back to the pull request branch
+    - name: Add Changes to Git
+      if: github.event_name == 'pull_request'
+      run: |
+        git config --global user.name '${{ steps.app-token.outputs.app-slug }}[bot]'
+        git config --global user.email '${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com'
+        git add .
+        if git diff --cached --quiet; then
+          echo "No version or docs changes to commit"
+        else
+          git commit -m "Pipeline Build Commit of Release Version and Docs"
+          git push
+        fi

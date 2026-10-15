@@ -1,0 +1,129 @@
+@inherits ProTestRunnerBase
+@attribute [TestCategory(nameof(ProLogicComponent))]
+@attribute [TestCategory(nameof(LogicComponent))]
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+    [Inject]
+    public required PopupTemplateGenerator PopupTemplateGenerator { get; set; }
+
+    [TestMethod]
+    public async Task TestGetTemplatesFromLayerWithRenderer(System.Action renderHandler)
+    {
+        FeatureLayer? layer = null;
+
+        // Create a layer with a UniqueValueRenderer that references data values
+        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographic"/>
+                                     </Basemap>
+                                     <FeatureLayer @ref="layer"
+                                                   Url="https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Census_Populated_Places/FeatureServer/0">
+                                         <UniqueValueRenderer Field="CLASS">
+                                             <UniqueValueInfo Value="city" Label="City">
+                                                 <SimpleMarkerSymbol Color="new MapColor(255, 0, 0)" Size="10"/>
+                                             </UniqueValueInfo>
+                                             <UniqueValueInfo Value="town" Label="Town">
+                                                 <SimpleMarkerSymbol Color="new MapColor(0, 0, 255)" Size="8"/>
+                                             </UniqueValueInfo>
+                                         </UniqueValueRenderer>
+                                     </FeatureLayer>
+                                 </Map>
+                             </MapView>);
+
+        await WaitForMapToRender();
+
+        Assert.IsNotNull(layer);
+
+        // Get suggested popup templates based on the renderer
+        PopupTemplateResults result = await PopupTemplateGenerator.GetTemplates(layer);
+
+        Assert.IsNotNull(result);
+        Assert.IsNotNull(result.PrimaryTemplate);
+
+        Assert.IsInstanceOfType<TextPopupContent>(result.PrimaryTemplate.Value.Content![0],
+                "Expected TextContent for primary template.");
+
+        Assert.AreEqual("Populated Place Class is {CLASS} here.",
+                ((TextPopupContent)result.PrimaryTemplate.Value.Content![0]).Text,
+                "Expected primary template text to match renderer field.");
+    }
+
+    [TestMethod]
+    public async Task TestGetTemplatesWithNullRenderer(System.Action renderHandler)
+    {
+        FeatureLayer? layer = null;
+
+        // Create a layer with a simple renderer
+        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographic"/>
+                                     </Basemap>
+                                     <FeatureLayer @ref="layer"
+                                                   Url="https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Census_Populated_Places/FeatureServer/0">
+                                         <SimpleRenderer>
+                                             <SimpleMarkerSymbol Color="new MapColor(255, 0, 0)" Size="8"/>
+                                         </SimpleRenderer>
+                                     </FeatureLayer>
+                                 </Map>
+                             </MapView>);
+
+        await WaitForMapToRender();
+
+        Assert.IsNotNull(layer);
+
+        // Get templates - pass null for renderer to use layer's existing renderer
+        PopupTemplateResults result = await PopupTemplateGenerator.GetTemplates(layer, null);
+
+        Assert.IsNotNull(result);
+        Assert.IsInstanceOfType<FieldsPopupContent>(result.PrimaryTemplate.Value.Content![0]);
+        Assert.IsInstanceOfType<AttachmentsPopupContent>(result.PrimaryTemplate.Value.Content![1]);
+        Assert.AreEqual(12, result.PrimaryTemplate.Value.FieldInfos?.Count);
+        Assert.AreEqual("USA Census Populated Places: {NAME}", result.PrimaryTemplate.Value.Title);
+    }
+
+    [TestMethod]
+    public async Task TestGetClusterTemplates(System.Action renderHandler)
+    {
+        FeatureLayer? layer = null;
+
+        // Create a layer with a UniqueValueRenderer for cluster template generation
+        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographic"/>
+                                     </Basemap>
+                                     <FeatureLayer @ref="layer"
+                                                   Url="https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Census_Populated_Places/FeatureServer/0">
+                                         <UniqueValueRenderer Field="CLASS">
+                                             <UniqueValueInfo Value="city" Label="City">
+                                                 <SimpleMarkerSymbol Color="new MapColor(255, 0, 0)" Size="10"/>
+                                             </UniqueValueInfo>
+                                             <UniqueValueInfo Value="town" Label="Town">
+                                                 <SimpleMarkerSymbol Color="new MapColor(0, 0, 255)" Size="8"/>
+                                             </UniqueValueInfo>
+                                         </UniqueValueRenderer>
+                                     </FeatureLayer>
+                                 </Map>
+                             </MapView>);
+
+        await WaitForMapToRender();
+
+        Assert.IsNotNull(layer);
+
+        // Get cluster popup templates
+        PopupTemplateResults result = await PopupTemplateGenerator.GetClusterTemplates(layer);
+
+        Assert.IsNotNull(result);
+        Assert.IsInstanceOfType<TextPopupContent>(result.PrimaryTemplate.Value.Content![0]);
+
+        Assert.AreEqual("This cluster represents <b>{cluster_count}</b> features.",
+                ((TextPopupContent)result.PrimaryTemplate.Value.Content![0]).Text);
+    }
+
+}

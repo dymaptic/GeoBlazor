@@ -173,7 +173,9 @@ dotnet test -e USE_CONTAINER=true
 This uses Docker Compose with:
 
 - `docker-compose-core.yml` - Core tests
-- `docker-compose-pro.yml` - Pro tests (requires Pro availability)
+- `docker-compose-pro.yml` - Pro tests (requires `pro/Dockerfile`, which has not been ported into this repository yet)
+
+Until `pro/Dockerfile` exists, `USE_CONTAINER=true` runs Core tests only, even when the `pro/` folder is present. Run Pro tests without the container flag.
 
 ## Parallel Execution
 

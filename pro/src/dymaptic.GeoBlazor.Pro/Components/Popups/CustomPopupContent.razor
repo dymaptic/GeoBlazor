@@ -1,0 +1,7 @@
+@inherits PopupContent
+
+<CascadingValue Name="Parent" Value="this">
+    <div id="@($"custom-content-{Id}")" class="custom-content" hidden>
+        @ChildContent
+    </div>
+</CascadingValue>

@@ -6,8 +6,8 @@
       "version": "10.0.0"
     },
     "configProperties": {
-      "EntryPointFilePath": "D:\\dymaptic.GeoBlazor.CodeGen\\GeoBlazor.Pro\\GeoBlazor\\build-tools\\build-scripts\\ScriptBuilder.cs",
-      "EntryPointFileDirectoryPath": "D:\\dymaptic.GeoBlazor.CodeGen\\GeoBlazor.Pro\\GeoBlazor\\build-tools\\build-scripts",
+      "EntryPointFilePath": "./ScriptBuilder.cs",
+      "EntryPointFileDirectoryPath": ".",
       "Microsoft.Extensions.DependencyInjection.VerifyOpenGenericServiceTrimmability": true,
       "System.ComponentModel.DefaultValueAttribute.IsSupported": false,
       "System.ComponentModel.Design.IDesignerHost.IsSupported": false,
@@ -30,6 +30,7 @@
       "System.Text.Encoding.EnableUnsafeUTF7Encoding": false,
       "System.Text.Json.JsonSerializer.IsReflectionEnabledByDefault": false,
       "System.Threading.Thread.EnableAutoreleasePool": false,
+      "System.Threading.ThreadPool.UseWindowsThreadPool": true,
       "System.Linq.Expressions.CanEmitObjectArrayDelegate": false
     }
   }

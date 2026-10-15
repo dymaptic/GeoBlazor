@@ -1,0 +1,6 @@
+﻿<Project>
+    <!--    <Target Condition="$(PipelineBuild) != 'true'" Name="WaitForEsbuild" BeforeTargets="ResolveReferencedProjectsStaticWebAssets">-->
+    <!--        <Exec Command="dotnet $(MSBuildThisFileDirectory)../../build-tools/ESBuildWaitForCompletion.dll -c $(Configuration) -p"-->
+    <!--              ContinueOnError="false"/>-->
+    <!--    </Target>-->
+</Project>

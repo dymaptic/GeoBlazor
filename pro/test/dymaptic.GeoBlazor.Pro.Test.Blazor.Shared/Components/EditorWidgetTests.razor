@@ -1,0 +1,88 @@
+@inherits ProTestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+
+@code {
+    [TestMethod]
+    public async Task TestCanRenderEditorWidget(System.Action renderHandler)
+    {
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+        </Basemap>
+    </Map>
+                <EditorWidget />
+            </MapView>);
+
+        await WaitForMapToRender();
+        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Editor");
+    }
+    
+    [TestMethod]
+    public async Task TestCanRenderEditorWidgetWithSnappingOptions(System.Action renderHandler)
+    {
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+        </Basemap>
+    </Map>
+                <EditorWidget>
+                    <SnappingOptions Enabled="true" />
+                </EditorWidget>
+            </MapView>);
+
+        await WaitForMapToRender();
+        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Editor");
+    }
+    
+    [TestMethod]
+    public async Task TestCanRenderEditorWidgetWithLayerInfos(System.Action renderHandler)
+    {
+        MapView? view = null;
+        EditorWidget? editor = null;
+        AddMapRenderFragment(
+            @<MapView @ref="view" class="map-view" OnViewRendered="renderHandler">
+                <WebMap>
+                    <PortalItem PortalItemId="154ba34201774bb29f7c3b68adf52b6a" />
+                </WebMap>
+                <EditorWidget @ref="editor">
+                    <SnappingOptions Enabled="true" />
+                </EditorWidget>
+            </MapView>);
+
+        await WaitForMapToRender();
+        List<EditorLayerInfo> layerInfos = [];
+        foreach (Layer layer in view!.Map!.Layers)
+        {
+            Console.WriteLine(layer.Id);
+
+            if (layer.Title == "Police routes")
+            {
+                EditorLayerInfo layerInfo = new(layer.Id, formTemplate: new FormTemplate(elements: [
+                    new FieldElement(fieldName: "PatrolType", label: "Patrol Type")
+                ]));
+                layerInfos.Add(layerInfo);
+            }
+            else
+            {
+                EditorLayerInfo layerInfo = new(layer.Id, formTemplate: new FormTemplate(elements: [
+                    new FieldElement(fieldName: "fulladdr", label: "Full Address"),
+                    new FieldElement(fieldName: "neighborhood", label: "Neighborhood"),
+                    new FieldElement(fieldName: "ucrdesc", label: "UCR Description"),
+                    new FieldElement(fieldName: "crimecategory", label: "Category"),
+                    new FieldElement(fieldName: "casestatus", label: "Status")
+                ]));
+                layerInfos.Add(layerInfo);
+            }
+        }
+        await editor!.SetLayerInfos(layerInfos);
+        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Editor");
+    }
+}

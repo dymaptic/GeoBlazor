@@ -120,11 +120,11 @@ if (verbose)
 // Normalize configuration
 configuration = configuration.Equals("release", StringComparison.OrdinalIgnoreCase) ? "Release" : "Debug";
 
-// Scripts are in GeoBlazor.Pro/GeoBlazor/build-tools/build-scripts
-// Core source is at GeoBlazor.Pro/GeoBlazor/src/dymaptic.GeoBlazor.Core relative to build folder
-// Pro source is at GeoBlazor.Pro/src/dymaptic.GeoBlazor.Pro relative to build folder
+// Scripts are in <repo root>/build-tools/build-scripts
+// Core source is at <repo root>/src/dymaptic.GeoBlazor.Core relative to build folder
+// Pro source is at <repo root>/pro/src/dymaptic.GeoBlazor.Pro relative to build folder
 string coreSourceDir = Path.GetFullPath(Path.Combine(scriptDir, "..", "..", "src", "dymaptic.GeoBlazor.Core"));
-string proSourceDir = Path.GetFullPath(Path.Combine(scriptDir, "..", "..", "..", "src", "dymaptic.GeoBlazor.Pro"));
+string proSourceDir = Path.GetFullPath(Path.Combine(scriptDir, "..", "..", "pro", "src", "dymaptic.GeoBlazor.Pro"));
 string sourceDir = pro ? proSourceDir : coreSourceDir;
 
 string coreScriptsDir = Path.Combine(coreSourceDir, "Scripts");
@@ -321,16 +321,19 @@ static bool CheckIfNeedsBuild(string recordFilePath, string currentBranch, strin
 {
     BuildRecord lastBuild = GetLastBuildRecord(recordFilePath);
 
+    bool outputPresent = Directory.Exists(outputDir) && Directory.GetFiles(outputDir).Length > 0;
+
     // Just built — ESBuild can be triggered more than once per run (e.g. the library build
     // followed by a samples publish). Skip to avoid regenerating hashed chunks already cataloged.
-    if (lastBuild.Timestamp > DateTimeOffset.UtcNow.AddMinutes(-1).ToUnixTimeMilliseconds())
+    // Only when the output is still there: a clean step that emptied the output directory right
+    // after a build must still trigger a rebuild.
+    if (outputPresent && lastBuild.Timestamp > DateTimeOffset.UtcNow.AddMinutes(-1).ToUnixTimeMilliseconds())
     {
         Trace.WriteLine($"ESBUILD {sourceProject}: Was built within the past 1 minute, will skip this build.");
         return false;
     }
 
     bool scriptsChanged = GetScriptsModifiedSince(scriptsDir, lastBuild.Timestamp, sourceProject);
-    bool outputPresent = Directory.Exists(outputDir) && Directory.GetFiles(outputDir).Length > 0;
 
     // Scripts unchanged with output already present: rebuilding would only churn chunk hashes
     // and orphan cataloged static web assets. Skip regardless of any branch change.

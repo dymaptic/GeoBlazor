@@ -1,0 +1,104 @@
+﻿@inherits ProTestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderFeatureFormWidget(System.Action renderHandler)
+    {
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+        </Basemap>
+    </Map>
+                <FeatureFormWidget />
+            </MapView>);
+
+        await WaitForMapToRender();
+        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.FeatureForm");
+    }
+
+    [SuppressMessage("ReSharper", "RedundantArgumentDefaultValue")]
+    [TestMethod]
+    public async Task TestSetsPropertiesOnJsWidget(System.Action renderHandler)
+    {
+        FeatureFormWidget? widget = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
+                <FeatureFormWidget @ref="widget" Disabled="true" 
+                                   GroupDisplay="GroupDisplay.Sequential"
+                                   HeadingLevel="3" Label="TestLabel" />
+            </MapView>);
+
+        await WaitForMapToRender();
+        await AssertJavaScript("assertObjectHasPropertyWithValue", 
+            args: [widget!.Id, "disabled", true]);
+
+    await AssertJavaScript("assertObjectHasPropertyWithValue", 
+            args: [widget.Id, "groupDisplay", "sequential"]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue",  
+            args: [widget.Id, "headingLevel", 3]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue",  
+                args: [widget.Id, "label", "TestLabel"]);
+    }
+    
+    [TestMethod]
+    public async Task TestCanSubmit(System.Action renderHandler)
+    {
+        var handlerWasCalled = false;
+        void OnSubmit(FeatureFormSubmitEvent args)
+        {
+            Assert.IsNotNull(args);
+            handlerWasCalled = true;
+        }
+        
+        FeatureFormWidget? widget = null;
+        FeatureLayer? layer = null;
+        
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer" 
+                                  OutFields="@(["*"])"
+                                  Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/IncidentsReport/FeatureServer/0">
+                    </FeatureLayer>
+                    <GraphicsLayer />
+                </Map>
+                <FeatureFormWidget @ref="widget" OnSubmit="OnSubmit">
+                    <FormTemplate Title="Enter the incident number">
+                        <FieldElement FieldName="IncidentType" Label="Choose incident type" />
+                        <FieldElement FieldName="IncidentDescription" Label="Describe the problem" />
+                    </FormTemplate>
+                </FeatureFormWidget>
+            </MapView>);
+
+        await WaitForMapToRender();
+        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.FeatureForm");
+        Query query = await layer!.CreateQuery();
+        var point = new Point(-117.18, 34.06);
+        query.Geometry = point;
+        query.Distance = 1;
+        query.Units = QueryUnits.Miles;
+        query.ReturnGeometry = true;
+        query.OutFields = ["*"];
+        FeatureSet? features = await layer!.QueryFeatures(query);
+        await widget!.SetFeature(features!.Features!.First());
+        await widget.Submit();
+        await Task.Delay(1000);
+        Assert.IsTrue(handlerWasCalled);
+    }
+
+}

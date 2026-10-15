@@ -1,0 +1,60 @@
+@inherits ProTestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanUseGroupLayers(System.Action renderHandler)
+    {
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                    <GroupLayer Opacity="0">
+                        <TileLayer>
+                            <PortalItem PortalItemId="10df2279f9684e4a9f6a7f08febac2a9" />
+                        </TileLayer>
+                        <GraphicsLayer BlendMode="BlendMode.DestinationIn"
+                                       Title="layer" />
+                    </GroupLayer>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        await AssertJavaScript("assertLayerExists", args: "group");
+        await AssertJavaScript("assertGroupLayerHasLayer", args: "graphics");
+        await AssertJavaScript("assertGroupLayerHasLayer", args: "tile");
+    }
+    
+    [TestMethod]
+    public async Task TestCanGetAllLayerViews(System.Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
+    {
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler"
+                      OnLayerViewCreate="layerViewCreateHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                    <GroupLayer Opacity="0">
+                        <TileLayer>
+                            <PortalItem PortalItemId="10df2279f9684e4a9f6a7f08febac2a9" />
+                        </TileLayer>
+                        <GraphicsLayer BlendMode="BlendMode.DestinationIn"
+                                       Title="layer" />
+                    </GroupLayer>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<GroupLayer>();
+        GroupLayerView layerView = (GroupLayerView)createEvent.LayerView!;
+        IReadOnlyList<LayerView>? layerViews = await layerView.GetLayerViews();
+        Assert.IsNotNull(layerViews);
+        Assert.AreEqual(2, layerViews.Count);
+    }
+}

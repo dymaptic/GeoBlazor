@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>DOTNET_TFM</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <OverrideHtmlAssetPlaceholders>true</OverrideHtmlAssetPlaceholders>
+    <!--#if PWA -->
+    <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
+    <!--#endif -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="${ComponentsWebAssemblyVersion}" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="${WebAssemblyDevServerVersion}" PrivateAssets="all" />
+    <!--#if (IndividualLocalAuth) -->
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="${WebAssemblyAuthenticationVersion}"/>
+    <!--#endif-->}
+    <!--#if (OrganizationalAuth || IndividualB2CAuth) -->
+    <PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="${WebAssemblyMsalVersion}" />
+    <!--#endif-->
+  </ItemGroup>
+
+  <!--#if PWA -->
+  <ItemGroup>
+    <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
+  </ItemGroup>
+
+  <!--#endif -->
+
+  <!--#if (!UsePro) -->
+  <ItemGroup>
+    <PackageReference Include="dymaptic.GeoBlazor.Core" Version="4.4.5" />
+  </ItemGroup>
+  <!--#endif -->
+  <!--#if (UsePro) -->
+  <ItemGroup>
+    <PackageReference Include="dymaptic.GeoBlazor.Pro" Version="4.4.5" />
+  </ItemGroup>
+  <!--#endif -->
+</Project>

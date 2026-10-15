@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <ItemGroup Condition="'$(GeoBlazorImplicitUsings)' != 'false'">
+        <Using Include="dymaptic.GeoBlazor.Pro" />
+        <Using Include="dymaptic.GeoBlazor.Pro.Components" />
+        <Using Include="dymaptic.GeoBlazor.Pro.Components.Geometries" />
+        <Using Include="dymaptic.GeoBlazor.Pro.Components.Layers" />
+        <!-- <Using Include="dymaptic.GeoBlazor.Pro.Components.Logic" /> -->
+        <Using Include="dymaptic.GeoBlazor.Pro.Components.Popups" />
+        <Using Include="dymaptic.GeoBlazor.Pro.Components.Renderers" />
+        <Using Include="dymaptic.GeoBlazor.Pro.Components.Symbols" />
+        <!-- <Using Include="dymaptic.GeoBlazor.Pro.Components.Views" /> -->
+        <Using Include="dymaptic.GeoBlazor.Pro.Components.Widgets" />
+        <Using Include="dymaptic.GeoBlazor.Pro.Enums" />
+        <Using Include="dymaptic.GeoBlazor.Pro.Events" />
+        <Using Include="dymaptic.GeoBlazor.Pro.Functions" />
+        <Using Include="dymaptic.GeoBlazor.Pro.Interfaces" />
+        <Using Include="dymaptic.GeoBlazor.Pro.Model" />
+        <Using Include="dymaptic.GeoBlazor.Pro.Options" />
+        <Using Include="dymaptic.GeoBlazor.Pro.Results" />
+    </ItemGroup>
+</Project>

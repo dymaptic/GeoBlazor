@@ -1,0 +1,75 @@
+﻿@inherits ProTestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanAddFeatureReductionToFeatureLayerMarkup(System.Action renderHandler)
+    {
+        FeatureReductionBinning? binning = null;
+        FeatureLayer? layer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer" ObjectIdField="objectid" GeometryType="FeatureGeometryType.Point">
+                        <Graphic Attributes="@(new AttributesDictionary(new Dictionary<string, object?> {{"objectId", "1"}}))">
+                            <Point Latitude="0" Longitude="0" />
+                        </Graphic>
+                        <FeatureReductionBinning @ref="binning"
+                                                 FixedBinLevel="6"
+                                                 LabelsVisible="false"
+                                                 MaxScale="5"
+                                                 PopupEnabled="false"/>
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(layer);
+        Assert.IsNotNull(binning);
+        await AssertProJavaScript("featureReductionAsserts.assertHasReduction", args: layer.Id);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: new object[]
+        {
+            layer.Id, "featureReduction.fixedBinLevel", 6
+        });
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: new object[]
+        {
+            layer.Id, "featureReduction.labelsVisible", false
+        });
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: new object[]
+        {
+            layer.Id, "featureReduction.maxScale", 5
+        });
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: new object[]
+        {
+            layer.Id, "featureReduction.popupEnabled", false
+        });
+    }
+    
+    [TestMethod]
+    public async Task TestCanAddFeatureReductionViaExtensionMethods(System.Action renderHandler)
+    {
+        FeatureReductionCluster cluster = new();
+        GeoJSONLayer? layer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <GeoJSONLayer @ref="layer"
+                                  Url="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson" />
+                    
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(layer);
+        await layer.SetFeatureReduction(cluster);
+        await AssertProJavaScript("featureReductionAsserts.assertHasReduction", args: layer.Id);
+        await layer.SetFeatureReduction(null);
+        await Assert.ThrowsAsync<JSException>(async () =>
+            await AssertProJavaScript("featureReductionAsserts.assertHasReduction", args: layer.Id));
+    }
+}

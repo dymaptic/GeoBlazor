@@ -1,0 +1,161 @@
+using Microsoft.AspNetCore.StaticFiles;
+#if (IndividualLocalAuth)
+using Microsoft.AspNetCore.Components.Authorization;
+#if (!UseServer && !UseWebAssembly)
+using Microsoft.AspNetCore.Components.Server;
+#endif
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+#endif
+#if (UseWebAssembly)
+#endif
+using GeoBlazorMauiAndWeb.Web.Components;
+#if (IndividualLocalAuth)
+using GeoBlazorMauiAndWeb.Components.Account;
+using GeoBlazorMauiAndWeb.Data;
+#endif
+using GeoBlazorMauiAndWeb.Shared.Services;
+using GeoBlazorMauiAndWeb.Web.Services;
+#if UsePro
+using dymaptic.GeoBlazor.Pro;
+#else
+using dymaptic.GeoBlazor.Core;
+#endif
+
+namespace GeoBlazorMauiAndWeb.Web;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
+
+        // Add services to the container.
+        #if (!UseServer && !UseWebAssembly)
+        builder.Services.AddRazorComponents();
+        #else
+        builder.Services.AddRazorComponents()
+          #if (UseServer && UseWebAssembly)
+            .AddInteractiveServerComponents()
+            .AddInteractiveWebAssemblyComponents();
+          #elif(UseServer)
+            .AddInteractiveServerComponents();
+          #elif(UseWebAssembly)
+            .AddInteractiveWebAssemblyComponents();
+          #endif
+        #endif
+
+        // Add device-specific services used by the GeoBlazorMauiAndWeb.Shared project
+        builder.Services.AddSingleton<IFormFactor, FormFactor>();
+
+        #if (IndividualLocalAuth)
+        builder.Services.AddCascadingAuthenticationState();
+        builder.Services.AddScoped<IdentityUserAccessor>();
+        builder.Services.AddScoped<IdentityRedirectManager>();
+        #if (UseServer && UseWebAssembly)
+        builder.Services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
+        #elif (UseServer)
+        builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+        #elif (UseWebAssembly)
+        builder.Services.AddScoped<AuthenticationStateProvider, PersistingServerAuthenticationStateProvider>();
+        #else
+        builder.Services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
+        #endif
+
+        #if (!UseServer)
+        builder.Services.AddAuthorization();
+        #endif
+        builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+            })
+            .AddIdentityCookies();
+
+        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        #if (UseLocalDB)
+            options.UseSqlServer(connectionString));
+        #else
+            options.UseSqlite(connectionString));
+        #endif
+        builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+        builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddSignInManager()
+            .AddDefaultTokenProviders();
+
+        builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+
+        #endif
+        #if (UsePro)
+        builder.Services.AddGeoBlazorPro(builder.Configuration);
+        #else
+        builder.Services.AddGeoBlazor(builder.Configuration);
+
+        #endif
+        var app = builder.Build();
+
+        // Configure the HTTP request pipeline.
+#if (UseWebAssembly || IndividualLocalAuth)
+        if (app.Environment.IsDevelopment())
+        {
+#if (UseWebAssembly)
+            app.UseWebAssemblyDebugging();
+#endif
+#if (IndividualLocalAuth)
+            app.UseMigrationsEndPoint();
+#endif
+        }
+        else
+#else
+        if (!app.Environment.IsDevelopment())
+#endif
+        {
+            app.UseExceptionHandler("/Error");
+        #if (HasHttpsProfile)
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts();
+        #endif
+        }
+
+        app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
+        #if (HasHttpsProfile)
+        app.UseHttpsRedirection();
+
+        #endif
+        app.MapStaticAssets();
+        
+        app.UseAntiforgery();
+
+        #if (UseServer && UseWebAssembly)
+        app.MapRazorComponents<App>()
+            .AddInteractiveServerRenderMode()
+            .AddInteractiveWebAssemblyRenderMode()
+            .AddAdditionalAssemblies(
+                typeof(GeoBlazorMauiAndWeb.Shared._Imports).Assembly,
+                typeof(GeoBlazorMauiAndWeb.Web.Client._Imports).Assembly);
+        #elif (UseServer)
+        app.MapRazorComponents<App>()
+            .AddInteractiveServerRenderMode()
+            .AddAdditionalAssemblies(typeof(GeoBlazorMauiAndWeb.Shared._Imports).Assembly);
+        #elif (UseWebAssembly)
+        app.MapRazorComponents<App>()
+            .AddInteractiveWebAssemblyRenderMode()
+            .AddAdditionalAssemblies(
+                typeof(GeoBlazorMauiAndWeb.Shared._Imports).Assembly,
+                typeof(GeoBlazorMauiAndWeb.Web.Client._Imports).Assembly);
+        #else
+        app.MapRazorComponents<App>()
+            .AddAdditionalAssemblies(typeof(GeoBlazorMauiAndWeb.Shared._Imports).Assembly);
+        #endif
+
+        #if (IndividualLocalAuth)
+        // Add additional endpoints required by the Identity /Account Razor components.
+        app.MapAdditionalIdentityEndpoints();
+
+        #endif
+        app.Run();
+    }
+}

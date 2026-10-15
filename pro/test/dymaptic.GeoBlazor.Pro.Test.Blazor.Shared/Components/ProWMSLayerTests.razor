@@ -1,0 +1,511 @@
+﻿@inherits ProTestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@* ReSharper disable once InconsistentNaming *@
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderWMSLayerWithMultiLayers(System.Action renderHandler, Action<LayerViewCreateEvent> layerViewCreated)
+    {
+        WMSLayer? layer = null;
+
+        // NOTE: This test used to just auto-load all sublayers. However, there is an error on this server for the "Dark" sublayer.
+        // Hitting that error causes the test to fail.
+        AddMapRenderFragment(@<SceneView
+                                 class="map-view"
+                                 OnViewRendered="renderHandler"
+                                 OnLayerViewCreate="layerViewCreated">
+                                 <Map>
+                                     <WMSLayer @ref="layer" Url="https://ows.terrestris.de/osm/service"
+                                               SpatialReference="new SpatialReference(102100)">
+                                         <WMSSublayer Name="TOPO-WMS"/>
+                                         <WMSSublayer Name="TOPO-OSM-WMS"/>
+                                         <WMSSublayer Name="SRTM30-Colored-Hillshade"/>
+                                     </WMSLayer>
+                                 </Map>
+                             </SceneView>);
+
+        await WaitForMapToRender(timeoutInSeconds: 90);
+
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<WMSLayer>();
+        Assert.IsInstanceOfType<WMSLayer>(createEvent.Layer);
+        WMSLayer? createdLayer = (WMSLayer)createEvent.Layer;
+        Assert.AreEqual(layer?.Id, createdLayer.Id);
+
+        await layer!.Load();
+        WMSSublayer? subLayer = await layer.FindSublayerByName("TOPO-WMS");
+        Assert.IsNotNull(subLayer);
+        await layer.SetSublayers([subLayer!]);
+
+        Assert.IsTrue(layer!.Sublayers!.Count == 1);
+
+        //compares the layer.Type value
+        await AssertJavaScript("assertLayerExists", args: "wms");
+    }
+
+    [TestMethod]
+    public async Task TestWMSLayerFetchImageAsString(System.Action renderHandler, Action<LayerViewCreateEvent> layerViewCreated)
+    {
+        WMSLayer? layer = null;
+        SceneView? sceneView = null;
+
+        AddMapRenderFragment(@<div>
+                                 <SceneView @ref="sceneView"
+                                            class="map-view"
+                                            OnViewRendered="renderHandler"
+                                            OnLayerViewCreate="layerViewCreated">
+                                     <Map>
+                                         <WMSLayer @ref="layer" Url="https://ows.terrestris.de/osm/service"
+                                                   SpatialReference="new SpatialReference(102100)">
+                                             <WMSSublayer Name="TOPO-WMS"/>
+                                         </WMSLayer>
+                                     </Map>
+                                 </SceneView>
+                             </div>);
+
+        await WaitForMapToRender(timeoutInSeconds: 90);
+
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<WMSLayer>();
+        Assert.IsInstanceOfType<WMSLayer>(createEvent.Layer);
+        WMSLayer? createdLayer = (WMSLayer)createEvent.Layer;
+        Assert.AreEqual(layer?.Id, createdLayer.Id);
+
+        Extent? extent = await sceneView!.GetExtent();
+
+        string? img = await layer!.FetchImageHtmlAsString(extent!, 500, 500, new WMSLayerFetchImageOptions());
+
+        Assert.IsNotNull(img);
+    }
+
+    [TestMethod]
+    public async Task TestWMSLayerFetchImage(System.Action renderHandler, Action<LayerViewCreateEvent> layerViewCreated)
+    {
+        WMSLayer? layer = null;
+        SceneView? sceneView = null;
+
+        AddMapRenderFragment(@<div>
+                                 <SceneView @ref="sceneView"
+                                            class="map-view"
+                                            OnViewRendered="renderHandler"
+                                            OnLayerViewCreate="layerViewCreated">
+                                     <Map>
+                                         <WMSLayer @ref="layer" Url="https://ows.terrestris.de/osm/service"
+                                                   SpatialReference="new SpatialReference(102100)">
+                                             <WMSSublayer Name="TOPO-WMS"/>
+                                         </WMSLayer>
+                                     </Map>
+                                 </SceneView>
+                             </div>);
+
+        await WaitForMapToRender(timeoutInSeconds: 90);
+
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<WMSLayer>();
+        Assert.IsInstanceOfType<WMSLayer>(createEvent.Layer);
+        WMSLayer? createdLayer = (WMSLayer)createEvent.Layer;
+        Assert.AreEqual(layer?.Id, createdLayer.Id);
+
+        Extent? extent = await sceneView!.GetExtent();
+        IJSObjectReference? img = await layer!.FetchImage(extent!, 500, 500, new WMSLayerFetchImageOptions());
+
+        Assert.IsNotNull(img);
+    }
+
+    //todo need a server to test this?
+    //[TestMethod]
+    public async Task TestWMSLayerCustomParameters(System.Action renderHandler, Action<LayerViewCreateEvent> layerViewCreated)
+    {
+        WMSLayer? layer = null;
+        SceneView? sceneView = null;
+
+        Dictionary<string, object> customParams = new Dictionary<string, object> { ["STYLES"] = "default", ["TRANSPARENT"] = "true" };
+
+        AddMapRenderFragment(@<SceneView @ref="sceneView"
+                                         class="map-view"
+                                         OnViewRendered="renderHandler"
+                                         OnLayerViewCreate="layerViewCreated">
+                                 <Map>
+                                     <WMSLayer @ref="layer"
+                                               Url="https://ows.terrestris.de/osm/service"
+                                               CustomParameters="customParams"
+                                               SpatialReference="new SpatialReference(102100)">
+                                         <WMSSublayer Name="TOPO-WMS"/>
+                                     </WMSLayer>
+                                 </Map>
+                             </SceneView>);
+
+        await WaitForMapToRender(timeoutInSeconds: 90);
+
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<WMSLayer>();
+        Assert.IsInstanceOfType<WMSLayer>(createEvent.Layer);
+        WMSLayer? createdLayer = (WMSLayer)createEvent.Layer;
+        Assert.AreEqual(layer?.Id, createdLayer.Id);
+
+        Dictionary<string, object>? retrievedParams = await layer!.GetCustomParameters();
+        Assert.IsNotNull(retrievedParams);
+        Assert.IsTrue(retrievedParams.ContainsKey("STYLES"));
+        Assert.AreEqual("default", retrievedParams["STYLES"]);
+    }
+
+    [TestMethod]
+    public async Task TestWMSLayerImageFormat(System.Action renderHandler, Action<LayerViewCreateEvent> layerViewCreated)
+    {
+        WMSLayer? layer = null;
+
+        // This layer must support more than image/png for the `<GetMap><Format>` property when you look at `url?SERVICE=WMS&REQUEST=GetCapabilities`
+        AddMapRenderFragment(@<SceneView
+                                 class="map-view"
+                                 OnViewRendered="renderHandler"
+                                 OnLayerViewCreate="layerViewCreated">
+                                 <Map>
+                                     <WMSLayer @ref="layer"
+                                               Url="https://www.mrlc.gov/geoserver/NLCD_Canopy/wms"
+                                               ImageFormat="image/jpeg"
+                                               SpatialReference="new SpatialReference(102100)">
+                                         <WMSSublayer Name="NLCD_Canopy"/>
+                                     </WMSLayer>
+                                 </Map>
+                             </SceneView>);
+
+        await WaitForMapToRender(timeoutInSeconds: 90);
+
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<WMSLayer>();
+        Assert.IsInstanceOfType<WMSLayer>(createEvent.Layer);
+        WMSLayer? createdLayer = (WMSLayer)createEvent.Layer;
+        Assert.AreEqual(layer?.Id, createdLayer.Id);
+
+        string? imageFormat = await layer!.GetImageFormat();
+        Assert.AreEqual("image/jpeg", imageFormat);
+    }
+
+    [TestMethod]
+    public async Task TestWMSLayerImageDimensions(System.Action renderHandler, Action<LayerViewCreateEvent> layerViewCreated)
+    {
+        WMSLayer? layer = null;
+        int requestSize = 1024;
+
+        AddMapRenderFragment(@<SceneView
+                                 class="map-view"
+                                 OnViewRendered="renderHandler"
+                                 OnLayerViewCreate="layerViewCreated">
+                                 <Map>
+                                     <WMSLayer @ref="layer"
+                                               Url="https://ows.terrestris.de/osm/service"
+                                               ImageMaxWidth="@requestSize"
+                                               ImageMaxHeight="@requestSize"
+                                               SpatialReference="new SpatialReference(102100)">
+                                         <WMSSublayer Name="TOPO-WMS"/>
+                                     </WMSLayer>
+                                 </Map>
+                             </SceneView>);
+
+        await WaitForMapToRender(timeoutInSeconds: 90);
+
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<WMSLayer>();
+        Assert.IsInstanceOfType<WMSLayer>(createEvent.Layer);
+        WMSLayer? createdLayer = (WMSLayer)createEvent.Layer;
+        Assert.AreEqual(layer?.Id, createdLayer.Id);
+
+        int? maxWidth = await layer!.GetImageMaxWidth();
+        int? maxHeight = await layer!.GetImageMaxHeight();
+        Assert.AreEqual(requestSize, maxWidth);
+        Assert.AreEqual(requestSize, maxHeight);
+    }
+
+    [TestMethod]
+    public async Task TestWMSLayerImageTransparency(System.Action renderHandler, Action<LayerViewCreateEvent> layerViewCreated)
+    {
+        WMSLayer? layer = null;
+
+        AddMapRenderFragment(@<SceneView
+                                 class="map-view"
+                                 OnViewRendered="renderHandler"
+                                 OnLayerViewCreate="layerViewCreated">
+                                 <Map>
+                                     <WMSLayer @ref="layer"
+                                               Url="https://ows.terrestris.de/osm/service"
+                                               ImageTransparency="false"
+                                               SpatialReference="new SpatialReference(102100)">
+                                         <WMSSublayer Name="TOPO-WMS"/>
+                                     </WMSLayer>
+                                 </Map>
+                             </SceneView>);
+
+        await WaitForMapToRender(timeoutInSeconds: 90);
+
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<WMSLayer>();
+        Assert.IsInstanceOfType<WMSLayer>(createEvent.Layer);
+        WMSLayer? createdLayer = (WMSLayer)createEvent.Layer;
+        Assert.AreEqual(layer?.Id, createdLayer.Id);
+
+        bool? transparency = await layer!.GetImageTransparency();
+        Assert.IsFalse(transparency);
+    }
+
+    [TestMethod]
+    public async Task TestWMSLayerVersion(System.Action renderHandler, Action<LayerViewCreateEvent> layerViewCreated)
+    {
+        WMSLayer? layer = null;
+
+        AddMapRenderFragment(@<SceneView
+                                 class="map-view"
+                                 OnViewRendered="renderHandler"
+                                 OnLayerViewCreate="layerViewCreated">
+                                 <Map>
+                                     <WMSLayer @ref="layer"
+                                               Url="https://ows.terrestris.de/osm/service"
+                                               Version="1.3.0"
+                                               SpatialReference="new SpatialReference(102100)">
+                                         <WMSSublayer Name="OSM-WMS"/>
+                                     </WMSLayer>
+                                 </Map>
+                             </SceneView>);
+
+        await WaitForMapToRender(timeoutInSeconds: 90);
+
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<WMSLayer>();
+        Assert.IsInstanceOfType<WMSLayer>(createEvent.Layer);
+        WMSLayer? createdLayer = (WMSLayer)createEvent.Layer;
+        Assert.AreEqual(layer?.Id, createdLayer.Id);
+
+        string? version = await layer!.GetVersion();
+        Assert.AreEqual("1.3.0", version);
+    }
+
+    [TestMethod]
+    public async Task TestWMSLayerFeatureInfoFormat(System.Action renderHandler, Action<LayerViewCreateEvent> layerViewCreated)
+    {
+        WMSLayer? layer = null;
+
+        AddMapRenderFragment(@<SceneView
+                                 class="map-view"
+                                 OnViewRendered="renderHandler"
+                                 OnLayerViewCreate="layerViewCreated">
+                                 <Map>
+                                     <WMSLayer @ref="layer"
+                                               Url="https://ows.terrestris.de/osm/service"
+                                               FeatureInfoFormat="@(FeatureInfoFormat.Text_Html)"
+                                               SpatialReference="new SpatialReference(102100)">
+                                         <WMSSublayer Name="OSM-WMS"/>
+                                     </WMSLayer>
+                                 </Map>
+                             </SceneView>);
+
+        await WaitForMapToRender(timeoutInSeconds: 90);
+
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<WMSLayer>();
+        Assert.IsInstanceOfType<WMSLayer>(createEvent.Layer);
+        WMSLayer? createdLayer = (WMSLayer)createEvent.Layer;
+        Assert.AreEqual(layer?.Id, createdLayer.Id);
+
+        FeatureInfoFormat? featureInfoFormat = await layer!.GetFeatureInfoFormat();
+        Assert.AreEqual(FeatureInfoFormat.Text_Html, featureInfoFormat);
+    }
+
+    [TestMethod]
+    public async Task TestWMSLayerLoadInMarkupAndFindSublayerById()
+    {
+        WMSLayer? layer = null;
+
+        AddMapRenderFragment(@<WMSLayer @ref="layer" Url="https://ows.terrestris.de/osm/service"
+                                        SpatialReference="new SpatialReference(102100)"/>);
+
+        StateHasChanged();
+
+        // we don't have a map to call the render handlers.
+        await Task.Delay(200);
+
+        await layer!.Load();
+
+        IReadOnlyList<WMSSublayer>? sublayers = await layer.GetAllSublayers();
+        Assert.IsNotNull(sublayers);
+
+        if (sublayers.Any())
+        {
+            WMSSublayer firstSublayer = sublayers.First();
+            WMSSublayer? foundSublayer = await layer.FindSublayerById(firstSublayer.WMSSublayerId! ?? -1);
+            Assert.IsNotNull(foundSublayer);
+
+            //The Ids don't seem to match. It might be because it is querying the layer on the server and getting back a new object?
+            Assert.AreEqual(firstSublayer.Name, foundSublayer.Name);
+        }
+    }
+
+    [TestMethod]
+    public async Task TestWMSLayerLoadInCodeAndFindSublayerById()
+    {
+        WMSLayer layer = new(url: "https://ows.terrestris.de/osm/service",
+            spatialReference: new SpatialReference(102100));
+
+        await layer.Load(JsRuntime, JsModuleManager, CancellationToken.None);
+
+        IReadOnlyList<WMSSublayer>? sublayers = await layer.GetAllSublayers();
+        Assert.IsNotNull(sublayers);
+
+        if (sublayers.Any())
+        {
+            WMSSublayer firstSublayer = sublayers.First();
+            WMSSublayer? foundSublayer = await layer.FindSublayerById(firstSublayer.WMSSublayerId! ?? -1);
+            Assert.IsNotNull(foundSublayer);
+
+            //The Ids don't seem to match. It might be because it is querying the layer on the server and getting back a new object?
+            Assert.AreEqual(firstSublayer.Name, foundSublayer.Name);
+        }
+    }
+
+    [TestMethod]
+    public async Task TestWMSLayerSublayerManagement()
+    {
+        WMSLayer? layer = null;
+
+        AddMapRenderFragment(@<WMSLayer @ref="layer" Url="https://ows.terrestris.de/osm/service"
+                                        SpatialReference="new SpatialReference(102100)">
+                                 <WMSSublayer Name="OSM-WMS-no-labels"/>
+                                 <WMSSublayer Name="TOPO-WMS"/>
+                             </WMSLayer>);
+        
+        StateHasChanged();
+
+        // we don't have a map to call the render handlers.
+        await Task.Delay(200);
+
+        await layer!.Load();
+
+        IReadOnlyList<WMSSublayer>? allSublayers = await layer.GetAllSublayers();
+        Assert.IsNotNull(allSublayers);
+
+        if (allSublayers.Any())
+        {
+            WMSSublayer firstSublayer = allSublayers.First();
+            await layer.SetSublayers([firstSublayer]);
+
+            IReadOnlyList<WMSSublayer>? currentSublayers = await layer.GetSublayers();
+            Assert.IsNotNull(currentSublayers);
+            Assert.AreEqual(1, currentSublayers.Count);
+            Assert.AreEqual(firstSublayer.Id, currentSublayers.First().Id);
+        }
+    }
+
+    [TestMethod]
+    public async Task TestWMSLayerCopyright(System.Action renderHandler, Action<LayerViewCreateEvent> layerViewCreated)
+    {
+        WMSLayer? layer = null;
+
+        string copyrightText = "© Test Copyright";
+
+        AddMapRenderFragment(@<SceneView
+                                 class="map-view"
+                                 OnViewRendered="renderHandler"
+                                 OnLayerViewCreate="layerViewCreated">
+                                 <Map>
+                                     <WMSLayer @ref="layer"
+                                               Url="https://ows.terrestris.de/osm/service"
+                                               Copyright="@copyrightText"
+                                               SpatialReference="new SpatialReference(102100)">
+                                         <WMSSublayer Name="OSM-WMS"/>
+                                     </WMSLayer>
+                                 </Map>
+                             </SceneView>);
+
+        await WaitForMapToRender(timeoutInSeconds: 90);
+
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<WMSLayer>();
+        Assert.IsInstanceOfType<WMSLayer>(createEvent.Layer);
+        WMSLayer? createdLayer = (WMSLayer)createEvent.Layer;
+        Assert.AreEqual(layer?.Id, createdLayer.Id);
+
+        string? copyright = await layer!.GetCopyright();
+        Assert.AreEqual(copyrightText, copyright);
+    }
+
+    [TestMethod]
+    public async Task TestWMSLayerFeatureInfoUrl(System.Action renderHandler, Action<LayerViewCreateEvent> layerViewCreated)
+    {
+        WMSLayer? layer = null;
+
+        string featureInfoUrl = "https://example.com/wms/getfeatureinfo";
+
+        AddMapRenderFragment(@<SceneView
+                                 class="map-view"
+                                 OnViewRendered="renderHandler"
+                                 OnLayerViewCreate="layerViewCreated">
+                                 <Map>
+                                     <WMSLayer @ref="layer"
+                                               Url="https://ows.terrestris.de/osm/service"
+                                               SpatialReference="new SpatialReference(102100)">
+                                         <WMSSublayer Name="OSM-WMS"/>
+                                     </WMSLayer>
+                                 </Map>
+                             </SceneView>);
+
+        await WaitForMapToRender(timeoutInSeconds: 90);
+
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<WMSLayer>();
+        Assert.IsInstanceOfType<WMSLayer>(createEvent.Layer);
+        WMSLayer? createdLayer = (WMSLayer)createEvent.Layer;
+        Assert.AreEqual(layer?.Id, createdLayer.Id);
+        string? retrievedUrl = await layer!.GetFeatureInfoUrl();
+        Assert.AreNotEqual(featureInfoUrl, retrievedUrl);
+    }
+
+    [TestMethod]
+    public async Task TestWMSLayerTimeExtent(System.Action renderHandler, Action<LayerViewCreateEvent> layerViewCreated)
+    {
+        AddMapRenderFragment(@<SceneView
+                                 class="map-view"
+                                 OnViewRendered="renderHandler"
+                                 OnLayerViewCreate="layerViewCreated">
+                                 <Map>
+                                     <WMSLayer
+                                         Url="https://ows.terrestris.de/osm/service"
+                                         TimeExtent="@(new TimeExtent(new DateTime(2020, 8, 12), new DateTime(2020, 8, 14)))"
+                                         UseViewTime="false"
+                                         SpatialReference="new SpatialReference(102100)">
+                                         <WMSSublayer Name="OSM-WMS"/>
+                                     </WMSLayer>
+                                 </Map>
+                             </SceneView>);
+
+        await WaitForMapToRender(timeoutInSeconds: 90);
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<WMSLayer>();
+        Assert.IsInstanceOfType<WMSLayer>(createEvent.Layer);
+    }
+
+    [TestMethod]
+    public async Task TestWMSLayerSpatialReference(System.Action renderHandler, Action<LayerViewCreateEvent> layerViewCreated)
+    {
+        WMSLayer? layer = null;
+
+        AddMapRenderFragment(@<SceneView
+                                 class="map-view"
+                                 OnViewRendered="renderHandler"
+                                 OnLayerViewCreate="layerViewCreated">
+                                 <Map>
+                                     <WMSLayer @ref="layer"
+                                               Url="https://ows.terrestris.de/osm/service">
+                                         <WMSSublayer Name="OSM-WMS"/>
+                                     </WMSLayer>
+                                 </Map>
+                             </SceneView>);
+
+        await WaitForMapToRender(timeoutInSeconds: 90);
+
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<WMSLayer>();
+        Assert.IsInstanceOfType<WMSLayer>(createEvent.Layer);
+        WMSLayer? createdLayer = (WMSLayer)createEvent.Layer;
+        Assert.AreEqual(layer?.Id, createdLayer.Id);
+
+        SpatialReference? sref = layer?.SpatialReference;
+
+        Assert.IsNotNull(sref);
+        Assert.AreNotEqual(102100, sref.Wkid);
+
+        await layer!.SetSpatialReference(new SpatialReference(102100));
+        sref = layer?.SpatialReference;
+        Assert.AreEqual(102100, sref!.Wkid);
+    }
+
+}
