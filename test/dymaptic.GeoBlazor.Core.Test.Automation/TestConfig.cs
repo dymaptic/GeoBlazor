@@ -44,6 +44,14 @@ public class TestConfig
         File.Exists(Path.GetFullPath(Path.Combine(ProjectFolder, "..", "..", "pro", "src", "dymaptic.GeoBlazor.Pro",
             "dymaptic.GeoBlazor.Pro.csproj")));
 
+    // Pro's Dockerfiles were not carried over when Pro moved into pro/, so a container run can only build Core.
+    // Until pro/Dockerfile exists, USE_CONTAINER=true runs Core tests only instead of pointing docker at stale paths.
+    public static readonly bool ProContainerSupported =
+        File.Exists(Path.GetFullPath(Path.Combine(ProjectFolder, "..", "..", "pro", "Dockerfile")));
+
+    public static readonly bool ProTestsEnabled = ProAvailable
+        && (ProContainerSupported || !Configuration.GetValue("USE_CONTAINER", false));
+
     public static int HttpsPort = Configuration.GetValue("HTTPS_PORT", 9443);
     public static int HttpPort = Configuration.GetValue("HTTP_PORT", 8080);
 
@@ -98,12 +106,12 @@ public class TestConfig
         [ProcessName.PRO_UNIT] = []
     };
 
-    private static string ComposeFilePath => ProAvailable && !CoreOnly ? ProComposeFilePath : CoreComposeFilePath;
+    private static string ComposeFilePath => ProTestsEnabled && !CoreOnly ? ProComposeFilePath : CoreComposeFilePath;
     private static string CoreComposeFilePath => Path.Combine(ProjectFolder, "docker-compose-core.yml");
     private static string ProComposeFilePath => Path.Combine(ProjectFolder, "docker-compose-pro.yml");
     private static string CoreUnitTestComposeFilePath => Path.Combine(ProjectFolder, "docker-compose-core-unit.yml");
     private static string ProUnitTestComposeFilePath => Path.Combine(ProjectFolder, "docker-compose-pro-unit.yml");
-    private static string TestAppPath => ProAvailable
+    private static string TestAppPath => ProTestsEnabled
         ? Path.GetFullPath(Path.Combine(ProRepoRoot, "test",
             "dymaptic.GeoBlazor.Pro.Test.WebApp",
             "dymaptic.GeoBlazor.Pro.Test.WebApp",
@@ -640,7 +648,13 @@ public class TestConfig
             throw new InvalidOperationException("No tests found to run. Please check your filters.");
         }
 
-        if (!ProAvailable || Configuration.GetValue("CORE_ONLY", false))
+        if (ProAvailable && !ProTestsEnabled)
+        {
+            Trace.WriteLine("USE_CONTAINER is set but pro/Dockerfile does not exist, so Pro tests are skipped " +
+                "and only Core tests will run in the container.", ProcessName.TEST_SETUP);
+        }
+
+        if (!ProTestsEnabled || Configuration.GetValue("CORE_ONLY", false))
         {
             FilteredTests[ProcessName.PRO_UNIT].Clear();
             FilteredTests[ProcessName.WEB_TEST].RemoveAll(t => t.ClassName.StartsWith("PRO_"));
