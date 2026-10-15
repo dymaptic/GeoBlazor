@@ -62,6 +62,16 @@ internal class RegistrationValidator(GeoBlazorSettings settings, IJSRuntime jsRu
     }
 
     /// <summary>
+    ///     The validated and message-shown flags are static so the message appears once per app run.
+    ///     Unit tests call this to start each test from a fresh state.
+    /// </summary>
+    internal static void ResetForTests()
+    {
+        _isValidated = false;
+        _messageShown = false;
+    }
+
+    /// <summary>
     ///     Accepts a free GeoBlazor Core registration key or an existing GeoBlazor Pro license key.
     ///     Pro keys are "[base64 payload].[base64 signature]"; Core keys are only the payload.
     ///     The signature is not verified, because GeoBlazor is open source and the check would protect nothing.
