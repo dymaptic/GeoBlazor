@@ -19,7 +19,7 @@ Pro is MIT licensed, like the rest of this repository. See the [LICENSE](../LICE
   See [Tests.md](test/Tests.md).
 - `templates/` - The `dotnet new` project templates, packaged as `dymaptic.GeoBlazor.Templates`.
   See [templates/README.md](templates/README.md).
-- `build-tools/` - Build scripts, including the template builder.
+- `../build-tools/` - Build scripts at the repository root, including the template builder.
 
 GeoBlazor Core lives at the repository root, one level up from this folder. Pro projects reference it directly, so
 changes to Core and Pro can be made and tested together in one branch.
