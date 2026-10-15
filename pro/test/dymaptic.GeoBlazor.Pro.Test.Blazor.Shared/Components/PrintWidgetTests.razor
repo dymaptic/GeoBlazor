@@ -1,0 +1,119 @@
+@inherits ProTestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanSetPrintWidgetFormat(System.Action renderHandler)
+    {
+        PrintWidget? printWidget = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                </Map>
+                <PrintWidget @ref="printWidget" AllowedFormats="@([PrintFormat.Jpg, PrintFormat.Png32])" />
+            </MapView>);
+        await WaitForMapToRender(timeoutInSeconds: 30);
+        await AssertJavaScript("waitForWidgetToLoad", args: "esri.widgets.Print");
+        await AssertProJavaScript("printWidgetAsserts.assertAllowedFormats", 
+            args: [printWidget!.Id, new[] {"jpg", "png32"}]);
+    }
+    
+    [TestMethod]
+    public async Task TestCanSetPrintWidgetLayout(System.Action renderHandler)
+    {
+        PrintWidget? printWidget = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                </Map>
+                <PrintWidget @ref="printWidget" AllowedLayouts="@([PrintLayout.A3Landscape, PrintLayout.A4Landscape, PrintLayout.A3Portrait])" />
+            </MapView>);
+        await WaitForMapToRender(timeoutInSeconds: 30);
+        await AssertJavaScript("waitForWidgetToLoad", args: "esri.widgets.Print");
+        await AssertProJavaScript("printWidgetAsserts.assertAllowedLayouts", 
+            args: [printWidget!.Id, new[] {"a3-landscape", "a4-landscape", "a3-portrait"}]);
+    }
+    
+    [TestMethod]
+    public async Task TestPrintOnCompleteEvent(System.Action renderHandler)
+    {
+        PrintSubmitEvent? submitResults = null;
+        PrintCompleteEvent? completeResults = null;
+        void OnSubmit(PrintSubmitEvent submitEvent)
+        {
+            submitResults = submitEvent;
+        }
+        void OnPrintComplete(PrintCompleteEvent completeEvent)
+        {
+            completeResults = completeEvent;
+        }
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <WebMap>
+                    <PortalItem PortalItemId="d6d830a7184f4971b8a2f42cd774d9a7" />
+                </WebMap>
+                <PrintWidget OnSubmit="OnSubmit" OnComplete="OnPrintComplete" />
+            </MapView>);
+        await WaitForMapToRender(timeoutInSeconds: 30);
+        await AssertJavaScript("waitForWidgetToLoad", args: "esri.widgets.Print");
+        await AssertProJavaScript("printWidgetAsserts.clickOnExportButton");
+
+        int tries = 500;
+        while (completeResults is null && tries-- > 0)
+        {
+            await Task.Delay(200);
+        }
+        
+        Assert.IsNotNull(submitResults?.Link);
+        Assert.IsNotNull(completeResults?.Link);
+        Assert.IsTrue(completeResults!.Link.Url!.Contains("https://arcgis.dymaptic.com/server/rest/directories/arcgisoutput/Utilities"));
+    }
+    
+    [TestMethod]
+    public async Task TestCanSetPrintTemplateOptions(System.Action renderHandler)
+    {
+        MapView? view = null;
+        PrintWidget? printWidget = null;
+        AddMapRenderFragment(
+            @<MapView @ref="view" class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                </Map>
+                <PrintWidget @ref="printWidget" />
+            </MapView>);
+        await WaitForMapToRender(timeoutInSeconds: 30);
+        await AssertJavaScript("waitForWidgetToLoad", args: "esri.widgets.Print");
+        TemplateOptions opt = new()
+        {
+            Copyright = "xxx xxx",
+            Dpi = 600,
+            ScaleEnabled = true,
+            Scale = await view!.GetScale(),
+            FileName = "export"
+        };
+        await printWidget!.SetTemplateOptions(opt);
+        await AssertProJavaScript("printWidgetAsserts.assertTemplateOptions", args: printWidget.Id);
+#pragma warning disable BL0005 // disable warning to clear the template options and force load from ArcGIS
+        printWidget.TemplateOptions = null;
+#pragma warning restore BL0005
+        TemplateOptions? loadOptions = await printWidget.GetTemplateOptions();
+        Assert.IsNotNull(loadOptions);
+        Assert.AreEqual(opt.Copyright, loadOptions.Copyright);
+        Assert.AreEqual(opt.Dpi, loadOptions.Dpi);
+        Assert.IsTrue(loadOptions.ScaleEnabled);
+        Assert.AreEqual(opt.Scale, loadOptions.Scale);
+        Assert.AreEqual(opt.FileName, loadOptions.FileName);
+    }
+}

@@ -7,7 +7,7 @@
         <ItemGroup>
             <AdditionalFiles Include="$(MSBuildThisFileDirectory)../dymaptic.GeoBlazor.Core.Test.Blazor.Shared/Components/*.*"/>
             <AdditionalFiles Condition="'$(ProAvailable)' == 'true'"
-                             Include="$(MSBuildThisFileDirectory)../../../test/dymaptic.GeoBlazor.Pro.Test.Blazor.Shared/Components/*.*"/>
+                             Include="$(MSBuildThisFileDirectory)../../pro/test/dymaptic.GeoBlazor.Pro.Test.Blazor.Shared/Components/*.*"/>
         </ItemGroup>
     </Target>
 </Project>

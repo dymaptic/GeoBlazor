@@ -1,0 +1,430 @@
+@inherits ProTestRunnerBase
+@attribute [TestCategory(nameof(ProLogicComponent))]
+@attribute [TestCategory(nameof(LogicComponent))]
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+    [Inject]
+    public required LabelGenerator LabelGenerator { get; set; }
+
+    [TestMethod]
+    public async Task TestGetClusterLabelSchemes(Action renderHandler,
+        Action<LayerViewCreateEvent> onLayerViewCreateHandler)
+    {
+        FeatureLayer? layer = null;
+
+        AddMapRenderFragment(@<MapView Class="map-view"
+                                       Center="@(new Point(80.20127, 22.12355))"
+                                       Zoom="4"
+                                       OnViewRendered="renderHandler"
+                                       OnLayerViewCreate="onLayerViewCreateHandler">
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographic"/>
+                                     </Basemap>
+                                     <FeatureLayer @ref="layer"
+                                                   Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Places_of_Worship_India/FeatureServer/0"
+                                                   Title="Places of worship"
+                                                   OutFields="@(["name", "religion", "denomination"])">
+                                     </FeatureLayer>
+                                 </Map>
+                             </MapView>);
+        await WaitForMapToRender();
+        await WaitForLayerToRender<FeatureLayer>();
+        LabelSchemes schemes = await LabelGenerator.GetClusterLabelSchemes(layer!, layer!.ViewId!.Value);
+        Assert.IsNotNull(schemes.PrimaryScheme);
+        Assert.IsNotNull(schemes.PrimaryScheme.ClusterMinSize);
+        Assert.IsGreaterThan(0, schemes.PrimaryScheme.LabelingInfo.Count);
+    }
+
+    [TestMethod]
+    public async Task TestGetClusterLabelSchemesWithField(Action renderHandler,
+        Action<LayerViewCreateEvent> onLayerViewCreateHandler)
+    {
+        GeoJSONLayer? layer = null;
+
+        AddMapRenderFragment(@<MapView Class="map-view"
+                                       ExcludeApiKey="true" Scale="288895"
+                                       Center="@(new Point(-73.94226, 40.7163))"
+                                       OnViewRendered="renderHandler"
+                                       OnLayerViewCreate="onLayerViewCreateHandler">
+                                 <SpatialReference Wkid="5936"/>
+                                 <Extent Xmax="2461436" Xmin="1270382"
+                                         Ymax="-953893" Ymin="-1729511">
+                                     <SpatialReference Wkid="5936"/>
+                                 </Extent>
+                                 <Map>
+                                     <GeoJSONLayer @ref="layer"
+                                                   Title="Earthquakes from the last month"
+                                                   Url="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson"
+                                                   Copyright="USGS Earthquakes">
+                                         <FeatureReductionCluster ClusterRadius="@("100px")"
+                                                                  ClusterMinSize="@("24px")"
+                                                                  ClusterMaxSize="@("60px")">
+                                             <PopupTemplate Title="Cluster summary"
+                                                            StringContent="This cluster represents {cluster_count} earthquakes.">
+                                                 <FieldInfo FieldName="cluster_count">
+                                                     <FieldInfoFormat Places="0" DigitSeparator="true"/>
+                                                 </FieldInfo>
+                                             </PopupTemplate>
+                                             <SimpleMarkerSymbol Style="@SimpleMarkerSymbolStyle.Circle"
+                                                                 Color="@(new MapColor("#69dcff"))">
+                                                 <Outline Color="@(new MapColor(0, 139, 174, 0.5))" Width="6"/>
+                                             </SimpleMarkerSymbol>
+                                             <Label DeconflictionStrategy="DeconflictionStrategy.None"
+                                                    LabelPlacement="LabelPlacement.CenterCenter">
+                                                 <LabelExpressionInfo
+                                                     Expression="Text($feature.cluster_count, '#,###')"/>
+                                                 <TextSymbol Color="@(new MapColor("#004a5d"))">
+                                                     <MapFont Weight="FontWeight.Bold" Family="Noto Sans" Size="12"/>
+                                                 </TextSymbol>
+                                             </Label>
+                                         </FeatureReductionCluster>
+                                     </GeoJSONLayer>
+                                 </Map>
+                             </MapView>);
+        await WaitForMapToRender();
+        await WaitForLayerToRender<GeoJSONLayer>();
+        LabelSchemes schemes = await LabelGenerator.GetClusterLabelSchemes(layer!, layer!.ViewId!.Value, "cluster_count");
+        Assert.IsNotNull(schemes.PrimaryScheme);
+        Assert.IsNotNull(schemes.PrimaryScheme.ClusterMinSize);
+        Assert.IsGreaterThan(0, schemes.PrimaryScheme.LabelingInfo.Count);
+    }
+
+    [TestMethod]
+    public async Task TestGetClusterLabelSchemesWithRenderer(Action renderHandler,
+        Action<LayerViewCreateEvent> onLayerViewCreateHandler)
+    {
+        FeatureLayer? layer = null;
+
+        AddMapRenderFragment(@<MapView Class="map-view"
+                                       Center="@(new Point(80.20127, 22.12355))"
+                                       Zoom="4"
+                                       OnViewRendered="renderHandler"
+                                       OnLayerViewCreate="onLayerViewCreateHandler">
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographic"/>
+                                     </Basemap>
+                                     <FeatureLayer @ref="layer"
+                                                   Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Places_of_Worship_India/FeatureServer/0"
+                                                   Title="Places of worship"
+                                                   OutFields="@(["name", "religion", "denomination"])">
+                                     </FeatureLayer>
+                                 </Map>
+                             </MapView>);
+        await WaitForMapToRender();
+        await WaitForLayerToRender<FeatureLayer>();
+
+        SimpleRenderer renderer = new(new SimpleFillSymbol(new Outline([153, 31, 23, 0.3], 0.3), [0, 255, 71, 1]), null,
+        [
+            new ColorVariable("aggregateCount", "AGGREGATECOUNT",
+            [
+                new ColorStop(0, new MapColor(_colors[0])),
+                new ColorStop(25, new MapColor(_colors[1])),
+                new ColorStop(75, new MapColor(_colors[2])),
+                new ColorStop(200, new MapColor(_colors[3])),
+                new ColorStop(300, new MapColor(_colors[4]))
+            ], new VisualVariableLegendOptions(true, "Places of worship"))
+        ]);
+
+        LabelSchemes schemes = await LabelGenerator.GetClusterLabelSchemes(layer!, layer!.ViewId!.Value, null, renderer);
+        Assert.IsNotNull(schemes.PrimaryScheme);
+        Assert.IsNotNull(schemes.PrimaryScheme.ClusterMinSize);
+        Assert.IsGreaterThan(0, schemes.PrimaryScheme.LabelingInfo.Count);
+    }
+
+    [TestMethod]
+    public async Task TestGetClusterLabelSchemesWithFieldAndRenderer(Action renderHandler,
+        Action<LayerViewCreateEvent> onLayerViewCreateHandler)
+    {
+        GeoJSONLayer? layer = null;
+
+        AddMapRenderFragment(@<MapView Class="map-view"
+                                       ExcludeApiKey="true" Scale="288895"
+                                       Center="@(new Point(-73.94226, 40.7163))"
+                                       OnViewRendered="renderHandler"
+                                       OnLayerViewCreate="onLayerViewCreateHandler">
+                                 <SpatialReference Wkid="5936"/>
+                                 <Extent Xmax="2461436" Xmin="1270382"
+                                         Ymax="-953893" Ymin="-1729511">
+                                     <SpatialReference Wkid="5936"/>
+                                 </Extent>
+                                 <Map>
+                                     <GeoJSONLayer @ref="layer"
+                                                   Title="Earthquakes from the last month"
+                                                   Url="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson"
+                                                   Copyright="USGS Earthquakes">
+                                         <FeatureReductionCluster ClusterRadius="@("100px")"
+                                                                  ClusterMinSize="@("24px")"
+                                                                  ClusterMaxSize="@("60px")">
+                                             <PopupTemplate Title="Cluster summary"
+                                                            StringContent="This cluster represents {cluster_count} earthquakes.">
+                                                 <FieldInfo FieldName="cluster_count">
+                                                     <FieldInfoFormat Places="0" DigitSeparator="true"/>
+                                                 </FieldInfo>
+                                             </PopupTemplate>
+                                             <SimpleMarkerSymbol Style="@SimpleMarkerSymbolStyle.Circle"
+                                                                 Color="@(new MapColor("#69dcff"))">
+                                                 <Outline Color="@(new MapColor(0, 139, 174, 0.5))" Width="6"/>
+                                             </SimpleMarkerSymbol>
+                                             <Label DeconflictionStrategy="DeconflictionStrategy.None"
+                                                    LabelPlacement="LabelPlacement.CenterCenter">
+                                                 <LabelExpressionInfo
+                                                     Expression="Text($feature.cluster_count, '#,###')"/>
+                                                 <TextSymbol Color="@(new MapColor("#004a5d"))">
+                                                     <MapFont Weight="FontWeight.Bold" Family="Noto Sans" Size="12"/>
+                                                 </TextSymbol>
+                                             </Label>
+                                         </FeatureReductionCluster>
+                                     </GeoJSONLayer>
+                                 </Map>
+                             </MapView>);
+        await WaitForMapToRender();
+        await WaitForLayerToRender<GeoJSONLayer>();
+
+        SimpleRenderer renderer = new(new SimpleMarkerSymbol(new Outline(new MapColor(0, 139, 174, 0.5), 1), new MapColor("#69dcff"), 8,
+            SimpleMarkerSymbolStyle.Triangle));
+
+        LabelSchemes schemes = await LabelGenerator.GetClusterLabelSchemes(layer!, layer!.ViewId!.Value, "cluster_count", renderer);
+        Assert.IsNotNull(schemes.PrimaryScheme);
+        Assert.IsNotNull(schemes.PrimaryScheme.ClusterMinSize);
+        Assert.IsGreaterThan(0, schemes.PrimaryScheme.LabelingInfo.Count);
+    }
+
+    [TestMethod]
+    public async Task TestGetBinLabelSchemesWithNoRendererThrows(Action renderHandler,
+        Action<LayerViewCreateEvent> onLayerViewCreateHandler)
+    {
+        FeatureLayer? layer = null;
+
+        AddMapRenderFragment(@<MapView Center="@(new Point(-73.9304, 40.6971))"
+                                       Scale="144447"
+                                       Class="map-view"
+                                       OnViewRendered="renderHandler"
+                                       OnLayerViewCreate="onLayerViewCreateHandler">>
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographic"/>
+                                     </Basemap>
+                                     <FeatureLayer @ref="layer"
+                                                   Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/ArcGIS/rest/services/NYC_motor_crashes/FeatureServer/0"
+                                                   Title="Motor vehicle crashes (2020)">
+                                         <FeatureReductionBinning FixedBinLevel="6" LabelsVisible="true"
+                                                                  PopupEnabled="true">
+                                             <AggregateField Name="aggregateCount"
+                                                             StatisticType="AggregateStatisticType.Count"/>
+                                         </FeatureReductionBinning>
+                                     </FeatureLayer>
+                                 </Map>
+                             </MapView>);
+
+        await WaitForMapToRender(timeoutInSeconds: 60);
+        await WaitForLayerToRender<FeatureLayer>();
+
+        await Assert.ThrowsAsync<Exception>(async () => await LabelGenerator.GetBinLabelSchemes(layer!));
+    }
+
+    [TestMethod]
+    public async Task TestGetBinLabelSchemesWithNoFieldReturnsEmptySchemes(Action renderHandler,
+        Action<LayerViewCreateEvent> onLayerViewCreateHandler)
+    {
+        FeatureLayer? layer = null;
+
+        AddMapRenderFragment(@<MapView Center="@(new Point(-73.9304, 40.6971))"
+                                       Scale="144447"
+                                       Class="map-view"
+                                       OnViewRendered="renderHandler"
+                                       OnLayerViewCreate="onLayerViewCreateHandler">>
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographic"/>
+                                     </Basemap>
+                                     <FeatureLayer @ref="layer"
+                                                   Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/ArcGIS/rest/services/NYC_motor_crashes/FeatureServer/0"
+                                                   Title="Motor vehicle crashes (2020)">
+                                         <FeatureReductionBinning FixedBinLevel="6" LabelsVisible="true"
+                                                                  PopupEnabled="true">
+                                             <SimpleRenderer>
+                                                 <SimpleFillSymbol Color="@(new MapColor(0, 255, 71, 1))">
+                                                     <Outline Color="@(new MapColor(153, 31, 23, 0.3))" Width="0.3"/>
+                                                 </SimpleFillSymbol>
+                                                 <ColorVariable Field="aggregateCount">
+                                                     <VisualVariableLegendOptions Title="Number of crashes"/>
+                                                     <ColorStop Value="0" Color="@(new MapColor(_colors[0]))"/>
+                                                     <ColorStop Value="25" Color="@(new MapColor(_colors[1]))"/>
+                                                     <ColorStop Value="75" Color="@(new MapColor(_colors[2]))"/>
+                                                     <ColorStop Value="200" Color="@(new MapColor(_colors[3]))"/>
+                                                     <ColorStop Value="300" Color="@(new MapColor(_colors[4]))"/>
+                                                 </ColorVariable>
+                                             </SimpleRenderer>
+                                         </FeatureReductionBinning>
+                                     </FeatureLayer>
+                                 </Map>
+                             </MapView>);
+
+        await WaitForMapToRender();
+        await WaitForLayerToRender<FeatureLayer>();
+
+        LabelSchemes schemes = await LabelGenerator.GetBinLabelSchemes(layer!);
+        Assert.IsNull(schemes.PrimaryScheme);
+        Assert.IsEmpty(schemes.SecondarySchemes);
+    }
+
+    [TestMethod]
+    public async Task TestGetBinLabelSchemesWithPredefinedFieldAndRenderer(Action renderHandler,
+        Action<LayerViewCreateEvent> onLayerViewCreateHandler)
+    {
+        FeatureLayer? layer = null;
+
+        AddMapRenderFragment(@<MapView Center="@(new Point(-73.9304, 40.6971))"
+                                       Scale="144447"
+                                       Class="map-view"
+                                       OnViewRendered="renderHandler"
+                                       OnLayerViewCreate="onLayerViewCreateHandler">>
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographic"/>
+                                     </Basemap>
+                                     <FeatureLayer @ref="layer"
+                                                   Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/ArcGIS/rest/services/NYC_motor_crashes/FeatureServer/0"
+                                                   Title="Motor vehicle crashes (2020)">
+                                         <FeatureReductionBinning FixedBinLevel="6" LabelsVisible="true"
+                                                                  PopupEnabled="true">
+                                             <AggregateField Name="aggregateCount"
+                                                             StatisticType="AggregateStatisticType.Count"/>
+                                             <SimpleRenderer>
+                                                 <SimpleFillSymbol Color="@(new MapColor(0, 255, 71, 1))">
+                                                     <Outline Color="@(new MapColor(153, 31, 23, 0.3))" Width="0.3"/>
+                                                 </SimpleFillSymbol>
+                                                 <ColorVariable Field="aggregateCount">
+                                                     <VisualVariableLegendOptions Title="Number of crashes"/>
+                                                     <ColorStop Value="0" Color="@(new MapColor(_colors[0]))"/>
+                                                     <ColorStop Value="25" Color="@(new MapColor(_colors[1]))"/>
+                                                     <ColorStop Value="75" Color="@(new MapColor(_colors[2]))"/>
+                                                     <ColorStop Value="200" Color="@(new MapColor(_colors[3]))"/>
+                                                     <ColorStop Value="300" Color="@(new MapColor(_colors[4]))"/>
+                                                 </ColorVariable>
+                                             </SimpleRenderer>
+                                         </FeatureReductionBinning>
+                                     </FeatureLayer>
+                                 </Map>
+                             </MapView>);
+
+        await WaitForMapToRender();
+        await WaitForLayerToRender<FeatureLayer>();
+
+        LabelSchemes schemes = await LabelGenerator.GetBinLabelSchemes(layer!);
+        Assert.IsNotNull(schemes.PrimaryScheme);
+        Assert.AreEqual("aggregateCount", schemes.PrimaryScheme.FieldName);
+        Assert.AreEqual(1, schemes.PrimaryScheme.LabelingInfo.Count);
+        Assert.IsInstanceOfType<TextSymbol>(schemes.PrimaryScheme.LabelingInfo.First().Symbol);
+    }
+
+    [TestMethod]
+    public async Task TestGetBinLabelSchemesWithPredefinedFieldAndNewRenderer(Action renderHandler,
+        Action<LayerViewCreateEvent> onLayerViewCreateHandler)
+    {
+        FeatureLayer? layer = null;
+
+        AddMapRenderFragment(@<MapView Center="@(new Point(-73.9304, 40.6971))"
+                                       Scale="144447"
+                                       Class="map-view"
+                                       OnViewRendered="renderHandler"
+                                       OnLayerViewCreate="onLayerViewCreateHandler">
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographic"/>
+                                     </Basemap>
+                                     <FeatureLayer @ref="layer"
+                                                   Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/ArcGIS/rest/services/NYC_motor_crashes/FeatureServer/0"
+                                                   Title="Motor vehicle crashes (2020)">
+                                         <FeatureReductionBinning FixedBinLevel="6" LabelsVisible="true"
+                                                                  PopupEnabled="true">
+                                             <AggregateField Name="aggregateCount"
+                                                             StatisticType="AggregateStatisticType.Count"/>
+                                         </FeatureReductionBinning>
+                                     </FeatureLayer>
+                                 </Map>
+                             </MapView>);
+
+        await WaitForMapToRender();
+        await WaitForLayerToRender<FeatureLayer>();
+
+        SimpleRenderer renderer = new(new SimpleFillSymbol(new Outline([153, 31, 23, 0.3], 0.3), [0, 255, 71, 1]), null,
+        [
+            new ColorVariable("aggregateCount", "AGGREGATECOUNT",
+            [
+                new ColorStop(0, new MapColor(_colors[0])),
+                new ColorStop(25, new MapColor(_colors[1])),
+                new ColorStop(75, new MapColor(_colors[2])),
+                new ColorStop(200, new MapColor(_colors[3])),
+                new ColorStop(300, new MapColor(_colors[4]))
+            ], new VisualVariableLegendOptions(true, "Number of crashes"))
+        ]);
+
+        LabelSchemes schemes = await LabelGenerator.GetBinLabelSchemes(layer!, null, renderer);
+        Assert.IsNotNull(schemes.PrimaryScheme);
+        Assert.AreEqual("aggregateCount", schemes.PrimaryScheme.FieldName);
+        Assert.AreEqual(1, schemes.PrimaryScheme.LabelingInfo.Count);
+        Assert.IsInstanceOfType<TextSymbol>(schemes.PrimaryScheme.LabelingInfo.First().Symbol);
+    }
+
+    [TestMethod]
+    public async Task TestGetBinLabelSchemesWithPredefinedRendererAndNewField(Action renderHandler,
+        Action<LayerViewCreateEvent> onLayerViewCreateHandler)
+    {
+        FeatureLayer? layer = null;
+
+        AddMapRenderFragment(@<MapView Center="@(new Point(-73.9304, 40.6971))"
+                                       Scale="144447"
+                                       Class="map-view"
+                                       OnViewRendered="renderHandler"
+                                       OnLayerViewCreate="onLayerViewCreateHandler">>
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographic"/>
+                                     </Basemap>
+                                     <FeatureLayer @ref="layer"
+                                                   Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/ArcGIS/rest/services/NYC_motor_crashes/FeatureServer/0"
+                                                   Title="Motor vehicle crashes (2020)">
+                                         <FeatureReductionBinning FixedBinLevel="6" LabelsVisible="true"
+                                                                  PopupEnabled="true">
+                                             <AggregateField Name="aggregateCount"
+                                                             StatisticType="AggregateStatisticType.Count"/>
+                                             <AggregateField Name="SUM_PEDESTRIANS_KILLED"
+                                                             StatisticType="AggregateStatisticType.Sum"
+                                                             OnStatisticField="NUMBER_OF_PEDESTRIANS_KILLED"/>
+                                             <SimpleRenderer>
+                                                 <SimpleFillSymbol Color="@(new MapColor(0, 255, 71, 1))">
+                                                     <Outline Color="@(new MapColor(153, 31, 23, 0.3))" Width="0.3"/>
+                                                 </SimpleFillSymbol>
+                                                 <ColorVariable Field="aggregateCount">
+                                                     <VisualVariableLegendOptions Title="Number of crashes"/>
+                                                     <ColorStop Value="0" Color="@(new MapColor(_colors[0]))"/>
+                                                     <ColorStop Value="25" Color="@(new MapColor(_colors[1]))"/>
+                                                     <ColorStop Value="75" Color="@(new MapColor(_colors[2]))"/>
+                                                     <ColorStop Value="200" Color="@(new MapColor(_colors[3]))"/>
+                                                     <ColorStop Value="300" Color="@(new MapColor(_colors[4]))"/>
+                                                 </ColorVariable>
+                                             </SimpleRenderer>
+                                         </FeatureReductionBinning>
+                                     </FeatureLayer>
+                                 </Map>
+                             </MapView>);
+
+        await WaitForMapToRender(timeoutInSeconds: 90);
+        await WaitForLayerToRender<FeatureLayer>();
+
+        LabelSchemes schemes = await LabelGenerator.GetBinLabelSchemes(layer!, "SUM_PEDESTRIANS_KILLED");
+        Assert.IsNotNull(schemes.PrimaryScheme);
+        Assert.AreEqual("SUM_PEDESTRIANS_KILLED", schemes.PrimaryScheme.FieldName);
+        Assert.AreEqual(1, schemes.PrimaryScheme.LabelingInfo.Count);
+        Assert.IsInstanceOfType<TextSymbol>(schemes.PrimaryScheme.LabelingInfo.First().Symbol);
+    }
+
+    private readonly string[] _colors = ["#d7e1ee", "#cbd6e4", "#b3bfd1", "#c86558", "#991f17"];
+}

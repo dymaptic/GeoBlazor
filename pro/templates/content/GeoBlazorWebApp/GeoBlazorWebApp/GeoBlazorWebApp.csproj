@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>DOTNET_TFM</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-GeoBlazorWebApp-881b5a42-0b71-4c8c-9901-8d12693bd109</UserSecretsId>
+  </PropertyGroup>
+
+  <!--#if (IndividualLocalAuth && !UseLocalDB) -->
+  <ItemGroup>
+    <None Update="Data\app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+  </ItemGroup>
+  <!--#endif -->
+
+  <ItemGroup>
+  <!--#if (UseWebAssembly) -->
+    <ProjectReference Include="..\GeoBlazorWebApp.Client\GeoBlazorWebApp.Client.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="${WebAssemblyServerVersion}" />
+  <!--#endif -->
+  <!--#if (IndividualLocalAuth) -->
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="${DiagnosticsEntityFrameworkCoreVersion}" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="${IdentityEntityFrameworkCoreVersion}" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="${EntityFrameworkCoreToolsVersion}" />
+  <!--#endif -->
+  <!--#if (UseLocalDB && IndividualLocalAuth) -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="${EntityFrameworkCoreSqlServerVersion}" />
+  <!--#endif-->
+  </ItemGroup>
+
+    <!--#if (!UsePro && !UseWebAssembly) -->
+  <ItemGroup>
+    <PackageReference Include="dymaptic.GeoBlazor.Core" Version="4.4.5" />
+  </ItemGroup>
+  <!--#endif -->
+    <!--#if (UsePro && !UseWebAssembly) -->
+  <ItemGroup>
+    <PackageReference Include="dymaptic.GeoBlazor.Pro" Version="4.4.5" />
+  </ItemGroup>
+  <!--#endif -->
+
+</Project>

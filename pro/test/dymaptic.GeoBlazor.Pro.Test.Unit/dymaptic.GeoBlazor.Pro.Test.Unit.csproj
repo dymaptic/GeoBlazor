@@ -1,0 +1,31 @@
+<Project Sdk="MSTest.Sdk/4.0.2">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <IsPackable>false</IsPackable>
+        <IsTestProject>true</IsTestProject>
+        <UserSecretsId>aspnet-dymaptic.GeoBlazor.Pro.Test.WebApp-881b5a42-0b71-4c8c-9901-8d12693bd109</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+        <PackageReference Include="coverlet.collector" Version="6.0.4">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="NSubstitute" Version="5.3.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="5.0.0" />
+        <PackageReference Update="Microsoft.Testing.Extensions.CodeCoverage" Version="18.3.2"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.3" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.3" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.3" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.3" />
+        <PackageReference Include="bunit" Version="1.40.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Pro\dymaptic.GeoBlazor.Pro.csproj" />
+    </ItemGroup>
+
+</Project>

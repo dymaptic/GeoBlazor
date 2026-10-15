@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json.schemastore.org/ide.host",
+  "order": 610,
+  "icon": "ide/icon.ico",
+  "disableHttpsSymbol": "NoHttps",
+  "symbolInfo": [
+    {
+      "id": "InteractivityPlatform",
+      "isVisible": true,
+      "persistenceScope": "templateGroup"
+    },
+    {
+      "id": "InteractivityLocation",
+      "isVisible": true,
+      "persistenceScope": "templateGroup"
+    },
+    {
+      "id": "UseProgramMain",
+      "isVisible": true,
+      "persistenceScope": "shared",
+      "persistenceScopeName": "Microsoft"
+    },
+    {
+      "id": "UsePro",
+      "isVisible": true,
+      "persistenceScope": "shared",
+      "persistenceScopeName": "dymaptic"
+    },
+    {
+      "id": "LightOrDark",
+      "isVisible": true,
+      "persistenceScope": "shared",
+      "persistenceScopeName": "dymaptic"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>DOTNET_TFM</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
+    <StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="${ComponentsWebAssemblyVersion}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GeoBlazorMauiAndWeb.Shared\GeoBlazorMaui.Shared.csproj" />
+  </ItemGroup>
+
+  <!--#if (!UsePro) -->
+  <ItemGroup>
+    <PackageReference Include="dymaptic.GeoBlazor.Core" Version="4.4.5" />
+  </ItemGroup>
+  <!--#endif -->
+  <!--#if (UsePro) -->
+  <ItemGroup>
+    <PackageReference Include="dymaptic.GeoBlazor.Pro" Version="4.4.5" />
+  </ItemGroup>
+  <!--#endif -->
+
+</Project>

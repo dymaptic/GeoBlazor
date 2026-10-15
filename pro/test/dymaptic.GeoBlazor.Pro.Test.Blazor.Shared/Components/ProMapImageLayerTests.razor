@@ -1,0 +1,281 @@
+﻿@inherits ProTestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestMapImageLayerFetchImage(System.Action renderHandler, Action<LayerViewCreateEvent> layerViewCreated)
+    {
+        MapImageLayer? layer = null;
+        MapView? mapView = null;
+
+        AddMapRenderFragment(
+            @<MapView @ref="mapView"
+                class="map-view"
+                OnViewRendered="renderHandler"
+                OnLayerViewCreate="layerViewCreated">
+                <Map>
+                    <MapImageLayer @ref="layer">
+                        <PortalItem PortalItemId="d7892b3c13b44391992ecd42bfa92d01"/>
+                    </MapImageLayer>
+                </Map>
+            </MapView>);
+
+        await WaitForMapToRender();
+
+        var createEvent = await WaitForLayerToRender<MapImageLayer>();
+        Assert.IsInstanceOfType<MapImageLayer>(createEvent.Layer);
+        MapImageLayer createdLayer = (MapImageLayer)createEvent.Layer;
+        Assert.AreEqual(layer?.Id, createdLayer.Id);
+        
+        // Get the current extent
+        var extent = await mapView!.GetExtent();
+        Assert.IsNotNull(extent);
+
+        // Test FetchImage method
+        var options = new MapImageLayerFetchImageOptions();
+        var imageResult = await layer!.FetchImage(extent, 512, 512, options);
+
+        Assert.IsNotNull(imageResult);
+    }
+
+    [TestMethod]
+    public async Task TestMapImageLayerFetchImageWithOptions(System.Action renderHandler, Action<LayerViewCreateEvent> layerViewCreated)
+    {
+        MapImageLayer? layer = null;
+        MapView? mapView = null;
+
+        AddMapRenderFragment(
+            @<MapView @ref="mapView"
+                class="map-view"
+                OnViewRendered="renderHandler"
+                OnLayerViewCreate="layerViewCreated">
+                <Map>
+                    <MapImageLayer @ref="layer"
+                                   Url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"/>
+                </Map>
+            </MapView>);
+
+        await WaitForMapToRender();
+
+        var createEvent = await WaitForLayerToRender<MapImageLayer>();
+        Assert.IsInstanceOfType<MapImageLayer>(createEvent.Layer);
+        MapImageLayer createdLayer = (MapImageLayer)createEvent.Layer;
+        Assert.AreEqual(layer?.Id, createdLayer.Id);
+
+        var extent = await mapView!.GetExtent();
+        Assert.IsNotNull(extent);
+
+        // Test with various options
+        var options = new MapImageLayerFetchImageOptions { PixelRatio = 2.0, Rotation = 45.0 };
+
+        var imageResult = await layer!.FetchImage(extent, 256, 256, options);
+
+        Assert.IsNotNull(imageResult);
+    }
+
+    [TestMethod]
+    public async Task TestMapImageLayerFetchImageHtmlAsString(System.Action renderHandler, Action<LayerViewCreateEvent> layerViewCreated)
+    {
+        MapImageLayer? layer = null;
+        MapView? mapView = null;
+
+        AddMapRenderFragment(
+            @<MapView @ref="mapView"
+                class="map-view"
+                OnViewRendered="renderHandler"
+                OnLayerViewCreate="layerViewCreated">
+                <Map>
+                    <MapImageLayer @ref="layer"
+                                   Url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"/>
+                </Map>
+            </MapView>);
+
+        await WaitForMapToRender();
+
+        var createEvent = await WaitForLayerToRender<MapImageLayer>();
+        Assert.IsInstanceOfType<MapImageLayer>(createEvent.Layer);
+        MapImageLayer createdLayer = (MapImageLayer)createEvent.Layer;
+        Assert.AreEqual(layer?.Id, createdLayer.Id);
+
+        var extent = await mapView!.GetExtent();
+        Assert.IsNotNull(extent);
+
+        // Test FetchImageHtmlAsString method
+        var options = new MapImageLayerFetchImageOptions();
+        var htmlString = await layer!.FetchImageHtmlAsString(extent, 512, 512, options);
+
+        Assert.IsNotNull(htmlString);
+        Assert.IsTrue(htmlString.Contains("<img"));
+        Assert.IsTrue(htmlString.Contains("src="));
+        Console.WriteLine($"Fetched HTML: {htmlString}");
+    }
+
+    [TestMethod]
+    public async Task TestMapImageLayerFetchImageWithCancellation(System.Action renderHandler, Action<LayerViewCreateEvent> layerViewCreated)
+    {
+        MapImageLayer? layer = null;
+        MapView? mapView = null;
+
+        AddMapRenderFragment(
+            @<MapView @ref="mapView"
+                class="map-view"
+                OnViewRendered="renderHandler"
+                OnLayerViewCreate="layerViewCreated">
+                <Map>
+                    <MapImageLayer @ref="layer"
+                                   Url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"/>
+                </Map>
+            </MapView>);
+
+        await WaitForMapToRender();
+
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<MapImageLayer>();
+        Assert.IsInstanceOfType<MapImageLayer>(createEvent.Layer);
+        MapImageLayer createdLayer = (MapImageLayer)createEvent.Layer;
+        Assert.AreEqual(layer?.Id, createdLayer.Id);
+        
+        Extent? extent = await mapView!.GetExtent();
+        Assert.IsNotNull(extent);
+
+        // Test cancellation
+        using var cts = new CancellationTokenSource();
+        var options = new MapImageLayerFetchImageOptions();
+        
+        // Cancel before it starts
+        await cts.CancelAsync();
+
+        // Start the fetch operation
+        Task<IJSObjectReference?> fetchTask = layer!.FetchImage(extent, 512, 512, options, cts.Token);
+
+        await Assert.ThrowsAsync<OperationCanceledException>(async () => await fetchTask);
+    }
+
+    [TestMethod]
+    public async Task TestMapImageLayerFetchImageWithDifferentSizes(System.Action renderHandler, Action<LayerViewCreateEvent> layerViewCreated)
+    {
+        MapImageLayer? layer = null;
+        MapView? mapView = null;
+
+        AddMapRenderFragment(
+            @<MapView @ref="mapView"
+                class="map-view"
+                OnViewRendered="renderHandler"
+                OnLayerViewCreate="layerViewCreated">
+                <Map>
+                    <MapImageLayer @ref="layer"
+                                   Url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"/>
+                </Map>
+            </MapView>);
+
+        await WaitForMapToRender();
+
+        var createEvent = await WaitForLayerToRender<MapImageLayer>();
+        Assert.IsInstanceOfType<MapImageLayer>(createEvent.Layer);
+        MapImageLayer createdLayer = (MapImageLayer)createEvent.Layer;
+        Assert.AreEqual(layer?.Id, createdLayer.Id);
+
+        var extent = await mapView!.GetExtent();
+        Assert.IsNotNull(extent);
+
+        var options = new MapImageLayerFetchImageOptions();
+
+        // Test different image sizes
+        var sizes = new[] { (128, 128), (256, 256), (512, 512), (1024, 1024) };
+
+        foreach (var (width, height) in sizes)
+        {
+            var imageResult = await layer!.FetchImage(extent, width, height, options);
+            Assert.IsNotNull(imageResult, $"Failed to fetch image with size {width}x{height}");
+        }
+    }
+
+    [TestMethod]
+    public async Task TestMapImageLayerFetchImageWithCustomExtent(System.Action renderHandler, Action<LayerViewCreateEvent> layerViewCreated)
+    {
+        MapImageLayer? layer = null;
+        MapView? mapView = null;
+
+        AddMapRenderFragment(
+            @<MapView @ref="mapView"
+                class="map-view"
+                OnViewRendered="renderHandler"
+                OnLayerViewCreate="layerViewCreated">
+                <Map>
+                    <MapImageLayer @ref="layer"
+                                   Url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"/>
+                </Map>
+            </MapView>);
+
+        await WaitForMapToRender();
+        
+        var createEvent = await WaitForLayerToRender<MapImageLayer>();
+        Assert.IsInstanceOfType<MapImageLayer>(createEvent.Layer);
+        MapImageLayer createdLayer = (MapImageLayer)createEvent.Layer;
+        Assert.AreEqual(layer?.Id, createdLayer.Id);
+
+        // Create a custom extent
+        var customExtent = new Extent(-118.2437 + 0.1, -118.2437, 34.0522 + 0.1, 34.0522, spatialReference: new SpatialReference(4326));
+
+        var options = new MapImageLayerFetchImageOptions();
+        var imageResult = await layer!.FetchImage(customExtent, 512, 512, options);
+
+        Assert.IsNotNull(imageResult);
+    }
+
+    [TestMethod]
+    public async Task TestMapImageLayerFetchImageOptionsValidation(System.Action renderHandler, Action<LayerViewCreateEvent> layerViewCreated)
+    {
+        MapImageLayer? layer = null;
+        MapView? mapView = null;
+
+        AddMapRenderFragment(
+            @<MapView @ref="mapView"
+                class="map-view"
+                OnViewRendered="renderHandler"
+                OnLayerViewCreate="layerViewCreated">
+                <Map>
+                    <MapImageLayer @ref="layer"
+                                   Url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"/>
+                </Map>
+            </MapView>);
+
+        await WaitForMapToRender();
+
+        var createEvent = await WaitForLayerToRender<MapImageLayer>();
+        Assert.IsInstanceOfType<MapImageLayer>(createEvent.Layer);
+        MapImageLayer createdLayer = (MapImageLayer)createEvent.Layer;
+        Assert.AreEqual(layer?.Id, createdLayer.Id);
+
+        var extent = await mapView!.GetExtent();
+        Assert.IsNotNull(extent);
+
+        // Test with null options (should work with default values)
+        var imageResult = await layer!.FetchImage(extent, 512, 512, new MapImageLayerFetchImageOptions());
+        Assert.IsNotNull(imageResult);
+
+        // Test with extreme values
+        var extremeOptions = new MapImageLayerFetchImageOptions { PixelRatio = 0.5, Rotation = 360.0 };
+
+        var extremeImageResult = await layer!.FetchImage(extent, 512, 512, extremeOptions);
+        Assert.IsNotNull(extremeImageResult);
+    }
+
+    [TestMethod]
+    public async Task TestMapImageLayerFetchImageErrorHandling(Func<Exception, Task<bool>> errorHandler)
+    {
+        AddMapRenderFragment(@<MapView class="map-view"
+                                       OnExceptionHandler="errorHandler">
+                <Map>
+                    <MapImageLayer Url="@($"{NavigationManager.BaseUri}/MapServer")"/>
+                </Map>
+            </MapView>);
+
+        string message = await WaitForDisplayedError();
+
+        Assert.Contains("Failed to create layerview for layer", message);
+    }
+}

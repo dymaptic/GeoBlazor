@@ -1,0 +1,52 @@
+﻿@using System.Net.Http
+@using System.Net.Http.Json
+@*#if (IndividualLocalAuth)
+@using Microsoft.AspNetCore.Components.Authorization
+##endif*@
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using static Microsoft.AspNetCore.Components.Web.RenderMode
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.JSInterop
+@using GeoBlazorMauiAndWeb.Shared
+@using GeoBlazorMauiAndWeb.Web
+@*#if (UseWebAssembly)
+@using GeoBlazorMauiAndWeb.Web.Client
+#endif*@
+@using GeoBlazorMauiAndWeb.Web.Components
+@*#if (UsePro)
+@using dymaptic.GeoBlazor.Pro
+@using dymaptic.GeoBlazor.Pro.Components
+@using dymaptic.GeoBlazor.Pro.Components.Geometries
+@using dymaptic.GeoBlazor.Pro.Components.Layers
+@using dymaptic.GeoBlazor.Pro.Components.Popups
+@using dymaptic.GeoBlazor.Pro.Components.Renderers
+@using dymaptic.GeoBlazor.Pro.Components.Widgets
+@using dymaptic.GeoBlazor.Pro.Enums
+@using dymaptic.GeoBlazor.Pro.Events
+@using dymaptic.GeoBlazor.Pro.Functions
+@using dymaptic.GeoBlazor.Pro.Interfaces
+@using dymaptic.GeoBlazor.Pro.Model
+@using dymaptic.GeoBlazor.Pro.Options
+@using dymaptic.GeoBlazor.Pro.Results
+##endif*@
+@using dymaptic.GeoBlazor.Core
+@using dymaptic.GeoBlazor.Core.Attributes
+@using dymaptic.GeoBlazor.Core.Components
+@using dymaptic.GeoBlazor.Core.Components.Geometries
+@using dymaptic.GeoBlazor.Core.Components.Layers
+@using dymaptic.GeoBlazor.Core.Components.Popups
+@using dymaptic.GeoBlazor.Core.Components.Renderers
+@using dymaptic.GeoBlazor.Core.Components.Symbols
+@using dymaptic.GeoBlazor.Core.Components.Views
+@using dymaptic.GeoBlazor.Core.Components.Widgets
+@using dymaptic.GeoBlazor.Core.Enums
+@using dymaptic.GeoBlazor.Core.Events
+@using dymaptic.GeoBlazor.Core.Exceptions
+@using dymaptic.GeoBlazor.Core.Extensions
+@using dymaptic.GeoBlazor.Core.Functions
+@using dymaptic.GeoBlazor.Core.Interfaces
+@using dymaptic.GeoBlazor.Core.Model
+@using dymaptic.GeoBlazor.Core.Options
+@using dymaptic.GeoBlazor.Core.Results

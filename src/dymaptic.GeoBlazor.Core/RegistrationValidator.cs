@@ -11,67 +11,96 @@ public interface IAppValidator
     public ValueTask ValidateLicense();
 }
 
-internal class RegistrationValidator(GeoBlazorSettings settings) : IAppValidator
+/// <summary>
+///     Checks for a GeoBlazor registration key and, if none is found, asks the developer to register.
+///     Used by both GeoBlazor Core and GeoBlazor Pro. It never throws, so a missing or unrecognized key
+///     never stops an application from running.
+/// </summary>
+internal class RegistrationValidator(GeoBlazorSettings settings, IJSRuntime jsRuntime) : IAppValidator
 {
-    public ValueTask ValidateLicense()
+    public async ValueTask ValidateLicense()
     {
         // if we've already shown the message or validated, there's no need to check again
-        if (_validating || _isValidated)
+        if (_messageShown || _isValidated || _validating)
         {
-            return ValueTask.CompletedTask;
+            return;
         }
 
         _validating = true;
 
-        // users reading Pro documentation might use the name LicenseKey instead of RegistrationKey
-        string? registration = settings.RegistrationKey ?? settings.LicenseKey;
-        
-        if (registration == null)
+        try
+        {
+            // users reading Pro documentation might use the name LicenseKey instead of RegistrationKey
+            if (IsRecognizedKey(settings.RegistrationKey) || IsRecognizedKey(settings.LicenseKey))
+            {
+                _isValidated = true;
+
+                return;
+            }
+
+            _messageShown = true;
+            Console.WriteLine(RegistrationMessage);
+            Debug.WriteLine(RegistrationMessage);
+
+            // Blazor Server console output goes to the server log, so also write to the browser console
+            if (jsRuntime.GetType().Name.Contains("Remote"))
+            {
+                try
+                {
+                    await jsRuntime.InvokeVoidAsync("console.log", RegistrationMessage);
+                }
+                catch
+                {
+                    // the message is informational only, so a lost circuit should not surface as an error
+                }
+            }
+        }
+        finally
         {
             _validating = false;
-            throw new InvalidRegistrationException("No GeoBlazor Registration key provided. Please visit <a href='https://licensing.dymaptic.com' target='_blank'>https://licensing.dymaptic.com</a> to generate your free registration key.");
         }
-        
-        bool valid = true;
+    }
+
+    /// <summary>
+    ///     The validated and message-shown flags are static so the message appears once per app run.
+    ///     Unit tests call this to start each test from a fresh state.
+    /// </summary>
+    internal static void ResetForTests()
+    {
+        _isValidated = false;
+        _messageShown = false;
+    }
+
+    /// <summary>
+    ///     Accepts a free GeoBlazor Core registration key or an existing GeoBlazor Pro license key.
+    ///     Pro keys are "[base64 payload].[base64 signature]"; Core keys are only the payload.
+    ///     The signature is not verified, because GeoBlazor is open source and the check would protect nothing.
+    /// </summary>
+    private static bool IsRecognizedKey(string? key)
+    {
+        if (string.IsNullOrWhiteSpace(key))
+        {
+            return false;
+        }
 
         try
         {
-            string registrationText = Encoding.UTF8.GetString(Convert.FromBase64String(registration));
+            string payload = Encoding.UTF8.GetString(Convert.FromBase64String(key.Split('.')[0]));
+            RegistrationObject? registration = JsonSerializer.Deserialize<RegistrationObject>(payload);
 
-            RegistrationObject registrationObject =
-                JsonSerializer.Deserialize<RegistrationObject>(registrationText)!;
-            if (valid && registrationObject.LicenseVersion != 1)
-            {
-                valid = false;
-            }
-            if (valid && registrationObject.LicenseType != "Free")
-            {
-                valid = false;
-            }
-            if (valid && registrationObject.Software != "GeoBlazorCore")
-            {
-                valid = false;
-            }
+            return registration is { Software: "GeoBlazorCore", LicenseType: "Free", LicenseVersion: 1 }
+                or { Software: "GeoBlazorPro" };
         }
         catch
         {
-            valid = false;
+            return false;
         }
-        
-        if (!valid)
-        {
-            _validating = false;
-
-            throw new InvalidRegistrationException(
-                "Invalid GeoBlazor registration key. Please visit <a href='https://licensing.dymaptic.com' target='_blank'>https://licensing.dymaptic.com</a> to generate a new free registration key.");
-        }
-
-        _isValidated = true;
-        _validating = false;
-        return ValueTask.CompletedTask;
     }
 
+    private const string RegistrationMessage =
+        "Thank you for using GeoBlazor! Please visit https://licensing.dymaptic.com to register.";
     private static bool _isValidated;
+    private static bool _messageShown;
     private bool _validating;
 }
 
@@ -88,11 +117,6 @@ public enum BlazorMode
 }
 
 internal record RegistrationObject(
-    string LicenseType, 
+    string LicenseType,
     string Software,
     int LicenseVersion);
-
-internal class InvalidRegistrationException(string message) : Exception(message)
-{
-    public override string StackTrace => string.Empty;
-}

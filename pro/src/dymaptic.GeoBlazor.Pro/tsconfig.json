@@ -1,0 +1,35 @@
+  {
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmit": true,
+    "removeComments": false,
+    "outDir": "wwwroot/js",
+    "esModuleInterop": true,
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "ES2023",
+    "paths": {
+      "@arcgis/*": [
+        "./node_modules/@arcgis/*"
+      ],
+      "@esri/*": [
+        "./node_modules/@esri/*"
+      ]
+    },
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true
+  },
+  "include": [
+    "Scripts/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

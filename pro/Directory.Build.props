@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <!-- Pro lives in the pro/ folder of the GeoBlazor repo, so ../Directory.Build.props is Core's root props.
+    Core's shared settings (GBBuildToolsPath, ESBuild trigger, etc.) are inherited from there. -->
+  <Import Project="../Directory.Build.props" Condition="Exists('$(MSBuildThisFileDirectory)../Directory.Build.props')" />
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ProAvailable>true</ProAvailable>
+    <ProVersion>4.7.0.5</ProVersion>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Configurations>Debug;Release;SourceGen Highlighting</Configurations>
+    <Platforms>AnyCPU</Platforms>
+    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+    <ProProjectPath>$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Pro</ProProjectPath>
+    <CoreProjectPath>$(MSBuildThisFileDirectory)../src/dymaptic.GeoBlazor.Core</CoreProjectPath>
+    <CoreESBuildLint> --nolint</CoreESBuildLint>
+    <!-- Docker build-output caching: when GBObjCacheRoot is set, redirect this project's obj/ to a
+         single mountable root (per-project subfolder) so one BuildKit cache mount preserves MSBuild
+         incremental compile state across container builds. bin/ stays in its default location so all
+         hardcoded bin paths (source generators) keep working. No-op locally. Kept inside
+         this first PropertyGroup so GeoBlazorBuild.cs's version readers still find ProVersion. -->
+    <BaseIntermediateOutputPath Condition="'$(GBObjCacheRoot)' != ''">$(GBObjCacheRoot)/$(MSBuildProjectName)/</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$([System.OperatingSystem]::IsWindows())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'X64'">
+    <GBBuildToolsPath>$(MSBuildThisFileDirectory)../build-tools/win-x64</GBBuildToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$([System.OperatingSystem]::IsWindows())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'Arm64'">
+    <GBBuildToolsPath>$(MSBuildThisFileDirectory)../build-tools/win-arm64</GBBuildToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$([System.OperatingSystem]::IsMacOS())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'X64'">
+    <GBBuildToolsPath>$(MSBuildThisFileDirectory)../build-tools/osx-x64</GBBuildToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$([System.OperatingSystem]::IsMacOS())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'Arm64'">
+    <GBBuildToolsPath>$(MSBuildThisFileDirectory)../build-tools/osx-arm64</GBBuildToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$([System.OperatingSystem]::IsLinux())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'X64'">
+    <GBBuildToolsPath>$(MSBuildThisFileDirectory)../build-tools/linux-x64</GBBuildToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$([System.OperatingSystem]::IsLinux())' == 'true' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())' == 'Arm64'">
+    <GBBuildToolsPath>$(MSBuildThisFileDirectory)../build-tools/linux-arm64</GBBuildToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' != 'Release'">
+    <StaticWebAssetsFingerprintContent>false</StaticWebAssetsFingerprintContent>
+    <CompressionEnabled>false</CompressionEnabled>
+    <StaticWebAssetFingerprintingEnabled>false</StaticWebAssetFingerprintingEnabled>
+  </PropertyGroup>
+  <ItemGroup>
+    <Watch Remove="$(ProProjectPath)\wwwroot\**\*;$(ProProjectPath)\Scripts\**\*;**\esbuild*;$(ProProjectPath)\node_modules\**\*;$(CoreProjectPath)\wwwroot\**\*;$(CoreProjectPath)\Scripts\**\*;$(CoreProjectPath)\node_modules\**\*" />
+  </ItemGroup>
+  <ItemGroup>
+    <CompilerVisibleProperty Include="GBBuildToolsPath" Value="$(GBBuildToolsPath)" />
+    <CompilerVisibleProperty Include="Configuration" Value="$(Configuration)" />
+    <CompilerVisibleProperty Include="ShowScriptDialogs" Value="$(ShowScriptDialogs)" />
+    <CompilerVisibleProperty Include="CoreProjectPath" Value="$(CoreProjectPath)" />
+    <CompilerVisibleProperty Include="ProProjectPath" Value="$(ProProjectPath)" />
+  </ItemGroup>
+  <!-- ESBuild Project Trigger: Must happen before RESTORE -->
+  <PropertyGroup>
+    <ProESBuildLockFilePath>$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Pro/esBuild.lock</ProESBuildLockFilePath>
+    <ProESBuildRemoveProps>
+            BuildProjectReferences;
+            Configuration;
+            EnableDefaultCompileItems;
+            EnableDefaultEmbeddedResourceItems;
+            EnableDefaultNoneItems;
+            ExcludeRestorePackageImports;
+            GBBuildToolsPath;
+            MSBuildIsRestoring;
+            MSBuildRestoreSessionId;
+            NugetInteractive;
+            Platform;
+            ShowScriptDialogs;
+            TargetFramework;
+            TargetFrameworks;
+            TriggerESBuild;
+            TriggerProESBuild
+        </ProESBuildRemoveProps>
+  </PropertyGroup>
+  <Target Name="TriggerProESBuild" BeforeTargets="Restore;BeforeBuild" Condition="'$(MSBuildProjectName)' == 'dymaptic.GeoBlazor.Pro'">
+    <!-- Atomically check-and-acquire the lock file; exit code 0 = acquired.
+                 AcquireBuildLock also creates a .running marker file when the lock is acquired,
+                 so other projects can wait for ESBuild to complete. -->
+    <Exec Command="dotnet &quot;$(GBBuildToolsPath)/AcquireBuildLock.dll&quot; &quot;$(ProESBuildLockFilePath)&quot; 5" IgnoreExitCode="true">
+      <Output TaskParameter="ExitCode" PropertyName="_AcquireLockExitCode" />
+    </Exec>
+    <!-- Lock acquired: run ESBuild, then remove the .running marker -->
+    <Message Importance="high" Text="Triggering Pro ESBuild from $(MSBuildProjectName)" Condition="'$(_AcquireLockExitCode)' == '0'" />
+    <Exec Command="dotnet restore $(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Pro.ESBuild/dymaptic.GeoBlazor.Pro.ESBuild.csproj" Condition="'$(_AcquireLockExitCode)' == '0'" />
+    <MSBuild Projects="$(MSBuildThisFileDirectory)src/dymaptic.GeoBlazor.Pro.ESBuild/dymaptic.GeoBlazor.Pro.ESBuild.csproj" Properties="GBBuildToolsPath=$(GBBuildToolsPath);ShowScriptDialogs=$(ShowScriptDialogs)" RemoveProperties="$(ProESBuildRemoveProps)" Condition="'$(_AcquireLockExitCode)' == '0'" />
+    <Delete Files="$(ProESBuildLockFilePath).running" Condition="'$(_AcquireLockExitCode)' == '0'" />
+    <!-- Lock not acquired: another project is running ESBuild — wait for it to finish -->
+    <Exec Command="dotnet &quot;$(GBBuildToolsPath)/WaitForBuildComplete.dll&quot; &quot;$(ProESBuildLockFilePath).running&quot; 120" Condition="'$(_AcquireLockExitCode)' != '0'" />
+  </Target>
+</Project>

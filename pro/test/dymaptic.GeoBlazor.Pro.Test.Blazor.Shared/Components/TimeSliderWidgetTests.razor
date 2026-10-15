@@ -1,0 +1,73 @@
+@inherits ProTestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanUpdateTimeExtent(System.Action renderHandler)
+    {
+        FeatureLayer? layer = null;
+        TimeSliderWidget? widget = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer" Url="https://services9.arcgis.com/RHVPKKiFTONKtxq3/arcgis/rest/services/NDFD_Precipitation_v1/FeatureServer/0" />
+                </Map>
+                <TimeSliderWidget @ref="widget"
+                                  Mode="TimeSliderMode.TimeWindow"
+                                  Position="OverlayPosition.TopRight" />
+            </MapView>);
+        
+        await WaitForMapToRender();
+        int tries = 100;
+
+        while (tries > 0 && layer?.TimeInfo?.FullTimeExtent is null)
+        {
+            await Task.Delay(100);
+            tries--;
+        }
+        await widget?.SetFullTimeExtent(layer!.TimeInfo!.FullTimeExtent!)!;
+        TimeExtent timeExtent = new TimeExtent(DateTime.Today.AddDays(1).ToUniversalTime(), DateTime.Today.AddDays(3).ToUniversalTime());
+        Console.WriteLine("Setting time extent to " + JsonSerializer.Serialize(timeExtent));
+        await widget.SetTimeExtent(timeExtent);
+        TimeExtent? setTimeExtent = await widget.GetTimeExtent();
+        Console.WriteLine("Got time extent " + JsonSerializer.Serialize(setTimeExtent));
+        Assert.AreEqual(timeExtent, setTimeExtent);
+    }
+    
+    [TestMethod]
+    public async Task TestArcGISOverrideOnStopsType(System.Action renderHandler)
+    {
+        TimeSliderWidget? widget = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                    <FeatureLayer>
+                        <PortalItem PortalItemId="f9e9283b9c9741d09aad633f68758bf6" />
+                    </FeatureLayer>
+                </Map>
+                <TimeSliderWidget @ref="widget" 
+                                  Position="OverlayPosition.BottomLeft"
+                                  TimeExtent="new(DateTime.Now, DateTime.Now.AddDays(3))"
+                                  Stops="new StopsByInterval(new TimeInterval(TemporalTime.Hours, 8))" />
+            </MapView>);
+        
+        await WaitForMapToRender();
+        TimeSliderStops? stops = await widget!.GetStops();
+        Assert.IsNotNull(stops);
+        // StopsByInterval is specified, its what ArcGIS should be returning 
+        Assert.IsInstanceOfType(stops, typeof(StopsByInterval));
+        var stopsByInterval = (StopsByInterval)stops;
+        Assert.IsNotNull(stopsByInterval);
+        Assert.AreEqual( 8L, stopsByInterval.Interval!.Value, "StopsByInterval should have a positive value");
+    }
+}

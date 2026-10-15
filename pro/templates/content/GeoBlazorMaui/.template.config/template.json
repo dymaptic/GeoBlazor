@@ -1,0 +1,285 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "dymaptic",
+  "classifications": [
+    "MAUI",
+    "Android",
+    "iOS",
+    "macOS",
+    "Mac Catalyst",
+    "Windows",
+    "Blazor",
+    "Blazor Hybrid",
+    "Mobile",
+    "Mapping",
+    "Location",
+    "Geographic",
+    "Geospatial",
+    "Geolocation",
+    "Geographic Information System",
+    "GIS"
+  ],
+  "identity": "dymaptic.GeoBlazor.Templates.GeoBlazorMauiApp.4.0.0",
+  "groupIdentity": "GeoBlazor Hybrid MAUI App",
+  "precedence": "1000",
+  "name": "GeoBlazor Hybrid MAUI App",
+  "description": "A project for creating a .NET MAUI application for iOS, Android, Mac Catalyst, and WinUI using Blazor Hybrid with the GeoBlazor mapping library.",
+  "shortName": "geoblazor-maui",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "GeoBlazorMaui",
+  "primaryOutputs": [
+    {
+      "condition": "(HostIdentifier != \"dotnetcli\" && HostIdentifier != \"dotnetcli-preview\")",
+      "path": "Components/Pages/Home.razor"
+    },
+    {
+      "path": "GeoBlazorMaui.csproj"
+    }
+  ],
+  "postActions": [
+    {
+      "id": "openInEditor",
+      "condition": "(HostIdentifier != \"dotnetcli\" && HostIdentifier != \"dotnetcli-preview\")",
+      "description": "Opens Components/Pages/Home.razor in the editor.",
+      "manualInstructions": [],
+      "actionId": "84C0DA21-51C8-4541-9940-6CA19AF04EE6",
+      "args": {
+        "files": "0"
+      },
+      "continueOnError": true
+    }
+  ],
+  "sources": [
+    {
+      "source": "./",
+      "target": "./",
+      "copyOnly": [
+        "**/wwwroot/css/**",
+        "**/*.svg",
+        "**/*.ttf"
+      ]
+    }
+  ],
+  "preferNameDirectory": true,
+  "guids": [],
+  "symbols": {
+    "Framework": {
+      "type": "parameter",
+      "description": "The target framework for the project.",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "net8.0"
+        },
+        {
+          "choice": "net9.0"
+        },
+        {
+          "choice": "net10.0"
+        }
+      ],
+      "defaultValue": "net10.0",
+      "replaces": "DOTNET_TFM"
+    },
+    "applicationId": {
+      "type": "parameter",
+      "description": "Overrides the $(ApplicationId) in the project",
+      "datatype": "string"
+    },
+    "HostIdentifier": {
+      "type": "bind",
+      "binding": "HostIdentifier"
+    },
+    "PhoneProductId": {
+      "type": "generated",
+      "generator": "guid",
+      "replaces": "$guid9$"
+    },
+    "nameToLower": {
+      "type": "generated",
+      "generator": "casing",
+      "parameters": {
+        "source": "name",
+        "toLower": true
+      }
+    },
+    "nameToAppId": {
+      "type": "generated",
+      "generator": "regex",
+      "dataType": "string",
+      "parameters": {
+        "source": "nameToLower",
+        "steps": [
+          {
+            "regex": "[^a-z0-9_\\.]",
+            "replacement": ""
+          }
+        ]
+      }
+    },
+    "GeoBlazorMauiParam": {
+      "type": "derived",
+      "valueSource": "name",
+      "valueTransform": "encode",
+      "replaces": "GeoBlazorMaui"
+    },
+    "defaultAppId": {
+      "type": "generated",
+      "generator": "join",
+      "parameters": {
+        "symbols": [
+          {
+            "type": "const",
+            "value": "com.companyname."
+          },
+          {
+            "type": "ref",
+            "value": "nameToAppId"
+          }
+        ]
+      }
+    },
+    "finalAppId": {
+      "type": "generated",
+      "generator": "coalesce",
+      "parameters": {
+        "sourceVariableName": "applicationId",
+        "fallbackVariableName": "defaultAppId"
+      },
+      "replaces": "com.companyname.geoblazormaui"
+    },
+    "UsePro": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "false",
+      "displayName": "Use _Pro version of GeoBlazor",
+      "description": "Configures whether to include GeoBlazor Pro features. Default value is false."
+    },
+    "LightOrDark": {
+      "type": "parameter",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "Light",
+          "description": "Light theme"
+        },
+        {
+          "choice": "Dark",
+          "description": "Dark theme"
+        }
+      ],
+      "defaultValue": "Light",
+      "displayName": "ArcGIS _Theme",
+      "description": "The theme to use for importing styles for ArcGIS maps."
+    },
+    "UseDarkTheme": {
+      "type": "computed",
+      "value": "(LightOrDark == \"Dark\")"
+    },
+    "InteractiveAtRoot": {
+      "type": "computed",
+      "value": "(1 == 1)"
+    },
+    "MauiControls": {
+      "type": "generated",
+      "generator": "switch",
+      "replaces": "${MauiControlsVersion}",
+      "parameters": {
+        "evaluator": "C++",
+        "datatype": "string",
+        "cases": [
+          {
+            "condition": "(Framework == \"net8.0\")",
+            "value": "8.0.100"
+          },
+          {
+            "condition": "(Framework == \"net9.0\")",
+            "value": "9.0.120"
+          },
+          {
+            "condition": "(Framework == \"net10.0\")",
+            "value": "10.0.20"
+          }
+        ]
+      }
+    },
+    "WebViewMaui": {
+      "type": "generated",
+      "generator": "switch",
+      "replaces": "${WebViewMauiVersion}",
+      "parameters": {
+        "evaluator": "C++",
+        "datatype": "string",
+        "cases": [
+          {
+            "condition": "(Framework == \"net8.0\")",
+            "value": "8.0.100"
+          },
+          {
+            "condition": "(Framework == \"net9.0\")",
+            "value": "9.0.120"
+          },
+          {
+            "condition": "(Framework == \"net10.0\")",
+            "value": "10.0.50"
+          }
+        ]
+      }
+    },
+    "ConfigurationAbstractions": {
+      "type": "generated",
+      "generator": "switch",
+      "replaces": "${ConfigurationAbstractionsVersion}",
+      "parameters": {
+        "evaluator": "C++",
+        "datatype": "string",
+        "cases": [
+          {
+            "condition": "(Framework == \"net8.0\")",
+            "value": "8.0.0"
+          },
+          {
+            "condition": "(Framework == \"net9.0\")",
+            "value": "9.0.14"
+          },
+          {
+            "condition": "(Framework == \"net10.0\")",
+            "value": "10.0.5"
+          }
+        ]
+      }
+    },
+    "LoggingDebug": {
+      "type": "generated",
+      "generator": "switch",
+      "replaces": "${LoggingDebugVersion}",
+      "parameters": {
+        "evaluator": "C++",
+        "datatype": "string",
+        "cases": [
+          {
+            "condition": "(Framework == \"net8.0\")",
+            "value": "8.0.1"
+          },
+          {
+            "condition": "(Framework == \"net9.0\")",
+            "value": "9.0.14"
+          },
+          {
+            "condition": "(Framework == \"net10.0\")",
+            "value": "10.0.5"
+          }
+        ]
+      }
+    }
+  },
+  "forms": {
+    "encode": {
+      "identifier": "xmlEncode"
+    }
+  },
+  "defaultName": "GeoBlazorMaui"
+}

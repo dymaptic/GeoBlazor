@@ -1,0 +1,117 @@
+@inherits ProTestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderOGCFeatureLayer(System.Action renderHandler)
+    {
+        AddMapRenderFragment(
+            @<MapView class="map-view" 
+                      OnViewRendered="renderHandler"
+                      Zoom="11" 
+                      Center="@(new Point(-5.58535328514654, 35.94185329136365))">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic"/>
+                    </Basemap>
+                    <OGCFeatureLayer Url="https://api-features.ign.es/"
+                                     CollectionId="namedplace" />
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        await AssertJavaScript("assertLayerExists", args: "ogc-feature");
+    }
+
+    [TestMethod]
+    public async Task TestOGCFeatureLayerViewHighlight_WithObjectId(System.Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
+    {
+        AddMapRenderFragment(
+            @<MapView class="map-view" 
+                      OnViewRendered="renderHandler"
+                       OnLayerViewCreate="layerViewCreateHandler"
+                      Zoom="11" 
+                      Center="@(new Point(-5.58535328514654, 35.94185329136365))">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic"/>
+                    </Basemap>
+                    <OGCFeatureLayer Url="https://api-features.ign.es/"
+                                     CollectionId="namedplace" />
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<OGCFeatureLayer>();
+        await AssertJavaScript("assertLayerExists", args: "ogc-feature");
+        OGCFeatureLayerView layerView = (OGCFeatureLayerView)createEvent.LayerView!;
+        Query query = (await layerView.CreateQuery())!;
+        query.Where = "1 = 1";
+        query.Num = 1;
+        ObjectId[] queryResult = (await layerView.QueryObjectIds(query))!;
+        Assert.IsTrue(queryResult.Length > 0);
+        Handle handle = await layerView.Highlight(queryResult);
+        // No error means success
+        await handle.Remove();
+    }
+    [TestMethod]  
+    public async Task TestOGCFeatureLayerViewHighlight_WithGraphic(System.Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
+    {
+        AddMapRenderFragment(
+            @<MapView class="map-view" 
+                      OnViewRendered="renderHandler"
+                       OnLayerViewCreate="layerViewCreateHandler"
+                      Zoom="11" 
+                      Center="@(new Point(-5.58535328514654, 35.94185329136365))">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic"/>
+                    </Basemap>
+                    <OGCFeatureLayer Url="https://api-features.ign.es/"
+                                     CollectionId="namedplace" />
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<OGCFeatureLayer>();
+        await AssertJavaScript("assertLayerExists", args: "ogc-feature");
+        OGCFeatureLayerView layerView = (OGCFeatureLayerView)createEvent.LayerView!;
+        Query query = (await layerView.CreateQuery())!;
+        query.Where = "1 = 1";
+        query.Num = 1;
+        FeatureSet queryResult = (await layerView.QueryFeatures(query))!;
+        Assert.IsTrue(queryResult.Features!.Count > 0);
+        Handle handle = await layerView.Highlight(queryResult.Features[0]);
+        // No error means success
+        await handle.Remove();
+    }
+    
+    [TestMethod]
+    public async Task TestOGCFeatureLayerViewHighlight_ErrorHandling(System.Action renderHandler,
+        Action<LayerViewCreateEvent> layerViewCreateHandler)
+    {
+        AddMapRenderFragment(
+            @<MapView class="map-view" 
+                      OnViewRendered="renderHandler"
+                       OnLayerViewCreate="layerViewCreateHandler"
+                      Zoom="11" 
+                      Center="@(new Point(-5.58535328514654, 35.94185329136365))">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic"/>
+                    </Basemap>
+                    <OGCFeatureLayer Url="https://api-features.ign.es/"
+                                     CollectionId="namedplace" />
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        LayerViewCreateEvent createEvent = await WaitForLayerToRender<OGCFeatureLayer>();
+        await AssertJavaScript("assertLayerExists", args: "ogc-feature");
+        OGCFeatureLayerView layerView = (OGCFeatureLayerView)createEvent.LayerView!;
+        await Assert.ThrowsAsync<ArgumentException>(async () => await layerView.Highlight((IReadOnlyCollection<ObjectId>)[]));
+        await Assert.ThrowsAsync<NullReferenceException>(async () => await layerView.Highlight((Graphic?)null!));
+    }
+}

@@ -11,11 +11,8 @@ GeoBlazor is a Blazor component library that brings ArcGIS Maps SDK for JavaScri
 | Repository           | URL                                              | Purpose                              |
 |----------------------|--------------------------------------------------|--------------------------------------|
 | **This Repo (Core)** | https://github.com/dymaptic/GeoBlazor            | Open-source Blazor mapping library   |
-| GeoBlazor Pro        | https://github.com/dymaptic/GeoBlazor.Pro        | Commercial extension with 3D support |
+| GeoBlazor Pro        | (in this repo under `pro/`)                      | MIT-licensed advanced features       |
 | GeoBlazor Samples    | https://github.com/dymaptic/GeoBlazor-Samples    | Sample applications                  |
-
-> **Note:** This repository may also be used as a git submodule within the GeoBlazor.Pro repository (at `GeoBlazor.Pro/GeoBlazor/`).
-> When used as a submodule, the parent Pro repository's CLAUDE.md provides additional context about the Pro build system.
 
 ## Architecture
 

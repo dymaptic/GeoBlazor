@@ -29,13 +29,14 @@ public static class DependencyExtension
     internal static IServiceCollection AddGeoBlazorCoreFromPro(this IServiceCollection serviceCollection,
         GeoBlazorSettings settings)
     {
-        // don't add the app validator or register serialization data here
+        // don't register serialization data here
         return serviceCollection
             .AddSingleton<GeoBlazorSettings>(_ => settings)
             .AddScoped<JsModuleManager>()
             .AddScoped<AbortManager>()
             .AddScoped<AuthenticationManager>()
-            .AddCoreLogicComponents();
+            .AddCoreLogicComponents()
+            .AddScoped<IAppValidator, RegistrationValidator>();
     }
 
     private static IServiceCollection AddCoreLogicComponents(this IServiceCollection serviceCollection)

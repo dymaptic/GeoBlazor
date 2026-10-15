@@ -1,0 +1,63 @@
+﻿<Project>
+    <PropertyGroup>
+        <BuildDependsOn>TriggerProESBuild;RemoveStaleJsContent;$(BuildDependsOn)</BuildDependsOn>
+    </PropertyGroup>
+
+    <!-- After ESBuild runs (which may delete old chunk files), remove any Content items
+         whose backing files no longer exist. Without this, DefineStaticWebAssets fails
+         trying to resolve files that were globbed during project evaluation but deleted
+         by ESBuild cleanup. See dotnet/sdk#49988. -->
+    <Target Name="RemoveStaleJsContent">
+        <ItemGroup>
+            <Content Remove="@(Content)" Condition="'%(Content.Extension)' == '.js' and !Exists('%(FullPath)')" />
+            <Content Remove="@(Content)" Condition="'%(Content.Extension)' == '.map' and !Exists('%(FullPath)')" />
+        </ItemGroup>
+    </Target>
+
+    <UsingTask TaskName="DedupePublishFilesByRelativePath"
+               TaskFactory="RoslynCodeTaskFactory"
+               AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+        <ParameterGroup>
+            <Items ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
+            <Kept ParameterType="Microsoft.Build.Framework.ITaskItem[]" Output="true" />
+            <Removed ParameterType="Microsoft.Build.Framework.ITaskItem[]" Output="true" />
+        </ParameterGroup>
+        <Task>
+            <Using Namespace="System.Collections.Generic" />
+            <Code Type="Fragment" Language="cs"><![CDATA[
+                var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                var keep = new List<Microsoft.Build.Framework.ITaskItem>();
+                var drop = new List<Microsoft.Build.Framework.ITaskItem>();
+                foreach (var item in Items)
+                {
+                    string key = item.GetMetadata("RelativePath");
+                    if (string.IsNullOrEmpty(key)) key = item.ItemSpec;
+                    if (seen.Add(key)) keep.Add(item);
+                    else drop.Add(item);
+                }
+                Kept = keep.ToArray();
+                Removed = drop.ToArray();
+            ]]></Code>
+        </Task>
+    </UsingTask>
+
+    <!-- .NET 10 SDK on Linux fails NETSDK1152 when *.staticwebassets.{endpoints,runtime}.json files
+         cascade through transitive RCL references and arrive in ResolvedFileToPublish twice with the
+         same RelativePath. Windows collapses these via case-insensitive item comparison; Linux ext4
+         keeps both. Drop duplicates by RelativePath, scoped to manifest JSONs only. -->
+    <Target Name="DedupeStaticWebAssetManifestPublishFiles"
+            AfterTargets="ComputeResolvedFilesToPublishList"
+            BeforeTargets="_HandleFileConflictsForPublish">
+        <ItemGroup>
+            <_SwaManifestPublishCandidate Include="@(ResolvedFileToPublish)"
+                Condition="$([System.String]::Copy('%(ResolvedFileToPublish.Identity)').EndsWith('.staticwebassets.endpoints.json')) Or $([System.String]::Copy('%(ResolvedFileToPublish.Identity)').EndsWith('.staticwebassets.runtime.json'))" />
+        </ItemGroup>
+        <DedupePublishFilesByRelativePath Items="@(_SwaManifestPublishCandidate)"
+                                          Condition="'@(_SwaManifestPublishCandidate)' != ''">
+            <Output TaskParameter="Removed" ItemName="_SwaManifestPublishRemove" />
+        </DedupePublishFilesByRelativePath>
+        <ItemGroup>
+            <ResolvedFileToPublish Remove="@(_SwaManifestPublishRemove)" />
+        </ItemGroup>
+    </Target>
+</Project>
