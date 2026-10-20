@@ -9,7 +9,38 @@ on:
   workflow_dispatch:
 
 jobs:
-  build: 
+  # Every push to main used to publish to NuGet. Dependabot security updates always target the
+  # default branch, so merging them shipped unplanned versions (4.7.1). Only a release PR
+  # (head branch develop or release/*) or a manual run may publish.
+  release-gate:
+    runs-on: ubuntu-latest
+    outputs:
+      should-release: ${{ steps.check.outputs.should-release }}
+      pr-number: ${{ steps.check.outputs.pr-number }}
+    steps:
+    - name: Check for a release PR
+      id: check
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          echo "should-release=true" >> $GITHUB_OUTPUT
+          exit 0
+        fi
+        PR_JSON=$(gh api "repos/${{ github.repository }}/commits/${{ github.sha }}/pulls" \
+          --jq '[.[] | select(.base.ref == "main" and .merged_at != null)][0] // empty')
+        HEAD_REF=$(echo "$PR_JSON" | jq -r '.head.ref // empty')
+        echo "pr-number=$(echo "$PR_JSON" | jq -r '.number // empty')" >> $GITHUB_OUTPUT
+        if [ "$HEAD_REF" = "develop" ] || [[ "$HEAD_REF" == release/* ]]; then
+          echo "should-release=true" >> $GITHUB_OUTPUT
+        else
+          echo "Skipping release: push to main came from '${HEAD_REF:-no PR}', not develop or release/*."
+          echo "should-release=false" >> $GITHUB_OUTPUT
+        fi
+
+  build:
+    needs: release-gate
+    if: needs.release-gate.outputs.should-release == 'true'
     runs-on: ubuntu-latest
     steps:
     - name: Generate Github App token
@@ -84,12 +115,17 @@ jobs:
         name: .pro-nuget
         path: ./dymaptic.GeoBlazor.Pro.*.nupkg
 
-      # This step will copy the PR description to an environment variable
+      # This step will copy the release PR's description to an environment variable. It reads the PR
+      # merged by this push, not the most recently closed PR, which could be any unrelated PR.
     - name: Copy PR Release Notes
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PR_NUMBER: ${{ needs.release-gate.outputs.pr-number }}
       run: |
-        PR_DESCRIPTION=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-        "https://api.github.com/repos/${{ github.repository }}/pulls?state=closed&sort=updated&direction=desc" | \
-        jq -r '.[0].body')
+        PR_DESCRIPTION=""
+        if [ -n "$PR_NUMBER" ]; then
+          PR_DESCRIPTION=$(gh api "repos/${{ github.repository }}/pulls/$PR_NUMBER" --jq '.body // ""')
+        fi
         DESC_PLUS_EOF="${PR_DESCRIPTION}"
         echo "PR_DESCRIPTION<<EOF" >> $GITHUB_ENV
         echo "$DESC_PLUS_EOF" >> $GITHUB_ENV
