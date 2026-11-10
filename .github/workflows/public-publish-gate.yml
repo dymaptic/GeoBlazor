@@ -1,0 +1,83 @@
+# Public publish gate
+#
+# The authoritative half of the publication gate: dy-licensing and dymaptic.GeoBlazor.CodeGen stay
+# private permanently, and no part of either may reach a public artifact. The local `.githooks/pre-push`
+# hook runs the same scanner for fast feedback; this workflow is what branch protection enforces,
+# because a hook yields to --no-verify.
+#
+# Two properties are deliberate:
+#
+#   1. This job never short-circuits. A required check that decides not to run does not report, and a
+#      pull request whose required check never reports cannot merge. So there is no path filter, no
+#      bot skip, and no `[skip ci]` accommodation here - a skipped push would leave the gate silent.
+#      For that reason, once this check is required, avoid `[skip ci]` on the public repo: it now
+#      suppresses the gate along with the release build. Use the release workflow's `paths-ignore`
+#      filter to avoid a release instead.
+#   2. History is fetched in full. The scanner walks every commit, tree, and blob newly reachable
+#      from the public base, so a file that was committed and later deleted is still caught. That is
+#      the irreversible case.
+
+name: Public Publish Gate
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      range:
+        description: 'Optional <base>..<head> to scan instead of the checked-out tree.'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: public-publish-gate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  scan:
+    name: Scan for private content
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run the public leak gate
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PUSH_BEFORE_SHA: ${{ github.event.before }}
+          PUSH_AFTER_SHA: ${{ github.event.after }}
+          DISPATCH_RANGE: ${{ inputs.range }}
+        run: |
+          gate=build-tools/privacy/public-leak-gate.sh
+          chmod +x "$gate"
+
+          case "$EVENT_NAME" in
+            pull_request)
+              # The PR's own commits, against the public base it targets.
+              "$gate" --range "$PR_BASE_SHA..$PR_HEAD_SHA"
+              ;;
+            push)
+              if [ "$PUSH_BEFORE_SHA" = "0000000000000000000000000000000000000000" ]; then
+                # First push to a new branch: nothing to diff against, so judge the tree itself.
+                "$gate" --tree "$PUSH_AFTER_SHA"
+              else
+                "$gate" --range "$PUSH_BEFORE_SHA..$PUSH_AFTER_SHA"
+              fi
+              ;;
+            *)
+              if [ -n "$DISPATCH_RANGE" ]; then
+                "$gate" --range "$DISPATCH_RANGE"
+              else
+                "$gate" --tree HEAD
+              fi
+              ;;
+          esac

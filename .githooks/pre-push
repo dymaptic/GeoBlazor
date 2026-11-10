@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+#
+# pre-push - fast local feedback for the public publish gate.
+#
+# This hook is a convenience, never the enforcement point. The authoritative check is the
+# `public-publish-gate.yml` workflow, which branch protection requires on the public release branch.
+# A hook can be skipped with `git push --no-verify`, so it only exists to tell you about a leak in
+# seconds instead of after a CI round trip.
+#
+# Enable it once per clone:
+#
+#   git config core.hooksPath .githooks
+#
+# It scans only when the push target is a public repository. Every other remote - the private Core
+# remote, the Pro remote, any fork - is left alone, because everything private is allowed to hold
+# private content.
+
+set -uo pipefail
+
+readonly PUBLIC_REMOTES='[:/]dymaptic/GeoBlazor(-Samples)?(\.git)?$'
+readonly ZERO_SHA='0000000000000000000000000000000000000000'
+
+root=$(git rev-parse --show-toplevel) || exit 0
+gate="$root/build-tools/privacy/public-leak-gate.sh"
+
+[[ -x "$gate" || -f "$gate" ]] || exit 0
+
+remote_name="${1:-}"
+remote_url="${2:-}"
+
+if [[ -z "$remote_url" && -n "$remote_name" ]]; then
+    remote_url=$(git remote get-url "$remote_name" 2>/dev/null || true)
+fi
+
+if [[ ! "$remote_url" =~ $PUBLIC_REMOTES ]]; then
+    exit 0
+fi
+
+status=0
+
+while read -r local_ref local_sha remote_ref remote_sha; do
+    [[ "$local_sha" == "$ZERO_SHA" ]] && continue
+
+    if [[ "$remote_sha" == "$ZERO_SHA" ]]; then
+        # The branch is new on the public remote, so there is no base to diff against; scan the tree
+        # that is about to become public.
+        bash "$gate" --tree "$local_sha" || status=1
+    else
+        bash "$gate" --range "$remote_sha..$local_sha" || status=1
+    fi
+done
+
+if [[ $status -ne 0 ]]; then
+    printf '\npre-push: refusing to publish private content. Use --no-verify only if CI will catch it.\n' >&2
+fi
+
+exit $status
