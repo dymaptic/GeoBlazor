@@ -3,9 +3,13 @@
 
 name: Main Branch Release Build
 
+# A push that touches only Markdown cannot change what a package contains, so it does not cut a
+# release. Every other push to main still builds, tags, and publishes Core and Pro to NuGet.org.
 on:
   push:
     branches: [ "main" ]
+    paths-ignore:
+      - '**/*.md'
   workflow_dispatch:
 
 jobs:
