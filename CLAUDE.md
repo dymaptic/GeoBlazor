@@ -136,10 +136,6 @@ Known issue: ESBuild compilation conflicts with MSBuild static file analysis may
 - ArcGIS Maps SDK for JavaScript (v4.33)
 - ESBuild for TypeScript compilation
 
-## RAG Semantic Search
-
-A local MCP RAG server is available in the parent CodeGen repository (`mcp-rag-server/`). When connected, use `search_code(query)` and `search_docs(query)` to find relevant code and documentation across the entire GeoBlazor ecosystem (CodeGen, Core, and Pro). Use `rag_status()` to check if the index is populated; if empty, run `index_directory("D:/dymaptic.GeoBlazor.CodeGen")` first. See the parent CLAUDE.md for full details.
-
 ## Environment Notes
 - **Platform:** When on Windows, use the Windows version (not WSL)
 - **Shell:** Use Bash-compatible commands. On Windows this means Git Bash/MSYS2.
@@ -154,7 +150,7 @@ Specialized Claude Code agent configurations for GeoBlazor development are maint
 
 Agents are available from two locations (check in this order):
 
-1. **Local on disk** — `CLAUDE_CONFIG_DIR` environment variable points to the local config directory (currently `D:/claude files`). Agent templates live in `$CLAUDE_CONFIG_DIR/agents/` with subdirectories per domain (`dotnet/`, `geoblazor/`, `interop/`, `javascript/`, `typescript/`, `mcp-experts/`).
+1. **Local on disk** — `CLAUDE_CONFIG_DIR` environment variable points to the local config directory. Agent templates live in `$CLAUDE_CONFIG_DIR/agents/` with subdirectories per domain (`dotnet/`, `geoblazor/`, `interop/`, `javascript/`, `typescript/`, `mcp-experts/`).
 2. **GitHub** — If not available locally, fetch from `https://github.com/dymaptic/GeoBlazor-Agents`. The `agents/` directory mirrors the local structure. Use `gh api repos/dymaptic/GeoBlazor-Agents/contents/agents` to browse, or clone the repo.
 
 ### Key Agent Files
